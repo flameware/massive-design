@@ -1,1 +1,6 @@
 .DS_Store
+node_modules/
+*.log
+
+# dist/ 는 일부러 제외하지 않는다 — 생성물을 커밋하는 것이 곧 배포 채널이다
+# (docs/tokens/build-pipeline.md §2)
