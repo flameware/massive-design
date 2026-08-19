@@ -27,8 +27,10 @@
 
 ## 1. 디렉터리 트리
 
+> **[#12](https://github.com/flameware/massive-design/issues/12) 갱신**: 리포가 모노리포가 되면서 아래 트리는 통째로 **`packages/tokens/`** 밑으로 내려간다([ADR-0001](../adr/0001-monorepo-over-split-repos.md)). 구조·파일명·역할은 한 줄도 바뀌지 않고 위치만 바뀐다. 루트에는 워크스페이스 선언(`workspaces: ["packages/*", "apps/*"]`)과 `docs/`만 남는다. 설치는 `bun install`, 빌드 런타임은 node 그대로.
+
 ```
-massive-design/
+packages/tokens/                       # name: "@massive/tokens"
 ├── package.json                       # type: module, node >= 22
 ├── tokens/                            # ── 원본 (source of truth)
 │   ├── ramp.config.json               # 키 컬러 4종 + 생성기 파라미터 (#6)
@@ -339,7 +341,12 @@ APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고,
 
 ## 6. 소비처로 가는 길
 
-npm 배포는 out of scope다. **`dist/tokens.css`를 invest diary에 복사**하고 `@import "tailwindcss";` **뒤에** import 한다. shadcn의 `globals.css`를 이 파일로 대체하는 게 아니라, shadcn이 만든 `:root`/`.dark`/`@theme inline` 블록을 **우리 파일이 통째로 대신한다** — shadcn 34개를 전부 내고 있으므로 성립한다(#5).
+npm 배포는 out of scope다. 소비 경로가 둘로 갈린다([#12](https://github.com/flameware/massive-design/issues/12)):
+
+- **리포 안(`packages/ui`·`apps/storybook`)**: 복사하지 않고 **패키지 경로로 import** 한다 — `@massive/tokens/dist/tokens.css`. 워크스페이스가 로컬 폴더로 링크하므로 토큰을 고치면 즉시 반영된다
+- **리포 밖(invest diary)**: 여전히 **`dist/tokens.css`를 복사**해 간다
+
+어느 쪽이든 `@import "tailwindcss";` **뒤에** import 한다. shadcn의 `globals.css`를 이 파일로 대체하는 게 아니라, shadcn이 만든 `:root`/`.dark`/`@theme inline` 블록을 **우리 파일이 통째로 대신한다** — shadcn 34개를 전부 내고 있으므로 성립한다(#5).
 
 소비처가 v4 마이그레이션 중이라 실제 충돌은 그때 드러난다(맵 fog).
 
