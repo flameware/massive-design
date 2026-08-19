@@ -228,14 +228,45 @@ const DEFAULTS = {
   darkAnchors:  [[0, 0.155], [2, 0.235], [5, 0.375], [8, 0.650], [11, 0.930]],
   satPeakStep: 8, satPeak: 0.90, satBgEnd: 0.05, satTextEnd: 0.45, satSigma: 4.2,
   hueShift: [0, 0],
-  textChromaCap: true, minStepDelta: 0.012,
+  textChromaCap: true, minStepDelta: 0.012, minLGapPerStep: 0.018,
   dark: { backgroundL: 0.155, satBiasBg: 1.9, satBiasText: 0.60, anchorStep: 8 },
 };
 const smoothstep = t => t * t * (3 - 2 * t);
 
-/* 앵커 목록을 N단계로 보간. 앵커 인덱스는 12단 기준이므로 N에 맞춰 비율 스케일 */
-function interpolateAnchors(anchors, N, ease) {
-  const scaled = anchors.map(([i, v]) => [i / 11 * (N - 1), v]);
+/* 앵커 인덱스는 12단 기준이므로 N에 맞춰 비율 스케일한다 */
+function scaleAnchors(anchors, N) {
+  return anchors.map(([i, v]) => [i / 11 * (N - 1), v]);
+}
+
+/* 키 컬러의 L을 peak 단계의 앵커로 심는다(같은 인덱스의 기존 앵커는 치환).
+   보간이 끝난 뒤 L[peak]만 덮어쓰면 양옆이 따라오지 않아 9↔10이 역전된다. */
+function withKeyAnchor(scaled, peak, keyL) {
+  return scaled.filter(([i]) => Math.abs(i - peak) > 1e-9)
+               .concat([[peak, keyL]])
+               .sort((a, b) => a[0] - b[0]);
+}
+
+/* 앵커를 방향(dir: -1 감소 / +1 증가)에 대해 단조로 강제한다.
+   키 앵커를 고정점으로 두고 바깥으로 밀어내므로 키 컬러 L은 정확히 보존된다.
+   키가 극단적으로 어둡/밝을 때 뒤쪽 앵커가 키를 넘어서는 것을 막는다. */
+function normalizeAnchors(scaled, peak, dir, minGapPerStep) {
+  const a = scaled.map(x => x.slice());
+  const k = a.findIndex(([i]) => Math.abs(i - peak) < 1e-9);
+  const fix = (i, ref) => {
+    const need = a[ref][1] + dir * minGapPerStep * (a[i][0] - a[ref][0]);
+    // 키 앵커 앞쪽(i < ref)에서는 부등호가 뒤집힌다 — 여기를 놓치면
+    // 라이트 램프의 흰색 머리가 중간 회색으로 끌려 내려온다.
+    const violates = (i > ref) === (dir < 0) ? a[i][1] > need : a[i][1] < need;
+    if (violates) a[i][1] = need;
+  };
+  for (let i = k + 1; i < a.length; i++) fix(i, i - 1);
+  for (let i = k - 1; i >= 0; i--) fix(i, i + 1);
+  a.forEach(x => x[1] = Math.min(0.995, Math.max(0.05, x[1])));
+  return a;
+}
+
+/* 스케일이 끝난 앵커 목록을 N단계로 보간 */
+function interpolateAnchors(scaled, N, ease) {
   const out = [];
   for (let i = 0; i < N; i++) {
     let a = scaled[0], b = scaled[scaled.length - 1];
@@ -257,9 +288,13 @@ function buildRamp(family, cfg, mode) {
   const peak = Math.round(p.satPeakStep / 11 * (N - 1));
   const dark = Object.assign({}, cfg.dark, family.dark || {});
 
-  // 1a. L 곡선
-  const anchors = mode === 'light' ? p.lightAnchors
+  // 1a. L 곡선 — 키 컬러의 L을 peak 앵커로 심은 뒤 보간한다.
+  //     맵의 "9단계는 light/dark 동일 고정" 결정은 그대로 지켜진다.
+  const dir = mode === 'light' ? -1 : 1;
+  const base = mode === 'light' ? p.lightAnchors
     : p.darkAnchors.map(([i, v]) => [i, i === 0 ? dark.backgroundL : v]);
+  const anchors = normalizeAnchors(
+    withKeyAnchor(scaleAnchors(base, N), peak, key.l), peak, dir, p.minLGapPerStep);
   const L = interpolateAnchors(anchors, N, smoothstep);
 
   // 1b. hue 곡선
@@ -287,8 +322,8 @@ function buildRamp(family, cfg, mode) {
   const C = [];
   for (let i = 0; i < N; i++) C.push(cuspChroma(L[i], H[i]) * sat[i]);
 
-  // 1e. 키 컬러 앵커링 — 9단계는 light/dark 동일
-  L[peak] = key.l; C[peak] = key.c; H[peak] = key.h;
+  // 1e. 키 컬러의 C/H 앵커링. L은 1a에서 이미 곡선에 심었으므로 건드리지 않는다
+  C[peak] = key.c; H[peak] = key.h;
 
   // 1f. Radix 텍스트 채도 상한
   if (p.textChromaCap && N >= 3) {
@@ -332,11 +367,22 @@ function lintRamp(ramp, cfg, family) {
     if (d < cfg.minStepDelta) issues.push({ lv:'err', step:i+1,
       msg:`step ${i}↔${i+1}: deltaEOK ${d.toFixed(4)} — 구별 불가` });
   }
+  // 방향을 램프 자체에서 읽는다. 예전 구현은 라이트 방향만 검사해
+  // 다크 램프의 역전을 통째로 놓쳤다.
+  const dir = ramp[0].l > ramp[ramp.length-1].l ? -1 : 1;
   if (!(family && family.allowNonMonotonicL)) {
     for (let i = 1; i < ramp.length; i++) {
-      if (ramp[i].l > ramp[i-1].l + 1e-4 && ramp[0].l > ramp[ramp.length-1].l)
-        issues.push({ lv:'err', step:i+1, msg:`step ${i}→${i+1}: L 단조 감소 위반` });
+      const d = ramp[i].l - ramp[i-1].l;
+      if (dir < 0 ? d > 1e-4 : d < -1e-4)
+        issues.push({ lv:'err', step:i+1,
+          msg:`step ${i}→${i+1}: L ${dir < 0 ? '단조 감소' : '단조 증가'} 위반 (${(ramp[i-1].l*100).toFixed(1)}% → ${(ramp[i].l*100).toFixed(1)}%)` });
     }
+  }
+  // 키 컬러가 step 9 자리에 앉기에 너무 어둡거나 밝은가
+  if (family && (family.hardKey || family.key)) {
+    const kl = (family.hardKey || hexToOklch(family.key)).l;
+    if (kl < 0.48 || kl > 0.78) issues.push({ lv:'warn', step:0,
+      msg:`키 컬러 L ${(kl*100).toFixed(1)}% — step 9 권장 대역(48~78%) 밖. 한쪽 꼬리가 눌린다` });
   }
   return issues;
 }
