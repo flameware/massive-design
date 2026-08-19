@@ -92,12 +92,37 @@ line-height는 **무단위 비율**로 쓴다. px로 못박으면 Figma PERCENT 
 `fontSize` / `lineHeight` / `fontFamily`는 Variable 바인딩이 된다(#4 실측). 따라서 **변수가 원본, Text Style은 껍데기** 구조로 간다.
 
 - 스타일 이름 = t-shirt 이름(`xs` … `5xl`). 9개.
-- `lineHeight`는 **`{unit:'PERCENT', value: 160|140|125}`**. PIXELS로 쓰면 12×1.6=19.2 같은 값에서 반올림이 생겨 코드와 갈린다. PERCENT는 CSS 무단위 비율과 무손실 대응한다.
-- `letterSpacing`도 `{unit:'PERCENT', value: -1|-2}`. 맨 숫자를 넣으면 throw(#4).
-- `fontFamily`는 **STRING 변수 바인딩**(#9). 로컬 폰트를 못 보는 실행 컨텍스트를 우회하는 유일한 경로다.
+- ~~`lineHeight`는 `{unit:'PERCENT', value: 160|140|125}`~~ → **`{unit:'PIXELS'}`, 사이즈별 선계산**. [#10](https://github.com/flameware/massive-design/issues/10) 왕복에서 뒤집혔다: `setBoundVariable('lineHeight', floatVar)`가 **단위를 PIXELS로 강제 변환**한다(`PERCENT 160` → `PIXELS 160`). 바인딩과 PERCENT는 양립하지 않고, 바인딩 뒤에는 폰트 잠금 때문에 `lineHeight` 재기록도 막힌다. radius가 `calc`를 못 받아 빌드 시점에 선계산한 것과 **같은 처방**을 쓴다 — 비율을 빌드가 곱해 px로 낸다.
+- `letterSpacing`은 `{unit:'PERCENT', value: -1|-2}` 그대로. 변수 바인딩을 하지 않으므로 PERCENT가 유지된다. 맨 숫자를 넣으면 throw(#4).
+- `fontFamily`는 **STRING 변수 바인딩**(#9). 로컬 폰트를 못 보는 실행 컨텍스트를 우회하는 유일한 경로다. **웨이트 9종 전부 통과**(#10 실측, 사람 눈 확인) — 다만 `(family, style)` 쌍의 **첫 바인딩 시도는 실패**하므로 재시도가 필수다(§2.6).
 - 주입 순서: 텍스트를 다 쓴 뒤 마지막에 바인딩(#9 제약).
 
-FLOAT 변수: `type/size/{xs..5xl}` 9개 + `type/line-height/{body,mid,heading}` 3개. STRING 변수: `type/family/sans` 1개.
+FLOAT 변수: `type/size/{xs..5xl}` 9개 + `type/line-height/{xs..5xl}` **9개**(tier 3개가 아니라 사이즈별 px). STRING 변수: `type/family/sans` 1개.
+
+| 단계 | size | ratio | Figma `type/line-height/*` (px) |
+|---|---|---|---|
+| `xs` | 12 | 1.6 | 19.2 |
+| `sm` | 14 | 1.6 | 22.4 |
+| `base` | 16 | 1.6 | 25.6 |
+| `lg` | 18 | 1.6 | 28.8 |
+| `xl` | 20 | 1.4 | 28 |
+| `2xl` | 24 | 1.4 | 33.6 |
+| `3xl` | 30 | 1.25 | 37.5 |
+| `4xl` | 36 | 1.25 | 45 |
+| `5xl` | 48 | 1.25 | 60 |
+
+**코드는 무단위 비율, Figma는 px** — 두 매체가 서로 다른 표현을 갖는다. 색이 OKLCH ↔ sRGB로 갈리는 것과 같은 성격의 매체 차이이고, 곱셈의 주체가 빌드라서 어긋날 수 없다. 검증은 `tokens:verify`가 한다.
+
+### 2.6 Text Style 주입 순서 (#10 실측)
+
+바인딩이 노드를 폰트 잠금 상태로 만들기 때문에 순서가 곧 제약이다.
+
+1. `loadFontAsync({family:'Inter', style:<weight>})` → `fontName` 부트스트랩
+2. `fontSize` · `lineHeight` · `letterSpacing` · `description` **리터럴로 먼저** 기록
+3. `setBoundVariable('fontSize'|'lineHeight', …)`
+4. **마지막에** `setBoundVariable('fontFamily', famVar)` — **최대 3회 재시도 루프로 감쌀 것**
+
+4의 재시도가 필수인 이유: `(Pretendard, Medium)`처럼 런타임이 처음 보는 face는 **첫 시도가 반드시 throw**하고 두 번째에 통과한다(Regular만 예외). `use_figma`의 atomic 롤백은 파일 상태만 되돌리므로, 실패한 스크립트가 남긴 face 등록은 살아남는다 — 즉 재시도 없이는 콜드 파일에서 100% 실패한다.
 
 ---
 
