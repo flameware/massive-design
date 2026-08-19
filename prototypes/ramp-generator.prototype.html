@@ -228,7 +228,8 @@ const DEFAULTS = {
   darkAnchors:  [[0, 0.155], [2, 0.235], [5, 0.375], [8, 0.650], [11, 0.930]],
   satPeakStep: 8, satPeak: 0.90, satBgEnd: 0.05, satTextEnd: 0.45, satSigma: 4.2,
   hueShift: [0, 0],
-  textChromaCap: true, minStepDelta: 0.012, minLGapPerStep: 0.018, minTailGapPerStep: 0.055,
+  textChromaCap: true, chromaRefCap: true,
+  minStepDelta: 0.012, minLGapPerStep: 0.018, minTailGapPerStep: 0.055,
   dark: { backgroundL: 0.155, satBiasBg: 1.9, satBiasText: 0.60, anchorStep: 8 },
 };
 const smoothstep = t => t * t * (3 - 2 * t);
@@ -324,8 +325,14 @@ function buildRamp(family, cfg, mode) {
   }
 
   // 1d. sat -> 절대 chroma (cusp 정규화)
+  //     기준 chroma를 "키 명도에서의 cusp"로 상한 건다. cusp 정규화는
+  //     cusp가 램프 중앙에 있다고 암묵적으로 가정하는데, 초록·라임·노랑은
+  //     cusp L이 0.87~0.94라 라이트 단계 바로 위에 있다. 상한이 없으면
+  //     같은 정규화 sat이 파랑의 4배 chroma로 번역돼 중간 단계가 형광이 된다.
+  //     cusp가 램프 아래쪽인 hue(파랑·빨강)에는 아무 영향이 없다.
+  const refCap = p.chromaRefCap ? cuspChroma(key.l, key.h) : Infinity;
   const C = [];
-  for (let i = 0; i < N; i++) C.push(cuspChroma(L[i], H[i]) * sat[i]);
+  for (let i = 0; i < N; i++) C.push(Math.min(cuspChroma(L[i], H[i]), refCap) * sat[i]);
 
   // 1e. 키 컬러의 C/H 앵커링. L은 1a에서 이미 곡선에 심었으므로 건드리지 않는다
   C[peak] = key.c; H[peak] = key.h;
@@ -432,7 +439,7 @@ function rampHTML(name, meta, ramp, issues) {
    5. 상태 + 배선
    ============================================================ */
 const state = {
-  keys: { brand: '#3b82f6', neutral: '#71717a', danger: '#ef4444', success: '#16a34a' },
+  keys: { brand: '#0f5fed', neutral: '#727272', danger: '#ef4444', success: '#16a34a' },
   steps: 12, satPeak: 0.90, satSigma: 4.2, satBgEnd: 0.05, satTextEnd: 0.45,
   satBiasBg: 1.9, satBiasText: 0.60, darkBgL: 0.155, ntint: 0.0,
 };
