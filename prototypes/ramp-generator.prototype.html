@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROTOTYPE — OKLCH 램프 생성기 (#6)</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px 28px 120px;
+    background: #101013; color: #e6e6ea;
+    font: 13px/1.5 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 14px; margin: 34px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #2a2a31; }
+  h3 { font-size: 12px; margin: 18px 0 6px; color: #a5a5b0; font-weight: 600; }
+  .sub { color: #8b8b96; font-size: 12px; margin: 0 0 4px; }
+  .banner { background: #3a2a0a; border: 1px solid #6b4d10; color: #f0d795;
+            padding: 8px 12px; border-radius: 6px; margin: 12px 0 20px; font-size: 12px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+
+  /* ---- controls ---- */
+  .panel { position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+           background: #17171c; border-top: 1px solid #2a2a31;
+           padding: 10px 28px; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; }
+  .ctl { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #a5a5b0; }
+  .ctl input[type=range] { width: 92px; }
+  .ctl b { color: #e6e6ea; font-family: ui-monospace, monospace; min-width: 34px; display: inline-block; }
+  .ctl input[type=color] { width: 26px; height: 22px; padding: 0; border: 1px solid #3a3a44;
+                           border-radius: 4px; background: none; }
+  .ctl input[type=text] { width: 74px; background: #0d0d10; color: #e6e6ea; border: 1px solid #3a3a44;
+                          border-radius: 4px; padding: 3px 5px; font-family: ui-monospace, monospace; font-size: 11px; }
+  button { background: #26262e; color: #e6e6ea; border: 1px solid #3a3a44; border-radius: 5px;
+           padding: 4px 9px; font-size: 11px; cursor: pointer; }
+  button:hover { background: #32323c; }
+
+  /* ---- ramp ---- */
+  .rampwrap { margin: 0 0 14px; }
+  .ramplabel { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .ramplabel .name { font-weight: 600; font-size: 12px; }
+  .ramplabel .meta { color: #7c7c88; font-size: 11px; font-family: ui-monospace, monospace; }
+  .ramp { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+  .sw { position: relative; border-radius: 4px; padding: 6px 5px 7px; min-height: 92px;
+        display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+  .sw .n { font-size: 10px; font-weight: 700; opacity: .8; font-family: ui-monospace, monospace; }
+  .sw .hx { font-size: 9.5px; font-family: ui-monospace, monospace; opacity: .85; letter-spacing: -.2px; }
+  .sw .cr { font-size: 9px; font-family: ui-monospace, monospace; line-height: 1.35; opacity: .95; }
+  .sw .flag { position: absolute; top: 3px; right: 4px; font-size: 9px; font-weight: 700;
+              background: #ff3b30; color: #fff; border-radius: 3px; padding: 0 3px; }
+  .sw .flag.warn { background: #ffcc00; color: #000; }
+
+  /* ---- side-by-side grids ---- */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 26px; }
+  .grid1 { display: block; }
+  .card { background: #17171c; border: 1px solid #24242c; border-radius: 8px; padding: 12px 14px 14px; }
+  .card.light { background: #f7f7f9; border-color: #e1e1e6; color: #101013; }
+  .card.light .ramplabel .meta { color: #767680; }
+  .card h3 { margin-top: 0; }
+  .card.light h3 { color: #55555f; }
+
+  .lintbox { margin-top: 8px; font-size: 11px; font-family: ui-monospace, monospace; line-height: 1.6; }
+  .lintbox .err { color: #ff8b84; }
+  .lintbox .warn { color: #ffcc00; }
+  .lintbox .ok { color: #6cd07a; }
+  .card.light .lintbox .warn { color: #8a6d00; }
+  .card.light .lintbox .ok { color: #1a7f2c; }
+
+  table.usage { border-collapse: collapse; font-size: 11px; margin-top: 6px; }
+  table.usage td, table.usage th { border: 1px solid #2a2a31; padding: 3px 7px; text-align: left; }
+  .card.light table.usage td, .card.light table.usage th { border-color: #dcdce2; }
+  th { color: #8b8b96; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>PROTOTYPE — OKLCH 램프 생성기</h1>
+<p class="sub">티켓 <code>#6</code> · 맵 <code>#1</code> · 버릴 코드다. culori 대신 Oklab 변환 행렬을 직접 넣어 의존성 0으로 만들었다(수학은 동일). 실제 빌드는 culori + apca-w3를 쓴다.</p>
+<div class="banner">
+  <b>보는 법</b> — 각 스와치의 <code>W 4.9 / 62</code> 는 <b>흰 텍스트</b> 대비 (WCAG 비율 / APCA Lc 절대값),
+  <code>B ...</code> 는 <b>검은 텍스트</b> 대비. 굵게 표시된 쪽이 WCAG AA 4.5:1을 통과한 것.
+  우상단 <span style="background:#ff3b30;color:#fff;border-radius:3px;padding:0 3px;font-weight:700">C</span> 는 감마 클램핑으로 채도가 깎인 단계,
+  <span style="background:#ffcc00;color:#000;border-radius:3px;padding:0 3px;font-weight:700">Δ</span> 는 앞 단계와 구별이 어려운 단계.
+</div>
+
+<h2>A. brand 후보 — 어느 hue로 갈 것인가</h2>
+<p class="sub">같은 파라미터로 hue만 바꿔 뽑았다. 9단계(solid)가 브랜드 색 그 자체이고, 11~12단계가 본문 텍스트로 쓸 수 있어야 한다.</p>
+<div id="candidates"></div>
+
+<h2>B. neutral — 순수 회색 vs brand hue 미세 혼합</h2>
+<p class="sub">warm/cool neutral은 brand hue를 아주 낮은 채도로 섞은 것. 회색 배경 위에 브랜드가 놓였을 때 화면 전체가 한 덩어리로 보이느냐가 판단 기준이다.</p>
+<div id="neutrals"></div>
+
+<h2>C. 다크 채도 보정 (satBias) 켜고 끄기</h2>
+<p class="sub">끈 쪽은 라이트와 같은 sat 곡선을 그대로 다크에 쓴 것. 켠 쪽은 배경 끝 ×<span id="bbg">1.9</span> / 텍스트 끝 ×<span id="btx">0.6</span>. 다크 1~3단계가 죽지 않는지, 11~12단계가 형광펜처럼 뜨지 않는지를 본다.</p>
+<div id="bias"></div>
+
+<h2>D. 확정 후보 4패밀리 — 라이트 / 다크 전체</h2>
+<p class="sub">아래 패널에서 키 컬러를 바꾸면 즉시 다시 그린다. 이 4개가 최종 결정 대상이다.</p>
+<div id="families"></div>
+
+<h2>E. Radix 슬롯 용도 대조표</h2>
+<div id="slots"></div>
+
+<div class="panel">
+  <div class="ctl">brand <input type="color" id="k_brand"><input type="text" id="t_brand"></div>
+  <div class="ctl">neutral <input type="color" id="k_neutral"><input type="text" id="t_neutral"></div>
+  <div class="ctl">danger <input type="color" id="k_danger"><input type="text" id="t_danger"></div>
+  <div class="ctl">success <input type="color" id="k_success"><input type="text" id="t_success"></div>
+  <div class="ctl">단계 <input type="range" id="steps" min="9" max="14" step="1"><b id="v_steps"></b></div>
+  <div class="ctl">satPeak <input type="range" id="satPeak" min="0.3" max="1" step="0.01"><b id="v_satPeak"></b></div>
+  <div class="ctl">satSigma <input type="range" id="satSigma" min="1.5" max="7" step="0.1"><b id="v_satSigma"></b></div>
+  <div class="ctl">satBgEnd <input type="range" id="satBgEnd" min="0" max="0.4" step="0.01"><b id="v_satBgEnd"></b></div>
+  <div class="ctl">satTextEnd <input type="range" id="satTextEnd" min="0" max="1" step="0.01"><b id="v_satTextEnd"></b></div>
+  <div class="ctl">satBiasBg <input type="range" id="satBiasBg" min="1" max="3" step="0.05"><b id="v_satBiasBg"></b></div>
+  <div class="ctl">satBiasText <input type="range" id="satBiasText" min="0.2" max="1.2" step="0.05"><b id="v_satBiasText"></b></div>
+  <div class="ctl">darkBG L <input type="range" id="darkBgL" min="0.10" max="0.25" step="0.005"><b id="v_darkBgL"></b></div>
+  <div class="ctl">neutral tint <input type="range" id="ntint" min="0" max="0.14" step="0.005"><b id="v_ntint"></b></div>
+  <button id="reset">기본값으로</button>
+  <button id="dump">현재 설정 + 램프 JSON 콘솔 출력</button>
+</div>
+
+<script>
+/* ============================================================
+   1. 색 공간 — Oklab <-> linear sRGB (Björn Ottosson 행렬)
+   ============================================================ */
+const clamp01 = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const lin2srgb = c => c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1/2.4) - 0.055;
+const srgb2lin = c => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+
+function oklchToLinearRgb(L, C, H) {
+  const h = H * Math.PI / 180, a = C * Math.cos(h), b = C * Math.sin(h);
+  const l_ = L + 0.3963377774*a + 0.2158037573*b;
+  const m_ = L - 0.1055613458*a - 0.0638541728*b;
+  const s_ = L - 0.0894841775*a - 1.2914855480*b;
+  const l = l_*l_*l_, m = m_*m_*m_, s = s_*s_*s_;
+  return [
+     4.0767416621*l - 3.3077115913*m + 0.2309699292*s,
+    -1.2684380046*l + 2.6097574011*m - 0.3413193965*s,
+    -0.0041960863*l - 0.7034186147*m + 1.7076147010*s,
+  ];
+}
+function oklchToRgb255(L, C, H) {
+  const [r,g,b] = oklchToLinearRgb(L, C, H);
+  return [lin2srgb(clamp01(r))*255, lin2srgb(clamp01(g))*255, lin2srgb(clamp01(b))*255];
+}
+function displayable(L, C, H) {
+  const e = 1e-5, [r,g,b] = oklchToLinearRgb(L, C, H);
+  return r >= -e && r <= 1+e && g >= -e && g <= 1+e && b >= -e && b <= 1+e;
+}
+function hexOf(L, C, H) {
+  const [r,g,b] = oklchToRgb255(L, C, H);
+  const h = v => Math.round(v).toString(16).padStart(2,'0');
+  return '#' + h(r) + h(g) + h(b);
+}
+function hexToOklch(hex) {
+  const m = hex.replace('#','');
+  const r = srgb2lin(parseInt(m.slice(0,2),16)/255);
+  const g = srgb2lin(parseInt(m.slice(2,4),16)/255);
+  const b = srgb2lin(parseInt(m.slice(4,6),16)/255);
+  const l = Math.cbrt(0.4122214708*r + 0.5363325363*g + 0.0514459929*b);
+  const m2= Math.cbrt(0.2119034982*r + 0.6806995451*g + 0.1073969566*b);
+  const s = Math.cbrt(0.0883024619*r + 0.2817188376*g + 0.6299787005*b);
+  const L = 0.2104542553*l + 0.7936177850*m2 - 0.0040720468*s;
+  const A = 1.9779984951*l - 2.4285922050*m2 + 0.4505937099*s;
+  const B = 0.0259040371*l + 0.7827717662*m2 - 0.8086757660*s;
+  let H = Math.atan2(B, A) * 180 / Math.PI; if (H < 0) H += 360;
+  return { l: L, c: Math.hypot(A, B), h: H };
+}
+
+/* cusp: 주어진 (L,H)에서 sRGB 안에 들어가는 최대 chroma — 이분탐색 */
+function cuspChroma(L, H) {
+  let lo = 0, hi = 0.5;
+  for (let i = 0; i < 24; i++) {
+    const mid = (lo + hi) / 2;
+    if (displayable(L, mid, H)) lo = mid; else hi = mid;
+  }
+  return lo;
+}
+/* toGamut 대용: hue/L 유지하고 chroma만 줄여 gamut 안으로 */
+function fitGamut(L, C, H) {
+  const cusp = cuspChroma(L, H);
+  return { l: L, c: Math.min(C, cusp), h: H, clamped: Math.max(0, C - cusp) };
+}
+function deltaEOK(a, b) {
+  const ar = a.h*Math.PI/180, br = b.h*Math.PI/180;
+  const dA = a.c*Math.cos(ar) - b.c*Math.cos(br);
+  const dB = a.c*Math.sin(ar) - b.c*Math.sin(br);
+  return Math.hypot(a.l - b.l, dA, dB);
+}
+
+/* ============================================================
+   2. 대비 — WCAG 2.x + APCA (W3 0.1.9)
+   ============================================================ */
+function relLum(hex) {
+  const m = hex.replace('#','');
+  const r = srgb2lin(parseInt(m.slice(0,2),16)/255);
+  const g = srgb2lin(parseInt(m.slice(2,4),16)/255);
+  const b = srgb2lin(parseInt(m.slice(4,6),16)/255);
+  return 0.2126*r + 0.7152*g + 0.0722*b;
+}
+function wcag(a, b) {
+  const l1 = relLum(a), l2 = relLum(b);
+  return (Math.max(l1,l2) + 0.05) / (Math.min(l1,l2) + 0.05);
+}
+function apcaY(hex) {
+  const m = hex.replace('#','');
+  const c = i => Math.pow(parseInt(m.slice(i,i+2),16)/255, 2.4);
+  let Y = 0.2126729*c(0) + 0.7151522*c(2) + 0.0721750*c(4);
+  if (Y < 0.022) Y += Math.pow(0.022 - Y, 1.414);
+  return Y;
+}
+function apca(txtHex, bgHex) {
+  const Yt = apcaY(txtHex), Yb = apcaY(bgHex);
+  if (Math.abs(Yb - Yt) < 0.0005) return 0;
+  let S;
+  if (Yb > Yt) { S = (Math.pow(Yb,0.56) - Math.pow(Yt,0.57)) * 1.14; S = S < 0.1 ? 0 : S - 0.027; }
+  else         { S = (Math.pow(Yb,0.65) - Math.pow(Yt,0.62)) * 1.14; S = S > -0.1 ? 0 : S + 0.027; }
+  return S * 100;
+}
+
+/* ============================================================
+   3. 램프 생성기 — 조사 문서 §7.3 구현
+   ============================================================ */
+const DEFAULTS = {
+  steps: 12,
+  lightAnchors: [[0, 0.993], [5, 0.865], [8, 0.650], [11, 0.320]],
+  darkAnchors:  [[0, 0.155], [2, 0.235], [5, 0.375], [8, 0.650], [11, 0.930]],
+  satPeakStep: 8, satPeak: 0.90, satBgEnd: 0.05, satTextEnd: 0.45, satSigma: 4.2,
+  hueShift: [0, 0],
+  textChromaCap: true, minStepDelta: 0.012,
+  dark: { backgroundL: 0.155, satBiasBg: 1.9, satBiasText: 0.60, anchorStep: 8 },
+};
+const smoothstep = t => t * t * (3 - 2 * t);
+
+/* 앵커 목록을 N단계로 보간. 앵커 인덱스는 12단 기준이므로 N에 맞춰 비율 스케일 */
+function interpolateAnchors(anchors, N, ease) {
+  const scaled = anchors.map(([i, v]) => [i / 11 * (N - 1), v]);
+  const out = [];
+  for (let i = 0; i < N; i++) {
+    let a = scaled[0], b = scaled[scaled.length - 1];
+    for (let k = 0; k < scaled.length - 1; k++) {
+      if (i >= scaled[k][0] && i <= scaled[k+1][0]) { a = scaled[k]; b = scaled[k+1]; break; }
+    }
+    if (i <= scaled[0][0]) { out.push(scaled[0][1]); continue; }
+    if (i >= scaled[scaled.length-1][0]) { out.push(scaled[scaled.length-1][1]); continue; }
+    const t = (i - a[0]) / (b[0] - a[0]);
+    out.push(a[1] + (b[1] - a[1]) * ease(t));
+  }
+  return out;
+}
+
+function buildRamp(family, cfg, mode) {
+  const p = Object.assign({}, cfg, family);
+  const N = p.steps;
+  const key = family.hardKey || hexToOklch(family.key);
+  const peak = Math.round(p.satPeakStep / 11 * (N - 1));
+  const dark = Object.assign({}, cfg.dark, family.dark || {});
+
+  // 1a. L 곡선
+  const anchors = mode === 'light' ? p.lightAnchors
+    : p.darkAnchors.map(([i, v]) => [i, i === 0 ? dark.backgroundL : v]);
+  const L = interpolateAnchors(anchors, N, smoothstep);
+
+  // 1b. hue 곡선
+  const H = [];
+  for (let i = 0; i < N; i++) {
+    const t = N === 1 ? 0 : i / (N - 1);
+    H.push(((key.h + p.hueShift[0] + (p.hueShift[1] - p.hueShift[0]) * t) % 360 + 360) % 360);
+  }
+
+  // 1c. 정규화 saturation 벨 커브
+  const sat = [];
+  for (let i = 0; i < N; i++) {
+    const g = Math.exp(-Math.pow(i - peak, 2) / (2 * p.satSigma * p.satSigma));
+    const endVal = i < peak ? p.satBgEnd : p.satTextEnd;
+    let s = endVal + (p.satPeak - endVal) * g;
+    if (mode === 'dark' && !family.noBias) {
+      const w = N === 1 ? 0 : i / (N - 1);
+      const bias = dark.satBiasBg + (dark.satBiasText - dark.satBiasBg) * w;
+      if (i !== peak) s = Math.min(1, Math.max(0, s * bias));
+    }
+    sat.push(s);
+  }
+
+  // 1d. sat -> 절대 chroma (cusp 정규화)
+  const C = [];
+  for (let i = 0; i < N; i++) C.push(cuspChroma(L[i], H[i]) * sat[i]);
+
+  // 1e. 키 컬러 앵커링 — 9단계는 light/dark 동일
+  L[peak] = key.l; C[peak] = key.c; H[peak] = key.h;
+
+  // 1f. Radix 텍스트 채도 상한
+  if (p.textChromaCap && N >= 3) {
+    const cap = Math.max(C[peak], C[Math.max(0, peak - 1)]);
+    C[N-2] = Math.min(C[N-2], cap);
+    C[N-1] = Math.min(C[N-1], cap);
+  }
+
+  // 1g. 단계 override (프로토타입에선 미사용 — 자리만 남긴다)
+  const ov = family.overrides && family.overrides[mode];
+  if (ov) for (const k in ov) {
+    const i = +k - 1;
+    if (ov[k].l != null) L[i] = ov[k].l;
+    if (ov[k].c != null) C[i] = ov[k].c;
+    if (ov[k].h != null) H[i] = ov[k].h;
+  }
+
+  // 1h. 감마 정리
+  const ramp = [];
+  for (let i = 0; i < N; i++) {
+    const f = fitGamut(L[i], C[i], H[i]);
+    const hex = hexOf(f.l, f.c, f.h);
+    ramp.push({
+      step: i + 1, hex, l: f.l, c: f.c, h: f.h, sat: sat[i], clamped: f.clamped,
+      oklch: `oklch(${(f.l*100).toFixed(1)}% ${f.c.toFixed(3)} ${f.h.toFixed(1)})`,
+      wWcag: wcag('#ffffff', hex), bWcag: wcag('#000000', hex),
+      wApca: Math.abs(apca('#ffffff', hex)), bApca: Math.abs(apca('#000000', hex)),
+    });
+  }
+  return ramp;
+}
+
+function lintRamp(ramp, cfg, family) {
+  const issues = [];
+  ramp.forEach(s => {
+    if (s.clamped > 0.005) issues.push({ lv:'warn', step:s.step,
+      msg:`step ${s.step}: chroma가 감마로 ${s.clamped.toFixed(3)} 깎임` });
+  });
+  for (let i = 1; i < ramp.length; i++) {
+    const d = deltaEOK(ramp[i-1], ramp[i]);
+    if (d < cfg.minStepDelta) issues.push({ lv:'err', step:i+1,
+      msg:`step ${i}↔${i+1}: deltaEOK ${d.toFixed(4)} — 구별 불가` });
+  }
+  if (!(family && family.allowNonMonotonicL)) {
+    for (let i = 1; i < ramp.length; i++) {
+      if (ramp[i].l > ramp[i-1].l + 1e-4 && ramp[0].l > ramp[ramp.length-1].l)
+        issues.push({ lv:'err', step:i+1, msg:`step ${i}→${i+1}: L 단조 감소 위반` });
+    }
+  }
+  return issues;
+}
+
+/* ============================================================
+   4. 렌더
+   ============================================================ */
+function fmtW(v)  { return v.toFixed(1); }
+function swatchHTML(s, flags) {
+  const wOk = s.wWcag >= 4.5, bOk = s.bWcag >= 4.5;
+  const txt = s.l < 0.62 ? '#fff' : '#000';
+  let flag = '';
+  if (flags.clamp)  flag = '<span class="flag">C</span>';
+  else if (flags.delta) flag = '<span class="flag warn">Δ</span>';
+  return `<div class="sw" style="background:${s.hex};color:${txt}">
+    ${flag}
+    <div>
+      <div class="n">${s.step}</div>
+      <div class="hx">${s.hex}</div>
+    </div>
+    <div class="cr">
+      <div style="${wOk?'font-weight:700':'opacity:.6'}">W ${fmtW(s.wWcag)} / ${s.wApca.toFixed(0)}</div>
+      <div style="${bOk?'font-weight:700':'opacity:.6'}">B ${fmtW(s.bWcag)} / ${s.bApca.toFixed(0)}</div>
+    </div>
+  </div>`;
+}
+function rampHTML(name, meta, ramp, issues) {
+  const clampSteps = new Set(issues.filter(i=>i.lv==='warn').map(i=>i.step));
+  const deltaSteps = new Set(issues.filter(i=>i.lv==='err' && i.msg.includes('deltaEOK')).map(i=>i.step));
+  const sw = ramp.map(s => swatchHTML(s, { clamp: clampSteps.has(s.step), delta: deltaSteps.has(s.step) })).join('');
+  const lint = issues.length
+    ? issues.map(i => `<div class="${i.lv}">${i.lv==='err'?'✕':'!'} ${i.msg}</div>`).join('')
+    : '<div class="ok">✓ lint 통과</div>';
+  return `<div class="rampwrap">
+    <div class="ramplabel"><span class="name">${name}</span><span class="meta">${meta}</span></div>
+    <div class="ramp" style="grid-template-columns:repeat(${ramp.length},1fr)">${sw}</div>
+    <div class="lintbox">${lint}</div>
+  </div>`;
+}
+
+/* ============================================================
+   5. 상태 + 배선
+   ============================================================ */
+const state = {
+  keys: { brand: '#3b82f6', neutral: '#71717a', danger: '#ef4444', success: '#16a34a' },
+  steps: 12, satPeak: 0.90, satSigma: 4.2, satBgEnd: 0.05, satTextEnd: 0.45,
+  satBiasBg: 1.9, satBiasText: 0.60, darkBgL: 0.155, ntint: 0.0,
+};
+const INITIAL = JSON.parse(JSON.stringify(state));
+const CANDIDATES = [
+  ['blue',   '#3b82f6'], ['indigo', '#6366f1'],
+  ['teal',   '#14b8a6'], ['violet', '#8b5cf6'],
+];
+
+function cfgFrom(s) {
+  return Object.assign({}, DEFAULTS, {
+    steps: s.steps, satPeak: s.satPeak, satSigma: s.satSigma,
+    satBgEnd: s.satBgEnd, satTextEnd: s.satTextEnd,
+    dark: Object.assign({}, DEFAULTS.dark, {
+      backgroundL: s.darkBgL, satBiasBg: s.satBiasBg, satBiasText: s.satBiasText }),
+  });
+}
+function famOf(name, cfg) {
+  const f = { key: state.keys[name] };
+  if (name === 'neutral') {
+    const brandH = hexToOklch(state.keys.brand).h;
+    const k = hexToOklch(state.keys.neutral);
+    f.hardKey = { l: k.l, c: state.ntint, h: brandH };
+    f.satPeak = Math.max(0.02, state.ntint / Math.max(1e-6, cuspChroma(k.l, brandH)));
+    f.satTextEnd = f.satPeak * 0.6;
+    f.satBgEnd = f.satPeak * 0.25;
+  }
+  return f;
+}
+function render() {
+  const cfg = cfgFrom(state);
+  const both = (name, fam, extraMeta) => {
+    const lr = buildRamp(fam, cfg, 'light'), dr = buildRamp(fam, cfg, 'dark');
+    return `<div class="card light">${rampHTML(name + ' · light', extraMeta, lr, lintRamp(lr, cfg, fam))}</div>
+            <div class="card">${rampHTML(name + ' · dark', extraMeta, dr, lintRamp(dr, cfg, fam))}</div>`;
+  };
+
+  // A. brand 후보
+  document.getElementById('candidates').innerHTML =
+    CANDIDATES.map(([n, hex]) => {
+      const k = hexToOklch(hex);
+      return `<div class="grid2" style="margin-bottom:14px">
+        ${both(n, { key: hex }, `key ${hex} · H ${k.h.toFixed(0)}°`)}
+      </div>`;
+    }).join('');
+
+  // B. neutral 비교
+  const nk = hexToOklch(state.keys.neutral), bh = hexToOklch(state.keys.brand).h;
+  const nVariants = [
+    ['순수 회색 (C=0)',        { key: state.keys.neutral, hardKey:{l:nk.l,c:0,h:bh}, satPeak:0.001, satTextEnd:0.001, satBgEnd:0.001 }],
+    ['brand tint C=0.010',     { key: state.keys.neutral, hardKey:{l:nk.l,c:0.010,h:bh}, satPeak:0.04, satTextEnd:0.024, satBgEnd:0.010 }],
+    ['brand tint C=0.022',     { key: state.keys.neutral, hardKey:{l:nk.l,c:0.022,h:bh}, satPeak:0.085,satTextEnd:0.051,satBgEnd:0.021 }],
+  ];
+  document.getElementById('neutrals').innerHTML = nVariants.map(([n, f]) =>
+    `<div class="grid2" style="margin-bottom:14px">${both(n, f, `H ${bh.toFixed(0)}° (brand)`)}</div>`).join('');
+
+  // C. satBias on/off
+  document.getElementById('bbg').textContent = state.satBiasBg.toFixed(2);
+  document.getElementById('btx').textContent = state.satBiasText.toFixed(2);
+  const bf = { key: state.keys.brand };
+  const off = buildRamp(Object.assign({ noBias: true }, bf), cfg, 'dark');
+  const on  = buildRamp(bf, cfg, 'dark');
+  document.getElementById('bias').innerHTML = `<div class="grid2">
+    <div class="card">${rampHTML('brand dark · bias OFF', '라이트와 동일 sat 곡선', off, lintRamp(off, cfg, bf))}</div>
+    <div class="card">${rampHTML('brand dark · bias ON', `bg×${state.satBiasBg.toFixed(2)} / text×${state.satBiasText.toFixed(2)}`, on, lintRamp(on, cfg, bf))}</div>
+  </div>`;
+
+  // D. 4패밀리
+  document.getElementById('families').innerHTML = ['brand','neutral','danger','success'].map(n => {
+    const f = famOf(n, cfg), k = hexToOklch(state.keys[n]);
+    return `<div class="grid2" style="margin-bottom:14px">
+      ${both(n, f, `key ${state.keys[n]} · oklch(${(k.l*100).toFixed(1)}% ${k.c.toFixed(3)} ${k.h.toFixed(0)})`)}
+    </div>`;
+  }).join('');
+
+  // E. 슬롯표
+  const rows = [
+    [1,2,'앱 배경 / 미묘한 배경','bg.canvas, bg.subtle'],
+    [3,5,'컴포넌트 배경 (기본/hover/active)','bg.soft + state layer'],
+    [6,8,'보더 (미묘 / 기본 / 강조)','border.subtle, border.default, border.strong'],
+    [9,10,'solid 배경 (기본/hover)','bg.solid — 키 컬러 그 자체'],
+    [11,12,'텍스트 (저대비/고대비)','fg.muted, fg.default'],
+  ];
+  document.getElementById('slots').innerHTML = `<table class="usage">
+    <tr><th>단계</th><th>Radix 용도</th><th>우리 semantic 후보 (#7에서 확정)</th></tr>
+    ${rows.map(r => `<tr><td>${r[0]}–${r[1]}</td><td>${r[2]}</td><td><code>${r[3]}</code></td></tr>`).join('')}
+  </table>`;
+}
+
+/* 컨트롤 배선 */
+const sliders = ['steps','satPeak','satSigma','satBgEnd','satTextEnd','satBiasBg','satBiasText','darkBgL','ntint'];
+function syncControls() {
+  for (const n of ['brand','neutral','danger','success']) {
+    document.getElementById('k_' + n).value = state.keys[n];
+    document.getElementById('t_' + n).value = state.keys[n];
+  }
+  for (const id of sliders) {
+    document.getElementById(id).value = state[id];
+    document.getElementById('v_' + id).textContent =
+      id === 'steps' ? state[id] : (+state[id]).toFixed(id === 'ntint' || id === 'darkBgL' ? 3 : 2);
+  }
+}
+for (const n of ['brand','neutral','danger','success']) {
+  document.getElementById('k_' + n).addEventListener('input', e => {
+    state.keys[n] = e.target.value; syncControls(); render();
+  });
+  document.getElementById('t_' + n).addEventListener('change', e => {
+    const v = e.target.value.trim();
+    if (/^#[0-9a-fA-F]{6}$/.test(v)) { state.keys[n] = v.toLowerCase(); syncControls(); render(); }
+    else syncControls();
+  });
+}
+for (const id of sliders) {
+  document.getElementById(id).addEventListener('input', e => {
+    state[id] = id === 'steps' ? +e.target.value : +e.target.value;
+    syncControls(); render();
+  });
+}
+document.getElementById('reset').addEventListener('click', () => {
+  Object.assign(state, JSON.parse(JSON.stringify(INITIAL))); syncControls(); render();
+});
+document.getElementById('dump').addEventListener('click', () => {
+  const cfg = cfgFrom(state), out = { config: state, ramps: {} };
+  for (const n of ['brand','neutral','danger','success']) {
+    const f = famOf(n, cfg);
+    out.ramps[n] = {
+      light: buildRamp(f, cfg, 'light').map(s => ({ step:s.step, hex:s.hex, oklch:s.oklch })),
+      dark:  buildRamp(f, cfg, 'dark' ).map(s => ({ step:s.step, hex:s.hex, oklch:s.oklch })),
+    };
+  }
+  console.log(JSON.stringify(out, null, 2));
+  document.getElementById('dump').textContent = '콘솔에 출력됨 (F12 → Console)';
+});
+
+syncControls();
+render();
+</script>
+</body>
+</html>
