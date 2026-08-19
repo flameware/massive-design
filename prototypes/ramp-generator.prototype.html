@@ -228,7 +228,7 @@ const DEFAULTS = {
   darkAnchors:  [[0, 0.155], [2, 0.235], [5, 0.375], [8, 0.650], [11, 0.930]],
   satPeakStep: 8, satPeak: 0.90, satBgEnd: 0.05, satTextEnd: 0.45, satSigma: 4.2,
   hueShift: [0, 0],
-  textChromaCap: true, minStepDelta: 0.012, minLGapPerStep: 0.018,
+  textChromaCap: true, minStepDelta: 0.012, minLGapPerStep: 0.018, minTailGapPerStep: 0.055,
   dark: { backgroundL: 0.155, satBiasBg: 1.9, satBiasText: 0.60, anchorStep: 8 },
 };
 const smoothstep = t => t * t * (3 - 2 * t);
@@ -249,11 +249,15 @@ function withKeyAnchor(scaled, peak, keyL) {
 /* 앵커를 방향(dir: -1 감소 / +1 증가)에 대해 단조로 강제한다.
    키 앵커를 고정점으로 두고 바깥으로 밀어내므로 키 컬러 L은 정확히 보존된다.
    키가 극단적으로 어둡/밝을 때 뒤쪽 앵커가 키를 넘어서는 것을 막는다. */
-function normalizeAnchors(scaled, peak, dir, minGapPerStep) {
+function normalizeAnchors(scaled, peak, dir, headGap, tailGap) {
   const a = scaled.map(x => x.slice());
   const k = a.findIndex(([i]) => Math.abs(i - peak) < 1e-9);
+  const bg = a[0][1];   // 모드의 배경 L — 설계값이라 절대 밀지 않는다
   const fix = (i, ref) => {
-    const need = a[ref][1] + dir * minGapPerStep * (a[i][0] - a[ref][0]);
+    // 꼬리(키 너머)는 더 넓은 간격을 요구한다. 어두운 키를 주면 기본
+    // 꼬리 앵커(0.320)와 키 사이가 좁아 9~12가 한 덩어리로 뭉치기 때문.
+    const gap = i > k ? tailGap : headGap;
+    const need = a[ref][1] + dir * gap * (a[i][0] - a[ref][0]);
     // 키 앵커 앞쪽(i < ref)에서는 부등호가 뒤집힌다 — 여기를 놓치면
     // 라이트 램프의 흰색 머리가 중간 회색으로 끌려 내려온다.
     const violates = (i > ref) === (dir < 0) ? a[i][1] > need : a[i][1] < need;
@@ -261,7 +265,8 @@ function normalizeAnchors(scaled, peak, dir, minGapPerStep) {
   };
   for (let i = k + 1; i < a.length; i++) fix(i, i - 1);
   for (let i = k - 1; i >= 0; i--) fix(i, i + 1);
-  a.forEach(x => x[1] = Math.min(0.995, Math.max(0.05, x[1])));
+  a.forEach(x => x[1] = Math.min(0.995, Math.max(0.03, x[1])));
+  a[0][1] = bg;
   return a;
 }
 
@@ -294,7 +299,7 @@ function buildRamp(family, cfg, mode) {
   const base = mode === 'light' ? p.lightAnchors
     : p.darkAnchors.map(([i, v]) => [i, i === 0 ? dark.backgroundL : v]);
   const anchors = normalizeAnchors(
-    withKeyAnchor(scaleAnchors(base, N), peak, key.l), peak, dir, p.minLGapPerStep);
+    withKeyAnchor(scaleAnchors(base, N), peak, key.l), peak, dir, p.minLGapPerStep, p.minTailGapPerStep);
   const L = interpolateAnchors(anchors, N, smoothstep);
 
   // 1b. hue 곡선
@@ -381,8 +386,8 @@ function lintRamp(ramp, cfg, family) {
   // 키 컬러가 step 9 자리에 앉기에 너무 어둡거나 밝은가
   if (family && (family.hardKey || family.key)) {
     const kl = (family.hardKey || hexToOklch(family.key)).l;
-    if (kl < 0.48 || kl > 0.78) issues.push({ lv:'warn', step:0,
-      msg:`키 컬러 L ${(kl*100).toFixed(1)}% — step 9 권장 대역(48~78%) 밖. 한쪽 꼬리가 눌린다` });
+    if (kl < 0.35 || kl > 0.88) issues.push({ lv:'warn', step:0,
+      msg:`키 컬러 L ${(kl*100).toFixed(1)}% — 꼬리를 밀어도 감마 벽에 가깝다. 단계 구별을 확인할 것` });
   }
   return issues;
 }
