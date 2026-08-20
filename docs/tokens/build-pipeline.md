@@ -14,7 +14,7 @@
 
 | SD를 버린 이유 | |
 |---|---|
-| 출력물 3종이 **전부 커스텀 포맷** | Tailwind `@theme inline` + shadcn raw 34 + `@custom-variant`, Figma 주입 JS, TS 타입 — SD 내장 포맷으로 나오는 게 하나도 없다. SD의 기여가 "커스텀 format 3개를 등록할 자리" 로 축소된다 |
+| 출력물 3종이 **전부 커스텀 포맷** | Tailwind `@theme inline` + shadcn raw 35 + `@custom-variant`, Figma 주입 JS, TS 타입 — SD 내장 포맷으로 나오는 게 하나도 없다. SD의 기여가 "커스텀 format 3개를 등록할 자리" 로 축소된다 |
 | **transform 파이프라인이 논다** | SD의 핵심 가치는 px→dp→pt 같은 플랫폼별 단위 변환인데 우리는 단일 플랫폼이다. 색은 hex/oklch, 치수는 rem 하나 |
 | **다크 모델이 안 맞는다** | 우리는 Primer식 토큰 옆 인라인 override(`$extensions`)인데 SD 토큰은 값이 하나다. preprocessor를 직접 써야 한다 |
 | **램프 생성은 이미 SD 바깥** | SD가 받는 건 이미 계산이 끝난 값이다 |
@@ -41,7 +41,7 @@ packages/tokens/                       # name: "@massive/tokens"
 │   ├── semantic/
 │   │   └── color.json                 # 30개 + 다크 인라인 override (#7)
 │   └── alias/
-│       └── shadcn.json                # shadcn 34개 → 우리 semantic 매핑
+│       └── shadcn.json                # alias 35개 → 우리 semantic 매핑
 ├── scripts/
 │   ├── ramp.mjs                       # ramp.config → color.gen.json
 │   ├── build.mjs                      # tokens/** → dist/**
@@ -192,7 +192,7 @@ packages/tokens/                       # name: "@massive/tokens"
   "accent": "color.bg.subtle",          // ⚠ 브랜드가 아니라 hover 배경 (#5)
   "…": "…" }
 ```
-34줄. **순수하게 기계적인 매핑 테이블**이다.
+35줄. **순수하게 기계적인 매핑 테이블**이다.
 
 ---
 
@@ -240,14 +240,14 @@ packages/tokens/                       # name: "@massive/tokens"
   …
   --ds-bg-accent-solid: var(--ds-palette-brand-light-9);   /* semantic 30 */
   …
-  --primary: var(--ds-bg-accent-solid);                     /* shadcn raw 34 */
+  --primary: var(--ds-bg-accent-solid);                     /* shadcn raw 35 */
   --radius: 0.625rem;
 }
 
 .dark {
   --ds-bg-accent-solid: var(--ds-palette-brand-dark-9);   /* semantic 30 */
   …
-  --primary: var(--ds-bg-accent-solid);                   /* shadcn raw 34 — 한 벌 더 (#35) */
+  --primary: var(--ds-bg-accent-solid);                   /* shadcn raw 35 — 한 벌 더 (#35) */
   …                                                       /* --radius는 모드 무관이라 뺀다 */
 }
 
@@ -262,14 +262,14 @@ packages/tokens/                       # name: "@massive/tokens"
 ```
 
 - **`@theme inline`은 선택이 아니다**(#5 실측). 그냥 `@theme`이면 중첩 `.dark` 서브트리가 **조용히** 깨진다
-- **`.dark`는 semantic 30 + shadcn raw 34를 재선언한다 — 총 64줄.** palette는 모드 무관한 리터럴이라 빠지고, `--radius`도 빠진다. "체인이 semantic에서 갈리므로 아래는 자동으로 따라온다"는 **틀렸다**([#35](https://github.com/flameware/massive-design/issues/35)): 커스텀 속성은 **선언된 그 요소에서** 치환되므로 `:root`의 `--primary: var(--ds-bg-accent-solid)`는 :root에서 라이트로 확정되고, 자손은 그 확정된 값을 상속한다. 중첩 서브트리의 `.dark`가 `--ds-*`만 덮으면 alias는 라이트에 남는다
+- **`.dark`는 semantic 30 + shadcn raw 35를 재선언한다 — 총 65줄.** palette는 모드 무관한 리터럴이라 빠지고, `--radius`도 빠진다. "체인이 semantic에서 갈리므로 아래는 자동으로 따라온다"는 **틀렸다**([#35](https://github.com/flameware/massive-design/issues/35)): 커스텀 속성은 **선언된 그 요소에서** 치환되므로 `:root`의 `--primary: var(--ds-bg-accent-solid)`는 :root에서 라이트로 확정되고, 자손은 그 확정된 값을 상속한다. 중첩 서브트리의 `.dark`가 `--ds-*`만 덮으면 alias는 라이트에 남는다
 - **`.dark`는 문서 루트든 중첩 서브트리든 어디에 붙어도 된다.** 위 재선언이 그 불변식을 지탱한다 — 라이트·다크를 한 화면에 나란히 놓는 Storybook이 이걸 요구한다. 다만 **반대 방향은 없다**: `.dark` 안쪽을 다시 라이트로 되돌리는 `.light` 클래스는 없고(`@custom-variant dark`의 `.dark *`도 그 안쪽을 전부 다크로 읽는다), 필요해지면 그때 여는 별건이다
-- shadcn 34개를 `:root`에 **raw로** 내는 건 필수다. `style-nova.css`가 `color-mix(in oklch, var(--secondary), …)`로 `@theme`를 우회해 직접 읽는다(#5)
+- alias 35개를 `:root`에 **raw로** 내는 건 필수다. `style-nova.css`가 `color-mix(in oklch, var(--secondary), …)`로 `@theme`를 우회해 직접 읽는다(#5)
 
 > **[#17](https://github.com/flameware/massive-design/issues/17) 구현 시 확정된 세 가지**
 >
 > 1. **palette 값은 hex로 낸다.** [semantic-tokens.md §7](semantic-tokens.md)의 출력 예시는 `oklch()`로 적혀 있으나 우리 램프는 전 단계가 이미 sRGB 감마 안으로 정리돼 있어(§4.3 A3) 두 표기가 정확히 같은 색이다. 토큰 원본의 `$value`가 hex이므로 hex를 그대로 내보내는 쪽이 변환 단계를 하나 없앤다.
-> 2. **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로 함께 재선언해야 한다([#16](https://github.com/flameware/massive-design/issues/16)에서 예고됨). ⚠️ **[#35](https://github.com/flameware/massive-design/issues/35)가 이 숫자를 다시 고쳤다 — 35가 아니라 64다**(semantic 30 + shadcn raw 34 전부). 여기서 `chart` 5개만 특별 취급한 것이 결함의 자리였다.
+> 2. **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로 함께 재선언해야 한다([#16](https://github.com/flameware/massive-design/issues/16)에서 예고됨). ⚠️ **[#35](https://github.com/flameware/massive-design/issues/35)가 이 숫자를 다시 고쳤다 — 35가 아니라 64다**(semantic 30 + shadcn raw 34 전부). 여기서 `chart` 5개만 특별 취급한 것이 결함의 자리였다. ⚠️ **[#37](https://github.com/flameware/massive-design/issues/37)이 alias에 `--link`를 더해 65가 됐다** — 이 숫자는 alias 표의 크기를 따라가므로, 표를 늘리는 티켓은 여기도 같이 고친다.
 > 3. **`--font-sans`가 `@theme inline`에 나간다.** [scale-tokens.md §7](scale-tokens.md)의 "CSS override 26개" 집계에 이 항목이 없다 — 집계의 누락이다. `type.family.sans`는 `noCss` 표식이 없고, Pretendard 스택은 Tailwind 기본 sans와 다르다.
 
 `dist/tokens.d.ts`:
@@ -303,7 +303,7 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 10. `@theme` / `@theme inline` 블록 안에 `--ds-`로 시작하는 선언이 있으면 **에러** (#7)
 11. `@theme`가 `inline` 없이 쓰이면 **에러** (#5)
 12. `--color-X`와 `--text-X` 이름 충돌 (#5의 함정 — `text-X`가 색으로 해석된다)
-13. shadcn 정본 34개가 `:root`에 전부 존재
+13. alias 표의 이름 35개가 `:root`에 전부 존재
 14. `@custom-variant dark`가 `&:where(.dark, .dark *)` 형태
 15. `@layer base`에 `*`(`border-color`·`outline-color`)와 `body`(`background-color`·`color`) 규칙이 있고, 둘 다 색을 불투명도로 깎지 않는다 ([#36](https://github.com/flameware/massive-design/issues/36))
 
