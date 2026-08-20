@@ -98,6 +98,29 @@ function selectorHasClass(selector, needle) {
   }
 }
 
+/**
+ * `@layer base` 안의 **선택자가 정확히 `*`인** 규칙들. 캐스케이드 순서 그대로 준다.
+ *
+ * preflight의 `*, ::after, ::before, …`는 선택자 목록이라 여기 안 걸린다 —
+ * 걸리면 `border: 0 solid`가 매니페스트에 실린다. 우리 규칙만 정확히 집는다(#36).
+ */
+export function starRulesInBase(nodes) {
+  const found = []
+  const visit = (list, inBase) => {
+    for (const node of list) {
+      if (!node.children) continue
+      if (node.prelude.startsWith("@")) {
+        visit(node.children, inBase || /^@layer\s+base\b/.test(node.prelude))
+        continue
+      }
+      if (inBase && node.prelude === "*") found.push(node)
+      else visit(node.children, inBase)
+    }
+  }
+  visit(nodes, false)
+  return found
+}
+
 /** 규칙의 직속 선언만. @supports·&:hover 같은 중첩은 호출자가 따로 본다. */
 export function declarations(rule) {
   return rule.children.filter((n) => n.prop)

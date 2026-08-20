@@ -8,13 +8,14 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
-import { assembleCell, cellsOf } from "./assemble.mjs"
+import { assembleBase, assembleCell, cellsOf } from "./assemble.mjs"
 import { compileClasses } from "./compile.mjs"
 import { parseCss } from "./css.mjs"
 import { canonicalJson, hashComponent } from "./hash.mjs"
 import { loadTheme } from "./theme.mjs"
 
-export const SCHEMA_VERSION = 1
+/** 2: 셀 밖 `base` 블록이 생겼다 — `@layer base`의 `*` 규칙에서 파생한다(#36). */
+export const SCHEMA_VERSION = 2
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -40,12 +41,16 @@ export function buildManifests(components, root) {
     compiledCss: compiled,
   })
 
+  // 컴포넌트에 무관하다 — 컴파일 입력이 같으므로 한 번만 판다
+  const base = assembleBase({ tree, theme })
+
   const files = new Map()
   const index = []
 
   for (const { component, cells } of plans) {
     const doc = {
       schemaVersion: SCHEMA_VERSION,
+      base,
       component: component.name,
       source: component.source,
       axes: Object.fromEntries(Object.entries(component.config.variants).map(([a, v]) => [a, Object.keys(v)])),

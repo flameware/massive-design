@@ -165,6 +165,28 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `font-weight` | `label` | `fontName.style` — ⚠️ 아래 |
 | (`type/family/sans`) | `label` | `fontFamily` — **맨 마지막**, 3회 재시도 |
 | `slots.icon.size` | `icon` | `resize(n, n)` |
+| `border-width` | `root` | `strokeWeight` + `strokes[0]` = **`base`의 `border-color`** — ⚠️ 아래 |
+
+⚠️ **stroke 색은 셀이 아니라 `base` 블록에 있다** ([#36](https://github.com/flameware/massive-design/issues/36)). 매니페스트는 `schemaVersion: 2`부터 셀 밖에 블록 하나를 더 낸다:
+
+```json
+{ "schemaVersion": 2,
+  "base": { "border-color": { "tier": "token", "token": "--ds-border-default", "from": "@layer base" } },
+  "cells": [ … ] }
+```
+
+`base`는 **모든 셀에 앞서 적용되는 기저**다 — `dist/tokens.css`의 `@layer base`에 있는 `*` 규칙에서 파생하며, 클래스가 아니라 규칙에서 오기 때문에 셀 안에 없다. 조립은 CSS 의미 그대로다:
+
+```
+strokes     = base["border-color"]
+strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 걸지 않는다
+```
+
+**셀에 복사해 두지 않은 것이 의도다.** Button 48칸 중 `border-width`를 가진 것은 `outline` 8칸뿐인데, 40칸에 stroke 색만 실어 두면 그걸 읽고 폭 1px를 칠하게 된다. `border-width`가 없는 칸은 **테두리가 없는 것**이다.
+
+⚠️ **`base`에 `outline-color`는 없다.** `tokens.css`의 규칙은 내지만 매니페스트의 무시 화이트리스트가 거른다 — 포커스는 [#24](https://github.com/flameware/massive-design/issues/24)가 Figma에서 뺐고 `outline-style`·`outline-offset`이 이미 같은 이유로 걸러진다. `base` 블록이 일반적인 것은 **구조이지 통과하는 속성이 아니다.**
+
+---
 
 ⚠️ **`font-weight`는 이 표의 유일한 값 매핑 행이다.** Figma에 weight 변수가 없고(`type/weight/*`는 **존재하지 않는다**) 매니페스트도 `tier: "literal", value: "500"`을 낸다. 문자열 `fontName.style`로 간다:
 

@@ -19,6 +19,13 @@
       "link"
     ]
   },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
   "cells": [
     {
       "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--primary)] text-primary-foreground h-9 px-4 py-2 has-[>svg]:px-3",
@@ -5252,7 +5259,7 @@
     "size": "default",
     "variant": "default"
   },
-  "hash": "52bcaeb2ef99",
-  "schemaVersion": 1,
+  "hash": "f6110f5fe1b5",
+  "schemaVersion": 2,
   "source": "src/components/ui/button.tsx"
 }

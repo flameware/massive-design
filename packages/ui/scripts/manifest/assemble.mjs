@@ -3,8 +3,32 @@
  * 단위가 축이 아니라 조합인 이유는 정확성이다(#22 §1): base + variant + size를
  * tailwind-merge가 정리한 뒤에야 값이 확정된다. 축별로 담으면 매니페스트가
  * `xs` 버튼의 아이콘을 16px이라고 말한다 — 실제로는 12px이다. */
-import { declarations, rulesForClass, splitModifiers } from "./css.mjs"
+import { declarations, rulesForClass, splitModifiers, starRulesInBase } from "./css.mjs"
 import { classifyDeclaration, classifyShadow, MODIFIER_POLICY, resolveVarChain } from "./classify.mjs"
+
+/**
+ * 모든 셀에 **앞서** 적용되는 기저. `@layer base`의 `*` 규칙에서 파생한다(#36).
+ *
+ * 셀 밖에 있는 이유: 이 값은 클래스가 아니라 규칙에서 온다. 48칸에 복사하면
+ * `border-width`가 없는 40칸까지 stroke 색을 갖게 되고, #26의 에이전트가 그걸
+ * 보고 폭 1px를 칠한다. 조립은 CSS 의미 그대로다 —
+ * `stroke = base["border-color"]`, `weight = cell["border-width"] ?? 0`.
+ *
+ * 무시 화이트리스트는 셀과 공유한다. 그래서 `outline-color`는 여기 안 남는다 —
+ * 포커스는 #24가 Figma에서 뺐고 `outline-style`·`outline-offset`이 이미 무시된다.
+ * base 블록이 일반적인 것은 구조이지 통과하는 속성이 아니다.
+ */
+export function assembleBase({ tree, theme }) {
+  const properties = {}
+  for (const rule of starRulesInBase(tree)) {
+    for (const d of declarations(rule)) {
+      if (d.prop.startsWith("--ds-")) continue
+      const hit = classifyDeclaration(theme, d.prop, d.value, "@layer base")
+      if (hit) properties[hit.prop] = hit.entry
+    }
+  }
+  return properties
+}
 
 /** config.variants의 데카르트 곱. 축 이름과 값은 cva config가 쥔다. */
 export function cellsOf(config) {
