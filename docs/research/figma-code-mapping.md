@@ -225,16 +225,104 @@ Code Connect의 실제 산출물은 **Dev Mode에 진짜 코드 스니펫을 띄
 
 ---
 
-## 7. 확인하지 못한 것
+## 7. 확인하지 못한 것 → 대부분 [#31](https://github.com/flameware/massive-design/issues/31)이 실측했다
 
-**결정([#25](https://github.com/flameware/massive-design/issues/25))이 이 목록을 무시하면 안 된다.** 위 권고 중 두 개가 여기 걸려 있다.
+아래 9개는 이 조사가 남긴 미지수였다. **2026-08-20, 라이브러리 발행 1회로 7개가 갈렸다** — 상세는 §8.
 
-1. **`sharedPluginData`가 라이브러리 발행을 넘는가.** 커뮤니티 반증 보고는 `pluginData`(shared 아님) 사례이고 Figma 답변이 없다. 우리 조건에서 재현되는지 모른다. → **검증법**: 이 파일에 컴포넌트 하나를 만들고 `sharedPluginData`를 심어 라이브러리로 발행 → 다른 파일에서 인스턴스를 놓고 `instance.mainComponent.getSharedPluginData('massive','hash')`를 읽는다. 우리는 아직 **라이브러리 발행을 한 번도 해본 적이 없다**(핸드오프 §5).
-2. **dev resources REST 쓰기가 Pro에서 되는가.** `POST /v1/dev_resources`에 플랜 문구가 없지만, Variables REST가 문서 어딘가에서 Enterprise로 명시된 것과 달리 그냥 안 적힌 것일 수도 있다. → **검증법**: PAT에 `file_dev_resources:write` 스코프를 붙여 실제 호출.
-3. **`GET /v1/files/:key/components`가 Pro에서 되는가.** 그리고 **발행되지 않은 파일**에서도 컴포넌트를 내는지(엔드포인트 이름은 file 단위지만 scope가 `library_content:read`다 — 발행된 라이브러리 자산만 낼 가능성이 있다). 이게 안 되면 **층 2의 CI 대조 근거가 통째로 무너진다.**
-4. **`?plugin_data=shared`가 Pro에서 되는가.** 파일 엔드포인트 자체는 모든 플랜에서 열려 있지만 실측하지 않았다.
-5. **`description` 재발행 버그의 실제 발현 조건.** Figma가 문서에 적어놨을 뿐 재현 조건·빈도를 모른다. 오탐 빈도가 곧 이 방식의 운용 비용이다.
-6. **`documentationLinks`가 발행을 넘어 인스턴스에 전파되는가.** 문서에 아무 말이 없다.
-7. **Figma MCP의 읽기 도구(`get_metadata` / `get_design_context` / `search_design_system`)가 `description`·`sharedPluginData`를 노출하는가.** 노출한다면 에이전트가 `use_figma` 스크립트를 짜지 않고도 매핑을 읽는다 — 조립 단계의 비용이 크게 갈린다.
-8. **`descriptionMarkdown`의 길이 상한과 자산 패널에서의 렌더 방식.** 해시 꼬리를 눈에 덜 띄게 넣는 방법이 있는지가 여기 달렸다.
-9. **컴포넌트를 재생성하면 `key`가 바뀌는가.** 거의 확실히 바뀐다(인스턴스가 끊기는 것과 같은 이유)지만 실측하지 않았다. 층 1의 `key` 표 선택지가 이것에 의존한다.
+| # | 미지수 | 결과 |
+|---|---|---|
+| 1 | `sharedPluginData`가 발행 경계를 넘는가 | ✅ **넘는다** (§8.3) |
+| 2 | dev resources REST 쓰기가 Pro에서 되는가 | ✅ **된다** (§8.4) |
+| 3 | `GET /v1/files/:key/components`가 Pro에서 되는가 | ⚠️ **되지만 발행된 것만**, 그리고 세트가 아니라 변종을 낸다 (§8.2) |
+| 4 | `?plugin_data=shared`가 Pro에서 되는가 | ✅ **된다, 발행 불필요** (§8.3) |
+| 5 | `description` 재발행 버그의 발현 조건 | ❌ 여전히 모른다. 이번 왕복에서 발현하지 않았다 |
+| 6 | `documentationLinks`가 발행을 넘어 전파되는가 | ✅ **넘는다** (§8.3) |
+| 7 | MCP 읽기 도구가 `description`·`sharedPluginData`를 노출하는가 | ❌ 이번에 안 봤다. `use_figma`로는 둘 다 읽힌다 |
+| 8 | `descriptionMarkdown`의 길이 상한과 렌더 방식 | ❌ 여전히 모른다 |
+| 9 | 컴포넌트를 재생성하면 `key`가 바뀌는가 | ✅ **바뀐다** (§8.5) |
+
+---
+
+## 8. 발행 1회 실측 ([#31](https://github.com/flameware/massive-design/issues/31), 2026-08-20)
+
+대상 파일에 `Probe PublishBoundary`(COMPONENT_SET, 변종 `State=Default`·`State=Alt`)를 만들어 발행하고, 소비 파일 `Probe31 Consumer`에서 인스턴스로 되읽었다. 확인 후 컴포넌트·dev resource 삭제(순변화 0).
+
+계정 조건: **Massive Void 팀, `pro` 티어, Full seat** (`whoami`).
+
+### 8.1 ⚠️ 이름이 `_`나 `.`로 시작하면 발행 목록에서 사라진다
+
+첫 프로브를 `_probe/PublishBoundary`로 지었더니 **발행 다이얼로그에 아예 나타나지 않았다.** Figma가 `_`·`.` 접두 컴포넌트를 Assets 패널과 발행에서 자동으로 숨긴다. 이름을 `Probe PublishBoundary`로 바꾸자 바로 나타났다.
+
+**컴포넌트 이름 규약([#25](https://github.com/flameware/massive-design/issues/25))이 이걸 알아야 한다** — 내부용 표시로 `_` 접두를 쓰는 흔한 관행이 곧 "라이브러리에 안 실림"이다. 조용히 실패하므로 눈에 안 띈다.
+
+부수 확인: **이름을 바꿔도 `key`는 그대로다**(`973a45cf…` 유지). [#32](https://github.com/flameware/massive-design/issues/32)의 "값 이름 변경은 안전"이 컴포넌트 이름 자체에도 성립한다.
+
+### 8.2 ⚠️ REST의 두 시야가 갈린다 — 이것이 낡음 판정의 갈림길
+
+같은 파일을 두 엔드포인트로 읽으면 **다른 것이 나온다.**
+
+| | `/v1/files/:key/components`·`/component_sets` | `/v1/files/:key/nodes?ids=…` |
+|---|---|---|
+| 스코프 | `library_content:read` | `file_content:read` |
+| 보는 것 | **마지막 발행 스냅샷** | **살아 있는 문서** |
+| 발행 전 | `{"components": []}` (200) | 컴포넌트가 그대로 나온다 |
+| MCP로 `description`만 고친 뒤 | 옛 값 (`probe0000dead`) | 새 값 즉시 (`EDITED999999`) |
+
+**§6 층 2의 근거가 반쯤 틀렸다.** "`description`이 1순위인 유일한 근거는 CI가 `/components`로 Figma를 안 열고 대조할 수 있기 때문"인데:
+
+- `/components`는 **발행 안 하면 빈 배열**이다. 발행은 사람이 버튼을 눌러야 하고 플러그인 API로 못 한다 → 에이전트가 주입만 하고 아무도 발행 안 하면 CI는 영원히 "낡음"이라고 말한다
+- `/nodes`는 **발행과 무관하게 즉시** 반영되고 발행 자체가 필요 없다 → CI 대조의 실제 경로는 이쪽이다
+
+그러니 "낡음"이 **두 질문으로 쪼개진다**: *Figma 문서가 코드보다 낡았나*(→ `/nodes`)와 *발행된 라이브러리가 문서보다 낡았나*(→ `/component_sets`, 또는 `getPublishStatusAsync()`). #25가 어느 쪽을 판정 대상으로 삼을지 골라야 한다.
+
+**그리고 해시는 세트에 실어야 한다.** `/component_sets`는 세트 1개를 `description`과 함께 내지만, `/components`가 내는 것은 **변종**이고 변종의 `description`은 `""`다. 우리 컴포넌트는 전부 variant 세트다.
+
+응답 필드(실측):
+- `component_sets[]`: `key` · `file_key` · `node_id` · `name` · `description` · `created_at` · `updated_at` · `thumbnail_url` · `containing_frame`(`pageId`/`pageName`) · `user`
+- `components[]`: 위와 같고 **`description_rt`가 추가**로 있다 — `component_sets`에는 없다
+- `documentation_links`는 **양쪽 다 없다** (§2.1의 예상대로)
+- `/styles`: `style_type`(`TEXT`/`EFFECT`)과 `description`이 나온다. 발행 전엔 빈 배열
+
+### 8.3 ✅ 발행 경계를 전부 넘었다 — 반증 보고는 우리 조건에서 재현되지 않는다
+
+소비 파일에서 `importComponentSetByKeyAsync` / `importComponentByKeyAsync`로 가져와 인스턴스를 놓고 읽은 결과:
+
+| 실은 것 | 어디에 | 소비 파일에서 읽힘 |
+|---|---|---|
+| `sharedPluginData('massive','hash')` | 세트 | ✅ `instance.mainComponent.parent`에서 `probe0000dead` |
+| `sharedPluginData('massive','variantHash')` | 변종 | ✅ `instance.mainComponent`에서 `variant0000beef` |
+| `description` | 세트 | ✅ |
+| `documentationLinks` | 세트 | ✅ `[{uri: …}]` |
+
+**§2.2의 커뮤니티 반증 보고는 `sharedPluginData`에 대해 재현되지 않았다.** 그 사례가 `pluginData`(shared 아님)였다는 §2.2의 유보가 맞았다. `sharedPluginData`는 발행을 넘고 원본 컴포넌트에 붙어 소비 파일까지 전파된다.
+
+`sharedPluginData`는 **노드별로 따로** 산다 — 세트에서 `variantHash`를 읽으면 `""`, 변종에서 `hash`를 읽으면 `""`다.
+
+REST로도 읽힌다: `?plugin_data=shared`가 `document.sharedPluginData`에 `{"massive": {...}}`를 넣어 주고, **자식 노드의 것까지 서브트리로 함께** 낸다. 발행 전에도 된다.
+
+### 8.4 ✅ `hiddenFromPublishing`은 크로스 컬렉션 alias를 깨지 않는다
+
+급소였던 항목. palette 61개 중 53개가 `hiddenFromPublishing = true`인 채로, semantic이 그것들을 크로스 컬렉션 alias로 참조한다.
+
+소비 파일에서 인스턴스의 fill을 읽으니 `bg/accent/solid` 바인딩이 살아 있고, `resolveForConsumer()`가 `#0f5fed`를 정확히 냈다. **모드 전환도 된다** — `setExplicitVariableModeForCollection(semantic, Dark)`가 원격 컬렉션에 먹고, alias가 `brand/light/9`에서 `brand/dark/9`로 갈아탄다. 숨겨진 palette 변수도 `getVariableByIdAsync`로 직접 읽히고 `remote: true, hidden: true`로 나온다.
+
+(라이트·다크 값이 둘 다 `#0f5fed`로 같은 것은 버그가 아니라 brand 램프 9단계가 두 모드에서 같은 토큰 설계다.)
+
+⚠️ 다만 **`getAvailableLibraryVariableCollectionsAsync()`가 `[]`를 낸다** — 소비 파일이 라이브러리를 구독하지 않았기 때문이다. `importComponentSetByKeyAsync`는 구독 없이도 되고 변수도 컴포넌트를 타고 따라오지만, **디자이너가 semantic 변수를 직접 집어 쓰려면 라이브러리를 파일에 추가해야 한다.** MCP `get_libraries`도 소비 파일에서 우리 라이브러리를 목록에 못 낸다(커뮤니티 킷만 보인다) — Pro 팀 라이브러리는 그 도구의 시야 밖이다.
+
+### 8.5 dev resources — REST 전용 채널이다
+
+- ✅ `POST /v1/dev_resources`가 **Pro에서 된다.** `{"dev_resources":[{name, url, file_key, node_id}]}` → `links_created`에 `id`가 온다. §3의 "플랜 문구가 없다"가 "Pro에서 된다"로 확정
+- ✅ `GET /v1/files/:key/dev_resources`로 읽힌다
+- ❌ ⚠️ **§1.3이 틀렸다.** "읽기 쪽(`getDevResourcesAsync`)은 함수로 존재하지만 쓰기만 막혔다"고 적었으나, **읽기도 똑같이 막혀 있다**: `"getDevResourcesAsync" is not a supported API`. 즉 주입 에이전트(MCP)는 자기가 단 링크를 되읽지 못한다
+- ⚠️ **`DELETE`의 경로가 `POST`와 다르다.** `DELETE /v1/dev_resources/:id`는 404다. 맞는 것은 **`DELETE /v1/files/:file_key/dev_resources/:id`**
+
+**결론**: dev resources는 전파가 공식 문서로 보장된 유일한 후보이지만(§2.4), 쓰기·읽기가 전부 REST에 갇혀 있다. 주입이 MCP인 우리에게는 **채널이 하나 더 늘어나는 비용**이고, 인스턴스 읽기 버그(§2.4)는 여전히 미해결이다.
+
+### 8.6 곁다리 사실
+
+- **`key`는 재생성하면 바뀐다.** 같은 이름(`KeyRegenProbe`)으로 만들고 지우고 다시 만드니 `5ff8a9e9…` → `323639fb…`. §2.3의 `key` 표 선택지는 "재생성하면 표가 낡는다"를 안고 간다
+- **`getPublishStatusAsync()`에는 제3의 상태 `CHANGED`가 있다.** `UNPUBLISHED` → 발행 → `PUBLISHED` → `description` 수정 → **`CHANGED`**. "발행된 라이브러리가 문서보다 낡았나"를 한 번의 MCP 호출로 답하는 값이다
+- **`TextStyle`·`EffectStyle`에는 `getPublishStatusAsync`가 없다**(`undefined`). 스타일의 발행 여부는 플러그인 API로 못 묻고 REST `/styles`로만 안다
+- **`description`을 쓰면 `descriptionMarkdown`은 `""`로 남는다.** §1.4는 "마크다운이 원본이고 `description`은 파생"이라 적었는데 **역방향 미러링은 없다**. 덮어쓰기는 마크다운 → 평문 한 방향뿐이다
+- 스타일 발행은 컴포넌트 발행과 **독립적으로 선택된다.** 첫 발행에서 스타일 10개만 실리고 컴포넌트는 안 실린 채로 끝났다(§8.1이 원인)
