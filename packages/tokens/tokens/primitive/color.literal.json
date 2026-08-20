@@ -1,0 +1,32 @@
+{
+  "palette": {
+    "base": {
+      "white": { "$type": "color", "$value": "#ffffff" },
+      "black": { "$type": "color", "$value": "#000000" }
+    },
+    "alpha": {
+      "white": {
+        "10": {
+          "$type": "color",
+          "$value": "#ffffff1a",
+          "$extensions": { "design.massive.alpha": 0.1 },
+          "$description": "다크 border.default. 다크 elevation을 그림자가 아니라 border가 표현한다"
+        },
+        "15": {
+          "$type": "color",
+          "$value": "#ffffff26",
+          "$extensions": { "design.massive.alpha": 0.15 },
+          "$description": "다크 border.field"
+        }
+      },
+      "black": {
+        "50": {
+          "$type": "color",
+          "$value": "#00000080",
+          "$extensions": { "design.massive.alpha": 0.5 },
+          "$description": "bg.scrim — 모달 뒷배경 딤. 두 모드 동일"
+        }
+      }
+    }
+  }
+}

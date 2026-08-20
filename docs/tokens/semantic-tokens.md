@@ -75,7 +75,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 5 | `bg.overlay` | 다이얼로그·팝오버 면 | neutral 1 `#fdfdfd` | neutral 3 `#1e1e1e` |
 | 6 | `bg.neutral.soft` | 중립 뱃지·태그 배경 | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
 | 7 | `bg.neutral.solid` | 중립 채움 | neutral 9 `#727272` | neutral 9 `#727272` |
-| 8 | `bg.accent.soft` | 연한 브랜드 배경 | brand 3 `#eaeef4` | brand 3 `#0c1d3b` |
+| 8 | `bg.accent.soft` | 연한 브랜드 배경 | brand 3 `#eaeef4` | brand 3 `#0d1d3b` [^gen] |
 | 9 | `bg.accent.solid` | 브랜드 채움 (primary) | brand 9 `#0f5fed` | brand 9 `#0f5fed` |
 | 10 | `bg.danger.soft` | 에러 배너 | danger 3 `#f4eceb` | danger 3 `#341210` |
 | 11 | `bg.danger.solid` | destructive 채움 | danger 9 `#db2931` | danger 9 `#db2931` |
@@ -117,6 +117,8 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 **합계 30.**
 
 비색상 (상한 밖, #13에서 확정): `state.hover.opacity` 0.08 · `state.pressed.opacity` 0.12 · `state.disabled.opacity` 0.5
+
+[^gen]: 이 표의 hex는 [#6](https://github.com/flameware/massive-design/issues/6) 프로토타입이 낸 값이고, [#16](https://github.com/flameware/massive-design/issues/16)에서 램프 생성기를 culori로 다시 지으면서 **96색 중 이 한 칸만 `#0c1d3b` → `#0d1d3b`로 바뀌었다.** 프로토타입은 의존성 0을 목표로 Oklab 변환 행렬을 손으로 넣은 코드였고, 이 단계의 R 채널이 12.49/255 대 12.52/255라는 반올림 경계에 앉아 있었다. ΔE ≈ 0.0005로 눈에 보이지 않고 대비 판정에도 영향이 없다. **정본은 이제 `tokens/primitive/color.gen.json`이다.**
 
 ### 값이 겹치는 토큰들 — 의도적이다
 

@@ -1,0 +1,707 @@
+{
+  "$extensions": {
+    "design.massive.source": {
+      "generator": "scripts/ramp.mjs",
+      "config": "tokens/ramp.config.json",
+      "configHash": "sha256:0e6eda6e3063c66a2c3accd1390446b08f5ca118c28ed32d8a18a6acc97f6251"
+    }
+  },
+  "palette": {
+    "brand": {
+      "light": {
+        "1": {
+          "$type": "color",
+          "$value": "#fcfdfd",
+          "$extensions": {
+            "design.massive.oklch": "oklch(99.3% 0.001 261.5)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#f7f8fa",
+          "$extensions": {
+            "design.massive.oklch": "oklch(98.0% 0.002 261.5)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#eaeef4",
+          "$extensions": {
+            "design.massive.oklch": "oklch(94.8% 0.009 261.5)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#dae2ef",
+          "$extensions": {
+            "design.massive.oklch": "oklch(91.0% 0.020 261.5)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#cad8ef",
+          "$extensions": {
+            "design.massive.oklch": "oklch(87.8% 0.035 261.5)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#c2d4f2",
+          "$extensions": {
+            "design.massive.oklch": "oklch(86.5% 0.047 261.5)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#97b8f2",
+          "$extensions": {
+            "design.massive.oklch": "oklch(78.0% 0.090 261.5)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#4581f1",
+          "$extensions": {
+            "design.massive.oklch": "oklch(62.1% 0.179 261.5)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#0f5fed",
+          "$extensions": {
+            "design.massive.oklch": "oklch(53.6% 0.226 261.5)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#1553c6",
+          "$extensions": {
+            "design.massive.oklch": "oklch(48.0% 0.190 261.5)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#0f3a8b",
+          "$extensions": {
+            "design.massive.oklch": "oklch(37.6% 0.143 261.5)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#0d2e6c",
+          "$extensions": {
+            "design.massive.oklch": "oklch(32.0% 0.114 261.5)"
+          }
+        }
+      },
+      "dark": {
+        "1": {
+          "$type": "color",
+          "$value": "#070c17",
+          "$extensions": {
+            "design.massive.oklch": "oklch(15.5% 0.025 261.5)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#0a1527",
+          "$extensions": {
+            "design.massive.oklch": "oklch(19.5% 0.041 261.5)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#0d1d3b",
+          "$extensions": {
+            "design.massive.oklch": "oklch(23.5% 0.062 261.5)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#0c2451",
+          "$extensions": {
+            "design.massive.oklch": "oklch(27.1% 0.088 261.5)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#0c3278",
+          "$extensions": {
+            "design.massive.oklch": "oklch(33.9% 0.127 261.5)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#073891",
+          "$extensions": {
+            "design.massive.oklch": "oklch(37.5% 0.155 261.5)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#0541ab",
+          "$extensions": {
+            "design.massive.oklch": "oklch(41.7% 0.179 261.5)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#0d55d4",
+          "$extensions": {
+            "design.massive.oklch": "oklch(49.4% 0.207 261.5)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#0f5fed",
+          "$extensions": {
+            "design.massive.oklch": "oklch(53.6% 0.226 261.5)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#5989e2",
+          "$extensions": {
+            "design.massive.oklch": "oklch(63.8% 0.144 261.5)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#b4c8ea",
+          "$extensions": {
+            "design.massive.oklch": "oklch(82.8% 0.052 261.5)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#e2e8f3",
+          "$extensions": {
+            "design.massive.oklch": "oklch(93.0% 0.016 261.5)"
+          }
+        }
+      }
+    },
+    "neutral": {
+      "light": {
+        "1": {
+          "$type": "color",
+          "$value": "#fdfdfd",
+          "$extensions": {
+            "design.massive.oklch": "oklch(99.3% 0.000 164.1)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#f8f8f8",
+          "$extensions": {
+            "design.massive.oklch": "oklch(98.0% 0.000 180.0)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#eeeeee",
+          "$extensions": {
+            "design.massive.oklch": "oklch(94.8% 0.000 0.0)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#e1e1e1",
+          "$extensions": {
+            "design.massive.oklch": "oklch(91.0% 0.000 180.0)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#d7d7d7",
+          "$extensions": {
+            "design.massive.oklch": "oklch(87.8% 0.000 194.0)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#d2d2d2",
+          "$extensions": {
+            "design.massive.oklch": "oklch(86.5% 0.000 180.0)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#b8b8b8",
+          "$extensions": {
+            "design.massive.oklch": "oklch(78.4% 0.000 180.0)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#8a8a8a",
+          "$extensions": {
+            "design.massive.oklch": "oklch(63.3% 0.000 180.0)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#727272",
+          "$extensions": {
+            "design.massive.oklch": "oklch(55.2% 0.000 180.0)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#616161",
+          "$extensions": {
+            "design.massive.oklch": "oklch(49.2% 0.000 171.9)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#424242",
+          "$extensions": {
+            "design.massive.oklch": "oklch(38.0% 0.000 180.0)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#333333",
+          "$extensions": {
+            "design.massive.oklch": "oklch(32.0% 0.000 0.0)"
+          }
+        }
+      },
+      "dark": {
+        "1": {
+          "$type": "color",
+          "$value": "#0c0c0c",
+          "$extensions": {
+            "design.massive.oklch": "oklch(15.5% 0.000 213.7)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#151515",
+          "$extensions": {
+            "design.massive.oklch": "oklch(19.5% 0.000 180.0)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#1e1e1e",
+          "$extensions": {
+            "design.massive.oklch": "oklch(23.5% 0.000 180.0)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#272727",
+          "$extensions": {
+            "design.massive.oklch": "oklch(27.1% 0.000 180.0)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#373737",
+          "$extensions": {
+            "design.massive.oklch": "oklch(33.9% 0.000 0.0)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#414141",
+          "$extensions": {
+            "design.massive.oklch": "oklch(37.5% 0.000 172.4)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#4d4d4d",
+          "$extensions": {
+            "design.massive.oklch": "oklch(42.1% 0.000 195.9)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#656565",
+          "$extensions": {
+            "design.massive.oklch": "oklch(50.6% 0.000 180.0)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#727272",
+          "$extensions": {
+            "design.massive.oklch": "oklch(55.2% 0.000 180.0)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#8f8f8f",
+          "$extensions": {
+            "design.massive.oklch": "oklch(65.0% 0.000 180.0)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#c8c8c8",
+          "$extensions": {
+            "design.massive.oklch": "oklch(83.2% 0.000 164.1)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#e8e8e8",
+          "$extensions": {
+            "design.massive.oklch": "oklch(93.0% 0.000 315.0)"
+          }
+        }
+      }
+    },
+    "danger": {
+      "light": {
+        "1": {
+          "$type": "color",
+          "$value": "#fdfdfc",
+          "$extensions": {
+            "design.massive.oklch": "oklch(99.3% 0.001 25.2)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#faf8f7",
+          "$extensions": {
+            "design.massive.oklch": "oklch(98.0% 0.003 25.2)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#f4eceb",
+          "$extensions": {
+            "design.massive.oklch": "oklch(94.8% 0.009 25.2)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#f0dcda",
+          "$extensions": {
+            "design.massive.oklch": "oklch(91.0% 0.022 25.2)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#efceca",
+          "$extensions": {
+            "design.massive.oklch": "oklch(87.8% 0.038 25.2)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#f3c6c2",
+          "$extensions": {
+            "design.massive.oklch": "oklch(86.5% 0.051 25.2)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#f3a29b",
+          "$extensions": {
+            "design.massive.oklch": "oklch(79.1% 0.098 25.2)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#f34c4b",
+          "$extensions": {
+            "design.massive.oklch": "oklch(65.3% 0.205 25.2)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#db2931",
+          "$extensions": {
+            "design.massive.oklch": "oklch(57.8% 0.211 25.2)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#b92429",
+          "$extensions": {
+            "design.massive.oklch": "oklch(51.1% 0.184 25.2)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#7c191b",
+          "$extensions": {
+            "design.massive.oklch": "oklch(38.7% 0.134 25.2)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#5d1515",
+          "$extensions": {
+            "design.massive.oklch": "oklch(32.0% 0.104 25.2)"
+          }
+        }
+      },
+      "dark": {
+        "1": {
+          "$type": "color",
+          "$value": "#150807",
+          "$extensions": {
+            "design.massive.oklch": "oklch(15.5% 0.023 25.2)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#230e0c",
+          "$extensions": {
+            "design.massive.oklch": "oklch(19.5% 0.037 25.2)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#341210",
+          "$extensions": {
+            "design.massive.oklch": "oklch(23.5% 0.057 25.2)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#461211",
+          "$extensions": {
+            "design.massive.oklch": "oklch(27.1% 0.080 25.2)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#671416",
+          "$extensions": {
+            "design.massive.oklch": "oklch(33.9% 0.116 25.2)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#7b0e15",
+          "$extensions": {
+            "design.massive.oklch": "oklch(37.5% 0.141 25.2)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#960b18",
+          "$extensions": {
+            "design.massive.oklch": "oklch(42.8% 0.167 25.2)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#c41a26",
+          "$extensions": {
+            "design.massive.oklch": "oklch(52.6% 0.200 25.2)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#db2931",
+          "$extensions": {
+            "design.massive.oklch": "oklch(57.8% 0.211 25.2)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#e76760",
+          "$extensions": {
+            "design.massive.oklch": "oklch(66.9% 0.162 25.2)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#ecbdb8",
+          "$extensions": {
+            "design.massive.oklch": "oklch(83.9% 0.054 25.2)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#f3e4e2",
+          "$extensions": {
+            "design.massive.oklch": "oklch(93.0% 0.017 25.2)"
+          }
+        }
+      }
+    },
+    "success": {
+      "light": {
+        "1": {
+          "$type": "color",
+          "$value": "#fcfdfc",
+          "$extensions": {
+            "design.massive.oklch": "oklch(99.3% 0.002 149.1)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#f5faf5",
+          "$extensions": {
+            "design.massive.oklch": "oklch(98.0% 0.009 149.1)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#e0f4e3",
+          "$extensions": {
+            "design.massive.oklch": "oklch(94.8% 0.031 149.1)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#c1efc8",
+          "$extensions": {
+            "design.massive.oklch": "oklch(91.0% 0.071 149.1)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#aee8b7",
+          "$extensions": {
+            "design.massive.oklch": "oklch(87.8% 0.089 149.1)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#a0e7ac",
+          "$extensions": {
+            "design.massive.oklch": "oklch(86.5% 0.107 149.1)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#7ccd8c",
+          "$extensions": {
+            "design.massive.oklch": "oklch(78.0% 0.122 149.1)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#439c58",
+          "$extensions": {
+            "design.massive.oklch": "oklch(62.1% 0.132 149.1)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#20823e",
+          "$extensions": {
+            "design.massive.oklch": "oklch(53.5% 0.136 149.1)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#1c6f35",
+          "$extensions": {
+            "design.massive.oklch": "oklch(47.9% 0.120 149.1)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#154e25",
+          "$extensions": {
+            "design.massive.oklch": "oklch(37.6% 0.090 149.1)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#123d1d",
+          "$extensions": {
+            "design.massive.oklch": "oklch(32.0% 0.072 149.1)"
+          }
+        }
+      },
+      "dark": {
+        "1": {
+          "$type": "color",
+          "$value": "#080e09",
+          "$extensions": {
+            "design.massive.oklch": "oklch(15.5% 0.016 149.1)"
+          }
+        },
+        "2": {
+          "$type": "color",
+          "$value": "#0c180f",
+          "$extensions": {
+            "design.massive.oklch": "oklch(19.5% 0.026 149.1)"
+          }
+        },
+        "3": {
+          "$type": "color",
+          "$value": "#102314",
+          "$extensions": {
+            "design.massive.oklch": "oklch(23.5% 0.039 149.1)"
+          }
+        },
+        "4": {
+          "$type": "color",
+          "$value": "#102e17",
+          "$extensions": {
+            "design.massive.oklch": "oklch(27.1% 0.055 149.1)"
+          }
+        },
+        "5": {
+          "$type": "color",
+          "$value": "#11431f",
+          "$extensions": {
+            "design.massive.oklch": "oklch(33.9% 0.080 149.1)"
+          }
+        },
+        "6": {
+          "$type": "color",
+          "$value": "#0c4f22",
+          "$extensions": {
+            "design.massive.oklch": "oklch(37.5% 0.098 149.1)"
+          }
+        },
+        "7": {
+          "$type": "color",
+          "$value": "#085c26",
+          "$extensions": {
+            "design.massive.oklch": "oklch(41.7% 0.113 149.1)"
+          }
+        },
+        "8": {
+          "$type": "color",
+          "$value": "#147534",
+          "$extensions": {
+            "design.massive.oklch": "oklch(49.4% 0.131 149.1)"
+          }
+        },
+        "9": {
+          "$type": "color",
+          "$value": "#20823e",
+          "$extensions": {
+            "design.massive.oklch": "oklch(53.5% 0.136 149.1)"
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "#569e65",
+          "$extensions": {
+            "design.massive.oklch": "oklch(63.8% 0.112 149.1)"
+          }
+        },
+        "11": {
+          "$type": "color",
+          "$value": "#9cd8a6",
+          "$extensions": {
+            "design.massive.oklch": "oklch(82.8% 0.092 149.1)"
+          }
+        },
+        "12": {
+          "$type": "color",
+          "$value": "#cef3d3",
+          "$extensions": {
+            "design.massive.oklch": "oklch(93.0% 0.058 149.1)"
+          }
+        }
+      }
+    }
+  }
+}

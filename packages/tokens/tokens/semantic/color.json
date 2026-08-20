@@ -1,0 +1,311 @@
+{
+  "color": {
+    "$description": "semantic 30개. 라이트/다크 전환은 오직 이 계층에서만 일어난다. 값은 반드시 {palette.*} 참조이고 리터럴은 금지다",
+    "bg": {
+      "canvas": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.2}",
+        "$description": "페이지 최하단 배경",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.1}"
+          }
+        }
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.1}",
+        "$description": "카드·패널 등 올라온 면. 라이트에서 canvas와 단계가 교차한다 — shadcn이 흰 카드를 전제로 그림자·테두리를 잡아놨다",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.2}"
+          }
+        }
+      },
+      "subtle": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.3}",
+        "$description": "2차 그룹핑 — 테이블 헤더, 사이드바 hover",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.3}"
+          }
+        }
+      },
+      "inset": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.3}",
+        "$description": "파묻힌 영역 — 코드블록, 입력 내부",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.3}"
+          }
+        }
+      },
+      "overlay": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.1}",
+        "$description": "다이얼로그·팝오버 면",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.3}"
+          }
+        }
+      },
+      "neutral": {
+        "soft": {
+          "$type": "color",
+          "$value": "{palette.neutral.light.3}",
+          "$description": "중립 뱃지·태그 배경",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.neutral.dark.3}"
+            }
+          }
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{palette.neutral.light.9}",
+          "$description": "중립 채움",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.neutral.dark.9}"
+            }
+          }
+        }
+      },
+      "accent": {
+        "soft": {
+          "$type": "color",
+          "$value": "{palette.brand.light.3}",
+          "$description": "연한 브랜드 배경",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.brand.dark.3}"
+            }
+          }
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{palette.brand.light.9}",
+          "$description": "브랜드 채움 — shadcn primary",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.brand.dark.9}"
+            }
+          }
+        }
+      },
+      "danger": {
+        "soft": {
+          "$type": "color",
+          "$value": "{palette.danger.light.3}",
+          "$description": "에러 배너",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.danger.dark.3}"
+            }
+          }
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{palette.danger.light.9}",
+          "$description": "destructive 채움",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.danger.dark.9}"
+            }
+          }
+        }
+      },
+      "success": {
+        "soft": {
+          "$type": "color",
+          "$value": "{palette.success.light.3}",
+          "$description": "연한 성공 배경",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.success.dark.3}"
+            }
+          }
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{palette.success.light.9}",
+          "$description": "성공 채움",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.success.dark.9}"
+            }
+          }
+        }
+      },
+      "inverse": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.12}",
+        "$description": "토스트·툴팁 반전 면",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.12}"
+          }
+        }
+      },
+      "scrim": {
+        "$type": "color",
+        "$value": "{palette.alpha.black.50}",
+        "$description": "모달 뒷배경 딤. bg.overlay는 팝오버 면이라 별개다"
+      }
+    },
+    "fg": {
+      "default": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.12}",
+        "$description": "본문 텍스트",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.12}"
+          }
+        }
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.10}",
+        "$description": "보조 텍스트·플레이스홀더. 11이 아니라 10 — 우리 램프에서 11과 12는 둘 다 고대비 영역이라 ΔCR이 2.43밖에 안 된다",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.10}"
+          }
+        }
+      },
+      "on-solid": {
+        "$type": "color",
+        "$value": "{palette.base.white}",
+        "$description": "모든 *.solid 배경 위 전경. 4패밀리 solid 위에서 CR 4.80~5.41로 단일 토큰이 성립한다"
+      },
+      "on-inverse": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.1}",
+        "$description": "bg.inverse 위 전경",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.1}"
+          }
+        }
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "{palette.brand.light.10}",
+        "$description": "브랜드 텍스트·아이콘",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.brand.dark.10}"
+          }
+        }
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{palette.danger.light.10}",
+        "$description": "에러 텍스트",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.danger.dark.10}"
+          }
+        }
+      },
+      "success": {
+        "$type": "color",
+        "$value": "{palette.success.light.10}",
+        "$description": "성공 텍스트",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.success.dark.10}"
+          }
+        }
+      },
+      "link": {
+        "$type": "color",
+        "$value": "{palette.brand.light.10}",
+        "$description": "링크. fg.accent와 값이 같지만 의미가 다르므로 합치지 않는다",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.brand.dark.10}"
+          }
+        }
+      }
+    },
+    "border": {
+      "default": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.6}",
+        "$description": "구분선·컨테이너 테두리. 다크는 알파 예외 — 다크 elevation의 절반을 보더가 떠맡는다",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.alpha.white.10}"
+          }
+        }
+      },
+      "field": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.7}",
+        "$description": "폼 필드 테두리",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.alpha.white.15}"
+          }
+        }
+      },
+      "strong": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.8}",
+        "$description": "인터랙티브 요소의 강한 테두리",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.8}"
+          }
+        }
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "{palette.brand.light.8}",
+        "$description": "브랜드 테두리",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.brand.dark.8}"
+          }
+        }
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "{palette.danger.light.8}",
+        "$description": "에러 필드 테두리",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.danger.dark.8}"
+          }
+        }
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{palette.brand.light.8}",
+        "$description": "포커스 링",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.brand.dark.8}"
+          }
+        }
+      }
+    },
+    "state": {
+      "layer": {
+        "$type": "color",
+        "$value": "{palette.base.black}",
+        "$description": "컴포넌트가 color-mix로 얹는 상태 레이어. Figma는 color-mix를 표현할 수 없어 상태 표현이 코드와 Figma에서 구조적으로 갈린다",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.base.white}"
+          }
+        }
+      }
+    }
+  }
+}

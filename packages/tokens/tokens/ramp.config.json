@@ -1,0 +1,47 @@
+{
+  "defaults": {
+    "steps": 12,
+    "lightnessAnchors": {
+      "light": [[0, 0.993], [5, 0.865], [11, 0.320]],
+      "dark":  [[0, 0.155], [2, 0.235], [5, 0.375], [11, 0.930]]
+    },
+    "lightnessEasing": "smoothstep",
+    "satPeakStep": 8,
+    "satPeak": 0.90,
+    "satSigma": 4.2,
+    "satBgEnd": 0.05,
+    "satTextEnd": 0.45,
+    "hueShift": [0, 0],
+    "dark": {
+      "backgroundL": 0.155,
+      "satBiasBg": 1.9,
+      "satBiasText": 0.60,
+      "anchorStep": 8
+    },
+    "textChromaCap": true,
+    "chromaRefCap": true,
+    "minStepDelta": 0.012,
+    "minLGapPerStep": 0.018,
+    "minTailGapPerStep": 0.055
+  },
+  "families": {
+    "brand": {
+      "key": "#0f5fed"
+    },
+    "neutral": {
+      "key": "#727272",
+      "params": {
+        "satPeak": 0,
+        "satBgEnd": 0,
+        "satTextEnd": 0
+      },
+      "_why": "순수 회색. brand hue 혼합 없음 — #6. satPeak 하나만 0으로 두면 벨 커브의 양 끝값(satBgEnd/satTextEnd)이 남아 꼬리에 색이 실린다. 세 개를 모두 0으로 두어야 전 단계 C=0이 된다"
+    },
+    "danger": {
+      "key": "#db2931"
+    },
+    "success": {
+      "key": "#20823e"
+    }
+  }
+}

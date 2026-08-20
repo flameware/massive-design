@@ -7,6 +7,14 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "scripts": {
+    "tokens:ramp": "node scripts/ramp.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "apca-w3": "^0.1.9",
+    "culori": "^4.0.1"
+  },
   "engines": {
     "node": ">=22"
   }

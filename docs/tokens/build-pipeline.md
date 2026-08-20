@@ -112,13 +112,15 @@ packages/tokens/                       # name: "@massive/tokens"
   "families": {
     "brand":   { "key": "#0f5fed" },
     "neutral": { "key": "#727272",
-                 "params": { "satPeak": 0 },
+                 "params": { "satPeak": 0, "satBgEnd": 0, "satTextEnd": 0 },
                  "_why": "순수 회색. brand hue 혼합 없음 — #6" },
     "danger":  { "key": "#db2931" },
     "success": { "key": "#20823e" }
   }
 }
 ```
+
+> **[#16](https://github.com/flameware/massive-design/issues/16) 정정**: neutral의 `satPeak: 0` 하나로는 순수 회색이 되지 않는다. 채도 벨 커브는 `endVal + (satPeak − endVal) × g` 이므로 peak만 0으로 두면 **양 끝값(`satBgEnd` 0.05 / `satTextEnd` 0.45)이 꼬리에 그대로 남아** 1·12단에 색이 실린다. 세 값을 모두 0으로 두어야 전 단계 C=0이 된다.
 
 **index 8(step 9)의 L은 앵커 상수가 아니라 키 컬러의 L이 보간 *전에* 심긴다**(#6 결함 (a)). `lightnessAnchors`에 index 8이 없는 건 누락이 아니다.
 

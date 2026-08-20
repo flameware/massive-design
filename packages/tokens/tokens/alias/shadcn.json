@@ -1,0 +1,43 @@
+{
+  "$description": "shadcn 정본 이름 → 우리 semantic. 순수하게 기계적인 매핑 테이블이고 어휘 상한 밖이다. 값이 문자열이면 semantic 토큰 경로, 객체({light,dark})면 palette를 모드별로 직접 가리킨다 — 후자는 chart 플레이스홀더뿐이다",
+
+  "background": "color.bg.canvas",
+  "foreground": "color.fg.default",
+  "card": "color.bg.surface",
+  "card-foreground": "color.fg.default",
+  "popover": "color.bg.overlay",
+  "popover-foreground": "color.fg.default",
+  "primary": "color.bg.accent.solid",
+  "primary-foreground": "color.fg.on-solid",
+  "secondary": "color.bg.neutral.soft",
+  "secondary-foreground": "color.fg.default",
+  "muted": "color.bg.subtle",
+  "muted-foreground": "color.fg.muted",
+  "accent": "color.bg.subtle",
+  "accent-foreground": "color.fg.default",
+  "destructive": "color.bg.danger.solid",
+  "destructive-foreground": "color.fg.on-solid",
+  "border": "color.border.default",
+  "input": "color.border.field",
+  "ring": "color.border.focus",
+
+  "chart-1": { "light": "palette.neutral.light.12", "dark": "palette.neutral.dark.12" },
+  "chart-2": { "light": "palette.neutral.light.10", "dark": "palette.neutral.dark.10" },
+  "chart-3": { "light": "palette.neutral.light.8",  "dark": "palette.neutral.dark.8" },
+  "chart-4": { "light": "palette.neutral.light.6",  "dark": "palette.neutral.dark.6" },
+  "chart-5": { "light": "palette.neutral.light.4",  "dark": "palette.neutral.dark.4" },
+
+  "sidebar": "color.bg.surface",
+  "sidebar-foreground": "color.fg.default",
+  "sidebar-primary": "color.bg.accent.solid",
+  "sidebar-primary-foreground": "color.fg.on-solid",
+  "sidebar-accent": "color.bg.subtle",
+  "sidebar-accent-foreground": "color.fg.default",
+  "sidebar-border": "color.border.default",
+  "sidebar-ring": "color.border.focus",
+
+  "success": "color.bg.success.solid",
+  "success-foreground": "color.fg.on-solid",
+
+  "radius": "{radius.base}"
+}
