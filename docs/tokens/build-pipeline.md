@@ -312,13 +312,15 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 | 출력 | stdout 표 (`--report` 시 파일) |
 | 판정 | **WCAG 2 AA가 게이트, APCA는 병기**(#6 확정) |
 
-- 텍스트 42조합 ≥ **4.5** (현재 최저 4.80)
-- 비텍스트 6조합 ≥ **3:1** (현재 최저 3.04)
+- 텍스트 64조합 ≥ **4.5** (현재 최저 4.80)
+- 비텍스트 40조합 ≥ **3:1** (현재 최저 3.08)
 - 두 모드 전부. 실패 시 exit 1
 
 > **[#17](https://github.com/flameware/massive-design/issues/17) 구현**: 조합 목록은 #7 코멘트에 있던 것이 아니라 `scripts/contrast.mjs`가 명시 열거한다. **비텍스트 6조합은 그대로 재현된다**(인터랙티브 테두리 3종 × 2모드, 최저 3.04 — dark `border.focus` on `bg.canvas`). **텍스트는 64조합으로 늘었고**(#7의 42는 목록이 남아 있지 않아 복원할 수 없었다) 전부 통과하며 최저값이 4.80 — `fg.on-solid` on `bg.danger.solid` — 로 문서와 정확히 일치한다.
 >
-> ⚠️ **새로 드러난 것**: 다크 `border.focus`·`border.accent`가 **`bg.surface` 위에서 2.84**로 3:1을 못 넘는다. #7의 6조합이 캔버스 위만 봤기 때문에 가려져 있었다. 카드 위 포커스 링은 shadcn이 실제로 그리는 화면이다. 게이트로 올리는 것은 값을 바꾸는 결정이라 표에 `참고`로만 싣고 [#33](https://github.com/flameware/massive-design/issues/33)으로 넘겼다.
+> **[#33](https://github.com/flameware/massive-design/issues/33) 확대**: 위의 "비텍스트 6조합"은 **전부 `bg.canvas` 위**만 봤다. 나머지 면까지 재자 다크 `bg.subtle`·`bg.inset`·`bg.overlay`(전부 `#1e1e1e`) 위에서 인터랙티브 테두리 4종이 전부 3:1 아래였고, 그중 `bg.overlay`는 다이얼로그·팝오버가 실제로 쓰는 면이다. 게이트는 **4종 × 5면 × 2모드 = 40조합**이 됐고, `border.strong`·`accent`·`danger`·`focus`가 팔레트 8단 → 9단으로 올라가 전부 통과한다(최저 3.08). 자세한 것은 [`semantic-tokens.md` §8.1](semantic-tokens.md).
+>
+> ⚠️ **이 게이트가 재는 것은 토큰 원색이다.** `scripts/contrast.mjs`는 `packages/tokens` 안에 살아 `packages/ui`를 볼 수 없으므로, 컴포넌트가 토큰 색을 불투명도로 깎으면(shadcn 원본의 `ring-ring/50`) 화면에서 3:1이 깨져도 초록으로 통과한다. 규약이 대신 막는다 — **상태 테두리는 토큰을 불투명도 없이 칠한다**([`semantic-tokens.md` §8.2](semantic-tokens.md)).
 
 APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고, 소비처의 접근성 요구가 실제로 걸리는 기준은 AA다. 병기는 나중에 게이트를 옮길 때의 기준선 데이터다.
 
