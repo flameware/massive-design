@@ -252,6 +252,8 @@ Tailwind v4의 **기하(offset/blur/spread)는 그대로 두고 알파만 우리
 
 **신규 어휘**: **0개.** 이름은 전부 Tailwind 정본이다.
 
+> **[#17](https://github.com/flameware/massive-design/issues/17) 정정**: 이 집계에 **`--font-sans`가 빠져 있다.** `type.family.sans`는 `noCss` 표식이 없고 Pretendard 스택은 Tailwind 기본 sans와 다르므로 CSS로 나가는 override가 맞다. **CSS override 합계는 26이 아니라 27**이다. `--spacing`·`--ease-*`는 값이 기본과 같아 집계 밖인데, 그중 `--spacing`만 출력한다 — 우리 파일이 shadcn `globals.css`를 통째로 대신하므로 배수의 기준값이 이 파일 안에 보이는 편이 낫다. `--ease-*`는 출력하지 않는다.
+
 ---
 
 ## 8. 검산

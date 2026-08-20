@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "check": "bun run --filter '*' check",
+    "test": "bun run --filter '*' test"
+  },
   "workspaces": [
     "packages/*",
     "apps/*"

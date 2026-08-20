@@ -260,6 +260,12 @@ packages/tokens/                       # name: "@massive/tokens"
 - **`.dark`는 semantic만 재선언한다.** palette와 shadcn raw는 재선언하지 않는다 — 체인이 semantic 지점에서 갈리므로 아래는 자동으로 따라온다
 - shadcn 34개를 `:root`에 **raw로** 내는 건 필수다. `style-nova.css`가 `color-mix(in oklch, var(--secondary), …)`로 `@theme`를 우회해 직접 읽는다(#5)
 
+> **[#17](https://github.com/flameware/massive-design/issues/17) 구현 시 확정된 세 가지**
+>
+> 1. **palette 값은 hex로 낸다.** [semantic-tokens.md §7](semantic-tokens.md)의 출력 예시는 `oklch()`로 적혀 있으나 우리 램프는 전 단계가 이미 sRGB 감마 안으로 정리돼 있어(§4.3 A3) 두 표기가 정확히 같은 색이다. 토큰 원본의 `$value`가 hex이므로 hex를 그대로 내보내는 쪽이 변환 단계를 하나 없앤다.
+> 2. **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로 함께 재선언해야 한다([#16](https://github.com/flameware/massive-design/issues/16)에서 예고됨).
+> 3. **`--font-sans`가 `@theme inline`에 나간다.** [scale-tokens.md §7](scale-tokens.md)의 "CSS override 26개" 집계에 이 항목이 없다 — 집계의 누락이다. `type.family.sans`는 `noCss` 표식이 없고, Pretendard 스택은 Tailwind 기본 sans와 다르다.
+
 `dist/tokens.d.ts`:
 ```ts
 export type SemanticColorToken = 'bg.canvas' | 'bg.surface' | … ;   // 30
@@ -269,6 +275,8 @@ export declare const cssVar: Record<SemanticColorToken, string>;      // 'bg.can
 export declare const palette: Record<PaletteToken, string>;           // hex. 모드가 이름에 있어 모호하지 않다
 ```
 **semantic의 값은 타입으로 내보내지 않는다** — 모드 의존이라 런타임 CSS만이 정답을 안다.
+
+> ⚠️ **[#17](https://github.com/flameware/massive-design/issues/17)**: `declare const`에 짝이 되는 `.js`가 없다. 이 파일은 타입과 이름 목록만 준다 — `palette`/`cssVar`를 런타임에 `import`하면 없는 모듈을 찾는다. 지금 소비처는 CSS 변수를 읽으므로 그 자리가 없고, 필요해지면 출력물 4번째가 하나 는다.
 
 ### 4.3 `tokens:lint` — 3개 규칙군
 
@@ -308,11 +316,17 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 - 비텍스트 6조합 ≥ **3:1** (현재 최저 3.04)
 - 두 모드 전부. 실패 시 exit 1
 
+> **[#17](https://github.com/flameware/massive-design/issues/17) 구현**: 조합 목록은 #7 코멘트에 있던 것이 아니라 `scripts/contrast.mjs`가 명시 열거한다. **비텍스트 6조합은 그대로 재현된다**(인터랙티브 테두리 3종 × 2모드, 최저 3.04 — dark `border.focus` on `bg.canvas`). **텍스트는 64조합으로 늘었고**(#7의 42는 목록이 남아 있지 않아 복원할 수 없었다) 전부 통과하며 최저값이 4.80 — `fg.on-solid` on `bg.danger.solid` — 로 문서와 정확히 일치한다.
+>
+> ⚠️ **새로 드러난 것**: 다크 `border.focus`·`border.accent`가 **`bg.surface` 위에서 2.84**로 3:1을 못 넘는다. #7의 6조합이 캔버스 위만 봤기 때문에 가려져 있었다. 카드 위 포커스 링은 shadcn이 실제로 그리는 화면이다. 게이트로 올리는 것은 값을 바꾸는 결정이라 표에 `참고`로만 싣고 [#33](https://github.com/flameware/massive-design/issues/33)으로 넘겼다.
+
 APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고, 소비처의 접근성 요구가 실제로 걸리는 기준은 AA다. 병기는 나중에 게이트를 옮길 때의 기준선 데이터다.
 
 ### 4.5 `tokens:verify`
 
 `tokens:ramp` + `tokens:build`를 임시 디렉터리에 재실행하고 커밋된 산출물과 비교한다. 다르면 exit 1 + 어느 파일인지 출력. **생성물 커밋(§2)이 성립하려면 이게 있어야 한다.**
+
+> **[#17](https://github.com/flameware/massive-design/issues/17) 구현**: 임시 디렉터리를 쓰지 않고 **메모리에서 렌더해 비교한다.** 같은 판정을 더 적은 움직이는 부품으로 내고 뒷정리 실패 경로가 없다. 대신 임시 디렉터리 방식이 놓치는 것 — **`dist/`에 남은 유령 파일** — 을 따로 검사한다. 이름이 바뀐 뒤 남은 옛 산출물은 여전히 배포에 실리기 때문이다.
 
 ---
 
@@ -336,6 +350,13 @@ APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고,
 - 빌드가 각 파일을 **50,000자**(`code` 파라미터 상한, #4) 안으로 유지한다. 넘으면 `02a`/`02b`로 쪼개고, 상한 초과가 런타임이 아니라 **빌드 타임에** 드러난다
 - 모든 파일은 **멱등**하게 쓴다 — 이름으로 조회해 있으면 갱신, 없으면 생성(#4 샘플의 `upsert` 패턴). 재주입이 중복을 만들면 안 된다
 - 단계마다 별도 호출로 쪼개는 진짜 이유는 성능이 아니라 **실패 시 재실행 범위를 좁히기 위해서**다(#4)
+
+> **[#17](https://github.com/flameware/massive-design/issues/17) 구현**
+>
+> - 조사 뼈대(#4)는 01이 돌려준 컬렉션 ID를 다음 단계에 **문자열 리터럴로 박으라**고 적었다. 정적 산출물에는 그 길이 없다 — 빌드 시점에 알 수 없는 값이다. **모든 파일이 컬렉션·모드를 이름으로 다시 조회한다.** 이름 조회는 어차피 멱등성의 근간이라 층이 느는 게 아니라 같은 층을 재사용한다.
+> - `duration/*` 3개는 대응하는 `VariableScope`가 없다. `ALL_SCOPES`가 금지이므로 **`scopes: []`로 둔다** — 값은 살아 있고 피커에만 안 뜬다.
+> - 실측 크기: 01 2.1KB · 02 10.8KB · 03 6.1KB · 04 5.7KB · 05 2.4KB · 06 2.1KB. **50,000자까지 여유가 4배 이상**이라 쪼갤 필요가 없다.
+> - 6단계를 **가짜 Figma 위에서 두 번 돌리는 테스트**가 있다(`test/figma-inject.test.mjs`). 중복 변수명 throw와 첫 `fontFamily` 바인딩 throw만 진짜처럼 구는 스텁이다. 통과가 Figma에서의 성공을 보장하진 않지만, 실패는 확실히 실패를 뜻한다.
 
 주입 절차 자체는 #10이 실제로 관통시킨 뒤 `docs/agents/`에 적는다.
 

@@ -295,10 +295,34 @@ export function generate(config) {
   return { palette, issues }
 }
 
-function main() {
-  const configText = readFileSync(join(ROOT, CONFIG_PATH), 'utf8')
+/**
+ * config 원문 → `color.gen.json` 파일 내용. lint 이슈를 함께 돌려준다.
+ * 파일로 쓰지 않는다 — `tokens:verify`가 같은 함수로 메모리 비교를 한다.
+ */
+export function renderGenDoc(configText) {
   const config = JSON.parse(configText)
   const { palette, issues } = generate(config)
+  const doc = {
+    $extensions: {
+      'design.massive.source': {
+        generator: 'scripts/ramp.mjs',
+        config: CONFIG_PATH,
+        // config가 바뀌는 시점과 값이 바뀌는 시점이 정확히 같다
+        configHash: `sha256:${createHash('sha256').update(configText).digest('hex')}`,
+      },
+    },
+    palette,
+  }
+  return { content: `${JSON.stringify(doc, null, 2)}\n`, issues, palette }
+}
+
+export const CONFIG_FILE = CONFIG_PATH
+export const GEN_FILE = OUT_PATH
+export const configPath = (root = ROOT) => join(root, CONFIG_PATH)
+
+function main() {
+  const configText = readFileSync(join(ROOT, CONFIG_PATH), 'utf8')
+  const { content, issues, palette } = renderGenDoc(configText)
 
   for (const i of issues) console.error(`${i.level === 'error' ? '✗' : '⚠'} ${i.msg}`)
   if (issues.some((i) => i.level === 'error')) {
@@ -306,19 +330,9 @@ function main() {
     process.exit(1)
   }
 
-  const doc = {
-    $extensions: {
-      'design.massive.source': {
-        generator: 'scripts/ramp.mjs',
-        config: CONFIG_PATH,
-        configHash: `sha256:${createHash('sha256').update(configText).digest('hex')}`,
-      },
-    },
-    palette,
-  }
   const out = join(ROOT, OUT_PATH)
   mkdirSync(dirname(out), { recursive: true })
-  writeFileSync(out, `${JSON.stringify(doc, null, 2)}\n`)
+  writeFileSync(out, content)
   const count = Object.values(palette).reduce(
     (n, f) => n + Object.values(f).reduce((m, r) => m + Object.keys(r).length, 0), 0,
   )

@@ -9,6 +9,11 @@
   },
   "scripts": {
     "tokens:ramp": "node scripts/ramp.mjs",
+    "tokens:build": "node scripts/build.mjs",
+    "tokens:lint": "node scripts/lint.mjs",
+    "tokens:contrast": "node scripts/contrast.mjs",
+    "tokens:verify": "node scripts/verify.mjs",
+    "check": "node scripts/lint.mjs && node scripts/contrast.mjs && node scripts/verify.mjs",
     "test": "node --test"
   },
   "dependencies": {

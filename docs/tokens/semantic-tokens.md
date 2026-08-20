@@ -204,6 +204,11 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 
 `.dark`에서 재선언하는 건 **semantic 30줄뿐**이다. shadcn 층과 palette 층은 건드리지 않는다.
 
+> **[#17](https://github.com/flameware/massive-design/issues/17) 정정 두 가지**
+>
+> - 위 예시의 `--ds-palette-*`는 `oklch()`로 적혀 있으나 **실제 출력은 hex다.** 램프는 전 단계가 이미 sRGB 감마 안으로 정리돼 있어 두 표기가 같은 색이고, 토큰 원본의 `$value`가 hex다.
+> - **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로(§7.2 플레이스홀더) 함께 재선언해야 한다.
+
 ### 매핑
 
 | shadcn | 우리 semantic | 비고 |
@@ -267,6 +272,8 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 - `fg.on-solid`는 4패밀리 solid 위에서 4.80~5.41 — **단일 토큰으로 유지된다.** 순백 리터럴을 쓴다 (`neutral.1`을 쓰면 danger에서 4.72까지 떨어져 여유가 얇다). `color.state.layer`가 어차피 흑/백 리터럴을 요구하므로 추가 비용이 없다
 
 다크 보더는 알파 합성이라 대비값이 낮다(`border.default` 1.31 / `border.field` 1.56 on `bg.surface`). 이건 shadcn 정본과 같은 성질이고, 보더는 비텍스트 3:1 요건 대상이 아니다(요건은 "상태를 나타내는 UI 컴포넌트"에 걸린다).
+
+> ⚠️ **[#17](https://github.com/flameware/massive-design/issues/17)이 연 구멍**: 비텍스트 6조합은 **전부 `bg.canvas` 위**만 본다. 같은 테두리를 `bg.surface` 위에 놓으면 다크 `border.focus`·`border.accent`가 **2.84**로 3:1 아래로 내려간다(둘 다 brand dark 8). 카드 위의 포커스 링은 shadcn이 실제로 그리는 화면이다 — [#33](https://github.com/flameware/massive-design/issues/33)에서 정한다. 그때까지 `tokens:contrast`는 이 조합들을 `참고` 행으로만 싣는다.
 
 ## 9. 다음 티켓으로 넘기는 것
 

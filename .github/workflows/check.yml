@@ -1,0 +1,22 @@
+# tokens 파이프라인 게이트. 순서는 lint → contrast → verify이고 그 순서는
+# packages/tokens의 `check`가 쥐고 있다 — 원본을 검사하는 것이 먼저 실패해야
+# 원인이 명확하다(docs/tokens/build-pipeline.md §7).
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22   # 설치는 bun, 빌드 런타임은 node (ADR-0001)
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run test
