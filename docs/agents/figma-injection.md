@@ -12,6 +12,7 @@
 
 - **`use_figma`를 부르기 전에 `/figma-use` 스킬을 읽는다.** 예외 없음.
 - 첫 호출은 **읽기 전용 조사**로 시작한다 — 컬렉션·스타일·페이지·`documentColorProfile`. 파일이 예상 상태인지 확인하고 들어간다.
+- **파일을 열었으면 01~06을 먼저 통째로 다시 돌린다.** 토큰이 바뀌었는지 따지지 않는다 — 전체 재실행이 멱등이고 144ms라(§1) 확인 비용이 실행 비용보다 비싸다. 이 규칙이 없으면 "코드 토큰이 바뀐 걸 다음 Figma 세션이 기억해야 한다"가 되는데, 그건 사람에게 맡길 수 없는 종류의 상태다. 변수에는 컴포넌트의 `description` 해시([`figma-components.md`](figma-components.md) §3) 같은 낡음 표식이 없다는 점이 이 규칙의 근거다.
 - 스킬 번들의 `variable-patterns.md`가 *"Not bindable: fontSize, fontWeight, lineHeight"* 라고 적은 것은 **틀렸다**(#4). TextStyle은 `VariableBindableTextField`로 전부 바인딩된다.
 
 ## 1. 실행 순서 — 파일명 번호가 곧 순서
