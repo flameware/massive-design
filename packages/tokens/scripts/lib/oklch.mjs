@@ -28,7 +28,14 @@ export function oklchToHex({ l, c, h }) {
 }
 
 export function formatOklch({ l, c, h }) {
-  return `oklch(${(l * 100).toFixed(1)}% ${c.toFixed(3)} ${h.toFixed(1)})`
+  const chroma = c.toFixed(3)
+  /* C가 0으로 반올림되면 hue는 정의되지 않는다. 그 자리에 찍히던 값은 거의 0인
+   * 두 수의 atan2가 낸 노이즈라 **node 버전이 바뀌면 같이 바뀐다** — ECMAScript가
+   * 초월함수 구현을 명세하지 않기 때문이다. 생성물을 커밋해 verify로 지키는 이
+   * 파이프라인에서 그건 곧 "생성한 런타임에서만 통과하는 산출물"이 된다(실제로
+   * node 24로 생성한 color.gen.json이 CI의 node 22에서 3칸 어긋났다). */
+  const hue = chroma === '0.000' ? 0 : h
+  return `oklch(${(l * 100).toFixed(1)}% ${chroma} ${hue.toFixed(1)})`
 }
 
 /** 주어진 (L, H)에서 sRGB 안에 담기는 최대 chroma. 24회 이분탐색(≈3e-8). */
