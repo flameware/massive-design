@@ -45,8 +45,15 @@ const buttonVariantsConfig = {
       // base 없음 — state layer가 곧 반투명 층이 된다
       ghost: "state",
       // link만 state가 없다 — 면이 없는 variant라 층을 얹을 바탕이 없다.
-      // 상태는 밑줄이 표현한다
-      link: "text-primary underline-offset-4 hover:underline",
+      // 상태는 밑줄이 표현한다.
+      //
+      // text-primary가 아니라 text-link다(#37). --primary는 bg.accent.solid
+      // (램프 9단, 배경용)라 다크 canvas 위에서 CR 3.61 — 본문 게이트 4.5를 못
+      // 넘었다. --link는 fg.link(램프 10단)로 5.68이다. shadcn 정본에 링크색
+      // 이름이 없어서 생긴 결함이다: alias 표가 배경 중심이라 유채색 텍스트
+      // 토큰 4개(fg.accent·danger·success·link)에 shadcn 이름이 하나도 없었고,
+      // 브랜드색 글자를 칠할 유틸리티가 text-primary밖에 없었다
+      link: "text-link underline-offset-4 hover:underline",
     },
     size: {
       default: "h-9 px-4 py-2 has-[>svg]:px-3",

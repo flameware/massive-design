@@ -56,13 +56,13 @@ export function emitCss({ tokens, gen, literal, semantic, scale, shadcn }) {
     out.push(line(dsVar(path), `var(${dsVar(ref(token.$value))})`))
   }
 
-  out.push('', '  /* shadcn raw 34 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).')
+  out.push('', '  /* shadcn raw 35 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).')
   out.push('     .dark가 한 벌 더 선언한다 — 여기서 치환이 끝나기 때문 (#35) */')
   for (const [name, value] of shadcnColors) out.push(line(`--${name}`, shadcnRef(value, 'light')))
   out.push(line('--radius', tokens.get('radius.base').$value))
   out.push('}', '')
 
-  // semantic 30 + shadcn raw 34. **alias도 통째로 다시 선언한다** — 커스텀
+  // semantic 30 + shadcn raw 35. **alias도 통째로 다시 선언한다** — 커스텀
   // 속성은 선언된 그 요소에서 치환되므로, :root의 `--background: var(--ds-bg-canvas)`
   // 는 :root에서 라이트로 확정되고 자손은 그 확정된 값을 상속한다. 중첩 서브트리의
   // .dark가 --ds-*만 덮으면 alias는 라이트에 남고, --ds-*를 직접 읽는 state layer만

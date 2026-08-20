@@ -18,7 +18,15 @@ import { deltaEOK, oklchToHex, toOklch } from './lib/oklch.mjs'
 import { flatten, isRef, refPath, valueFor } from './lib/resolve.mjs'
 import { resolveOverrides, resolveParams } from './ramp.mjs'
 
-/** shadcn 정본 34개. alias 파일에서 파생하지 않는다 — 그러면 자기 자신을 검사한다. */
+/**
+ * alias 표가 반드시 내야 하는 이름 35개. alias 파일에서 파생하지 않는다 —
+ * 그러면 자기 자신을 검사한다.
+ *
+ * ⚠️ 이름이 "정본"이지만 전부 정본은 아니다: `success`·`success-foreground`·
+ * `link` 셋은 shadcn에 없는 우리 추가분이다(#37). 그래도 여기 있는 이유는
+ * 이 목록이 "shadcn이 정한 것"이 아니라 **"컴포넌트가 집을 수 있는 이름의
+ * 전량"**이기 때문이다 — 빠지면 `text-link` 같은 유틸리티가 조용히 무효가 된다.
+ */
 const SHADCN_CANON = [
   'background', 'foreground', 'card', 'card-foreground', 'popover', 'popover-foreground',
   'primary', 'primary-foreground', 'secondary', 'secondary-foreground',
@@ -28,6 +36,7 @@ const SHADCN_CANON = [
   'sidebar', 'sidebar-foreground', 'sidebar-primary', 'sidebar-primary-foreground',
   'sidebar-accent', 'sidebar-accent-foreground', 'sidebar-border', 'sidebar-ring',
   'success', 'success-foreground',
+  'link',
 ]
 
 const MODES = ['light', 'dark']
@@ -147,7 +156,7 @@ export function lintCss(source, err) {
     if (named('text').has(name)) err(`C12 --color-${name} 과 --text-${name} 이 충돌한다`)
   }
 
-  // 13. shadcn 정본 34개가 :root에 전부 존재
+  // 13. alias 표의 이름 35개가 :root에 전부 존재
   const root = css.match(/:root\s*\{([\s\S]*?)\n\}/)?.[1] ?? ''
   for (const name of SHADCN_CANON) {
     if (!new RegExp(`^\\s*--${name}\\s*:`, 'm').test(root)) err(`C13 :root에 --${name}이 없다`)
