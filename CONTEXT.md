@@ -19,7 +19,8 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 ## 상태 표현
 
-- **state layer** — 상태 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. **상태 색 토큰은 0개다.** Figma는 이걸 표현하지 못한다.
+- **state layer** — 상태 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. **상태 색 토큰은 0개다.** Figma에는 `color-mix`가 없어 **오버레이 fill로 근사한다** — 같은 두 변수를 fill 두 겹으로 쌓는다. 합성 공간이 달라(코드 oklab / Figma sRGB) 결과가 정확히 같지는 않다.
+- **상태 견본(state sample)** — 상태를 Figma에 보여주는 단위. **컴포넌트 세트의 축이 아니다** — 축으로 두면 조합 수에 곱해지고, 정적 시안을 조립하는 데는 쓰이지 않는다. 컴포넌트마다 한 장씩 매니페스트에서 생성되는 프레임이다.
 
 ## 출력과 주입
 
