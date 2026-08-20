@@ -48,7 +48,7 @@ wayfinder는 기본적으로 **결정만 내리고 실행은 인계하는** 도�
 
 | 항목 | 어디를 볼 것 |
 |---|---|
-| semantic 토큰 어휘 30개 · shadcn alias 34개 매핑 | [`docs/tokens/semantic-tokens.md`](../tokens/semantic-tokens.md) |
+| semantic 토큰 어휘 30개 · alias 35개 매핑 | [`docs/tokens/semantic-tokens.md`](../tokens/semantic-tokens.md) |
 | 비색상 스케일 (space·typography·radius·shadow) | [`docs/tokens/scale-tokens.md`](../tokens/scale-tokens.md) |
 | 빌드 파이프라인 · 생성물 커밋 규약 | [`docs/tokens/build-pipeline.md`](../tokens/build-pipeline.md) |
 | Figma 주입 절차 · 멱등 패턴 · 함정 | [`docs/agents/figma-injection.md`](../agents/figma-injection.md) |
@@ -56,19 +56,20 @@ wayfinder는 기본적으로 **결정만 내리고 실행은 인계하는** 도�
 핵심만 추리면:
 
 - **component 계층 토큰은 0개**이고, 규칙만 있다: **"component는 semantic만 참조한다."** primitive를 직접 집는 컴포넌트는 규칙 위반이다. 실제 component 토큰을 정의할지 말지는 다음 맵이 정한다 — 이전 맵은 "컴포넌트 없이 만들면 공상"이라 규칙만 남겼다
-- **primitive는 Tailwind `@theme`에 등록되지 않는다.** `bg-brand-500` 같은 유틸리티는 존재하지 않는다. 컴포넌트가 쓸 수 있는 색은 shadcn 이름(`bg-primary` 등)뿐이다
+- **primitive는 Tailwind `@theme`에 등록되지 않는다.** `bg-brand-500` 같은 유틸리티는 존재하지 않는다. 컴포넌트가 쓸 수 있는 색은 alias 표에 있는 이름(`bg-primary` 등)뿐이다
+  - ⚠️ **그래서 alias 표에 없는 semantic 토큰은 컴포넌트가 집을 방법이 아예 없다.** 이 표는 **배경 중심**이라 `*-foreground`가 전부 "짝이 되는 면 위의 전경"이고, 면과 짝지어지지 않은 유채색 텍스트 토큰(`fg.accent`·`fg.danger`·`fg.success`·`fg.link`)에는 이름이 하나도 없었다. 그 결과 Button `link`가 브랜드색 글자를 칠하려고 `text-primary`(=`bg.accent.solid`, 램프 9단 **배경색**)를 집어 다크에서 CR 3.61이 됐다 → [#37](https://github.com/flameware/massive-design/issues/37)이 `--link`를 열었고 나머지 셋은 **아직 유틸리티가 없다.** 새 컴포넌트가 유채색 글자를 원하면 alias 표에 이름을 먼저 연다 — 있는 이름 중에 가장 비슷한 걸 집으면 안 된다
 - **상태 색 토큰은 0개.** hover/pressed/disabled는 M3식 **state layer**로 만든다 — `color.state.layer` 위에 `state.hover.opacity`(0.08) / `pressed`(0.12) / `disabled`(0.5)를 `color-mix`로 얹는다
 - **알파 램프는 없다.** 리터럴 primitive 3개(`alpha.white.10/.15`, `alpha.black.50`)뿐
 
 ### 2.2 출력물을 소비하는 방법
 
-`@massive/tokens`가 `dist/tokens.css`를 낸다. 이 파일이 shadcn의 `globals.css`를 **통째로 대신한다** — 변수 34개뿐 아니라 **`@layer base`의 두 규칙까지** 낸다.
+`@massive/tokens`가 `dist/tokens.css`를 낸다. 이 파일이 shadcn의 `globals.css`를 **통째로 대신한다** — 변수 35개뿐 아니라 **`@layer base`의 두 규칙까지** 낸다.
 
 - **한때 변수만 냈고 그게 [#36](https://github.com/flameware/massive-design/issues/36)의 결함이었다.** 정본의 마지막 블록은 변수가 아니라 규칙이라 "변수 34개를 전부 낸다"는 점검을 통과했다. `* { border-color; outline-color }`가 없으면 `border` 유틸리티가 `currentColor`로 그려지고(라이트에선 진한 테두리처럼 보여 눈에 안 띈다), `body { background-color; color }`가 없으면 다크에서 UA 기본 검정 글자가 된다
 
 - `@import "tailwindcss";` **뒤에** import 한다
 - `@theme inline`이 **필수**다. 그냥 `@theme`는 중첩 `.dark` 서브트리를 조용히 깨뜨린다(빌드 diff로 실증됨)
-- **`.dark`는 문서 루트든 중첩 서브트리든 어디에 붙어도 된다.** `<div class="dark">` 하나로 그 안쪽만 다크가 되므로, 라이트·다크를 한 화면에 나란히 놓을 수 있다. `dist/tokens.css`의 `.dark`가 semantic 30 + **shadcn alias 34**를 함께 재선언해 이걸 지탱한다 — alias를 빼면 `--ds-*`만 뒤집히고 alias는 라이트에 남는다(브라우저 실측: 중첩 `.dark`에서 `--ds-bg-canvas`는 `#0c0c0c`인데 `--background`는 `#f8f8f8`). 이 문서는 한때 "`.dark`는 semantic만 재선언한다"고 적었고 그게 [#35](https://github.com/flameware/massive-design/issues/35)의 결함이었다
+- **`.dark`는 문서 루트든 중첩 서브트리든 어디에 붙어도 된다.** `<div class="dark">` 하나로 그 안쪽만 다크가 되므로, 라이트·다크를 한 화면에 나란히 놓을 수 있다. `dist/tokens.css`의 `.dark`가 semantic 30 + **alias 35**를 함께 재선언해 이걸 지탱한다 — alias를 빼면 `--ds-*`만 뒤집히고 alias는 라이트에 남는다(브라우저 실측: 중첩 `.dark`에서 `--ds-bg-canvas`는 `#0c0c0c`인데 `--background`는 `#f8f8f8`). 이 문서는 한때 "`.dark`는 semantic만 재선언한다"고 적었고 그게 [#35](https://github.com/flameware/massive-design/issues/35)의 결함이었다
 - **반대 방향은 없다** — `.dark` 안쪽을 다시 라이트로 되돌리는 `.light`는 없다. 나란히 놓을 때 바깥이 라이트여야 한다
 - 모노리포 안에서는 복사가 아니라 **패키지 경로로 import** 한다: `@massive/tokens/dist/tokens.css`
 - 리포 밖 소비처(invest diary)만 여전히 파일을 복사해 간다

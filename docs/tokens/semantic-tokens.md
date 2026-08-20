@@ -193,7 +193,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 
 .dark {
   --ds-bg-canvas: var(--ds-palette-neutral-dark-1);
-  /* … semantic만 재선언. shadcn 층은 semantic을 가리키므로 자동으로 따라온다 */
+  /* … semantic 30 + alias 35를 **통째로** 재선언한다 (#35) */
 }
 
 @theme inline {
@@ -202,12 +202,14 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 }
 ```
 
-`.dark`에서 재선언하는 건 **semantic 30줄뿐**이다. shadcn 층과 palette 층은 건드리지 않는다.
+`.dark`에서 재선언하는 건 **semantic 30 + alias 35 = 65줄**이다. palette 층은 건드리지 않는다.
 
-> **[#17](https://github.com/flameware/massive-design/issues/17) 정정 두 가지**
+> **정정 이력** — 이 숫자는 세 번 고쳐졌다. 고쳐진 방향이 매번 "더 많이"였다는 게 요점이다.
 >
-> - 위 예시의 `--ds-palette-*`는 `oklch()`로 적혀 있으나 **실제 출력은 hex다.** 램프는 전 단계가 이미 sRGB 감마 안으로 정리돼 있어 두 표기가 같은 색이고, 토큰 원본의 `$value`가 hex다.
-> - **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로(§7.2 플레이스홀더) 함께 재선언해야 한다.
+> - 위 예시의 `--ds-palette-*`는 `oklch()`로 적혀 있으나 **실제 출력은 hex다**([#17](https://github.com/flameware/massive-design/issues/17)). 램프는 전 단계가 이미 sRGB 감마 안으로 정리돼 있어 두 표기가 같은 색이고, 토큰 원본의 `$value`가 hex다.
+> - ~~30줄~~ → **35줄**([#17](https://github.com/flameware/massive-design/issues/17)): `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로(§7.2 플레이스홀더) 함께 재선언해야 한다.
+> - ~~35줄~~ → **64줄**([#35](https://github.com/flameware/massive-design/issues/35)): `chart` 5개만 특별 취급한 것이 결함의 자리였다. 커스텀 속성은 **선언된 그 요소에서 치환이 끝나므로**, `:root`의 `--background: var(--ds-bg-canvas)`는 `:root`에서 라이트로 확정되고 자손은 그 확정된 값을 상속한다. 중첩 `.dark`가 `--ds-*`만 덮으면 alias 34개는 라이트에 남는다 → **alias를 통째로 재선언한다.**
+> - ~~64줄~~ → **65줄**([#37](https://github.com/flameware/massive-design/issues/37)): alias에 `--link`가 늘었다(§7.3).
 
 ### 매핑
 
@@ -243,6 +245,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 | `--sidebar-ring` | `border.focus` | |
 | `--success` | `bg.success.solid` | **shadcn 관례 위의 확장** (§7.1) |
 | `--success-foreground` | `fg.on-solid` | 확장 |
+| `--link` | `fg.link` | **확장** (§7.3). 이 표에서 유일하게 `*-foreground` 없이 홀로 서는 전경색이다 |
 | `--radius` | `0.625rem` | 곱셈 7단 파생은 shadcn CLI 규약 그대로 |
 
 **`--sidebar-background`는 출력하지 않는다.** v3 잔재이고 shadcn CLI에 `--color-sidebar-background` → `--color-sidebar` 마이그레이션 코드가 있다. invest diary에 남은 참조를 `--sidebar`로 바꾸는 작업이 1회 필요하다.
@@ -262,6 +265,20 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 무채색 neutral 램프 5단계로 채우고 **"시각화 팔레트는 이 맵 밖"이라고 선언한다.** shadcn 정본 neutral 테마도 무채색 플레이스홀더를 넣어두고 테마가 덮어쓰게 한다.
 
 이유: 4패밀리(brand/neutral/danger/success)에서 **범주형 5색을 뽑는 건 원래 잘 안 된다.** danger/success를 차트 시리즈로 쓰면 "빨강=나쁨 / 초록=좋음"이 데이터에 잘못 실린다. invest diary는 손익 색을 자기가 소유한다(ADR-0008). 여기서 어설픈 5색을 확정하면 그게 굳는다.
+
+### 7.3 link 확장 — 그리고 이 표가 배경 중심이라는 사실
+
+[#37](https://github.com/flameware/massive-design/issues/37)이 Button `link` variant에서 `color → var(--primary) → bg.accent.solid`를 발견했다. **배경용 solid 색(램프 9단)을 글자색에 쓰고 있었다** — 다크 `bg.canvas` 위에서 CR **3.61**, 본문 게이트 4.5 미달이다. `fg.link`(램프 10단)는 같은 자리에서 5.68이다.
+
+원인은 오타가 아니라 **어휘의 구멍**이다. 이 표는 **배경 중심**이다 — `*-foreground`가 전부 "짝이 되는 면 위의 전경"(`on-solid`/`default`/`muted`)이고, 면과 짝지어지지 않은 **유채색 텍스트 토큰 4개(`fg.accent`·`fg.danger`·`fg.success`·`fg.link`)에는 shadcn 이름이 하나도 없었다.** `@theme inline`은 이 표의 이름만 등록하므로(§7 출력 형태, `--ds-*` 금지) 그 넷은 **Tailwind 유틸리티가 아예 존재하지 않았고**, 브랜드색 글자를 칠할 수단이 `text-primary`뿐이었다.
+
+`--link`(→ `fg.link`) 하나만 연다. 나머지 셋은 요구하는 컴포넌트가 생길 때 연다 — 지금 열면 소비처 0개인 이름 셋이 생긴다.
+
+**`fg.accent`가 아니라 `fg.link`인 이유**: 값은 라이트·다크 양쪽 `brand.10`으로 **완전히 동일**하다. 화면은 어느 쪽이든 같다. 갈리는 건 Figma가 무슨 변수를 무느냐([#26](https://github.com/flameware/massive-design/issues/26))와 나중에 링크색만 분리할 자리가 있느냐다. §4가 두 토큰을 "값은 같지만 의미가 다르다"며 일부러 갈라 놨는데 컴포넌트가 다시 합치면 그 구분이 죽는다. `fg.accent`가 필요한 컴포넌트가 오면 그때 **추가로** 연다.
+
+**게이트가 못 잡은 이유와 대책**: `tokens:contrast`는 **semantic 조합표**를 검사한다. 표에는 `fg.link on bg.canvas`가 이미 있고 5.68로 통과한다. 그런데 컴포넌트가 잘못된 이름을 **선택**하면 그 조합은 표에 나타나지도 않는다 — [#33](https://github.com/flameware/massive-design/issues/33)과 같은 종류의 침묵이다. 대책은 `packages/ui`의 새 게이트 **`scripts/manifest/lint.mjs`**(check 규칙 3): 매니페스트에서 `color`↔`--ds-fg-*`, `background-color`↔`--ds-bg-*`, `border-color`↔`--ds-border-*` **계열 일치**를 본다. 어떤 컴포넌트가 어떤 토큰을 집는지는 매니페스트([#23](https://github.com/flameware/massive-design/issues/23))가 처음으로 기계가 읽게 적어 준 정보라, 이 검사는 `packages/tokens`에서는 원리적으로 불가능하다.
+
+⚠️ **계열 검사이지 대비 검사가 아니다.** 이름은 맞는데 대비가 안 나오는 조합은 못 잡고, `color` 항목 자체가 없는 칸(`ghost`·`outline` — [#36](https://github.com/flameware/massive-design/issues/36)의 `body` 규칙에서 상속)은 볼 것이 없어 침묵한다.
 
 ## 8. 대비 검증
 
