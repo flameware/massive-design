@@ -136,7 +136,8 @@
   --ds-border-focus: var(--ds-palette-brand-light-9);
   --ds-state-layer: var(--ds-palette-base-black);
 
-  /* shadcn raw 34 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5) */
+  /* shadcn raw 34 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).
+     .dark가 한 벌 더 선언한다 — 여기서 치환이 끝나기 때문 (#35) */
   --background: var(--ds-bg-canvas);
   --foreground: var(--ds-fg-default);
   --card: var(--ds-bg-surface);
@@ -205,11 +206,41 @@
   --ds-border-danger: var(--ds-palette-danger-dark-9);
   --ds-border-focus: var(--ds-palette-brand-dark-9);
   --ds-state-layer: var(--ds-palette-base-white);
+
+  --background: var(--ds-bg-canvas);
+  --foreground: var(--ds-fg-default);
+  --card: var(--ds-bg-surface);
+  --card-foreground: var(--ds-fg-default);
+  --popover: var(--ds-bg-overlay);
+  --popover-foreground: var(--ds-fg-default);
+  --primary: var(--ds-bg-accent-solid);
+  --primary-foreground: var(--ds-fg-on-solid);
+  --secondary: var(--ds-bg-neutral-soft);
+  --secondary-foreground: var(--ds-fg-default);
+  --muted: var(--ds-bg-subtle);
+  --muted-foreground: var(--ds-fg-muted);
+  --accent: var(--ds-bg-subtle);
+  --accent-foreground: var(--ds-fg-default);
+  --destructive: var(--ds-bg-danger-solid);
+  --destructive-foreground: var(--ds-fg-on-solid);
+  --border: var(--ds-border-default);
+  --input: var(--ds-border-field);
+  --ring: var(--ds-border-focus);
   --chart-1: var(--ds-palette-neutral-dark-12);
   --chart-2: var(--ds-palette-neutral-dark-10);
   --chart-3: var(--ds-palette-neutral-dark-8);
   --chart-4: var(--ds-palette-neutral-dark-6);
   --chart-5: var(--ds-palette-neutral-dark-4);
+  --sidebar: var(--ds-bg-surface);
+  --sidebar-foreground: var(--ds-fg-default);
+  --sidebar-primary: var(--ds-bg-accent-solid);
+  --sidebar-primary-foreground: var(--ds-fg-on-solid);
+  --sidebar-accent: var(--ds-bg-subtle);
+  --sidebar-accent-foreground: var(--ds-fg-default);
+  --sidebar-border: var(--ds-border-default);
+  --sidebar-ring: var(--ds-border-focus);
+  --success: var(--ds-bg-success-solid);
+  --success-foreground: var(--ds-fg-on-solid);
 }
 
 @theme inline {

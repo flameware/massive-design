@@ -244,7 +244,12 @@ packages/tokens/                       # name: "@massive/tokens"
   --radius: 0.625rem;
 }
 
-.dark { --ds-bg-accent-solid: var(--ds-palette-brand-dark-9); … }   /* semantic만 재선언 */
+.dark {
+  --ds-bg-accent-solid: var(--ds-palette-brand-dark-9);   /* semantic 30 */
+  …
+  --primary: var(--ds-bg-accent-solid);                   /* shadcn raw 34 — 한 벌 더 (#35) */
+  …                                                       /* --radius는 모드 무관이라 뺀다 */
+}
 
 @theme inline {
   --color-primary: var(--primary);        /* shadcn 이름 34 */
@@ -257,13 +262,14 @@ packages/tokens/                       # name: "@massive/tokens"
 ```
 
 - **`@theme inline`은 선택이 아니다**(#5 실측). 그냥 `@theme`이면 중첩 `.dark` 서브트리가 **조용히** 깨진다
-- **`.dark`는 semantic만 재선언한다.** palette와 shadcn raw는 재선언하지 않는다 — 체인이 semantic 지점에서 갈리므로 아래는 자동으로 따라온다
+- **`.dark`는 semantic 30 + shadcn raw 34를 재선언한다 — 총 64줄.** palette는 모드 무관한 리터럴이라 빠지고, `--radius`도 빠진다. "체인이 semantic에서 갈리므로 아래는 자동으로 따라온다"는 **틀렸다**([#35](https://github.com/flameware/massive-design/issues/35)): 커스텀 속성은 **선언된 그 요소에서** 치환되므로 `:root`의 `--primary: var(--ds-bg-accent-solid)`는 :root에서 라이트로 확정되고, 자손은 그 확정된 값을 상속한다. 중첩 서브트리의 `.dark`가 `--ds-*`만 덮으면 alias는 라이트에 남는다
+- **`.dark`는 문서 루트든 중첩 서브트리든 어디에 붙어도 된다.** 위 재선언이 그 불변식을 지탱한다 — 라이트·다크를 한 화면에 나란히 놓는 Storybook이 이걸 요구한다. 다만 **반대 방향은 없다**: `.dark` 안쪽을 다시 라이트로 되돌리는 `.light` 클래스는 없고(`@custom-variant dark`의 `.dark *`도 그 안쪽을 전부 다크로 읽는다), 필요해지면 그때 여는 별건이다
 - shadcn 34개를 `:root`에 **raw로** 내는 건 필수다. `style-nova.css`가 `color-mix(in oklch, var(--secondary), …)`로 `@theme`를 우회해 직접 읽는다(#5)
 
 > **[#17](https://github.com/flameware/massive-design/issues/17) 구현 시 확정된 세 가지**
 >
 > 1. **palette 값은 hex로 낸다.** [semantic-tokens.md §7](semantic-tokens.md)의 출력 예시는 `oklch()`로 적혀 있으나 우리 램프는 전 단계가 이미 sRGB 감마 안으로 정리돼 있어(§4.3 A3) 두 표기가 정확히 같은 색이다. 토큰 원본의 `$value`가 hex이므로 hex를 그대로 내보내는 쪽이 변환 단계를 하나 없앤다.
-> 2. **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로 함께 재선언해야 한다([#16](https://github.com/flameware/massive-design/issues/16)에서 예고됨).
+> 2. **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로 함께 재선언해야 한다([#16](https://github.com/flameware/massive-design/issues/16)에서 예고됨). ⚠️ **[#35](https://github.com/flameware/massive-design/issues/35)가 이 숫자를 다시 고쳤다 — 35가 아니라 64다**(semantic 30 + shadcn raw 34 전부). 여기서 `chart` 5개만 특별 취급한 것이 결함의 자리였다.
 > 3. **`--font-sans`가 `@theme inline`에 나간다.** [scale-tokens.md §7](scale-tokens.md)의 "CSS override 26개" 집계에 이 항목이 없다 — 집계의 누락이다. `type.family.sans`는 `noCss` 표식이 없고, Pretendard 스택은 Tailwind 기본 sans와 다르다.
 
 `dist/tokens.d.ts`:
@@ -301,6 +307,8 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 14. `@custom-variant dark`가 `&:where(.dark, .dark *)` 형태
 
 > 규칙 10·12는 **현재 구조상 위반이 불가능하다**(#7·#8). 그래도 남긴다 — 이 lint의 값은 위반을 잡는 게 아니라 **구조가 무너졌을 때 알려주는 것**이다.
+
+> **규칙군 C에 "`.dark`가 alias를 재선언한다"는 없다 — 일부러 없다**([#35](https://github.com/flameware/massive-design/issues/35)). C는 전부 **문자열 스캔**이고, 이 결함이 통과한 이유가 정확히 그것이었다: 선언은 멀쩡했고 틀린 것은 **치환이 일어나는 요소**였다. 그래서 게이트를 `test/cascade.test.mjs`에 뒀다 — 커스텀 속성의 계산 규칙을 아주 작게 흉내 내어 `:root` 라이트 / 루트 `.dark` / **중첩 `.dark`** 세 문맥의 값을 실제로 풀고, 뒤의 둘이 같은지 본다. 선언 목록을 세는 규칙을 하나 더 늘리는 것보다 **불변식 자체**("`.dark`는 어디에 붙어도 된다")를 검사하는 쪽이 다음 결함도 잡는다.
 
 **구현 수단**(맵 fog에서 미결이던 항목): 별도 도구를 도입하지 않는다. A·B는 JSON을 읽는 평범한 JS, C는 `dist/tokens.css`에 대한 정규식·괄호 스캔이다. Stylelint 플러그인을 쓸 만큼 규칙이 많지 않고, 규칙 10·11·13은 **Stylelint가 원래 모르는 도메인 규칙**이라 어차피 직접 써야 한다.
 

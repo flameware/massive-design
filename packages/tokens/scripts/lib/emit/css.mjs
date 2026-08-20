@@ -56,20 +56,25 @@ export function emitCss({ tokens, gen, literal, semantic, scale, shadcn }) {
     out.push(line(dsVar(path), `var(${dsVar(ref(token.$value))})`))
   }
 
-  out.push('', '  /* shadcn raw 34 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5) */')
+  out.push('', '  /* shadcn raw 34 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).')
+  out.push('     .dark가 한 벌 더 선언한다 — 여기서 치환이 끝나기 때문 (#35) */')
   for (const [name, value] of shadcnColors) out.push(line(`--${name}`, shadcnRef(value, 'light')))
   out.push(line('--radius', tokens.get('radius.base').$value))
   out.push('}', '')
 
-  // semantic 30 + chart 5. chart만 palette를 직참조하므로 함께 재선언해야 한다(#16)
+  // semantic 30 + shadcn raw 34. **alias도 통째로 다시 선언한다** — 커스텀
+  // 속성은 선언된 그 요소에서 치환되므로, :root의 `--background: var(--ds-bg-canvas)`
+  // 는 :root에서 라이트로 확정되고 자손은 그 확정된 값을 상속한다. 중첩 서브트리의
+  // .dark가 --ds-*만 덮으면 alias는 라이트에 남고, --ds-*를 직접 읽는 state layer만
+  // 뒤집혀 **밝은 배경 위의 흰 층**이 나온다. .dark가 <html>에 붙을 때만 우연히
+  // 맞았던 것이다(#35). --radius는 모드 무관이라 뺀다.
   out.push('.dark {')
   for (const [path, token] of semanticEntries) {
     const dark = token.$extensions?.['org.primer.overrides']?.dark ?? token.$value
     out.push(line(dsVar(path), `var(${dsVar(ref(dark))})`))
   }
-  for (const [name, value] of shadcnColors.filter(([, v]) => typeof v === 'object')) {
-    out.push(line(`--${name}`, shadcnRef(value, 'dark')))
-  }
+  out.push('')
+  for (const [name, value] of shadcnColors) out.push(line(`--${name}`, shadcnRef(value, 'dark')))
   out.push('}', '')
 
   out.push('@theme inline {')

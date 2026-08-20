@@ -66,6 +66,8 @@ wayfinder는 기본적으로 **결정만 내리고 실행은 인계하는** 도�
 
 - `@import "tailwindcss";` **뒤에** import 한다
 - `@theme inline`이 **필수**다. 그냥 `@theme`는 중첩 `.dark` 서브트리를 조용히 깨뜨린다(빌드 diff로 실증됨)
+- **`.dark`는 문서 루트든 중첩 서브트리든 어디에 붙어도 된다.** `<div class="dark">` 하나로 그 안쪽만 다크가 되므로, 라이트·다크를 한 화면에 나란히 놓을 수 있다. `dist/tokens.css`의 `.dark`가 semantic 30 + **shadcn alias 34**를 함께 재선언해 이걸 지탱한다 — alias를 빼면 `--ds-*`만 뒤집히고 alias는 라이트에 남는다(브라우저 실측: 중첩 `.dark`에서 `--ds-bg-canvas`는 `#0c0c0c`인데 `--background`는 `#f8f8f8`). 이 문서는 한때 "`.dark`는 semantic만 재선언한다"고 적었고 그게 [#35](https://github.com/flameware/massive-design/issues/35)의 결함이었다
+- **반대 방향은 없다** — `.dark` 안쪽을 다시 라이트로 되돌리는 `.light`는 없다. 나란히 놓을 때 바깥이 라이트여야 한다
 - 모노리포 안에서는 복사가 아니라 **패키지 경로로 import** 한다: `@massive/tokens/dist/tokens.css`
 - 리포 밖 소비처(invest diary)만 여전히 파일을 복사해 간다
 
