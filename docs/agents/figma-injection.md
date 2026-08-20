@@ -61,7 +61,11 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 
 웨이트 9종(`Thin`~`Black`, Inter 표기법 — `Semi Bold`·`Extra Bold`는 **띄어쓰기 있음**) 전부 `Pretendard <style>`로 해석되는 것이 사람 눈으로 확인됐다.
 
-> ⚠️ **2026-08-20 실측([#32](https://github.com/flameware/massive-design/issues/32) §8-5): 이 환경에 Pretendard가 설치돼 있지 않다.** `loadFontAsync({family:'Pretendard', style:'Regular'})`가 *"The font family \"Pretendard\" does not exist"*로 실패하고, 에러가 *"Fonts from text styles: Pretendard (Regular, Medium, Semi Bold, Bold)"*를 함께 뱉는다 — **이전 맵이 만든 Text Style은 로컬에 없는 폰트를 참조하고 있다.** 변수 바인딩 경로는 로드 없이도 통했으므로 주입 자체는 성립하지만, 컴포넌트 안에서 **`characters`를 쓰거나 텍스트 노드를 옮기는 순간** 폰트 로드가 필요해져 막힌다. 컴포넌트 저작 전에 Pretendard를 설치하거나 폰트를 바꾸는 판단이 필요하다.
+> ⚠️ **2026-08-20 실측([#32](https://github.com/flameware/massive-design/issues/32) §8-5): `loadFontAsync({family:'Pretendard', style:'Regular'})`는 이 런타임에서 실패한다.** *"The font family \"Pretendard\" does not exist"*와 함께 *"Fonts from text styles: Pretendard (Regular, Medium, Semi Bold, Bold)"*를 뱉는다 — Text Style이 런타임에 없는 폰트를 참조하고 있다는 뜻이다.
+>
+> **이것은 새 사실이 아니라 [#9](https://github.com/flameware/massive-design/issues/9)가 이미 전제한 조건이다.** `use_figma`는 사용자 머신이 아니라 Figma 클라우드 폰트 세트만 가진 별도 런타임에서 돌고(1,938 패밀리 중 Pretendard 0건), **그래서** 로드를 거치지 않는 변수 바인딩 경로를 택한 것이다. 로컬 설치로도 폰트 교체로도 바뀌지 않는다 — 판단은 끝나 있다.
+>
+> 실무적으로 남는 주의는 §2.5의 순서뿐이다: **`characters`를 쓰거나 노드를 옮기는 일은 전부 `fontFamily` 바인딩 *전에* 끝낸다.** 컴포넌트 저작에서는 이 순서가 `combineAsVariants`와 어떻게 맞물리는지가 아직 미검증이다 — [#26](https://github.com/flameware/massive-design/issues/26)이 기록한다.
 
 ### 2.5 노드에는 스타일이 아니라 변수를 바인딩한다
 
