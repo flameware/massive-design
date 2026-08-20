@@ -61,6 +61,8 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 
 웨이트 9종(`Thin`~`Black`, Inter 표기법 — `Semi Bold`·`Extra Bold`는 **띄어쓰기 있음**) 전부 `Pretendard <style>`로 해석되는 것이 사람 눈으로 확인됐다.
 
+> ⚠️ **2026-08-20 실측([#32](https://github.com/flameware/massive-design/issues/32) §8-5): 이 환경에 Pretendard가 설치돼 있지 않다.** `loadFontAsync({family:'Pretendard', style:'Regular'})`가 *"The font family \"Pretendard\" does not exist"*로 실패하고, 에러가 *"Fonts from text styles: Pretendard (Regular, Medium, Semi Bold, Bold)"*를 함께 뱉는다 — **이전 맵이 만든 Text Style은 로컬에 없는 폰트를 참조하고 있다.** 변수 바인딩 경로는 로드 없이도 통했으므로 주입 자체는 성립하지만, 컴포넌트 안에서 **`characters`를 쓰거나 텍스트 노드를 옮기는 순간** 폰트 로드가 필요해져 막힌다. 컴포넌트 저작 전에 Pretendard를 설치하거나 폰트를 바꾸는 판단이 필요하다.
+
 ### 2.5 노드에는 스타일이 아니라 변수를 바인딩한다
 
 `setTextStyleIdAsync`로 Pretendard 스타일을 노드에 **적용하는 것은 실패한다**(#9). 스와치 페이지처럼 실제 텍스트를 만들 때는:

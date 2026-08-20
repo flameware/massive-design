@@ -3,9 +3,9 @@
 - 티켓: [#20](https://github.com/flameware/massive-design/issues/20) (맵 [#14](https://github.com/flameware/massive-design/issues/14), blocking [#24](https://github.com/flameware/massive-design/issues/24))
 - 조사일: 2026-08-20
 - 1차 출처: **`@figma/plugin-typings` v1.134.0** (Figma가 npm에 발행하는 공식 타입 정의), [Figma Plugin API 문서](https://developers.figma.com/docs/plugins/api/api-reference/), Figma 공식 스킬 번들 [`figma/mcp-server-guide`](https://github.com/figma/mcp-server-guide)
-- **라이브 파일에 아무것도 실행하지 않았다.** 이 문서의 모든 항목은 문서·타입 정의 근거이거나 미검증이다
+- 조사 시점에는 **라이브 파일에 아무것도 실행하지 않았다.** 2026-08-20 프로토타입 왕복 [#32](https://github.com/flameware/massive-design/issues/32)가 버릴 세트로 §8의 미지수를 실행으로 갈랐다 — **MEASURED** 표시가 그것이다
 
-각 항목은 **CONFIRMED**(공식 타입 정의 또는 문서 인용) / **DERIVED**(확정된 사실에서 논리적으로 따라 나오나 실행으로 확인 안 함) / **UNVERIFIED**(확인 못 함, 추측 금지)로 표시한다. §7이 UNVERIFIED만 모아둔 절이다.
+각 항목은 **CONFIRMED**(공식 타입 정의 또는 문서 인용) / **MEASURED**(프로토타입 왕복 [#32](https://github.com/flameware/massive-design/issues/32)의 실측) / **DERIVED**(확정된 사실에서 논리적으로 따라 나오나 실행으로 확인 안 함) / **UNVERIFIED**(확인 못 함, 추측 금지)로 표시한다. §7이 함정 모음, **§8이 프로토타입 왕복의 실측 결과다 — §8을 먼저 읽어라.**
 
 ---
 
@@ -87,7 +87,7 @@ for (const ch of set.children) { maxX = Math.max(maxX, ch.x + ch.width); maxY = 
 set.resizeWithoutConstraints(maxX + 40, maxY + 40);
 ```
 
-`ComponentSetNode`는 `BaseFrameMixin`을 상속하므로 `layoutMode`(Auto Layout / GRID)를 **가질 수는 있다**(타입상 CONFIRMED). 그걸로 수동 좌표 계산을 대체할 수 있는지는 **UNVERIFIED**(§7).
+`ComponentSetNode`에 `layoutMode`를 걸면 **`HORIZONTAL`/`VERTICAL`은 실제로 자식을 재배치한다**(MEASURED — 좌표가 `0/180`에서 padding·itemSpacing 기준으로 다시 계산됐다). 그러나 **`GRID`는 값만 받고 아무것도 안 한다** — `gridRowCount`/`gridColumnCount`까지 세워도 자식 좌표가 그대로였다(MEASURED). variant 격자는 2차원이므로 **위의 수동 좌표 계산이 여전히 유일한 길이다.** 한 줄짜리 세트에서만 Auto Layout이 계산을 대신한다.
 
 ### 1.5 `ComponentSetNode`가 스스로 지워지는 조건
 
@@ -230,12 +230,14 @@ set.description = HUMAN_DOC + '\n<!--md:' + MANIFEST_HASH + '-->';
 | `set.description` 쓰기 | **안전** | 순수 메타데이터 · DERIVED |
 | 자식의 fills·padding·cornerRadius·바인딩 수정 | **안전** | 노드 ID 불변 · DERIVED |
 | 자식의 자손 노드 추가/삭제 | **안전하나 override가 깨질 수 있다** | 인스턴스 override는 자손 ID에 붙는다 · DERIVED |
-| 자식 `name`을 `Name=Value` 규칙 안에서 변경 (= variant 값 이름 변경) | **안전** — 인스턴스의 variant 값이 따라 바뀐다 | UNVERIFIED (§7-1) |
+| 자식 `name`을 `Name=Value` 규칙 안에서 변경 (= variant 값 이름 변경) | **안전** — 인스턴스가 살고 variant 값이 따라 바뀐다. **텍스트 override도 보존된다** | MEASURED (§8-1) |
 | `set.appendChild(newComponent)` (= variant 추가) | **안전** | 기존 자식 ID 불변 · DERIVED |
 | `set.editComponentProperty(k, {name})` (= 축 이름 변경) | **안전** | 타입 정의가 name을 모든 타입에 허용 · DERIVED |
-| `set.addComponentProperty(n,'BOOLEAN'|'TEXT'|'INSTANCE_SWAP',...)` | **안전** | DERIVED |
+| `set.addComponentProperty(n,'BOOLEAN'|'TEXT'|'INSTANCE_SWAP',...)` | **안전** — 기존 raw override는 소실이 아니라 **property 값으로 흡수된다** | MEASURED (§8-8) |
+| `set.addComponentProperty(n,'VARIANT',default)` (= 축 추가) | **안전** — 자식 이름이 자동으로 갱신되고 인스턴스는 기본값을 문다 | MEASURED (§8-3) |
 | `set.deleteComponentProperty(k)` (BOOLEAN/TEXT/INSTANCE_SWAP) | 그 property를 쓰던 override만 소실 | DERIVED |
-| 자식 `child.remove()` (= variant 삭제) | **위험** — 그 자식의 인스턴스가 어떻게 되는지 미확인 | UNVERIFIED (§7-2) |
+| 자식 `child.remove()` (= variant 삭제) | **끊기지는 않는다 — 대신 고아가 된다.** 인스턴스는 살고 `mainComponent.id`도 그대로지만 그 컴포넌트가 `parent === null`로 떨어져 나가고, 이름이 `Set/값/값`으로 슬래시화되며 **VARIANT 축이 전부 사라지고 TEXT property 키가 재발급된다** | MEASURED (§8-2) |
+| 자식 두 개의 `name`이 같아지는 상태 | **인스턴스는 살지만 세트가 error 상태에 빠진다** — `componentPropertyDefinitions`·`componentProperties`가 전부 throw한다. 이름을 되돌리면 완전히 복구된다 | MEASURED (§8-4) |
 | **마지막** 자식 `remove()` | **파괴적** — 세트가 자멸한다 (§1.5) | CONFIRMED |
 | `set.remove()` 후 재생성 | **전부 끊긴다** | CONFIRMED |
 | `set.clone()` / `child.clone()`으로 교체 | **전부 끊긴다** — 복제본은 인스턴스 0개인 새 컴포넌트 | CONFIRMED |
@@ -295,8 +297,8 @@ relayout(set);
 **추가.** 두 경로가 있고 어느 쪽이 옳은지 실행으로 갈라야 한다:
 
 ```js
-// 경로 1 — API. 타입 정의상 addComponentProperty가 'VARIANT'를 지원한다. UNVERIFIED (§7-3)
-set.addComponentProperty('State', 'VARIANT', 'Default');
+// 경로 1 — MEASURED (§8-3). 이게 성립한다. 모든 자식 이름에 `, State=Default`를 자동으로 덧붙인다
+set.addComponentProperty('State', 'VARIANT', 'Default');   // 반환값 'State' — VARIANT는 접미사가 없다
 
 // 경로 2 — 결정적. 모든 자식 이름에 새 쌍을 덧붙인 뒤, 새 값의 조합을 자식으로 추가한다
 for (const c of set.children) c.name = c.name + ', state=default';
@@ -304,7 +306,7 @@ for (const v of VARIANTS) for (const s of SIZES) for (const st of ['hover','disa
   set.appendChild(buildVariant(v, s, st));
 ```
 
-경로 2가 **API에 기대는 게 없어 안전하다.** 경로 1이 통하면 훨씬 짧아진다.
+**경로 1을 쓴다.** 실측으로 자식 이름 자동 갱신이 확인됐고(§8-3), 인스턴스는 새 축의 기본값을 물고 살아남는다. 경로 2는 이름을 손으로 이어 붙이므로 오타 하나가 §8-4의 error 상태를 만든다 — 이제 더 위험한 쪽이다.
 
 **삭제.** **CONFIRMED — 타입 정의: `deleteComponentProperty`는 *"only supports properties with type 'BOOLEAN', 'TEXT', 'INSTANCE_SWAP' or 'SLOT'"*.** VARIANT 축을 지우는 API는 **없다.**
 
@@ -314,7 +316,7 @@ for (const v of VARIANTS) for (const s of SIZES) for (const st of ['hover','disa
 2. 나머지 값의 자식을 **먼저 `remove()`** 한다 (§3.6의 인스턴스 검사를 거쳐)
 3. 남은 자식들의 이름에서 `, state=default`를 뗀다
 
-**이 순서를 어기면 중복 이름 상태를 거치게 되고, 그 상태에서 Figma가 뭘 하는지 모른다(§7-4).**
+**이 순서를 어기면 중복 이름 상태를 거치고, 그 상태에서 세트는 error에 빠져 `componentPropertyDefinitions`·`componentProperties`가 전부 throw한다(§8-4).** 이름을 되돌리면 복구되지만, 그 사이의 스크립트는 세트를 읽을 수 없다.
 
 ### 3.8 자식 컴포넌트 안의 내용을 고치는 것 — 가장 흔한 갱신
 
@@ -434,7 +436,7 @@ figma-injection.md §2.5의 "구조 먼저, 폰트 나중"이 여기서 재확�
 10. set.description = ... (해시 스탬프)
 ```
 
-**9를 5보다 앞에 두면 5가 throw한다.** 이건 예측이지 실측이 아니다(§7-5) — 하지만 인용된 문장이 `appendChild`를 명시적으로 열거하므로 위험을 안고 갈 이유가 없다.
+**"9를 5보다 앞에 두면 5가 throw한다"는 반증됐다(§8-5).** 로드 가능한 패밀리(Inter)를 `fontFamily`에 바인딩한 노드는 잠기지 않는다 — `appendChild`·`combineAsVariants`·`characters` 재기록이 전부 통과했다. **잠금은 바인딩이 아니라 폰트를 로드할 수 없다는 사실에서 온다.** 그래도 위 순서는 그대로 지킨다: 우리 파일의 패밀리는 **Pretendard이고, 이 환경에는 설치돼 있지 않다**(§8-5) — 로드 불가 패밀리에서는 원래의 잠금 서술이 그대로 성립한다.
 
 ### 5.3 TEXT property를 쓰면 `characters` 직접 쓰기와 충돌한다
 
@@ -505,7 +507,7 @@ const SPEC = [
 
 ### 6.5 진짜 병목은 문자가 아니라 노드 수일 가능성이 높다
 
-이전 맵 실측: 텍스트 59개 포함 스와치 페이지가 **~2.4초**. variant 하나가 노드 2~3개이므로 24 variant ≈ 60~70 노드로 같은 자릿수다. 하지만 §2.4의 `State` 축을 넣으면 **120 variant ≈ 350 노드**가 되고, 여기가 미지의 영역이다(§7-7).
+이전 맵 실측: 텍스트 59개 포함 스와치 페이지가 **~2.4초**. **이 추측은 §8-7이 실측으로 끝냈다 — 120 variant · 241 노드가 한 호출에 1,525ms, 멱등 재실행은 79ms다.** 노드 수도 병목이 아니다.
 
 ---
 
@@ -518,47 +520,138 @@ const SPEC = [
 5. **`addComponentProperty`의 반환값은 키 **문자열**이다.** `Object.keys(ret)[0]`은 `'0'`을 준다
 6. **연결하지 않은 property는 아무 일도 안 한다.** `componentPropertyReferences`의 키는 `visible`·`characters`·`mainComponent`(+`slotContentId`) **넷뿐**이다
 7. **BOOLEAN은 `visible`만 건드린다.** 색이 바뀌는 상태(hover/disabled)는 VARIANT 축으로 갈 수밖에 없고, 그건 노드 수를 곱한다
-8. **VARIANT 축은 `deleteComponentProperty`로 못 지운다.** 자식 이름에서 쌍을 떼는 수동 경로뿐이고, 순서를 틀리면 중복 이름 상태를 거친다
+8. **VARIANT 축은 `deleteComponentProperty`로 못 지운다.** 자식 이름에서 쌍을 떼는 수동 경로뿐이고, 순서를 틀리면 중복 이름 상태를 거친다 — 그 상태의 세트는 property getter가 전부 throw한다(§8-4)
 9. **VARIANT는 `editComponentProperty`로 `defaultValue`를 못 바꾼다.** `name`만 된다. 값 이름 변경은 자식 이름 문자열 편집이라는 **완전히 다른 경로**다
 10. **자식을 전부 지우면 세트가 자멸한다.** "먼저 넣고 나중에 뺀다" 순서를 강제한다
 11. **`clone()`은 인스턴스 0개인 새 컴포넌트를 만든다.** 백업/교체 용도로 쓰면 안 된다
 12. **`setBoundVariable('fills', …)`는 없다.** `setBoundVariableForPaint`가 **새 객체를 반환**하고, 빈 `fills`에는 걸 수 없다
-13. **`cornerRadius`는 쓸 때 하나, 읽을 때 네 코너.** 멱등 검사를 `boundVariables.cornerRadius`로 짜면 영원히 다시 바인딩한다
+13. **`cornerRadius`는 쓸 때 하나, 읽을 때 네 코너.** 멱등 검사를 `boundVariables.cornerRadius`로 짜면 영원히 다시 바인딩한다 — MEASURED: `setBoundVariable('cornerRadius', v)` 뒤 `boundVariables`의 키가 `topLeftRadius`·`topRightRadius`·`bottomLeftRadius`·`bottomRightRadius` 넷이다
 14. **`layoutMode`는 바인딩 불가**(enum). 리터럴로 쓴다
 15. **`use_figma`는 `setPluginData`·`loadAllPagesAsync`·`createImageAsync`를 금지한다.** 낡음 판정을 plugin data에 둘 수 없고(→ `description`), `figma.root.findAllWithCriteria` 전체 조회도 불가능하다
 16. **다크는 저절로 안 보인다.** `setExplicitVariableModeForCollection`을 variant마다 명시해야 한다
-17. **폰트 잠긴 노드는 `appendChild`/`combineAsVariants`의 대상이 될 수 없다.** `fontFamily` 바인딩을 세트 조립보다 **뒤로** 미룬다
+17. **잠그는 것은 바인딩이 아니라 로드할 수 없는 폰트다(§8-5).** 로드 가능한 패밀리를 바인딩한 노드는 `appendChild`·`combineAsVariants`·`characters`가 전부 통과한다. 그래도 `fontFamily` 바인딩은 세트 조립보다 **뒤로** 미룬다 — 우리 파일의 Pretendard는 이 환경에 설치돼 있지 않아 원래의 잠금 서술이 그대로 성립한다
 18. **TEXT property가 붙은 노드에 `characters`를 직접 쓰면 렌더 시 덮일 수 있다.** 인스턴스는 `setProperties`로 고친다
 19. **50,000자는 데이터 주도로 짜면 여유가 크다**(≈400 variant). 그래도 세트 하나 = 호출 하나로 쪼갠다 — 이유는 크기가 아니라 atomic 롤백 범위다
 
 ---
 
-## 8. 검증 안 된 것 — 프로토타입 왕복이 필요하다
+## 8. 프로토타입 왕복 결과 — 실측 (2026-08-20, [#32](https://github.com/flameware/massive-design/issues/32))
 
-`use_figma` 실행 없이는 **확정할 수 없는** 것들이다. 번호는 §3.3 표에서 참조된다. 순서가 곧 우선순위다.
+버릴 페이지에 `variant × size` 2×2 세트를 짓고 **인스턴스 2개를 미리 꽂은 뒤** 수술을 순서대로 가했다. 인스턴스 A는 이름을 바꿀 자식에, 인스턴스 B는 지울 자식에 물렸다. 실험 뒤 페이지·고아 컴포넌트·임시 컬렉션을 전부 지웠고 파일은 원상(페이지 2개 · palette 61 · semantic 5 · 컴포넌트 0)으로 돌아왔다.
 
-1. **variant 값 이름 변경이 인스턴스를 유지하는가.** 자식 `name`을 `size=md` → `size=base`로 바꿨을 때, 그 자식의 인스턴스가 (a) 그대로 살아 `size=base`로 읽히는지 (b) 값이 비는지 (c) 끊기는지. **이 티켓에서 가장 값진 미지수다** — 코드의 cva 값 이름이 바뀔 때마다 밟게 될 경로다
-2. **variant 삭제가 인스턴스에 하는 일.** `child.remove()`를 인스턴스가 달린 자식에 했을 때. UI에서는 "삭제된 컴포넌트"로 남아 복구 가능한 것으로 알려져 있으나 **Plugin API 경로가 같은지 확인 안 됨.** 확인 전까지 §3.6처럼 **인스턴스가 있으면 삭제하지 않고 보고**한다
-3. **`addComponentProperty(name, 'VARIANT', default)`가 실제로 하는 일.** 타입 정의는 VARIANT를 지원한다고 적지만, 그게 **모든 자식 이름에 쌍을 덧붙이는지** 아니면 정의만 만들고 이름과 어긋난 상태를 만드는지 모른다. §3.7 경로 1의 성립 여부
-4. **중복 이름 자식이 잠깐 존재할 때의 동작.** 축 제거 과정에서 필연적으로 스쳐 가는 상태. Figma가 자동으로 접미사를 붙이는지, throw하는지, 조용히 깨지는지
-5. **`fontFamily` 바인딩 → `appendChild` 순서가 정말 throw하는가.** 인용문이 `appendChild`를 열거하므로 그렇게 가정했지만 실측이 아니다. 반대로 통한다면 §5.2의 순서 제약이 느슨해진다
-6. **`ComponentSetNode`에 `layoutMode`를 걸어 배치를 대신할 수 있는가.** 타입상 `AutoLayoutMixin`을 갖지만, 세트의 격자 의미론과 Auto Layout이 어떻게 상호작용하는지 미확인. 되면 §1.4의 좌표 계산이 통째로 사라진다
-7. **노드 수 상한.** 120 variant × 3 노드 ≈ 350 노드 규모에서 `use_figma` 한 호출이 타임아웃하는지. 이전 맵의 최대 실측은 59 텍스트 노드·2.4초였다. 이전 맵이 남긴 fog와 같은 항목이다
-8. **`slotContentId`가 `componentPropertyReferences` 타입 유니온에 없다.** 스킬 번들은 쓰라고 하는데 타입 정의의 유니온은 `'visible' | 'characters' | 'mainComponent'` 셋뿐이다(v1.134.0). 타입 정의가 뒤처진 것인지 스킬 문서가 앞서간 것인지 미확인. **SLOT을 쓸 계획이 없으면 무시해도 되는 항목**
-9. **`ComponentSetNode`에 property를 직접 추가해도 되는가.** 타입 정의는 세트가 `ComponentPropertiesMixin`을 갖는다고 하는데, 스킬 번들은 *"Add component properties to each variant component **before** calling `combineAsVariants`. … Do not add properties to the `ComponentSetNode` directly"* 라고 금지한다. **제자리 수정에서는 세트가 이미 존재하므로 이 금지를 지킬 수가 없다** — §3.3 표에서 "안전"으로 적은 `set.addComponentProperty`가 여기 걸려 있다. **2번 다음으로 중요한 미지수다**
-10. **`hiddenFromPublishing`·라이브러리 발행이 컴포넌트에 미치는 영향.** 이전 맵의 fog가 그대로 이어진다
+번호는 조사 당시의 미지수 번호를 그대로 쓴다.
 
-### 프로토타입 티켓이 밟을 최소 코스
+### 8-1. variant 값 이름 변경은 인스턴스를 유지한다 — (a) ✅ MEASURED
 
-한 번의 왕복으로 1·2·3·4·9를 전부 가른다:
+자식 `name`을 `variant=primary, size=md` → `size=base`로 문자열 수술했을 때:
+
+| | 변경 전 | 변경 후 |
+|---|---|---|
+| `instance.mainComponent.id` | `38:5` | `38:5` — **불변** |
+| `instance.componentProperties.size` | `md` | `base` — **따라 바뀐다** |
+| 인스턴스의 텍스트 override | `OVERRIDDEN` | `OVERRIDDEN` — **보존** |
+| `set…variantOptions.size` | `['sm','md']` | `['sm','base']` |
+
+**§3.5의 정규식 치환을 그대로 써도 된다.** cva 값 이름 변경은 안전한 경로다.
+
+### 8-2. variant 삭제는 인스턴스를 끊지 않는다 — 대신 **고아로 만든다** ⚠️ MEASURED
+
+`getInstancesAsync()`가 1을 반환하는 자식에 `child.remove()`를 걸었다. 인스턴스는 살아 있다(`removed === false`, `mainComponent.id`도 그대로). 그런데 그 컴포넌트가 이렇게 변한다:
+
+| | 삭제 전 | 삭제 후 |
+|---|---|---|
+| `name` | `variant=secondary, size=sm, State=Default` | **`Button/secondary/sm/Default`** — 슬래시 경로화 |
+| `parent` | `COMPONENT_SET` | **`null`** |
+| `componentPropertyDefinitions` | variant 3축 + `Label#38:0` | **`Label#38:3` 하나** — VARIANT 축 전멸, TEXT 키 재발급 |
+| 인스턴스의 `componentProperties` | 4개 | **`Label#38:3` 하나** |
+
+**이게 "끊기는 것"보다 나쁠 수 있다.** 세 가지가 동시에 따라온다:
+
+1. **`parent === null`이라 페이지 순회로 다시 찾을 수 없다.** `page.findAllWithCriteria`에도, `page.children`에도 안 나온다. 인스턴스만이 그 노드로 가는 유일한 참조다 — 즉 **우리 discovery/upsert 코드는 고아를 영원히 못 본다.** 나중에 같은 조합을 다시 만들면 새 컴포넌트가 생기고, 옛 인스턴스는 유령을 계속 가리킨다
+2. **`setProperties`에 쓰던 TEXT property 키가 바뀐다**(`Label#38:0` → `Label#38:3`). 키를 저장해 뒀다면 전부 무효다
+3. 인스턴스는 **variant 축을 잃어** 더 이상 다른 variant로 바꿀 수 없다
+
+→ **§3.6의 "인스턴스가 있으면 지우지 말고 보고한다"를 그대로 유지한다.** 근거가 "끊길까 봐"에서 "조용히 고아가 되어 추적 불가능해지므로"로 바뀌었을 뿐, 결론은 더 강해졌다.
+
+### 8-3. `addComponentProperty(name,'VARIANT',default)`는 자식 이름을 자동으로 고친다 — ✅ MEASURED (§3.7 경로 1 성립)
 
 ```
-① Button 2×2 (variant × size) 4 variant 세트를 짓는다 → 인스턴스 2개를 canvas에 꽂는다
-② 자식 이름 하나를 size=md → size=base 로 바꾼다        → 인스턴스 상태 확인 (미지수 1)
-③ set.addComponentProperty('Label','TEXT','Button')     → 세트 직접 추가 가능? (미지수 9)
-④ set.addComponentProperty('State','VARIANT','Default') → 자식 이름이 따라 바뀌나? (미지수 3)
-⑤ 자식 하나를 remove()                                   → 그 인스턴스 상태 확인 (미지수 2)
-⑥ 두 번 실행해 세트 수·자식 수가 그대로인지 본다          → 멱등 확인
+set.addComponentProperty('State', 'VARIANT', 'Default')  →  반환 'State' (접미사 없음)
 ```
 
-⑥은 figma-injection.md §3의 검증 규약을 컴포넌트로 옮긴 것이다. **인스턴스 2개를 미리 꽂아두는 것이 이 프로토타입의 전부다** — 그게 없으면 무엇이 끊기는지 볼 수가 없다.
+자식 4개의 이름이 전부 `…, State=Default`로 **자동 갱신**됐고, `variantOptions.State === ['Default']`가 생겼다. 인스턴스 2개 모두 새 축을 기본값으로 물고 살아남았다. **축 추가는 이 한 줄이다** — 이름을 손으로 이어 붙이는 경로 2는 이제 쓸 이유가 없다(오타 하나가 8-4를 부른다).
+
+### 8-4. 중복 이름은 조용히 허용되고, 세트를 **error 상태**로 만든다 ⚠️ MEASURED
+
+자식 둘의 `name`을 완전히 같게 만들었다. 대입은 **throw하지 않고, 접미사도 붙지 않는다** — 요청한 문자열이 그대로 들어간다. 세트는 `removed === false`로 살아 있고 인스턴스도 붙어 있다. 그런데 읽는 길이 전부 막힌다:
+
+```
+set.componentPropertyDefinitions  → throws: Component set has existing errors
+instance.componentProperties      → throws: Component set for node has existing errors
+```
+
+**복구된다.** 이름을 원래대로 되돌리자 두 getter가 모두 정상으로 돌아왔고 인스턴스의 override(`FROM PROP`)도 그대로였다.
+
+→ 절차상의 함의 두 가지:
+
+- **§3.7 축 삭제의 "먼저 지우고 나중에 이름을 뗀다" 순서는 반드시 지켜야 한다.** 어기면 세트가 읽히지 않는 상태를 거친다
+- **discovery 코드는 이 두 getter를 반드시 try/catch로 감싼다.** 감싸지 않으면 error 상태에 빠진 파일을 진단하는 스크립트 자체가 throw하고, `use_figma`는 atomic이라 **진단 결과도 같이 롤백된다** — 이 왕복에서 실제로 한 번 당했다
+
+### 8-5. `fontFamily` 바인딩은 노드를 잠그지 않는다 — 잠그는 것은 **로드할 수 없는 폰트**다 ❌ 반증
+
+로드 가능한 패밀리(`Inter`)를 값으로 갖는 FONT_FAMILY 변수를 TEXT 노드에 바인딩한 뒤:
+
+| 작업 | 결과 |
+|---|---|
+| `component.appendChild(boundText)` | **OK** |
+| `combineAsVariants([c1, c2], page)` (바인딩된 텍스트를 품은 채) | **OK** |
+| `boundText.characters = '...'` | **OK** |
+
+즉 §5.2의 "9를 5보다 앞에 두면 throw한다"는 **바인딩 자체의 성질이 아니다.**
+
+⚠️ **다만 우리 파일에서는 순서를 그대로 지킨다.** 이 환경에는 **Pretendard가 설치돼 있지 않다** — `loadFontAsync({family:'Pretendard'})`가 *"The font family \"Pretendard\" does not exist"*로 실패하고, 에러가 *"Fonts from text styles: Pretendard (Regular, Medium, Semi Bold, Bold)"*를 함께 뱉는다. 즉 이전 맵이 만든 Text Style은 **로컬에 없는 폰트를 참조하고 있다.** 로드 불가 패밀리에서는 원래의 잠금 서술이 그대로 성립하므로, 순서 규칙(구조 먼저, `fontFamily` 맨 나중)은 **비용이 0이니 유지한다.**
+
+### 8-6. `ComponentSetNode`의 Auto Layout — 한 줄은 되고 격자는 안 된다 ⚠️ MEASURED
+
+`set.layoutMode = 'HORIZONTAL'`은 자식 좌표를 실제로 다시 계산했다. 그러나 `'GRID'`는 `gridRowCount`/`gridColumnCount`를 함께 세워도 **자식 좌표가 1px도 안 움직였다.** variant 격자는 본질적으로 2차원이므로 **§1.4의 수동 좌표 계산은 살아남는다.**
+
+### 8-7. 노드 수는 병목이 아니다 — 120 variant가 1.5초 ✅ MEASURED
+
+`6 variant × 4 size × 5 state = 120` 조합을 데이터 주도로 한 호출에 지었다.
+
+| | |
+|---|---|
+| variant(자식 컴포넌트) | 120 |
+| 총 노드 | 241 |
+| 최초 생성 | **1,525ms** |
+| 같은 스크립트 재실행(멱등) | **79ms** — 생성 0개, 자식 수 그대로 |
+
+§2.4가 저울에 올린 "State 축을 넣으면 120 variant ≈ 350 노드"는 **성능상 아무 문제가 아니다.** 문자 수도 노드 수도 병목이 아니므로, [#24](https://github.com/flameware/massive-design/issues/24)의 24 대 120 판단은 **기계 비용이 아니라 디자이너가 볼 캔버스의 가독성으로 갈라야 한다.** (Button의 실제 밑수는 48이므로 State 5축이면 240 variant다 — 그래도 위 실측의 두 배일 뿐이다.)
+
+### 8-8. `set.addComponentProperty(…,'TEXT',…)`는 세트에 직접 걸어도 된다 — ✅ MEASURED (미지수 9)
+
+스킬 번들의 *"Do not add properties to the `ComponentSetNode` directly"* 금지는 **제자리 수정에서 무시해도 된다.** 실제로:
+
+```
+set.addComponentProperty('Label','TEXT','Button')  →  'Label#38:0' (문자열)
+```
+
+정의가 세트에 생기고, 각 자식의 TEXT 노드에 `componentPropertyReferences = { characters: key }`를 걸자 인스턴스가 곧바로 그 property를 갖는다. **인스턴스에 이미 있던 raw `characters` override는 소실되지 않고 property의 값으로 흡수됐다**(`OVERRIDDEN`이 그대로 property 값이 됐다). 그 뒤 `instance.setProperties({[key]: 'FROM PROP'})`도 정상 동작했다.
+
+→ 번들의 금지는 **`combineAsVariants` 전에 만드는 신규 저작**에 대한 조언으로 읽는다. 이미 존재하는 세트를 고치는 우리 경로에는 적용되지 않는다.
+
+### 8-9. 아직 안 본 것 (이 왕복이 건드리지 않은 것)
+
+- **`slotContentId`가 `componentPropertyReferences` 타입 유니온에 없다.** SLOT을 쓸 계획이 없어 건너뛰었다
+- **`hiddenFromPublishing`·라이브러리 발행이 컴포넌트에 미치는 영향.** [#31](https://github.com/flameware/massive-design/issues/31)이 맡는다
+- **컴포넌트 안에서의 `setExplicitVariableModeForCollection`(다크 모드 표시).** 이번 왕복은 변수 바인딩 없이 리터럴 색으로 지었다
+- **`resolvedType` 사후 변경**(figma-injection.md §4에서 이어짐)
+
+### 8-10. 절차에 그대로 옮길 규칙
+
+1. **값 이름 변경은 정규식 치환.** 안전하다(8-1)
+2. **축 추가는 `addComponentProperty(…,'VARIANT',…)` 한 줄.** 이름을 손으로 잇지 않는다(8-3)
+3. **인스턴스가 있는 자식은 절대 `remove()`하지 않는다.** `getInstancesAsync()`로 세고 0이 아니면 보고하고 넘어간다(8-2)
+4. **`componentPropertyDefinitions`·`componentProperties` 읽기는 전부 try/catch.** error 상태의 파일도 진단할 수 있어야 한다(8-4)
+5. **격자 좌표는 손으로 계산한다.** 세트 Auto Layout은 한 줄에만 쓸모 있다(8-6)
+6. **property 키는 반환값을 그대로 저장하되, 영구적이라고 믿지 않는다.** 자식이 세트를 떠나면 재발급된다(8-2)
