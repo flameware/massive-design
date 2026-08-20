@@ -256,41 +256,41 @@
       },
       "strong": {
         "$type": "color",
-        "$value": "{palette.neutral.light.8}",
+        "$value": "{palette.neutral.light.9}",
         "$description": "인터랙티브 요소의 강한 테두리",
         "$extensions": {
           "org.primer.overrides": {
-            "dark": "{palette.neutral.dark.8}"
+            "dark": "{palette.neutral.dark.9}"
           }
         }
       },
       "accent": {
         "$type": "color",
-        "$value": "{palette.brand.light.8}",
+        "$value": "{palette.brand.light.9}",
         "$description": "브랜드 테두리",
         "$extensions": {
           "org.primer.overrides": {
-            "dark": "{palette.brand.dark.8}"
+            "dark": "{palette.brand.dark.9}"
           }
         }
       },
       "danger": {
         "$type": "color",
-        "$value": "{palette.danger.light.8}",
+        "$value": "{palette.danger.light.9}",
         "$description": "에러 필드 테두리",
         "$extensions": {
           "org.primer.overrides": {
-            "dark": "{palette.danger.dark.8}"
+            "dark": "{palette.danger.dark.9}"
           }
         }
       },
       "focus": {
         "$type": "color",
-        "$value": "{palette.brand.light.8}",
+        "$value": "{palette.brand.light.9}",
         "$description": "포커스 링",
         "$extensions": {
           "org.primer.overrides": {
-            "dark": "{palette.brand.dark.8}"
+            "dark": "{palette.brand.dark.9}"
           }
         }
       }

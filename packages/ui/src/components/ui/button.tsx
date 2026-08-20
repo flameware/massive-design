@@ -12,6 +12,14 @@ import { cn } from "@/lib/utils"
  *     모드 전환은 semantic 계층에서만 일어난다(CONTEXT.md). 컴포넌트가 다크를
  *     따로 알면 그 규칙이 깨진다
  *   - destructive의 text-white → text-destructive-foreground (fg.on-solid)
+ *   - focus-visible 링의 불투명도 제거(ring-ring/50 → ring-ring,
+ *     ring-destructive/20 → ring-destructive) — #33. **상태 테두리는 토큰을
+ *     불투명도 없이 칠한다**가 규약이다: tokens의 대비 게이트는 토큰 원색을
+ *     재는데(packages/tokens가 packages/ui를 볼 수 없다) 컴포넌트가 그 색을
+ *     깎으면 게이트가 약속한 3:1이 화면에서 성립하지 않는다. /50은 어떤 면·
+ *     어떤 모드에서도 3:1을 못 넘었다 — 최댓값이 2.36이다.
+ *     aria-invalid:ring-destructive/20은 남긴다: 그 상태를 지는 것은 같이 걸린
+ *     aria-invalid:border-destructive(원색, 게이트 대상)이고 링은 그 위 글로우다
  * variant/size 축은 원본 그대로 둔다 — 코드가 원본이고 Figma가 근사치다(#18).
  *
  * 축 설정을 이름 붙여 내보내는 것이 규약이다 — cva가 반환하는 함수는 config를
@@ -19,14 +27,14 @@ import { cn } from "@/lib/utils"
  * 생성기가 축을 따로 적으면 그건 verify가 원리적으로 못 잡는 손글씨가 된다
  * (#22 §7). 새 컴포넌트도 같은 형태로 config를 내보낸다(#23). */
 const BASE =
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 
 const buttonVariantsConfig = {
   variants: {
     variant: {
       default: "state [--ds-state-base:var(--primary)] text-primary-foreground",
       destructive:
-        "state [--ds-state-base:var(--destructive)] text-destructive-foreground focus-visible:ring-destructive/20",
+        "state [--ds-state-base:var(--destructive)] text-destructive-foreground focus-visible:ring-destructive",
       // 다크에서 면을 띄우는 건 그림자가 아니라 border다(핸드오프 §3.1).
       // shadow-xs는 라이트에서만 의미가 있고, 다크 elevation은 border-default의
       // alpha.white.10이 떠맡는다

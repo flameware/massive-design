@@ -40,22 +40,25 @@ const TEXT_PAIRS = [
 /**
  * [전경, 배경] — 비텍스트. 3:1 게이트.
  *
- * 게이트 대상은 **캔버스 위의 인터랙티브 테두리 3종**이다(#7이 확정한 6조합 =
- * 3 × 2모드, 최저 3.04). `border.default` · `border.field`는 제외한다 — 요건은
- * "상태를 나타내는 UI 컴포넌트"에 걸리고 구분선은 그 대상이 아니다. 다크에서
- * 알파 합성이라 값도 1.31까지 내려간다(semantic-tokens.md §8).
+ * 대상은 **인터랙티브 테두리 4종 × 면 5종 × 2모드 = 40조합**이다. #7이 확정한
+ * 원래 6조합은 `bg.canvas` 위만 봤는데, #33이 나머지 면을 재 보니 다크
+ * `#1e1e1e`(`bg.subtle`·`bg.inset`·`bg.overlay`) 위에서 4종이 전부 3:1 아래로
+ * 내려갔다 — 그중 `bg.overlay`는 다이얼로그·팝오버 안의 인풋과 버튼이 실제로
+ * 놓이는 면이다. 곱집합이 무의미한 쌍을 만든다는 #7의 우려는 텍스트 조합의
+ * 이야기고, 여기 5면은 전부 "무언가가 그 위에 놓이는 면"이라 해당되지 않는다.
+ *
+ * `border.default` · `border.field`는 여전히 제외한다 — 요건은 "상태를 나타내는
+ * UI 컴포넌트"에 걸리고 구분선은 그 대상이 아니다. 다크에서 알파 합성이라 값도
+ * 1.31까지 내려간다(semantic-tokens.md §8).
+ *
+ * ⚠️ 여기서 재는 것은 **토큰 원색**이다. 컴포넌트가 그 색을 불투명도로 깎으면
+ * (shadcn 원본의 `ring-ring/50` 같은) 이 게이트가 약속한 값이 화면에서 성립하지
+ * 않는데, `packages/tokens`는 `packages/ui`를 볼 수 없어 그걸 잡을 수 없다.
+ * 그래서 규약이 대신 막는다: **상태 테두리는 토큰을 불투명도 없이 칠한다**
+ * (semantic-tokens.md §8).
  */
-const NONTEXT_PAIRS = ['border.accent', 'border.danger', 'border.focus']
-  .map((fg) => [fg, 'bg.canvas'])
-
-/**
- * 게이트하지 않고 **표에만 싣는** 조합. 카드 위 포커스 링처럼 실제로 쓰이지만
- * #7의 6조합에 없던 쌍이다. 여기를 게이트로 올리는 것은 값을 바꾸는 결정이라
- * 이 티켓의 범위 밖이다 — 다크 `border.focus` on `bg.surface`가 2.84로 떨어진다.
- */
-const NONTEXT_WATCH = ['border.strong', 'border.accent', 'border.danger', 'border.focus']
-  .map((fg) => [fg, 'bg.surface'])
-  .concat([['border.strong', 'bg.canvas']])
+const NONTEXT_PAIRS = ['border.strong', 'border.accent', 'border.danger', 'border.focus']
+  .flatMap((fg) => SURFACES.map((bg) => [fg, bg]))
 
 // ── 계산 ────────────────────────────────────────────────────────────────────
 
@@ -103,7 +106,6 @@ export function report(root = ROOT) {
     const groups = [
       ['text', TEXT_PAIRS, 4.5, true],
       ['nontext', NONTEXT_PAIRS, 3, true],
-      ['nontext(참고)', NONTEXT_WATCH, 3, false],
     ]
     for (const [kind, pairs, gate, gated] of groups) {
       for (const [fg, bg] of pairs) {
@@ -129,7 +131,7 @@ function main() {
     )
   }
 
-  for (const kind of ['text', 'nontext', 'nontext(참고)']) {
+  for (const kind of ['text', 'nontext']) {
     const of = rows.filter((r) => r.kind === kind)
     const min = of.reduce((a, b) => (a.cr < b.cr ? a : b))
     console.log(`\n${kind} ${of.length}조합 (${of[0].gated ? '게이트' : '표시만'} ${of[0].gate}:1) — ` +

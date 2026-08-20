@@ -130,10 +130,10 @@
   --ds-fg-link: var(--ds-palette-brand-light-10);
   --ds-border-default: var(--ds-palette-neutral-light-6);
   --ds-border-field: var(--ds-palette-neutral-light-7);
-  --ds-border-strong: var(--ds-palette-neutral-light-8);
-  --ds-border-accent: var(--ds-palette-brand-light-8);
-  --ds-border-danger: var(--ds-palette-danger-light-8);
-  --ds-border-focus: var(--ds-palette-brand-light-8);
+  --ds-border-strong: var(--ds-palette-neutral-light-9);
+  --ds-border-accent: var(--ds-palette-brand-light-9);
+  --ds-border-danger: var(--ds-palette-danger-light-9);
+  --ds-border-focus: var(--ds-palette-brand-light-9);
   --ds-state-layer: var(--ds-palette-base-black);
 
   /* shadcn raw 34 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5) */
@@ -200,10 +200,10 @@
   --ds-fg-link: var(--ds-palette-brand-dark-10);
   --ds-border-default: var(--ds-palette-alpha-white-10);
   --ds-border-field: var(--ds-palette-alpha-white-15);
-  --ds-border-strong: var(--ds-palette-neutral-dark-8);
-  --ds-border-accent: var(--ds-palette-brand-dark-8);
-  --ds-border-danger: var(--ds-palette-danger-dark-8);
-  --ds-border-focus: var(--ds-palette-brand-dark-8);
+  --ds-border-strong: var(--ds-palette-neutral-dark-9);
+  --ds-border-accent: var(--ds-palette-brand-dark-9);
+  --ds-border-danger: var(--ds-palette-danger-dark-9);
+  --ds-border-focus: var(--ds-palette-brand-dark-9);
   --ds-state-layer: var(--ds-palette-base-white);
   --chart-1: var(--ds-palette-neutral-dark-12);
   --chart-2: var(--ds-palette-neutral-dark-10);

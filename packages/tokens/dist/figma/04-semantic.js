@@ -76,10 +76,10 @@ const SEMANTIC = [
   ["fg/link","brand/light/10","brand/dark/10","var(--ds-fg-link)"],
   ["border/default","neutral/light/6","alpha/white/10","var(--ds-border-default)"],
   ["border/field","neutral/light/7","alpha/white/15","var(--ds-border-field)"],
-  ["border/strong","neutral/light/8","neutral/dark/8","var(--ds-border-strong)"],
-  ["border/accent","brand/light/8","brand/dark/8","var(--ds-border-accent)"],
-  ["border/danger","danger/light/8","danger/dark/8","var(--ds-border-danger)"],
-  ["border/focus","brand/light/8","brand/dark/8","var(--ds-border-focus)"],
+  ["border/strong","neutral/light/9","neutral/dark/9","var(--ds-border-strong)"],
+  ["border/accent","brand/light/9","brand/dark/9","var(--ds-border-accent)"],
+  ["border/danger","danger/light/9","danger/dark/9","var(--ds-border-danger)"],
+  ["border/focus","brand/light/9","brand/dark/9","var(--ds-border-focus)"],
   ["state/layer","base/black","base/white","var(--ds-state-layer)"],
 ]
 

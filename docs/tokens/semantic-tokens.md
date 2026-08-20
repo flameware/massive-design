@@ -267,13 +267,39 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 
 전 조합 자동 검산 결과 — 스크립트는 #7 코멘트 참조.
 
-- **텍스트 42조합 전부 WCAG AA(4.5:1) 통과.** 최저 4.80 (`fg.on-solid` on `bg.danger.solid`)
-- **비텍스트 6조합 전부 3:1 통과.** 최저 3.04 (dark `border.focus` on `bg.canvas`)
+- **텍스트 64조합 전부 WCAG AA(4.5:1) 통과.** 최저 4.80 (`fg.on-solid` on `bg.danger.solid`)
+- **비텍스트 40조합 전부 3:1 통과.** 최저 3.08 (dark `border.focus`·`border.accent` on `bg.overlay`)
 - `fg.on-solid`는 4패밀리 solid 위에서 4.80~5.41 — **단일 토큰으로 유지된다.** 순백 리터럴을 쓴다 (`neutral.1`을 쓰면 danger에서 4.72까지 떨어져 여유가 얇다). `color.state.layer`가 어차피 흑/백 리터럴을 요구하므로 추가 비용이 없다
 
 다크 보더는 알파 합성이라 대비값이 낮다(`border.default` 1.31 / `border.field` 1.56 on `bg.surface`). 이건 shadcn 정본과 같은 성질이고, 보더는 비텍스트 3:1 요건 대상이 아니다(요건은 "상태를 나타내는 UI 컴포넌트"에 걸린다).
 
-> ⚠️ **[#17](https://github.com/flameware/massive-design/issues/17)이 연 구멍**: 비텍스트 6조합은 **전부 `bg.canvas` 위**만 본다. 같은 테두리를 `bg.surface` 위에 놓으면 다크 `border.focus`·`border.accent`가 **2.84**로 3:1 아래로 내려간다(둘 다 brand dark 8). 카드 위의 포커스 링은 shadcn이 실제로 그리는 화면이다 — [#33](https://github.com/flameware/massive-design/issues/33)에서 정한다. 그때까지 `tokens:contrast`는 이 조합들을 `참고` 행으로만 싣는다.
+### 8.1 비텍스트 게이트는 5면 전부를 본다 ([#33](https://github.com/flameware/massive-design/issues/33))
+
+#7이 확정한 원래 6조합은 **전부 `bg.canvas` 위**만 봤다. [#17](https://github.com/flameware/massive-design/issues/17)이 `bg.surface`를 재며 구멍을 열었고, #33이 나머지 면까지 재자 **바닥이 `bg.surface`가 아니었다**: 다크 `bg.subtle`·`bg.inset`·`bg.overlay`는 전부 `#1e1e1e`이고 그 위에서 인터랙티브 테두리 **4종이 전부** 3:1 아래였다 — `focus`/`accent` 2.59 · `danger` 2.80 · `strong` 2.86. 라이트도 `border.strong` on `bg.subtle`이 2.98이었다.
+
+그래서 게이트는 **인터랙티브 테두리 4종 × 면 5종 × 2모드 = 40조합**이 됐다. 곱집합이 무의미한 쌍을 만든다는 #7의 우려는 텍스트 조합의 이야기다 — 이 5면은 전부 "무언가가 그 위에 놓이는 면"이라 해당되지 않는다. 그중 `bg.overlay`가 다이얼로그·팝오버 안의 인풋과 버튼이 실제로 놓이는 면이라 가장 중요하다.
+
+**고친 방법: 네 토큰의 참조를 팔레트 8단 → 9단으로 올렸다**(양 모드). 파급이 정확히 네 칸인 이유는 **팔레트 8단을 참조하는 것이 이 네 토큰뿐**이었기 때문이다 — 램프는 건드리지 않았고, 이제 semantic 계층에서 8단은 아무도 안 쓴다.
+
+| dark, 최악 면 `bg.overlay` | 이전 (8단) | 이후 (9단) |
+|---|---|---|
+| `border.focus` · `border.accent` | 2.59 | **3.08** |
+| `border.danger` | 2.80 | **3.47** |
+| `border.strong` | 2.86 | **3.47** |
+
+brand의 3.08은 얇다. 그건 값이 아슬아슬한 게 아니라 **다크 중간 회색면 위 파랑의 물리적 한계**다 — 10단(`#5989e2`, 4.84)은 여유를 주지만 라이트 10단은 반대로 더 어두워져(`#1553c6`) 양 모드의 인상이 갈린다. 여유가 더 필요하면 답은 램프가 아니라 **두 겹 링 구조**이고, 그건 별건이다.
+
+### 8.2 상태 테두리는 토큰을 불투명도 없이 칠한다
+
+이 게이트가 재는 것은 **토큰 원색**이다. `scripts/contrast.mjs`는 `packages/tokens` 안에 살아 `packages/ui`를 원리적으로 볼 수 없으므로, 컴포넌트가 토큰 색을 불투명도로 깎으면 게이트가 약속한 3:1이 화면에서 성립하지 않는데도 초록으로 통과한다.
+
+shadcn 원본의 `focus-visible:ring-ring/50`이 정확히 그 경우였다. 실측하면 **`/50`은 어떤 면·어떤 모드에서도 3:1을 못 넘는다 — 최댓값이 라이트 `bg.subtle` 위 2.36**이다. 그래서 규약으로 막는다:
+
+> **상태를 나타내는 테두리(포커스 링, 에러 테두리)는 semantic 토큰을 불투명도 없이 칠한다.**
+
+`packages/ui/src/components/ui/button.tsx`에서 `ring-ring/50` → `ring-ring`, `ring-destructive/20` → `ring-destructive`로 걷어냈다. `aria-invalid:ring-destructive/20`은 남겼다 — 그 상태를 지는 것은 같이 걸린 `aria-invalid:border-destructive`(원색, 게이트 대상)이고 링은 그 위의 글로우다.
+
+⚠️ **딸려 오는 결과: `border.focus`가 `bg.accent.solid`와 같은 hex가 됐다**(양 모드 다 9단). primary 버튼은 링이 면과 동색이라 포커스가 "조금 커진 덩어리"로 보인다 — 실제 렌더로 확인했다. 바깥 경계(링 대 배경면)가 3.08로 요건을 지므로 성립하지만, 다섯 variant 중 `default`만 눈에 띄게 약하다. 구조로 고치려면 두 겹 링이고, 그건 아직 안 연 항목이다.
 
 ## 9. 다음 티켓으로 넘기는 것
 

@@ -46,7 +46,7 @@ massive:<component>@<hash12>
 
 ```
 massive-design 디자인 시스템의 Button. 원본은 코드이고 이 컴포넌트는 파생이다.
-massive:button@a1533bd635fa
+massive:button@52bcaeb2ef99
 ```
 
 - `<component>`는 `index.gen.json`의 `component` 필드, `<hash12>`는 같은 항목의 `hash`
