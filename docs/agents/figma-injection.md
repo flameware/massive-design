@@ -89,7 +89,7 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 - hex → 0–1 왕복은 **무손실**(`#0f5fed` → `0.0588/0.3725/0.9294` = 15/95/237)
 - FLOAT는 float32라 `22.4` → `22.399999618530273`. 시각적으로 무의미하나 `tokens:verify`가 문자열 비교하면 걸린다 — **비교는 반올림 후에** 한다
 - `scopes`는 **항상 명시**한다. 기본값 `ALL_SCOPES`는 모든 속성 피커를 오염시킨다
-- palette 변수는 `hiddenFromPublishing = true` — primitive를 Tailwind `@theme`에 등록하지 않는 결정(#7)의 Figma 쪽 대응물
+- palette **색** 변수는 `hiddenFromPublishing = true` — primitive를 Tailwind `@theme`에 등록하지 않는 결정([#7](https://github.com/flameware/massive-design/issues/7))의 Figma 쪽 대응물이다. **같은 컬렉션의 스케일 변수 47개는 반대로 `false`를 명시한다**([#41](https://github.com/flameware/massive-design/issues/41)) — `--spacing`·`--radius-md`·`--text-sm`은 `@theme`에 등록돼 있어 코드에서 공개이므로 Figma에서만 숨기면 디자이너가 피커에서 집을 수 없다. ⚠️ **`true`를 지우는 게 아니라 `false`를 쓴다**: `upsert`가 기존 변수를 재사용하므로 줄만 지우면 이미 숨겨진 채 주입된 파일은 영영 안 돌아온다
 - `setBoundVariableForPaint`·`setBoundVariableForEffect`는 **새 객체를 반환**한다. 반환값을 받아 재할당할 것
 
 ## 3. 검증

@@ -217,20 +217,32 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 
 ```json
 {
-  "space.2":               { "collection": "palette",  "name": "space/2" },
-  "radius.md":             { "collection": "palette",  "name": "radius/md" },
-  "type.size.sm":          { "collection": "palette",  "name": "type/size/sm" },
-  "--text-sm--line-height":{ "collection": "palette",  "name": "type/line-height/sm" },
-  "--ds-bg-accent-solid":  { "collection": "semantic", "name": "bg/accent/solid" },
-  "--ds-fg-on-solid":      { "collection": "semantic", "name": "fg/on-solid" }
+  "$generated": "scripts/build.mjs — 손대지 말 것. 사양은 docs/agents/figma-components.md §8",
+  "$consume":   "…",
+
+  "space.2":               { "kind": "variable",    "collection": "palette",  "name": "space/2" },
+  "radius.md":             { "kind": "variable",    "collection": "palette",  "name": "radius/md" },
+  "type.size.sm":          { "kind": "variable",    "collection": "palette",  "name": "type/size/sm" },
+  "borderWidth.1":         { "kind": "variable",    "collection": "palette",  "name": "border-width/1" },
+  "--text-sm--line-height":{ "kind": "variable",    "collection": "palette",  "name": "type/line-height/sm" },
+  "--font-sans":           { "kind": "variable",    "collection": "palette",  "name": "type/family/sans" },
+  "--ds-bg-accent-solid":  { "kind": "variable",    "collection": "semantic", "name": "bg/accent/solid" },
+  "--ds-fg-on-solid":      { "kind": "variable",    "collection": "semantic", "name": "fg/on-solid" },
+  "shadow.xs":             { "kind": "effectStyle",                           "name": "shadow/xs" }
 }
 ```
 
-**소비 규칙: 셀에 `scale`이 있으면 그걸로 찾고, 없으면 `token`으로 찾는다.**
+**소비 규칙: 셀에 `scale`이 있으면 그걸로 찾고, 없으면 `token`으로 찾는다.** `$`로 시작하는 키는 메타이지 표의 칸이 아니다 — `tokens/**`의 DTCG 규약과 같다.
 
 `collection`을 값에 넣는 이유는 조회를 한 번에 끝내기 위해서다 — 에이전트가 컬렉션 둘을 뒤지지 않는다. 그리고 스케일 변수의 컬렉션 이사가 미결 fog로 남아 있으므로(§10), 그날 이 필드가 **한 글자 변경**으로 흡수한다.
 
-`tier: "literal"`인 값은 이 표에 없다. 그대로 박는다.
+⚠️ **`kind`는 [#41](https://github.com/flameware/massive-design/issues/41)이 이 절에 더한 필드다.** 매니페스트는 `box-shadow`를 `scale: "shadow.xs"`로 내는데 Figma에서 그림자는 **변수가 아니라 Effect Style**이라 컬렉션이 없다 — 조회 채널 자체가 다르다(`getLocalEffectStylesAsync`). 화이트리스트로 침묵시키는 대신 표가 말하게 했다. 조립은 `kind`를 먼저 읽는다.
+
+`tier: "literal"`인 값은 이 표에 없다. 그대로 박는다. **primitive 색(`--ds-palette-*`)도 없다** — Tailwind `@theme`에 없어 컴포넌트가 애초에 집을 수 없고([#7](https://github.com/flameware/massive-design/issues/7)), 새면 `@massive/ui` check 규칙 1이 먼저 잡는다. Text Style도 없다: 타이포 role 어휘가 아직 없어 매니페스트가 스타일 이름으로 말하지 않고 `font-size`·`line-height`를 변수로 따로 집는다.
+
+### 8.3 게이트
+
+`@massive/ui`의 `check` 규칙 4가 **매니페스트가 가리키는 모든 `token`/`scale`이 이 표에 있는지** 본다. 표에 없는 이름은 주입 때 **조용히 리터럴로 떨어진다** — 바인딩이 안 걸린 값은 Figma에서 정상으로 보이고 모드 전환에서만 죽는다. 검사하는 키는 소비하는 키와 같다(`scale` 우선). 게이트가 `packages/ui`에 있는 이유는 표는 토큰 패키지가 갖고 매니페스트는 UI 패키지가 갖기 때문이고, 표가 낡는 것은 `@massive/tokens`의 `tokens:verify`가 따로 막는다.
 
 ---
 
@@ -295,8 +307,7 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 
 ## 11. 아직 안 본 것
 
-- ⚠️ **스케일 변수 47개가 전부 `hiddenFromPublishing = true`다**(`03-palette-scale.js:111`). 이건 [#7](https://github.com/flameware/massive-design/issues/7)의 **과적용**이다 — [#7](https://github.com/flameware/massive-design/issues/7)이 `@theme`에서 뺀 것은 primitive **색**뿐이고 `--spacing`·`--radius-md`·`--text-sm`은 등록돼 있어 컴포넌트가 매일 집어 쓴다. 동작에는 지장이 없고(Text Style 5개가 이미 숨겨진 변수를 바인딩하며 [#31](https://github.com/flameware/massive-design/issues/31) §8.4가 소비 파일까지 성립함을 실측했다) 갈리는 것은 **디자이너가 피커에서 집을 수 있는가**뿐이다. **스케일 47개만 노출로 되돌리기로 했다** — 컬렉션은 `palette`에 그대로 둔다
-- **스케일 변수가 사는 컬렉션.** 위 항목과 **별개 문제**다 — 노출은 플래그이고 컬렉션은 그룹핑이다. 섞으면 되돌리기 어려운 쪽(변수 ID가 바뀌어 기존 바인딩이 전부 재지정된다)이 쉬운 쪽에 묻어 들어온다. fog에 남는다
+- **스케일 변수가 사는 컬렉션.** 노출([#41](https://github.com/flameware/massive-design/issues/41)이 되돌렸다)과 **별개 문제**다 — 노출은 플래그이고 컬렉션은 그룹핑이다. 섞으면 되돌리기 어려운 쪽(변수 ID가 바뀌어 기존 바인딩이 전부 재지정된다)이 쉬운 쪽에 묻어 들어온다. fog에 남는다
 - **`fontFamily` 바인딩 순서가 컴포넌트 세트에서도 성립하는가.** [#9](https://github.com/flameware/massive-design/issues/9)·[#10](https://github.com/flameware/massive-design/issues/10)이 증명한 범위는 Text Style과 평범한 텍스트 노드까지다. variant마다 텍스트 노드를 만들어 `combineAsVariants`로 묶는 경로는 미검증이고, **바인딩을 세트 조립 완료 후로 미뤄야 한다**는 것이 가설이다([#26](https://github.com/flameware/massive-design/issues/26)이 기록한다)
 - **`description` 재발행 버그의 발현 조건.** [#31](https://github.com/flameware/massive-design/issues/31)의 왕복에서 발현하지 않았다. §3.3이 대비만 해 두었다
 - **`sharedPluginData`로의 이전.** 발행 경계를 넘는 것은 확인됐다([#31](https://github.com/flameware/massive-design/issues/31) §8.3). `description`의 가시성 오염이 실제 문제로 드러나면 옮겨갈 자리다. 지금 병행하지 않는 이유는 **같은 값이 두 자리에 있으면 어긋났을 때 정본 규약이 또 필요**하기 때문

@@ -22,7 +22,7 @@ export const CODE_LIMIT = 50_000
 const COLOR_SCOPES = ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL', 'STROKE_COLOR']
 
 /** DTCG 경로 → Figma 변수명. `palette.`/`color.` 접두는 컬렉션이 이미 말한다. */
-const figmaName = (path) => path.replace(/^(palette|color)\./, '').replace(/\./g, '/')
+export const figmaName = (path) => path.replace(/^(palette|color)\./, '').replace(/\./g, '/')
 
 const json = (value) => JSON.stringify(value)
 
@@ -140,51 +140,62 @@ return { count: COLORS.length, collection: col.id }
  * Figma로 나가는 비색상. CSS와 **서로 다른 부분집합**이고 그건 매체 차이다
  * (scale-tokens.md §3.2) — space 프리셋 13은 Figma 전용이고, borderWidth·
  * duration·opacity는 CSS 출력이 없다.
+ *
+ * `key`는 **코드 쪽에서 이 변수를 부르는 이름**이고 번역표 ②가 그걸 쓴다
+ * (figma-components.md §8). 여기서 같이 내는 이유는 짝을 아는 자리가 여기뿐이기
+ * 때문이다 — 대부분은 scale.json의 점 경로지만 셋이 그렇지 않다: line-height는
+ * 사이즈 × tier로 **파생**돼 점 경로가 없고(CSS 변수 이름으로 부른다), family는
+ * `--font-sans`, `borderWidth.1`은 kebab으로 갈린다. 저쪽에서 다시 지으면 그게
+ * 세 번째 사본이다.
+ *
+ * @returns {{key: string, name: string, type: string, value: unknown, scopes: string[]}[]}
  */
 export function scaleVariables(scale) {
   const out = []
-  const push = (name, type, value, scopes) => out.push([name, type, value, scopes])
+  const push = (key, name, type, value, scopes) => out.push({ key, name, type, value, scopes })
   const px = (token) => token.$extensions['design.massive.px']
 
   for (const [name, token] of entries(scale.type.size)) {
-    push(`type/size/${name}`, 'FLOAT', px(token), ['FONT_SIZE'])
+    push(`type.size.${name}`, `type/size/${name}`, 'FLOAT', px(token), ['FONT_SIZE'])
   }
   // 비율이 아니라 px. setBoundVariable('lineHeight')가 단위를 PIXELS로 강제
   // 변환하므로 빌드가 곱해 낸다 (#10 · scale-tokens.md §2.5)
   for (const [name, token] of entries(scale.type.size)) {
     const tier = token.$extensions['design.massive.typeTier']
-    push(`type/line-height/${name}`, 'FLOAT',
+    // 점 경로가 없다 — 매니페스트도 `--text-sm--line-height`로 부른다
+    push(`--text-${name}--line-height`, `type/line-height/${name}`, 'FLOAT',
       round(px(token) * scale.type.lineHeight[tier].$value), ['LINE_HEIGHT'])
   }
   // STRING 변수 — 로컬 폰트를 못 보는 실행 컨텍스트 우회 (#9)
   for (const [name, token] of entries(scale.type.family)) {
-    push(`type/family/${name}`, 'STRING',
+    push(`--font-${name}`, `type/family/${name}`, 'STRING',
       token.$extensions['design.massive.figmaFamily'], ['FONT_FAMILY'])
   }
   for (const [name, token] of entries(scale.space)) {
     if (name === 'base') continue   // --spacing은 코드 전용(cssOnly)
-    push(`space/${name}`, 'FLOAT', px(token), ['GAP', 'WIDTH_HEIGHT'])
+    push(`space.${name}`, `space/${name}`, 'FLOAT', px(token), ['GAP', 'WIDTH_HEIGHT'])
   }
   for (const [name, token] of entries(scale.radius)) {
     if (name === 'base') continue   // shadcn이 직접 참조하는 CSS 변수. 피커에 낼 값이 아니다
-    push(`radius/${name}`, 'FLOAT', px(token), ['CORNER_RADIUS'])
+    push(`radius.${name}`, `radius/${name}`, 'FLOAT', px(token), ['CORNER_RADIUS'])
   }
   for (const [name, token] of entries(scale.borderWidth)) {
-    push(`border-width/${name}`, 'FLOAT', px(token), ['STROKE_FLOAT'])
+    push(`borderWidth.${name}`, `border-width/${name}`, 'FLOAT', px(token), ['STROKE_FLOAT'])
   }
   // duration에 대응하는 VariableScope가 없다. ALL_SCOPES는 모든 피커를
   // 오염시키므로(#4) 빈 배열로 둔다 — 값은 살아 있고 피커에만 안 뜬다
   for (const [name, token] of entries(scale.duration)) {
-    push(`duration/${name}`, 'FLOAT', parseFloat(token.$value), [])
+    push(`duration.${name}`, `duration/${name}`, 'FLOAT', parseFloat(token.$value), [])
   }
   for (const [name, group] of entries(scale.state)) {
-    push(`opacity/${name}`, 'FLOAT', group.opacity.$value, ['OPACITY'])
+    push(`state.${name}.opacity`, `opacity/${name}`, 'FLOAT', group.opacity.$value, ['OPACITY'])
   }
   return out
 }
 
 function emit03({ scale }) {
-  const vars = scaleVariables(scale)
+  // 주입 스크립트에는 Figma 쪽 넷만 간다 — `key`는 번역표 ②의 것이다
+  const vars = scaleVariables(scale).map((v) => [v.name, v.type, v.value, v.scopes])
   return `${header('03', `palette 스케일 ${vars.length}개`)}
 ${PRELUDE}
 
@@ -196,10 +207,15 @@ const col = await upsertCollection('palette')
 const mode = upsertMode(col, 'Value')
 const index = await indexVariables(col)
 
+// hiddenFromPublishing을 걸지 않는다. 02에서 복사돼 온 줄이었고 #7의 과적용이다
+// — #7이 Tailwind @theme에서 뺀 것은 primitive **색**뿐이고 --spacing·--radius-md·
+// --text-sm은 등록돼 있어 컴포넌트가 매일 집어 쓴다. 코드에서 공개인 것을 Figma에서만
+// 숨기면 디자이너가 피커에서 집을 수 없다 (#41)
 for (const [name, type, value, scopes] of SCALE) {
   const v = upsertVariable(index, col, name, type)
   v.scopes = scopes
-  v.hiddenFromPublishing = true
+  // 이미 숨겨진 채로 주입된 파일을 되돌린다 — 플래그는 멱등이어야 한다
+  v.hiddenFromPublishing = false
   v.setValueForMode(mode, value)
 }
 

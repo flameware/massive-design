@@ -1,6 +1,6 @@
 /* @massive/ui의 게이트. packages/tokens의 check와 같은 자리에 선다.
  *
- * 세 가지를 지킨다:
+ * 네 가지를 지킨다:
  *   1. primitive를 직접 집는 곳이 없다 — 노출하지 않기로 한 계층이 컴포넌트로
  *      새는 순간을 잡는다. `bg-brand-500` 같은 유틸리티는 @theme에 없어서
  *      "조용히 아무 스타일도 안 나오는" 방식으로 실패하므로 눈으로는 안 보인다
@@ -8,16 +8,20 @@
  *      CSS 변수로 나오지 않고 styles.css가 값을 손으로 적은 유일한 사본이다
  *   3. 매니페스트의 토큰 계열이 그 값이 놓인 CSS 속성과 맞는다 — 배경용 이름을
  *      글자색에 쓴 자리를 잡는다(#37). 규칙 본문은 scripts/manifest/lint.mjs
+ *   4. 매니페스트가 가리키는 토큰이 전부 번역표 ②에 있다 — 없는 이름은 주입 때
+ *      조용히 리터럴이 된다(#41). 표는 @massive/tokens의 생성물이라 여기서만 볼 수
+ *      있다: 표는 토큰 패키지가 갖고 매니페스트는 UI 패키지가 갖는다
  *
  * 규칙 3은 **커밋된 매니페스트**를 읽는다. node로 도는 이 파일이 .tsx를 못
  * 벗기기 때문이고(생성기는 bun 전용), 낡은 매니페스트로 통과하는 일은 같은
  * `check` 사슬의 `manifest:verify`가 막는다 — 그것이 소스와의 일치를 이미 보증한다. */
 import { readFileSync, readdirSync, statSync } from "node:fs"
+import { createRequire } from "node:module"
 import { join, relative } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { OUT_DIR } from "./manifest/build.mjs"
-import { lintManifest } from "./manifest/lint.mjs"
+import { lintManifest, lintVarMapCoverage } from "./manifest/lint.mjs"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
 const src = join(root, "src")
@@ -94,9 +98,24 @@ try {
 } catch {
   errors.push(`${OUT_DIR}/ — 매니페스트가 없다. bun run manifest를 먼저 돌릴 것`)
 }
+
+// 4. 번역표 ② 커버리지
+//
+// 상대 경로가 아니라 exports를 탄다 — 이 파일은 `dist/` 밑만 내보내므로(#15),
+// 리포 밖 소비처가 이 표를 읽는 길과 같은 길로 읽는다. 규칙 2의 scale.json이
+// 상대 경로인 것은 그것이 **원본**이라 애초에 내보내지지 않기 때문이다.
+const VAR_MAP = "@massive/tokens/dist/figma/var-map.gen.json"
+let varMap = {}
+try {
+  varMap = JSON.parse(readFileSync(createRequire(import.meta.url).resolve(VAR_MAP), "utf8"))
+} catch {
+  errors.push(`${VAR_MAP} — 없다. @massive/tokens의 tokens:build를 먼저 돌릴 것`)
+}
+
 for (const name of manifests) {
   const doc = JSON.parse(readFileSync(join(manifestDir, name), "utf8"))
   for (const e of lintManifest(doc)) errors.push(`${OUT_DIR}/${name} — ${e}`)
+  for (const e of lintVarMapCoverage(doc, varMap)) errors.push(`${OUT_DIR}/${name} — ${e}`)
 }
 
 if (errors.length) {
@@ -105,6 +124,8 @@ if (errors.length) {
   process.exit(1)
 }
 const ladderText = expected.map(([s, v]) => `${s}=${v}`).join(" ")
+const varMapSize = Object.keys(varMap).filter((k) => !k.startsWith("$")).length
 console.log(
-  `@massive/ui check 통과 — 파일 ${files.length}개, state 사다리 ${ladderText}, 매니페스트 ${manifests.length}개의 토큰 계열`
+  `@massive/ui check 통과 — 파일 ${files.length}개, state 사다리 ${ladderText}, ` +
+    `매니페스트 ${manifests.length}개의 토큰 계열과 번역표 ${varMapSize}칸 커버리지`
 )

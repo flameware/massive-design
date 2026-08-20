@@ -105,10 +105,15 @@ const col = await upsertCollection('palette')
 const mode = upsertMode(col, 'Value')
 const index = await indexVariables(col)
 
+// hiddenFromPublishing을 걸지 않는다. 02에서 복사돼 온 줄이었고 #7의 과적용이다
+// — #7이 Tailwind @theme에서 뺀 것은 primitive **색**뿐이고 --spacing·--radius-md·
+// --text-sm은 등록돼 있어 컴포넌트가 매일 집어 쓴다. 코드에서 공개인 것을 Figma에서만
+// 숨기면 디자이너가 피커에서 집을 수 없다 (#41)
 for (const [name, type, value, scopes] of SCALE) {
   const v = upsertVariable(index, col, name, type)
   v.scopes = scopes
-  v.hiddenFromPublishing = true
+  // 이미 숨겨진 채로 주입된 파일을 되돌린다 — 플래그는 멱등이어야 한다
+  v.hiddenFromPublishing = false
   v.setValueForMode(mode, value)
 }
 
