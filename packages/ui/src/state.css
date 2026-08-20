@@ -1,0 +1,37 @@
+/* state layer — 상태 색 토큰은 0개다. 기본 색 위에 --ds-state-layer(라이트=검정,
+ * 다크=흰색)를 불투명도만큼 얹어 hover/pressed를 만든다(CONTEXT.md).
+ *
+ * 사다리는 primitive scale.json의 state.*.opacity와 같은 값이다. 그 토큰들은
+ * noCss로 표시돼 CSS 변수로 나오지 않으므로 여기가 유일한 사본이고, 어긋나면
+ * scripts/check.mjs가 잡는다.
+ *
+ * --ds-state-base를 안 주면 transparent에 섞인다 — ghost처럼 배경이 없는
+ * variant에서 반투명 층 그 자체가 되어 의도한 결과가 나온다.
+ *
+ * disabled(0.5)는 여기 없다. 층이 아니라 요소 전체의 불투명도라서 shadcn의
+ * disabled:opacity-50이 이미 정확히 그 값이다. */
+@utility state {
+  --ds-state-alpha: 0%;
+  /* base를 앞에 두는 것이 규약이다. Tailwind는 color-mix를 지원하지 않는
+   * 브라우저용 @supports 폴백을 첫 색으로 자동 생성하는데, layer가 앞에 오면
+   * 그 폴백이 "버튼 전체가 검정/흰색 덩어리"가 된다. base가 앞이면 폴백이
+   * 정확히 "상태 없는 기본 색"이 된다 */
+  background-color: color-mix(
+    in oklab,
+    var(--ds-state-base, transparent) calc(100% - var(--ds-state-alpha)),
+    var(--ds-state-layer)
+  );
+
+  &:hover {
+    --ds-state-alpha: 8%;
+  }
+
+  &:active {
+    --ds-state-alpha: 12%;
+  }
+
+  &:disabled:hover,
+  &:disabled:active {
+    --ds-state-alpha: 0%;
+  }
+}

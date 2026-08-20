@@ -49,7 +49,9 @@ const scale = JSON.parse(
 )
 const opacity = (name) => scale.state[name].opacity.$value
 
-const css = readFileSync(join(src, "styles.css"), "utf8")
+// 사다리는 state.css에 산다 — styles.css에서 분리된 것이 규약이다(#23).
+// 생성기가 @source 오염 없이 단독 컴파일하려면 그래야 한다
+const css = readFileSync(join(src, "state.css"), "utf8")
 const ladder = [...css.matchAll(/&:(hover|active)\s*\{\s*--ds-state-alpha:\s*([\d.]+)%/g)].map(
   (m) => [m[1], Number(m[2]) / 100]
 )
@@ -61,7 +63,7 @@ for (const [state, want] of expected) {
   const got = ladder.find(([s]) => s === state)?.[1]
   if (got !== want) {
     errors.push(
-      `src/styles.css — &:${state}의 --ds-state-alpha가 ${got ?? "없음"}, scale.json은 ${want}`
+      `src/state.css — &:${state}의 --ds-state-alpha가 ${got ?? "없음"}, scale.json은 ${want}`
     )
   }
 }

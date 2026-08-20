@@ -10,7 +10,10 @@
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "check": "node scripts/check.mjs && tsc --noEmit"
+    "manifest": "bun scripts/manifest.mjs",
+    "manifest:verify": "bun scripts/manifest-verify.mjs",
+    "check": "node scripts/check.mjs && tsc --noEmit && bun scripts/manifest-verify.mjs",
+    "test": "node --test"
   },
   "dependencies": {
     "@massive/tokens": "*",

@@ -1,0 +1,11 @@
+{
+  "components": [
+    {
+      "cells": 48,
+      "component": "button",
+      "hash": "a1533bd635fa",
+      "path": "button.gen.json"
+    }
+  ],
+  "schemaVersion": 1
+}
