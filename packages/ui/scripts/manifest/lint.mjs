@@ -69,3 +69,49 @@ export function lintManifest(doc) {
 
   return errors
 }
+
+/* ── 번역표 ② 커버리지 ────────────────────────────────────────────────────── */
+
+/**
+ * 매니페스트가 가리키는 모든 `token`/`scale`이 번역표 ②에 있는지 본다(#41).
+ *
+ * 없으면 주입 에이전트가 **조용히** 리터럴로 떨어뜨린다 — 바인딩이 안 걸린 값은
+ * Figma에서 정상으로 보이고 모드 전환에서만 죽는다. 계열 검사(위)와 같은 종류의
+ * 침묵이라 게이트가 아니면 안 보인다.
+ *
+ * 소비 규칙이 곧 검사 규칙이다: **셀에 `scale`이 있으면 그걸로, 없으면 `token`으로.**
+ * 검사하는 키가 소비하는 키와 다르면 통과하는 게이트가 아니라 두 번째 규약이 된다.
+ *
+ * @param {object} doc 매니페스트 문서 하나
+ * @param {object} varMap `@massive/tokens`의 `dist/figma/var-map.gen.json`
+ * @returns {string[]} 위반 메시지
+ */
+export function lintVarMapCoverage(doc, varMap) {
+  const errors = []
+  const name = doc.component
+  const seen = new Set()
+
+  const need = (entry, where) => {
+    if (entry?.tier !== "token") return
+    const key = entry.scale ?? entry.token
+    if (!key || key in varMap || seen.has(key)) return
+    seen.add(key)   // 48칸이 같은 토큰을 집는다. 한 번만 말한다
+    errors.push(`${where} — ${key}가 번역표 ②(var-map.gen.json)에 없다`)
+  }
+
+  for (const [prop, entry] of Object.entries(doc.base ?? {})) need(entry, `${name} base/${prop}`)
+
+  for (const cell of doc.cells ?? []) {
+    const where = `${name} ${cell.variant}/${cell.size}`
+    for (const [prop, entry] of Object.entries(cell.properties ?? {})) need(entry, `${where}/${prop}`)
+    for (const [role, slot] of Object.entries(cell.slots ?? {})) {
+      for (const [prop, entry] of Object.entries(slot)) need(entry, `${where} ${role}/${prop}`)
+    }
+    // state.base·state.layer는 tier 봉투가 없는 맨 토큰 이름이다
+    for (const role of ["base", "layer"]) {
+      need({ tier: "token", token: cell.state?.[role] }, `${where} state.${role}`)
+    }
+  }
+
+  return errors
+}

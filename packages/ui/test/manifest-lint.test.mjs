@@ -3,7 +3,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { lintManifest } from "../scripts/manifest/lint.mjs"
+import { lintManifest, lintVarMapCoverage } from "../scripts/manifest/lint.mjs"
 
 const token = (t) => ({ tier: "token", token: t })
 
@@ -108,6 +108,84 @@ test("계열 검사가 침묵하는 자리 — color 항목이 아예 없는 칸
       component: "button",
       cells: [cell("ghost", { display: { tier: "literal", value: "inline-flex" } })],
     }),
+    []
+  )
+})
+
+/* ── 번역표 ② 커버리지(#41) ────────────────────────────────────────────────── */
+
+const VAR_MAP = {
+  $generated: "메타 키는 표의 칸이 아니다",
+  "space.4": { kind: "variable", collection: "palette", name: "space/4" },
+  "shadow.xs": { kind: "effectStyle", name: "shadow/xs" },
+  "--ds-fg-on-solid": { kind: "variable", collection: "semantic", name: "fg/on-solid" },
+  "--ds-state-layer": { kind: "variable", collection: "semantic", name: "state/layer" },
+}
+
+test("표에 없는 이름을 잡는다 — 셀·슬롯·base·state 전부", () => {
+  const errors = lintVarMapCoverage(
+    {
+      component: "button",
+      base: { "border-color": token("--ds-border-default") },
+      cells: [
+        {
+          variant: "default",
+          size: "default",
+          properties: { color: token("--ds-fg-muted") },
+          slots: { icon: { size: { tier: "token", scale: "space.99", token: "--spacing" } } },
+          state: { base: "--ds-bg-ghost", layer: "--ds-state-layer" },
+        },
+      ],
+    },
+    VAR_MAP
+  )
+  assert.deepEqual(errors.map((e) => e.split(" — ")[1].split("가 ")[0]), [
+    "--ds-border-default",
+    "--ds-fg-muted",
+    "space.99",
+    "--ds-bg-ghost",
+  ])
+})
+
+test("scale이 token을 이긴다 — 소비 규칙과 같은 키로 검사한다", () => {
+  // space.4는 표에 있고 --spacing은 없다. 소비가 scale로 찾으므로 통과여야 한다
+  const entry = { tier: "token", scale: "space.4", token: "--spacing", multiple: 4 }
+  assert.deepEqual(
+    lintVarMapCoverage(
+      { component: "b", cells: [{ variant: "a", size: "s", properties: { gap: entry } }] },
+      VAR_MAP
+    ),
+    []
+  )
+})
+
+test("literal은 대상이 아니고 같은 키는 한 번만 운다", () => {
+  const missing = token("--ds-fg-muted")
+  const cells = [1, 2, 3].map((n) => ({
+    variant: `v${n}`,
+    size: "default",
+    properties: { color: missing, display: { tier: "literal", value: "inline-flex" } },
+  }))
+  const errors = lintVarMapCoverage({ component: "b", cells }, VAR_MAP)
+  assert.equal(errors.length, 1)
+  assert.match(errors[0], /b v1\/default/)
+})
+
+test("effectStyle 칸도 통과한다 — kind가 달라도 표에 있으면 있는 것이다", () => {
+  assert.deepEqual(
+    lintVarMapCoverage(
+      {
+        component: "b",
+        cells: [
+          {
+            variant: "a",
+            size: "s",
+            properties: { "box-shadow": { tier: "token", scale: "shadow.xs", token: "--shadow-xs" } },
+          },
+        ],
+      },
+      VAR_MAP
+    ),
     []
   )
 })

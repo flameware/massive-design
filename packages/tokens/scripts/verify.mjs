@@ -30,7 +30,7 @@ export function verify(root = ROOT) {
     stale.push(`${GEN_FILE} — 손편집됐거나 config가 바뀌었다. tokens:ramp를 돌릴 것`)
   }
 
-  // 2. tokens:build — dist 3종
+  // 2. tokens:build — dist 4종
   const built = buildAll(loadSources(root))
   for (const [name, expected] of built) {
     let actual

@@ -1,0 +1,409 @@
+{
+  "$generated": "scripts/build.mjs — 손대지 말 것. 사양은 docs/agents/figma-components.md §8",
+  "$consume": "셀에 scale이 있으면 그걸로, 없으면 token으로 찾는다. kind가 variable이면 collection 안에서 name으로, effectStyle이면 getLocalEffectStylesAsync에서 name으로.",
+  "type.size.xs": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/xs"
+  },
+  "type.size.sm": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/sm"
+  },
+  "type.size.base": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/base"
+  },
+  "type.size.lg": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/lg"
+  },
+  "type.size.xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/xl"
+  },
+  "type.size.2xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/2xl"
+  },
+  "type.size.3xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/3xl"
+  },
+  "type.size.4xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/4xl"
+  },
+  "type.size.5xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/size/5xl"
+  },
+  "--text-xs--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/xs"
+  },
+  "--text-sm--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/sm"
+  },
+  "--text-base--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/base"
+  },
+  "--text-lg--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/lg"
+  },
+  "--text-xl--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/xl"
+  },
+  "--text-2xl--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/2xl"
+  },
+  "--text-3xl--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/3xl"
+  },
+  "--text-4xl--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/4xl"
+  },
+  "--text-5xl--line-height": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/line-height/5xl"
+  },
+  "--font-sans": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "type/family/sans"
+  },
+  "space.0": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/0"
+  },
+  "space.1": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/1"
+  },
+  "space.2": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/2"
+  },
+  "space.3": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/3"
+  },
+  "space.4": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/4"
+  },
+  "space.5": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/5"
+  },
+  "space.6": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/6"
+  },
+  "space.8": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/8"
+  },
+  "space.10": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/10"
+  },
+  "space.12": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/12"
+  },
+  "space.16": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/16"
+  },
+  "space.20": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/20"
+  },
+  "space.24": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "space/24"
+  },
+  "radius.sm": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "radius/sm"
+  },
+  "radius.md": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "radius/md"
+  },
+  "radius.lg": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "radius/lg"
+  },
+  "radius.xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "radius/xl"
+  },
+  "radius.2xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "radius/2xl"
+  },
+  "radius.3xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "radius/3xl"
+  },
+  "radius.4xl": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "radius/4xl"
+  },
+  "borderWidth.1": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "border-width/1"
+  },
+  "borderWidth.2": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "border-width/2"
+  },
+  "duration.fast": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "duration/fast"
+  },
+  "duration.base": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "duration/base"
+  },
+  "duration.slow": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "duration/slow"
+  },
+  "state.hover.opacity": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "opacity/hover"
+  },
+  "state.pressed.opacity": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "opacity/pressed"
+  },
+  "state.disabled.opacity": {
+    "kind": "variable",
+    "collection": "palette",
+    "name": "opacity/disabled"
+  },
+  "shadow.xs": {
+    "kind": "effectStyle",
+    "name": "shadow/xs"
+  },
+  "shadow.sm": {
+    "kind": "effectStyle",
+    "name": "shadow/sm"
+  },
+  "shadow.md": {
+    "kind": "effectStyle",
+    "name": "shadow/md"
+  },
+  "shadow.lg": {
+    "kind": "effectStyle",
+    "name": "shadow/lg"
+  },
+  "shadow.xl": {
+    "kind": "effectStyle",
+    "name": "shadow/xl"
+  },
+  "--ds-bg-canvas": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/canvas"
+  },
+  "--ds-bg-surface": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/surface"
+  },
+  "--ds-bg-subtle": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/subtle"
+  },
+  "--ds-bg-inset": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/inset"
+  },
+  "--ds-bg-overlay": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/overlay"
+  },
+  "--ds-bg-neutral-soft": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/neutral/soft"
+  },
+  "--ds-bg-neutral-solid": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/neutral/solid"
+  },
+  "--ds-bg-accent-soft": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/accent/soft"
+  },
+  "--ds-bg-accent-solid": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/accent/solid"
+  },
+  "--ds-bg-danger-soft": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/danger/soft"
+  },
+  "--ds-bg-danger-solid": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/danger/solid"
+  },
+  "--ds-bg-success-soft": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/success/soft"
+  },
+  "--ds-bg-success-solid": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/success/solid"
+  },
+  "--ds-bg-inverse": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/inverse"
+  },
+  "--ds-bg-scrim": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/scrim"
+  },
+  "--ds-fg-default": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/default"
+  },
+  "--ds-fg-muted": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/muted"
+  },
+  "--ds-fg-on-solid": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/on-solid"
+  },
+  "--ds-fg-on-inverse": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/on-inverse"
+  },
+  "--ds-fg-accent": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/accent"
+  },
+  "--ds-fg-danger": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/danger"
+  },
+  "--ds-fg-success": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/success"
+  },
+  "--ds-fg-link": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/link"
+  },
+  "--ds-border-default": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/default"
+  },
+  "--ds-border-field": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/field"
+  },
+  "--ds-border-strong": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/strong"
+  },
+  "--ds-border-accent": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/accent"
+  },
+  "--ds-border-danger": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/danger"
+  },
+  "--ds-border-focus": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/focus"
+  },
+  "--ds-state-layer": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "state/layer"
+  }
+}

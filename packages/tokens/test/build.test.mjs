@@ -81,7 +81,8 @@ test('빌드한 CSS는 규칙군 C를 통과한다', () => {
 
 // ── Figma 산출물 ────────────────────────────────────────────────────────────
 
-const figma = [...files].filter(([name]) => name.includes('figma'))
+// 주입 스크립트만. dist/figma에는 var-map.gen.json도 산다 — 그건 code로 안 간다
+const figma = [...files].filter(([name]) => name.includes('figma') && name.endsWith('.js'))
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
 
 test('주입 스크립트 6개가 50,000자 상한 안에 있다', () => {
@@ -101,10 +102,10 @@ test('line-height는 비율이 아니라 px로 나간다 — 바인딩이 PERCEN
   assert.match(code, /\[\s*"type\/line-height\/5xl",\s*"FLOAT",\s*60,/)
 })
 
-test('palette 변수는 발행에서 숨긴다', () => {
-  for (const name of ['figma/02-palette-color.js', 'figma/03-palette-scale.js']) {
-    assert.match(files.get(name), /hiddenFromPublishing = true/)
-  }
+test('primitive 색은 숨기고 스케일은 노출한다 — #7의 대응물은 색뿐이다 (#41)', () => {
+  assert.match(files.get('figma/02-palette-color.js'), /hiddenFromPublishing = true/)
+  // 지우는 게 아니라 false다 — 지우면 이미 숨겨진 채 주입된 파일이 영영 안 돌아온다
+  assert.match(files.get('figma/03-palette-scale.js'), /hiddenFromPublishing = false/)
 })
 
 test('semantic은 두 모드가 서로 다른 palette 단계를 가리킨다', () => {

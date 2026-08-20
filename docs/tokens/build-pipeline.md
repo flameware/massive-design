@@ -228,7 +228,7 @@ packages/tokens/                       # name: "@massive/tokens"
 | | |
 |---|---|
 | 입력 | `tokens/**` 전부 |
-| 출력 | `dist/tokens.css` · `dist/tokens.d.ts` · `dist/figma/0*.js` |
+| 출력 | `dist/tokens.css` · `dist/tokens.d.ts` · `dist/figma/0*.js` · `dist/figma/var-map.gen.json` |
 
 `dist/tokens.css`의 블록 순서 — **이 순서가 곧 #5의 4계층 alias 체인이다**:
 
