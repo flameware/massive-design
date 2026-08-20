@@ -1,5 +1,5 @@
 {
-  "$description": "shadcn 정본 이름 → 우리 semantic. 순수하게 기계적인 매핑 테이블이고 어휘 상한 밖이다. 값이 문자열이면 semantic 토큰 경로, 객체({light,dark})면 palette를 모드별로 직접 가리킨다 — 후자는 chart 플레이스홀더뿐이다",
+  "$description": "shadcn 정본 이름 → 우리 semantic. 순수하게 기계적인 매핑 테이블이고 어휘 상한 밖이다. 값이 문자열이면 semantic 토큰 경로, 객체({light,dark})면 palette를 모드별로 직접 가리킨다 — 후자는 chart 플레이스홀더뿐이다. 상한 밖인 근거는 '정본이라서'가 아니라 '소비처가 아는 이름 + 그와 같은 모양으로 파생된 이름'이다 — success·link는 정본에 없다(#37)",
 
   "background": "color.bg.canvas",
   "foreground": "color.fg.default",
@@ -38,6 +38,8 @@
 
   "success": "color.bg.success.solid",
   "success-foreground": "color.fg.on-solid",
+
+  "link": "color.fg.link",
 
   "radius": "{radius.base}"
 }

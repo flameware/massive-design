@@ -81,9 +81,9 @@ test('알파 리터럴은 8자리 hex와 정확한 알파를 함께 갖는다', 
   }
 })
 
-test('shadcn 정본 34개 + radius가 전부 있고 semantic으로 해석된다', () => {
+test('alias 표의 이름 35개 + radius가 전부 있고 semantic으로 해석된다', () => {
   const keys = Object.keys(shadcn).filter((k) => !k.startsWith('$'))
-  assert.equal(keys.length, 35)
+  assert.equal(keys.length, 36)
   for (const [name, target] of Object.entries(shadcn)) {
     if (name.startsWith('$') || name === 'radius') continue
     if (typeof target === 'string') {

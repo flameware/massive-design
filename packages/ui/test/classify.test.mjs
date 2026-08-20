@@ -53,6 +53,10 @@ test("별칭 사슬은 --ds-* 에서 멈춘다", () => {
   assert.equal(resolveVarChain(theme, "--nope").kind, "unknown")
 })
 
+// ⚠️ 이 픽스처의 `color: text-primary`는 **일부러 잘못된 조합**이다 — #37이
+// 잡은 결함 그 자체이고, 이제 scripts/manifest/lint.mjs가 이 모양을 막는다.
+// 여기서는 별칭 사슬이 --ds-*까지 내려가는지만 보므로 그대로 둔다. 실제
+// 컴포넌트의 올바른 짝은 `color: text-link` → --ds-fg-link다
 test("색은 semantic 이름까지 내려간다", () => {
   assert.deepEqual(classifyDeclaration(theme, "color", "var(--primary)", "text-primary"), {
     prop: "color",

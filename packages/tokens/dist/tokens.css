@@ -136,7 +136,7 @@
   --ds-border-focus: var(--ds-palette-brand-light-9);
   --ds-state-layer: var(--ds-palette-base-black);
 
-  /* shadcn raw 34 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).
+  /* shadcn raw 35 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).
      .dark가 한 벌 더 선언한다 — 여기서 치환이 끝나기 때문 (#35) */
   --background: var(--ds-bg-canvas);
   --foreground: var(--ds-fg-default);
@@ -172,6 +172,7 @@
   --sidebar-ring: var(--ds-border-focus);
   --success: var(--ds-bg-success-solid);
   --success-foreground: var(--ds-fg-on-solid);
+  --link: var(--ds-fg-link);
   --radius: 0.625rem;
 }
 
@@ -241,6 +242,7 @@
   --sidebar-ring: var(--ds-border-focus);
   --success: var(--ds-bg-success-solid);
   --success-foreground: var(--ds-fg-on-solid);
+  --link: var(--ds-fg-link);
 }
 
 @theme inline {
@@ -279,6 +281,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-link: var(--link);
 
   /* 타이포 — 사이즈 사다리는 Tailwind 기본과 같아 덮지 않는다 */
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
