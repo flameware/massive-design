@@ -8,6 +8,8 @@
 
 ## 0. 진입 조건
 
+> **컴포넌트를 주입하러 왔다면 [`figma-components.md`](figma-components.md)로 간다.** 이 문서는 토큰(변수·스타일) 전용이다. §2.3~§2.7의 폰트·바인딩 순서·값 표현은 컴포넌트에서도 그대로 유효하므로 그쪽이 여기를 참조한다.
+
 - **`use_figma`를 부르기 전에 `/figma-use` 스킬을 읽는다.** 예외 없음.
 - 첫 호출은 **읽기 전용 조사**로 시작한다 — 컬렉션·스타일·페이지·`documentColorProfile`. 파일이 예상 상태인지 확인하고 들어간다.
 - 스킬 번들의 `variable-patterns.md`가 *"Not bindable: fontSize, fontWeight, lineHeight"* 라고 적은 것은 **틀렸다**(#4). TextStyle은 `VariableBindableTextField`로 전부 바인딩된다.
