@@ -16,6 +16,7 @@ export const IGNORED_PROPERTIES = new Map([
   ["user-select", "상호작용 — 그려지지 않는다"],
   ["white-space", "Figma 텍스트는 줄바꿈을 오토레이아웃으로 표현한다"],
   ["flex-shrink", "Figma 오토레이아웃의 resizing 이지 컴포넌트 속성이 아니다"],
+  ["outline-color", "포커스 링 — Figma에 상태 축이 없다(#24가 열면 그때). base 계층이 이 속성을 낸다(#36)"],
   ["outline-style", "포커스 링 — Figma에 상태 축이 없다(#24가 열면 그때)"],
   ["outline-offset", "포커스 링 — Figma에 상태 축이 없다(#24가 열면 그때)"],
   ["text-underline-offset", "Figma에 밑줄 오프셋이 없다"],

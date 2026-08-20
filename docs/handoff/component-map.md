@@ -62,7 +62,9 @@ wayfinder는 기본적으로 **결정만 내리고 실행은 인계하는** 도�
 
 ### 2.2 출력물을 소비하는 방법
 
-`@massive/tokens`가 `dist/tokens.css`를 낸다. 이 파일이 shadcn의 `globals.css`를 **통째로 대신한다** — shadcn 정본 변수 34개를 전부 raw로 내고 있으므로 성립한다.
+`@massive/tokens`가 `dist/tokens.css`를 낸다. 이 파일이 shadcn의 `globals.css`를 **통째로 대신한다** — 변수 34개뿐 아니라 **`@layer base`의 두 규칙까지** 낸다.
+
+- **한때 변수만 냈고 그게 [#36](https://github.com/flameware/massive-design/issues/36)의 결함이었다.** 정본의 마지막 블록은 변수가 아니라 규칙이라 "변수 34개를 전부 낸다"는 점검을 통과했다. `* { border-color; outline-color }`가 없으면 `border` 유틸리티가 `currentColor`로 그려지고(라이트에선 진한 테두리처럼 보여 눈에 안 띈다), `body { background-color; color }`가 없으면 다크에서 UA 기본 검정 글자가 된다
 
 - `@import "tailwindcss";` **뒤에** import 한다
 - `@theme inline`이 **필수**다. 그냥 `@theme`는 중첩 `.dark` 서브트리를 조용히 깨뜨린다(빌드 diff로 실증됨)

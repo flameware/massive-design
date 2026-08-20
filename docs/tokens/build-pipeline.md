@@ -305,8 +305,11 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 12. `--color-X`와 `--text-X` 이름 충돌 (#5의 함정 — `text-X`가 색으로 해석된다)
 13. shadcn 정본 34개가 `:root`에 전부 존재
 14. `@custom-variant dark`가 `&:where(.dark, .dark *)` 형태
+15. `@layer base`에 `*`(`border-color`·`outline-color`)와 `body`(`background-color`·`color`) 규칙이 있고, 둘 다 색을 불투명도로 깎지 않는다 ([#36](https://github.com/flameware/massive-design/issues/36))
 
 > 규칙 10·12는 **현재 구조상 위반이 불가능하다**(#7·#8). 그래도 남긴다 — 이 lint의 값은 위반을 잡는 게 아니라 **구조가 무너졌을 때 알려주는 것**이다.
+
+> **규칙 15는 문자열 스캔이 맞는 도구다** — 바로 위 문단과 모순되어 보이지만 결함의 모양이 반대다([#36](https://github.com/flameware/massive-design/issues/36)). #35는 **선언이 멀쩡했고 치환이 틀렸다.** 여기서는 **규칙 자체가 없는 것**이 결함이다 — 없는 문자열을 찾는 데는 문자열 스캔이 정확히 맞는다. 덤으로 `packages/ui`의 `manifest-verify`가 한 겹 더 지킨다: `*` 규칙이 사라지면 매니페스트의 `base` 블록이 비고 해시가 바뀌어 `check`가 빨개진다.
 
 > **규칙군 C에 "`.dark`가 alias를 재선언한다"는 없다 — 일부러 없다**([#35](https://github.com/flameware/massive-design/issues/35)). C는 전부 **문자열 스캔**이고, 이 결함이 통과한 이유가 정확히 그것이었다: 선언은 멀쩡했고 틀린 것은 **치환이 일어나는 요소**였다. 그래서 게이트를 `test/cascade.test.mjs`에 뒀다 — 커스텀 속성의 계산 규칙을 아주 작게 흉내 내어 `:root` 라이트 / 루트 `.dark` / **중첩 `.dark`** 세 문맥의 값을 실제로 풀고, 뒤의 둘이 같은지 본다. 선언 목록을 세는 규칙을 하나 더 늘리는 것보다 **불변식 자체**("`.dark`는 어디에 붙어도 된다")를 검사하는 쪽이 다음 결함도 잡는다.
 
@@ -379,7 +382,14 @@ npm 배포는 out of scope다. 소비 경로가 둘로 갈린다([#12](https://g
 - **리포 안(`packages/ui`·`apps/storybook`)**: 복사하지 않고 **패키지 경로로 import** 한다 — `@massive/tokens/dist/tokens.css`. 워크스페이스가 로컬 폴더로 링크하므로 토큰을 고치면 즉시 반영된다
 - **리포 밖(invest diary)**: 여전히 **`dist/tokens.css`를 복사**해 간다
 
-어느 쪽이든 `@import "tailwindcss";` **뒤에** import 한다. shadcn의 `globals.css`를 이 파일로 대체하는 게 아니라, shadcn이 만든 `:root`/`.dark`/`@theme inline` 블록을 **우리 파일이 통째로 대신한다** — shadcn 34개를 전부 내고 있으므로 성립한다(#5).
+어느 쪽이든 `@import "tailwindcss";` **뒤에** import 한다. shadcn의 `globals.css`를 **우리 파일이 통째로 대신한다** — `:root`/`.dark`/`@theme inline` 블록에 더해 **`@layer base`까지** 낸다.
+
+> **[#36](https://github.com/flameware/massive-design/issues/36) 정정**: 이 문단은 한때 "블록을 대신하는 것이지 `globals.css`를 대체하는 게 아니다"라고 적었고, 그 좁은 읽기가 결함이었다 — 정본의 마지막 블록은 변수가 아니라 **규칙**이고, 그게 빠져 있었다. 두 규칙 다 낸다:
+>
+> - `* { border-color: var(--border); outline-color: var(--ring); }` — 없으면 preflight의 `border: 0 solid`가 남아 `border` 유틸리티가 `currentColor`로 그려진다. 라이트에서는 글자색이 거의 검정이라 "진한 테두리"로 보여 눈에 안 띈다(#21의 브라우저 확인이 통과한 이유). **정본의 `outline-ring/50`이 아니라 `outline-ring`이다** — `/50`은 어떤 면·어떤 모드에서도 3:1을 못 넘는다([`semantic-tokens.md` §8.2](semantic-tokens.md))
+> - `body { background-color: var(--background); color: var(--foreground); }` — 없으면 `--foreground`가 정상 해석되는데 **아무도 칠하지 않아** 다크에서 `#0c0c0c` 위 UA 기본 검정 글자가 된다
+>
+> **`@apply`가 아니라 평문 CSS다.** 계산값은 `@theme inline` 덕에 정본과 동일하고, 평문은 Tailwind 진입점 밖에서도 그냥 동작한다(소비처가 이 파일을 복사해 간다). "토큰 패키지는 변수만 낸다"는 선은 이 파일 1행의 `@custom-variant`가 이미 한 번 넘어가 있었다. **이 파일이 갖는 이유는 소비처다** — 리포 밖은 `dist/tokens.css` 하나만 복사하므로, `packages/ui`가 들면 소비처에서 결함이 그대로 재현된다.
 
 소비처가 v4 마이그레이션 중이라 실제 충돌은 그때 드러난다(맵 fog).
 

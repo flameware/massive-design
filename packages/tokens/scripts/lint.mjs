@@ -157,6 +157,28 @@ export function lintCss(source, err) {
   if (!/@custom-variant\s+dark\s*\(&:where\(\.dark,\s*\.dark \*\)\);/.test(css)) {
     err('C14 @custom-variant dark가 &:where(.dark, .dark *) 형태가 아니다')
   }
+
+  // 15. shadcn 정본의 base 규칙 (#36). 없으면 preflight의 `border: 0 solid`가 남아
+  //     `border` 유틸리티가 currentColor로 그려진다 — 다크에서 거의 흰 테두리다.
+  //     #35의 "규칙군 C는 전부 문자열 스캔이라 결함이 통과했다"가 여기엔 안 걸린다:
+  //     그때는 선언이 멀쩡했고 치환이 틀렸지만, 여기서는 규칙 자체가 없는 것이
+  //     결함이다. 없는 문자열을 찾는 데는 문자열 스캔이 정확히 맞는 도구다.
+  //     정본은 두 규칙이다. body 줄이 없으면 --foreground가 정상 해석되는데 아무도
+  //     칠하지 않아 다크에서 UA 기본 검정 글자가 된다.
+  for (const [selector, expected] of [
+    ['\\*', [['border-color', '--border'], ['outline-color', '--ring']]],
+    ['body', [['background-color', '--background'], ['color', '--foreground']]],
+  ]) {
+    const body = css.match(new RegExp(`@layer\\s+base\\s*\\{[\\s\\S]*?(?:^|\\n)\\s*${selector}\\s*\\{([\\s\\S]*?)\\}`))?.[1]
+    if (body === undefined) { err(`C15 @layer base의 ${selector.replace('\\', '')} 규칙이 없다`); continue }
+    for (const [prop, value] of expected) {
+      if (!new RegExp(`(?:^|;|\\s)${prop}\\s*:\\s*var\\(${value}\\)\\s*;`).test(body)) {
+        err(`C15 @layer base의 ${selector.replace('\\', '')}에 ${prop}: var(${value})가 없다`)
+      }
+    }
+    // 불투명도를 붙이면 3:1을 못 넘는다 (semantic-tokens.md §8.2, #33)
+    if (/color-mix|\/\s*\d/.test(body)) err(`C15 base의 ${selector.replace('\\', '')} 규칙이 색을 불투명도로 깎는다`)
+  }
 }
 
 // ── ─────────────────────────────────────────────────────────────────────────

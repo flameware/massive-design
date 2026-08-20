@@ -2,7 +2,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { declarations, escapeClass, parseCss, rulesForClass, splitModifiers } from "../scripts/manifest/css.mjs"
+import { declarations, escapeClass, parseCss, rulesForClass, splitModifiers, starRulesInBase } from "../scripts/manifest/css.mjs"
 
 const CSS = `
 @layer utilities {
@@ -71,4 +71,34 @@ test("대괄호 안의 콜론은 수식자 구분자가 아니다", () => {
     utility: "size-3",
   })
   assert.deepEqual(splitModifiers("has-[>svg]:px-3"), { modifiers: ["has-[>svg]"], utility: "px-3" })
+})
+
+/* base 계층 (#36). preflight의 선택자 목록을 물면 `border: 0 solid`가 매니페스트에
+ * 실려, 고치려던 결함을 매니페스트가 그대로 되풀이한다. */
+const BASE_CSS = `
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    border: 0 solid;
+  }
+  html, :host { line-height: 1.5; }
+}
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+}
+@layer utilities {
+  * { color: red; }
+}
+`
+
+test("base 계층의 * 규칙만 집는다 — preflight의 선택자 목록은 아니다", () => {
+  const rules = starRulesInBase(parseCss(BASE_CSS))
+  assert.equal(rules.length, 1)
+  assert.deepEqual(declarations(rules[0]), [
+    { prop: "border-color", value: "var(--border)" },
+    { prop: "outline-color", value: "var(--ring)" },
+  ])
 })

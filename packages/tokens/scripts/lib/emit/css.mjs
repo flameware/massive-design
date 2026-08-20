@@ -111,6 +111,41 @@ export function emitCss({ tokens, gen, literal, semantic, scale, shadcn }) {
   }
   out.push('}')
 
+  // shadcn 정본 globals.css의 마지막 블록은 변수가 아니라 **규칙**이다. 이게 없으면
+  // Tailwind preflight의 `border: 0 solid`가 남아 `border` 유틸리티의 테두리 색이
+  // currentColor — 즉 글자색 — 가 된다. 라이트에서는 거의 검정이라 "진한 테두리"로
+  // 보여 눈에 안 띄지만 다크에서는 거의 흰 테두리가 된다 (#36).
+  //
+  // 이 파일이 갖는 이유: 리포 밖 소비처는 dist/tokens.css **하나만** 복사해 간다
+  // (build-pipeline.md §6). packages/ui가 들면 소비처에서 결함이 그대로 재현된다.
+  // "토큰 패키지는 변수만 낸다"는 선은 1행의 @custom-variant가 이미 한 번 넘었다.
+  //
+  // @apply가 아니라 평문인 이유: 나머지 250여 줄이 전부 평문 선언이고, @apply는
+  // Tailwind 진입점 밖에서 하드 에러가 나지만 평문은 그냥 동작한다. @theme inline
+  // 덕에 계산값은 정본과 동일하다.
+  //
+  // outline-ring/50이 아니라 outline-ring인 이유: /50은 어떤 면·어떤 모드에서도
+  // 3:1을 못 넘는다(최대 2.36) — "상태 테두리는 토큰을 불투명도 없이 칠한다"
+  // (semantic-tokens.md §8.2, #33). 이 규칙이 닿는 것은 shadcn 밖의 맨 <a>·<input>
+  // 뿐이다 — button.tsx는 outline-none + focus-visible:ring-*을 들고 있다.
+  out.push('')
+  out.push('/* shadcn 정본의 base 규칙. 변수가 아니라 규칙이라 #17이 놓쳤다 (#36) */')
+  out.push('@layer base {')
+  out.push('  * {')
+  out.push('    border-color: var(--border);')
+  out.push('    outline-color: var(--ring);')
+  out.push('  }')
+  out.push('')
+  // 정본의 둘째 줄. 이게 없으면 --foreground가 정상 해석되는데 아무도 칠하지
+  // 않는다 — 다크에서 #0c0c0c 위 UA 기본 검정 글자가 된다(브라우저 실측, #36).
+  // 위의 * 규칙과 달리 이건 페이지를 **칠하므로** 소비처의 body 배경·글자색이
+  // 이 파일을 복사하는 순간 우리 것이 된다. shadcn 정본이 하는 그대로다.
+  out.push('  body {')
+  out.push('    background-color: var(--background);')
+  out.push('    color: var(--foreground);')
+  out.push('  }')
+  out.push('}')
+
   return `${out.join('\n')}\n`
 }
 
