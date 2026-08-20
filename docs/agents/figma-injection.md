@@ -19,17 +19,19 @@
 
 각 파일을 **별도 `use_figma` 호출**로 실행한다. 쪼개는 이유는 성능이 아니라 실패 시 재실행 범위를 좁히기 위해서다.
 
-| # | 파일 | 실측 소요 |
+| # | 파일 | 개수 |
 |---|---|---|
-| 01 | `01-collections.js` — `palette`(1모드 `Value`) · `semantic`(`Light`/`Dark`) | 5ms |
-| 02 | `02-palette-color.js` — 램프 + 리터럴 | 53개 / 164ms |
-| 03 | `03-palette-scale.js` — FLOAT/STRING | 7개 / 25ms |
-| 04 | `04-semantic.js` — 크로스 컬렉션 alias × 2모드 | 5개 / 35ms |
-| 05 | `05-text-styles.js` — Text Style + 변수 바인딩 | 5개 / 216ms |
-| 06 | `06-effect-styles.js` — 그림자 | 5개 / 30ms |
-| 07 | 스와치 페이지 (선택) | 텍스트 59개 포함 ~2.4s |
+| 01 | `01-collections.js` — `palette`(1모드 `Value`) · `semantic`(`Light`/`Dark`) | 컬렉션 2 |
+| 02 | `02-palette-color.js` — 램프 + 리터럴 | 101개 |
+| 03 | `03-palette-scale.js` — FLOAT/STRING | 47개 |
+| 04 | `04-semantic.js` — 크로스 컬렉션 alias × 2모드 | 30개 |
+| 05 | `05-text-styles.js` — Text Style + 변수 바인딩 | 9개 |
+| 06 | `06-effect-styles.js` — 그림자 | 5개 |
+| 07 | 스와치 페이지 (선택) | 생성물이 아니다 — §3.2 |
 
-전체 재실행(멱등 확인 포함) 144ms. **성능은 병목이 아니다** — 병목은 `code` 파라미터의 50,000자다.
+**성능은 병목이 아니다** — 병목은 `code` 파라미터의 50,000자다.
+
+> ⚠️ **이 표의 개수는 [#41](https://github.com/flameware/massive-design/issues/41)이 실제 파일에서 맞춘 값이다.** 그 전까지 여기 적혀 있던 것은 [#10](https://github.com/flameware/massive-design/issues/10) 프로브의 수(53·7·5·5·5)였고 [#17](https://github.com/flameware/massive-design/issues/17)이 정적 산출물을 세운 뒤로 **아무도 갱신하지 않았다** — 파일도 그 상태였다. 실측 ms는 그때 값이라 뺐다(이번 왕복은 MCP가 소요를 돌려주지 않는다). **수를 적을 때는 코드가 아니라 파일에서 읽을 것.**
 
 ## 2. 반드시 지킬 것
 
@@ -98,10 +100,12 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 
 1. **두 번 실행한다.** 컬렉션·변수·스타일 **수가 그대로여야** 한다
 2. 스와치 페이지를 `screenshot()`으로 눈으로 본다 — 특히 다크 `bg/canvas`(neutral 1)와 `bg/surface`(neutral 2)의 분리
+
+   > ⚠️ **지금 파일의 스와치 페이지(`Foundations`)는 이 검증을 못 한다.** [#10](https://github.com/flameware/massive-design/issues/10) 프로브가 손으로 만든 것이라 램프가 brand·neutral **둘뿐**이고(danger·success가 없다) semantic preview도 5개 시절이다. 07은 **생성물이 아니라서** 01~06 재주입이 갱신하지 않는다 — 되살릴지, 되살린다면 생성물로 만들지가 미결이다([#14](https://github.com/flameware/massive-design/issues/14)의 안개). 그때까지 이 단계는 **색 검증이 아니라 있는 그대로 읽을 것**
 3. 고아 변수는 **삭제하지 말고 목록으로 보고**한다. 삭제하면 참조하던 노드가 깨진다. 규약이 안정된 뒤에 자동 삭제를 켠다
 
 ## 4. 아직 안 본 것
 
-- 변수 500개 이상 / 50,000자에 육박하는 스크립트의 실제 한계점. 이번 왕복의 최대는 61변수·약 4KB
+- 변수 500개 이상 / 50,000자에 육박하는 스크립트의 실제 한계점. [#41](https://github.com/flameware/massive-design/issues/41)의 왕복이 최대치를 **palette 148변수 · 최대 스크립트 9KB**(02, 상한의 1/5)로 올렸고 여전히 아무 데도 안 닿았다
 - `resolvedType` 사후 변경 — 타입이 다르면 `remove()` 후 재생성하는 경로만 구현돼 있고, 실제로 그 경로를 밟아본 적은 없다
 - Display P3 값 의미. 이 파일은 `SRGB`이고 바꿀 이유가 없다
