@@ -1,6 +1,6 @@
 // ⚙ 생성물 — scripts/build.mjs. 손대지 말 것.
 
-/** semantic 색 토큰 30개. 값은 모드 의존이라 타입으로 내보내지 않는다. */
+/** semantic 색 토큰 31개. 값은 모드 의존이라 타입으로 내보내지 않는다. */
 export type SemanticColorToken =
   | 'bg.canvas'
   | 'bg.surface'
@@ -31,6 +31,7 @@ export type SemanticColorToken =
   | 'border.accent'
   | 'border.danger'
   | 'border.focus'
+  | 'border.focus-contrast'
   | 'state.layer'
 
 /** palette 101개 — 램프 96 + 리터럴 5. 모드가 이름에 있어 모호하지 않다. */
@@ -224,6 +225,7 @@ export declare const cssVar: {
   'border.accent': '--ds-border-accent'
   'border.danger': '--ds-border-danger'
   'border.focus': '--ds-border-focus'
+  'border.focus-contrast': '--ds-border-focus-contrast'
   'state.layer': '--ds-state-layer'
 }
 

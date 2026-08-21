@@ -24,7 +24,7 @@
 | 01 | `01-collections.js` — `palette`(1모드 `Value`) · `semantic`(`Light`/`Dark`) | 컬렉션 2 |
 | 02 | `02-palette-color.js` — 램프 + 리터럴 | 101개 |
 | 03 | `03-palette-scale.js` — FLOAT/STRING | 47개 |
-| 04 | `04-semantic.js` — 크로스 컬렉션 alias × 2모드 | 30개 |
+| 04 | `04-semantic.js` — 크로스 컬렉션 alias × 2모드 | 31개 |
 | 05 | `05-text-styles.js` — Text Style + 변수 바인딩 | 9개 |
 | 06 | `06-effect-styles.js` — 그림자 | 5개 |
 | 07 | 스와치 페이지 (선택) | 생성물이 아니다 — §3.2 |
@@ -103,7 +103,7 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 - `ghost`는 base가 transparent이므로 견본 면을 `bg/canvas`에 바인딩하고, 그 canvas 색 위에 state layer를 합성한다
 - `link`는 state layer 대신 hover·pressed에 밑줄을 쓴다. pressed는 hover와 같다
 - disabled는 색 합성이 아니라 견본 노드 `opacity = 0.5`다
-- focus는 상태 견본에 넣지 않는다
+- focus는 상태 견본에 넣는다. 기존 `border.focus`를 바깥 링으로 유지하고 `border.focus-contrast`를 안쪽 링으로 겹친다. 컴포넌트 축은 늘리지 않고 Light·Dark 각각 6 variant × 5상태 = 30칸으로 만든다([#43](https://github.com/flameware/massive-design/issues/43), [#54](https://github.com/flameware/massive-design/issues/54)).
 
 **오버레이 fill 폴백은 쓰지 않는다.** 이 `use_figma` 런타임에서 변수에 바인딩된 fill은 paint `opacity`를 무시하고 완전 불투명으로 렌더됐다. 따라서 `state/layer` 변수 fill에 0.08·0.12 opacity를 주는 구조는 구현하지 않는다. 다시 시도하지 말고 계산 hex 규약을 유지한다.
 

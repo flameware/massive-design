@@ -27,14 +27,14 @@ test('블록 순서가 alias 체인 순서다 — palette → semantic → shadc
   assert.ok(at('.dark {') < at('@theme inline {'))
 })
 
-test('.dark는 semantic 30 + shadcn 35를 재선언한다 — alias도 통째로', () => {
+test('.dark는 semantic 31 + shadcn 36을 재선언한다 — alias도 통째로', () => {
   const dark = css.match(/\n\.dark \{([\s\S]*?)\n\}/)[1]
   const decls = [...dark.matchAll(/^\s*(--[\w-]+):/gm)].map((m) => m[1])
-  assert.equal(decls.length, 65)
-  assert.equal(decls.filter((d) => d.startsWith('--ds-')).length, 30)
+  assert.equal(decls.length, 67)
+  assert.equal(decls.filter((d) => d.startsWith('--ds-')).length, 31)
   // alias는 :root에서 이미 치환이 끝나 자손이 상속만 한다 — 한 벌 더 선언하지
   // 않으면 중첩 .dark에서 라이트에 남는다 (#35). 뒤집히는지 자체는 cascade.test
-  assert.equal(decls.filter((d) => !d.startsWith('--ds-')).length, 35)
+  assert.equal(decls.filter((d) => !d.startsWith('--ds-')).length, 36)
   assert.ok(!decls.includes('--radius'))
 })
 
@@ -123,7 +123,7 @@ test('타입 union의 개수가 회계와 맞는다', () => {
     const end = lines.findIndex((l) => !l.startsWith('  | '))
     return end === -1 ? lines.length : end
   }
-  assert.equal(count('export type SemanticColorToken'), 30)
+  assert.equal(count('export type SemanticColorToken'), 31)
   assert.equal(count('export type PaletteToken'), 101)   // 램프 96 + 리터럴 5
 })
 

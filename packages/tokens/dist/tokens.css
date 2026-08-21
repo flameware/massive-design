@@ -134,6 +134,7 @@
   --ds-border-accent: var(--ds-palette-brand-light-9);
   --ds-border-danger: var(--ds-palette-danger-light-9);
   --ds-border-focus: var(--ds-palette-brand-light-9);
+  --ds-border-focus-contrast: var(--ds-palette-neutral-light-12);
   --ds-state-layer: var(--ds-palette-base-black);
 
   /* shadcn raw 35 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).
@@ -157,6 +158,7 @@
   --border: var(--ds-border-default);
   --input: var(--ds-border-field);
   --ring: var(--ds-border-focus);
+  --focus-contrast: var(--ds-border-focus-contrast);
   --chart-1: var(--ds-palette-neutral-light-12);
   --chart-2: var(--ds-palette-neutral-light-10);
   --chart-3: var(--ds-palette-neutral-light-8);
@@ -206,6 +208,7 @@
   --ds-border-accent: var(--ds-palette-brand-dark-9);
   --ds-border-danger: var(--ds-palette-danger-dark-9);
   --ds-border-focus: var(--ds-palette-brand-dark-9);
+  --ds-border-focus-contrast: var(--ds-palette-neutral-dark-12);
   --ds-state-layer: var(--ds-palette-base-white);
 
   --background: var(--ds-bg-canvas);
@@ -227,6 +230,7 @@
   --border: var(--ds-border-default);
   --input: var(--ds-border-field);
   --ring: var(--ds-border-focus);
+  --focus-contrast: var(--ds-border-focus-contrast);
   --chart-1: var(--ds-palette-neutral-dark-12);
   --chart-2: var(--ds-palette-neutral-dark-10);
   --chart-3: var(--ds-palette-neutral-dark-8);
@@ -266,6 +270,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-focus-contrast: var(--focus-contrast);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);

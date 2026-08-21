@@ -16,9 +16,9 @@ export const IGNORED_PROPERTIES = new Map([
   ["user-select", "상호작용 — 그려지지 않는다"],
   ["white-space", "Figma 텍스트는 줄바꿈을 오토레이아웃으로 표현한다"],
   ["flex-shrink", "Figma 오토레이아웃의 resizing 이지 컴포넌트 속성이 아니다"],
-  ["outline-color", "포커스 링 — Figma에 상태 축이 없다(#24가 열면 그때). base 계층이 이 속성을 낸다(#36)"],
-  ["outline-style", "포커스 링 — Figma에 상태 축이 없다(#24가 열면 그때)"],
-  ["outline-offset", "포커스 링 — Figma에 상태 축이 없다(#24가 열면 그때)"],
+  ["outline-color", "포커스 링 — 상태 견본에서 별도 표현한다. base 계층이 이 속성을 낸다(#36)"],
+  ["outline-style", "포커스 링 — 상태 견본에서 별도 표현한다"],
+  ["outline-offset", "포커스 링 — 상태 견본에서 별도 표현한다"],
   ["text-underline-offset", "Figma에 밑줄 오프셋이 없다"],
   ["box-shadow", "shadow-* 유틸리티 자체를 Effect Style로 옮긴다 — 합성된 box-shadow는 읽지 않는다"],
 ])
@@ -29,7 +29,7 @@ export const MODIFIER_POLICY = new Map([
   ["has-[>svg]", "slot-icon"],
   ["[&_svg]", "slot-icon"],
   ["[&_svg:not([class*='size-'])]", "slot-icon"],
-  ["focus-visible", "ignore:포커스 링 — Figma에 상태 축이 없다(#24가 열면 그때)"],
+  ["focus-visible", "ignore:포커스 링 — 컴포넌트 축이 아니라 Figma 상태 견본으로 표현한다(#43)"],
   ["aria-invalid", "ignore:검증 상태 — Figma에 대응물이 없다(#22 §5)"],
   ["hover", "ignore:상태 사다리 밖의 hover — link의 밑줄이 여기 걸린다(#24가 상태 축을 정하면 다뤄진다)"],
 ])

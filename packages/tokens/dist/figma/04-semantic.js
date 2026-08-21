@@ -1,5 +1,5 @@
 // ⚙ 생성물 — scripts/build.mjs. 손대지 말 것.
-// 04 — semantic 30개 × 2모드
+// 04 — semantic 31개 × 2모드
 // use_figma의 code 파라미터에 그대로 넣는다. IIFE로 감싸지 말 것 — 이미 async 컨텍스트다.
 
 async function upsertCollection(name) {
@@ -80,6 +80,7 @@ const SEMANTIC = [
   ["border/accent","brand/light/9","brand/dark/9","var(--ds-border-accent)"],
   ["border/danger","danger/light/9","danger/dark/9","var(--ds-border-danger)"],
   ["border/focus","brand/light/9","brand/dark/9","var(--ds-border-focus)"],
+  ["border/focus-contrast","neutral/light/12","neutral/dark/12","var(--ds-border-focus-contrast)"],
   ["state/layer","base/black","base/white","var(--ds-state-layer)"],
 ]
 

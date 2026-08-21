@@ -2,7 +2,7 @@
 
 확정: 2026-08-19 · 근거 티켓 [#11](https://github.com/flameware/massive-design/issues/11) · 맵 [#1](https://github.com/flameware/massive-design/issues/1)
 
-입력: [#6](https://github.com/flameware/massive-design/issues/6) 생성기 파라미터 · [#7](https://github.com/flameware/massive-design/issues/7) semantic 30개·컬렉션 구조 · [#8](https://github.com/flameware/massive-design/issues/8) 비색상 스케일 · [#5](https://github.com/flameware/massive-design/issues/5) Tailwind·shadcn · [#4](https://github.com/flameware/massive-design/issues/4) Figma API · [#13](https://github.com/flameware/massive-design/issues/13) 알파
+입력: [#6](https://github.com/flameware/massive-design/issues/6) 생성기 파라미터 · [#7](https://github.com/flameware/massive-design/issues/7) semantic 어휘·컬렉션 구조 · [#8](https://github.com/flameware/massive-design/issues/8) 비색상 스케일 · [#5](https://github.com/flameware/massive-design/issues/5) Tailwind·shadcn · [#4](https://github.com/flameware/massive-design/issues/4) Figma API · [#13](https://github.com/flameware/massive-design/issues/13) 알파 · [#54](https://github.com/flameware/massive-design/issues/54) 두 겹 포커스 링
 
 이 문서는 **다음 사람이 이대로 만들면 되는** 수준을 목표로 한다.
 
@@ -39,7 +39,7 @@ packages/tokens/                       # name: "@massive/tokens"
 │   │   ├── color.literal.json         # base.white/black + alpha 3 = 5개 (#13)
 │   │   └── scale.json                 # 비색상 전부 (#8)
 │   ├── semantic/
-│   │   └── color.json                 # 30개 + 다크 인라인 override (#7)
+│   │   └── color.json                 # 31개 + 다크 인라인 override (#7, #54)
 │   └── alias/
 │       └── shadcn.json                # alias 35개 → 우리 semantic 매핑
 ├── scripts/
@@ -238,14 +238,14 @@ packages/tokens/                       # name: "@massive/tokens"
 :root {
   --ds-palette-brand-light-1: #fcfdfd;   /* devtools 추적용. @theme에 등록하지 않는다 (#7) */
   …
-  --ds-bg-accent-solid: var(--ds-palette-brand-light-9);   /* semantic 30 */
+  --ds-bg-accent-solid: var(--ds-palette-brand-light-9);   /* semantic 31 */
   …
   --primary: var(--ds-bg-accent-solid);                     /* shadcn raw 35 */
   --radius: 0.625rem;
 }
 
 .dark {
-  --ds-bg-accent-solid: var(--ds-palette-brand-dark-9);   /* semantic 30 */
+  --ds-bg-accent-solid: var(--ds-palette-brand-dark-9);   /* semantic 31 */
   …
   --primary: var(--ds-bg-accent-solid);                   /* shadcn raw 35 — 한 벌 더 (#35) */
   …                                                       /* --radius는 모드 무관이라 뺀다 */
@@ -262,14 +262,14 @@ packages/tokens/                       # name: "@massive/tokens"
 ```
 
 - **`@theme inline`은 선택이 아니다**(#5 실측). 그냥 `@theme`이면 중첩 `.dark` 서브트리가 **조용히** 깨진다
-- **`.dark`는 semantic 30 + shadcn raw 35를 재선언한다 — 총 65줄.** palette는 모드 무관한 리터럴이라 빠지고, `--radius`도 빠진다. "체인이 semantic에서 갈리므로 아래는 자동으로 따라온다"는 **틀렸다**([#35](https://github.com/flameware/massive-design/issues/35)): 커스텀 속성은 **선언된 그 요소에서** 치환되므로 `:root`의 `--primary: var(--ds-bg-accent-solid)`는 :root에서 라이트로 확정되고, 자손은 그 확정된 값을 상속한다. 중첩 서브트리의 `.dark`가 `--ds-*`만 덮으면 alias는 라이트에 남는다
+- **`.dark`는 semantic 31 + shadcn raw 36을 재선언한다 — 총 67줄.** palette는 모드 무관한 리터럴이라 빠지고, `--radius`도 빠진다. "체인이 semantic에서 갈리므로 아래는 자동으로 따라온다"는 **틀렸다**([#35](https://github.com/flameware/massive-design/issues/35)): 커스텀 속성은 **선언된 그 요소에서** 치환되므로 `:root`의 `--primary: var(--ds-bg-accent-solid)`는 :root에서 라이트로 확정되고, 자손은 그 확정된 값을 상속한다. 중첩 서브트리의 `.dark`가 `--ds-*`만 덮으면 alias는 라이트에 남는다
 - **`.dark`는 문서 루트든 중첩 서브트리든 어디에 붙어도 된다.** 위 재선언이 그 불변식을 지탱한다 — 라이트·다크를 한 화면에 나란히 놓는 Storybook이 이걸 요구한다. 다만 **반대 방향은 없다**: `.dark` 안쪽을 다시 라이트로 되돌리는 `.light` 클래스는 없고(`@custom-variant dark`의 `.dark *`도 그 안쪽을 전부 다크로 읽는다), 필요해지면 그때 여는 별건이다
-- alias 35개를 `:root`에 **raw로** 내는 건 필수다. `style-nova.css`가 `color-mix(in oklch, var(--secondary), …)`로 `@theme`를 우회해 직접 읽는다(#5)
+- alias 36개를 `:root`에 **raw로** 내는 건 필수다. `style-nova.css`가 `color-mix(in oklch, var(--secondary), …)`로 `@theme`를 우회해 직접 읽는다(#5)
 
 > **[#17](https://github.com/flameware/massive-design/issues/17) 구현 시 확정된 세 가지**
 >
 > 1. **palette 값은 hex로 낸다.** [semantic-tokens.md §7](semantic-tokens.md)의 출력 예시는 `oklch()`로 적혀 있으나 우리 램프는 전 단계가 이미 sRGB 감마 안으로 정리돼 있어(§4.3 A3) 두 표기가 정확히 같은 색이다. 토큰 원본의 `$value`가 hex이므로 hex를 그대로 내보내는 쪽이 변환 단계를 하나 없앤다.
-> 2. **`.dark` 재선언은 30줄이 아니라 35줄이다.** `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로 함께 재선언해야 한다([#16](https://github.com/flameware/massive-design/issues/16)에서 예고됨). ⚠️ **[#35](https://github.com/flameware/massive-design/issues/35)가 이 숫자를 다시 고쳤다 — 35가 아니라 64다**(semantic 30 + shadcn raw 34 전부). 여기서 `chart` 5개만 특별 취급한 것이 결함의 자리였다. ⚠️ **[#37](https://github.com/flameware/massive-design/issues/37)이 alias에 `--link`를 더해 65가 됐다** — 이 숫자는 alias 표의 크기를 따라가므로, 표를 늘리는 티켓은 여기도 같이 고친다.
+> 2. **`.dark` 재선언은 31줄이다.** semantic이 31개이고 alias 36개도 함께 재선언한다. ⚠️ **[#35](https://github.com/flameware/massive-design/issues/35)가 alias 재선언을 확정했고, [#37](https://github.com/flameware/massive-design/issues/37)이 `--link`를, [#54](https://github.com/flameware/massive-design/issues/54)이 `--focus-contrast`를 더했다.**
 > 3. **`--font-sans`가 `@theme inline`에 나간다.** [scale-tokens.md §7](scale-tokens.md)의 "CSS override 26개" 집계에 이 항목이 없다 — 집계의 누락이다. `type.family.sans`는 `noCss` 표식이 없고, Pretendard 스택은 Tailwind 기본 sans와 다르다.
 
 `dist/tokens.d.ts`:
@@ -303,7 +303,7 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 10. `@theme` / `@theme inline` 블록 안에 `--ds-`로 시작하는 선언이 있으면 **에러** (#7)
 11. `@theme`가 `inline` 없이 쓰이면 **에러** (#5)
 12. `--color-X`와 `--text-X` 이름 충돌 (#5의 함정 — `text-X`가 색으로 해석된다)
-13. alias 표의 이름 35개가 `:root`에 전부 존재
+13. alias 표의 이름 36개가 `:root`에 전부 존재
 14. `@custom-variant dark`가 `&:where(.dark, .dark *)` 형태
 15. `@layer base`에 `*`(`border-color`·`outline-color`)와 `body`(`background-color`·`color`) 규칙이 있고, 둘 다 색을 불투명도로 깎지 않는다 ([#36](https://github.com/flameware/massive-design/issues/36))
 
@@ -356,7 +356,7 @@ APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고,
 | `01-collections.js` | `palette`(1모드) · `semantic`(Light/Dark 2모드) 생성 | 컬렉션당 모드 상한 10 |
 | `02-palette-color.js` | 96색 + 리터럴 5 | Variable 값은 **RGB/RGBA만**, 파일 프로파일 sRGB |
 | `03-palette-scale.js` | 수치·타이포 FLOAT/STRING | `scopes` 명시 필수 — space는 `GAP, WIDTH_HEIGHT`, radius는 `CORNER_RADIUS`. `ALL_SCOPES`는 모든 피커를 오염시킨다 |
-| `04-semantic.js` | 30 × 2모드 크로스 컬렉션 alias | |
+| `04-semantic.js` | 31 × 2모드 크로스 컬렉션 alias | |
 | `05-text-styles.js` | 9 스타일 + 변수 바인딩 | `lineHeight`는 `{unit:'PERCENT', value}` 객체 — 맨 숫자는 throw. **텍스트를 다 쓴 뒤 마지막에 바인딩**(#9). `fontFamily`는 STRING 변수 바인딩(로컬 폰트를 못 보는 실행 컨텍스트 우회) |
 | `06-effect-styles.js` | 5 그림자 | `effects`는 read-only 배열이라 통째로 재할당. 색은 리터럴 RGBA(변수화 안 함, #8) |
 

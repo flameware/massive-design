@@ -293,6 +293,16 @@
             "dark": "{palette.brand.dark.9}"
           }
         }
+      },
+      "focus-contrast": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.12}",
+        "$description": "포커스 링 안쪽 대비 경계. 기존 border.focus 바깥 링과 함께 두 겹으로 포커스를 표시한다",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.12}"
+          }
+        }
       }
     },
     "state": {

@@ -8,9 +8,9 @@
 
 ## 0. 회계 규칙
 
-- **30개 상한은 `--ds-*` semantic 색 토큰만 센다.** shadcn 이름은 기계적으로 파생되는 호환 레이어이므로 카운트 밖이다. 우리가 발명한 어휘가 아니라 소비처가 이미 아는 어휘다.
+- **semantic 색 토큰은 `--ds-*` 계층에서 센다.** shadcn 이름은 기계적으로 파생되는 호환 레이어이므로 카운트 밖이다. 우리가 발명한 어휘가 아니라 소비처가 이미 아는 어휘다.
 - 비색상 토큰(`state.*.opacity`)은 색 상한에 포함하지 않는다.
-- **현재 정확히 30개.** 늘리려면 무엇을 뺄지 함께 정한다.
+- **현재 정확히 31개.** 두 겹 포커스 링의 안쪽 대비 경계 역할이 추가됐다([#54](https://github.com/flameware/massive-design/issues/54)).
 
 ## 1. 이름 규약
 
@@ -45,7 +45,7 @@ palette   (컬렉션, 모드 1개)   96 변수 + 리터럴 5개
           brand/light/1..12, brand/dark/1..12, neutral/…, danger/…, success/…
           base/white, base/black, alpha/white/10, alpha/white/15, alpha/black/50
 
-semantic  (컬렉션, 모드 2개: Light / Dark)   30 변수
+semantic  (컬렉션, 모드 2개: Light / Dark)   31 변수
           각 모드가 palette의 해당 변수를 alias
 ```
 
@@ -60,7 +60,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 }
 ```
 
-## 4. semantic 토큰 30개
+## 4. semantic 토큰 31개
 
 `palette.<family>.<mode>.<step>`을 `<family> <step>`으로 줄여 적는다. 대비값은 WCAG 2.
 
@@ -97,7 +97,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 22 | `fg.success` | 성공 텍스트 | success 10 `#1c6f35` | success 10 `#569e65` |
 | 23 | `fg.link` | 링크 | brand 10 `#1553c6` | brand 10 `#5989e2` |
 
-### border (6)
+### border (7)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
@@ -107,14 +107,15 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 27 | `border.accent` | 브랜드 테두리 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
 | 28 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
 | 29 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
+| 30 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
 
 ### 상태 메커니즘 (1)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 30 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
+| 31 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
 
-**합계 30.**
+**합계 31.**
 
 비색상 (상한 밖, #13에서 확정): `state.hover.opacity` 0.08 · `state.pressed.opacity` 0.12 · `state.disabled.opacity` 0.5
 
@@ -193,7 +194,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 
 .dark {
   --ds-bg-canvas: var(--ds-palette-neutral-dark-1);
-  /* … semantic 30 + alias 35를 **통째로** 재선언한다 (#35) */
+  /* … semantic 31 + alias 36을 **통째로** 재선언한다 (#35, #54) */
 }
 
 @theme inline {
@@ -202,7 +203,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 }
 ```
 
-`.dark`에서 재선언하는 건 **semantic 30 + alias 35 = 65줄**이다. palette 층은 건드리지 않는다.
+`.dark`에서 재선언하는 건 **semantic 31 + alias 36 = 67줄**이다. palette 층은 건드리지 않는다.
 
 > **정정 이력** — 이 숫자는 세 번 고쳐졌다. 고쳐진 방향이 매번 "더 많이"였다는 게 요점이다.
 >
@@ -210,6 +211,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 > - ~~30줄~~ → **35줄**([#17](https://github.com/flameware/massive-design/issues/17)): `--chart-1..5`만 semantic을 거치지 않고 palette를 직참조하므로(§7.2 플레이스홀더) 함께 재선언해야 한다.
 > - ~~35줄~~ → **64줄**([#35](https://github.com/flameware/massive-design/issues/35)): `chart` 5개만 특별 취급한 것이 결함의 자리였다. 커스텀 속성은 **선언된 그 요소에서 치환이 끝나므로**, `:root`의 `--background: var(--ds-bg-canvas)`는 `:root`에서 라이트로 확정되고 자손은 그 확정된 값을 상속한다. 중첩 `.dark`가 `--ds-*`만 덮으면 alias 34개는 라이트에 남는다 → **alias를 통째로 재선언한다.**
 > - ~~64줄~~ → **65줄**([#37](https://github.com/flameware/massive-design/issues/37)): alias에 `--link`가 늘었다(§7.3).
+> - **67줄**([#54](https://github.com/flameware/massive-design/issues/54)): semantic `border.focus-contrast`와 alias `--focus-contrast`가 두 겹 포커스 링을 위해 추가됐다.
 
 ### 매핑
 

@@ -19,7 +19,7 @@ import { flatten, isRef, refPath, valueFor } from './lib/resolve.mjs'
 import { resolveOverrides, resolveParams } from './ramp.mjs'
 
 /**
- * alias 표가 반드시 내야 하는 이름 35개. alias 파일에서 파생하지 않는다 —
+ * alias 표가 반드시 내야 하는 이름 36개. alias 파일에서 파생하지 않는다 —
  * 그러면 자기 자신을 검사한다.
  *
  * ⚠️ 이름이 "정본"이지만 전부 정본은 아니다: `success`·`success-foreground`·
@@ -31,7 +31,7 @@ const SHADCN_CANON = [
   'background', 'foreground', 'card', 'card-foreground', 'popover', 'popover-foreground',
   'primary', 'primary-foreground', 'secondary', 'secondary-foreground',
   'muted', 'muted-foreground', 'accent', 'accent-foreground',
-  'destructive', 'destructive-foreground', 'border', 'input', 'ring',
+  'destructive', 'destructive-foreground', 'border', 'input', 'ring', 'focus-contrast',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
   'sidebar', 'sidebar-foreground', 'sidebar-primary', 'sidebar-primary-foreground',
   'sidebar-accent', 'sidebar-accent-foreground', 'sidebar-border', 'sidebar-ring',
@@ -109,9 +109,9 @@ export function lintLayers({ gen, literal, semantic }, err) {
     if (isRef(token.$value)) err(`B6 ${path}: primitive가 참조를 갖는다 — ${token.$value}`)
   }
 
-  // 8. semantic 색 토큰 정확히 30개. 늘리려면 무엇을 뺄지 함께 정한다(#7 회계 규칙)
-  if (semanticTokens.size !== 30) {
-    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 30이어야 한다`)
+  // 8. semantic 색 토큰은 31개다 — #54가 두 겹 포커스 링 역할을 추가했다
+  if (semanticTokens.size !== 31) {
+    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 31이어야 한다`)
   }
 }
 
@@ -156,7 +156,7 @@ export function lintCss(source, err) {
     if (named('text').has(name)) err(`C12 --color-${name} 과 --text-${name} 이 충돌한다`)
   }
 
-  // 13. alias 표의 이름 35개가 :root에 전부 존재
+  // 13. alias 표의 이름 36개가 :root에 전부 존재
   const root = css.match(/:root\s*\{([\s\S]*?)\n\}/)?.[1] ?? ''
   for (const name of SHADCN_CANON) {
     if (!new RegExp(`^\\s*--${name}\\s*:`, 'm').test(root)) err(`C13 :root에 --${name}이 없다`)

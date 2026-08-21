@@ -20,6 +20,7 @@
   "border": "color.border.default",
   "input": "color.border.field",
   "ring": "color.border.focus",
+  "focus-contrast": "color.border.focus-contrast",
 
   "chart-1": { "light": "palette.neutral.light.12", "dark": "palette.neutral.dark.12" },
   "chart-2": { "light": "palette.neutral.light.10", "dark": "palette.neutral.dark.10" },

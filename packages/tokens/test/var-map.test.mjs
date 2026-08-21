@@ -16,11 +16,11 @@ const sources = loadSources()
 const map = varMap(sources)
 const entries = Object.entries(map).filter(([k]) => !k.startsWith('$'))
 
-test('표가 03의 스케일 47개 · 06의 그림자 5개 · 04의 semantic 30개를 덮는다', () => {
+test('표가 03의 스케일 47개 · 06의 그림자 5개 · 04의 semantic 31개를 덮는다', () => {
   assert.equal(scaleVariables(sources.scale).length, 47)
-  assert.equal(entries.length, 47 + 5 + 30)
+  assert.equal(entries.length, 47 + 5 + 31)
   assert.equal(entries.filter(([, v]) => v.kind === 'effectStyle').length, 5)
-  assert.equal(entries.filter(([, v]) => v.collection === 'semantic').length, 30)
+  assert.equal(entries.filter(([, v]) => v.collection === 'semantic').length, 31)
 })
 
 test('문자열 규칙으로 복원되지 않는 네 자리', () => {

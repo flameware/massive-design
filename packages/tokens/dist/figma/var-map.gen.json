@@ -401,6 +401,11 @@
     "collection": "semantic",
     "name": "border/focus"
   },
+  "--ds-border-focus-contrast": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/focus-contrast"
+  },
   "--ds-state-layer": {
     "kind": "variable",
     "collection": "semantic",
