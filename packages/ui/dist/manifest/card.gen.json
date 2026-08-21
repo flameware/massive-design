@@ -72,7 +72,7 @@
   ],
   "component": "card",
   "defaults": {},
-  "hash": "6de11b872a66",
+  "hash": "50895e9c5fea",
   "schemaVersion": 2,
   "source": "src/components/ui/card.tsx"
 }

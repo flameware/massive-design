@@ -34,6 +34,30 @@ Figma가 들고 있어야 하는 것은 **매니페스트 항목으로 가는 �
 
 ## 3. 낡음 — `description`의 마지막 줄
 
+### 3.0 세대 해시의 입력 경계
+
+컴포넌트 해시는 Figma에 대응하는 매니페스트 입력만으로 계산한다. 해시
+payload는 다음 구조로 고정한다:
+
+```js
+{
+  axes,
+  base,
+  cells: cells.map(({ props, properties, slots, state }) => ({
+    props,
+    properties,
+    ...(slots ? { slots } : {}),
+    ...(state ? { state } : {}),
+  })),
+}
+```
+
+셀의 `className`은 CSS 컴파일에서 나온 파생값이며 Figma에 주입되지 않으므로
+해시 입력에서 제외한다. 따라서 CSS 클래스 문자열만 바뀌어도 Figma 세대는
+낡지 않는다. 반대로 축, base, `properties`, `slots`, `state`가 바뀌면 해시가
+바뀌어 재주입 대상이 된다. 새 매니페스트 필드는 이 목록에 명시적으로
+추가하기 전까지 해시에 들어가지 않는다.
+
 ### 3.1 형식
 
 세트(변종이 아니라 **세트**)의 `description` **마지막 줄**이 정확히 이 모양이다:
@@ -158,7 +182,7 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `height` | `root` | `resize(w, h)` + `layoutSizingVertical = 'FIXED'` |
 | `border-radius` | `root` | `cornerRadius` |
 | `background-color` | `root` | `fills[0]` |
-| (상태 레이어) | `root` | `fills[1]` = `state/layer` @ 8%/12% — [#24](https://github.com/flameware/massive-design/issues/24) |
+| (상태 견본) | `root` | base + `state/layer` @ 8%/12%를 sRGB로 합성한 리터럴 fill — [`figma-injection.md`](figma-injection.md) §2.8 |
 | `color` | `label` | `fills[0]` |
 | `font-size` | `label` | `fontSize` |
 | `line-height` | `label` | `lineHeight` — ⚠️ §8.1 |

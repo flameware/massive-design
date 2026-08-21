@@ -28,6 +28,43 @@ test("키 순서만 다른 문서는 같은 해시를 낸다", () => {
   assert.equal(hashComponent({ a: 1, b: 2 }), hashComponent({ b: 2, a: 1 }))
 })
 
+test("Figma에 대응하지 않는 className 변경은 해시를 바꾸지 않는다", () => {
+  const doc = {
+    axes: { size: ["default"] },
+    base: { "border-color": { tier: "token", token: "--ds-border-default" } },
+    cells: [{
+      props: { size: "default" },
+      className: "border focus-visible:ring-[3px]",
+      properties: { color: { tier: "token", token: "--ds-fg-default" } },
+    }],
+  }
+
+  assert.equal(
+    hashComponent(doc),
+    hashComponent({ ...doc, cells: [{ ...doc.cells[0], className: "border focus-visible:ring-ring" }] }),
+  )
+})
+
+test("Figma에 대응하는 properties 변경은 해시를 바꾼다", () => {
+  const doc = {
+    axes: { size: ["default"] },
+    base: {},
+    cells: [{
+      props: { size: "default" },
+      className: "h-9",
+      properties: { height: { tier: "literal", px: 36 } },
+    }],
+  }
+
+  assert.notEqual(
+    hashComponent(doc),
+    hashComponent({ ...doc, cells: [{
+      ...doc.cells[0],
+      properties: { height: { tier: "literal", px: 40 } },
+    }] }),
+  )
+})
+
 test("커밋된 매니페스트의 해시가 내용과 맞는다", () => {
   const index = read("index.gen.json")
   assert.ok(index.components.length > 0)

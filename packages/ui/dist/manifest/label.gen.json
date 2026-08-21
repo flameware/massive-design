@@ -82,7 +82,7 @@
   ],
   "component": "label",
   "defaults": {},
-  "hash": "bc2642bf3be2",
+  "hash": "f13a318e70a1",
   "schemaVersion": 2,
   "source": "src/components/ui/label.tsx"
 }

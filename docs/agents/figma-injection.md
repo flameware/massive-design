@@ -94,6 +94,19 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 - palette **색** 변수는 `hiddenFromPublishing = true` — primitive를 Tailwind `@theme`에 등록하지 않는 결정([#7](https://github.com/flameware/massive-design/issues/7))의 Figma 쪽 대응물이다. **같은 컬렉션의 스케일 변수 47개는 반대로 `false`를 명시한다**([#41](https://github.com/flameware/massive-design/issues/41)) — `--spacing`·`--radius-md`·`--text-sm`은 `@theme`에 등록돼 있어 코드에서 공개이므로 Figma에서만 숨기면 디자이너가 피커에서 집을 수 없다. ⚠️ **`true`를 지우는 게 아니라 `false`를 쓴다**: `upsert`가 기존 변수를 재사용하므로 줄만 지우면 이미 숨겨진 채 주입된 파일은 영영 안 돌아온다
 - `setBoundVariableForPaint`·`setBoundVariableForEffect`는 **새 객체를 반환**한다. 반환값을 받아 재할당할 것
 
+### 2.8 컴포넌트 상태 견본은 계산 hex로 그린다
+
+코드의 hover·pressed는 semantic base 색 위에 `state/layer`를 8%·12% `color-mix(in srgb, …)`로 합성한다. Figma Variable은 이 합성을 표현하지 못하므로 **상태 견본에서만** 두 색을 sRGB로 미리 합성한 hex를 리터럴 fill로 박는다. 이 값은 코드의 파생 근사치이지 새 토큰이 아니다.
+
+- 계산 hex는 모드를 따라갈 수 없으므로 Light·Dark 견본을 나란히 두 벌 생성한다
+- 각 견본 셀에 semantic 모드를 명시하고, 변수에 바인딩한 paint의 fallback 색도 해당 모드의 실제 값으로 적는다. 상위 프레임의 모드 상속만 믿으면 새로 생성한 텍스트 paint가 검정 fallback으로 렌더될 수 있다
+- `ghost`는 base가 transparent이므로 견본 면을 `bg/canvas`에 바인딩하고, 그 canvas 색 위에 state layer를 합성한다
+- `link`는 state layer 대신 hover·pressed에 밑줄을 쓴다. pressed는 hover와 같다
+- disabled는 색 합성이 아니라 견본 노드 `opacity = 0.5`다
+- focus는 상태 견본에 넣지 않는다
+
+**오버레이 fill 폴백은 쓰지 않는다.** 이 `use_figma` 런타임에서 변수에 바인딩된 fill은 paint `opacity`를 무시하고 완전 불투명으로 렌더됐다. 따라서 `state/layer` 변수 fill에 0.08·0.12 opacity를 주는 구조는 구현하지 않는다. 다시 시도하지 말고 계산 hex 규약을 유지한다.
+
 ## 3. 검증
 
 주입 뒤 반드시:

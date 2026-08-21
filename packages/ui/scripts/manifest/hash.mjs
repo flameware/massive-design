@@ -21,8 +21,30 @@ function sortKeys(value) {
   return value
 }
 
+/**
+ * Figma에 대응하는 매니페스트 부분만 해시한다.
+ *
+ * `className`은 CSS에서 파생된 설명값이고 Figma에 주입되지 않으므로
+ * 세대 판정의 입력이 아니다. 반대로 축·기본값·셀의 속성/슬롯/상태는
+ * Figma 노드를 만드는 입력이므로 포함한다. 새 파생 필드가 추가되어도
+ * 이 목록에 명시하지 않는 한 해시가 조용히 바뀌지 않는다.
+ */
+function figmaPayload(doc) {
+  const cells = (doc.cells ?? []).map(({ props, properties, slots, state }) => ({
+    props,
+    properties,
+    ...(slots ? { slots } : {}),
+    ...(state ? { state } : {}),
+  }))
+
+  return {
+    axes: doc.axes,
+    base: doc.base,
+    cells,
+  }
+}
+
 /** sha256 앞 12자. 해시 필드 자신은 입력에서 뺀다. */
 export function hashComponent(doc) {
-  const { hash, ...rest } = doc
-  return createHash("sha256").update(canonicalJson(rest, 0)).digest("hex").slice(0, 12)
+  return createHash("sha256").update(canonicalJson(figmaPayload(doc), 0)).digest("hex").slice(0, 12)
 }
