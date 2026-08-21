@@ -16,6 +16,6 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 ## Where the work stands
 
-The **토큰 파운데이션** map ([#1](https://github.com/flameware/massive-design/issues/1)) is complete — all 12 tickets closed. Its decisions live in `docs/tokens/`, its Figma procedure in `docs/agents/figma-injection.md`.
+The **토큰 파운데이션** map ([#1](https://github.com/flameware/massive-design/issues/1)) and **컴포넌트 맵** ([#14](https://github.com/flameware/massive-design/issues/14)) are complete. Their code and decisions live in `packages/`, `apps/storybook/`, `docs/tokens/`, and `docs/agents/figma-*.md`; [`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff into the completed component map.
 
-The next effort is the **컴포넌트 맵**, not yet charted. **Read [`docs/handoff/component-map.md`](docs/handoff/component-map.md) before touching components, Storybook, or Figma components** — it is written to be the single entry point for that map's charting session, and it carries the traps that will otherwise be rediscovered the hard way.
+The active effort is the **디자인 시스템 확장·동기화 맵** ([#56](https://github.com/flameware/massive-design/issues/56)). Before changing components, Storybook, or Figma assets for this effort, read the map and claim an unblocked child ticket using `docs/agents/issue-tracker.md`.
