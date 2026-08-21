@@ -326,13 +326,15 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 | `setPluginData` · `addDevResourceAsync` · `getDevResourcesAsync` · `loadAllPagesAsync` · `createImageAsync` | MCP 호스트 런타임이 막는다. dev resources는 **REST 전용 채널**이다 |
 | 감싸지 않은 getter | throw 하나가 atomic 롤백으로 주입 전체를 되돌린다 |
 | `loadFontAsync({family: 'Pretendard'})` | 이 런타임에 없다. 폰트 선택은 [#9](https://github.com/flameware/massive-design/issues/9)에서 닫힌 문제다 |
+| `figma.createComponent()` 직후 기존 `fills[0]`을 재사용해 `setBoundVariableForPaint` | 그 기본 paint는 `visible: false`로 온다(`createFrame()`과 다르다) — 바인딩은 정확한데 **칠이 안 보인다**. `createComponent()`에서 나온 노드의 paint를 건드릴 땐 `.visible`을 명시로 확인/설정할 것 ([#26](https://github.com/flameware/massive-design/issues/26), 32칸이 실제로 이렇게 비어 보였다) |
 
 ---
 
 ## 11. 아직 안 본 것
 
 - **스케일 변수가 사는 컬렉션.** 노출([#41](https://github.com/flameware/massive-design/issues/41)이 되돌렸다)과 **별개 문제**다 — 노출은 플래그이고 컬렉션은 그룹핑이다. 섞으면 되돌리기 어려운 쪽(변수 ID가 바뀌어 기존 바인딩이 전부 재지정된다)이 쉬운 쪽에 묻어 들어온다. fog에 남는다
-- **`fontFamily` 바인딩 순서가 컴포넌트 세트에서도 성립하는가.** [#9](https://github.com/flameware/massive-design/issues/9)·[#10](https://github.com/flameware/massive-design/issues/10)이 증명한 범위는 Text Style과 평범한 텍스트 노드까지다. variant마다 텍스트 노드를 만들어 `combineAsVariants`로 묶는 경로는 미검증이고, **바인딩을 세트 조립 완료 후로 미뤄야 한다**는 것이 가설이다([#26](https://github.com/flameware/massive-design/issues/26)이 기록한다)
+- ~~**`fontFamily` 바인딩 순서가 컴포넌트 세트에서도 성립하는가.**~~ [#26](https://github.com/flameware/massive-design/issues/26)이 밟았다 — `combineAsVariants` **완료 후** 24개 label을 일괄 바인딩했고 전부 **1회 시도로 성공**했다(재시도 0회). §2.4가 예고한 "첫 시도는 반드시 throw"가 여기선 재현되지 않았다 — 콜드 파일이 아니었거나(§0의 01~06 재실행 규칙과 무관하게 이 세션이 이미 Pretendard 페이스를 한 번 건드린 뒤였을 가능성) 컴포넌트 세트 경로가 Text Style/평범한 텍스트 노드 경로와 다르게 동작하는 것일 수 있다. 재시도 루프는 안전망으로 유지하되, "항상 1회 실패"를 전제로 코드를 짜지 말 것
+- **매니페스트가 CSS 상속으로 오는 `color`를 못 잡는다.** `outline`·`ghost` 셀은 `properties`에 `color` 키가 아예 없다(shadcn이 `text-foreground` 상속에 기대기 때문 — §7 표는 셀 하나를 클래스 집합으로 읽으므로 상속은 안 보인다). [#26](https://github.com/flameware/massive-design/issues/26)은 판단으로 `fg/default`에 바인딩해 메웠다(실제 렌더 색과 일치) — 매니페스트 스키마가 이 경우를 언제 정식으로 흡수할지는 fog로 남긴다
 - **`description` 재발행 버그의 발현 조건.** [#31](https://github.com/flameware/massive-design/issues/31)의 왕복에서 발현하지 않았다. §3.3이 대비만 해 두었다
 - **`sharedPluginData`로의 이전.** 발행 경계를 넘는 것은 확인됐다([#31](https://github.com/flameware/massive-design/issues/31) §8.3). `description`의 가시성 오염이 실제 문제로 드러나면 옮겨갈 자리다. 지금 병행하지 않는 이유는 **같은 값이 두 자리에 있으면 어긋났을 때 정본 규약이 또 필요**하기 때문
 - **컴포넌트 계층 토큰.** [#23](https://github.com/flameware/massive-design/issues/23)이 센 대로 Button 48칸에서 Figma에 대응 변수가 없는 값은 36px(`h-9`·`size-9`) 하나뿐이다. 표본이 커지면 다시 본다
