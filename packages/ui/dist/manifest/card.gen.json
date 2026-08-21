@@ -1,0 +1,78 @@
+{
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm",
+      "properties": {
+        "background-color": {
+          "from": "bg-card",
+          "tier": "token",
+          "token": "--ds-bg-surface"
+        },
+        "border-radius": {
+          "from": "rounded-xl",
+          "px": 14,
+          "scale": "radius.xl",
+          "tier": "token",
+          "token": "--radius-xl"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-sm",
+          "scale": "shadow.sm",
+          "tier": "token",
+          "token": "--shadow-sm"
+        },
+        "color": {
+          "from": "text-card-foreground",
+          "tier": "token",
+          "token": "--ds-fg-default"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-col",
+          "tier": "literal",
+          "value": "column"
+        },
+        "gap": {
+          "from": "gap-6",
+          "multiple": 6,
+          "px": 24,
+          "scale": "space.6",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-6",
+          "multiple": 6,
+          "px": 24,
+          "scale": "space.6",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "card",
+  "defaults": {},
+  "hash": "6de11b872a66",
+  "schemaVersion": 2,
+  "source": "src/components/ui/card.tsx"
+}

@@ -5,6 +5,18 @@
       "component": "button",
       "hash": "3e9065eb18a1",
       "path": "button.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "card",
+      "hash": "6de11b872a66",
+      "path": "card.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "label",
+      "hash": "bc2642bf3be2",
+      "path": "label.gen.json"
     }
   ],
   "schemaVersion": 2
