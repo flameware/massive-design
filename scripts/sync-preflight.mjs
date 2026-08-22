@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { readFile, readdir, stat, writeFile } from "node:fs/promises"
+import { copyFile, mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises"
 import { spawnSync } from "node:child_process"
 import path from "node:path"
 
@@ -49,6 +49,7 @@ const startedAt = new Date().toISOString()
 const checks = []
 checks.push(run("generate tokens", "bun", ["run", "--cwd", "packages/tokens", "tokens:build"]))
 checks.push(run("generate manifests", "bun", ["run", "--cwd", "packages/ui", "manifest"]))
+checks.push(run("generate Storybook catalog", "bun", ["run", "--cwd", "apps/storybook", "catalog"]))
 checks.push(run("repo check", "bun", ["run", "check"]))
 checks.push(run("repo test", "bun", ["run", "test"]))
 checks.push(run("Storybook production build", "bun", ["run", "--cwd", "apps/storybook", "build-storybook"]))
@@ -64,8 +65,8 @@ try {
   // The failed check and resume point remain recordable even if axe could not emit details.
 }
 const targetCommit = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).stdout.trim()
-const codeChecks = checks.slice(0, 4)
-const storybookChecks = checks.slice(4)
+const codeChecks = checks.slice(0, 5)
+const storybookChecks = checks.slice(5)
 const codeResult = codeChecks.every((check) => check.result === "PASS") ? "PASS" : "FAIL"
 const storybookResult = codeResult === "PASS"
   ? storybookChecks.every((check) => check.result === "PASS") ? "PASS" : "FAIL"
@@ -90,6 +91,8 @@ const record = {
 }
 
 await writeFile(recordPath, `${JSON.stringify(record, null, 2)}\n`)
+await mkdir(path.join(root, "apps/storybook/storybook-static/verification"), { recursive: true })
+await copyFile(recordPath, path.join(root, "apps/storybook/storybook-static/verification/design-system-sync.json"))
 console.log(`\nVerification record: ${path.relative(root, recordPath)}`)
 console.log(`inputDigest: ${inputDigest}`)
 console.log(`resumeAt: ${record.resumeAt}`)

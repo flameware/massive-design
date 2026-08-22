@@ -40,8 +40,8 @@ try {
         region: { enabled: false },
       },
     }))
-    for (const violation of result.violations) violations.push({ story: story.id, impact: violation.impact, rule: violation.id, nodes: violation.nodes.length })
-    for (const item of result.incomplete) incomplete.push({ story: story.id, impact: item.impact, rule: item.id, nodes: item.nodes.length })
+    for (const violation of result.violations) violations.push({ story: story.id, impact: violation.impact, rule: violation.id, nodes: violation.nodes.length, targets: violation.nodes.map((node) => node.target) })
+    for (const item of result.incomplete) incomplete.push({ story: story.id, impact: item.impact, rule: item.id, nodes: item.nodes.length, targets: item.nodes.map((node) => node.target), review: item.nodes.map((node) => node.failureSummary) })
   }
 } finally {
   await browser.close()

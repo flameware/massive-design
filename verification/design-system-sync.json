@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "55c9fa98dacc4e49151c5576c6d7e2b61fc91f57",
-  "inputDigest": "a6bd6ac510cde356e40f56afc4f044d6c079134ae37ba218b67794f7ca627c23",
+  "targetCommit": "a8ca24ad188446b133cb3aff0bd0938b7105cf83",
+  "inputDigest": "f1cedbae5d6b57b934bc200885580c7f7b265a88622934c9f721942214f1b448",
   "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169",
   "components": [
     {
@@ -58,7 +58,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-22T01:42:50.411Z",
+      "checkedAt": "2026-08-22T02:39:02.936Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -67,6 +67,11 @@
         },
         {
           "label": "generate manifests",
+          "result": "PASS",
+          "exitCode": 0
+        },
+        {
+          "label": "generate Storybook catalog",
           "result": "PASS",
           "exitCode": 0
         },
@@ -84,7 +89,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-22T01:42:50.411Z",
+      "checkedAt": "2026-08-22T02:39:02.936Z",
       "checks": [
         {
           "label": "Storybook production build",
@@ -98,38 +103,22 @@
         }
       ],
       "a11y": {
-        "stories": 6,
+        "stories": 13,
         "violations": [],
         "incomplete": [
           {
-            "story": "button--default",
-            "impact": "serious",
-            "rule": "bypass",
-            "nodes": 1
-          },
-          {
-            "story": "button--all-variants",
-            "impact": "serious",
-            "rule": "bypass",
-            "nodes": 1
-          },
-          {
-            "story": "card--default",
-            "impact": "serious",
-            "rule": "bypass",
-            "nodes": 1
-          },
-          {
-            "story": "label--default",
-            "impact": "serious",
-            "rule": "bypass",
-            "nodes": 1
-          },
-          {
-            "story": "prototype-storybook-boundary--compare-boundaries",
+            "story": "components-manifest-references--select",
             "impact": "serious",
             "rule": "color-contrast",
-            "nodes": 2
+            "nodes": 1,
+            "targets": [
+              [
+                "span[aria-hidden=\"true\"]"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters"
+            ]
           }
         ]
       }
