@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "check": "bun run --filter '*' check",
-    "test": "bun run --filter '*' test"
+    "test": "bun run --filter '*' test",
+    "sync:preflight": "node scripts/sync-preflight.mjs"
   },
   "workspaces": [
     "packages/*",

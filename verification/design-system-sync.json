@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "targetCommit": "de5bad91b9dc25684c96d1f5d048e600e57036c4",
+  "inputDigest": "47dda9e24a1b54c8752a367658e98ed3126b3fe1a937071f7ed722b1bcad35bb",
+  "tokenArtifactHash": "7b91af55d1047de5f17fbd1fabcfcac726469dbe0d570fa7f7a3a4aa05ec0f9a",
+  "components": [
+    {
+      "component": "button",
+      "manifestHash": "8472d5d50576",
+      "tokenArtifactHash": "7b91af55d1047de5f17fbd1fabcfcac726469dbe0d570fa7f7a3a4aa05ec0f9a"
+    },
+    {
+      "component": "card",
+      "manifestHash": "50895e9c5fea",
+      "tokenArtifactHash": "7b91af55d1047de5f17fbd1fabcfcac726469dbe0d570fa7f7a3a4aa05ec0f9a"
+    },
+    {
+      "component": "label",
+      "manifestHash": "f13a318e70a1",
+      "tokenArtifactHash": "7b91af55d1047de5f17fbd1fabcfcac726469dbe0d570fa7f7a3a4aa05ec0f9a"
+    }
+  ],
+  "stages": {
+    "CODE_VERIFIED": {
+      "result": "PASS",
+      "checkedAt": "2026-08-22T01:26:41.661Z",
+      "checks": [
+        {
+          "label": "generate tokens",
+          "result": "PASS",
+          "exitCode": 0
+        },
+        {
+          "label": "generate manifests",
+          "result": "PASS",
+          "exitCode": 0
+        },
+        {
+          "label": "repo check",
+          "result": "PASS",
+          "exitCode": 0
+        },
+        {
+          "label": "repo test",
+          "result": "PASS",
+          "exitCode": 0
+        }
+      ]
+    },
+    "STORYBOOK_VERIFIED": {
+      "result": "PASS",
+      "checkedAt": "2026-08-22T01:26:41.661Z",
+      "checks": [
+        {
+          "label": "Storybook production build",
+          "result": "PASS",
+          "exitCode": 0
+        },
+        {
+          "label": "Storybook axe",
+          "result": "PASS",
+          "exitCode": 0
+        }
+      ],
+      "a11y": {
+        "stories": 6,
+        "violations": [],
+        "incomplete": [
+          {
+            "story": "button--default",
+            "impact": "serious",
+            "rule": "bypass",
+            "nodes": 1
+          },
+          {
+            "story": "button--all-variants",
+            "impact": "serious",
+            "rule": "bypass",
+            "nodes": 1
+          },
+          {
+            "story": "card--default",
+            "impact": "serious",
+            "rule": "bypass",
+            "nodes": 1
+          },
+          {
+            "story": "label--default",
+            "impact": "serious",
+            "rule": "bypass",
+            "nodes": 1
+          },
+          {
+            "story": "prototype-storybook-boundary--compare-boundaries",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 2
+          }
+        ]
+      }
+    },
+    "FIGMA_DOCUMENT_SYNCED": {
+      "result": "UNKNOWN",
+      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
+    },
+    "FIGMA_LIBRARY_CURRENT": {
+      "result": "UNKNOWN",
+      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
+    }
+  },
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "failure": null,
+  "resumeAt": "FIGMA_DOCUMENT_SYNCED"
+}
