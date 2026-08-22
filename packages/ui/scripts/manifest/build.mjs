@@ -15,7 +15,7 @@ import { canonicalJson, hashComponent } from "./hash.mjs"
 import { loadTheme } from "./theme.mjs"
 
 /** 2: 셀 밖 `base` 블록이 생겼다 — `@layer base`의 `*` 규칙에서 파생한다(#36). */
-export const SCHEMA_VERSION = 2
+export const SCHEMA_VERSION = 3
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -55,6 +55,8 @@ export function buildManifests(components, root) {
       source: component.source,
       axes: Object.fromEntries(Object.entries(component.config.variants).map(([a, v]) => [a, Object.keys(v)])),
       defaults: { ...component.config.defaultVariants },
+      anatomy: component.anatomy ?? [],
+      configurationStates: component.configurationStates ?? {},
       cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme })),
     }
     doc.hash = hashComponent(doc)

@@ -64,16 +64,16 @@ test('.dark는 어디에 붙어도 같은 값을 낸다 — 루트든 중첩 서
   assert.deepEqual(drifted, [])
 })
 
-test('중첩 .dark에서 alias 36개가 루트 다크와 같은 값이 된다', () => {
+test('중첩 .dark에서 alias 42개가 루트 다크와 같은 값이 된다', () => {
   const alias = [...root.keys()].filter((n) => !n.startsWith('--ds-') && n !== '--radius')
-  assert.equal(alias.length, 36)
+  assert.equal(alias.length, 42)
   for (const name of alias) assert.equal(nestedDark.get(name), rootDark.get(name), name)
 
   // 결함이 반만 보였던 이유: 10개는 두 모드가 같은 hex다(9단 키 앵커의 solid 4종과
   // 그 위의 흰 글자, 그리고 그것을 가리키는 ring). 실제로 잘못 뒤집히던 건 24개였고,
   // #37이 더한 --link와 #54의 focus-contrast가 모드별로 갈리는 단이다.
   const flips = alias.filter((n) => rootDark.get(n) !== light.get(n))
-  assert.equal(flips.length, 26)
+  assert.equal(flips.length, 32)
   for (const name of flips) assert.notEqual(nestedDark.get(name), light.get(name), name)
 })
 

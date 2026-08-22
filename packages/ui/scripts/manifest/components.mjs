@@ -5,6 +5,13 @@
 import { buttonVariants, buttonVariantsConfig } from "../../src/components/ui/button.tsx"
 import { cardVariants, cardVariantsConfig } from "../../src/components/ui/card.tsx"
 import { labelVariants, labelVariantsConfig } from "../../src/components/ui/label.tsx"
+import { tableVariants, tableVariantsConfig } from "../../src/components/ui/table.tsx"
+import { listRowVariants, listRowVariantsConfig } from "../../src/components/ui/list-row.tsx"
+import { badgeVariants, badgeVariantsConfig } from "../../src/components/ui/badge.tsx"
+import { inputVariants, inputVariantsConfig } from "../../src/components/ui/input.tsx"
+import { checkboxVariants, checkboxVariantsConfig } from "../../src/components/ui/checkbox.tsx"
+import { selectVariants, selectVariantsConfig } from "../../src/components/ui/select.tsx"
+import { dropdownMenuVariants, dropdownMenuVariantsConfig } from "../../src/components/ui/dropdown-menu.tsx"
 import { cn } from "../../src/lib/utils.ts"
 
 export const COMPONENTS = [
@@ -26,5 +33,42 @@ export const COMPONENTS = [
     source: "src/components/ui/label.tsx",
     config: labelVariantsConfig,
     className: (props) => cn(labelVariants(props)),
+  },
+  {
+    name: "table", source: "src/components/ui/table.tsx", config: tableVariantsConfig,
+    className: (props) => cn(tableVariants(props)),
+    anatomy: ["Table", "TableHeader", "TableBody", "TableRow*", "TableHead*", "TableCell*", "TableCaption?"],
+    configurationStates: { row: ["default", "selected"] },
+  },
+  {
+    name: "list-row", source: "src/components/ui/list-row.tsx", config: listRowVariantsConfig,
+    className: (props) => cn(listRowVariants(props)),
+    anatomy: ["ListRow", "ListRowLeading?", "ListRowContent", "ListRowTitle", "ListRowDescription?", "ListRowMeta?", "ListRowTrailing?"],
+    configurationStates: { row: ["default", "selected"] },
+  },
+  {
+    name: "badge", source: "src/components/ui/badge.tsx", config: badgeVariantsConfig,
+    className: (props) => cn(badgeVariants(props)), anatomy: ["Badge"],
+  },
+  {
+    name: "input", source: "src/components/ui/input.tsx", config: inputVariantsConfig,
+    className: (props) => cn(inputVariants(props)), anatomy: ["Input"],
+  },
+  {
+    name: "checkbox", source: "src/components/ui/checkbox.tsx", config: checkboxVariantsConfig,
+    className: (props) => cn(checkboxVariants(props)), anatomy: ["Checkbox", "Indicator"],
+    configurationStates: { checked: ["unchecked", "checked", "indeterminate"] },
+  },
+  {
+    name: "select", source: "src/components/ui/select.tsx", config: selectVariantsConfig,
+    className: (props) => cn(selectVariants(props)),
+    anatomy: ["Select", "SelectTrigger", "SelectValue", "SelectContent", "SelectGroup*", "SelectLabel?", "SelectItem*", "SelectSeparator?"],
+    configurationStates: { open: ["closed", "open"] },
+  },
+  {
+    name: "dropdown-menu", source: "src/components/ui/dropdown-menu.tsx", config: dropdownMenuVariantsConfig,
+    className: (props) => cn(dropdownMenuVariants(props)),
+    anatomy: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuGroup*", "DropdownMenuLabel?", "DropdownMenuItem*", "DropdownMenuSeparator?"],
+    configurationStates: { open: ["closed", "open"] },
   },
 ]

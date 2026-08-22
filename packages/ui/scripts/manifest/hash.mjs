@@ -38,9 +38,13 @@ function figmaPayload(doc) {
   }))
 
   return {
+    ...(doc.anatomy?.length ? { anatomy: doc.anatomy } : {}),
     axes: doc.axes,
     base: doc.base,
     cells,
+    ...(Object.keys(doc.configurationStates ?? {}).length
+      ? { configurationStates: doc.configurationStates }
+      : {}),
   }
 }
 

@@ -1,0 +1,61 @@
+{
+  "anatomy": [
+    "Table",
+    "TableHeader",
+    "TableBody",
+    "TableRow*",
+    "TableHead*",
+    "TableCell*",
+    "TableCaption?"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "w-full caption-bottom text-sm",
+      "properties": {
+        "caption-side": {
+          "from": "caption-bottom",
+          "tier": "literal",
+          "value": "bottom"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "table",
+  "configurationStates": {
+    "row": [
+      "default",
+      "selected"
+    ]
+  },
+  "defaults": {},
+  "hash": "aac033c553b2",
+  "schemaVersion": 3,
+  "source": "src/components/ui/table.tsx"
+}

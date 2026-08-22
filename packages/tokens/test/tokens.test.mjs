@@ -81,9 +81,9 @@ test('알파 리터럴은 8자리 hex와 정확한 알파를 함께 갖는다', 
   }
 })
 
-test('alias 표의 이름 36개 + radius가 전부 있고 semantic으로 해석된다', () => {
+test('alias 표의 이름 42개 + radius가 전부 있고 semantic으로 해석된다', () => {
   const keys = Object.keys(shadcn).filter((k) => !k.startsWith('$'))
-  assert.equal(keys.length, 37)
+  assert.equal(keys.length, 43)
   for (const [name, target] of Object.entries(shadcn)) {
     if (name.startsWith('$') || name === 'radius') continue
     if (typeof target === 'string') {
@@ -94,6 +94,17 @@ test('alias 표의 이름 36개 + radius가 전부 있고 semantic으로 해석�
       for (const mode of ['light', 'dark']) assert.ok(tokens.has(target[mode]), `--${name}.${mode}`)
     }
   }
+})
+
+test('soft와 text alias는 기존 solid와 on-solid 의미를 바꾸지 않고 semantic에 연결된다', () => {
+  assert.equal(shadcn['primary-soft'], 'color.bg.accent.soft')
+  assert.equal(shadcn['primary-text'], 'color.fg.accent')
+  assert.equal(shadcn['destructive-soft'], 'color.bg.danger.soft')
+  assert.equal(shadcn['destructive-text'], 'color.fg.danger')
+  assert.equal(shadcn['success-soft'], 'color.bg.success.soft')
+  assert.equal(shadcn['success-text'], 'color.fg.success')
+  assert.equal(shadcn.primary, 'color.bg.accent.solid')
+  assert.equal(shadcn['primary-foreground'], 'color.fg.on-solid')
 })
 
 test('radius 7단이 base × 배수와 일치한다', () => {

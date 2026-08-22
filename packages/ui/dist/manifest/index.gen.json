@@ -1,6 +1,12 @@
 {
   "components": [
     {
+      "cells": 4,
+      "component": "badge",
+      "hash": "37c940c4d831",
+      "path": "badge.gen.json"
+    },
+    {
       "cells": 48,
       "component": "button",
       "hash": "8472d5d50576",
@@ -14,10 +20,46 @@
     },
     {
       "cells": 1,
+      "component": "checkbox",
+      "hash": "b952b37163b6",
+      "path": "checkbox.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "dropdown-menu",
+      "hash": "e3617c6fd13c",
+      "path": "dropdown-menu.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "input",
+      "hash": "238507ed3be1",
+      "path": "input.gen.json"
+    },
+    {
+      "cells": 1,
       "component": "label",
       "hash": "f13a318e70a1",
       "path": "label.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "list-row",
+      "hash": "109497324ece",
+      "path": "list-row.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "select",
+      "hash": "306160b2cb63",
+      "path": "select.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "table",
+      "hash": "aac033c553b2",
+      "path": "table.gen.json"
     }
   ],
-  "schemaVersion": 2
+  "schemaVersion": 3
 }

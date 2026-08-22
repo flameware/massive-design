@@ -147,6 +147,8 @@
   --popover-foreground: var(--ds-fg-default);
   --primary: var(--ds-bg-accent-solid);
   --primary-foreground: var(--ds-fg-on-solid);
+  --primary-soft: var(--ds-bg-accent-soft);
+  --primary-text: var(--ds-fg-accent);
   --secondary: var(--ds-bg-neutral-soft);
   --secondary-foreground: var(--ds-fg-default);
   --muted: var(--ds-bg-subtle);
@@ -155,6 +157,8 @@
   --accent-foreground: var(--ds-fg-default);
   --destructive: var(--ds-bg-danger-solid);
   --destructive-foreground: var(--ds-fg-on-solid);
+  --destructive-soft: var(--ds-bg-danger-soft);
+  --destructive-text: var(--ds-fg-danger);
   --border: var(--ds-border-default);
   --input: var(--ds-border-field);
   --ring: var(--ds-border-focus);
@@ -174,6 +178,8 @@
   --sidebar-ring: var(--ds-border-focus);
   --success: var(--ds-bg-success-solid);
   --success-foreground: var(--ds-fg-on-solid);
+  --success-soft: var(--ds-bg-success-soft);
+  --success-text: var(--ds-fg-success);
   --link: var(--ds-fg-link);
   --radius: 0.625rem;
 }
@@ -219,6 +225,8 @@
   --popover-foreground: var(--ds-fg-default);
   --primary: var(--ds-bg-accent-solid);
   --primary-foreground: var(--ds-fg-on-solid);
+  --primary-soft: var(--ds-bg-accent-soft);
+  --primary-text: var(--ds-fg-accent);
   --secondary: var(--ds-bg-neutral-soft);
   --secondary-foreground: var(--ds-fg-default);
   --muted: var(--ds-bg-subtle);
@@ -227,6 +235,8 @@
   --accent-foreground: var(--ds-fg-default);
   --destructive: var(--ds-bg-danger-solid);
   --destructive-foreground: var(--ds-fg-on-solid);
+  --destructive-soft: var(--ds-bg-danger-soft);
+  --destructive-text: var(--ds-fg-danger);
   --border: var(--ds-border-default);
   --input: var(--ds-border-field);
   --ring: var(--ds-border-focus);
@@ -246,6 +256,8 @@
   --sidebar-ring: var(--ds-border-focus);
   --success: var(--ds-bg-success-solid);
   --success-foreground: var(--ds-fg-on-solid);
+  --success-soft: var(--ds-bg-success-soft);
+  --success-text: var(--ds-fg-success);
   --link: var(--ds-fg-link);
 }
 
@@ -259,6 +271,8 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-text: var(--primary-text);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -267,6 +281,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-destructive-text: var(--destructive-text);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -286,6 +302,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+  --color-success-text: var(--success-text);
   --color-link: var(--link);
 
   /* 타이포 — 사이즈 사다리는 Tailwind 기본과 같아 덮지 않는다 */

@@ -1,4 +1,5 @@
 {
+  "anatomy": [],
   "axes": {},
   "base": {
     "border-color": {
@@ -71,8 +72,9 @@
     }
   ],
   "component": "card",
+  "configurationStates": {},
   "defaults": {},
   "hash": "50895e9c5fea",
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "source": "src/components/ui/card.tsx"
 }

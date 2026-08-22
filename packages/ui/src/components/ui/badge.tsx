@@ -1,0 +1,18 @@
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+
+const badgeVariantsConfig = {
+  variants: { variant: {
+    neutral: "bg-secondary text-secondary-foreground",
+    accent: "bg-primary-soft text-primary-text",
+    success: "bg-success-soft text-success-text",
+    danger: "bg-destructive-soft text-destructive-text",
+  } },
+  defaultVariants: { variant: "neutral" },
+} as const
+const badgeVariants = cva("inline-flex w-fit shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium", badgeVariantsConfig)
+function Badge({ className, variant = "neutral", ...props }: React.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
+  return <span data-slot="badge" data-variant={variant} className={cn(badgeVariants({ variant, className }))} {...props} />
+}
+export { Badge, badgeVariants, badgeVariantsConfig }

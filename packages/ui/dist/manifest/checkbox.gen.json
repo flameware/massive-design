@@ -1,0 +1,102 @@
+{
+  "anatomy": [
+    "Checkbox",
+    "Indicator"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "state [--ds-state-base:var(--background)] size-4 shrink-0 rounded border shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground data-[state=indeterminate]:[--ds-state-base:var(--primary)] data-[state=indeterminate]:text-primary-foreground",
+      "properties": {
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded",
+          "px": 4,
+          "tier": "literal"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "data-[state=checked]:--ds-state-base": {
+          "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
+          "tier": "unresolved",
+          "value": "var(--primary)",
+          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
+        },
+        "data-[state=checked]:color": {
+          "from": "data-[state=checked]:text-primary-foreground",
+          "tier": "unresolved",
+          "value": "var(--primary-foreground)",
+          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
+        },
+        "data-[state=indeterminate]:--ds-state-base": {
+          "from": "data-[state=indeterminate]:[--ds-state-base:var(--primary)]",
+          "tier": "unresolved",
+          "value": "var(--primary)",
+          "why": "수식자 data-[state=indeterminate]를 아직 다루지 않는다"
+        },
+        "data-[state=indeterminate]:color": {
+          "from": "data-[state=indeterminate]:text-primary-foreground",
+          "tier": "unresolved",
+          "value": "var(--primary-foreground)",
+          "why": "수식자 data-[state=indeterminate]를 아직 다루지 않는다"
+        },
+        "height": {
+          "from": "size-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "size-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      }
+    }
+  ],
+  "component": "checkbox",
+  "configurationStates": {
+    "checked": [
+      "unchecked",
+      "checked",
+      "indeterminate"
+    ]
+  },
+  "defaults": {},
+  "hash": "b952b37163b6",
+  "schemaVersion": 3,
+  "source": "src/components/ui/checkbox.tsx"
+}

@@ -9,6 +9,8 @@
   "popover-foreground": "color.fg.default",
   "primary": "color.bg.accent.solid",
   "primary-foreground": "color.fg.on-solid",
+  "primary-soft": "color.bg.accent.soft",
+  "primary-text": "color.fg.accent",
   "secondary": "color.bg.neutral.soft",
   "secondary-foreground": "color.fg.default",
   "muted": "color.bg.subtle",
@@ -17,6 +19,8 @@
   "accent-foreground": "color.fg.default",
   "destructive": "color.bg.danger.solid",
   "destructive-foreground": "color.fg.on-solid",
+  "destructive-soft": "color.bg.danger.soft",
+  "destructive-text": "color.fg.danger",
   "border": "color.border.default",
   "input": "color.border.field",
   "ring": "color.border.focus",
@@ -39,6 +43,8 @@
 
   "success": "color.bg.success.solid",
   "success-foreground": "color.fg.on-solid",
+  "success-soft": "color.bg.success.soft",
+  "success-text": "color.fg.success",
 
   "link": "color.fg.link",
 

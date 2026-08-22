@@ -1,0 +1,104 @@
+{
+  "anatomy": [
+    "ListRow",
+    "ListRowLeading?",
+    "ListRowContent",
+    "ListRowTitle",
+    "ListRowDescription?",
+    "ListRowMeta?",
+    "ListRowTrailing?"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "state [--ds-state-base:var(--background)] flex min-w-0 items-center gap-3 rounded-md px-3 py-3 data-[state=selected]:bg-primary-soft",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "data-[state=selected]:background-color": {
+          "from": "data-[state=selected]:bg-primary-soft",
+          "tier": "unresolved",
+          "value": "var(--primary-soft)",
+          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "gap": {
+          "from": "gap-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": null,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      }
+    }
+  ],
+  "component": "list-row",
+  "configurationStates": {
+    "row": [
+      "default",
+      "selected"
+    ]
+  },
+  "defaults": {},
+  "hash": "109497324ece",
+  "schemaVersion": 3,
+  "source": "src/components/ui/list-row.tsx"
+}

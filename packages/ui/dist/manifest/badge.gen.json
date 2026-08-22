@@ -1,0 +1,302 @@
+{
+  "anatomy": [
+    "Badge"
+  ],
+  "axes": {
+    "variant": [
+      "neutral",
+      "accent",
+      "success",
+      "danger"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "inline-flex w-fit shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium bg-secondary text-secondary-foreground",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-secondary",
+          "tier": "token",
+          "token": "--ds-bg-neutral-soft"
+        },
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "color": {
+          "from": "text-secondary-foreground",
+          "tier": "token",
+          "token": "--ds-fg-default"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "padding-block": {
+          "from": "py-0.5",
+          "px": 2,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "state": null,
+      "variant": "neutral"
+    },
+    {
+      "className": "inline-flex w-fit shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium bg-primary-soft text-primary-text",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-primary-soft",
+          "tier": "token",
+          "token": "--ds-bg-accent-soft"
+        },
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "color": {
+          "from": "text-primary-text",
+          "tier": "token",
+          "token": "--ds-fg-accent"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "padding-block": {
+          "from": "py-0.5",
+          "px": 2,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "state": null,
+      "variant": "accent"
+    },
+    {
+      "className": "inline-flex w-fit shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium bg-success-soft text-success-text",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-success-soft",
+          "tier": "token",
+          "token": "--ds-bg-success-soft"
+        },
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "color": {
+          "from": "text-success-text",
+          "tier": "token",
+          "token": "--ds-fg-success"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "padding-block": {
+          "from": "py-0.5",
+          "px": 2,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "state": null,
+      "variant": "success"
+    },
+    {
+      "className": "inline-flex w-fit shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium bg-destructive-soft text-destructive-text",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-destructive-soft",
+          "tier": "token",
+          "token": "--ds-bg-danger-soft"
+        },
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "color": {
+          "from": "text-destructive-text",
+          "tier": "token",
+          "token": "--ds-fg-danger"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "padding-block": {
+          "from": "py-0.5",
+          "px": 2,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "state": null,
+      "variant": "danger"
+    }
+  ],
+  "component": "badge",
+  "configurationStates": {},
+  "defaults": {
+    "variant": "neutral"
+  },
+  "hash": "37c940c4d831",
+  "schemaVersion": 3,
+  "source": "src/components/ui/badge.tsx"
+}

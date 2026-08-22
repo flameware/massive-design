@@ -24,6 +24,7 @@ function Card({
   return (
     <div
       data-slot="card"
+      data-component="card"
       className={cn(cardVariants({ className }))}
       {...props}
     />

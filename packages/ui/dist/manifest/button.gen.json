@@ -1,4 +1,5 @@
 {
+  "anatomy": [],
   "axes": {
     "size": [
       "default",
@@ -5255,11 +5256,12 @@
     }
   ],
   "component": "button",
+  "configurationStates": {},
   "defaults": {
     "size": "default",
     "variant": "default"
   },
   "hash": "8472d5d50576",
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "source": "src/components/ui/button.tsx"
 }

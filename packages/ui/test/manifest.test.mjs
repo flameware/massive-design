@@ -85,3 +85,11 @@ test("칸은 축의 곱만큼 있고 빠짐이 없다", () => {
     assert.equal(seen.size, expected)
   }
 })
+
+test("공개 루트의 anatomy와 구성 상태가 매니페스트에 남는다", () => {
+  const table = read("table.gen.json")
+  const checkbox = read("checkbox.gen.json")
+  assert.ok(table.anatomy.includes("TableRow*"))
+  assert.deepEqual(table.configurationStates.row, ["default", "selected"])
+  assert.deepEqual(checkbox.configurationStates.checked, ["unchecked", "checked", "indeterminate"])
+})

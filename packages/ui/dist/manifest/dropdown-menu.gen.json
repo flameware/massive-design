@@ -1,0 +1,80 @@
+{
+  "anatomy": [
+    "DropdownMenu",
+    "DropdownMenuTrigger",
+    "DropdownMenuContent",
+    "DropdownMenuGroup*",
+    "DropdownMenuLabel?",
+    "DropdownMenuItem*",
+    "DropdownMenuSeparator?"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
+      "properties": {
+        "background-color": {
+          "from": "bg-popover",
+          "tier": "token",
+          "token": "--ds-bg-overlay"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-md",
+          "scale": "shadow.md",
+          "tier": "token",
+          "token": "--shadow-md"
+        },
+        "color": {
+          "from": "text-popover-foreground",
+          "tier": "token",
+          "token": "--ds-fg-default"
+        },
+        "min-width": {
+          "from": "min-w-32",
+          "px": 128,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-1",
+          "multiple": 1,
+          "px": 4,
+          "scale": "space.1",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "dropdown-menu",
+  "configurationStates": {
+    "open": [
+      "closed",
+      "open"
+    ]
+  },
+  "defaults": {},
+  "hash": "e3617c6fd13c",
+  "schemaVersion": 3,
+  "source": "src/components/ui/dropdown-menu.tsx"
+}
