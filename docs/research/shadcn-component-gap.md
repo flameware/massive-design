@@ -1,6 +1,6 @@
 # shadcn/ui 카탈로그 대비 massive-design 컴포넌트 공백 조사
 
-- 티켓: [#71](https://github.com/flameware/massive-design/issues/71) (디자인 시스템 확장·동기화 맵 [#56](https://github.com/flameware/massive-design/issues/56)의 하위 항목)
+- 티켓: [#71](https://github.com/flameware/massive-design/issues/71) (massive-design 카탈로그 확장 gap 맵 [#70](https://github.com/flameware/massive-design/issues/70)의 하위 항목)
 - 조사일: 2026-08-23
 - 대상: https://ui.shadcn.com/docs/components (공식 문서, 1차 출처)
 
