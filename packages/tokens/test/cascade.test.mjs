@@ -16,7 +16,8 @@ import { test } from 'node:test'
 
 import { buildAll, loadSources } from '../scripts/build.mjs'
 
-const css = buildAll(loadSources()).get('tokens.css')
+const sources = loadSources()
+const css = buildAll(sources).get('tokens.css')
 
 // ── 아주 작은 커스텀 속성 계산기 ────────────────────────────────────────────
 
@@ -64,9 +65,11 @@ test('.dark는 어디에 붙어도 같은 값을 낸다 — 루트든 중첩 서
   assert.deepEqual(drifted, [])
 })
 
-test('중첩 .dark에서 alias 42개가 루트 다크와 같은 값이 된다', () => {
+test('중첩 .dark에서 alias 원본 전부가 루트 다크와 같은 값이 된다', () => {
   const alias = [...root.keys()].filter((n) => !n.startsWith('--ds-') && n !== '--radius')
-  assert.equal(alias.length, 42)
+  const expected = Object.keys(sources.shadcn)
+    .filter((name) => !name.startsWith('$') && name !== 'radius').length
+  assert.equal(alias.length, expected)
   for (const name of alias) assert.equal(nestedDark.get(name), rootDark.get(name), name)
 
   // 결함이 반만 보였던 이유: 10개는 두 모드가 같은 hex다(9단 키 앵커의 solid 4종과

@@ -10,7 +10,7 @@
 
 - **semantic 색 토큰은 `--ds-*` 계층에서 센다.** shadcn 이름은 기계적으로 파생되는 호환 레이어이므로 카운트 밖이다. 우리가 발명한 어휘가 아니라 소비처가 이미 아는 어휘다.
 - 비색상 토큰(`state.*.opacity`)은 색 상한에 포함하지 않는다.
-- **현재 정확히 31개.** 두 겹 포커스 링의 안쪽 대비 경계 역할이 추가됐다([#54](https://github.com/flameware/massive-design/issues/54)).
+- **현재 목록의 정본은 `packages/tokens/tokens/semantic/color.json`이다.** 총계는 생성물에서 파생되며 `tokens:lint`의 B8과 `test/tokens.test.mjs`가 어휘 상한을 감시한다. 두 겹 포커스 링의 안쪽 대비 경계 역할은 [#54](https://github.com/flameware/massive-design/issues/54)에서 추가됐다.
 
 ## 1. 이름 규약
 
@@ -41,11 +41,11 @@
 `docs/research/figma-plugin-api.md:114-120, 246`에서 프로브로 확인된 구조를 그대로 쓴다.
 
 ```
-palette   (컬렉션, 모드 1개)   96 변수 + 리터럴 5개
+palette   (컬렉션, 모드 1개)   tokens/primitive/*에서 파생
           brand/light/1..12, brand/dark/1..12, neutral/…, danger/…, success/…
           base/white, base/black, alpha/white/10, alpha/white/15, alpha/black/50
 
-semantic  (컬렉션, 모드 2개: Light / Dark)   31 변수
+semantic  (컬렉션, 모드 2개: Light / Dark)   tokens/semantic/color.json에서 파생
           각 모드가 palette의 해당 변수를 alias
 ```
 
@@ -60,7 +60,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 }
 ```
 
-## 4. semantic 토큰 31개
+## 4. semantic 토큰 목록
 
 `palette.<family>.<mode>.<step>`을 `<family> <step>`으로 줄여 적는다. 대비값은 WCAG 2.
 
@@ -115,7 +115,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 |---|---|---|---|---|
 | 31 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
 
-**합계 31.**
+현재 총계는 `dist/tokens.d.ts`의 `SemanticColorToken`과 `dist/figma/04-semantic.js`의 생성 로그에서 확인한다. 두 생성물의 개수 일치는 `test/build.test.mjs`가 검증한다.
 
 비색상 (상한 밖, #13에서 확정): `state.hover.opacity` 0.08 · `state.pressed.opacity` 0.12 · `state.disabled.opacity` 0.5
 
@@ -194,7 +194,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 
 .dark {
   --ds-bg-canvas: var(--ds-palette-neutral-dark-1);
-  /* … semantic 31 + alias 36을 **통째로** 재선언한다 (#35, #54) */
+  /* … semantic + alias를 원본에서 파생해 **통째로** 재선언한다 (#35, #54) */
 }
 
 @theme inline {
@@ -203,7 +203,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 }
 ```
 
-`.dark`에서 재선언하는 건 **semantic 31 + alias 36 = 67줄**이다. palette 층은 건드리지 않는다.
+`.dark`에서는 **semantic과 모드 의존 alias 전부**를 원본에서 파생해 재선언한다. palette 층은 건드리지 않는다. 현재 줄 수를 문서에 복제하지 않고 `dist/tokens.css`와 cascade 테스트를 정본으로 삼는다.
 
 > **정정 이력** — 이 숫자는 세 번 고쳐졌다. 고쳐진 방향이 매번 "더 많이"였다는 게 요점이다.
 >

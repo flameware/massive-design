@@ -1,6 +1,6 @@
 {
   "color": {
-    "$description": "semantic 30개. 라이트/다크 전환은 오직 이 계층에서만 일어난다. 값은 반드시 {palette.*} 참조이고 리터럴은 금지다",
+    "$description": "라이트/다크 전환은 오직 이 계층에서만 일어난다. 값은 반드시 {palette.*} 참조이고 리터럴은 금지다. 목록과 총계는 이 파일에서 파생하고 tokens:lint가 상한을 감시한다",
     "bg": {
       "canvas": {
         "$type": "color",

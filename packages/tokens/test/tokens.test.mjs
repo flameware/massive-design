@@ -81,16 +81,16 @@ test('알파 리터럴은 8자리 hex와 정확한 알파를 함께 갖는다', 
   }
 })
 
-test('alias 표의 이름 42개 + radius가 전부 있고 semantic으로 해석된다', () => {
+test('alias 표의 모든 색 이름이 실재하는 토큰으로 해석된다', () => {
   const keys = Object.keys(shadcn).filter((k) => !k.startsWith('$'))
-  assert.equal(keys.length, 43)
+  assert.ok(keys.includes('radius'))
   for (const [name, target] of Object.entries(shadcn)) {
     if (name.startsWith('$') || name === 'radius') continue
     if (typeof target === 'string') {
       assert.ok(tokens.has(target), `--${name} → ${target}`)
     } else {
       // chart-1..5만 palette를 직접 가리킨다 — 모드별로 값이 갈리므로
-      // 방출기가 .dark에서 이 5개를 재선언해야 한다(semantic 30개와 함께).
+      // 방출기가 .dark에서 이 모드별 alias를 semantic 원본과 함께 재선언해야 한다.
       for (const mode of ['light', 'dark']) assert.ok(tokens.has(target[mode]), `--${name}.${mode}`)
     }
   }

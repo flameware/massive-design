@@ -10,7 +10,7 @@
 
 색 토큰과 달리 **개수 상한을 두지 않는다.** 색은 어휘를 발명하므로 상한이 규율이었지만, 비색상은 대부분 Tailwind 정본 이름을 그대로 쓰므로 발명이 없다. 대신 다른 규율이 적용된다 — **Tailwind 기본값과 다른 값만 토큰이다.**
 
-**총계**(§7 집계): CSS override **26개** + DTCG·Figma에만 사는 값 **8개** + Figma 전용 space 프리셋 **13개**. **신규 어휘 0개.**
+현재 총계는 `packages/tokens/tokens/primitive/scale.json`에서 파생된 `dist/tokens.css`, `dist/tokens.d.ts`, `dist/figma/03-palette-scale.js`, `dist/figma/var-map.gen.json`을 정본으로 삼고 `tokens:verify`와 `test/build.test.mjs`가 일치를 감시한다. 이 문서는 값과 의도를 설명하며 쉽게 낡는 전체 합계를 복제하지 않는다. **신규 어휘는 만들지 않는다.**
 
 ---
 
@@ -244,7 +244,7 @@ Tailwind v4의 **기하(offset/blur/spread)는 그대로 두고 알파만 우리
 | `--text-*--letter-spacing` | 5 |
 | `--radius-*` (base 제외 7단, 값은 shadcn 공식과 동일하나 `calc`→확정값) | 7 |
 | `--shadow-*` (알파만 변경) | 5 |
-| **CSS override 합계** | **26** |
+| **CSS override 합계** | 생성된 `dist/tokens.css`에서 확인 |
 
 **CSS에 나가지 않고 DTCG + Figma에만 사는 값**: border-width 2 + duration 3 + opacity 3 = 8
 
@@ -252,7 +252,7 @@ Tailwind v4의 **기하(offset/blur/spread)는 그대로 두고 알파만 우리
 
 **신규 어휘**: **0개.** 이름은 전부 Tailwind 정본이다.
 
-> **[#17](https://github.com/flameware/massive-design/issues/17) 정정**: 이 집계에 **`--font-sans`가 빠져 있다.** `type.family.sans`는 `noCss` 표식이 없고 Pretendard 스택은 Tailwind 기본 sans와 다르므로 CSS로 나가는 override가 맞다. **CSS override 합계는 26이 아니라 27**이다. `--spacing`·`--ease-*`는 값이 기본과 같아 집계 밖인데, 그중 `--spacing`만 출력한다 — 우리 파일이 shadcn `globals.css`를 통째로 대신하므로 배수의 기준값이 이 파일 안에 보이는 편이 낫다. `--ease-*`는 출력하지 않는다.
+> **[#17](https://github.com/flameware/massive-design/issues/17) 정정**: 초기 수동 집계에는 `--font-sans`가 빠져 있었다. `type.family.sans`는 `noCss` 표식이 없고 Pretendard 스택은 Tailwind 기본 sans와 다르므로 CSS로 나가는 override가 맞다. 이 사례 때문에 전체 합계는 더 이상 문서에 고정하지 않는다. `--spacing`·`--ease-*`는 값이 기본과 같아 override 집계 밖인데, 그중 `--spacing`만 출력한다 — 우리 파일이 shadcn `globals.css`를 통째로 대신하므로 배수의 기준값이 이 파일 안에 보이는 편이 낫다. `--ease-*`는 출력하지 않는다.
 
 ---
 

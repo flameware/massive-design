@@ -11,16 +11,19 @@ import { test } from 'node:test'
 import { loadSources } from '../scripts/build.mjs'
 import { scaleVariables } from '../scripts/lib/emit/figma.mjs'
 import { varMap } from '../scripts/lib/emit/var-map.mjs'
+import { flatten } from '../scripts/lib/resolve.mjs'
 
 const sources = loadSources()
 const map = varMap(sources)
 const entries = Object.entries(map).filter(([k]) => !k.startsWith('$'))
 
-test('표가 03의 스케일 47개 · 06의 그림자 5개 · 04의 semantic 31개를 덮는다', () => {
-  assert.equal(scaleVariables(sources.scale).length, 47)
-  assert.equal(entries.length, 47 + 5 + 31)
-  assert.equal(entries.filter(([, v]) => v.kind === 'effectStyle').length, 5)
-  assert.equal(entries.filter(([, v]) => v.collection === 'semantic').length, 31)
+test('표가 스케일·그림자·semantic 원본을 빠짐없이 덮는다', () => {
+  const scaleCount = scaleVariables(sources.scale).length
+  const shadowCount = Object.keys(sources.scale.shadow).filter((name) => !name.startsWith('$')).length
+  const semanticCount = flatten(sources.semantic).size
+  assert.equal(entries.length, scaleCount + shadowCount + semanticCount)
+  assert.equal(entries.filter(([, v]) => v.kind === 'effectStyle').length, shadowCount)
+  assert.equal(entries.filter(([, v]) => v.collection === 'semantic').length, semanticCount)
 })
 
 test('문자열 규칙으로 복원되지 않는 네 자리', () => {

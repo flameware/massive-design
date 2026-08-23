@@ -5,9 +5,9 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 ## 토큰 계층
 
 - **primitive** — 값을 직접 갖는 토큰. 컬러 램프 12단계와 비색상 스케일. 소비처에 노출되지 않는다(Tailwind `@theme`에 등록하지 않는다).
-- **semantic** — primitive를 참조하는, 용도로 이름 붙인 토큰. `bg.* / fg.* / border.*` 30개. 라이트/다크 모드 전환은 **오직 이 계층에서만** 일어난다.
+- **semantic** — primitive를 참조하는, 용도로 이름 붙인 토큰. 현재 목록과 총계의 정본은 `packages/tokens/tokens/semantic/color.json`이며 `tokens:lint`가 상한을 감시한다. 라이트/다크 모드 전환은 **오직 이 계층에서만** 일어난다.
 - **component** — semantic만 참조하는 계층. **규칙만 존재하고 토큰은 0개다.**
-- **alias** — shadcn이 정한 이름을 우리 semantic에 이어 붙인 호환 레이어. 우리가 발명한 어휘가 아니므로 어휘 상한 계산에 넣지 않는다. 상한 밖인 근거는 정확히는 "**소비처가 이미 아는 이름, 그리고 그와 같은 모양으로 파생된 이름**"이다 — `success`·`link`처럼 정본에 없는 항목도 여기 산다. 컴포넌트가 색을 집는 유일한 창구라, alias에 이름이 없는 semantic 토큰은 **유틸리티가 아예 존재하지 않는다**.
+- **alias** — shadcn이 정한 이름을 우리 semantic에 이어 붙인 호환 레이어. 우리가 발명한 어휘가 아니므로 어휘 상한 계산에 넣지 않는다. 상한 밖인 근거는 정확히는 "**소비처가 이미 아는 이름, 그리고 그와 같은 모양으로 파생된 이름**"이다 — `success`·`link`처럼 정본에 없는 항목도 여기 산다. 컴포넌트 색은 원칙적으로 alias를 통해 소비한다. 단, `state.layer`는 완성된 색 유틸리티가 아니라 상태 합성 전용 입력이므로 `packages/ui/src/state.css`가 `--ds-state-layer`를 직접 읽는 **명시적 예외**다.
 
 ## 램프
 
@@ -21,7 +21,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 - **Figma 컴포넌트 자산** — 정적 화면 조립에 쓰이는 공개 재사용 자산. 여러 variant를 가진 component set뿐 아니라 variant가 하나인 단일 component도 포함하며, 상태 견본·데모 프레임과 구분한다.
 - **구성 상태(configuration state)** — 정적 화면을 조립할 때 선택해야 하는 의미 상태. `checked / unchecked / indeterminate`, 행의 `selected`, Select·메뉴의 `open / closed`가 여기에 속한다. 코드에서는 네이티브·Radix 상태이고 Figma에서는 component property 또는 별도의 공개 조립 표면으로 표현한다. hover·pressed·focus·disabled 같은 상호작용 상태와 구분하며, 새 토큰 계층을 만들지 않는다.
-- **state layer** — 상태 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. **상태 색 토큰은 0개다.** Figma에는 `color-mix`가 없어 **오버레이 fill로 근사한다** — 같은 두 변수를 fill 두 겹으로 쌓는다. 합성 공간이 달라(코드 oklab / Figma sRGB) 결과가 정확히 같지는 않다.
+- **state layer** — 상태별 완성 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. `state.layer`는 semantic 계층에 있는 **상태 합성 전용 입력**이며 alias 소비 규칙의 유일한 예외다. Figma에는 `color-mix`가 없어 **오버레이 fill로 근사한다** — 같은 두 변수를 fill 두 겹으로 쌓는다. 합성 공간이 달라(코드 oklab / Figma sRGB) 결과가 정확히 같지는 않다.
 - **상태 견본(state sample)** — 상태를 Figma에 보여주는 단위. **컴포넌트 세트의 축이 아니다** — 축으로 두면 조합 수에 곱해지고, 정적 시안을 조립하는 데는 쓰이지 않는다. 컴포넌트마다 한 장씩 매니페스트에서 생성되는 프레임이다.
 
 ## 출력과 주입

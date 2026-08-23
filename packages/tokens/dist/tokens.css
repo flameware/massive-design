@@ -104,7 +104,7 @@
   --ds-palette-alpha-white-15: #ffffff26;
   --ds-palette-alpha-black-50: #00000080;
 
-  /* semantic 30 — 라이트. 모드 전환은 이 계층에서만 일어난다 */
+  /* semantic — 라이트. 모드 전환은 이 계층에서만 일어난다 */
   --ds-bg-canvas: var(--ds-palette-neutral-light-2);
   --ds-bg-surface: var(--ds-palette-neutral-light-1);
   --ds-bg-subtle: var(--ds-palette-neutral-light-3);
@@ -137,7 +137,7 @@
   --ds-border-focus-contrast: var(--ds-palette-neutral-light-12);
   --ds-state-layer: var(--ds-palette-base-black);
 
-  /* shadcn raw 35 — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).
+  /* shadcn raw — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).
      .dark가 한 벌 더 선언한다 — 여기서 치환이 끝나기 때문 (#35) */
   --background: var(--ds-bg-canvas);
   --foreground: var(--ds-fg-default);

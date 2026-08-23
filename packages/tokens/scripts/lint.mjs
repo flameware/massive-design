@@ -19,7 +19,7 @@ import { flatten, isRef, refPath, valueFor } from './lib/resolve.mjs'
 import { resolveOverrides, resolveParams } from './ramp.mjs'
 
 /**
- * alias 표가 반드시 내야 하는 이름 36개. alias 파일에서 파생하지 않는다 —
+ * alias 표가 반드시 내야 하는 이름. alias 파일에서 파생하지 않는다 —
  * 그러면 자기 자신을 검사한다.
  *
  * ⚠️ 이름이 "정본"이지만 전부 정본은 아니다: `success`·`success-foreground`·
@@ -156,7 +156,7 @@ export function lintCss(source, err) {
     if (named('text').has(name)) err(`C12 --color-${name} 과 --text-${name} 이 충돌한다`)
   }
 
-  // 13. alias 표의 이름 36개가 :root에 전부 존재
+  // 13. alias 표의 이름이 :root에 전부 존재
   const root = css.match(/:root\s*\{([\s\S]*?)\n\}/)?.[1] ?? ''
   for (const name of SHADCN_CANON) {
     if (!new RegExp(`^\\s*--${name}\\s*:`, 'm').test(root)) err(`C13 :root에 --${name}이 없다`)
