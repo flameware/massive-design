@@ -97,6 +97,14 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+const componentContract = {
+  name: "card", source: "src/components/ui/card.tsx",
+  publicExports: ["Card", "CardHeader", "CardFooter", "CardTitle", "CardAction", "CardDescription", "CardContent", "cardVariants", "cardVariantsConfig"],
+  config: cardVariantsConfig, className: (props: Record<string, string>) => cn(cardVariants(props)),
+  anatomy: [],
+  configurationStates: {},
+} as const
+
 export {
   Card,
   CardHeader,
@@ -107,4 +115,5 @@ export {
   CardContent,
   cardVariants,
   cardVariantsConfig,
+  componentContract,
 }

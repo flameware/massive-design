@@ -10,6 +10,7 @@
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
+    "contracts": "bun scripts/generate-component-contracts.mjs",
     "manifest": "bun scripts/manifest.mjs",
     "manifest:verify": "bun scripts/manifest-verify.mjs",
     "check": "node scripts/check.mjs && tsc --noEmit && bun scripts/manifest-verify.mjs",

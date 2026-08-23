@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url"
 
 import { buildManifests, OUT_DIR } from "./manifest/build.mjs"
 import { COMPONENTS } from "./manifest/components.mjs"
+import { publicBarrel } from "./component-contracts.mjs"
 
 export function verifyManifests(root) {
   const built = buildManifests(COMPONENTS, root)
@@ -33,6 +34,13 @@ export function verifyManifests(root) {
     /* 위에서 이미 "없다"로 잡힌다 */
   }
   for (const name of present) if (!built.has(name)) stale.push(`${OUT_DIR}/${name} — 빌드가 내지 않는 파일이다`)
+
+  const barrel = "src/index.gen.ts"
+  try {
+    if (readFileSync(join(root, barrel), "utf8") !== publicBarrel(COMPONENTS)) stale.push(`${barrel} — 계약과 어긋났다`)
+  } catch {
+    stale.push(`${barrel} — 없다`)
+  }
 
   return stale
 }

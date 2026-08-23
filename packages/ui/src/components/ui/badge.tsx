@@ -15,4 +15,10 @@ const badgeVariants = cva("inline-flex w-fit shrink-0 items-center rounded-full 
 function Badge({ className, variant = "neutral", ...props }: React.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
   return <span data-slot="badge" data-variant={variant} className={cn(badgeVariants({ variant, className }))} {...props} />
 }
-export { Badge, badgeVariants, badgeVariantsConfig }
+const componentContract = {
+  name: "badge", source: "src/components/ui/badge.tsx",
+  publicExports: ["Badge", "badgeVariants", "badgeVariantsConfig"],
+  config: badgeVariantsConfig, className: (props: Record<string, string>) => cn(badgeVariants(props)),
+  anatomy: ["Badge"], configurationStates: {},
+} as const
+export { Badge, badgeVariants, badgeVariantsConfig, componentContract }

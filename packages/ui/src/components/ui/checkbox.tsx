@@ -8,4 +8,11 @@ const checkboxVariants = cva("state [--ds-state-base:var(--background)] size-4 s
 function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
   return <CheckboxPrimitive.Root data-slot="checkbox" className={cn(checkboxVariants({ className }))} {...props}><CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className="flex items-center justify-center text-current">●</CheckboxPrimitive.Indicator></CheckboxPrimitive.Root>
 }
-export { Checkbox, checkboxVariants, checkboxVariantsConfig }
+const componentContract = {
+  name: "checkbox", source: "src/components/ui/checkbox.tsx",
+  publicExports: ["Checkbox", "checkboxVariants", "checkboxVariantsConfig"],
+  config: checkboxVariantsConfig, className: (props: Record<string, string>) => cn(checkboxVariants(props)),
+  anatomy: ["Checkbox", "Indicator"],
+  configurationStates: { checked: ["unchecked", "checked", "indeterminate"] },
+} as const
+export { Checkbox, checkboxVariants, checkboxVariantsConfig, componentContract }

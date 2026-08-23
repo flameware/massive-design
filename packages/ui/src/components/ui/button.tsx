@@ -99,4 +99,11 @@ function Button({
   )
 }
 
-export { Button, buttonVariants, buttonVariantsConfig }
+const componentContract = {
+  name: "button", source: "src/components/ui/button.tsx",
+  publicExports: ["Button", "buttonVariants", "buttonVariantsConfig"],
+  config: buttonVariantsConfig, className: (props: Record<string, string>) => cn(buttonVariants(props)),
+  anatomy: [], configurationStates: {},
+} as const
+
+export { Button, buttonVariants, buttonVariantsConfig, componentContract }

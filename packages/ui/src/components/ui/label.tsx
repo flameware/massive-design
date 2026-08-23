@@ -29,4 +29,11 @@ function Label({
   )
 }
 
-export { Label, labelVariants, labelVariantsConfig }
+const componentContract = {
+  name: "label", source: "src/components/ui/label.tsx",
+  publicExports: ["Label", "labelVariants", "labelVariantsConfig"],
+  config: labelVariantsConfig, className: (props: Record<string, string>) => cn(labelVariants(props)),
+  anatomy: [], configurationStates: {},
+} as const
+
+export { Label, labelVariants, labelVariantsConfig, componentContract }

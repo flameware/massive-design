@@ -12,4 +12,11 @@ function ListRowDescription({ className, ...props }: React.ComponentProps<"div">
 function ListRowMeta({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="list-row-meta" className={cn("ml-auto shrink-0 text-sm text-muted-foreground", className)} {...props} /> }
 function ListRowTrailing({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="list-row-trailing" className={cn("shrink-0", className)} {...props} /> }
 
-export { ListRow, ListRowLeading, ListRowContent, ListRowTitle, ListRowDescription, ListRowMeta, ListRowTrailing, listRowVariants, listRowVariantsConfig }
+const componentContract = {
+  name: "list-row", source: "src/components/ui/list-row.tsx",
+  publicExports: ["ListRow", "ListRowLeading", "ListRowContent", "ListRowTitle", "ListRowDescription", "ListRowMeta", "ListRowTrailing", "listRowVariants", "listRowVariantsConfig"],
+  config: listRowVariantsConfig, className: (props: Record<string, string>) => cn(listRowVariants(props)),
+  anatomy: ["ListRow", "ListRowLeading?", "ListRowContent", "ListRowTitle", "ListRowDescription?", "ListRowMeta?", "ListRowTrailing?"],
+  configurationStates: { row: ["default", "selected"] },
+} as const
+export { ListRow, ListRowLeading, ListRowContent, ListRowTitle, ListRowDescription, ListRowMeta, ListRowTrailing, listRowVariants, listRowVariantsConfig, componentContract }

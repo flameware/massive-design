@@ -27,4 +27,11 @@ function TableCaption({ className, ...props }: React.ComponentProps<"caption">) 
   return <caption data-slot="table-caption" className={cn("mt-4 text-sm text-muted-foreground", className)} {...props} />
 }
 
-export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, tableVariants, tableVariantsConfig }
+const componentContract = {
+  name: "table", source: "src/components/ui/table.tsx",
+  publicExports: ["Table", "TableHeader", "TableBody", "TableRow", "TableHead", "TableCell", "TableCaption", "tableVariants", "tableVariantsConfig"],
+  config: tableVariantsConfig, className: (props: Record<string, string>) => cn(tableVariants(props)),
+  anatomy: ["Table", "TableHeader", "TableBody", "TableRow*", "TableHead*", "TableCell*", "TableCaption?"],
+  configurationStates: { row: ["default", "selected"] },
+} as const
+export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, tableVariants, tableVariantsConfig, componentContract }
