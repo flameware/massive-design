@@ -15,6 +15,7 @@
  * 멱등성의 근간이므로(§2.1) 층이 하나 늘어나는 게 아니라 같은 층을 재사용한다.
  */
 import { flatten } from '../resolve.mjs'
+import { mixOklabHex } from '../oklch.mjs'
 
 /** `code` 파라미터 상한(#4). 넘으면 빌드 타임에 드러난다 — 런타임이 아니라. */
 export const CODE_LIMIT = 50_000
@@ -377,6 +378,171 @@ return { count: touched.length, styles: touched }
 `
 }
 
+// ── 07 Foundations 색 스와치 ────────────────────────────────────────────────
+
+export function foundationsData({ gen, literal, semantic, tokens }) {
+  const palette = [...flatten(gen), ...flatten(literal)].map(([path, token]) => ({
+    name: figmaName(path),
+    hex: token.$value,
+  }))
+  const resolveHex = (ref) => {
+    const token = tokens.get(strip(ref))
+    if (!token || typeof token.$value !== 'string' || !token.$value.startsWith('#')) {
+      throw new Error(`Foundations 색 참조를 해석할 수 없다: ${ref}`)
+    }
+    return token.$value
+  }
+  const semanticRows = [...flatten(semantic)].map(([path, token]) => ({
+    name: figmaName(path),
+    Light: resolveHex(token.$value),
+    Dark: resolveHex(token.$extensions?.['org.primer.overrides']?.dark ?? token.$value),
+  }))
+  return { palette, semantic: semanticRows }
+}
+
+function emit07(sources) {
+  const data = foundationsData(sources)
+  return `${header('07', `Foundations 색 스와치 palette ${data.palette.length}개 + semantic ${data.semantic.length}개 × 2모드`)}
+${PRELUDE}
+
+// 이 프레임만 생성기가 소유한다. Foundations 페이지의 다른 수동 노드는 건드리지 않는다.
+const DATA = ${json(data)}
+const PAGE = 'Foundations'
+const ROOT = 'Massive Foundations · generated'
+
+await figma.loadFontAsync({ family: 'Inter', style: 'Regular' })
+const page = figma.root.children.find((node) => node.type === 'PAGE' && node.name === PAGE)
+  ?? figma.createPage()
+page.name = PAGE
+await figma.setCurrentPageAsync(page)
+
+function direct(parent, type, name, create) {
+  const hits = parent.children.filter((node) => node.type === type && node.name === name)
+  if (hits.length > 1) throw new Error('중복 Foundations 노드: ' + name + ' × ' + hits.length)
+  const node = hits[0] ?? create()
+  node.name = name
+  if (node.parent !== parent) parent.appendChild(node)
+  return node
+}
+
+function frame(parent, name, direction = 'VERTICAL') {
+  const node = direct(parent, 'FRAME', name, () => figma.createFrame())
+  node.layoutMode = direction
+  node.primaryAxisSizingMode = 'AUTO'
+  node.counterAxisSizingMode = 'AUTO'
+  node.itemSpacing = direction === 'VERTICAL' ? 12 : 8
+  node.paddingTop = node.paddingRight = node.paddingBottom = node.paddingLeft = 12
+  node.fills = []
+  return node
+}
+
+function text(parent, name, characters, size = 12) {
+  const node = direct(parent, 'TEXT', name, () => figma.createText())
+  node.fontName = { family: 'Inter', style: 'Regular' }
+  node.fontSize = size
+  node.characters = characters
+  node.fills = [{ type: 'SOLID', color: { r: 0.12, g: 0.12, b: 0.12 } }]
+  return node
+}
+
+function rect(parent, name, hex, variable) {
+  const node = direct(parent, 'RECTANGLE', name, () => figma.createRectangle())
+  node.resize(64, 48)
+  node.cornerRadius = 6
+  const fallback = hexToRgba(hex)
+  let paint = { type: 'SOLID', color: { r: fallback.r, g: fallback.g, b: fallback.b }, opacity: fallback.a }
+  paint = figma.variables.setBoundVariableForPaint(paint, 'color', variable)
+  node.fills = [paint]
+  return node
+}
+
+function prune(parent, keep) {
+  for (const node of [...parent.children]) if (!keep.has(node.name)) node.remove()
+}
+
+function swatch(parent, name, hex, variable) {
+  const cell = frame(parent, 'swatch:' + name)
+  rect(cell, 'color', hex, variable)
+  text(cell, 'label', name)
+  prune(cell, new Set(['color', 'label']))
+  return cell
+}
+
+const paletteCol = (await figma.variables.getLocalVariableCollectionsAsync()).find((c) => c.name === 'palette')
+const semanticCol = (await figma.variables.getLocalVariableCollectionsAsync()).find((c) => c.name === 'semantic')
+if (!paletteCol || !semanticCol) throw new Error('01~04를 먼저 실행할 것')
+const paletteVars = await indexVariables(paletteCol)
+const semanticVars = await indexVariables(semanticCol)
+const modeIds = Object.fromEntries(semanticCol.modes.map((mode) => [mode.name, mode.modeId]))
+
+const root = direct(page, 'FRAME', ROOT, () => figma.createFrame())
+root.layoutMode = 'VERTICAL'
+root.primaryAxisSizingMode = 'AUTO'
+root.counterAxisSizingMode = 'AUTO'
+root.itemSpacing = 32
+root.paddingTop = root.paddingRight = root.paddingBottom = root.paddingLeft = 32
+root.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }]
+if (root.x === 0 && root.y === 0) {
+  const bottom = page.children.filter((node) => node !== root)
+    .reduce((max, node) => Math.max(max, node.y + node.height), 0)
+  root.x = 0
+  root.y = bottom ? bottom + 160 : 0
+}
+
+text(root, 'title', 'Massive Design Foundations', 24)
+const paletteSection = frame(root, 'section:palette')
+text(paletteSection, 'title', 'Palette', 18)
+const paletteGroups = new Map()
+for (const item of DATA.palette) {
+  const groupName = item.name.split('/').slice(0, 2).join('/')
+  if (!paletteGroups.has(groupName)) paletteGroups.set(groupName, [])
+  paletteGroups.get(groupName).push(item)
+}
+const paletteKeep = new Set(['title'])
+for (const [groupName, items] of paletteGroups) {
+  const group = frame(paletteSection, 'group:' + groupName, 'HORIZONTAL')
+  const keep = new Set()
+  for (const item of items) {
+    const variable = paletteVars.get(item.name)
+    if (!variable) throw new Error('palette 변수 누락: ' + item.name)
+    const cell = swatch(group, item.name, item.hex, variable)
+    keep.add(cell.name)
+  }
+  prune(group, keep)
+  paletteKeep.add(group.name)
+}
+prune(paletteSection, paletteKeep)
+
+const semanticSection = frame(root, 'section:semantic', 'HORIZONTAL')
+const semanticKeep = new Set()
+for (const mode of ['Light', 'Dark']) {
+  if (!modeIds[mode]) throw new Error('semantic 모드 누락: ' + mode)
+  const column = frame(semanticSection, 'mode:' + mode)
+  column.setExplicitVariableModeForCollection(semanticCol, modeIds[mode])
+  text(column, 'title', mode, 18)
+  const keep = new Set(['title'])
+  for (const item of DATA.semantic) {
+    const variable = semanticVars.get(item.name)
+    if (!variable) throw new Error('semantic 변수 누락: ' + item.name)
+    const cell = swatch(column, item.name, item[mode], variable)
+    keep.add(cell.name)
+  }
+  prune(column, keep)
+  semanticKeep.add(column.name)
+}
+prune(semanticSection, semanticKeep)
+prune(root, new Set(['title', 'section:palette', 'section:semantic']))
+
+return {
+  pageId: page.id,
+  rootId: root.id,
+  palette: DATA.palette.length,
+  semantic: DATA.semantic.length,
+  modes: ['Light', 'Dark'],
+}
+`
+}
+
 // ── ─────────────────────────────────────────────────────────────────────────
 
 export function emitFigma(sources) {
@@ -387,7 +553,55 @@ export function emitFigma(sources) {
     '04-semantic.js': emit04(sources),
     '05-text-styles.js': emit05(sources),
     '06-effect-styles.js': emit06(sources),
+    '07-foundations.js': emit07(sources),
   }
+}
+
+/**
+ * 컴포넌트 상태 견본이 소비하는 파생 색. Figma가 color-mix를 지원하지 않으므로
+ * CSS와 같은 oklab 계산을 빌드로 당긴다. 새 토큰이 아니라 매번 재생성되는 결과다.
+ */
+export function emitStateColors({ semantic, scale, tokens }) {
+  const layerToken = tokens.get('color.state.layer')
+  if (!layerToken) throw new Error('color.state.layer 누락')
+  const resolveHex = (ref) => {
+    const token = tokens.get(strip(ref))
+    if (!token || typeof token.$value !== 'string' || !token.$value.startsWith('#')) {
+      throw new Error(`palette 색 참조를 해석할 수 없다: ${ref}`)
+    }
+    return token.$value
+  }
+  const modes = (token) => ({
+    Light: resolveHex(token.$value),
+    Dark: resolveHex(token.$extensions?.['org.primer.overrides']?.dark ?? token.$value),
+  })
+  const layers = modes(layerToken)
+  const states = {
+    hover: scale.state.hover.opacity.$value,
+    pressed: scale.state.pressed.opacity.$value,
+  }
+  const entries = {}
+  for (const [path, token] of flatten(semantic)) {
+    if (!path.startsWith('color.bg.')) continue
+    const key = `--ds-${path.replace(/^color\./, '').replace(/\./g, '-')}`
+    const base = modes(token)
+    // scrim처럼 자체 알파를 가진 면은 다른 배경 위에서야 색이 확정된다. 컴포넌트
+    // state base가 아니므로 문맥 없는 8자리 hex를 억지로 합성하지 않는다.
+    if (Object.values(base).some((hex) => hex.length !== 7)) continue
+    entries[key] = Object.fromEntries(Object.entries(base).map(([mode, hex]) => [mode, {
+      base: hex,
+      ...Object.fromEntries(Object.entries(states).map(([state, alpha]) => [
+        state, mixOklabHex(hex, layers[mode], alpha),
+      ])),
+    }]))
+  }
+  return `${JSON.stringify({
+    $generated: 'scripts/build.mjs — 손편집 금지',
+    schemaVersion: 1,
+    colorSpace: 'oklab',
+    states,
+    entries,
+  }, null, 2)}\n`
 }
 
 const entries = (group) => Object.entries(group).filter(([k]) => !k.startsWith('$'))

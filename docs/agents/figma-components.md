@@ -206,7 +206,7 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `height` | `root` | `resize(w, h)` + `layoutSizingVertical = 'FIXED'` |
 | `border-radius` | `root` | `cornerRadius` |
 | `background-color` | `root` | `fills[0]` |
-| (상태 견본) | `root` | base + `state/layer` @ 8%/12%를 sRGB로 합성한 리터럴 fill — [`figma-injection.md`](figma-injection.md) §2.8 |
+| (상태 견본) | `root` | `state-colors.gen.json`이 base + `state/layer` @ 8%/12%를 oklab으로 합성한 리터럴 fill — [`figma-injection.md`](figma-injection.md) §2.8 |
 | `color` | `label` | `fills[0]` |
 | `font-size` | `label` | `fontSize` |
 | `line-height` | `label` | `lineHeight` — ⚠️ §8.1 |
@@ -357,7 +357,7 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 ## 11. 아직 안 본 것
 
 - **스케일 변수가 사는 컬렉션.** 노출([#41](https://github.com/flameware/massive-design/issues/41)이 되돌렸다)과 **별개 문제**다 — 노출은 플래그이고 컬렉션은 그룹핑이다. 섞으면 되돌리기 어려운 쪽(변수 ID가 바뀌어 기존 바인딩이 전부 재지정된다)이 쉬운 쪽에 묻어 들어온다. fog에 남는다
-- ~~**`fontFamily` 바인딩 순서가 컴포넌트 세트에서도 성립하는가.**~~ [#26](https://github.com/flameware/massive-design/issues/26)이 밟았다 — `combineAsVariants` **완료 후** 24개 label을 일괄 바인딩했고 전부 **1회 시도로 성공**했다(재시도 0회). §2.4가 예고한 "첫 시도는 반드시 throw"가 여기선 재현되지 않았다 — 콜드 파일이 아니었거나(§0의 01~06 재실행 규칙과 무관하게 이 세션이 이미 Pretendard 페이스를 한 번 건드린 뒤였을 가능성) 컴포넌트 세트 경로가 Text Style/평범한 텍스트 노드 경로와 다르게 동작하는 것일 수 있다. 재시도 루프는 안전망으로 유지하되, "항상 1회 실패"를 전제로 코드를 짜지 말 것
+- ~~**`fontFamily` 바인딩 순서가 컴포넌트 세트에서도 성립하는가.**~~ [#26](https://github.com/flameware/massive-design/issues/26)이 밟았다 — `combineAsVariants` **완료 후** 24개 label을 일괄 바인딩했고 전부 **1회 시도로 성공**했다(재시도 0회). §2.4가 예고한 "첫 시도는 반드시 throw"가 여기선 재현되지 않았다 — 콜드 파일이 아니었거나(§0의 01~07 재실행 규칙과 무관하게 이 세션이 이미 Pretendard 페이스를 한 번 건드린 뒤였을 가능성) 컴포넌트 세트 경로가 Text Style/평범한 텍스트 노드 경로와 다르게 동작하는 것일 수 있다. 재시도 루프는 안전망으로 유지하되, "항상 1회 실패"를 전제로 코드를 짜지 말 것
 - **매니페스트가 CSS 상속으로 오는 `color`를 못 잡는다.** `outline`·`ghost` 셀은 `properties`에 `color` 키가 아예 없다(shadcn이 `text-foreground` 상속에 기대기 때문 — §7 표는 셀 하나를 클래스 집합으로 읽으므로 상속은 안 보인다). [#26](https://github.com/flameware/massive-design/issues/26)은 판단으로 `fg/default`에 바인딩해 메웠다(실제 렌더 색과 일치) — 매니페스트 스키마가 이 경우를 언제 정식으로 흡수할지는 fog로 남긴다
 - **`description` 재발행 버그의 발현 조건.** [#31](https://github.com/flameware/massive-design/issues/31)의 왕복에서 발현하지 않았다. §3.3이 대비만 해 두었다
 - **`sharedPluginData`로의 이전.** 발행 경계를 넘는 것은 확인됐다([#31](https://github.com/flameware/massive-design/issues/31) §8.3). `description`의 가시성 오염이 실제 문제로 드러나면 옮겨갈 자리다. 지금 병행하지 않는 이유는 **같은 값이 두 자리에 있으면 어긋났을 때 정본 규약이 또 필요**하기 때문

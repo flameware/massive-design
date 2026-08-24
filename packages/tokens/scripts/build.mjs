@@ -1,8 +1,8 @@
 /**
  * tokens/** → dist/**
  *
- * 출력물 4종: `dist/tokens.css` · `dist/tokens.d.ts` · `dist/figma/0*.js` ·
- * `dist/figma/var-map.gen.json`.
+ * 출력물: `dist/tokens.css` · `dist/tokens.d.ts` · `dist/figma/0*.js` ·
+ * `dist/figma/var-map.gen.json` · `dist/figma/state-colors.gen.json`.
  * `dist/**`는 커밋한다 — npm 배포가 out of scope이므로 **커밋이 곧 배포
  * 채널**이다(build-pipeline.md §2). 어긋남은 `tokens:verify`가 잡는다.
  */
@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 
 import { flatten } from './lib/resolve.mjs'
 import { emitCss } from './lib/emit/css.mjs'
-import { emitFigma, CODE_LIMIT } from './lib/emit/figma.mjs'
+import { emitFigma, emitStateColors, CODE_LIMIT } from './lib/emit/figma.mjs'
 import { emitTypes } from './lib/emit/types.mjs'
 import { emitVarMap } from './lib/emit/var-map.mjs'
 
@@ -42,6 +42,7 @@ export function buildAll(sources = loadSources()) {
   }
   // 주입 스크립트가 아니라 표다 — 에이전트가 매니페스트를 들고 와 읽는다
   out.set(join('figma', 'var-map.gen.json'), emitVarMap(sources))
+  out.set(join('figma', 'state-colors.gen.json'), emitStateColors(sources))
   return out
 }
 
@@ -52,7 +53,7 @@ export function buildAll(sources = loadSources()) {
 export function checkLimits(files) {
   const over = []
   for (const [name, code] of files) {
-    // `code` 파라미터로 가는 것만이 상한의 대상이다 — var-map.gen.json은 표다
+    // `code` 파라미터로 가는 것만이 상한의 대상이다 — *.gen.json은 표다
     if (name.startsWith('figma') && name.endsWith('.js') && code.length > CODE_LIMIT) {
       over.push(`${name}: ${code.length}자 > ${CODE_LIMIT} — 02a/02b로 쪼갤 것`)
     }

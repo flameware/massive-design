@@ -9,6 +9,7 @@ import {
   converter,
   displayable,
   formatHex,
+  interpolate,
   differenceEuclidean,
   toGamut,
 } from 'culori'
@@ -25,6 +26,12 @@ export function toOklch(hex) {
 
 export function oklchToHex({ l, c, h }) {
   return formatHex({ mode: 'oklch', l, c, h })
+}
+
+/** CSS `color-mix(in oklab, base (1-alpha), layer alpha)`와 같은 파생 hex. */
+export function mixOklabHex(base, layer, alpha) {
+  if (!(alpha >= 0 && alpha <= 1)) throw new Error(`alpha 범위 오류: ${alpha}`)
+  return formatHex(interpolate([base, layer], 'oklab')(alpha))
 }
 
 export function formatOklch({ l, c, h }) {

@@ -1,0 +1,203 @@
+{
+  "$generated": "scripts/build.mjs — 손편집 금지",
+  "schemaVersion": 1,
+  "colorSpace": "oklab",
+  "states": {
+    "hover": 0.08,
+    "pressed": 0.12
+  },
+  "entries": {
+    "--ds-bg-canvas": {
+      "Light": {
+        "base": "#f8f8f8",
+        "hover": "#dedede",
+        "pressed": "#d1d1d1"
+      },
+      "Dark": {
+        "base": "#0c0c0c",
+        "hover": "#1b1b1b",
+        "pressed": "#232323"
+      }
+    },
+    "--ds-bg-surface": {
+      "Light": {
+        "base": "#fdfdfd",
+        "hover": "#e3e3e3",
+        "pressed": "#d6d6d6"
+      },
+      "Dark": {
+        "base": "#151515",
+        "hover": "#242424",
+        "pressed": "#2c2c2c"
+      }
+    },
+    "--ds-bg-subtle": {
+      "Light": {
+        "base": "#eeeeee",
+        "hover": "#d5d5d5",
+        "pressed": "#c9c9c9"
+      },
+      "Dark": {
+        "base": "#1e1e1e",
+        "hover": "#2d2d2d",
+        "pressed": "#343434"
+      }
+    },
+    "--ds-bg-inset": {
+      "Light": {
+        "base": "#eeeeee",
+        "hover": "#d5d5d5",
+        "pressed": "#c9c9c9"
+      },
+      "Dark": {
+        "base": "#1e1e1e",
+        "hover": "#2d2d2d",
+        "pressed": "#343434"
+      }
+    },
+    "--ds-bg-overlay": {
+      "Light": {
+        "base": "#fdfdfd",
+        "hover": "#e3e3e3",
+        "pressed": "#d6d6d6"
+      },
+      "Dark": {
+        "base": "#1e1e1e",
+        "hover": "#2d2d2d",
+        "pressed": "#343434"
+      }
+    },
+    "--ds-bg-neutral-soft": {
+      "Light": {
+        "base": "#eeeeee",
+        "hover": "#d5d5d5",
+        "pressed": "#c9c9c9"
+      },
+      "Dark": {
+        "base": "#1e1e1e",
+        "hover": "#2d2d2d",
+        "pressed": "#343434"
+      }
+    },
+    "--ds-bg-neutral-solid": {
+      "Light": {
+        "base": "#727272",
+        "hover": "#656565",
+        "pressed": "#5f5f5f"
+      },
+      "Dark": {
+        "base": "#727272",
+        "hover": "#7c7c7c",
+        "pressed": "#828282"
+      }
+    },
+    "--ds-bg-accent-soft": {
+      "Light": {
+        "base": "#eaeef4",
+        "hover": "#d1d5da",
+        "pressed": "#c5c9ce"
+      },
+      "Dark": {
+        "base": "#0d1d3b",
+        "hover": "#1d2d49",
+        "pressed": "#253551"
+      }
+    },
+    "--ds-bg-accent-solid": {
+      "Light": {
+        "base": "#0f5fed",
+        "hover": "#0c54d4",
+        "pressed": "#0b4fc8"
+      },
+      "Dark": {
+        "base": "#0f5fed",
+        "hover": "#296ef0",
+        "pressed": "#3375f1"
+      }
+    },
+    "--ds-bg-danger-soft": {
+      "Light": {
+        "base": "#f4eceb",
+        "hover": "#dad3d2",
+        "pressed": "#cec7c6"
+      },
+      "Dark": {
+        "base": "#341210",
+        "hover": "#43221f",
+        "pressed": "#4b2a28"
+      }
+    },
+    "--ds-bg-danger-solid": {
+      "Light": {
+        "base": "#db2931",
+        "hover": "#c4242b",
+        "pressed": "#b92128"
+      },
+      "Dark": {
+        "base": "#db2931",
+        "hover": "#e14343",
+        "pressed": "#e34e4b"
+      }
+    },
+    "--ds-bg-success-soft": {
+      "Light": {
+        "base": "#e0f4e3",
+        "hover": "#c8dacb",
+        "pressed": "#bdcebf"
+      },
+      "Dark": {
+        "base": "#102314",
+        "hover": "#203223",
+        "pressed": "#28392b"
+      }
+    },
+    "--ds-bg-success-solid": {
+      "Light": {
+        "base": "#20823e",
+        "hover": "#1b7436",
+        "pressed": "#196d33"
+      },
+      "Dark": {
+        "base": "#20823e",
+        "hover": "#398c4d",
+        "pressed": "#439155"
+      }
+    },
+    "--ds-bg-warning-soft": {
+      "Light": {
+        "base": "#f4eddf",
+        "hover": "#dad4c8",
+        "pressed": "#cec8bc"
+      },
+      "Dark": {
+        "base": "#241d0e",
+        "hover": "#332c1e",
+        "pressed": "#3a3426"
+      }
+    },
+    "--ds-bg-warning-solid": {
+      "Light": {
+        "base": "#eab308",
+        "hover": "#d1a006",
+        "pressed": "#c59605"
+      },
+      "Dark": {
+        "base": "#eab308",
+        "hover": "#ecb939",
+        "pressed": "#edbd47"
+      }
+    },
+    "--ds-bg-inverse": {
+      "Light": {
+        "base": "#333333",
+        "hover": "#2d2d2d",
+        "pressed": "#292929"
+      },
+      "Dark": {
+        "base": "#e8e8e8",
+        "hover": "#eaeaea",
+        "pressed": "#ebebeb"
+      }
+    }
+  }
+}

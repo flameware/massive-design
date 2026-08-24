@@ -229,7 +229,7 @@ packages/tokens/                       # name: "@massive/tokens"
 | | |
 |---|---|
 | 입력 | `tokens/**` 전부 |
-| 출력 | `dist/tokens.css` · `dist/tokens.d.ts` · `dist/figma/0*.js` · `dist/figma/var-map.gen.json` |
+| 출력 | `dist/tokens.css` · `dist/tokens.d.ts` · `dist/figma/0*.js` · `dist/figma/var-map.gen.json` · `dist/figma/state-colors.gen.json` |
 
 `dist/tokens.css`의 블록 순서 — **이 순서가 곧 #5의 4계층 alias 체인이다**:
 
@@ -350,16 +350,19 @@ APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고,
 
 그래서 **빌드가 `use_figma`의 `code` 파라미터에 그대로 들어갈 JS를 생성한다.** flat JSON만 내고 주입할 때 에이전트가 코드를 새로 쓰는 방식은 택하지 않았다 — 그러면 주입할 때마다 다른 코드가 돌고, #10에서 한 번 뚫은 순서를 다음 주입 때 다시 뚫어야 한다.
 
-**파일명 번호가 곧 실행 순서다** (#4가 확정한 6단계):
+**파일명 번호가 곧 실행 순서다.** 01~06은 토큰·스타일 주입이고 07은 그 결과를 검증하는 생성 Foundations다:
 
 | 파일 | 내용 | 인코딩된 제약 |
 |---|---|---|
 | `01-collections.js` | `palette`(1모드) · `semantic`(Light/Dark 2모드) 생성 | 컬렉션당 모드 상한 10 |
 | `02-palette-color.js` | 120색 + 리터럴 5 | Variable 값은 **RGB/RGBA만**, 파일 프로파일 sRGB |
 | `03-palette-scale.js` | 수치·타이포 FLOAT/STRING | `scopes` 명시 필수 — space는 `GAP, WIDTH_HEIGHT`, radius는 `CORNER_RADIUS`. `ALL_SCOPES`는 모든 피커를 오염시킨다 |
-| `04-semantic.js` | 31 × 2모드 크로스 컬렉션 alias | |
-| `05-text-styles.js` | 9 스타일 + 변수 바인딩 | `lineHeight`는 `{unit:'PERCENT', value}` 객체 — 맨 숫자는 throw. **텍스트를 다 쓴 뒤 마지막에 바인딩**(#9). `fontFamily`는 STRING 변수 바인딩(로컬 폰트를 못 보는 실행 컨텍스트 우회) |
+| `04-semantic.js` | 35 × 2모드 크로스 컬렉션 alias | |
+| `05-text-styles.js` | 9 스타일 + 변수 바인딩 | `lineHeight`는 빌드가 계산한 `{unit:'PIXELS', value}` 객체 — 맨 숫자는 throw. **텍스트를 다 쓴 뒤 마지막에 바인딩**(#9). `fontFamily`는 STRING 변수 바인딩(로컬 폰트를 못 보는 실행 컨텍스트 우회) |
 | `06-effect-styles.js` | 5 그림자 | `effects`는 read-only 배열이라 통째로 재할당. 색은 리터럴 RGBA(변수화 안 함, #8) |
+| `07-foundations.js` | palette 125개 + semantic 35개 × Light/Dark 스와치 | 생성 전용 root만 제자리 갱신하고 모든 색을 실제 변수에 바인딩 |
+
+컴포넌트 상태 견본용 `state-colors.gen.json`은 주입 코드가 아니라 생성 표다. semantic 배경과 `state/layer`를 CSS와 같은 oklab 공간에서 합성한 Light/Dark hover·pressed hex를 담는다.
 
 - 빌드가 각 파일을 **50,000자**(`code` 파라미터 상한, #4) 안으로 유지한다. 넘으면 `02a`/`02b`로 쪼개고, 상한 초과가 런타임이 아니라 **빌드 타임에** 드러난다
 - 모든 파일은 **멱등**하게 쓴다 — 이름으로 조회해 있으면 갱신, 없으면 생성(#4 샘플의 `upsert` 패턴). 재주입이 중복을 만들면 안 된다
@@ -369,8 +372,8 @@ APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고,
 >
 > - 조사 뼈대(#4)는 01이 돌려준 컬렉션 ID를 다음 단계에 **문자열 리터럴로 박으라**고 적었다. 정적 산출물에는 그 길이 없다 — 빌드 시점에 알 수 없는 값이다. **모든 파일이 컬렉션·모드를 이름으로 다시 조회한다.** 이름 조회는 어차피 멱등성의 근간이라 층이 느는 게 아니라 같은 층을 재사용한다.
 > - `duration/*` 3개는 대응하는 `VariableScope`가 없다. `ALL_SCOPES`가 금지이므로 **`scopes: []`로 둔다** — 값은 살아 있고 피커에만 안 뜬다.
-> - 실측 크기: 01 2.1KB · 02 10.8KB · 03 6.1KB · 04 5.7KB · 05 2.4KB · 06 2.1KB. **50,000자까지 여유가 4배 이상**이라 쪼갤 필요가 없다.
-> - 6단계를 **가짜 Figma 위에서 두 번 돌리는 테스트**가 있다(`test/figma-inject.test.mjs`). 중복 변수명 throw와 첫 `fontFamily` 바인딩 throw만 진짜처럼 구는 스텁이다. 통과가 Figma에서의 성공을 보장하진 않지만, 실패는 확실히 실패를 뜻한다.
+> - 현재 가장 큰 주입 생성물은 07 약 14KB다. **50,000자까지 여유가 3배 이상**이라 쪼갤 필요가 없다.
+> - 01~06을 **가짜 Figma 위에서 두 번 돌리는 테스트**가 있다(`test/figma-inject.test.mjs`). 07도 별도 스텁에서 두 번 실행해 생성 영역의 노드 수가 늘지 않는지 확인한다(`test/foundations.test.mjs`). 통과가 Figma에서의 성공을 보장하진 않지만, 실패는 확실히 실패를 뜻한다.
 
 주입 절차 자체는 #10이 실제로 관통시킨 뒤 `docs/agents/`에 적는다.
 

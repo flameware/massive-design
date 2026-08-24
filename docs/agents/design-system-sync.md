@@ -6,10 +6,22 @@
 
 1. 변경을 공개 기준선과 비교해 `additive`·`in-place safe`·`breaking`으로 분류한다. `breaking`이거나 `in-place safe` 증거가 없으면 여기서 멈춘다.
 2. `bun run sync:preflight`를 실행한다.
-3. 기록의 `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`가 모두 `PASS`인지 확인한다. 실패하면 `failure`와 `resumeAt`에 적힌 검사부터 고친 뒤 명령 전체를 다시 실행한다.
-4. 생성물과 검증 기록을 포함해 commit을 고정한다. 공개 Storybook 배포가 그 commit에서 성공하기 전에는 Figma 단계로 넘어가지 않는다.
+3. 자동 검사가 통과하면 `CODE_VERIFIED: PASS`, `STORYBOOK_VERIFIED: PENDING_HUMAN`이다. 프로젝트 소유자가 변경된 컴포넌트의 Light/Dark와 영향받는 주요 상태를 확인한다. semantic 토큰이나 base 계층 변경이면 전체 카탈로그를 확인한다.
+4. 확인 결과를 `bun run sync:review-storybook -- --reviewer <이름> --scope "<확인 범위>"`로 기록한다. 오류면 `--result FAIL --reason "<이유>"`를 함께 주고 아래 분기에 따라 원인 계층을 고친 뒤 preflight부터 다시 실행한다.
+5. `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`가 모두 `PASS`인지 확인한다. 생성물과 검증 기록을 포함해 commit을 고정한다. 공개 Storybook 배포가 그 commit에서 성공하기 전에는 Figma 단계로 넘어가지 않는다.
 
-완료 기준: 대상 commit, `inputDigest`, 컴포넌트별 manifest/token 해시, repo 검사·테스트·Storybook build·axe 0건이 하나의 기록에 있다.
+완료 기준: 대상 commit, `inputDigest`, 컴포넌트별 manifest/token 해시, repo 검사·테스트·Storybook build·axe 0건, 사람 시각 확인의 확인자·시각·범위가 하나의 기록에 있다.
+
+### 시각 오류의 수정 위치
+
+| 관찰 | 수정 위치 |
+|---|---|
+| 실제 컴포넌트 렌더링도 디자인 의도와 다르다 | 토큰 또는 `packages/ui` 구현 정본 |
+| 컴포넌트는 맞고 Storybook에서만 다르다 | story·decorator·theme·viewport 등 Storybook 표현 계층 |
+| Storybook은 맞고 Figma에서만 다르다 | 매니페스트 생성·번역표·주입 경로 |
+| Figma 매체 제약으로 같은 구조를 표현할 수 없다 | 구현 정본에서 파생값을 생성하고 허용된 차이를 절차 문서에 명시 |
+
+생성물이나 Figma 자산의 결과만 손으로 고치지 않는다. 오류가 생긴 최초 계층을 고친 뒤 이후 채널을 새 세대로 다시 갱신한다.
 
 ## 2. Figma document gate
 
@@ -17,9 +29,9 @@ Figma 쓰기 전에 `figma-use` skill을 읽고, 토큰은 [`figma-injection.md`
 
 1. 기록의 `inputDigest`와 현재 preflight 결과가 같은지 확인한다. 다르면 Repo gate로 돌아간다.
 2. Massive Design 문서를 읽기 전용으로 조사한다.
-3. 토큰 01~06을 전부 재실행한다. 컴포넌트는 manifest 이름으로 찾아 제자리에서 갱신한다.
+3. 토큰·Foundations 01~07을 전부 재실행한다. 컴포넌트는 manifest 이름으로 찾아 제자리에서 갱신하며, 상태 견본 색은 `state-colors.gen.json`을 소비한다.
 4. 두 번째 실행에서 생성·삭제·교체와 정규화 구조 diff가 모두 0인지 확인한다.
-5. 변경된 자산을 사람이 Light/Dark와 상태 견본으로 확인한다.
+5. 변경된 자산을 사람이 Light/Dark와 상태 견본으로 확인한다. 토큰이 바뀐 세대에는 `Foundations`의 `Massive Foundations · generated`에서 palette 전체와 semantic 두 모드를 확인한다.
 6. 기록의 `FIGMA_DOCUMENT_SYNCED`에 결과, 검사 시각·확인자, 구조/바인딩/해시 증거, 실패와 재개 지점을 기록한다. 구조를 읽을 수 없거나 증거가 낡았으면 `UNKNOWN`, 위반을 확인했으면 `FAIL`이다.
 
 완료 기준: 모든 대상 컴포넌트 이름·property 표면·바인딩·세대가 일치하고 멱등 diff가 0이며 변경 자산의 시각 확인이 남아 있다.

@@ -21,7 +21,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 - **Figma 컴포넌트 자산** — 정적 화면 조립에 쓰이는 공개 재사용 자산. 여러 variant를 가진 component set뿐 아니라 variant가 하나인 단일 component도 포함하며, 상태 견본·데모 프레임과 구분한다.
 - **구성 상태(configuration state)** — 정적 화면을 조립할 때 선택해야 하는 의미 상태. `checked / unchecked / indeterminate`, 행의 `selected`, Select·메뉴의 `open / closed`가 여기에 속한다. 코드에서는 네이티브·Radix 상태이고 Figma에서는 component property 또는 별도의 공개 조립 표면으로 표현한다. hover·pressed·focus·disabled 같은 상호작용 상태와 구분하며, 새 토큰 계층을 만들지 않는다.
-- **state layer** — 상태별 완성 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. `state.layer`는 semantic 계층에 있는 **상태 합성 전용 입력**이며 alias 소비 규칙의 유일한 예외다. Figma에는 `color-mix`가 없어 **오버레이 fill로 근사한다** — 같은 두 변수를 fill 두 겹으로 쌓는다. 합성 공간이 달라(코드 oklab / Figma sRGB) 결과가 정확히 같지는 않다.
+- **state layer** — 상태별 완성 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. `state.layer`는 semantic 계층에 있는 **상태 합성 전용 입력**이며 alias 소비 규칙의 유일한 예외다. Figma에는 `color-mix`가 없어 코드와 같은 oklab 합성 결과를 빌드가 미리 계산한 hex로 상태 견본에 넣는다. 이 hex는 파생값이지 새 토큰이 아니다.
 - **상태 견본(state sample)** — 상태를 Figma에 보여주는 단위. **컴포넌트 세트의 축이 아니다** — 축으로 두면 조합 수에 곱해지고, 정적 시안을 조립하는 데는 쓰이지 않는다. 컴포넌트마다 한 장씩 매니페스트에서 생성되는 프레임이다.
 
 ## 출력과 주입
@@ -36,6 +36,8 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 ## 세대와 검증
 
+- **디자인 의도(design intent)** — 컴포넌트가 사용자에게 보여야 하고 동작해야 하는 프로젝트 소유자가 승인한 목표. 자동 정합성 검증 뒤의 시각 판단으로 확정하며, 현재 코드 렌더링과 다르면 구현 정본을 고치는 판정 기준이다.
+- **구현 정본(implementation source of truth)** — 디자인 의도를 구현하고 Storybook과 Figma 파생 채널로 변경을 전파하는 단일 출발점인 코드. 현재 렌더링을 무조건 올바른 디자인 의도로 간주한다는 뜻은 아니다.
 - **세대(generation)** — 한 컴포넌트의 Figma 대응 구조 해시와 그 구조가 참조하는 토큰 산출물 해시의 쌍. 디자인 시스템 전체 세대는 검증 대상 컴포넌트 세대의 집계다.
 - **같은 세대(same generation)** — 코드, Storybook, Figma 문서, 발행된 Figma 라이브러리가 대상 컴포넌트별로 같은 세대를 가리키는 상태. 어느 한 채널만 앞선 정상적인 중간 상태와 구분한다.
 - **누적 검증 상태(cumulative verification state)** — `CODE_VERIFIED` → `STORYBOOK_VERIFIED` → `FIGMA_DOCUMENT_SYNCED` → `FIGMA_LIBRARY_CURRENT` 순서로 증거가 쌓이는 상태. 마지막 상태까지 충족해야 같은 세대 검증 완료다.

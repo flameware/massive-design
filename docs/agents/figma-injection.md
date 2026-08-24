@@ -12,7 +12,7 @@
 
 - **`use_figma`를 부르기 전에 `/figma-use` 스킬을 읽는다.** 예외 없음.
 - 첫 호출은 **읽기 전용 조사**로 시작한다 — 컬렉션·스타일·페이지·`documentColorProfile`. 파일이 예상 상태인지 확인하고 들어간다.
-- **파일을 열었으면 01~06을 먼저 통째로 다시 돌린다.** 토큰이 바뀌었는지 따지지 않는다 — 전체 재실행이 멱등이고 144ms라(§1) 확인 비용이 실행 비용보다 비싸다. 이 규칙이 없으면 "코드 토큰이 바뀐 걸 다음 Figma 세션이 기억해야 한다"가 되는데, 그건 사람에게 맡길 수 없는 종류의 상태다. 변수에는 컴포넌트의 `description` 해시([`figma-components.md`](figma-components.md) §3) 같은 낡음 표식이 없다는 점이 이 규칙의 근거다.
+- **파일을 열었으면 01~07을 먼저 통째로 다시 돌린다.** 01~06은 Variables·Style, 07은 그 변수에 바인딩된 `Foundations` 시각 검증 표면이다. 토큰이 바뀌었는지 따지지 않는다 — 전체 재실행이 멱등이고 확인 비용이 실행 비용보다 비싸다. 이 규칙이 없으면 "코드 토큰이 바뀐 걸 다음 Figma 세션이 기억해야 한다"가 되는데, 그건 사람에게 맡길 수 없는 종류의 상태다. 변수에는 컴포넌트의 `description` 해시([`figma-components.md`](figma-components.md) §3) 같은 낡음 표식이 없다는 점이 이 규칙의 근거다.
 - 스킬 번들의 `variable-patterns.md`가 *"Not bindable: fontSize, fontWeight, lineHeight"* 라고 적은 것은 **틀렸다**(#4). TextStyle은 `VariableBindableTextField`로 전부 바인딩된다.
 
 ## 1. 실행 순서 — 파일명 번호가 곧 순서
@@ -94,9 +94,9 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 - palette **색** 변수는 `hiddenFromPublishing = true` — primitive를 Tailwind `@theme`에 등록하지 않는 결정([#7](https://github.com/flameware/massive-design/issues/7))의 Figma 쪽 대응물이다. **같은 컬렉션의 스케일 변수 47개는 반대로 `false`를 명시한다**([#41](https://github.com/flameware/massive-design/issues/41)) — `--spacing`·`--radius-md`·`--text-sm`은 `@theme`에 등록돼 있어 코드에서 공개이므로 Figma에서만 숨기면 디자이너가 피커에서 집을 수 없다. ⚠️ **`true`를 지우는 게 아니라 `false`를 쓴다**: `upsert`가 기존 변수를 재사용하므로 줄만 지우면 이미 숨겨진 채 주입된 파일은 영영 안 돌아온다
 - `setBoundVariableForPaint`·`setBoundVariableForEffect`는 **새 객체를 반환**한다. 반환값을 받아 재할당할 것
 
-### 2.8 컴포넌트 상태 견본은 계산 hex로 그린다
+### 2.8 컴포넌트 상태 견본은 생성된 oklab 계산 hex로 그린다
 
-코드의 hover·pressed는 semantic base 색 위에 `state/layer`를 8%·12% `color-mix(in srgb, …)`로 합성한다. Figma Variable은 이 합성을 표현하지 못하므로 **상태 견본에서만** 두 색을 sRGB로 미리 합성한 hex를 리터럴 fill로 박는다. 이 값은 코드의 파생 근사치이지 새 토큰이 아니다.
+코드의 hover·pressed는 semantic base 색 위에 `state/layer`를 8%·12% `color-mix(in oklab, …)`로 합성한다. Figma Variable은 이 합성을 표현하지 못하므로 빌드가 같은 색 공간에서 결과를 계산해 `packages/tokens/dist/figma/state-colors.gen.json`으로 낸다. 상태 견본은 이 표의 hex를 리터럴 fill로 쓴다. 이 값은 코드와 같은 입력에서 나온 파생값이지 새 토큰이 아니다.
 
 - 계산 hex는 모드를 따라갈 수 없으므로 Light·Dark 견본을 나란히 두 벌 생성한다
 - 각 견본 셀에 semantic 모드를 명시하고, 변수에 바인딩한 paint의 fallback 색도 해당 모드의 실제 값으로 적는다. 상위 프레임의 모드 상속만 믿으면 새로 생성한 텍스트 paint가 검정 fallback으로 렌더될 수 있다
@@ -105,16 +105,14 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 - disabled는 색 합성이 아니라 견본 노드 `opacity = 0.5`다
 - focus는 상태 견본에 넣는다. 기존 `border.focus`를 바깥 링으로 유지하고 `border.focus-contrast`를 안쪽 링으로 겹친다. 컴포넌트 축은 늘리지 않고 Light·Dark 각각 6 variant × 5상태 = 30칸으로 만든다([#43](https://github.com/flameware/massive-design/issues/43), [#54](https://github.com/flameware/massive-design/issues/54)).
 
-**오버레이 fill 폴백은 쓰지 않는다.** 이 `use_figma` 런타임에서 변수에 바인딩된 fill은 paint `opacity`를 무시하고 완전 불투명으로 렌더됐다. 따라서 `state/layer` 변수 fill에 0.08·0.12 opacity를 주는 구조는 구현하지 않는다. 다시 시도하지 말고 계산 hex 규약을 유지한다.
+**오버레이 fill 폴백과 주입 시점 재계산은 쓰지 않는다.** 이 `use_figma` 런타임에서 변수에 바인딩된 fill은 paint `opacity`를 무시하고 완전 불투명으로 렌더됐다. 따라서 `state/layer` 변수 fill에 0.08·0.12 opacity를 주는 구조는 구현하지 않는다. 계산 주체는 빌드 하나로 고정한다.
 
 ## 3. 검증
 
 주입 뒤 반드시:
 
-1. **두 번 실행한다.** 컬렉션·변수·스타일 **수가 그대로여야** 한다
-2. 스와치 페이지를 `screenshot()`으로 눈으로 본다 — 특히 다크 `bg/canvas`(neutral 1)와 `bg/surface`(neutral 2)의 분리
-
-   > ⚠️ **지금 파일의 스와치 페이지(`Foundations`)는 이 검증을 못 한다.** [#10](https://github.com/flameware/massive-design/issues/10) 프로브가 손으로 만든 것이라 램프가 brand·neutral **둘뿐**이고(danger·success가 없다) semantic preview도 5개 시절이다. 07은 **생성물이 아니라서** 01~06 재주입이 갱신하지 않는다 — 되살릴지, 되살린다면 생성물로 만들지가 미결이다([#14](https://github.com/flameware/massive-design/issues/14)의 안개). 그때까지 이 단계는 **색 검증이 아니라 있는 그대로 읽을 것**
+1. **01~07을 두 번 실행한다.** 컬렉션·변수·스타일 수와 `Massive Foundations · generated`의 정규화 구조가 그대로여야 한다
+2. 생성된 스와치 root를 `screenshot()`으로 눈으로 본다. palette 125개와 semantic 35개 × Light/Dark가 대상이며, 특히 다크 `bg/canvas`(neutral 1)와 `bg/surface`(neutral 2)의 분리를 확인한다
 3. 고아 변수는 **삭제하지 말고 목록으로 보고**한다. 삭제하면 참조하던 노드가 깨진다. 규약이 안정된 뒤에 자동 삭제를 켠다
 
 ## 4. 아직 안 본 것

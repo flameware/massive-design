@@ -85,12 +85,12 @@ test('빌드한 CSS는 규칙군 C를 통과한다', () => {
 
 // ── Figma 산출물 ────────────────────────────────────────────────────────────
 
-// 주입 스크립트만. dist/figma에는 var-map.gen.json도 산다 — 그건 code로 안 간다
+// 주입 스크립트만. dist/figma의 *.gen.json 표는 code로 안 간다
 const figma = [...files].filter(([name]) => name.includes('figma') && name.endsWith('.js'))
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
 
-test('주입 스크립트 6개가 50,000자 상한 안에 있다', () => {
-  assert.equal(figma.length, 6)
+test('주입 스크립트 7개가 50,000자 상한 안에 있다', () => {
+  assert.equal(figma.length, 7)
   assert.deepEqual(checkLimits(files), [])
 })
 

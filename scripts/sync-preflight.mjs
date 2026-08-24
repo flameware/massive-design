@@ -68,7 +68,7 @@ const targetCommit = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encodi
 const codeChecks = checks.slice(0, 5)
 const storybookChecks = checks.slice(5)
 const codeResult = codeChecks.every((check) => check.result === "PASS") ? "PASS" : "FAIL"
-const storybookResult = codeResult === "PASS"
+const storybookAutomatedResult = codeResult === "PASS"
   ? storybookChecks.every((check) => check.result === "PASS") ? "PASS" : "FAIL"
   : "UNKNOWN"
 const failed = checks.find((check) => check.result === "FAIL")
@@ -81,13 +81,22 @@ const record = {
   components: manifestIndex.components.map(({ component, hash }) => ({ component, manifestHash: hash, tokenArtifactHash })),
   stages: {
     CODE_VERIFIED: { result: codeResult, checkedAt: startedAt, checks: codeChecks },
-    STORYBOOK_VERIFIED: { result: storybookResult, checkedAt: startedAt, checks: storybookChecks, a11y: a11yReport },
+    STORYBOOK_VERIFIED: {
+      result: storybookAutomatedResult === "PASS" ? "PENDING_HUMAN" : storybookAutomatedResult,
+      checkedAt: startedAt,
+      automatedResult: storybookAutomatedResult,
+      checks: storybookChecks,
+      a11y: a11yReport,
+      ...(storybookAutomatedResult === "PASS" ? {
+        reason: "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook.",
+      } : {}),
+    },
     FIGMA_DOCUMENT_SYNCED: { result: "UNKNOWN", reason: "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded." },
     FIGMA_LIBRARY_CURRENT: { result: "UNKNOWN", reason: "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles." },
   },
-  lastCompletedStage: storybookResult === "PASS" ? "STORYBOOK_VERIFIED" : codeResult === "PASS" ? "CODE_VERIFIED" : null,
+  lastCompletedStage: codeResult === "PASS" ? "CODE_VERIFIED" : null,
   failure: failed ? { stage: storybookChecks.includes(failed) ? "STORYBOOK_VERIFIED" : "CODE_VERIFIED", check: failed.label, exitCode: failed.exitCode } : null,
-  resumeAt: failed?.label ?? "FIGMA_DOCUMENT_SYNCED",
+  resumeAt: failed?.label ?? "Storybook visual review",
 }
 
 await writeFile(recordPath, `${JSON.stringify(record, null, 2)}\n`)

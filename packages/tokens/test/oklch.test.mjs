@@ -3,7 +3,7 @@ import { test } from 'node:test'
 
 import { displayable } from 'culori'
 
-import { cuspChroma, deltaEOK, fitGamut, formatOklch, oklchToHex, toOklch } from '../scripts/lib/oklch.mjs'
+import { cuspChroma, deltaEOK, fitGamut, formatOklch, mixOklabHex, oklchToHex, toOklch } from '../scripts/lib/oklch.mjs'
 
 test('hex ↔ oklch 왕복이 hex를 보존한다', () => {
   for (const hex of ['#0f5fed', '#727272', '#db2931', '#20823e', '#ffffff', '#000000']) {
@@ -57,4 +57,10 @@ test('deltaEOK는 같은 색에서 0, 인접 단계에서 양수', () => {
 
 test('formatOklch는 문서 표기와 같은 형식이다', () => {
   assert.equal(formatOklch(toOklch('#0f5fed')), 'oklch(53.6% 0.226 261.5)')
+})
+
+test('상태 색은 CSS와 같은 oklab 공간에서 합성한다', () => {
+  assert.equal(mixOklabHex('#ffffff', '#000000', 0.08), '#e4e4e4')
+  assert.equal(mixOklabHex('#ffffff', '#000000', 0.12), '#d7d7d7')
+  assert.throws(() => mixOklabHex('#ffffff', '#000000', 1.01), /alpha 범위/)
 })

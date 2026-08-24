@@ -1,174 +1,174 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "ead26db1e3ac59cdd53729b29a7dd458ed854dbe",
-  "inputDigest": "4ae09329d03764a757a583f9fb9812b2351c7b810e89967b39960da7a1f73097",
-  "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8",
+  "targetCommit": "5ad481005e7b9f5891df29e92f06dc868a550d52",
+  "inputDigest": "0238413edf8900ec8532f9527693af80eb1dabad6d8d352cc0c4829b0b3bdfc4",
+  "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
       "component": "accordion",
       "manifestHash": "4f3463aca5d6",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "alert",
       "manifestHash": "084e3cca70c4",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "alert-dialog",
       "manifestHash": "ff95c8d6a7c2",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "avatar",
       "manifestHash": "a03c4ba9bb2a",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "badge",
       "manifestHash": "37c940c4d831",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "button",
       "manifestHash": "8472d5d50576",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "card",
       "manifestHash": "50895e9c5fea",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "checkbox",
       "manifestHash": "b952b37163b6",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "collapsible",
       "manifestHash": "4b115285961c",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "dialog",
       "manifestHash": "61dd1a514c92",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "dropdown-menu",
       "manifestHash": "e3617c6fd13c",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "empty",
       "manifestHash": "b7ac43840fbd",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "field",
       "manifestHash": "2c6116855f68",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "input",
       "manifestHash": "238507ed3be1",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "item",
       "manifestHash": "5f3c5c0a191a",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "label",
       "manifestHash": "f13a318e70a1",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "list-row",
       "manifestHash": "109497324ece",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "popover",
       "manifestHash": "2535c4105bf4",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "progress",
       "manifestHash": "1861483a3c36",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "radio-group",
       "manifestHash": "acaf77f3dfa2",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "select",
       "manifestHash": "306160b2cb63",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "separator",
       "manifestHash": "5397c850ef60",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "skeleton",
       "manifestHash": "9c2250c043f6",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "spinner",
       "manifestHash": "5880705d6f03",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "switch",
       "manifestHash": "73605238388e",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "table",
       "manifestHash": "aac033c553b2",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "tabs",
       "manifestHash": "d6fdc43dd30e",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "textarea",
       "manifestHash": "7760687906f5",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "toast",
       "manifestHash": "15536a1ef2f6",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "toggle",
       "manifestHash": "bf3647e14670",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "toggle-group",
       "manifestHash": "d0b9e9cc0cb2",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
       "component": "tooltip",
       "manifestHash": "ec053f2fcb72",
-      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     }
   ],
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T01:57:08.405Z",
+      "checkedAt": "2026-08-24T04:45:07.853Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -198,8 +198,9 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-24T01:57:08.405Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-08-24T04:45:07.853Z",
+      "automatedResult": "PASS",
       "checks": [
         {
           "label": "Storybook production build",
@@ -273,34 +274,19 @@
             ]
           }
         ]
-      }
+      },
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     },
     "FIGMA_DOCUMENT_SYNCED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-24T02:09:16Z",
-      "checker": "Codex",
-      "fileKey": "wxz7M6txDvlvH6Z95JzDHJ",
-      "evidence": {
-        "tokenInjection": "01-06 replayed: palette 172 variables, semantic 35 variables, 9 text styles, 5 effect styles",
-        "components": [
-          "Accordion 238:23 — 4 variants — massive:accordion@4f3463aca5d6",
-          "Collapsible 239:11 — 2 variants — massive:collapsible@4b115285961c",
-          "Empty 240:14 — 2 variants — massive:empty@b7ac43840fbd",
-          "Item 241:86 — 12 variants — massive:item@5f3c5c0a191a"
-        ],
-        "idempotence": "second pass created=0, deleted=0, replaced=0, structuralDiff=0",
-        "bindings": "no unbound solid fills or strokes in the four component sets",
-        "visual": "Light and Dark screenshots reviewed; component-set canvases bind bg/canvas and were restored to Light"
-      }
+      "result": "UNKNOWN",
+      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
     },
     "FIGMA_LIBRARY_CURRENT": {
-      "result": "PASS",
-      "checkedAt": "2026-08-24T02:13:03Z",
-      "checker": "Codex after user publish confirmation",
-      "evidence": "Accordion 238:23, Collapsible 239:11, Empty 240:14, and Item 241:86 all returned CURRENT after the user confirmed publishing Variables, Text Styles, Effect Styles, and the four component sets."
+      "result": "UNKNOWN",
+      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
     }
   },
-  "lastCompletedStage": "FIGMA_LIBRARY_CURRENT",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null
+  "resumeAt": "Storybook visual review"
 }
