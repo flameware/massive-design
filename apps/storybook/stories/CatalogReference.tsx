@@ -23,6 +23,7 @@ import {
   Separator, Tabs, TabsContent, TabsList, TabsTrigger, Avatar, AvatarFallback, AvatarImage,
 } from "@massive/ui"
 import { catalog } from "./catalog.gen"
+import itemFixture from "./fixtures/item.json"
 import tableFixture from "./fixtures/table.json"
 
 export type CatalogEntry = (typeof catalog)[number]
@@ -61,7 +62,7 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     field: <Field orientation={selection.orientation as "vertical" | "horizontal" | "responsive"} data-invalid={selection.validity === "invalid" || undefined} className="max-w-sm"><FieldLabel htmlFor="field-symbol">종목명</FieldLabel><Input id="field-symbol" aria-invalid={selection.validity === "invalid" || undefined} placeholder="예: 삼성전자"/><FieldDescription>거래한 종목의 정식 이름을 입력하세요.</FieldDescription>{selection.validity === "invalid" && <FieldError>종목명을 입력하세요.</FieldError>}</Field>,
     empty: <Empty variant={variant} className="max-w-lg"><EmptyHeader><EmptyMedia aria-hidden="true">⌕</EmptyMedia><EmptyTitle>검색 결과가 없습니다</EmptyTitle><EmptyDescription>검색어를 바꾸거나 필터를 초기화해 보세요.</EmptyDescription></EmptyHeader><EmptyContent><Button variant="outline">필터 초기화</Button></EmptyContent></Empty>,
     input: <div className="max-w-sm"><Label htmlFor="search">투자 이력 검색</Label><Input id="search" placeholder="종목명 또는 메모"/></div>,
-    item: <Item variant={variant} size={size} data-state={selection.item === "selected" ? "selected" : undefined} className="max-w-lg"><ItemMedia aria-hidden="true">₩</ItemMedia><ItemContent><ItemTitle>삼성전자 우선주</ItemTitle><ItemDescription>2026. 08. 21. · 매수</ItemDescription></ItemContent><ItemActions><Button size="sm" variant="outline">보기</Button></ItemActions></Item>,
+    item: <Item variant={variant} size={size} data-state={selection.item === "selected" ? "selected" : undefined} className="max-w-lg"><ItemMedia aria-hidden="true">{itemFixture.media}</ItemMedia><ItemContent><ItemTitle>{itemFixture.title}</ItemTitle><ItemDescription>{itemFixture.description}</ItemDescription></ItemContent><ItemActions><Button size="sm" variant="outline">{itemFixture.action}</Button></ItemActions></Item>,
     label: <Label htmlFor="label-sample">거래 메모</Label>,
     "list-row": <ListRow data-state={selected ? "selected" : undefined} className="max-w-lg"><ListRowContent><ListRowTitle>미래에셋 TIGER 미국S&amp;P500</ListRowTitle><ListRowDescription>2026. 08. 18. · 매수</ListRowDescription></ListRowContent><ListRowMeta>₩4,230,000</ListRowMeta><ListRowTrailing className="text-destructive-text">−₩115,000</ListRowTrailing></ListRow>,
     popover: <Popover defaultOpen={selection.open === "open"}><PopoverTrigger asChild><Button variant="outline">필터 도움말</Button></PopoverTrigger><PopoverContent><p className="font-medium">시장 필터</p><p className="text-sm text-muted-foreground">선택한 시장의 거래만 투자 이력에 표시합니다.</p></PopoverContent></Popover>,

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "d2169bafe086808df7e48f0fac897db578373832",
-  "inputDigest": "8832f5fcfa3ece0c0a7fea6c351b0ffc4fd6d1bc23505b2f585414712946bc94",
+  "targetCommit": "7d1a68cbc27af674a87fcbd0a16d77cadbd33d23",
+  "inputDigest": "d84e7c86176e43d5f66546c15f793720c2979a8cd1b45c9ca5499da6400c6431",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -76,7 +76,7 @@
     },
     {
       "component": "item",
-      "manifestHash": "5f3c5c0a191a",
+      "manifestHash": "008b33625ebc",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -168,7 +168,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T06:31:59.858Z",
+      "checkedAt": "2026-08-24T07:13:39.291Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -199,7 +199,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T06:31:59.858Z",
+      "checkedAt": "2026-08-24T07:13:39.291Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -277,20 +277,68 @@
       },
       "visualReview": {
         "reviewer": "seongki",
-        "checkedAt": "2026-08-24T06:36:39.240Z",
-        "scope": "Table Light/Dark · parts spacing · shared reference fixture"
+        "checkedAt": "2026-08-24T07:14:17.496Z",
+        "scope": "Item Light executable reference · repo-owned fixture extraction only; rendered output unchanged"
       }
     },
     "FIGMA_DOCUMENT_SYNCED": {
-      "result": "UNKNOWN",
-      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
+      "result": "PASS",
+      "checkedAt": "2026-08-24T07:20:52Z",
+      "scope": "Item in-place component sync; Table canonical generation marker repair; foundations and catalog normalization",
+      "components": {
+        "item": {
+          "componentSetId": "241:86",
+          "manifestHash": "008b33625ebc",
+          "variants": 12,
+          "nodes": 97,
+          "texts": 48,
+          "secondRunStructuralDiff": 0
+        },
+        "table": {
+          "componentSetId": "151:24",
+          "manifestHash": "5503b18695d6",
+          "change": "canonical description marker only; existing part geometry preserved"
+        }
+      },
+      "foundations": {
+        "paletteVariables": 172,
+        "semanticVariables": 35,
+        "semanticModes": ["Light", "Dark"],
+        "textStyles": 9,
+        "effectStyles": 5,
+        "secondRunDiff": 0
+      },
+      "catalogLayout": {
+        "expectedAssets": 32,
+        "actualAssets": 32,
+        "missing": [],
+        "duplicates": [],
+        "unexpected": [],
+        "firstRunMoved": 6,
+        "secondRunMoved": 0,
+        "order": "manifest registry",
+        "x": 2000,
+        "startY": 0,
+        "gap": 120
+      },
+      "qa": {
+        "itemIssues": 0,
+        "pretendard": "type/family/sans variable binding per issue #9",
+        "visual": "Item component set screenshot reviewed against repo-owned fixture"
+      }
     },
     "FIGMA_LIBRARY_CURRENT": {
-      "result": "UNKNOWN",
-      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
+      "result": "PASS",
+      "checkedAt": "2026-08-24T07:26:44Z",
+      "reviewer": "seongki",
+      "componentPublishStatus": {
+        "CURRENT": 31
+      },
+      "publishedComponents": ["Item", "Table"],
+      "humanConfirmation": "Figma publish completed; no unpublished Variables, Text Styles, or Effect Styles remain."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "FIGMA_LIBRARY_CURRENT",
   "failure": null,
-  "resumeAt": "FIGMA_DOCUMENT_SYNCED"
+  "resumeAt": "Consumer checkpoint in a separate sync ticket"
 }

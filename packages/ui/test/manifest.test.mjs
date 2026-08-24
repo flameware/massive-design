@@ -115,3 +115,15 @@ test("합성 part의 스타일이 루트와 분리된 조합으로 남는다", (
   assert.equal(table.parts.TableCell.cells[0].properties.padding.px, 8)
   assert.equal(table.parts.TableCaption.cells[0].properties["margin-top"].px, 16)
 })
+
+test("Item의 하위 파트 스타일이 루트와 분리된 조합으로 남는다", () => {
+  const item = read("item.gen.json")
+  assert.deepEqual(Object.keys(item.parts), [
+    "ItemActions", "ItemContent", "ItemDescription", "ItemFooter", "ItemGroup",
+    "ItemHeader", "ItemMedia", "ItemSeparator", "ItemTitle",
+  ])
+  assert.equal(item.parts.ItemContent.cells[0].properties.gap.px, 4)
+  assert.equal(item.parts.ItemTitle.cells[0].properties["font-weight"].value, "500")
+  assert.equal(item.parts.ItemDescription.cells[0].properties["font-size"].px, 14)
+  assert.equal(item.parts.ItemActions.cells[0].properties.gap.px, 8)
+})

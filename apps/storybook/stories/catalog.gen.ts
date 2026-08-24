@@ -436,7 +436,7 @@ export const catalog = [
   {
     "component": "item",
     "displayName": "Item",
-    "hash": "5f3c5c0a191a",
+    "hash": "008b33625ebc",
     "cells": 6,
     "axes": {
       "size": [

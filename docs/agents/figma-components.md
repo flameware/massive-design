@@ -223,6 +223,8 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 
 Table의 시각 검토와 Figma 참조 콘텐츠는 `apps/storybook/stories/fixtures/table.json`을 함께 사용한다. fixture는 공개 컴포넌트 계약이 아니라 채널 간 비교를 위한 repo-owned 견본이다. 기본 공개 자산에서는 선택적인 `TableCaption`을 강제로 넣지 않으며, 사용하면 `margin-top: 16px`를 보존한다.
 
+Item의 시각 검토와 Figma 참조 콘텐츠는 `apps/storybook/stories/fixtures/item.json`을 함께 사용한다. Figma의 `ItemMedia`·`ItemTitle`·`ItemDescription`·`ItemActions` 견본은 이 값을 사용하고, `ItemActions`에는 `Button size=sm, variant=outline` 인스턴스를 넣어 Storybook의 실행 참조와 같은 조립을 보존한다.
+
 ⚠️ **stroke 색은 셀이 아니라 `base` 블록에 있다** ([#36](https://github.com/flameware/massive-design/issues/36)). 매니페스트는 `schemaVersion: 2`부터 셀 밖에 블록 하나를 더 낸다:
 
 ```json
