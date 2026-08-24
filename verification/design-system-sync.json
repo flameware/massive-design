@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "341832d8dd96878b59b952c26b73f13c002f86c2",
+  "targetCommit": "ead26db1e3ac59cdd53729b29a7dd458ed854dbe",
   "inputDigest": "4ae09329d03764a757a583f9fb9812b2351c7b810e89967b39960da7a1f73097",
   "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8",
   "components": [
@@ -276,15 +276,29 @@
       }
     },
     "FIGMA_DOCUMENT_SYNCED": {
-      "result": "UNKNOWN",
-      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
+      "result": "PASS",
+      "checkedAt": "2026-08-24T02:09:16Z",
+      "checker": "Codex",
+      "fileKey": "wxz7M6txDvlvH6Z95JzDHJ",
+      "evidence": {
+        "tokenInjection": "01-06 replayed: palette 172 variables, semantic 35 variables, 9 text styles, 5 effect styles",
+        "components": [
+          "Accordion 238:23 — 4 variants — massive:accordion@4f3463aca5d6",
+          "Collapsible 239:11 — 2 variants — massive:collapsible@4b115285961c",
+          "Empty 240:14 — 2 variants — massive:empty@b7ac43840fbd",
+          "Item 241:86 — 12 variants — massive:item@5f3c5c0a191a"
+        ],
+        "idempotence": "second pass created=0, deleted=0, replaced=0, structuralDiff=0",
+        "bindings": "no unbound solid fills or strokes in the four component sets",
+        "visual": "Light and Dark screenshots reviewed; component-set canvases bind bg/canvas and were restored to Light"
+      }
     },
     "FIGMA_LIBRARY_CURRENT": {
-      "result": "UNKNOWN",
-      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
+      "result": "PENDING_HUMAN",
+      "reason": "PUBLISH_CONFIRMATION_REQUIRED: Accordion, Collapsible, Empty, and Item are UNPUBLISHED. Publish the four component sets together with current Variables, Text Styles, and Effect Styles, confirm no unpublished changes remain, then recheck component publish status."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "FIGMA_DOCUMENT_SYNCED",
   "failure": null,
-  "resumeAt": "FIGMA_DOCUMENT_SYNCED"
+  "resumeAt": "FIGMA_LIBRARY_CURRENT"
 }
