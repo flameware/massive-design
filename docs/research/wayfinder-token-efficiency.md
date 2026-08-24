@@ -140,6 +140,8 @@ research 이슈의 본문·댓글 총량은 작지만 외부 문서 전문, 검�
 
 다음 Wayfinder 세션 10개를 기록한다. 가능한 한 grilling, prototype, research, task, Figma 구현·동기화를 포함한다. 서로 다른 작업 유형을 하나의 평균으로 합치지 않는다.
 
+새 컨텍스트에서도 측정이 이어지도록 `AGENTS.md`가 [`docs/agents/wayfinder-token-measurement.md`](../agents/wayfinder-token-measurement.md)를 가리킨다. 세션별 값은 [`wayfinder-token-sessions.tsv`](wayfinder-token-sessions.tsv)에 최대 10행까지 누적한다. 이 방식은 저장소 기록을 자동으로 이어 주지만, 런타임이 노출하지 않는 실제 token 값까지 만들어 내지는 않는다. 정확한 값이 없으면 `n/a`로 남긴다.
+
 ### 6.2 세션 기록 스키마
 
 | 필드 | 설명 |

@@ -14,6 +14,10 @@ The five canonical triage roles, used verbatim as label strings. See `docs/agent
 
 Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
 
+### Wayfinder token measurement
+
+For every Wayfinder session, follow `docs/agents/wayfinder-token-measurement.md` until its ledger contains 10 data rows.
+
 ## Where the work stands
 
 The **토큰 파운데이션** map ([#1](https://github.com/flameware/massive-design/issues/1)), **컴포넌트 맵** ([#14](https://github.com/flameware/massive-design/issues/14)), and **P0 카탈로그 확장 구현 맵** ([#78](https://github.com/flameware/massive-design/issues/78)) are complete. Their code and decisions live in `packages/`, `apps/storybook/`, `docs/tokens/`, and `docs/agents/figma-*.md`; [`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff into the completed component map.
