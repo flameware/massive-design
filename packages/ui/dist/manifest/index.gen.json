@@ -31,6 +31,12 @@
       "path": "badge.gen.json"
     },
     {
+      "cells": 1,
+      "component": "breadcrumb",
+      "hash": "ca48b1d9992c",
+      "path": "breadcrumb.gen.json"
+    },
+    {
       "cells": 48,
       "component": "button",
       "hash": "8472d5d50576",
@@ -101,6 +107,12 @@
       "component": "list-row",
       "hash": "109497324ece",
       "path": "list-row.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "pagination",
+      "hash": "2a3133a0cc0e",
+      "path": "pagination.gen.json"
     },
     {
       "cells": 1,

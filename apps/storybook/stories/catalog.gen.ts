@@ -162,6 +162,38 @@ export const catalog = [
     "source": "src/components/ui/badge.tsx"
   },
   {
+    "component": "breadcrumb",
+    "displayName": "Breadcrumb",
+    "hash": "ca48b1d9992c",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Breadcrumb",
+      "BreadcrumbList",
+      "BreadcrumbItem*",
+      "BreadcrumbLink*",
+      "BreadcrumbPage",
+      "BreadcrumbSeparator*",
+      "BreadcrumbEllipsis?"
+    ],
+    "configurationStates": {
+      "currentLocation": [
+        "ancestor",
+        "current"
+      ]
+    },
+    "reference": {
+      "example": "breadcrumb",
+      "guidance": {
+        "evidence": "깊은 설정이나 상세 화면에서 사용자가 상위 범위로 되돌아갈 수 있는 짧은 경로가 필요하다.",
+        "limits": "단일 단계 화면이나 선형 진행 상황에는 사용하지 않으며, 긴 경로를 축약해도 현재 위치와 접근 가능한 탐색 이름은 유지한다.",
+        "use": "현재 위치의 상위 계층을 링크로 제공하고 마지막 항목을 현재 위치로 표시한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/breadcrumb.tsx"
+  },
+  {
     "component": "button",
     "displayName": "Button",
     "hash": "8472d5d50576",
@@ -528,6 +560,38 @@ export const catalog = [
     },
     "stateSamples": true,
     "source": "src/components/ui/list-row.tsx"
+  },
+  {
+    "component": "pagination",
+    "displayName": "Pagination",
+    "hash": "2a3133a0cc0e",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Pagination",
+      "PaginationContent",
+      "PaginationItem*",
+      "PaginationPrevious?",
+      "PaginationLink*",
+      "PaginationEllipsis?",
+      "PaginationNext?"
+    ],
+    "configurationStates": {
+      "currentPage": [
+        "other",
+        "current"
+      ]
+    },
+    "reference": {
+      "example": "pagination",
+      "guidance": {
+        "evidence": "투자 이력처럼 전체 결과를 한 번에 표시하기 어려운 목록에서 URL로 복원 가능한 페이지 이동이 필요하다.",
+        "limits": "데이터 양이 적거나 연속 스크롤이 핵심인 흐름에는 사용하지 않으며, 축약 뒤에도 현재 페이지·이전·다음 링크의 접근 가능한 이름과 기본 키보드 동작을 보존한다.",
+        "use": "긴 결과 집합을 여러 페이지로 나누고 현재 페이지와 인접 이동을 링크로 제공한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/pagination.tsx"
   },
   {
     "component": "popover",
