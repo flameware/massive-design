@@ -1,6 +1,12 @@
 {
   "components": [
     {
+      "cells": 1,
+      "component": "accordion",
+      "hash": "4f3463aca5d6",
+      "path": "accordion.gen.json"
+    },
+    {
       "cells": 4,
       "component": "alert",
       "hash": "084e3cca70c4",
@@ -44,6 +50,12 @@
     },
     {
       "cells": 1,
+      "component": "collapsible",
+      "hash": "4b115285961c",
+      "path": "collapsible.gen.json"
+    },
+    {
+      "cells": 1,
       "component": "dialog",
       "hash": "61dd1a514c92",
       "path": "dialog.gen.json"
@@ -53,6 +65,12 @@
       "component": "dropdown-menu",
       "hash": "e3617c6fd13c",
       "path": "dropdown-menu.gen.json"
+    },
+    {
+      "cells": 2,
+      "component": "empty",
+      "hash": "b7ac43840fbd",
+      "path": "empty.gen.json"
     },
     {
       "cells": 3,
@@ -65,6 +83,12 @@
       "component": "input",
       "hash": "238507ed3be1",
       "path": "input.gen.json"
+    },
+    {
+      "cells": 6,
+      "component": "item",
+      "hash": "5f3c5c0a191a",
+      "path": "item.gen.json"
     },
     {
       "cells": 1,
@@ -149,6 +173,18 @@
       "component": "toast",
       "hash": "15536a1ef2f6",
       "path": "toast.gen.json"
+    },
+    {
+      "cells": 6,
+      "component": "toggle",
+      "hash": "bf3647e14670",
+      "path": "toggle.gen.json"
+    },
+    {
+      "cells": 12,
+      "component": "toggle-group",
+      "hash": "d0b9e9cc0cb2",
+      "path": "toggle-group.gen.json"
     },
     {
       "cells": 1,

@@ -1,6 +1,39 @@
 /* GENERATED from @massive/ui manifests. Do not edit. */
 export const catalog = [
   {
+    "component": "accordion",
+    "displayName": "Accordion",
+    "hash": "4f3463aca5d6",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Accordion",
+      "AccordionItem*",
+      "AccordionTrigger",
+      "AccordionContent"
+    ],
+    "configurationStates": {
+      "expansion": [
+        "single",
+        "multiple"
+      ],
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "accordion",
+      "guidance": {
+        "evidence": "설정·도움말처럼 제목별로 나뉜 긴 보조 정보를 좁은 화면에서 단계적으로 확인해야 한다.",
+        "limits": "순서가 필수인 절차, 항상 보여야 하는 핵심 정보, 서로 무관한 동작 모음에는 사용하지 않는다.",
+        "use": "관련된 여러 섹션의 제목을 훑고 필요한 내용을 하나 또는 여러 개 펼친다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/accordion.tsx"
+  },
+  {
     "component": "alert",
     "displayName": "Alert",
     "hash": "084e3cca70c4",
@@ -214,6 +247,34 @@ export const catalog = [
     "source": "src/components/ui/checkbox.tsx"
   },
   {
+    "component": "collapsible",
+    "displayName": "Collapsible",
+    "hash": "4b115285961c",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Collapsible",
+      "CollapsibleTrigger",
+      "CollapsibleContent"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "collapsible",
+      "guidance": {
+        "evidence": "필터의 고급 조건이나 부가 설명처럼 기본 흐름을 방해하지 않아야 하는 한 영역이 필요하다.",
+        "limits": "여러 형제 섹션의 상호 배타적 펼침은 Accordion을 사용하고 트리거의 레이블과 접근 가능한 이름은 소비처가 제공한다.",
+        "use": "한 덩어리의 보조 내용을 명시적인 트리거로 펼치거나 접는다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/collapsible.tsx"
+  },
+  {
     "component": "dialog",
     "displayName": "Dialog",
     "hash": "61dd1a514c92",
@@ -281,6 +342,37 @@ export const catalog = [
     "source": "src/components/ui/dropdown-menu.tsx"
   },
   {
+    "component": "empty",
+    "displayName": "Empty",
+    "hash": "b7ac43840fbd",
+    "cells": 2,
+    "axes": {
+      "variant": [
+        "default",
+        "outline"
+      ]
+    },
+    "anatomy": [
+      "Empty",
+      "EmptyHeader",
+      "EmptyMedia?",
+      "EmptyTitle",
+      "EmptyDescription?",
+      "EmptyContent?"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "empty",
+      "guidance": {
+        "evidence": "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 한다.",
+        "limits": "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다.",
+        "use": "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/empty.tsx"
+  },
+  {
     "component": "field",
     "displayName": "Field",
     "hash": "2c6116855f68",
@@ -340,6 +432,51 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/input.tsx"
+  },
+  {
+    "component": "item",
+    "displayName": "Item",
+    "hash": "5f3c5c0a191a",
+    "cells": 6,
+    "axes": {
+      "size": [
+        "default",
+        "sm"
+      ],
+      "variant": [
+        "default",
+        "outline",
+        "muted"
+      ]
+    },
+    "anatomy": [
+      "Item",
+      "ItemMedia?",
+      "ItemContent",
+      "ItemTitle",
+      "ItemDescription?",
+      "ItemActions?",
+      "ItemHeader?",
+      "ItemFooter?",
+      "ItemGroup?",
+      "ItemSeparator?"
+    ],
+    "configurationStates": {
+      "item": [
+        "default",
+        "selected"
+      ]
+    },
+    "reference": {
+      "example": "item",
+      "guidance": {
+        "evidence": "검색 결과, 선택 목록, 설정 행처럼 같은 정보 위계를 공유하지만 제품 의미가 다른 반복 항목이 필요하다.",
+        "limits": "탐색·선택·버튼 역할을 자동으로 부여하지 않으며 도메인 필드와 상호작용 의미는 소비처가 명시한다.",
+        "use": "미디어, 주 정보, 보조 설명과 행동을 재배치 가능한 한 항목으로 조립한다."
+      }
+    },
+    "stateSamples": true,
+    "source": "src/components/ui/item.tsx"
   },
   {
     "component": "label",
@@ -752,6 +889,87 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/toast.tsx"
+  },
+  {
+    "component": "toggle",
+    "displayName": "Toggle",
+    "hash": "bf3647e14670",
+    "cells": 6,
+    "axes": {
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ],
+      "variant": [
+        "default",
+        "outline"
+      ]
+    },
+    "anatomy": [
+      "Toggle"
+    ],
+    "configurationStates": {
+      "pressed": [
+        "unpressed",
+        "pressed"
+      ]
+    },
+    "reference": {
+      "example": "toggle",
+      "guidance": {
+        "evidence": "투자 차트의 비교선이나 표시 옵션처럼 독립적으로 켜고 끄는 도구가 필요하다.",
+        "limits": "즉시 적용되는 설정에는 Switch를, 제출할 복수 선택에는 Checkbox를 사용한다.",
+        "use": "한 항목의 켜짐 상태를 눌러 전환하며 현재 pressed 상태를 즉시 드러낸다."
+      }
+    },
+    "stateSamples": true,
+    "source": "src/components/ui/toggle.tsx"
+  },
+  {
+    "component": "toggle-group",
+    "displayName": "Toggle Group",
+    "hash": "d0b9e9cc0cb2",
+    "cells": 12,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ],
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ],
+      "variant": [
+        "default",
+        "outline"
+      ]
+    },
+    "anatomy": [
+      "ToggleGroup",
+      "ToggleGroupItem*"
+    ],
+    "configurationStates": {
+      "pressed": [
+        "unpressed",
+        "pressed"
+      ],
+      "selection": [
+        "single",
+        "multiple"
+      ]
+    },
+    "reference": {
+      "example": "toggle-group",
+      "guidance": {
+        "evidence": "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하다.",
+        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다.",
+        "use": "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/toggle-group.tsx"
   },
   {
     "component": "tooltip",

@@ -1,0 +1,797 @@
+{
+  "anatomy": [
+    "Toggle"
+  ],
+  "axes": {
+    "size": [
+      "sm",
+      "default",
+      "lg"
+    ],
+    "variant": [
+      "default",
+      "outline"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-8 min-w-8 px-1.5",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "literal",
+          "value": "transparent"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "data-[state=on]:--ds-state-base": {
+          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "data-[state=on]:color": {
+          "from": "data-[state=on]:text-accent-foreground",
+          "tier": "unresolved",
+          "value": "var(--accent-foreground)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-8",
+          "multiple": 8,
+          "px": 32,
+          "scale": "space.8",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "justify-content": {
+          "from": "justify-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-8",
+          "multiple": 8,
+          "px": 32,
+          "scale": "space.8",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-1.5",
+          "px": 6,
+          "tier": "literal"
+        }
+      },
+      "size": "sm",
+      "slots": {
+        "icon": {
+          "gap": {
+            "from": "gap-2",
+            "multiple": 2,
+            "px": 8,
+            "scale": "space.2",
+            "tier": "token",
+            "token": "--spacing"
+          },
+          "size": {
+            "from": "[&_svg:not([class*='size-'])]:size-4",
+            "multiple": 4,
+            "px": 16,
+            "scale": "space.4",
+            "tier": "token",
+            "token": "--spacing"
+          }
+        }
+      },
+      "state": {
+        "base": null,
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "default"
+    },
+    {
+      "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-9 min-w-9 px-2",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "literal",
+          "value": "transparent"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "data-[state=on]:--ds-state-base": {
+          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "data-[state=on]:color": {
+          "from": "data-[state=on]:text-accent-foreground",
+          "tier": "unresolved",
+          "value": "var(--accent-foreground)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-9",
+          "px": 36,
+          "tier": "literal"
+        },
+        "justify-content": {
+          "from": "justify-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-9",
+          "px": 36,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "default",
+      "slots": {
+        "icon": {
+          "gap": {
+            "from": "gap-2",
+            "multiple": 2,
+            "px": 8,
+            "scale": "space.2",
+            "tier": "token",
+            "token": "--spacing"
+          },
+          "size": {
+            "from": "[&_svg:not([class*='size-'])]:size-4",
+            "multiple": 4,
+            "px": 16,
+            "scale": "space.4",
+            "tier": "token",
+            "token": "--spacing"
+          }
+        }
+      },
+      "state": {
+        "base": null,
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "default"
+    },
+    {
+      "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-10 min-w-10 px-2.5",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "literal",
+          "value": "transparent"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "data-[state=on]:--ds-state-base": {
+          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "data-[state=on]:color": {
+          "from": "data-[state=on]:text-accent-foreground",
+          "tier": "unresolved",
+          "value": "var(--accent-foreground)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-10",
+          "multiple": 10,
+          "px": 40,
+          "scale": "space.10",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "justify-content": {
+          "from": "justify-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-10",
+          "multiple": 10,
+          "px": 40,
+          "scale": "space.10",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-2.5",
+          "px": 10,
+          "tier": "literal"
+        }
+      },
+      "size": "lg",
+      "slots": {
+        "icon": {
+          "gap": {
+            "from": "gap-2",
+            "multiple": 2,
+            "px": 8,
+            "scale": "space.2",
+            "tier": "token",
+            "token": "--spacing"
+          },
+          "size": {
+            "from": "[&_svg:not([class*='size-'])]:size-4",
+            "multiple": 4,
+            "px": 16,
+            "scale": "space.4",
+            "tier": "token",
+            "token": "--spacing"
+          }
+        }
+      },
+      "state": {
+        "base": null,
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "default"
+    },
+    {
+      "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] border shadow-xs data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-8 min-w-8 px-1.5",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "data-[state=on]:--ds-state-base": {
+          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "data-[state=on]:color": {
+          "from": "data-[state=on]:text-accent-foreground",
+          "tier": "unresolved",
+          "value": "var(--accent-foreground)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-8",
+          "multiple": 8,
+          "px": 32,
+          "scale": "space.8",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "justify-content": {
+          "from": "justify-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-8",
+          "multiple": 8,
+          "px": 32,
+          "scale": "space.8",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-1.5",
+          "px": 6,
+          "tier": "literal"
+        }
+      },
+      "size": "sm",
+      "slots": {
+        "icon": {
+          "gap": {
+            "from": "gap-2",
+            "multiple": 2,
+            "px": 8,
+            "scale": "space.2",
+            "tier": "token",
+            "token": "--spacing"
+          },
+          "size": {
+            "from": "[&_svg:not([class*='size-'])]:size-4",
+            "multiple": 4,
+            "px": 16,
+            "scale": "space.4",
+            "tier": "token",
+            "token": "--spacing"
+          }
+        }
+      },
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "outline"
+    },
+    {
+      "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] border shadow-xs data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-9 min-w-9 px-2",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "data-[state=on]:--ds-state-base": {
+          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "data-[state=on]:color": {
+          "from": "data-[state=on]:text-accent-foreground",
+          "tier": "unresolved",
+          "value": "var(--accent-foreground)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-9",
+          "px": 36,
+          "tier": "literal"
+        },
+        "justify-content": {
+          "from": "justify-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-9",
+          "px": 36,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "default",
+      "slots": {
+        "icon": {
+          "gap": {
+            "from": "gap-2",
+            "multiple": 2,
+            "px": 8,
+            "scale": "space.2",
+            "tier": "token",
+            "token": "--spacing"
+          },
+          "size": {
+            "from": "[&_svg:not([class*='size-'])]:size-4",
+            "multiple": 4,
+            "px": 16,
+            "scale": "space.4",
+            "tier": "token",
+            "token": "--spacing"
+          }
+        }
+      },
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "outline"
+    },
+    {
+      "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] border shadow-xs data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-10 min-w-10 px-2.5",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "data-[state=on]:--ds-state-base": {
+          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "data-[state=on]:color": {
+          "from": "data-[state=on]:text-accent-foreground",
+          "tier": "unresolved",
+          "value": "var(--accent-foreground)",
+          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-10",
+          "multiple": 10,
+          "px": 40,
+          "scale": "space.10",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "justify-content": {
+          "from": "justify-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-10",
+          "multiple": 10,
+          "px": 40,
+          "scale": "space.10",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-2.5",
+          "px": 10,
+          "tier": "literal"
+        }
+      },
+      "size": "lg",
+      "slots": {
+        "icon": {
+          "gap": {
+            "from": "gap-2",
+            "multiple": 2,
+            "px": 8,
+            "scale": "space.2",
+            "tier": "token",
+            "token": "--spacing"
+          },
+          "size": {
+            "from": "[&_svg:not([class*='size-'])]:size-4",
+            "multiple": 4,
+            "px": 16,
+            "scale": "space.4",
+            "tier": "token",
+            "token": "--spacing"
+          }
+        }
+      },
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "outline"
+    }
+  ],
+  "component": "toggle",
+  "configurationStates": {
+    "pressed": [
+      "unpressed",
+      "pressed"
+    ]
+  },
+  "defaults": {
+    "size": "default",
+    "variant": "default"
+  },
+  "hash": "bf3647e14670",
+  "reference": {
+    "example": "toggle",
+    "guidance": {
+      "evidence": "투자 차트의 비교선이나 표시 옵션처럼 독립적으로 켜고 끄는 도구가 필요하다.",
+      "limits": "즉시 적용되는 설정에는 Switch를, 제출할 복수 선택에는 Checkbox를 사용한다.",
+      "use": "한 항목의 켜짐 상태를 눌러 전환하며 현재 pressed 상태를 즉시 드러낸다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/toggle.tsx"
+}

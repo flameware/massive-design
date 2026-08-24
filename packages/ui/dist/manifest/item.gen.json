@@ -1,0 +1,692 @@
+{
+  "anatomy": [
+    "Item",
+    "ItemMedia?",
+    "ItemContent",
+    "ItemTitle",
+    "ItemDescription?",
+    "ItemActions?",
+    "ItemHeader?",
+    "ItemFooter?",
+    "ItemGroup?",
+    "ItemSeparator?"
+  ],
+  "axes": {
+    "size": [
+      "default",
+      "sm"
+    ],
+    "variant": [
+      "default",
+      "outline",
+      "muted"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "state [--ds-state-base:var(--background)] group/item flex min-w-0 items-center rounded-lg text-sm outline-none transition-colors focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[state=selected]:[--ds-state-base:var(--accent)] gap-4 px-4 py-3",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "data-[disabled=true]:opacity": {
+          "from": "data-[disabled=true]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[disabled=true]:pointer-events": {
+          "from": "data-[disabled=true]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[state=selected]:--ds-state-base": {
+          "from": "data-[state=selected]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "group/item": {
+          "from": "group/item",
+          "tier": "unresolved",
+          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "default",
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": null,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "default"
+    },
+    {
+      "className": "state [--ds-state-base:var(--background)] group/item flex min-w-0 items-center rounded-lg text-sm outline-none transition-colors focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[state=selected]:[--ds-state-base:var(--accent)] gap-3 px-3 py-2",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "data-[disabled=true]:opacity": {
+          "from": "data-[disabled=true]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[disabled=true]:pointer-events": {
+          "from": "data-[disabled=true]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[state=selected]:--ds-state-base": {
+          "from": "data-[state=selected]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "group/item": {
+          "from": "group/item",
+          "tier": "unresolved",
+          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "sm",
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": null,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "default"
+    },
+    {
+      "className": "state [--ds-state-base:var(--background)] group/item flex min-w-0 items-center rounded-lg text-sm outline-none transition-colors focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[state=selected]:[--ds-state-base:var(--accent)] border gap-4 px-4 py-3",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "data-[disabled=true]:opacity": {
+          "from": "data-[disabled=true]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[disabled=true]:pointer-events": {
+          "from": "data-[disabled=true]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[state=selected]:--ds-state-base": {
+          "from": "data-[state=selected]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "group/item": {
+          "from": "group/item",
+          "tier": "unresolved",
+          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "default",
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": null,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "outline"
+    },
+    {
+      "className": "state [--ds-state-base:var(--background)] group/item flex min-w-0 items-center rounded-lg text-sm outline-none transition-colors focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[state=selected]:[--ds-state-base:var(--accent)] border gap-3 px-3 py-2",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "data-[disabled=true]:opacity": {
+          "from": "data-[disabled=true]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[disabled=true]:pointer-events": {
+          "from": "data-[disabled=true]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[state=selected]:--ds-state-base": {
+          "from": "data-[state=selected]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "group/item": {
+          "from": "group/item",
+          "tier": "unresolved",
+          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "sm",
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": null,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "outline"
+    },
+    {
+      "className": "state [--ds-state-base:var(--background)] group/item flex min-w-0 items-center rounded-lg text-sm outline-none transition-colors focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[state=selected]:[--ds-state-base:var(--accent)] bg-muted gap-4 px-4 py-3",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "data-[disabled=true]:opacity": {
+          "from": "data-[disabled=true]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[disabled=true]:pointer-events": {
+          "from": "data-[disabled=true]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[state=selected]:--ds-state-base": {
+          "from": "data-[state=selected]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "group/item": {
+          "from": "group/item",
+          "tier": "unresolved",
+          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "default",
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": null,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "muted"
+    },
+    {
+      "className": "state [--ds-state-base:var(--background)] group/item flex min-w-0 items-center rounded-lg text-sm outline-none transition-colors focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[state=selected]:[--ds-state-base:var(--accent)] bg-muted gap-3 px-3 py-2",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "data-[disabled=true]:opacity": {
+          "from": "data-[disabled=true]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[disabled=true]:pointer-events": {
+          "from": "data-[disabled=true]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+        },
+        "data-[state=selected]:--ds-state-base": {
+          "from": "data-[state=selected]:[--ds-state-base:var(--accent)]",
+          "tier": "unresolved",
+          "value": "var(--accent)",
+          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "group/item": {
+          "from": "group/item",
+          "tier": "unresolved",
+          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "sm",
+      "state": {
+        "base": "--ds-bg-canvas",
+        "disabled": null,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      },
+      "variant": "muted"
+    }
+  ],
+  "component": "item",
+  "configurationStates": {
+    "item": [
+      "default",
+      "selected"
+    ]
+  },
+  "defaults": {
+    "size": "default",
+    "variant": "default"
+  },
+  "hash": "5f3c5c0a191a",
+  "reference": {
+    "example": "item",
+    "guidance": {
+      "evidence": "검색 결과, 선택 목록, 설정 행처럼 같은 정보 위계를 공유하지만 제품 의미가 다른 반복 항목이 필요하다.",
+      "limits": "탐색·선택·버튼 역할을 자동으로 부여하지 않으며 도메인 필드와 상호작용 의미는 소비처가 명시한다.",
+      "use": "미디어, 주 정보, 보조 설명과 행동을 재배치 가능한 한 항목으로 조립한다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/item.tsx"
+}

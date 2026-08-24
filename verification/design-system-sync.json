@@ -1,9 +1,14 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "1c8cbb9cc04f629332bc7f22899f1adbb63969b6",
-  "inputDigest": "27fe65ac98c0c3eb47ad437a646e7c3f8174a11fac56cad4cc899ae779f2de71",
+  "targetCommit": "341832d8dd96878b59b952c26b73f13c002f86c2",
+  "inputDigest": "4ae09329d03764a757a583f9fb9812b2351c7b810e89967b39960da7a1f73097",
   "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8",
   "components": [
+    {
+      "component": "accordion",
+      "manifestHash": "4f3463aca5d6",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
     {
       "component": "alert",
       "manifestHash": "084e3cca70c4",
@@ -40,6 +45,11 @@
       "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
+      "component": "collapsible",
+      "manifestHash": "4b115285961c",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
       "component": "dialog",
       "manifestHash": "61dd1a514c92",
       "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
@@ -50,6 +60,11 @@
       "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
+      "component": "empty",
+      "manifestHash": "b7ac43840fbd",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
       "component": "field",
       "manifestHash": "2c6116855f68",
       "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
@@ -57,6 +72,11 @@
     {
       "component": "input",
       "manifestHash": "238507ed3be1",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "item",
+      "manifestHash": "5f3c5c0a191a",
       "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
@@ -130,6 +150,16 @@
       "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
+      "component": "toggle",
+      "manifestHash": "bf3647e14670",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "toggle-group",
+      "manifestHash": "d0b9e9cc0cb2",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
       "component": "tooltip",
       "manifestHash": "ec053f2fcb72",
       "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
@@ -138,7 +168,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T00:12:54.647Z",
+      "checkedAt": "2026-08-24T01:57:08.405Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -169,7 +199,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T00:12:54.647Z",
+      "checkedAt": "2026-08-24T01:57:08.405Z",
       "checks": [
         {
           "label": "Storybook production build",
@@ -183,9 +213,37 @@
         }
       ],
       "a11y": {
-        "stories": 29,
+        "stories": 35,
         "violations": [],
         "incomplete": [
+          {
+            "story": "components-manifest-references--empty",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 1,
+            "targets": [
+              [
+                ".size-10"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters"
+            ]
+          },
+          {
+            "story": "components-manifest-references--item",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 1,
+            "targets": [
+              [
+                ".\\[\\&_svg\\]\\:size-5"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters"
+            ]
+          },
           {
             "story": "components-manifest-references--radio-group",
             "impact": "serious",
@@ -218,56 +276,15 @@
       }
     },
     "FIGMA_DOCUMENT_SYNCED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-24T00:20:33Z",
-      "checkedBy": "Codex",
-      "fileKey": "wxz7M6txDvlvH6Z95JzDHJ",
-      "tokenSync": {
-        "runs": 2,
-        "collections": 2,
-        "paletteColors": 125,
-        "paletteScales": 47,
-        "semanticVariables": 35,
-        "textStyles": 9,
-        "effectStyles": 5,
-        "idempotent": true
-      },
-      "components": [
-        {
-          "component": "separator",
-          "nodeId": "218:4",
-          "manifestHash": "5397c850ef60",
-          "variants": 2,
-          "boundFields": 2
-        },
-        {
-          "component": "avatar",
-          "nodeId": "219:17",
-          "manifestHash": "a03c4ba9bb2a",
-          "variants": 6,
-          "boundFields": 21
-        },
-        {
-          "component": "tabs",
-          "nodeId": "220:34",
-          "manifestHash": "d6fdc43dd30e",
-          "variants": 4,
-          "boundFields": 64
-        }
-      ],
-      "structuralDiffOnSecondRun": 0,
-      "visualEvidence": "Component-set screenshots inspected for overlap, clipping, orientation, selected state, image/fallback, and Light/Dark variable rendering."
+      "result": "UNKNOWN",
+      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
     },
     "FIGMA_LIBRARY_CURRENT": {
-      "result": "PASS",
-      "checkedAt": "2026-08-24T00:21:59Z",
-      "confirmedBy": "user",
-      "componentSetsChecked": 25,
-      "publishStatus": "CURRENT",
-      "reason": "Human confirmed publishing components, Variables, Text Styles, and Effect Styles; all 25 component sets, including Separator, Avatar, and Tabs, report CURRENT."
+      "result": "UNKNOWN",
+      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
     }
   },
-  "lastCompletedStage": "FIGMA_LIBRARY_CURRENT",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": null
+  "resumeAt": "FIGMA_DOCUMENT_SYNCED"
 }
