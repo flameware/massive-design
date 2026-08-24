@@ -30,11 +30,12 @@ Figma 쓰기 전에 `figma-use` skill을 읽고, 토큰은 [`figma-injection.md`
 1. 기록의 `inputDigest`와 현재 preflight 결과가 같은지 확인한다. 다르면 Repo gate로 돌아간다.
 2. Massive Design 문서를 읽기 전용으로 조사한다.
 3. 토큰·Foundations 01~07을 전부 재실행한다. 컴포넌트는 manifest 이름으로 찾아 제자리에서 갱신하며, 상태 견본 색은 `state-colors.gen.json`을 소비한다.
-4. 두 번째 실행에서 생성·삭제·교체와 정규화 구조 diff가 모두 0인지 확인한다.
-5. 변경된 자산을 사람이 Light/Dark와 상태 견본으로 확인한다. 토큰이 바뀐 세대에는 `Foundations`의 `Massive Foundations · generated`에서 palette 전체와 semantic 두 모드를 확인한다.
-6. 기록의 `FIGMA_DOCUMENT_SYNCED`에 결과, 검사 시각·확인자, 구조/바인딩/해시 증거, 실패와 재개 지점을 기록한다. 구조를 읽을 수 없거나 증거가 낡았으면 `UNKNOWN`, 위반을 확인했으면 `FAIL`이다.
+4. 컴포넌트 구조 주입 뒤 카탈로그 배치 검사·정규화를 실행한다. 매니페스트 registry 순서의 단일 세로 열이어야 하고, 예상 밖 최상위 노드·누락·중복·잘못된 타입이 없어야 한다.
+5. 두 번째 실행에서 생성·삭제·교체와 정규화 구조 diff가 모두 0이고, 카탈로그 배치 `movedCount`가 0인지 확인한다.
+6. 변경된 자산을 사람이 Light/Dark와 상태 견본으로 확인한다. 토큰이 바뀐 세대에는 `Foundations`의 `Massive Foundations · generated`에서 palette 전체와 semantic 두 모드를 확인한다.
+7. 기록의 `FIGMA_DOCUMENT_SYNCED`에 결과, 검사 시각·확인자, 구조/바인딩/해시·카탈로그 배치 증거, 실패와 재개 지점을 기록한다. 구조를 읽을 수 없거나 증거가 낡았으면 `UNKNOWN`, 위반을 확인했으면 `FAIL`이다.
 
-완료 기준: 모든 대상 컴포넌트 이름·property 표면·바인딩·세대가 일치하고 멱등 diff가 0이며 변경 자산의 시각 확인이 남아 있다.
+완료 기준: 모든 대상 컴포넌트 이름·property 표면·바인딩·세대가 일치하고, 카탈로그 배치 구조 오류가 없으며, 멱등 diff와 두 번째 배치 이동 수가 0이고 변경 자산의 시각 확인이 남아 있다.
 
 ## 3. Human publish checkpoint
 

@@ -303,7 +303,7 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 1. `bun run check` · `bun run manifest`로 **리포 안이 먼저 일관**한지 확인한다. 매니페스트가 소스와 어긋난 채로 Figma에 가면 틀린 것을 정본으로 박는다
 2. 컴포넌트 페이지에서 **이름으로** 세트를 찾는다
 3. `description` 마지막 줄을 §3.1의 정규식으로 파싱해 §3.3의 표대로 판정한다
-4. "최신"이면 **여기서 멈춘다.** 멱등성은 재실행이 아니라 생략으로도 지켜진다
+4. "최신"이면 컴포넌트 구조 주입은 생략하되, §9.7의 카탈로그 배치 검사·정규화는 생략하지 않는다
 
 ### 1. 읽기 전용 조사
 
@@ -333,6 +333,19 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 1. **두 번 돌린다.** 세트·변종·노드 수가 그대로여야 한다(증분 0)
 2. `getPublishStatusAsync()`를 **`try/catch`로 감싸** 읽고 §5대로 보고한다
 3. 보고에 남길 것: 노드 수, 스크립트 크기(50,000자까지의 여유), 소요 시간, 새 함정
+
+### 7. 카탈로그 배치 — 항상 마지막
+
+컴포넌트별 구조 주입이 끝난 뒤 `dist/manifest/catalog-layout-check.gen.js`를 읽기 전용으로 실행한다. 결과가 `FAIL`이면 drift와 구조 오류를 보고한다. 명시적 sync에서는 이어서 `catalog-layout-sync.gen.js`를 실행해 전체 최상위 자산을 정규화하고, 다시 sync payload를 실행해 `movedCount: 0`을 확인한다.
+
+- 순서: `index.gen.json`의 registry 순서
+- 좌표: `x = 2000`, 첫 `y = 0`, 다음 `y = 이전 y + 이전 height + 120`
+- 대상: `description` 마지막 줄의 `massive:<component>@<hash>`가 registry의 `component`와 일치하는 최상위 `COMPONENT` 또는 `COMPONENT_SET`. 이 식별은 기존 세대 규약을 재사용하며 별도의 이름 번역표를 만들지 않는다
+- Components page는 정식 자산 전용이다. registry 밖 최상위 노드는 위치를 바꾸지 않고 실패로 보고한다
+- 누락·중복·잘못된 타입은 자동 복구하지 않는다. 기존 이름 기반 주입 또는 사람 판단으로 원인을 해결한 뒤 다시 실행한다
+- 컴포넌트 내부 variant 좌표는 카탈로그 배치의 대상이 아니다
+
+일반 검사는 `catalog-layout-check.gen.js`만 실행하며 Figma 문서를 변경하지 않는다. sync payload는 구조 오류가 하나라도 있으면 좌표를 하나도 바꾸지 않고 중단한다.
 
 ---
 

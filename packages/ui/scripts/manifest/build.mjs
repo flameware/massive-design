@@ -12,6 +12,7 @@ import { assembleBase, assembleCell, cellsOf } from "./assemble.mjs"
 import { compileClasses } from "./compile.mjs"
 import { parseCss } from "./css.mjs"
 import { canonicalJson, hashComponent } from "./hash.mjs"
+import { emitCatalogLayout } from "./catalog-layout.mjs"
 import { loadTheme } from "./theme.mjs"
 
 /** 2: 셀 밖 `base` 블록이 생겼다 — `@layer base`의 `*` 규칙에서 파생한다(#36). */
@@ -66,9 +67,12 @@ export function buildManifests(components, root) {
     index.push({ component: component.name, hash: doc.hash, path: file, cells: doc.cells.length })
   }
 
+  index.sort((a, b) => a.component.localeCompare(b.component))
   files.set(
     "index.gen.json",
-    canonicalJson({ schemaVersion: SCHEMA_VERSION, components: index.sort((a, b) => a.component.localeCompare(b.component)) })
+    canonicalJson({ schemaVersion: SCHEMA_VERSION, components: index })
   )
+  files.set("catalog-layout-check.gen.js", emitCatalogLayout(index, "check"))
+  files.set("catalog-layout-sync.gen.js", emitCatalogLayout(index, "sync"))
   return files
 }
