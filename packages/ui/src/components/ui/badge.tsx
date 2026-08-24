@@ -20,5 +20,6 @@ const componentContract = {
   publicExports: ["Badge", "badgeVariants", "badgeVariantsConfig"],
   config: badgeVariantsConfig, className: (props: Record<string, string>) => cn(badgeVariants(props)),
   anatomy: ["Badge"], configurationStates: {},
+  reference: { example: "badge", guidance: { use: "짧은 분류와 상태를 보조한다.", evidence: "매수·매도, 시장, 손익 의미를 neutral·accent·success·danger에 소비처가 매핑한다.", limits: "도메인 값을 variant 이름으로 추가하지 않는다." } },
 } as const
 export { Badge, badgeVariants, badgeVariantsConfig, componentContract }

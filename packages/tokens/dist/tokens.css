@@ -98,6 +98,30 @@
   --ds-palette-success-dark-10: #569e65;
   --ds-palette-success-dark-11: #9cd8a6;
   --ds-palette-success-dark-12: #cef3d3;
+  --ds-palette-warning-light-1: #fdfdfc;
+  --ds-palette-warning-light-2: #faf8f4;
+  --ds-palette-warning-light-3: #f4eddf;
+  --ds-palette-warning-light-4: #efe0bf;
+  --ds-palette-warning-light-5: #efd499;
+  --ds-palette-warning-light-6: #f2ce7d;
+  --ds-palette-warning-light-7: #f3c65e;
+  --ds-palette-warning-light-8: #ebbb44;
+  --ds-palette-warning-light-9: #eab308;
+  --ds-palette-warning-light-10: #b7902c;
+  --ds-palette-warning-light-11: #665019;
+  --ds-palette-warning-light-12: #3f3110;
+  --ds-palette-warning-dark-1: #0e0c07;
+  --ds-palette-warning-dark-2: #19140b;
+  --ds-palette-warning-dark-3: #241d0e;
+  --ds-palette-warning-dark-4: #2f250e;
+  --ds-palette-warning-dark-5: #45350e;
+  --ds-palette-warning-dark-6: #523e09;
+  --ds-palette-warning-dark-7: #775a0a;
+  --ds-palette-warning-dark-8: #be931f;
+  --ds-palette-warning-dark-9: #eab308;
+  --ds-palette-warning-dark-10: #edc467;
+  --ds-palette-warning-dark-11: #f4e2ba;
+  --ds-palette-warning-dark-12: #f8f1e2;
   --ds-palette-base-white: #ffffff;
   --ds-palette-base-black: #000000;
   --ds-palette-alpha-white-10: #ffffff1a;
@@ -118,15 +142,19 @@
   --ds-bg-danger-solid: var(--ds-palette-danger-light-9);
   --ds-bg-success-soft: var(--ds-palette-success-light-3);
   --ds-bg-success-solid: var(--ds-palette-success-light-9);
+  --ds-bg-warning-soft: var(--ds-palette-warning-light-3);
+  --ds-bg-warning-solid: var(--ds-palette-warning-light-9);
   --ds-bg-inverse: var(--ds-palette-neutral-light-12);
   --ds-bg-scrim: var(--ds-palette-alpha-black-50);
   --ds-fg-default: var(--ds-palette-neutral-light-12);
   --ds-fg-muted: var(--ds-palette-neutral-light-10);
   --ds-fg-on-solid: var(--ds-palette-base-white);
   --ds-fg-on-inverse: var(--ds-palette-neutral-light-1);
+  --ds-fg-on-warning: var(--ds-palette-base-black);
   --ds-fg-accent: var(--ds-palette-brand-light-10);
   --ds-fg-danger: var(--ds-palette-danger-light-10);
   --ds-fg-success: var(--ds-palette-success-light-10);
+  --ds-fg-warning: var(--ds-palette-warning-light-11);
   --ds-fg-link: var(--ds-palette-brand-light-10);
   --ds-border-default: var(--ds-palette-neutral-light-6);
   --ds-border-field: var(--ds-palette-neutral-light-7);
@@ -180,6 +208,10 @@
   --success-foreground: var(--ds-fg-on-solid);
   --success-soft: var(--ds-bg-success-soft);
   --success-text: var(--ds-fg-success);
+  --warning: var(--ds-bg-warning-solid);
+  --warning-foreground: var(--ds-fg-on-warning);
+  --warning-soft: var(--ds-bg-warning-soft);
+  --warning-text: var(--ds-fg-warning);
   --link: var(--ds-fg-link);
   --radius: 0.625rem;
 }
@@ -198,15 +230,19 @@
   --ds-bg-danger-solid: var(--ds-palette-danger-dark-9);
   --ds-bg-success-soft: var(--ds-palette-success-dark-3);
   --ds-bg-success-solid: var(--ds-palette-success-dark-9);
+  --ds-bg-warning-soft: var(--ds-palette-warning-dark-3);
+  --ds-bg-warning-solid: var(--ds-palette-warning-dark-9);
   --ds-bg-inverse: var(--ds-palette-neutral-dark-12);
   --ds-bg-scrim: var(--ds-palette-alpha-black-50);
   --ds-fg-default: var(--ds-palette-neutral-dark-12);
   --ds-fg-muted: var(--ds-palette-neutral-dark-10);
   --ds-fg-on-solid: var(--ds-palette-base-white);
   --ds-fg-on-inverse: var(--ds-palette-neutral-dark-1);
+  --ds-fg-on-warning: var(--ds-palette-base-black);
   --ds-fg-accent: var(--ds-palette-brand-dark-10);
   --ds-fg-danger: var(--ds-palette-danger-dark-10);
   --ds-fg-success: var(--ds-palette-success-dark-10);
+  --ds-fg-warning: var(--ds-palette-warning-dark-10);
   --ds-fg-link: var(--ds-palette-brand-dark-10);
   --ds-border-default: var(--ds-palette-alpha-white-10);
   --ds-border-field: var(--ds-palette-alpha-white-15);
@@ -258,6 +294,10 @@
   --success-foreground: var(--ds-fg-on-solid);
   --success-soft: var(--ds-bg-success-soft);
   --success-text: var(--ds-fg-success);
+  --warning: var(--ds-bg-warning-solid);
+  --warning-foreground: var(--ds-fg-on-warning);
+  --warning-soft: var(--ds-bg-warning-soft);
+  --warning-text: var(--ds-fg-warning);
   --link: var(--ds-fg-link);
 }
 
@@ -304,6 +344,10 @@
   --color-success-foreground: var(--success-foreground);
   --color-success-soft: var(--success-soft);
   --color-success-text: var(--success-text);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-text: var(--warning-text);
   --color-link: var(--link);
 
   /* 타이포 — 사이즈 사다리는 Tailwind 기본과 같아 덮지 않는다 */

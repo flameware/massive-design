@@ -72,11 +72,10 @@ test('중첩 .dark에서 alias 원본 전부가 루트 다크와 같은 값이 �
   assert.equal(alias.length, expected)
   for (const name of alias) assert.equal(nestedDark.get(name), rootDark.get(name), name)
 
-  // 결함이 반만 보였던 이유: 10개는 두 모드가 같은 hex다(9단 키 앵커의 solid 4종과
-  // 그 위의 흰 글자, 그리고 그것을 가리키는 ring). 실제로 잘못 뒤집히던 건 24개였고,
-  // #37이 더한 --link와 #54의 focus-contrast가 모드별로 갈리는 단이다.
+  // 모드별 alias 값이 갈리는 전량을 감시한다. #82의 warning은 solid와 전용 검정
+  // 전경이 모드 공통이고, soft/text가 모드별로 갈린다.
   const flips = alias.filter((n) => rootDark.get(n) !== light.get(n))
-  assert.equal(flips.length, 32)
+  assert.equal(flips.length, 34)
   for (const name of flips) assert.notEqual(nestedDark.get(name), light.get(name), name)
 })
 

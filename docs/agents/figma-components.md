@@ -148,11 +148,35 @@ Title Case(`Variant=Destructive`)를 쓰지 않는 이유:
 
 ⚠️ variant property는 API가 아니라 **자식 컴포넌트의 `name` 문자열**이다([#20](https://github.com/flameware/massive-design/issues/20)). 위 표의 셋째 열이 실제로 노드에 적히는 것이고, 그래서 이 규약은 **문자열 규약**이다.
 
-### 6.1 상태는 축이 아니다
+### 6.1 축 없는 단일 variant도 `variant=default`로 이름 붙인다
+
+매니페스트의 `axes`가 비어 있고 셀이 하나뿐이어도 Figma component set의 유일한
+자식 이름은 반드시 `variant=default`다. `combineAsVariants([component], page)` 전에
+자식 이름을 `default`처럼 값만 적거나 비워 두면 Figma가 이를 `=`로 정규화할 수
+있다. 이 상태는 `variantProperties`와 `componentPropertyDefinitions` getter를
+throw하게 만들고 Library publish에서 **Corrupt layer names**로 거부된다.
+
+이 `variant` 축은 코드의 공개 variant가 아니라 Figma component set을 유효하게
+유지하기 위한 합성 축이다. 따라서 매니페스트 `axes`나 세대 해시에는 추가하지
+않는다. 기존 단일 variant 자산을 고칠 때는 세트를 재생성하지 말고 같은 자식
+컴포넌트의 이름만 `variant=default`로 제자리 수정해 원격 인스턴스 연결을 보존한다.
+
+주입 뒤에는 이름 문자열만 보지 말고 두 getter가 실제로 읽히는지 확인한다:
+
+```js
+const child = set.children[0]
+if (child.name !== "variant=default") throw new Error("invalid single variant name")
+if (child.variantProperties?.variant !== "default") throw new Error("invalid variant property")
+if (set.componentPropertyDefinitions.variant?.defaultValue !== "default") {
+  throw new Error("invalid component property definition")
+}
+```
+
+### 6.2 상태는 축이 아니다
 
 [#24](https://github.com/flameware/massive-design/issues/24)가 확정했다 — hover/pressed/disabled는 **컴포넌트 세트의 축이 아니다.** 정적 시안은 hover를 꺼내지 않는다. 상태는 **컴포넌트별 견본 한 장**(매니페스트에서 생성)으로만 보인다.
 
-### 6.2 아이콘 슬롯 — leading 고정, 조합은 만들지 않는다
+### 6.3 아이콘 슬롯 — leading 고정, 조합은 만들지 않는다
 
 `cva`는 children에 대해 아무 말도 하지 않으므로 규약이 필요하다.
 

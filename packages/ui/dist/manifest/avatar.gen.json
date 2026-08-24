@@ -1,0 +1,212 @@
+{
+  "anatomy": [
+    "Avatar",
+    "AvatarImage?",
+    "AvatarFallback"
+  ],
+  "axes": {
+    "size": [
+      "sm",
+      "default",
+      "lg"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "relative flex shrink-0 overflow-hidden rounded-full size-6 text-xs",
+      "properties": {
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "height": {
+          "from": "size-6",
+          "multiple": 6,
+          "px": 24,
+          "scale": "space.6",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "overflow": {
+          "from": "overflow-hidden",
+          "tier": "literal",
+          "value": "hidden"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "width": {
+          "from": "size-6",
+          "multiple": 6,
+          "px": 24,
+          "scale": "space.6",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "sm",
+      "state": null
+    },
+    {
+      "className": "relative flex shrink-0 overflow-hidden rounded-full size-8 text-sm",
+      "properties": {
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "height": {
+          "from": "size-8",
+          "multiple": 8,
+          "px": 32,
+          "scale": "space.8",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "overflow": {
+          "from": "overflow-hidden",
+          "tier": "literal",
+          "value": "hidden"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "width": {
+          "from": "size-8",
+          "multiple": 8,
+          "px": 32,
+          "scale": "space.8",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "default",
+      "state": null
+    },
+    {
+      "className": "relative flex shrink-0 overflow-hidden rounded-full size-10 text-base",
+      "properties": {
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-base",
+          "px": 16,
+          "scale": "type.size.base",
+          "tier": "token",
+          "token": "--text-base"
+        },
+        "height": {
+          "from": "size-10",
+          "multiple": 10,
+          "px": 40,
+          "scale": "space.10",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "line-height": {
+          "from": "text-base",
+          "tier": "token",
+          "token": "--text-base--line-height",
+          "value": "1.6"
+        },
+        "overflow": {
+          "from": "overflow-hidden",
+          "tier": "literal",
+          "value": "hidden"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "width": {
+          "from": "size-10",
+          "multiple": 10,
+          "px": 40,
+          "scale": "space.10",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "size": "lg",
+      "state": null
+    }
+  ],
+  "component": "avatar",
+  "configurationStates": {
+    "source": [
+      "image",
+      "fallback"
+    ]
+  },
+  "defaults": {
+    "size": "default"
+  },
+  "hash": "a03c4ba9bb2a",
+  "reference": {
+    "example": "avatar",
+    "guidance": {
+      "evidence": "투자 기록의 작성자나 연결된 증권 계정을 목록과 활동 내역에서 빠르게 구별해야 한다.",
+      "limits": "이미지만으로 이름을 전달하지 말고 주변 텍스트나 접근 가능한 이름을 제공하며, 장식 이미지에는 빈 대체 텍스트를 사용한다.",
+      "use": "사람이나 계정을 작은 원형 이미지로 식별하고 이미지가 없거나 실패하면 안정적인 fallback을 표시한다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/avatar.tsx"
+}

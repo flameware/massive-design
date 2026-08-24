@@ -1,0 +1,93 @@
+{
+  "anatomy": [
+    "RadioGroup",
+    "RadioGroupItem*",
+    "Indicator"
+  ],
+  "axes": {
+    "orientation": [
+      "vertical",
+      "horizontal"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "outline-none grid gap-3",
+      "orientation": "vertical",
+      "properties": {
+        "display": {
+          "from": "grid",
+          "tier": "literal",
+          "value": "grid"
+        },
+        "gap": {
+          "from": "gap-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "state": null
+    },
+    {
+      "className": "outline-none flex flex-wrap items-center gap-4",
+      "orientation": "horizontal",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-wrap": {
+          "from": "flex-wrap",
+          "tier": "literal",
+          "value": "wrap"
+        },
+        "gap": {
+          "from": "gap-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "radio-group",
+  "configurationStates": {
+    "checked": [
+      "unchecked",
+      "checked"
+    ]
+  },
+  "defaults": {
+    "orientation": "vertical"
+  },
+  "hash": "acaf77f3dfa2",
+  "reference": {
+    "example": "radio-group",
+    "guidance": {
+      "evidence": "투자 계좌와 거래 유형처럼 한 번에 하나만 유효한 선택이 필요하다.",
+      "limits": "선택지 데이터와 제출 모델은 소비처가 소유한다.",
+      "use": "서로 배타적인 선택지에서 값 하나를 고른다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/radio-group.tsx"
+}

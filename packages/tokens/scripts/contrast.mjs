@@ -18,7 +18,9 @@ const MODES = ['light', 'dark']
 
 /** 면 — 텍스트가 놓일 수 있는 배경. */
 const SURFACES = ['bg.canvas', 'bg.surface', 'bg.subtle', 'bg.inset', 'bg.overlay']
-const SOFTS = { accent: 'bg.accent.soft', danger: 'bg.danger.soft', success: 'bg.success.soft' }
+const SOFTS = {
+  accent: 'bg.accent.soft', danger: 'bg.danger.soft', success: 'bg.success.soft', warning: 'bg.warning.soft',
+}
 
 /** [전경, 배경] — 텍스트. 4.5:1 게이트. */
 const TEXT_PAIRS = [
@@ -27,13 +29,14 @@ const TEXT_PAIRS = [
   ['fg.default', 'bg.neutral.soft'],
   ['fg.muted', 'bg.neutral.soft'],
   // 유채 텍스트는 중립 면 + 자기 패밀리의 soft 위에서만 쓴다
-  ...['accent', 'danger', 'success'].flatMap((f) => [
+  ...['accent', 'danger', 'success', 'warning'].flatMap((f) => [
     [`fg.${f}`, 'bg.canvas'], [`fg.${f}`, 'bg.surface'], [`fg.${f}`, 'bg.subtle'],
     [`fg.${f}`, SOFTS[f]],
   ]),
   ['fg.link', 'bg.canvas'], ['fg.link', 'bg.surface'], ['fg.link', 'bg.subtle'],
-  // 단일 on-solid 토큰이 4패밀리 solid 전부에서 성립하는지 — 최저값이 여기서 나온다
+  // 흰 on-solid는 어두운 4패밀리에 공유한다. 밝은 warning은 전용 검정 전경을 쓴다.
   ...['neutral', 'accent', 'danger', 'success'].map((f) => ['fg.on-solid', `bg.${f}.solid`]),
+  ['fg.on-warning', 'bg.warning.solid'],
   ['fg.on-inverse', 'bg.inverse'],
 ]
 

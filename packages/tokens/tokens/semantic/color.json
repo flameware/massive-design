@@ -140,6 +140,28 @@
           }
         }
       },
+      "warning": {
+        "soft": {
+          "$type": "color",
+          "$value": "{palette.warning.light.3}",
+          "$description": "연한 경고 배경",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.warning.dark.3}"
+            }
+          }
+        },
+        "solid": {
+          "$type": "color",
+          "$value": "{palette.warning.light.9}",
+          "$description": "경고 채움. 밝은 yellow 계열이라 fg.on-solid가 아니라 fg.on-warning과 짝을 이룬다",
+          "$extensions": {
+            "org.primer.overrides": {
+              "dark": "{palette.warning.dark.9}"
+            }
+          }
+        }
+      },
       "inverse": {
         "$type": "color",
         "$value": "{palette.neutral.light.12}",
@@ -180,7 +202,7 @@
       "on-solid": {
         "$type": "color",
         "$value": "{palette.base.white}",
-        "$description": "모든 *.solid 배경 위 전경. 4패밀리 solid 위에서 CR 4.80~5.41로 단일 토큰이 성립한다"
+        "$description": "neutral/accent/danger/success solid 위 전경. 네 배경에서 CR 4.80~5.41이며 밝은 warning solid는 fg.on-warning을 쓴다"
       },
       "on-inverse": {
         "$type": "color",
@@ -191,6 +213,11 @@
             "dark": "{palette.neutral.dark.1}"
           }
         }
+      },
+      "on-warning": {
+        "$type": "color",
+        "$value": "{palette.base.black}",
+        "$description": "bg.warning.solid 위 전경. warning 9는 밝아서 흰색 전경이 AA를 충족하지 못하므로 검정을 별도 계약으로 둔다"
       },
       "accent": {
         "$type": "color",
@@ -219,6 +246,16 @@
         "$extensions": {
           "org.primer.overrides": {
             "dark": "{palette.success.dark.10}"
+          }
+        }
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{palette.warning.light.11}",
+        "$description": "경고 텍스트. 라이트는 AA를 위해 11단, 다크는 밝은 10단을 사용한다",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.warning.dark.10}"
           }
         }
       },

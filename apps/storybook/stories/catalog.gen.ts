@@ -1,6 +1,106 @@
 /* GENERATED from @massive/ui manifests. Do not edit. */
 export const catalog = [
   {
+    "component": "alert",
+    "displayName": "Alert",
+    "hash": "084e3cca70c4",
+    "cells": 4,
+    "axes": {
+      "variant": [
+        "default",
+        "success",
+        "warning",
+        "destructive"
+      ]
+    },
+    "anatomy": [
+      "Alert",
+      "AlertTitle?",
+      "AlertDescription"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "alert",
+      "guidance": {
+        "evidence": "투자 데이터 동기화 결과와 가격 지연 경고를 성공·warning·danger 의미로 구별해야 한다.",
+        "limits": "잠깐 나타나는 작업 결과에는 Toast를 사용하고, 모든 안내를 role=alert로 반복해 쌓지 않는다.",
+        "use": "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/alert.tsx"
+  },
+  {
+    "component": "alert-dialog",
+    "displayName": "Alert Dialog",
+    "hash": "ff95c8d6a7c2",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "AlertDialog",
+      "AlertDialogTrigger",
+      "AlertDialogPortal",
+      "AlertDialogOverlay",
+      "AlertDialogContent",
+      "AlertDialogHeader?",
+      "AlertDialogTitle",
+      "AlertDialogDescription",
+      "AlertDialogFooter",
+      "AlertDialogCancel",
+      "AlertDialogAction"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "alert-dialog",
+      "guidance": {
+        "evidence": "투자 거래 삭제는 기록과 손익 계산에 영향을 주므로 실행과 취소의 의미를 분리해 확인해야 한다.",
+        "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다.",
+        "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/alert-dialog.tsx"
+  },
+  {
+    "component": "avatar",
+    "displayName": "Avatar",
+    "hash": "a03c4ba9bb2a",
+    "cells": 3,
+    "axes": {
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ]
+    },
+    "anatomy": [
+      "Avatar",
+      "AvatarImage?",
+      "AvatarFallback"
+    ],
+    "configurationStates": {
+      "source": [
+        "image",
+        "fallback"
+      ]
+    },
+    "reference": {
+      "example": "avatar",
+      "guidance": {
+        "evidence": "투자 기록의 작성자나 연결된 증권 계정을 목록과 활동 내역에서 빠르게 구별해야 한다.",
+        "limits": "이미지만으로 이름을 전달하지 말고 주변 텍스트나 접근 가능한 이름을 제공하며, 장식 이미지에는 빈 대체 텍스트를 사용한다.",
+        "use": "사람이나 계정을 작은 원형 이미지로 식별하고 이미지가 없거나 실패하면 안정적인 fallback을 표시한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/avatar.tsx"
+  },
+  {
     "component": "badge",
     "displayName": "Badge",
     "hash": "37c940c4d831",
@@ -17,6 +117,14 @@ export const catalog = [
       "Badge"
     ],
     "configurationStates": {},
+    "reference": {
+      "example": "badge",
+      "guidance": {
+        "evidence": "매수·매도, 시장, 손익 의미를 neutral·accent·success·danger에 소비처가 매핑한다.",
+        "limits": "도메인 값을 variant 이름으로 추가하지 않는다.",
+        "use": "짧은 분류와 상태를 보조한다."
+      }
+    },
     "stateSamples": false,
     "source": "src/components/ui/badge.tsx"
   },
@@ -47,6 +155,14 @@ export const catalog = [
     },
     "anatomy": [],
     "configurationStates": {},
+    "reference": {
+      "example": "button",
+      "guidance": {
+        "evidence": "거래 추가와 행 메뉴의 명시적 동작에 필요하다.",
+        "limits": "탐색 링크나 화면 전용 아이콘 API를 대신하지 않는다.",
+        "use": "사용자가 명시적으로 시작하는 동작에 쓴다."
+      }
+    },
     "stateSamples": true,
     "source": "src/components/ui/button.tsx"
   },
@@ -58,6 +174,14 @@ export const catalog = [
     "axes": {},
     "anatomy": [],
     "configurationStates": {},
+    "reference": {
+      "example": "card",
+      "guidance": {
+        "evidence": "투자 이력의 요약 영역에서 기존 Card를 재사용한다.",
+        "limits": "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다.",
+        "use": "관련 콘텐츠를 하나의 표면으로 묶는다."
+      }
+    },
     "stateSamples": false,
     "source": "src/components/ui/card.tsx"
   },
@@ -78,8 +202,51 @@ export const catalog = [
         "indeterminate"
       ]
     },
+    "reference": {
+      "example": "checkbox",
+      "guidance": {
+        "evidence": "투자 이력 Table의 checked·unchecked·indeterminate 구성 상태가 필요하다.",
+        "limits": "선택 모델과 일괄 동작은 소비처 책임이다.",
+        "use": "복수 행 선택과 불확정 전체 선택을 표현한다."
+      }
+    },
     "stateSamples": true,
     "source": "src/components/ui/checkbox.tsx"
+  },
+  {
+    "component": "dialog",
+    "displayName": "Dialog",
+    "hash": "61dd1a514c92",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Dialog",
+      "DialogTrigger",
+      "DialogPortal",
+      "DialogOverlay",
+      "DialogContent",
+      "DialogHeader?",
+      "DialogTitle",
+      "DialogDescription?",
+      "DialogFooter?",
+      "DialogClose?"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "dialog",
+      "guidance": {
+        "evidence": "투자 거래를 추가하거나 편집하는 동안 제목·설명·행동을 한 모달 맥락에 유지해야 한다.",
+        "limits": "파괴적 행동 확인에는 Alert Dialog를 사용하고, 단순 보조 정보에는 Popover를 사용한다.",
+        "use": "현재 흐름을 잠시 멈추고 집중해서 완료할 작업을 연다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/dialog.tsx"
   },
   {
     "component": "dropdown-menu",
@@ -102,8 +269,56 @@ export const catalog = [
         "open"
       ]
     },
+    "reference": {
+      "example": "dropdown-menu",
+      "guidance": {
+        "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하다.",
+        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다.",
+        "use": "현재 맥락에 속하는 보조 동작을 묶는다."
+      }
+    },
     "stateSamples": false,
     "source": "src/components/ui/dropdown-menu.tsx"
+  },
+  {
+    "component": "field",
+    "displayName": "Field",
+    "hash": "2c6116855f68",
+    "cells": 3,
+    "axes": {
+      "orientation": [
+        "vertical",
+        "horizontal",
+        "responsive"
+      ]
+    },
+    "anatomy": [
+      "Field",
+      "FieldLabel",
+      "Control",
+      "FieldDescription?",
+      "FieldError?",
+      "FieldContent?",
+      "FieldGroup?",
+      "FieldSet?",
+      "FieldLegend?"
+    ],
+    "configurationStates": {
+      "validity": [
+        "valid",
+        "invalid"
+      ]
+    },
+    "reference": {
+      "example": "field",
+      "guidance": {
+        "evidence": "투자 입력 화면의 라벨·메모·검증 메시지를 일관된 구조로 묶어야 한다.",
+        "limits": "폼 상태 관리, 검증 규칙, 제출 동작은 소비처가 소유한다.",
+        "use": "라벨, 컨트롤, 도움말과 오류를 접근 가능한 한 필드로 조립한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/field.tsx"
   },
   {
     "component": "input",
@@ -115,6 +330,14 @@ export const catalog = [
       "Input"
     ],
     "configurationStates": {},
+    "reference": {
+      "example": "input",
+      "guidance": {
+        "evidence": "투자 이력 검색의 접근 가능한 기본 필드가 필요하다.",
+        "limits": "SearchField, 검색 아이콘, debounce는 소비처가 조립한다.",
+        "use": "한 줄 텍스트 값을 입력하거나 검색어를 받는다."
+      }
+    },
     "stateSamples": false,
     "source": "src/components/ui/input.tsx"
   },
@@ -126,6 +349,14 @@ export const catalog = [
     "axes": {},
     "anatomy": [],
     "configurationStates": {},
+    "reference": {
+      "example": "label",
+      "guidance": {
+        "evidence": "검색·필터 컨트롤의 접근 가능한 이름을 제공한다.",
+        "limits": "장식 텍스트에는 사용하지 않는다.",
+        "use": "폼 컨트롤에 사람이 읽는 이름을 연결한다."
+      }
+    },
     "stateSamples": false,
     "source": "src/components/ui/label.tsx"
   },
@@ -150,8 +381,106 @@ export const catalog = [
         "selected"
       ]
     },
+    "reference": {
+      "example": "list-row",
+      "guidance": {
+        "evidence": "데스크톱 Table과 같은 투자 이력을 모바일에서 긴 종목명·날짜·금액·손익으로 표현한다.",
+        "limits": "투자 도메인과 breakpoint 전환을 내장하지 않는다.",
+        "use": "모바일 폭에서 한 항목의 우선 정보와 보조 동작을 조립한다."
+      }
+    },
     "stateSamples": true,
     "source": "src/components/ui/list-row.tsx"
+  },
+  {
+    "component": "popover",
+    "displayName": "Popover",
+    "hash": "2535c4105bf4",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Popover",
+      "PopoverTrigger",
+      "PopoverAnchor?",
+      "PopoverContent"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "popover",
+      "guidance": {
+        "evidence": "투자 기록의 필터 설명과 빠른 설정을 원래 화면 맥락을 떠나지 않고 보여줘야 한다.",
+        "limits": "핵심 작업 흐름이나 긴 양식은 Dialog로 옮기고, 행동 없는 짧은 설명은 Tooltip을 사용한다.",
+        "use": "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/popover.tsx"
+  },
+  {
+    "component": "progress",
+    "displayName": "Progress",
+    "hash": "1861483a3c36",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Progress",
+      "ProgressIndicator"
+    ],
+    "configurationStates": {
+      "value": [
+        "empty",
+        "partial",
+        "complete"
+      ]
+    },
+    "reference": {
+      "example": "progress",
+      "guidance": {
+        "evidence": "투자 내역 가져오기처럼 처리할 전체 항목 수를 아는 작업에 진행률 피드백이 필요하다.",
+        "limits": "완료량을 모르는 대기에는 Spinner를 사용하고 value의 계산이나 진행 상태 문구는 소비처가 제공한다.",
+        "use": "완료량을 알 수 있는 작업의 진행 정도를 0에서 100 사이 값으로 보여준다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/progress.tsx"
+  },
+  {
+    "component": "radio-group",
+    "displayName": "Radio Group",
+    "hash": "acaf77f3dfa2",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "anatomy": [
+      "RadioGroup",
+      "RadioGroupItem*",
+      "Indicator"
+    ],
+    "configurationStates": {
+      "checked": [
+        "unchecked",
+        "checked"
+      ]
+    },
+    "reference": {
+      "example": "radio-group",
+      "guidance": {
+        "evidence": "투자 계좌와 거래 유형처럼 한 번에 하나만 유효한 선택이 필요하다.",
+        "limits": "선택지 데이터와 제출 모델은 소비처가 소유한다.",
+        "use": "서로 배타적인 선택지에서 값 하나를 고른다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/radio-group.tsx"
   },
   {
     "component": "select",
@@ -175,8 +504,122 @@ export const catalog = [
         "open"
       ]
     },
+    "reference": {
+      "example": "select",
+      "guidance": {
+        "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
+        "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다.",
+        "use": "제한된 값 하나를 선택한다."
+      }
+    },
     "stateSamples": false,
     "source": "src/components/ui/select.tsx"
+  },
+  {
+    "component": "separator",
+    "displayName": "Separator",
+    "hash": "5397c850ef60",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    "anatomy": [
+      "Separator"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "separator",
+      "guidance": {
+        "evidence": "투자 요약의 지표 묶음과 거래 상세의 정보 그룹을 구획하되 별도 컨테이너를 추가할 필요는 없다.",
+        "limits": "의미 있는 구역 제목이나 레이아웃 간격을 대신하지 않으며, 보조 기술에 경계를 알려야 할 때만 decorative를 false로 지정한다.",
+        "use": "서로 관련된 콘텐츠 묶음 사이의 시각적 경계를 가로 또는 세로 방향으로 표시한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/separator.tsx"
+  },
+  {
+    "component": "skeleton",
+    "displayName": "Skeleton",
+    "hash": "9c2250c043f6",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Skeleton"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "skeleton",
+      "guidance": {
+        "evidence": "투자 요약 카드와 이력 행을 불러오는 동안 레이아웃 이동을 줄여야 한다.",
+        "limits": "실제 콘텐츠를 그대로 복제하거나 접근성 이름을 부여하지 말고, 로딩 상태는 감싸는 영역이 알린다.",
+        "use": "콘텐츠 구조를 예측할 수 있는 로딩 구간에서 최종 레이아웃과 닮은 자리표시자를 보여준다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/skeleton.tsx"
+  },
+  {
+    "component": "spinner",
+    "displayName": "Spinner",
+    "hash": "5880705d6f03",
+    "cells": 3,
+    "axes": {
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ]
+    },
+    "anatomy": [
+      "Spinner"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "spinner",
+      "guidance": {
+        "evidence": "거래 저장처럼 소요 시간을 예측할 수 없는 비동기 동작에 즉각적인 대기 피드백이 필요하다.",
+        "limits": "완료량을 알 수 있으면 Progress를 쓰고, 장시간 대기의 설명과 취소 동작은 소비처가 별도로 제공한다.",
+        "use": "완료량을 알 수 없는 짧은 대기 상태를 간결하게 표시한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/spinner.tsx"
+  },
+  {
+    "component": "switch",
+    "displayName": "Switch",
+    "hash": "73605238388e",
+    "cells": 2,
+    "axes": {
+      "size": [
+        "sm",
+        "default"
+      ]
+    },
+    "anatomy": [
+      "Switch",
+      "Thumb"
+    ],
+    "configurationStates": {
+      "checked": [
+        "unchecked",
+        "checked"
+      ]
+    },
+    "reference": {
+      "example": "switch",
+      "guidance": {
+        "evidence": "배당 재투자나 알림처럼 현재 활성 여부가 중요한 설정이 필요하다.",
+        "limits": "확인이 필요한 위험 동작이나 세 값 이상의 선택에는 쓰지 않는다.",
+        "use": "즉시 적용되는 이진 설정을 켜거나 끈다."
+      }
+    },
+    "stateSamples": true,
+    "source": "src/components/ui/switch.tsx"
   },
   {
     "component": "table",
@@ -199,7 +642,144 @@ export const catalog = [
         "selected"
       ]
     },
+    "reference": {
+      "example": "table",
+      "guidance": {
+        "evidence": "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.",
+        "limits": "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다.",
+        "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
+      }
+    },
     "stateSamples": false,
     "source": "src/components/ui/table.tsx"
+  },
+  {
+    "component": "tabs",
+    "displayName": "Tabs",
+    "hash": "d6fdc43dd30e",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    "anatomy": [
+      "Tabs",
+      "TabsList",
+      "TabsTrigger*",
+      "TabsContent*"
+    ],
+    "configurationStates": {
+      "selected": [
+        "inactive",
+        "active"
+      ]
+    },
+    "reference": {
+      "example": "tabs",
+      "guidance": {
+        "evidence": "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 한다.",
+        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다.",
+        "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/tabs.tsx"
+  },
+  {
+    "component": "textarea",
+    "displayName": "Textarea",
+    "hash": "7760687906f5",
+    "cells": 3,
+    "axes": {
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ]
+    },
+    "anatomy": [
+      "Textarea"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "textarea",
+      "guidance": {
+        "evidence": "투자 거래의 근거와 회고를 남기는 가변 길이 메모가 필요하다.",
+        "limits": "리치 텍스트 편집, 자동 저장, 글자 수 정책은 소비처가 조립한다.",
+        "use": "여러 줄 메모나 설명을 입력받는다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/textarea.tsx"
+  },
+  {
+    "component": "toast",
+    "displayName": "Toast",
+    "hash": "15536a1ef2f6",
+    "cells": 4,
+    "axes": {
+      "variant": [
+        "default",
+        "success",
+        "warning",
+        "destructive"
+      ]
+    },
+    "anatomy": [
+      "ToastProvider",
+      "ToastViewport",
+      "Toast",
+      "ToastTitle?",
+      "ToastDescription",
+      "ToastAction?",
+      "ToastClose?"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "toast",
+      "guidance": {
+        "evidence": "거래 저장이나 동기화 완료를 현재 맥락을 가리지 않고 확인시켜야 한다.",
+        "limits": "전역 toast 큐와 명령형 호출 API는 소비처가 소유하며, 확인이 필요한 위험 행동에는 Alert Dialog를 사용한다.",
+        "use": "사용자 작업 직후의 짧고 비차단적인 결과를 알리고 필요할 때 한 개의 후속 동작을 제공한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/toast.tsx"
+  },
+  {
+    "component": "tooltip",
+    "displayName": "Tooltip",
+    "hash": "ec053f2fcb72",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "TooltipProvider",
+      "Tooltip",
+      "TooltipTrigger",
+      "TooltipContent"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "tooltip",
+      "guidance": {
+        "evidence": "투자 테이블의 아이콘 전용 작업 버튼이 가리키는 행동을 포인터와 키보드 포커스 모두에 설명해야 한다.",
+        "limits": "필수 정보나 상호작용 요소를 Tooltip 안에만 두지 않는다.",
+        "use": "아이콘이나 축약된 컨트롤의 의미를 짧은 텍스트로 보충한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/tooltip.tsx"
   }
 ] as const

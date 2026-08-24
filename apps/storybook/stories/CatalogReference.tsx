@@ -1,56 +1,69 @@
 import type { ReactNode } from "react"
 import {
-  Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle,
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+  AlertDialogTrigger,
+  Badge, Button, buttonVariants, Card, CardContent, CardDescription, CardHeader, CardTitle,
   Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger, Input, Label, ListRow, ListRowContent,
   ListRowDescription, ListRowMeta, ListRowTitle, ListRowTrailing, Select, SelectContent,
   SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead,
-  TableHeader, TableRow,
+  TableHeader, TableRow, Field, FieldDescription, FieldError, FieldLabel, RadioGroup,
+  RadioGroupItem, Switch, Textarea,
+  Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader,
+  DialogTitle, DialogTrigger, Popover, PopoverContent, PopoverTrigger, Tooltip,
+  TooltipContent, TooltipProvider, TooltipTrigger,
+  Alert, AlertDescription, AlertTitle, Progress, Skeleton, Spinner,
+  Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport,
+  Separator, Tabs, TabsContent, TabsList, TabsTrigger, Avatar, AvatarFallback, AvatarImage,
 } from "@massive/ui"
 import { catalog } from "./catalog.gen"
 
 export type CatalogEntry = (typeof catalog)[number]
 
-const guidance: Record<string, { use: string; evidence: string; limits: string }> = {
-  badge: { use: "짧은 분류와 상태를 보조한다.", evidence: "매수·매도, 시장, 손익 의미를 neutral·accent·success·danger에 소비처가 매핑한다.", limits: "도메인 값을 variant 이름으로 추가하지 않는다." },
-  button: { use: "사용자가 명시적으로 시작하는 동작에 쓴다.", evidence: "거래 추가와 행 메뉴의 명시적 동작에 필요하다.", limits: "탐색 링크나 화면 전용 아이콘 API를 대신하지 않는다." },
-  card: { use: "관련 콘텐츠를 하나의 표면으로 묶는다.", evidence: "투자 이력의 요약 영역에서 기존 Card를 재사용한다.", limits: "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다." },
-  checkbox: { use: "복수 행 선택과 불확정 전체 선택을 표현한다.", evidence: "투자 이력 Table의 checked·unchecked·indeterminate 구성 상태가 필요하다.", limits: "선택 모델과 일괄 동작은 소비처 책임이다." },
-  "dropdown-menu": { use: "현재 맥락에 속하는 보조 동작을 묶는다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하다.", limits: "삭제 확인과 실제 동작 로직은 포함하지 않는다." },
-  input: { use: "한 줄 텍스트 값을 입력하거나 검색어를 받는다.", evidence: "투자 이력 검색의 접근 가능한 기본 필드가 필요하다.", limits: "SearchField, 검색 아이콘, debounce는 소비처가 조립한다." },
-  label: { use: "폼 컨트롤에 사람이 읽는 이름을 연결한다.", evidence: "검색·필터 컨트롤의 접근 가능한 이름을 제공한다.", limits: "장식 텍스트에는 사용하지 않는다." },
-  "list-row": { use: "모바일 폭에서 한 항목의 우선 정보와 보조 동작을 조립한다.", evidence: "데스크톱 Table과 같은 투자 이력을 모바일에서 긴 종목명·날짜·금액·손익으로 표현한다.", limits: "투자 도메인과 breakpoint 전환을 내장하지 않는다." },
-  select: { use: "제한된 값 하나를 선택한다.", evidence: "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.", limits: "필터 모델과 화면 전용 라벨을 내장하지 않는다." },
-  table: { use: "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다.", evidence: "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.", limits: "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다." },
-}
-
 function InvestmentTable() {
   return <Table><TableHeader><TableRow><TableHead>종목</TableHead><TableHead>거래일</TableHead><TableHead>금액</TableHead><TableHead>손익</TableHead></TableRow></TableHeader><TableBody><TableRow data-state="selected"><TableCell>삼성전자 우선주</TableCell><TableCell>2026. 08. 21.</TableCell><TableCell>₩12,450,000</TableCell><TableCell className="text-success-text">+₩820,000</TableCell></TableRow><TableRow><TableCell>미래에셋 TIGER 미국S&amp;P500</TableCell><TableCell>2026. 08. 18.</TableCell><TableCell>₩4,230,000</TableCell><TableCell className="text-destructive-text">−₩115,000</TableCell></TableRow></TableBody></Table>
 }
 
-function Preview({ name, selection = {} }: { name: string; selection?: Record<string, string> }) {
+function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["example"]; selection?: Record<string, string> }) {
   const variant = selection.variant as never
   const size = selection.size as never
   const selected = selection.row === "selected"
-  const previews: Record<string, ReactNode> = {
+  const previews: Record<CatalogEntry["reference"]["example"], ReactNode> = {
+    alert: <Alert variant={variant}><AlertTitle>가격 정보가 지연되고 있습니다</AlertTitle><AlertDescription>마지막으로 확인한 가격을 기준으로 평가금액을 표시합니다.</AlertDescription></Alert>,
+    avatar: <div className="flex items-center gap-3"><Avatar size={size}><AvatarImage src={selection.source === "image" ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%2364748b'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%23f8fafc'/%3E%3Cpath d='M18 94c3-22 15-34 30-34s27 12 30 34' fill='%23f8fafc'/%3E%3C/svg%3E" : undefined} alt=""/><AvatarFallback>SK</AvatarFallback></Avatar><span>김서경</span></div>,
+    "alert-dialog": <AlertDialog defaultOpen={selection.open === "open"}><AlertDialogTrigger asChild><Button variant="destructive">거래 삭제</Button></AlertDialogTrigger><AlertDialogContent><AlertDialogHeader><AlertDialogTitle>이 거래를 삭제할까요?</AlertDialogTitle><AlertDialogDescription>삭제하면 이 거래가 투자 기록과 손익 계산에서 제거됩니다. 이 작업은 되돌릴 수 없습니다.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>취소</AlertDialogCancel><AlertDialogAction className={buttonVariants({ variant: "destructive" })}>삭제</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog>,
     badge: <Badge variant={variant}>수익</Badge>, button: <Button variant={variant} size={size}>거래 추가</Button>,
     card: <Card className="max-w-sm"><CardHeader><CardTitle>투자 요약</CardTitle><CardDescription>2026년 누적 투자 기록</CardDescription></CardHeader><CardContent>총 평가금액 ₩16,680,000</CardContent></Card>,
     checkbox: <div className="flex items-center gap-2"><Checkbox checked={selection.checked === "indeterminate" ? "indeterminate" : selection.checked === "checked"} id="row-check"/><Label htmlFor="row-check">삼성전자 우선주 선택</Label></div>,
     "dropdown-menu": <DropdownMenu defaultOpen={selection.open === "open"}><DropdownMenuTrigger asChild><Button variant="outline">행 작업</Button></DropdownMenuTrigger><DropdownMenuContent><DropdownMenuLabel>거래 관리</DropdownMenuLabel><DropdownMenuItem>수정</DropdownMenuItem><DropdownMenuSeparator/><DropdownMenuItem>삭제</DropdownMenuItem></DropdownMenuContent></DropdownMenu>,
+    dialog: <Dialog defaultOpen={selection.open === "open"}><DialogTrigger asChild><Button>거래 추가</Button></DialogTrigger><DialogContent><DialogHeader><DialogTitle>거래 추가</DialogTitle><DialogDescription>새 투자 거래의 기본 정보를 입력합니다.</DialogDescription></DialogHeader><p>종목, 거래일, 금액을 입력하는 양식이 여기에 놓입니다.</p><DialogFooter><DialogClose asChild><Button variant="outline">취소</Button></DialogClose><Button>저장</Button></DialogFooter></DialogContent></Dialog>,
+    field: <Field orientation={selection.orientation as "vertical" | "horizontal" | "responsive"} data-invalid={selection.validity === "invalid" || undefined} className="max-w-sm"><FieldLabel htmlFor="field-symbol">종목명</FieldLabel><Input id="field-symbol" aria-invalid={selection.validity === "invalid" || undefined} placeholder="예: 삼성전자"/><FieldDescription>거래한 종목의 정식 이름을 입력하세요.</FieldDescription>{selection.validity === "invalid" && <FieldError>종목명을 입력하세요.</FieldError>}</Field>,
     input: <div className="max-w-sm"><Label htmlFor="search">투자 이력 검색</Label><Input id="search" placeholder="종목명 또는 메모"/></div>,
     label: <Label htmlFor="label-sample">거래 메모</Label>,
     "list-row": <ListRow data-state={selected ? "selected" : undefined} className="max-w-lg"><ListRowContent><ListRowTitle>미래에셋 TIGER 미국S&amp;P500</ListRowTitle><ListRowDescription>2026. 08. 18. · 매수</ListRowDescription></ListRowContent><ListRowMeta>₩4,230,000</ListRowMeta><ListRowTrailing className="text-destructive-text">−₩115,000</ListRowTrailing></ListRow>,
+    popover: <Popover defaultOpen={selection.open === "open"}><PopoverTrigger asChild><Button variant="outline">필터 도움말</Button></PopoverTrigger><PopoverContent><p className="font-medium">시장 필터</p><p className="text-sm text-muted-foreground">선택한 시장의 거래만 투자 이력에 표시합니다.</p></PopoverContent></Popover>,
+    progress: <div className="max-w-sm"><p className="mb-2 text-sm">투자 내역 가져오는 중</p><Progress value={selection.value === "empty" ? 0 : selection.value === "complete" ? 100 : 64} aria-label="투자 내역 가져오기 진행률" /></div>,
     select: <Select defaultOpen={selection.open === "open"}><SelectTrigger aria-label="시장 필터" className="max-w-xs"><SelectValue placeholder="시장 선택"/></SelectTrigger><SelectContent><SelectItem value="kr">국내</SelectItem><SelectItem value="us">미국</SelectItem></SelectContent></Select>,
+    separator: <div className={selection.orientation === "vertical" ? "flex h-12 items-center gap-4" : "grid max-w-sm gap-3"}><span>보유 현황</span><Separator orientation={selection.orientation as "horizontal" | "vertical"}/><span>거래 내역</span></div>,
+    skeleton: <div className="flex max-w-sm items-center gap-3" role="status" aria-label="투자 요약 불러오는 중"><Skeleton className="size-10 rounded-full"/><div className="flex-1"><Skeleton className="mb-2 h-4 w-2/3"/><Skeleton className="h-4 w-full"/></div></div>,
+    spinner: <Spinner size={size} />,
+    "radio-group": <RadioGroup orientation={selection.orientation as "vertical" | "horizontal"} defaultValue={selection.checked === "checked" ? "buy" : "sell"} aria-label="거래 유형"><div className="flex items-center gap-2"><RadioGroupItem value="buy" id="trade-buy"/><Label htmlFor="trade-buy">매수</Label></div><div className="flex items-center gap-2"><RadioGroupItem value="sell" id="trade-sell"/><Label htmlFor="trade-sell">매도</Label></div></RadioGroup>,
+    switch: <div className="flex items-center gap-2"><Switch id="reinvest" size={size} defaultChecked={selection.checked === "checked"}/><Label htmlFor="reinvest">배당 자동 재투자</Label></div>,
+    tabs: <Tabs orientation={selection.orientation as "horizontal" | "vertical"} defaultValue={selection.selected === "active" ? "history" : "holdings"} className="max-w-lg"><TabsList aria-label="투자 상세 보기"><TabsTrigger value="holdings">보유 현황</TabsTrigger><TabsTrigger value="history">거래 내역</TabsTrigger></TabsList><TabsContent value="holdings">현재 보유 종목과 평가금액입니다.</TabsContent><TabsContent value="history">최근 거래 기록입니다.</TabsContent></Tabs>,
     table: <InvestmentTable/>,
+    textarea: <Field className="max-w-sm"><FieldLabel htmlFor="trade-note">거래 메모</FieldLabel><Textarea id="trade-note" size={size} placeholder="판단 근거를 남겨보세요"/><FieldDescription>다음 회고에서 확인할 수 있습니다.</FieldDescription></Field>,
+    tooltip: <TooltipProvider><Tooltip defaultOpen={selection.open === "open"}><TooltipTrigger asChild><Button size="icon" variant="outline" aria-label="수익률 계산 방식">?</Button></TooltipTrigger><TooltipContent>매입 금액을 기준으로 계산합니다.</TooltipContent></Tooltip></TooltipProvider>,
+    toast: <ToastProvider><Toast open={selection.open === "open"} variant={variant}><div><ToastTitle>거래를 저장했습니다</ToastTitle><ToastDescription>삼성전자 우선주 매수 기록이 추가되었습니다.</ToastDescription></div><ToastAction altText="저장한 거래 보기">보기</ToastAction><ToastClose/></Toast><ToastViewport/></ToastProvider>,
   }
-  return previews[name] ?? null
+  return previews[name]
 }
 
 export function CatalogReference({ entry, selection = {} }: { entry: CatalogEntry; selection?: Record<string, string> }) {
-  const guide = guidance[entry.component]!
+  const guide = entry.reference.guidance
   return <main className="mx-auto grid max-w-5xl gap-6 p-4">
     <header><p className="text-sm text-muted-foreground">GENERATED · do not edit · manifest {entry.hash}</p><h1 className="text-3xl font-semibold">{entry.displayName}</h1><p>{entry.cells} combination(s) · source <code>{entry.source}</code></p></header>
-    <section className="rounded-lg border bg-card p-5"><h2 className="mb-4 text-xl font-semibold">Executable reference</h2><Preview name={entry.component} selection={selection}/></section>
+    <section className="rounded-lg border bg-card p-5"><h2 className="mb-4 text-xl font-semibold">Executable reference</h2><Preview name={entry.reference.example} selection={selection}/></section>
     <section className="rounded-lg border p-5"><h2 className="text-xl font-semibold">Generated contract</h2><p><strong>Anatomy:</strong> {entry.anatomy.join(" · ")}</p><p><strong>Axes:</strong> {Object.entries(entry.axes).map(([axis, values]) => `${axis}: ${values.join(" | ")}`).join("; ") || "none"}</p><p><strong>Configuration states:</strong> {Object.entries(entry.configurationStates).map(([axis, values]) => `${axis}: ${values.join(" | ")}`).join("; ") || "none"}</p><p><strong>Required samples:</strong> Light · Dark{entry.stateSamples ? " · hover · pressed · disabled" : ""}</p></section>
     <section className="rounded-lg border p-5"><p className="text-sm text-muted-foreground">AUTHORED · review judgment here</p><h2 className="text-xl font-semibold">Usage and provenance</h2><p><strong>Use:</strong> {guide.use}</p><p><strong>Invest Diary evidence:</strong> {guide.evidence}</p><p><strong>Boundary:</strong> {guide.limits}</p></section>
   </main>

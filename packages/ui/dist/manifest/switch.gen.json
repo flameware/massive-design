@@ -1,0 +1,228 @@
+{
+  "anatomy": [
+    "Switch",
+    "Thumb"
+  ],
+  "axes": {
+    "size": [
+      "sm",
+      "default"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "state [--ds-state-base:var(--secondary)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-4 w-7 [&_[data-slot=switch-thumb]]:size-3 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-3",
+      "properties": {
+        "[&_[data-slot=switch-thumb]]:data-[state=checked]:--tw-translate-x": {
+          "from": "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-3",
+          "tier": "unresolved",
+          "value": "calc(0.25rem * 3)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]:data-[state=checked]를 아직 다루지 않는다"
+        },
+        "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate": {
+          "from": "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-3",
+          "tier": "unresolved",
+          "value": "var(--tw-translate-x) var(--tw-translate-y)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]:data-[state=checked]를 아직 다루지 않는다"
+        },
+        "[&_[data-slot=switch-thumb]]:height": {
+          "from": "[&_[data-slot=switch-thumb]]:size-3",
+          "tier": "unresolved",
+          "value": "calc(0.25rem * 3)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]를 아직 다루지 않는다"
+        },
+        "[&_[data-slot=switch-thumb]]:width": {
+          "from": "[&_[data-slot=switch-thumb]]:size-3",
+          "tier": "unresolved",
+          "value": "calc(0.25rem * 3)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]를 아직 다루지 않는다"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-neutral-soft"
+        },
+        "border-color": {
+          "from": "border-transparent",
+          "tier": "literal",
+          "value": "transparent"
+        },
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "data-[state=checked]:--ds-state-base": {
+          "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
+          "tier": "unresolved",
+          "value": "var(--primary)",
+          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "height": {
+          "from": "h-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-7",
+          "px": 28,
+          "tier": "literal"
+        }
+      },
+      "size": "sm",
+      "state": {
+        "base": "--ds-bg-neutral-soft",
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      }
+    },
+    {
+      "className": "state [--ds-state-base:var(--secondary)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-5 w-9 [&_[data-slot=switch-thumb]]:size-4 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-4",
+      "properties": {
+        "[&_[data-slot=switch-thumb]]:data-[state=checked]:--tw-translate-x": {
+          "from": "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-4",
+          "tier": "unresolved",
+          "value": "calc(0.25rem * 4)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]:data-[state=checked]를 아직 다루지 않는다"
+        },
+        "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate": {
+          "from": "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-4",
+          "tier": "unresolved",
+          "value": "var(--tw-translate-x) var(--tw-translate-y)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]:data-[state=checked]를 아직 다루지 않는다"
+        },
+        "[&_[data-slot=switch-thumb]]:height": {
+          "from": "[&_[data-slot=switch-thumb]]:size-4",
+          "tier": "unresolved",
+          "value": "calc(0.25rem * 4)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]를 아직 다루지 않는다"
+        },
+        "[&_[data-slot=switch-thumb]]:width": {
+          "from": "[&_[data-slot=switch-thumb]]:size-4",
+          "tier": "unresolved",
+          "value": "calc(0.25rem * 4)",
+          "why": "수식자 [&_[data-slot=switch-thumb]]를 아직 다루지 않는다"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "state",
+          "tier": "token",
+          "token": "--ds-bg-neutral-soft"
+        },
+        "border-color": {
+          "from": "border-transparent",
+          "tier": "literal",
+          "value": "transparent"
+        },
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "data-[state=checked]:--ds-state-base": {
+          "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
+          "tier": "unresolved",
+          "value": "var(--primary)",
+          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "height": {
+          "from": "h-5",
+          "multiple": 5,
+          "px": 20,
+          "scale": "space.5",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-9",
+          "px": 36,
+          "tier": "literal"
+        }
+      },
+      "size": "default",
+      "state": {
+        "base": "--ds-bg-neutral-soft",
+        "disabled": 0.5,
+        "hover": 0.08,
+        "layer": "--ds-state-layer",
+        "pressed": 0.12
+      }
+    }
+  ],
+  "component": "switch",
+  "configurationStates": {
+    "checked": [
+      "unchecked",
+      "checked"
+    ]
+  },
+  "defaults": {
+    "size": "default"
+  },
+  "hash": "73605238388e",
+  "reference": {
+    "example": "switch",
+    "guidance": {
+      "evidence": "배당 재투자나 알림처럼 현재 활성 여부가 중요한 설정이 필요하다.",
+      "limits": "확인이 필요한 위험 동작이나 세 값 이상의 선택에는 쓰지 않는다.",
+      "use": "즉시 적용되는 이진 설정을 켜거나 끈다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/switch.tsx"
+}

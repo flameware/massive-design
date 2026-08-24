@@ -321,6 +321,16 @@
     "collection": "semantic",
     "name": "bg/success/solid"
   },
+  "--ds-bg-warning-soft": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/warning/soft"
+  },
+  "--ds-bg-warning-solid": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "bg/warning/solid"
+  },
   "--ds-bg-inverse": {
     "kind": "variable",
     "collection": "semantic",
@@ -351,6 +361,11 @@
     "collection": "semantic",
     "name": "fg/on-inverse"
   },
+  "--ds-fg-on-warning": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/on-warning"
+  },
   "--ds-fg-accent": {
     "kind": "variable",
     "collection": "semantic",
@@ -365,6 +380,11 @@
     "kind": "variable",
     "collection": "semantic",
     "name": "fg/success"
+  },
+  "--ds-fg-warning": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "fg/warning"
   },
   "--ds-fg-link": {
     "kind": "variable",

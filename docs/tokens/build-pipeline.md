@@ -35,7 +35,7 @@ packages/tokens/                       # name: "@massive/tokens"
 ├── tokens/                            # ── 원본 (source of truth)
 │   ├── ramp.config.json               # 키 컬러 4종 + 생성기 파라미터 (#6)
 │   ├── primitive/
-│   │   ├── color.gen.json             # ⚙ 생성물 · 커밋함 · 손대지 말 것 (96색)
+│   │   ├── color.gen.json             # ⚙ 생성물 · 커밋함 · 손대지 말 것 (120색)
 │   │   ├── color.literal.json         # base.white/black + alpha 3 = 5개 (#13)
 │   │   └── scale.json                 # 비색상 전부 (#8)
 │   ├── semantic/
@@ -115,7 +115,8 @@ packages/tokens/                       # name: "@massive/tokens"
                  "params": { "satPeak": 0, "satBgEnd": 0, "satTextEnd": 0 },
                  "_why": "순수 회색. brand hue 혼합 없음 — #6" },
     "danger":  { "key": "#db2931" },
-    "success": { "key": "#20823e" }
+    "success": { "key": "#20823e" },
+    "warning": { "key": "#eab308" }
   }
 }
 ```
@@ -126,9 +127,9 @@ packages/tokens/                       # name: "@massive/tokens"
 
 ### 3.2 override 규약 — ①만 구현한다
 
-조사 §7.5의 3계층 중 **① 패밀리 파라미터만 v1에 구현한다.** 현재 실제 필요는 neutral의 `satPeak: 0` 하나뿐이고, #6에서 4패밀리 8램프가 ②③ 없이 lint를 통과했다.
+조사 §7.5의 3계층 중 ① 패밀리 파라미터와 ② 단계 값 override 지점을 구현한다. 현재 실제 override 사용은 neutral의 채도 파라미터뿐이다. warning은 #82에서 `#eab308`을 실제 생성기로 검증한 결과 별도 L/C/H override나 밝기 단조 예외 없이 양 모드 lint를 통과했다.
 
-**②를 지금 안 만드는 이유는 YAGNI가 아니다** — 만들면 쓸 자리가 없어 **검증되지 않은 채 남는다.** warning(노랑)을 추가하는 세션이 ②의 첫 사용자이자 첫 검증자가 되는 편이 낫고, 그 세션은 조사 §5(노랑은 L/C/H override + 밝기 단조 예외 필요)라는 명세를 이미 갖고 있다.
+조사의 warning override 값은 설계 후보였고 현 생성기 출력의 확정값이 아니었다. #82의 실제 검산에서는 cusp chroma cap과 key-anchor 보간이 이미 감마·구별성·단조 조건을 만족해 override가 불필요했다. override 문법은 향후 키 컬러 변경에 대비해 유지하되, 근거 없는 값을 넣지 않는다.
 
 도입이 **설계가 아니라 구현**이 되도록 지금 못박아 두는 것:
 
@@ -155,7 +156,7 @@ packages/tokens/                       # name: "@massive/tokens"
                  "…": {}, "12": {} },
       "dark":  { "1": {}, "…": {}, "12": {} }
     },
-    "neutral": {}, "danger": {}, "success": {}
+    "neutral": {}, "danger": {}, "success": {}, "warning": {}
   }
 }
 ```
@@ -218,7 +219,7 @@ packages/tokens/                       # name: "@massive/tokens"
 | | |
 |---|---|
 | 입력 | `tokens/ramp.config.json` |
-| 출력 | `tokens/primitive/color.gen.json` (96색) |
+| 출력 | `tokens/primitive/color.gen.json` (120색) |
 | 실패 | 미구현 override 키 · `_why` 누락 · 램프 lint 위반(§4.3 A) |
 
 램프 lint를 **생성 직후 인라인으로** 돌린다. 깨진 램프가 파일로 떨어지면 diff가 오염된다.
@@ -323,11 +324,11 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 | 출력 | stdout 표 (`--report` 시 파일) |
 | 판정 | **WCAG 2 AA가 게이트, APCA는 병기**(#6 확정) |
 
-- 텍스트 64조합 ≥ **4.5** (현재 최저 4.80)
+- 텍스트 74조합 ≥ **4.5** (현재 최저 4.80)
 - 비텍스트 40조합 ≥ **3:1** (현재 최저 3.08)
 - 두 모드 전부. 실패 시 exit 1
 
-> **[#17](https://github.com/flameware/massive-design/issues/17) 구현**: 조합 목록은 #7 코멘트에 있던 것이 아니라 `scripts/contrast.mjs`가 명시 열거한다. **비텍스트 6조합은 그대로 재현된다**(인터랙티브 테두리 3종 × 2모드, 최저 3.04 — dark `border.focus` on `bg.canvas`). **텍스트는 64조합으로 늘었고**(#7의 42는 목록이 남아 있지 않아 복원할 수 없었다) 전부 통과하며 최저값이 4.80 — `fg.on-solid` on `bg.danger.solid` — 로 문서와 정확히 일치한다.
+> **[#17](https://github.com/flameware/massive-design/issues/17) 구현, #82 확장**: 조합 목록은 `scripts/contrast.mjs`가 명시 열거한다. warning text/soft와 전용 solid foreground 쌍을 포함한 텍스트 74조합이 전부 통과하며, 최저값은 기존과 같은 4.80 — `fg.on-solid` on `bg.danger.solid`다.
 >
 > **[#33](https://github.com/flameware/massive-design/issues/33) 확대**: 위의 "비텍스트 6조합"은 **전부 `bg.canvas` 위**만 봤다. 나머지 면까지 재자 다크 `bg.subtle`·`bg.inset`·`bg.overlay`(전부 `#1e1e1e`) 위에서 인터랙티브 테두리 4종이 전부 3:1 아래였고, 그중 `bg.overlay`는 다이얼로그·팝오버가 실제로 쓰는 면이다. 게이트는 **4종 × 5면 × 2모드 = 40조합**이 됐고, `border.strong`·`accent`·`danger`·`focus`가 팔레트 8단 → 9단으로 올라가 전부 통과한다(최저 3.08). 자세한 것은 [`semantic-tokens.md` §8.1](semantic-tokens.md).
 >
@@ -354,7 +355,7 @@ APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고,
 | 파일 | 내용 | 인코딩된 제약 |
 |---|---|---|
 | `01-collections.js` | `palette`(1모드) · `semantic`(Light/Dark 2모드) 생성 | 컬렉션당 모드 상한 10 |
-| `02-palette-color.js` | 96색 + 리터럴 5 | Variable 값은 **RGB/RGBA만**, 파일 프로파일 sRGB |
+| `02-palette-color.js` | 120색 + 리터럴 5 | Variable 값은 **RGB/RGBA만**, 파일 프로파일 sRGB |
 | `03-palette-scale.js` | 수치·타이포 FLOAT/STRING | `scopes` 명시 필수 — space는 `GAP, WIDTH_HEIGHT`, radius는 `CORNER_RADIUS`. `ALL_SCOPES`는 모든 피커를 오염시킨다 |
 | `04-semantic.js` | 31 × 2모드 크로스 컬렉션 alias | |
 | `05-text-styles.js` | 9 스타일 + 변수 바인딩 | `lineHeight`는 `{unit:'PERCENT', value}` 객체 — 맨 숫자는 throw. **텍스트를 다 쓴 뒤 마지막에 바인딩**(#9). `fontFamily`는 STRING 변수 바인딩(로컬 폰트를 못 보는 실행 컨텍스트 우회) |

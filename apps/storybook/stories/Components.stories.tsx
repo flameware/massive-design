@@ -1,3 +1,4 @@
+/* GENERATED from @massive/ui manifests. Do not edit. */
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { CatalogReference } from "./CatalogReference"
 import { catalog } from "./catalog.gen"
@@ -17,14 +18,29 @@ function story(component: (typeof catalog)[number]["component"]): Story {
   }
 }
 
-// Exactly one exported component reference per manifest entry; catalog:check enforces the set.
+export const Alert = story("alert")
+export const AlertDialog = story("alert-dialog")
+export const Avatar = story("avatar")
 export const Badge = story("badge")
 export const Button = story("button")
 export const Card = story("card")
 export const Checkbox = story("checkbox")
+export const Dialog = story("dialog")
 export const DropdownMenu = story("dropdown-menu")
+export const Field = story("field")
 export const Input = story("input")
 export const Label = story("label")
 export const ListRow = story("list-row")
+export const Popover = story("popover")
+export const Progress = story("progress")
+export const RadioGroup = story("radio-group")
 export const Select = story("select")
+export const Separator = story("separator")
+export const Skeleton = story("skeleton")
+export const Spinner = story("spinner")
+export const Switch = story("switch")
 export const Table = story("table")
+export const Tabs = story("tabs")
+export const Textarea = story("textarea")
+export const Toast = story("toast")
+export const Tooltip = story("tooltip")

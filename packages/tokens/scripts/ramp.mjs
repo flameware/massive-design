@@ -1,5 +1,5 @@
 /**
- * tokens/ramp.config.json → tokens/primitive/color.gen.json (96색)
+ * tokens/ramp.config.json → tokens/primitive/color.gen.json (120색)
  *
  * 알고리즘은 docs/research/oklch-ramps.md §7.3, 확정 파라미터는
  * docs/tokens/build-pipeline.md §3.1. 단계 주석의 1a~1h가 그 의사코드에 대응한다.
@@ -115,7 +115,7 @@ export function resolveParams(defaults, family, name) {
   return p
 }
 
-/** override 자리는 잡혀 있으나 4패밀리는 아직 쓰지 않는다(§3.2). */
+/** 단계 override는 필요한 패밀리만 명시적인 근거와 함께 쓴다(§3.2). */
 export function resolveOverrides(family, name) {
   const all = family.overrides ?? {}
   for (const mode of Object.keys(all)) {

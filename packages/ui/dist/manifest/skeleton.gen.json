@@ -1,0 +1,52 @@
+{
+  "anatomy": [
+    "Skeleton"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "animate-pulse rounded-md bg-muted",
+      "properties": {
+        "animation": {
+          "from": "animate-pulse",
+          "tier": "literal",
+          "value": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+        },
+        "background-color": {
+          "from": "bg-muted",
+          "tier": "token",
+          "token": "--ds-bg-subtle"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "skeleton",
+  "configurationStates": {},
+  "defaults": {},
+  "hash": "9c2250c043f6",
+  "reference": {
+    "example": "skeleton",
+    "guidance": {
+      "evidence": "투자 요약 카드와 이력 행을 불러오는 동안 레이아웃 이동을 줄여야 한다.",
+      "limits": "실제 콘텐츠를 그대로 복제하거나 접근성 이름을 부여하지 말고, 로딩 상태는 감싸는 영역이 알린다.",
+      "use": "콘텐츠 구조를 예측할 수 있는 로딩 구간에서 최종 레이아웃과 닮은 자리표시자를 보여준다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/skeleton.tsx"
+}

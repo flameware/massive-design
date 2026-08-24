@@ -1,0 +1,295 @@
+{
+  "anatomy": [
+    "Textarea"
+  ],
+  "axes": {
+    "size": [
+      "sm",
+      "default",
+      "lg"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "flex w-full resize-y rounded-md border bg-background shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 min-h-16 px-2.5 py-1.5 text-xs",
+      "properties": {
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "min-height": {
+          "from": "min-h-16",
+          "multiple": 16,
+          "px": 64,
+          "scale": "space.16",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-1.5",
+          "px": 6,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-2.5",
+          "px": 10,
+          "tier": "literal"
+        },
+        "placeholder:color": {
+          "from": "placeholder:text-muted-foreground",
+          "tier": "unresolved",
+          "value": "var(--muted-foreground)",
+          "why": "수식자 placeholder를 아직 다루지 않는다"
+        },
+        "resize": {
+          "from": "resize-y",
+          "tier": "literal",
+          "value": "vertical"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "size": "sm",
+      "state": null
+    },
+    {
+      "className": "flex w-full resize-y rounded-md border bg-background shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 min-h-24 px-3 py-2 text-sm",
+      "properties": {
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-height": {
+          "from": "min-h-24",
+          "multiple": 24,
+          "px": 96,
+          "scale": "space.24",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "placeholder:color": {
+          "from": "placeholder:text-muted-foreground",
+          "tier": "unresolved",
+          "value": "var(--muted-foreground)",
+          "why": "수식자 placeholder를 아직 다루지 않는다"
+        },
+        "resize": {
+          "from": "resize-y",
+          "tier": "literal",
+          "value": "vertical"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "size": "default",
+      "state": null
+    },
+    {
+      "className": "flex w-full resize-y rounded-md border bg-background shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 min-h-32 px-4 py-3 text-base",
+      "properties": {
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-base",
+          "px": 16,
+          "scale": "type.size.base",
+          "tier": "token",
+          "token": "--text-base"
+        },
+        "line-height": {
+          "from": "text-base",
+          "tier": "token",
+          "token": "--text-base--line-height",
+          "value": "1.6"
+        },
+        "min-height": {
+          "from": "min-h-32",
+          "px": 128,
+          "tier": "literal"
+        },
+        "padding-block": {
+          "from": "py-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "placeholder:color": {
+          "from": "placeholder:text-muted-foreground",
+          "tier": "unresolved",
+          "value": "var(--muted-foreground)",
+          "why": "수식자 placeholder를 아직 다루지 않는다"
+        },
+        "resize": {
+          "from": "resize-y",
+          "tier": "literal",
+          "value": "vertical"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "size": "lg",
+      "state": null
+    }
+  ],
+  "component": "textarea",
+  "configurationStates": {},
+  "defaults": {
+    "size": "default"
+  },
+  "hash": "7760687906f5",
+  "reference": {
+    "example": "textarea",
+    "guidance": {
+      "evidence": "투자 거래의 근거와 회고를 남기는 가변 길이 메모가 필요하다.",
+      "limits": "리치 텍스트 편집, 자동 저장, 글자 수 정책은 소비처가 조립한다.",
+      "use": "여러 줄 메모나 설명을 입력받는다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/textarea.tsx"
+}

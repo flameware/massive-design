@@ -17,8 +17,8 @@ const tokens = new Map([
 ])
 const semanticColors = [...flatten(semantic).keys()]
 
-test('semantic 색 토큰이 정확히 31개다', () => {
-  assert.equal(semanticColors.length, 31)
+test('semantic 색 토큰이 정확히 35개다', () => {
+  assert.equal(semanticColors.length, 35)
 })
 
 test('semantic은 전부 {palette.*} 참조다 — 리터럴 금지', () => {
@@ -67,7 +67,7 @@ test('모드가 실제로 갈리는 지점은 semantic 하나뿐이다', () => {
   const crossed = semanticColors.filter((p) => step(p, 'light') !== step(p, 'dark'))
   assert.deepEqual(crossed.sort(), [
     'color.bg.canvas', 'color.bg.overlay', 'color.bg.surface',
-    'color.border.default', 'color.border.field', 'color.state.layer',
+    'color.border.default', 'color.border.field', 'color.fg.warning', 'color.state.layer',
   ])
 })
 
@@ -103,6 +103,10 @@ test('soft와 text alias는 기존 solid와 on-solid 의미를 바꾸지 않고 
   assert.equal(shadcn['destructive-text'], 'color.fg.danger')
   assert.equal(shadcn['success-soft'], 'color.bg.success.soft')
   assert.equal(shadcn['success-text'], 'color.fg.success')
+  assert.equal(shadcn['warning-soft'], 'color.bg.warning.soft')
+  assert.equal(shadcn['warning-text'], 'color.fg.warning')
+  assert.equal(shadcn.warning, 'color.bg.warning.solid')
+  assert.equal(shadcn['warning-foreground'], 'color.fg.on-warning')
   assert.equal(shadcn.primary, 'color.bg.accent.solid')
   assert.equal(shadcn['primary-foreground'], 'color.fg.on-solid')
 })

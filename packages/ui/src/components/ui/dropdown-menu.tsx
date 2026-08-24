@@ -18,5 +18,6 @@ const componentContract = {
   config: dropdownMenuVariantsConfig, className: (props: Record<string, string>) => cn(dropdownMenuVariants(props)),
   anatomy: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuGroup*", "DropdownMenuLabel?", "DropdownMenuItem*", "DropdownMenuSeparator?"],
   configurationStates: { open: ["closed", "open"] },
+  reference: { example: "dropdown-menu", guidance: { use: "현재 맥락에 속하는 보조 동작을 묶는다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하다.", limits: "삭제 확인과 실제 동작 로직은 포함하지 않는다." } },
 } as const
 export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, dropdownMenuVariants, dropdownMenuVariantsConfig, componentContract }

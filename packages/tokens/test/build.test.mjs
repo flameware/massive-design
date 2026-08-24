@@ -127,8 +127,8 @@ test('타입 union의 개수가 회계와 맞는다', () => {
     const end = lines.findIndex((l) => !l.startsWith('  | '))
     return end === -1 ? lines.length : end
   }
-  assert.equal(count('export type SemanticColorToken'), 31)
-  assert.equal(count('export type PaletteToken'), 101)   // 램프 96 + 리터럴 5
+  assert.equal(count('export type SemanticColorToken'), 35)
+  assert.equal(count('export type PaletteToken'), 125)   // 램프 120 + 리터럴 5
 })
 
 // ── 대비 ────────────────────────────────────────────────────────────────────

@@ -11,9 +11,9 @@ const gen = JSON.parse(readFileSync(new URL('../tokens/primitive/color.gen.json'
 const paramsFor = (name) => resolveParams(config.defaults, config.families[name], name)
 const hexes = (family, mode) => Object.values(gen.palette[family][mode]).map((t) => t.$value)
 
-test('생성물이 96색이다 — 4패밀리 × 2모드 × 12단', () => {
+test('생성물이 120색이다 — 5패밀리 × 2모드 × 12단', () => {
   const all = Object.values(gen.palette).flatMap((f) => Object.values(f).flatMap((r) => Object.keys(r)))
-  assert.equal(all.length, 96)
+  assert.equal(all.length, 120)
 })
 
 test('키 컬러가 step 9에 정확히 앉는다 — 두 모드 모두', () => {
@@ -37,6 +37,8 @@ test('semantic 매핑이 실제로 집는 단계의 hex가 확정값과 같다',
     'danger.dark': { 3: '#341210', 8: '#c41a26', 9: '#db2931', 10: '#e76760' },
     'success.light': { 3: '#e0f4e3', 9: '#20823e', 10: '#1c6f35' },
     'success.dark': { 3: '#102314', 9: '#20823e', 10: '#569e65' },
+    'warning.light': { 3: '#f4eddf', 9: '#eab308', 10: '#b7902c', 11: '#665019' },
+    'warning.dark': { 3: '#241d0e', 9: '#eab308', 10: '#edc467' },
   }
   for (const [key, steps] of Object.entries(want)) {
     const [family, mode] = key.split('.')
@@ -66,7 +68,7 @@ test('L이 단조다 — 라이트는 감소, 다크는 증가', () => {
   }
 })
 
-test('4패밀리 8램프가 lint를 통과한다 — 경고 하나 없이', () => {
+test('5패밀리 10램프가 lint를 통과한다 — 경고 하나 없이', () => {
   const { issues } = generate(config)
   assert.deepEqual(issues, [])
 })

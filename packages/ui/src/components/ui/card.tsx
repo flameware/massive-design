@@ -103,6 +103,7 @@ const componentContract = {
   config: cardVariantsConfig, className: (props: Record<string, string>) => cn(cardVariants(props)),
   anatomy: [],
   configurationStates: {},
+  reference: { example: "card", guidance: { use: "관련 콘텐츠를 하나의 표면으로 묶는다.", evidence: "투자 이력의 요약 영역에서 기존 Card를 재사용한다.", limits: "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다." } },
 } as const
 
 export {

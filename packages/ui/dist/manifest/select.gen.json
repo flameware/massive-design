@@ -120,6 +120,14 @@
   },
   "defaults": {},
   "hash": "306160b2cb63",
+  "reference": {
+    "example": "select",
+    "guidance": {
+      "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
+      "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다.",
+      "use": "제한된 값 하나를 선택한다."
+    }
+  },
   "schemaVersion": 3,
   "source": "src/components/ui/select.tsx"
 }

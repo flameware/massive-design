@@ -21,6 +21,14 @@ export function validateContracts(files, contracts) {
     if (!Array.isArray(contract.publicExports) || contract.publicExports.length === 0) {
       errors.push(`공개 export가 없는 계약: ${contract.name}`)
     }
+    const reference = contract.reference
+    if (!reference || !reference.example || !reference.guidance) {
+      errors.push(`reference 계약이 없는 컴포넌트: ${contract.name}`)
+    } else {
+      for (const field of ["use", "evidence", "limits"]) {
+        if (!reference.guidance[field]?.trim()) errors.push(`authored guidance가 비어 있다: ${contract.name}.${field}`)
+      }
+    }
     names.add(contract.name)
     sources.add(contract.source)
   }

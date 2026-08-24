@@ -42,6 +42,10 @@
     },
     "success": {
       "key": "#20823e"
+    },
+    "warning": {
+      "key": "#eab308",
+      "_why": "경고 역할의 amber key. 현 생성기의 cusp chroma cap과 key-anchor 보간에서는 별도 L/C/H override나 밝기 단조 예외 없이 양 모드 12단이 lint를 통과한다 — #82"
     }
   }
 }

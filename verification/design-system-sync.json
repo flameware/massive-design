@@ -1,64 +1,144 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "972cc9aeba98427473986b738f2901f16dca54e5",
-  "inputDigest": "11ff3892a3aaec88d240cbe82a5bcf296ab242b130affa9fdf28f2875dc88d41",
-  "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169",
+  "targetCommit": "1c8cbb9cc04f629332bc7f22899f1adbb63969b6",
+  "inputDigest": "27fe65ac98c0c3eb47ad437a646e7c3f8174a11fac56cad4cc899ae779f2de71",
+  "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8",
   "components": [
+    {
+      "component": "alert",
+      "manifestHash": "084e3cca70c4",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "alert-dialog",
+      "manifestHash": "ff95c8d6a7c2",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "avatar",
+      "manifestHash": "a03c4ba9bb2a",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
     {
       "component": "badge",
       "manifestHash": "37c940c4d831",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "button",
       "manifestHash": "8472d5d50576",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "card",
       "manifestHash": "50895e9c5fea",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "checkbox",
       "manifestHash": "b952b37163b6",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "dialog",
+      "manifestHash": "61dd1a514c92",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "dropdown-menu",
       "manifestHash": "e3617c6fd13c",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "field",
+      "manifestHash": "2c6116855f68",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "input",
       "manifestHash": "238507ed3be1",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "label",
       "manifestHash": "f13a318e70a1",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "list-row",
       "manifestHash": "109497324ece",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "popover",
+      "manifestHash": "2535c4105bf4",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "progress",
+      "manifestHash": "1861483a3c36",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "radio-group",
+      "manifestHash": "acaf77f3dfa2",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "select",
       "manifestHash": "306160b2cb63",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "separator",
+      "manifestHash": "5397c850ef60",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "skeleton",
+      "manifestHash": "9c2250c043f6",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "spinner",
+      "manifestHash": "5880705d6f03",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "switch",
+      "manifestHash": "73605238388e",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     },
     {
       "component": "table",
       "manifestHash": "aac033c553b2",
-      "tokenArtifactHash": "8b601b343461f65a12c4b1ffe479c24ec7910f34ed91d490b5c6a6b965d86169"
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "tabs",
+      "manifestHash": "d6fdc43dd30e",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "textarea",
+      "manifestHash": "7760687906f5",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "toast",
+      "manifestHash": "15536a1ef2f6",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
+    },
+    {
+      "component": "tooltip",
+      "manifestHash": "ec053f2fcb72",
+      "tokenArtifactHash": "150520fc947fdf7ef1c6891d25ebb0d018796af1489c2fcb29bdc078021684a8"
     }
   ],
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-23T14:19:00.424Z",
+      "checkedAt": "2026-08-24T00:12:54.647Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -89,7 +169,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-23T14:19:00.424Z",
+      "checkedAt": "2026-08-24T00:12:54.647Z",
       "checks": [
         {
           "label": "Storybook production build",
@@ -103,9 +183,23 @@
         }
       ],
       "a11y": {
-        "stories": 13,
+        "stories": 29,
         "violations": [],
         "incomplete": [
+          {
+            "story": "components-manifest-references--radio-group",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 1,
+            "targets": [
+              [
+                ".justify-center"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters"
+            ]
+          },
           {
             "story": "components-manifest-references--select",
             "impact": "serious",
@@ -124,15 +218,56 @@
       }
     },
     "FIGMA_DOCUMENT_SYNCED": {
-      "result": "UNKNOWN",
-      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
+      "result": "PASS",
+      "checkedAt": "2026-08-24T00:20:33Z",
+      "checkedBy": "Codex",
+      "fileKey": "wxz7M6txDvlvH6Z95JzDHJ",
+      "tokenSync": {
+        "runs": 2,
+        "collections": 2,
+        "paletteColors": 125,
+        "paletteScales": 47,
+        "semanticVariables": 35,
+        "textStyles": 9,
+        "effectStyles": 5,
+        "idempotent": true
+      },
+      "components": [
+        {
+          "component": "separator",
+          "nodeId": "218:4",
+          "manifestHash": "5397c850ef60",
+          "variants": 2,
+          "boundFields": 2
+        },
+        {
+          "component": "avatar",
+          "nodeId": "219:17",
+          "manifestHash": "a03c4ba9bb2a",
+          "variants": 6,
+          "boundFields": 21
+        },
+        {
+          "component": "tabs",
+          "nodeId": "220:34",
+          "manifestHash": "d6fdc43dd30e",
+          "variants": 4,
+          "boundFields": 64
+        }
+      ],
+      "structuralDiffOnSecondRun": 0,
+      "visualEvidence": "Component-set screenshots inspected for overlap, clipping, orientation, selected state, image/fallback, and Light/Dark variable rendering."
     },
     "FIGMA_LIBRARY_CURRENT": {
-      "result": "UNKNOWN",
-      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
+      "result": "PASS",
+      "checkedAt": "2026-08-24T00:21:59Z",
+      "confirmedBy": "user",
+      "componentSetsChecked": 25,
+      "publishStatus": "CURRENT",
+      "reason": "Human confirmed publishing components, Variables, Text Styles, and Effect Styles; all 25 component sets, including Separator, Avatar, and Tabs, report CURRENT."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "FIGMA_LIBRARY_CURRENT",
   "failure": null,
-  "resumeAt": "FIGMA_DOCUMENT_SYNCED"
+  "resumeAt": null
 }

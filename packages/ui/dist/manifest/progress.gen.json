@@ -1,0 +1,75 @@
+{
+  "anatomy": [
+    "Progress",
+    "ProgressIndicator"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "relative h-2 w-full overflow-hidden rounded-full bg-secondary",
+      "properties": {
+        "background-color": {
+          "from": "bg-secondary",
+          "tier": "token",
+          "token": "--ds-bg-neutral-soft"
+        },
+        "border-radius": {
+          "from": "rounded-full",
+          "tier": "literal",
+          "value": "calc(infinity * 1px)"
+        },
+        "height": {
+          "from": "h-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "overflow": {
+          "from": "overflow-hidden",
+          "tier": "literal",
+          "value": "hidden"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "progress",
+  "configurationStates": {
+    "value": [
+      "empty",
+      "partial",
+      "complete"
+    ]
+  },
+  "defaults": {},
+  "hash": "1861483a3c36",
+  "reference": {
+    "example": "progress",
+    "guidance": {
+      "evidence": "투자 내역 가져오기처럼 처리할 전체 항목 수를 아는 작업에 진행률 피드백이 필요하다.",
+      "limits": "완료량을 모르는 대기에는 Spinner를 사용하고 value의 계산이나 진행 상태 문구는 소비처가 제공한다.",
+      "use": "완료량을 알 수 있는 작업의 진행 정도를 0에서 100 사이 값으로 보여준다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/progress.tsx"
+}

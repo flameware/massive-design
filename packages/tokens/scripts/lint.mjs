@@ -22,8 +22,8 @@ import { resolveOverrides, resolveParams } from './ramp.mjs'
  * alias 표가 반드시 내야 하는 이름. alias 파일에서 파생하지 않는다 —
  * 그러면 자기 자신을 검사한다.
  *
- * ⚠️ 이름이 "정본"이지만 전부 정본은 아니다: `success`·`success-foreground`·
- * `link` 셋은 shadcn에 없는 우리 추가분이다(#37). 그래도 여기 있는 이유는
+ * ⚠️ 이름이 "정본"이지만 전부 정본은 아니다: success·warning·link 묶음은
+ * shadcn에 없는 우리 추가분이다(#37, #82). 그래도 여기 있는 이유는
  * 이 목록이 "shadcn이 정한 것"이 아니라 **"컴포넌트가 집을 수 있는 이름의
  * 전량"**이기 때문이다 — 빠지면 `text-link` 같은 유틸리티가 조용히 무효가 된다.
  */
@@ -36,6 +36,7 @@ const SHADCN_CANON = [
   'sidebar', 'sidebar-foreground', 'sidebar-primary', 'sidebar-primary-foreground',
   'sidebar-accent', 'sidebar-accent-foreground', 'sidebar-border', 'sidebar-ring',
   'success', 'success-foreground',
+  'warning', 'warning-foreground',
   'link',
 ]
 
@@ -100,7 +101,7 @@ export function lintLayers({ gen, literal, semantic }, err) {
         err(`B5 ${path} (${mode}): {palette.*} 참조가 아니다 — ${value}`)
       }
     }
-    // 7. semantic 이름에 색상명 금지. accent/danger/success는 의미어라 허용
+    // 7. semantic 이름에 색상명 금지. accent/danger/success/warning은 의미어라 허용
     if (/blue|red|green|gray|grey|yellow|brand/.test(path)) err(`B7 ${path}: 색상명`)
   }
 
@@ -109,9 +110,9 @@ export function lintLayers({ gen, literal, semantic }, err) {
     if (isRef(token.$value)) err(`B6 ${path}: primitive가 참조를 갖는다 — ${token.$value}`)
   }
 
-  // 8. semantic 색 토큰은 31개다 — #54가 두 겹 포커스 링 역할을 추가했다
-  if (semanticTokens.size !== 31) {
-    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 31이어야 한다`)
+  // 8. #82가 feedback용 warning soft/solid/text/on-warning 역할을 추가했다.
+  if (semanticTokens.size !== 35) {
+    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 35여야 한다`)
   }
 }
 

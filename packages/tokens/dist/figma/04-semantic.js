@@ -1,5 +1,5 @@
 // ⚙ 생성물 — scripts/build.mjs. 손대지 말 것.
-// 04 — semantic 31개 × 2모드
+// 04 — semantic 35개 × 2모드
 // use_figma의 code 파라미터에 그대로 넣는다. IIFE로 감싸지 말 것 — 이미 async 컨텍스트다.
 
 async function upsertCollection(name) {
@@ -64,15 +64,19 @@ const SEMANTIC = [
   ["bg/danger/solid","danger/light/9","danger/dark/9","var(--ds-bg-danger-solid)"],
   ["bg/success/soft","success/light/3","success/dark/3","var(--ds-bg-success-soft)"],
   ["bg/success/solid","success/light/9","success/dark/9","var(--ds-bg-success-solid)"],
+  ["bg/warning/soft","warning/light/3","warning/dark/3","var(--ds-bg-warning-soft)"],
+  ["bg/warning/solid","warning/light/9","warning/dark/9","var(--ds-bg-warning-solid)"],
   ["bg/inverse","neutral/light/12","neutral/dark/12","var(--ds-bg-inverse)"],
   ["bg/scrim","alpha/black/50","alpha/black/50","var(--ds-bg-scrim)"],
   ["fg/default","neutral/light/12","neutral/dark/12","var(--ds-fg-default)"],
   ["fg/muted","neutral/light/10","neutral/dark/10","var(--ds-fg-muted)"],
   ["fg/on-solid","base/white","base/white","var(--ds-fg-on-solid)"],
   ["fg/on-inverse","neutral/light/1","neutral/dark/1","var(--ds-fg-on-inverse)"],
+  ["fg/on-warning","base/black","base/black","var(--ds-fg-on-warning)"],
   ["fg/accent","brand/light/10","brand/dark/10","var(--ds-fg-accent)"],
   ["fg/danger","danger/light/10","danger/dark/10","var(--ds-fg-danger)"],
   ["fg/success","success/light/10","success/dark/10","var(--ds-fg-success)"],
+  ["fg/warning","warning/light/11","warning/dark/10","var(--ds-fg-warning)"],
   ["fg/link","brand/light/10","brand/dark/10","var(--ds-fg-link)"],
   ["border/default","neutral/light/6","alpha/white/10","var(--ds-border-default)"],
   ["border/field","neutral/light/7","alpha/white/15","var(--ds-border-field)"],

@@ -1,5 +1,5 @@
 // ⚙ 생성물 — scripts/build.mjs. 손대지 말 것.
-// 02 — palette 색 101개
+// 02 — palette 색 125개
 // use_figma의 code 파라미터에 그대로 넣는다. IIFE로 감싸지 말 것 — 이미 async 컨텍스트다.
 
 async function upsertCollection(name) {
@@ -147,6 +147,30 @@ const COLORS = [
   ["success/dark/10","#569e65","var(--ds-palette-success-dark-10)"],
   ["success/dark/11","#9cd8a6","var(--ds-palette-success-dark-11)"],
   ["success/dark/12","#cef3d3","var(--ds-palette-success-dark-12)"],
+  ["warning/light/1","#fdfdfc","var(--ds-palette-warning-light-1)"],
+  ["warning/light/2","#faf8f4","var(--ds-palette-warning-light-2)"],
+  ["warning/light/3","#f4eddf","var(--ds-palette-warning-light-3)"],
+  ["warning/light/4","#efe0bf","var(--ds-palette-warning-light-4)"],
+  ["warning/light/5","#efd499","var(--ds-palette-warning-light-5)"],
+  ["warning/light/6","#f2ce7d","var(--ds-palette-warning-light-6)"],
+  ["warning/light/7","#f3c65e","var(--ds-palette-warning-light-7)"],
+  ["warning/light/8","#ebbb44","var(--ds-palette-warning-light-8)"],
+  ["warning/light/9","#eab308","var(--ds-palette-warning-light-9)"],
+  ["warning/light/10","#b7902c","var(--ds-palette-warning-light-10)"],
+  ["warning/light/11","#665019","var(--ds-palette-warning-light-11)"],
+  ["warning/light/12","#3f3110","var(--ds-palette-warning-light-12)"],
+  ["warning/dark/1","#0e0c07","var(--ds-palette-warning-dark-1)"],
+  ["warning/dark/2","#19140b","var(--ds-palette-warning-dark-2)"],
+  ["warning/dark/3","#241d0e","var(--ds-palette-warning-dark-3)"],
+  ["warning/dark/4","#2f250e","var(--ds-palette-warning-dark-4)"],
+  ["warning/dark/5","#45350e","var(--ds-palette-warning-dark-5)"],
+  ["warning/dark/6","#523e09","var(--ds-palette-warning-dark-6)"],
+  ["warning/dark/7","#775a0a","var(--ds-palette-warning-dark-7)"],
+  ["warning/dark/8","#be931f","var(--ds-palette-warning-dark-8)"],
+  ["warning/dark/9","#eab308","var(--ds-palette-warning-dark-9)"],
+  ["warning/dark/10","#edc467","var(--ds-palette-warning-dark-10)"],
+  ["warning/dark/11","#f4e2ba","var(--ds-palette-warning-dark-11)"],
+  ["warning/dark/12","#f8f1e2","var(--ds-palette-warning-dark-12)"],
   ["base/white","#ffffff","var(--ds-palette-base-white)"],
   ["base/black","#000000","var(--ds-palette-base-black)"],
   ["alpha/white/10","#ffffff1a","var(--ds-palette-alpha-white-10)"],

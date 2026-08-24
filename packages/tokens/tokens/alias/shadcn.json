@@ -46,6 +46,11 @@
   "success-soft": "color.bg.success.soft",
   "success-text": "color.fg.success",
 
+  "warning": "color.bg.warning.solid",
+  "warning-foreground": "color.fg.on-warning",
+  "warning-soft": "color.bg.warning.soft",
+  "warning-text": "color.fg.warning",
+
   "link": "color.fg.link",
 
   "radius": "{radius.base}"

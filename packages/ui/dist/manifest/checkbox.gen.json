@@ -97,6 +97,14 @@
   },
   "defaults": {},
   "hash": "b952b37163b6",
+  "reference": {
+    "example": "checkbox",
+    "guidance": {
+      "evidence": "투자 이력 Table의 checked·unchecked·indeterminate 구성 상태가 필요하다.",
+      "limits": "선택 모델과 일괄 동작은 소비처 책임이다.",
+      "use": "복수 행 선택과 불확정 전체 선택을 표현한다."
+    }
+  },
   "schemaVersion": 3,
   "source": "src/components/ui/checkbox.tsx"
 }

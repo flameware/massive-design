@@ -75,6 +75,14 @@
   "configurationStates": {},
   "defaults": {},
   "hash": "50895e9c5fea",
+  "reference": {
+    "example": "card",
+    "guidance": {
+      "evidence": "투자 이력의 요약 영역에서 기존 Card를 재사용한다.",
+      "limits": "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다.",
+      "use": "관련 콘텐츠를 하나의 표면으로 묶는다."
+    }
+  },
   "schemaVersion": 3,
   "source": "src/components/ui/card.tsx"
 }

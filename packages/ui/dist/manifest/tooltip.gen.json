@@ -1,0 +1,97 @@
+{
+  "anatomy": [
+    "TooltipProvider",
+    "Tooltip",
+    "TooltipTrigger",
+    "TooltipContent"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "max-w-xs rounded-md bg-[var(--ds-bg-inverse)] px-3 py-1.5 text-xs text-[var(--ds-fg-on-inverse)] shadow-sm",
+      "properties": {
+        "background-color": {
+          "from": "bg-[var(--ds-bg-inverse)]",
+          "tier": "token",
+          "token": "--ds-bg-inverse"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "box-shadow": {
+          "from": "shadow-sm",
+          "scale": "shadow.sm",
+          "tier": "token",
+          "token": "--shadow-sm"
+        },
+        "color": {
+          "from": "text-[var(--ds-fg-on-inverse)]",
+          "tier": "token",
+          "token": "--ds-fg-on-inverse"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "max-width": {
+          "from": "max-w-xs",
+          "px": 320,
+          "tier": "literal"
+        },
+        "padding-block": {
+          "from": "py-1.5",
+          "px": 6,
+          "tier": "literal"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "tooltip",
+  "configurationStates": {
+    "open": [
+      "closed",
+      "open"
+    ]
+  },
+  "defaults": {},
+  "hash": "ec053f2fcb72",
+  "reference": {
+    "example": "tooltip",
+    "guidance": {
+      "evidence": "투자 테이블의 아이콘 전용 작업 버튼이 가리키는 행동을 포인터와 키보드 포커스 모두에 설명해야 한다.",
+      "limits": "필수 정보나 상호작용 요소를 Tooltip 안에만 두지 않는다.",
+      "use": "아이콘이나 축약된 컨트롤의 의미를 짧은 텍스트로 보충한다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/tooltip.tsx"
+}

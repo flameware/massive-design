@@ -1,0 +1,130 @@
+{
+  "anatomy": [
+    "AlertDialog",
+    "AlertDialogTrigger",
+    "AlertDialogPortal",
+    "AlertDialogOverlay",
+    "AlertDialogContent",
+    "AlertDialogHeader?",
+    "AlertDialogTitle",
+    "AlertDialogDescription",
+    "AlertDialogFooter",
+    "AlertDialogCancel",
+    "AlertDialogAction"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "fixed top-1/2 left-1/2 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border bg-background p-6 text-foreground shadow-lg outline-none",
+      "properties": {
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-lg",
+          "scale": "shadow.lg",
+          "tier": "token",
+          "token": "--shadow-lg"
+        },
+        "color": {
+          "from": "text-foreground",
+          "tier": "token",
+          "token": "--ds-fg-default"
+        },
+        "display": {
+          "from": "grid",
+          "tier": "literal",
+          "value": "grid"
+        },
+        "gap": {
+          "from": "gap-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "left": {
+          "from": "left-1/2",
+          "tier": "literal",
+          "value": "calc(1 / 2 * 100%)"
+        },
+        "max-width": {
+          "from": "max-w-lg",
+          "px": 512,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-6",
+          "multiple": 6,
+          "px": 24,
+          "scale": "space.6",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "top": {
+          "from": "top-1/2",
+          "tier": "literal",
+          "value": "calc(1 / 2 * 100%)"
+        },
+        "translate": {
+          "from": "-translate-y-1/2",
+          "tier": "literal",
+          "value": "var(--tw-translate-x) var(--tw-translate-y)"
+        },
+        "width": {
+          "from": "w-[calc(100%-2rem)]",
+          "tier": "literal",
+          "value": "calc(100% - 2rem)"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "alert-dialog",
+  "configurationStates": {
+    "open": [
+      "closed",
+      "open"
+    ]
+  },
+  "defaults": {},
+  "hash": "ff95c8d6a7c2",
+  "reference": {
+    "example": "alert-dialog",
+    "guidance": {
+      "evidence": "투자 거래 삭제는 기록과 손익 계산에 영향을 주므로 실행과 취소의 의미를 분리해 확인해야 한다.",
+      "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다.",
+      "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
+    }
+  },
+  "schemaVersion": 3,
+  "source": "src/components/ui/alert-dialog.tsx"
+}

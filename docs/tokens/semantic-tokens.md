@@ -42,7 +42,7 @@
 
 ```
 palette   (컬렉션, 모드 1개)   tokens/primitive/*에서 파생
-          brand/light/1..12, brand/dark/1..12, neutral/…, danger/…, success/…
+          brand/light/1..12, brand/dark/1..12, neutral/…, danger/…, success/…, warning/…
           base/white, base/black, alpha/white/10, alpha/white/15, alpha/black/50
 
 semantic  (컬렉션, 모드 2개: Light / Dark)   tokens/semantic/color.json에서 파생
@@ -64,7 +64,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 
 `palette.<family>.<mode>.<step>`을 `<family> <step>`으로 줄여 적는다. 대비값은 WCAG 2.
 
-### bg (15)
+### bg (17)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
@@ -81,39 +81,43 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 11 | `bg.danger.solid` | destructive 채움 | danger 9 `#db2931` | danger 9 `#db2931` |
 | 12 | `bg.success.soft` | 연한 성공 배경 | success 3 `#e0f4e3` | success 3 `#102314` |
 | 13 | `bg.success.solid` | 성공 채움 | success 9 `#20823e` | success 9 `#20823e` |
-| 14 | `bg.inverse` | 토스트·툴팁 반전 면 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
-| 15 | `bg.scrim` | 모달 뒷배경 딤 | `alpha.black.50` | `alpha.black.50` |
+| 14 | `bg.warning.soft` | 연한 경고 배경 | warning 3 `#f4eddf` | warning 3 `#241d0e` |
+| 15 | `bg.warning.solid` | 경고 채움 | warning 9 `#eab308` | warning 9 `#eab308` |
+| 16 | `bg.inverse` | 토스트·툴팁 반전 면 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 17 | `bg.scrim` | 모달 뒷배경 딤 | `alpha.black.50` | `alpha.black.50` |
 
-### fg (8)
+### fg (10)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 16 | `fg.default` | 본문 텍스트 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
-| 17 | `fg.muted` | 보조 텍스트·플레이스홀더 | neutral 10 `#616161` | neutral 10 `#8f8f8f` |
-| 18 | `fg.on-solid` | 모든 `*.solid` 배경 위 전경 | `base.white` | `base.white` |
-| 19 | `fg.on-inverse` | `bg.inverse` 위 전경 | neutral 1 `#fdfdfd` | neutral 1 `#0c0c0c` |
-| 20 | `fg.accent` | 브랜드 텍스트·아이콘 | brand 10 `#1553c6` | brand 10 `#5989e2` |
-| 21 | `fg.danger` | 에러 텍스트 | danger 10 `#b92429` | danger 10 `#e76760` |
-| 22 | `fg.success` | 성공 텍스트 | success 10 `#1c6f35` | success 10 `#569e65` |
-| 23 | `fg.link` | 링크 | brand 10 `#1553c6` | brand 10 `#5989e2` |
+| 18 | `fg.default` | 본문 텍스트 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 19 | `fg.muted` | 보조 텍스트·플레이스홀더 | neutral 10 `#616161` | neutral 10 `#8f8f8f` |
+| 20 | `fg.on-solid` | neutral/accent/danger/success solid 위 전경 | `base.white` | `base.white` |
+| 21 | `fg.on-inverse` | `bg.inverse` 위 전경 | neutral 1 `#fdfdfd` | neutral 1 `#0c0c0c` |
+| 22 | `fg.on-warning` | `bg.warning.solid` 위 전경 | `base.black` | `base.black` |
+| 23 | `fg.accent` | 브랜드 텍스트·아이콘 | brand 10 `#1553c6` | brand 10 `#5989e2` |
+| 24 | `fg.danger` | 에러 텍스트 | danger 10 `#b92429` | danger 10 `#e76760` |
+| 25 | `fg.success` | 성공 텍스트 | success 10 `#1c6f35` | success 10 `#569e65` |
+| 26 | `fg.warning` | 경고 텍스트 | warning 11 `#665019` | warning 10 `#edc467` |
+| 27 | `fg.link` | 링크 | brand 10 `#1553c6` | brand 10 `#5989e2` |
 
 ### border (7)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 24 | `border.default` | 구분선·컨테이너 테두리 | neutral 6 `#d2d2d2` | `alpha.white.10` |
-| 25 | `border.field` | 폼 필드 테두리 | neutral 7 `#b8b8b8` | `alpha.white.15` |
-| 26 | `border.strong` | 인터랙티브 요소의 강한 테두리 | neutral 8 `#8a8a8a` | neutral 8 `#656565` |
-| 27 | `border.accent` | 브랜드 테두리 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
-| 28 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
-| 29 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
-| 30 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 28 | `border.default` | 구분선·컨테이너 테두리 | neutral 6 `#d2d2d2` | `alpha.white.10` |
+| 29 | `border.field` | 폼 필드 테두리 | neutral 7 `#b8b8b8` | `alpha.white.15` |
+| 30 | `border.strong` | 인터랙티브 요소의 강한 테두리 | neutral 8 `#8a8a8a` | neutral 8 `#656565` |
+| 31 | `border.accent` | 브랜드 테두리 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
+| 32 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
+| 33 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
+| 34 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
 
 ### 상태 메커니즘 (1)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 31 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
+| 35 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
 
 현재 총계는 `dist/tokens.d.ts`의 `SemanticColorToken`과 `dist/figma/04-semantic.js`의 생성 로그에서 확인한다. 두 생성물의 개수 일치는 `test/build.test.mjs`가 검증한다.
 
@@ -247,18 +251,20 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 | `--sidebar-ring` | `border.focus` | |
 | `--success` | `bg.success.solid` | **shadcn 관례 위의 확장** (§7.1) |
 | `--success-foreground` | `fg.on-solid` | 확장 |
+| `--warning` | `bg.warning.solid` | **shadcn 관례 위의 확장** (#82) |
+| `--warning-foreground` | `fg.on-warning` | 밝은 warning solid 전용 검정 전경 |
 | `--link` | `fg.link` | **확장** (§7.3). 이 표에서 유일하게 `*-foreground` 없이 홀로 서는 전경색이다 |
 | `--radius` | `0.625rem` | 곱셈 7단 파생은 shadcn CLI 규약 그대로 |
 
 **`--sidebar-background`는 출력하지 않는다.** v3 잔재이고 shadcn CLI에 `--color-sidebar-background` → `--color-sidebar` 마이그레이션 코드가 있다. invest diary에 남은 참조를 `--sidebar`로 바꾸는 작업이 1회 필요하다.
 
-**`--warning` / `--info`는 만들지 않는다.** 패밀리 자체가 없다.
+**`--info`는 만들지 않는다.** info family는 이 노력의 범위 밖이다.
 
 ### 7.1 success 확장
 
 shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨어지지만 success는 alias 대상이 없다.
 
-`--success` / `--success-foreground` 원시 변수를 추가하고 `@theme inline`에 `--color-success` / `--color-success-foreground`를 등록한다. shadcn 문서가 권하는 확장 방식과 같다.
+`--success`와 `--warning` 묶음은 원시 변수를 추가하고 `@theme inline`에 consumer alias를 등록한다. shadcn 문서가 권하는 확장 방식과 같다. 각 묶음은 `*-soft`와 `*-text`도 제공해 Alert·Toast가 primitive를 직접 소비하지 않게 한다.
 
 **원시 변수를 반드시 실제로 선언해야 하는 이유**: 최신 shadcn 스타일 시스템은 `color-mix(in oklch, var(--secondary), var(--foreground) 5%)`처럼 **원시 변수를 직접 읽는다.** `@theme inline`의 theme 키만 만들고 원시 변수를 생략하면 유틸리티 경로는 살고 `color-mix` 경로는 무너진다.
 
@@ -266,7 +272,7 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 
 무채색 neutral 램프 5단계로 채우고 **"시각화 팔레트는 이 맵 밖"이라고 선언한다.** shadcn 정본 neutral 테마도 무채색 플레이스홀더를 넣어두고 테마가 덮어쓰게 한다.
 
-이유: 4패밀리(brand/neutral/danger/success)에서 **범주형 5색을 뽑는 건 원래 잘 안 된다.** danger/success를 차트 시리즈로 쓰면 "빨강=나쁨 / 초록=좋음"이 데이터에 잘못 실린다. invest diary는 손익 색을 자기가 소유한다(ADR-0008). 여기서 어설픈 5색을 확정하면 그게 굳는다.
+이유: 의미 패밀리에서 **범주형 5색을 뽑는 건 원래 잘 안 된다.** danger/success/warning을 차트 시리즈로 쓰면 상태 의미가 데이터에 잘못 실린다. invest diary는 손익 색을 자기가 소유한다(ADR-0008). 여기서 어설픈 5색을 확정하면 그게 굳는다.
 
 ### 7.3 link 확장 — 그리고 이 표가 배경 중심이라는 사실
 
@@ -286,9 +292,9 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 
 전 조합 자동 검산 결과 — 스크립트는 #7 코멘트 참조.
 
-- **텍스트 64조합 전부 WCAG AA(4.5:1) 통과.** 최저 4.80 (`fg.on-solid` on `bg.danger.solid`)
+- **텍스트 74조합 전부 WCAG AA(4.5:1) 통과.** 최저 4.80 (`fg.on-solid` on `bg.danger.solid`)
 - **비텍스트 40조합 전부 3:1 통과.** 최저 3.08 (dark `border.focus`·`border.accent` on `bg.overlay`)
-- `fg.on-solid`는 4패밀리 solid 위에서 4.80~5.41 — **단일 토큰으로 유지된다.** 순백 리터럴을 쓴다 (`neutral.1`을 쓰면 danger에서 4.72까지 떨어져 여유가 얇다). `color.state.layer`가 어차피 흑/백 리터럴을 요구하므로 추가 비용이 없다
+- `fg.on-solid`는 어두운 4패밀리 solid 위에서 4.80~5.41로 유지한다. warning 9는 밝아 흰 전경이 실패하므로 `fg.on-warning`의 검정을 쓴다.
 
 다크 보더는 알파 합성이라 대비값이 낮다(`border.default` 1.31 / `border.field` 1.56 on `bg.surface`). 이건 shadcn 정본과 같은 성질이고, 보더는 비텍스트 3:1 요건 대상이 아니다(요건은 "상태를 나타내는 UI 컴포넌트"에 걸린다).
 

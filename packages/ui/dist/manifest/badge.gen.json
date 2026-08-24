@@ -297,6 +297,14 @@
     "variant": "neutral"
   },
   "hash": "37c940c4d831",
+  "reference": {
+    "example": "badge",
+    "guidance": {
+      "evidence": "매수·매도, 시장, 손익 의미를 neutral·accent·success·danger에 소비처가 매핑한다.",
+      "limits": "도메인 값을 variant 이름으로 추가하지 않는다.",
+      "use": "짧은 분류와 상태를 보조한다."
+    }
+  },
   "schemaVersion": 3,
   "source": "src/components/ui/badge.tsx"
 }

@@ -57,6 +57,7 @@ export function buildManifests(components, root) {
       defaults: { ...component.config.defaultVariants },
       anatomy: component.anatomy ?? [],
       configurationStates: component.configurationStates ?? {},
+      reference: component.reference,
       cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme })),
     }
     doc.hash = hashComponent(doc)

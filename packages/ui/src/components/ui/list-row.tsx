@@ -18,5 +18,6 @@ const componentContract = {
   config: listRowVariantsConfig, className: (props: Record<string, string>) => cn(listRowVariants(props)),
   anatomy: ["ListRow", "ListRowLeading?", "ListRowContent", "ListRowTitle", "ListRowDescription?", "ListRowMeta?", "ListRowTrailing?"],
   configurationStates: { row: ["default", "selected"] },
+  reference: { example: "list-row", guidance: { use: "모바일 폭에서 한 항목의 우선 정보와 보조 동작을 조립한다.", evidence: "데스크톱 Table과 같은 투자 이력을 모바일에서 긴 종목명·날짜·금액·손익으로 표현한다.", limits: "투자 도메인과 breakpoint 전환을 내장하지 않는다." } },
 } as const
 export { ListRow, ListRowLeading, ListRowContent, ListRowTitle, ListRowDescription, ListRowMeta, ListRowTrailing, listRowVariants, listRowVariantsConfig, componentContract }

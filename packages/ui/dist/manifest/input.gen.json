@@ -99,6 +99,14 @@
   "configurationStates": {},
   "defaults": {},
   "hash": "238507ed3be1",
+  "reference": {
+    "example": "input",
+    "guidance": {
+      "evidence": "투자 이력 검색의 접근 가능한 기본 필드가 필요하다.",
+      "limits": "SearchField, 검색 아이콘, debounce는 소비처가 조립한다.",
+      "use": "한 줄 텍스트 값을 입력하거나 검색어를 받는다."
+    }
+  },
   "schemaVersion": 3,
   "source": "src/components/ui/input.tsx"
 }

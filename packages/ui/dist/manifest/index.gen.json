@@ -2,6 +2,24 @@
   "components": [
     {
       "cells": 4,
+      "component": "alert",
+      "hash": "084e3cca70c4",
+      "path": "alert.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "alert-dialog",
+      "hash": "ff95c8d6a7c2",
+      "path": "alert-dialog.gen.json"
+    },
+    {
+      "cells": 3,
+      "component": "avatar",
+      "hash": "a03c4ba9bb2a",
+      "path": "avatar.gen.json"
+    },
+    {
+      "cells": 4,
       "component": "badge",
       "hash": "37c940c4d831",
       "path": "badge.gen.json"
@@ -26,9 +44,21 @@
     },
     {
       "cells": 1,
+      "component": "dialog",
+      "hash": "61dd1a514c92",
+      "path": "dialog.gen.json"
+    },
+    {
+      "cells": 1,
       "component": "dropdown-menu",
       "hash": "e3617c6fd13c",
       "path": "dropdown-menu.gen.json"
+    },
+    {
+      "cells": 3,
+      "component": "field",
+      "hash": "2c6116855f68",
+      "path": "field.gen.json"
     },
     {
       "cells": 1,
@@ -50,15 +80,81 @@
     },
     {
       "cells": 1,
+      "component": "popover",
+      "hash": "2535c4105bf4",
+      "path": "popover.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "progress",
+      "hash": "1861483a3c36",
+      "path": "progress.gen.json"
+    },
+    {
+      "cells": 2,
+      "component": "radio-group",
+      "hash": "acaf77f3dfa2",
+      "path": "radio-group.gen.json"
+    },
+    {
+      "cells": 1,
       "component": "select",
       "hash": "306160b2cb63",
       "path": "select.gen.json"
+    },
+    {
+      "cells": 2,
+      "component": "separator",
+      "hash": "5397c850ef60",
+      "path": "separator.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "skeleton",
+      "hash": "9c2250c043f6",
+      "path": "skeleton.gen.json"
+    },
+    {
+      "cells": 3,
+      "component": "spinner",
+      "hash": "5880705d6f03",
+      "path": "spinner.gen.json"
+    },
+    {
+      "cells": 2,
+      "component": "switch",
+      "hash": "73605238388e",
+      "path": "switch.gen.json"
     },
     {
       "cells": 1,
       "component": "table",
       "hash": "aac033c553b2",
       "path": "table.gen.json"
+    },
+    {
+      "cells": 2,
+      "component": "tabs",
+      "hash": "d6fdc43dd30e",
+      "path": "tabs.gen.json"
+    },
+    {
+      "cells": 3,
+      "component": "textarea",
+      "hash": "7760687906f5",
+      "path": "textarea.gen.json"
+    },
+    {
+      "cells": 4,
+      "component": "toast",
+      "hash": "15536a1ef2f6",
+      "path": "toast.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "tooltip",
+      "hash": "ec053f2fcb72",
+      "path": "tooltip.gen.json"
     }
   ],
   "schemaVersion": 3
