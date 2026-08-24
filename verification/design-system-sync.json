@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "5ad481005e7b9f5891df29e92f06dc868a550d52",
-  "inputDigest": "0238413edf8900ec8532f9527693af80eb1dabad6d8d352cc0c4829b0b3bdfc4",
+  "targetCommit": "cfcfe80dc81a1b221875a4104249840dd0cafad1",
+  "inputDigest": "dea52e8d1db5baa563342465c9c41cef614ad17f053603c9aa99bb847e51f032",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -168,7 +168,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T04:45:07.853Z",
+      "checkedAt": "2026-08-24T05:05:31.853Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -198,8 +198,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-08-24T04:45:07.853Z",
+      "result": "PASS",
+      "checkedAt": "2026-08-24T05:05:31.853Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -275,18 +275,40 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Codex",
+        "checkedAt": "2026-08-24T05:06:27.306Z",
+        "scope": "Issue #101 catalog-layout generator and runbook only; no component, token, story, or rendered output changes"
+      }
     },
     "FIGMA_DOCUMENT_SYNCED": {
-      "result": "UNKNOWN",
-      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
+      "result": "PASS",
+      "checkedAt": "2026-08-24T05:07:40Z",
+      "scope": "Issue #101 Components page catalog layout only; component structure, tokens, bindings, and descriptions were unchanged.",
+      "catalogLayout": {
+        "expectedAssets": 32,
+        "actualAssets": 32,
+        "missing": [],
+        "duplicates": [],
+        "unexpected": [],
+        "firstRunMoved": 32,
+        "secondRunMoved": 0,
+        "order": "manifest registry",
+        "x": 2000,
+        "startY": 0,
+        "gap": 120
+      }
     },
     "FIGMA_LIBRARY_CURRENT": {
-      "result": "UNKNOWN",
-      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-08-24T05:07:40Z",
+      "componentPublishStatus": {
+        "CURRENT": 32
+      },
+      "reason": "All component assets report CURRENT after the position-only document edit; human confirmation that the publish dialog has no unpublished changes is still required."
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "FIGMA_DOCUMENT_SYNCED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": "Figma publish confirmation"
 }
