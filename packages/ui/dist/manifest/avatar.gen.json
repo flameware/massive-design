@@ -207,6 +207,6 @@
       "use": "사람이나 계정을 작은 원형 이미지로 식별하고 이미지가 없거나 실패하면 안정적인 fallback을 표시한다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/avatar.tsx"
 }

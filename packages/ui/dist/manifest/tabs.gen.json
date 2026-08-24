@@ -99,6 +99,6 @@
       "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립한다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/tabs.tsx"
 }

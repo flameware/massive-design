@@ -70,6 +70,6 @@
       "use": "완료량을 알 수 있는 작업의 진행 정도를 0에서 100 사이 값으로 보여준다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/progress.tsx"
 }

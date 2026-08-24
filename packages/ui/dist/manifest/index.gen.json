@@ -153,7 +153,7 @@
     {
       "cells": 1,
       "component": "table",
-      "hash": "aac033c553b2",
+      "hash": "5503b18695d6",
       "path": "table.gen.json"
     },
     {
@@ -193,5 +193,5 @@
       "path": "tooltip.gen.json"
     }
   ],
-  "schemaVersion": 3
+  "schemaVersion": 4
 }

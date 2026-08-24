@@ -57,15 +57,17 @@ export function lintManifest(doc) {
     if (entry?.tier === "token" && entry.token) check(prop, entry.token, `${name} base`, errors)
   }
 
-  for (const cell of doc.cells ?? []) {
-    const where = `${name} ${cell.variant}/${cell.size}`
+  const checkCells = (cells, prefix) => { for (const cell of cells ?? []) {
+    const where = `${prefix} ${cell.variant}/${cell.size}`
     for (const [prop, entry] of Object.entries(cell.properties ?? {})) {
       if (entry?.tier === "token" && entry.token) check(prop, entry.token, where, errors)
     }
     // state.base는 layer가 얹히는 **면**이라 background-color와 같은 자리다.
     // state.layer는 --ds-state-layer라 계열이 다르고 검사 대상이 아니다
     if (cell.state?.base) check("background-color", cell.state.base, `${where} state.base`, errors)
-  }
+  }}
+  checkCells(doc.cells, name)
+  for (const [partName, part] of Object.entries(doc.parts ?? {})) checkCells(part.cells, `${name}.${partName}`)
 
   return errors
 }
@@ -101,8 +103,8 @@ export function lintVarMapCoverage(doc, varMap) {
 
   for (const [prop, entry] of Object.entries(doc.base ?? {})) need(entry, `${name} base/${prop}`)
 
-  for (const cell of doc.cells ?? []) {
-    const where = `${name} ${cell.variant}/${cell.size}`
+  const checkCells = (cells, prefix) => { for (const cell of cells ?? []) {
+    const where = `${prefix} ${cell.variant}/${cell.size}`
     for (const [prop, entry] of Object.entries(cell.properties ?? {})) need(entry, `${where}/${prop}`)
     for (const [role, slot] of Object.entries(cell.slots ?? {})) {
       for (const [prop, entry] of Object.entries(slot)) need(entry, `${where} ${role}/${prop}`)
@@ -111,7 +113,9 @@ export function lintVarMapCoverage(doc, varMap) {
     for (const role of ["base", "layer"]) {
       need({ tier: "token", token: cell.state?.[role] }, `${where} state.${role}`)
     }
-  }
+  }}
+  checkCells(doc.cells, name)
+  for (const [partName, part] of Object.entries(doc.parts ?? {})) checkCells(part.cells, `${name}.${partName}`)
 
   return errors
 }

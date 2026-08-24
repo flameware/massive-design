@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "targetCommit": "cfcfe80dc81a1b221875a4104249840dd0cafad1",
-  "inputDigest": "dea52e8d1db5baa563342465c9c41cef614ad17f053603c9aa99bb847e51f032",
+  "targetCommit": "d2169bafe086808df7e48f0fac897db578373832",
+  "inputDigest": "8832f5fcfa3ece0c0a7fea6c351b0ffc4fd6d1bc23505b2f585414712946bc94",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -131,7 +131,7 @@
     },
     {
       "component": "table",
-      "manifestHash": "aac033c553b2",
+      "manifestHash": "5503b18695d6",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -168,7 +168,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T05:05:31.853Z",
+      "checkedAt": "2026-08-24T06:31:59.858Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -199,7 +199,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T05:05:31.853Z",
+      "checkedAt": "2026-08-24T06:31:59.858Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -276,39 +276,21 @@
         ]
       },
       "visualReview": {
-        "reviewer": "Codex",
-        "checkedAt": "2026-08-24T05:06:27.306Z",
-        "scope": "Issue #101 catalog-layout generator and runbook only; no component, token, story, or rendered output changes"
+        "reviewer": "seongki",
+        "checkedAt": "2026-08-24T06:36:39.240Z",
+        "scope": "Table Light/Dark · parts spacing · shared reference fixture"
       }
     },
     "FIGMA_DOCUMENT_SYNCED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-24T05:07:40Z",
-      "scope": "Issue #101 Components page catalog layout only; component structure, tokens, bindings, and descriptions were unchanged.",
-      "catalogLayout": {
-        "expectedAssets": 32,
-        "actualAssets": 32,
-        "missing": [],
-        "duplicates": [],
-        "unexpected": [],
-        "firstRunMoved": 32,
-        "secondRunMoved": 0,
-        "order": "manifest registry",
-        "x": 2000,
-        "startY": 0,
-        "gap": 120
-      }
+      "result": "UNKNOWN",
+      "reason": "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded."
     },
     "FIGMA_LIBRARY_CURRENT": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-08-24T05:07:40Z",
-      "componentPublishStatus": {
-        "CURRENT": 32
-      },
-      "reason": "All component assets report CURRENT after the position-only document edit; human confirmation that the publish dialog has no unpublished changes is still required."
+      "result": "UNKNOWN",
+      "reason": "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles."
     }
   },
-  "lastCompletedStage": "FIGMA_DOCUMENT_SYNCED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Figma publish confirmation"
+  "resumeAt": "FIGMA_DOCUMENT_SYNCED"
 }

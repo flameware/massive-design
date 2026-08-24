@@ -105,6 +105,6 @@
       "use": "복수 행 선택과 불확정 전체 선택을 표현한다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/checkbox.tsx"
 }

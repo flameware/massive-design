@@ -21,6 +21,12 @@ export function validateContracts(files, contracts) {
     if (!Array.isArray(contract.publicExports) || contract.publicExports.length === 0) {
       errors.push(`공개 export가 없는 계약: ${contract.name}`)
     }
+    for (const [partName, part] of Object.entries(contract.parts ?? {})) {
+      if (!part?.config || !part?.className) errors.push(`part 계약에는 config와 className이 필요하다: ${contract.name}.${partName}`)
+      if (!(contract.anatomy ?? []).some((entry) => entry.replace(/[?*]$/, "") === partName)) {
+        errors.push(`anatomy에 없는 part 계약: ${contract.name}.${partName}`)
+      }
+    }
     const reference = contract.reference
     if (!reference || !reference.example || !reference.guidance) {
       errors.push(`reference 계약이 없는 컴포넌트: ${contract.name}`)

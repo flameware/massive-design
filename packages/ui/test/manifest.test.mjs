@@ -65,6 +65,17 @@ test("Figma에 대응하는 properties 변경은 해시를 바꾼다", () => {
   )
 })
 
+test("part의 Figma 속성 변경은 세대 해시를 바꾼다", () => {
+  const doc = {
+    axes: {}, base: {}, cells: [], configurationStates: {}, anatomy: ["Table", "TableCell*"],
+    parts: { TableCell: { axes: {}, defaults: {}, cells: [{ properties: { padding: { tier: "literal", px: 8 } } }] } },
+  }
+  assert.notEqual(hashComponent(doc), hashComponent({
+    ...doc,
+    parts: { TableCell: { ...doc.parts.TableCell, cells: [{ properties: { padding: { tier: "literal", px: 12 } } }] } },
+  }))
+})
+
 test("커밋된 매니페스트의 해시가 내용과 맞는다", () => {
   const index = read("index.gen.json")
   assert.ok(index.components.length > 0)
@@ -92,4 +103,15 @@ test("공개 루트의 anatomy와 구성 상태가 매니페스트에 남는다"
   assert.ok(table.anatomy.includes("TableRow*"))
   assert.deepEqual(table.configurationStates.row, ["default", "selected"])
   assert.deepEqual(checkbox.configurationStates.checked, ["unchecked", "checked", "indeterminate"])
+})
+
+test("합성 part의 스타일이 루트와 분리된 조합으로 남는다", () => {
+  const table = read("table.gen.json")
+  assert.deepEqual(Object.keys(table.parts), [
+    "TableBody", "TableCaption", "TableCell", "TableHead", "TableHeader", "TableRow",
+  ])
+  assert.equal(table.parts.TableHead.cells[0].properties.height.px, 40)
+  assert.equal(table.parts.TableHead.cells[0].properties["padding-inline"].px, 8)
+  assert.equal(table.parts.TableCell.cells[0].properties.padding.px, 8)
+  assert.equal(table.parts.TableCaption.cells[0].properties["margin-top"].px, 16)
 })

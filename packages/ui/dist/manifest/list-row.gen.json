@@ -107,6 +107,6 @@
       "use": "모바일 폭에서 한 항목의 우선 정보와 보조 동작을 조립한다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/list-row.tsx"
 }

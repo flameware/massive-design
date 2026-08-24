@@ -23,11 +23,22 @@ import {
   Separator, Tabs, TabsContent, TabsList, TabsTrigger, Avatar, AvatarFallback, AvatarImage,
 } from "@massive/ui"
 import { catalog } from "./catalog.gen"
+import tableFixture from "./fixtures/table.json"
 
 export type CatalogEntry = (typeof catalog)[number]
 
 function InvestmentTable() {
-  return <Table><TableHeader><TableRow><TableHead>종목</TableHead><TableHead>거래일</TableHead><TableHead>금액</TableHead><TableHead>손익</TableHead></TableRow></TableHeader><TableBody><TableRow data-state="selected"><TableCell>삼성전자 우선주</TableCell><TableCell>2026. 08. 21.</TableCell><TableCell>₩12,450,000</TableCell><TableCell className="text-success-text">+₩820,000</TableCell></TableRow><TableRow><TableCell>미래에셋 TIGER 미국S&amp;P500</TableCell><TableCell>2026. 08. 18.</TableCell><TableCell>₩4,230,000</TableCell><TableCell className="text-destructive-text">−₩115,000</TableCell></TableRow></TableBody></Table>
+  return <Table>
+    <TableHeader><TableRow>{tableFixture.columns.map((column) => <TableHead key={column}>{column}</TableHead>)}</TableRow></TableHeader>
+    <TableBody>{tableFixture.rows.map((row) => <TableRow key={row.cells[0]} data-state={row.state === "selected" ? "selected" : undefined}>
+      {row.cells.map((value, index) => <TableCell
+        key={`${row.cells[0]}-${index}`}
+        className={index === row.cells.length - 1
+          ? row.result === "positive" ? "text-success-text" : "text-destructive-text"
+          : undefined}
+      >{value}</TableCell>)}
+    </TableRow>)}</TableBody>
+  </Table>
 }
 
 function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["example"]; selection?: Record<string, string> }) {

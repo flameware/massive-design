@@ -30,18 +30,24 @@ function sortKeys(value) {
  * 이 목록에 명시하지 않는 한 해시가 조용히 바뀌지 않는다.
  */
 function figmaPayload(doc) {
-  const cells = (doc.cells ?? []).map(({ props, properties, slots, state }) => ({
+  const payloadCells = (cells) => (cells ?? []).map(({ props, properties, slots, state }) => ({
     props,
     properties,
     ...(slots ? { slots } : {}),
     ...(state ? { state } : {}),
   }))
+  const parts = Object.fromEntries(Object.entries(doc.parts ?? {}).map(([name, part]) => [name, {
+    axes: part.axes,
+    defaults: part.defaults,
+    cells: payloadCells(part.cells),
+  }]))
 
   return {
     ...(doc.anatomy?.length ? { anatomy: doc.anatomy } : {}),
     axes: doc.axes,
     base: doc.base,
-    cells,
+    cells: payloadCells(doc.cells),
+    ...(Object.keys(parts).length ? { parts } : {}),
     ...(Object.keys(doc.configurationStates ?? {}).length
       ? { configurationStates: doc.configurationStates }
       : {}),

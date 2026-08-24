@@ -290,6 +290,6 @@
       "use": "여러 줄 메모나 설명을 입력받는다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/textarea.tsx"
 }

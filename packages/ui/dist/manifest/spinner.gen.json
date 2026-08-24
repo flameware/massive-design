@@ -116,6 +116,6 @@
       "use": "완료량을 알 수 없는 짧은 대기 상태를 간결하게 표시한다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/spinner.tsx"
 }

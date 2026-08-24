@@ -15,8 +15,8 @@ import { canonicalJson, hashComponent } from "./hash.mjs"
 import { emitCatalogLayout } from "./catalog-layout.mjs"
 import { loadTheme } from "./theme.mjs"
 
-/** 2: 셀 밖 `base` 블록이 생겼다 — `@layer base`의 `*` 규칙에서 파생한다(#36). */
-export const SCHEMA_VERSION = 3
+/** 4: 합성 컴포넌트의 공개 part별 조합과 스타일을 `parts`에 담는다. */
+export const SCHEMA_VERSION = 4
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -28,12 +28,23 @@ export function buildManifests(components, root) {
   const stateCss = join(root, "src/state.css")
   const scalePath = join(root, "../tokens/tokens/primitive/scale.json")
 
-  const plans = components.map((c) => {
+  const planFor = (c) => {
     const cells = cellsOf(c.config).map((props) => ({ props, className: c.className(props) }))
-    return { component: c, cells }
-  })
+    const parts = Object.fromEntries(Object.entries(c.parts ?? {}).map(([name, part]) => [
+      name,
+      {
+        contract: part,
+        cells: cellsOf(part.config).map((props) => ({ props, className: part.className(props) })),
+      },
+    ]))
+    return { component: c, cells, parts }
+  }
+  const plans = components.map(planFor)
 
-  const classes = [...new Set(plans.flatMap((p) => p.cells.flatMap((c) => c.className.split(/\s+/))))].filter(Boolean)
+  const classes = [...new Set(plans.flatMap((p) => [
+    ...p.cells,
+    ...Object.values(p.parts).flatMap((part) => part.cells),
+  ].flatMap((c) => c.className.split(/\s+/))))].filter(Boolean)
   const compiled = compileClasses(classes, { root, tokensCss: tokensCssSpecifier, stateCss })
   const tree = parseCss(compiled)
   const theme = loadTheme({
@@ -48,7 +59,15 @@ export function buildManifests(components, root) {
   const files = new Map()
   const index = []
 
-  for (const { component, cells } of plans) {
+  for (const { component, cells, parts } of plans) {
+    const assembledParts = Object.fromEntries(Object.entries(parts).map(([name, part]) => [
+      name,
+      {
+        axes: Object.fromEntries(Object.entries(part.contract.config.variants).map(([a, v]) => [a, Object.keys(v)])),
+        defaults: { ...part.contract.config.defaultVariants },
+        cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme })),
+      },
+    ]))
     const doc = {
       schemaVersion: SCHEMA_VERSION,
       base,
@@ -57,6 +76,7 @@ export function buildManifests(components, root) {
       axes: Object.fromEntries(Object.entries(component.config.variants).map(([a, v]) => [a, Object.keys(v)])),
       defaults: { ...component.config.defaultVariants },
       anatomy: component.anatomy ?? [],
+      ...(Object.keys(assembledParts).length ? { parts: assembledParts } : {}),
       configurationStates: component.configurationStates ?? {},
       reference: component.reference,
       cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme })),

@@ -55,7 +55,200 @@
     ]
   },
   "defaults": {},
-  "hash": "aac033c553b2",
+  "hash": "5503b18695d6",
+  "parts": {
+    "TableBody": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "[&_tr:last-child]:border-0",
+          "properties": {
+            "[&_tr:last-child]:border-style": {
+              "from": "[&_tr:last-child]:border-0",
+              "tier": "unresolved",
+              "value": "var(--tw-border-style)",
+              "why": "수식자 [&_tr:last-child]를 아직 다루지 않는다"
+            },
+            "[&_tr:last-child]:border-width": {
+              "from": "[&_tr:last-child]:border-0",
+              "tier": "unresolved",
+              "value": "0px",
+              "why": "수식자 [&_tr:last-child]를 아직 다루지 않는다"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "TableCaption": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "mt-4 text-sm text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "margin-top": {
+              "from": "mt-4",
+              "px": 16,
+              "tier": "literal"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "TableCell": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "p-2 align-middle",
+          "properties": {
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "vertical-align": {
+              "from": "align-middle",
+              "tier": "literal",
+              "value": "middle"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "TableHead": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "h-10 px-2 text-left align-middle font-medium text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "height": {
+              "from": "h-10",
+              "multiple": 10,
+              "px": 40,
+              "scale": "space.10",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-inline": {
+              "from": "px-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-left",
+              "tier": "literal",
+              "value": "left"
+            },
+            "vertical-align": {
+              "from": "align-middle",
+              "tier": "literal",
+              "value": "middle"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "TableHeader": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "[&_tr]:border-b",
+          "properties": {
+            "[&_tr]:border-bottom-style": {
+              "from": "[&_tr]:border-b",
+              "tier": "unresolved",
+              "value": "var(--tw-border-style)",
+              "why": "수식자 [&_tr]를 아직 다루지 않는다"
+            },
+            "[&_tr]:border-bottom-width": {
+              "from": "[&_tr]:border-b",
+              "tier": "unresolved",
+              "value": "1px",
+              "why": "수식자 [&_tr]를 아직 다루지 않는다"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "TableRow": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--background)] border-b transition-colors data-[state=selected]:bg-primary-soft",
+          "properties": {
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "border-bottom-width": {
+              "from": "border-b",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "data-[state=selected]:background-color": {
+              "from": "data-[state=selected]:bg-primary-soft",
+              "tier": "unresolved",
+              "value": "var(--primary-soft)",
+              "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-canvas",
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "table",
     "guidance": {
@@ -64,6 +257,6 @@
       "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/table.tsx"
 }

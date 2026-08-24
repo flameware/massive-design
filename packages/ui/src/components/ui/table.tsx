@@ -5,6 +5,11 @@ import { cn } from "@/lib/utils"
 const tableVariantsConfig = { variants: {}, defaultVariants: {} } as const
 const tableVariants = (options?: { className?: string }) => cn("w-full caption-bottom text-sm", options?.className)
 
+const staticPart = (className: string) => ({
+  config: { variants: {}, defaultVariants: {} } as const,
+  className: () => className,
+})
+
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return <table data-slot="table" className={tableVariants({ className })} {...props} />
 }
@@ -32,6 +37,14 @@ const componentContract = {
   publicExports: ["Table", "TableHeader", "TableBody", "TableRow", "TableHead", "TableCell", "TableCaption", "tableVariants", "tableVariantsConfig"],
   config: tableVariantsConfig, className: (props: Record<string, string>) => cn(tableVariants(props)),
   anatomy: ["Table", "TableHeader", "TableBody", "TableRow*", "TableHead*", "TableCell*", "TableCaption?"],
+  parts: {
+    TableHeader: staticPart("[&_tr]:border-b"),
+    TableBody: staticPart("[&_tr:last-child]:border-0"),
+    TableRow: staticPart("state [--ds-state-base:var(--background)] border-b transition-colors data-[state=selected]:bg-primary-soft"),
+    TableHead: staticPart("h-10 px-2 text-left align-middle font-medium text-muted-foreground"),
+    TableCell: staticPart("p-2 align-middle"),
+    TableCaption: staticPart("mt-4 text-sm text-muted-foreground"),
+  },
   configurationStates: { row: ["default", "selected"] },
   reference: { example: "table", guidance: { use: "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다.", evidence: "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.", limits: "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다." } },
 } as const

@@ -83,6 +83,6 @@
       "use": "관련 콘텐츠를 하나의 표면으로 묶는다."
     }
   },
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "source": "src/components/ui/card.tsx"
 }

@@ -203,6 +203,8 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `gap` | `root` | `itemSpacing` |
 | `padding-inline` | `root` | `paddingLeft` + `paddingRight` |
 | `padding-block` | `root` | `paddingTop` + `paddingBottom` |
+| `padding` | `root` | `paddingTop` + `paddingRight` + `paddingBottom` + `paddingLeft` |
+| `margin-top` | `root` | 부모 auto layout의 앞 간격 또는 전용 spacer — 형제 간 공통 간격과 다를 때만 |
 | `height` | `root` | `resize(w, h)` + `layoutSizingVertical = 'FIXED'` |
 | `border-radius` | `root` | `cornerRadius` |
 | `background-color` | `root` | `fills[0]` |
@@ -211,9 +213,15 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `font-size` | `label` | `fontSize` |
 | `line-height` | `label` | `lineHeight` — ⚠️ §8.1 |
 | `font-weight` | `label` | `fontName.style` — ⚠️ 아래 |
+| `text-align` | `label` | `textAlignHorizontal` |
+| `vertical-align` | `root` | auto layout의 교차축 정렬 |
 | (`type/family/sans`) | `label` | `fontFamily` — **맨 마지막**, 3회 재시도 |
 | `slots.icon.size` | `icon` | `resize(n, n)` |
 | `border-width` | `root` | `strokeWeight` + `strokes[0]` = **`base`의 `border-color`** — ⚠️ 아래 |
+
+합성 컴포넌트는 루트 `cells`만 읽으면 안 된다. `parts`의 각 이름은 `anatomy`에 있는 **파트**이고, 파트마다 `axes`·`defaults`·`cells`가 루트와 같은 방식으로 존재한다. 먼저 파트의 조합을 해당 하위 프레임에 적용한 뒤, 그 프레임 내부의 `root`·`label`·`icon` 역할에 위 번역표를 적용한다. `TableHead`의 40px 높이·8px 좌우 패딩과 `TableCell`의 8px 패딩처럼 자식에서 선언된 값은 루트로 끌어올리거나 손으로 복사하지 않는다.
+
+Table의 시각 검토와 Figma 참조 콘텐츠는 `apps/storybook/stories/fixtures/table.json`을 함께 사용한다. fixture는 공개 컴포넌트 계약이 아니라 채널 간 비교를 위한 repo-owned 견본이다. 기본 공개 자산에서는 선택적인 `TableCaption`을 강제로 넣지 않으며, 사용하면 `margin-top: 16px`를 보존한다.
 
 ⚠️ **stroke 색은 셀이 아니라 `base` 블록에 있다** ([#36](https://github.com/flameware/massive-design/issues/36)). 매니페스트는 `schemaVersion: 2`부터 셀 밖에 블록 하나를 더 낸다:
 

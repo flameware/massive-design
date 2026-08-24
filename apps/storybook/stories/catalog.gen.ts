@@ -761,7 +761,7 @@ export const catalog = [
   {
     "component": "table",
     "displayName": "Table",
-    "hash": "aac033c553b2",
+    "hash": "5503b18695d6",
     "cells": 1,
     "axes": {},
     "anatomy": [

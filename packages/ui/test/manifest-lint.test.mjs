@@ -100,6 +100,16 @@ test("literal은 토큰이 아니라 검사하지 않는다", () => {
   )
 })
 
+test("part의 속성도 토큰 계열을 검사한다", () => {
+  const errors = lintManifest({
+    component: "table",
+    cells: [],
+    parts: { TableCell: { cells: [cell("default", { color: token("--ds-bg-canvas") })] } },
+  })
+  assert.equal(errors.length, 1)
+  assert.match(errors[0], /table\.TableCell/)
+})
+
 test("계열 검사가 침묵하는 자리 — color 항목이 아예 없는 칸", () => {
   // ghost·outline은 body 규칙의 --foreground를 상속한다(#36). 상속은 클래스에
   // 나타나지 않아 매니페스트에 없고, 없는 것은 통과가 아니라 침묵이다
