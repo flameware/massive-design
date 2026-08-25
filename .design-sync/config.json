@@ -1,0 +1,16 @@
+{
+  "projectId": "ac85c668-b42d-4474-8d3f-9c3160a2063f",
+  "shape": "storybook",
+  "storybookConfigDir": "apps/storybook",
+  "storybookStatic": ".design-sync/sb-reference",
+  "pkg": "@massive/ui",
+  "entry": "packages/ui/src/index.ts",
+  "titleMap": {
+    "Trustandworkflow": null
+  },
+  "readmeHeader": ".design-sync/conventions.md",
+  "libOverrides": {
+    "source-storybook.mjs": "shared title 'Components/Manifest references' holds every component's story - map by story name, not title (see file header)",
+    "dts.mjs": "@massive/ui ships no .d.ts at all - exports['.'] points at TS source directly; fall back to parsing the .ts/.tsx tree for export/prop discovery (see file header)"
+  }
+}
