@@ -10,14 +10,16 @@ const record = () => ({
   resumeAt: 'Storybook visual review',
 })
 
-test('PASS 리뷰가 Storybook gate를 완료하고 Figma로 넘긴다', () => {
+test('PASS 리뷰가 Repo verification을 완료하고 후속 필수 단계를 남기지 않는다', () => {
   const next = applyStorybookReview(record(), {
     result: 'PASS', reviewer: 'seongki', scope: 'Button Light/Dark + hover/pressed', reason: null,
   }, '2026-08-24T00:00:00.000Z')
   assert.equal(next.stages.STORYBOOK_VERIFIED.result, 'PASS')
   assert.equal(next.stages.STORYBOOK_VERIFIED.visualReview.reviewer, 'seongki')
   assert.equal(next.lastCompletedStage, 'STORYBOOK_VERIFIED')
-  assert.equal(next.resumeAt, 'FIGMA_DOCUMENT_SYNCED')
+  assert.equal(next.result, 'PASS')
+  assert.equal(next.completedAt, '2026-08-24T00:00:00.000Z')
+  assert.equal(next.resumeAt, null)
 })
 
 test('FAIL 리뷰는 이유를 요구하고 코드 gate 뒤에서 멈춘다', () => {
@@ -27,6 +29,7 @@ test('FAIL 리뷰는 이유를 요구하고 코드 gate 뒤에서 멈춘다', ()
   })
   assert.equal(next.stages.STORYBOOK_VERIFIED.result, 'FAIL')
   assert.equal(next.lastCompletedStage, 'CODE_VERIFIED')
+  assert.equal(next.result, 'FAIL')
   assert.equal(next.failure.check, 'Storybook visual review')
 })
 

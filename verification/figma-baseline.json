@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "kind": "figma-baseline",
+  "targetCommit": "7d1a68cbc27af674a87fcbd0a16d77cadbd33d23",
+  "inputDigest": "d84e7c86176e43d5f66546c15f793720c2979a8cd1b45c9ca5499da6400c6431",
+  "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
+  "components": [
+    { "component": "accordion", "manifestHash": "4f3463aca5d6" },
+    { "component": "alert", "manifestHash": "084e3cca70c4" },
+    { "component": "alert-dialog", "manifestHash": "ff95c8d6a7c2" },
+    { "component": "avatar", "manifestHash": "a03c4ba9bb2a" },
+    { "component": "badge", "manifestHash": "37c940c4d831" },
+    { "component": "button", "manifestHash": "8472d5d50576" },
+    { "component": "card", "manifestHash": "50895e9c5fea" },
+    { "component": "checkbox", "manifestHash": "b952b37163b6" },
+    { "component": "collapsible", "manifestHash": "4b115285961c" },
+    { "component": "dialog", "manifestHash": "61dd1a514c92" },
+    { "component": "dropdown-menu", "manifestHash": "e3617c6fd13c" },
+    { "component": "empty", "manifestHash": "b7ac43840fbd" },
+    { "component": "field", "manifestHash": "2c6116855f68" },
+    { "component": "input", "manifestHash": "238507ed3be1" },
+    { "component": "item", "manifestHash": "008b33625ebc", "componentSetId": "241:86" },
+    { "component": "label", "manifestHash": "f13a318e70a1" },
+    { "component": "list-row", "manifestHash": "109497324ece" },
+    { "component": "popover", "manifestHash": "2535c4105bf4" },
+    { "component": "progress", "manifestHash": "1861483a3c36" },
+    { "component": "radio-group", "manifestHash": "acaf77f3dfa2" },
+    { "component": "select", "manifestHash": "306160b2cb63" },
+    { "component": "separator", "manifestHash": "5397c850ef60" },
+    { "component": "skeleton", "manifestHash": "9c2250c043f6" },
+    { "component": "spinner", "manifestHash": "5880705d6f05" },
+    { "component": "switch", "manifestHash": "73605238388e" },
+    { "component": "table", "manifestHash": "5503b18695d6", "componentSetId": "151:24" },
+    { "component": "tabs", "manifestHash": "d6fdc43dd30e" },
+    { "component": "textarea", "manifestHash": "7760687906f5" },
+    { "component": "toast", "manifestHash": "15536a1ef2f6" },
+    { "component": "toggle", "manifestHash": "bf3647e14670" },
+    { "component": "toggle-group", "manifestHash": "d0b9e9cc0cb2" },
+    { "component": "tooltip", "manifestHash": "ec053f2fcb72" }
+  ],
+  "stages": {
+    "FIGMA_DOCUMENT_SYNCED": {
+      "result": "PASS",
+      "checkedAt": "2026-08-24T07:20:52Z",
+      "scope": "Item in-place component sync; Table canonical generation marker repair; foundations and catalog normalization",
+      "secondRunStructuralDiff": 0,
+      "secondRunCatalogMoved": 0
+    },
+    "FIGMA_LIBRARY_CURRENT": {
+      "result": "PASS",
+      "checkedAt": "2026-08-24T07:26:44Z",
+      "reviewer": "seongki",
+      "componentPublishStatus": {
+        "CURRENT": 31
+      },
+      "publishedComponents": [
+        "Item",
+        "Table"
+      ],
+      "humanConfirmation": "Figma publish completed; no unpublished Variables, Text Styles, or Effect Styles remain."
+    }
+  },
+  "completedAt": "2026-08-24T07:26:44Z"
+}

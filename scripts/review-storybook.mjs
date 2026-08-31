@@ -3,7 +3,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 
 const root = path.resolve(import.meta.dirname, "..")
-const recordPath = path.join(root, "verification/design-system-sync.json")
+const recordPath = path.join(root, "verification/repo-verification.json")
 
 function valueAfter(args, name) {
   const index = args.indexOf(name)
@@ -36,10 +36,14 @@ export function applyStorybookReview(record, review, checkedAt = new Date().toIS
   }
   delete stage.reason
   if (review.result === 'PASS') {
+    record.result = 'PASS'
+    record.completedAt = checkedAt
     record.lastCompletedStage = 'STORYBOOK_VERIFIED'
     record.failure = null
-    record.resumeAt = 'FIGMA_DOCUMENT_SYNCED'
+    record.resumeAt = null
   } else {
+    record.result = 'FAIL'
+    delete record.completedAt
     record.lastCompletedStage = 'CODE_VERIFIED'
     record.failure = { stage: 'STORYBOOK_VERIFIED', check: 'Storybook visual review', reason: review.reason }
     record.resumeAt = 'sync:preflight after fixing the owning layer'
@@ -55,7 +59,8 @@ async function main() {
   console.log(`Storybook visual review: ${review.result}`)
   console.log(`reviewer: ${review.reviewer}`)
   console.log(`scope: ${review.scope}`)
-  console.log(`resumeAt: ${record.resumeAt}`)
+  console.log(`Repo verification: ${record.result}`)
+  console.log(`resumeAt: ${record.resumeAt ?? 'none'}`)
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main()

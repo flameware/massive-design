@@ -38,6 +38,8 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 ## 세대와 검증
 
+- **Repo verification** — 구현 정본에서 토큰·매니페스트·Storybook 생성물을 만들고 코드 검사·테스트·Storybook build·axe·사람 시각 확인까지 통과시켜 `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`를 획득하는 독립 작업. 여기서 완료되며 Figma Sync를 자동으로 이어서 수행하지 않는다.
+- **Figma Sync** — 사용자가 명시적으로 요청해 시작하고, 선택한 Repo verification 세대를 Figma 문서에 주입·검증한 뒤 라이브러리 발행과 재확인까지 수행하는 독립 작업. 실행 전용 GitHub issue가 범위와 증거를 소유한다.
 - **디자인 의도(design intent)** — 컴포넌트가 사용자에게 보여야 하고 동작해야 하는 프로젝트 소유자가 승인한 목표. 자동 정합성 검증 뒤의 시각 판단으로 확정하며, 현재 코드 렌더링과 다르면 구현 정본을 고치는 판정 기준이다.
 - **구현 정본(implementation source of truth)** — 디자인 의도를 구현하고 Storybook과 Figma 파생 채널로 변경을 전파하는 단일 출발점인 코드. 현재 렌더링을 무조건 올바른 디자인 의도로 간주한다는 뜻은 아니다.
 - **세대(generation)** — 한 컴포넌트의 Figma 대응 구조 해시와 그 구조가 참조하는 토큰 산출물 해시의 쌍. 디자인 시스템 전체 세대는 검증 대상 컴포넌트 세대의 집계다.

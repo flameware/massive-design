@@ -4,7 +4,8 @@ import { spawnSync } from "node:child_process"
 import path from "node:path"
 
 const root = path.resolve(import.meta.dirname, "..")
-const recordPath = path.join(root, "verification/design-system-sync.json")
+const recordPath = path.join(root, "verification/repo-verification.json")
+const figmaBaselinePath = path.join(root, "verification/figma-baseline.json")
 const inputs = [
   "apps/storybook/.storybook",
   "apps/storybook/package.json",
@@ -74,7 +75,9 @@ const storybookAutomatedResult = codeResult === "PASS"
 const failed = checks.find((check) => check.result === "FAIL")
 
 const record = {
-  schemaVersion: 1,
+  schemaVersion: 2,
+  kind: "repo-verification",
+  result: failed ? "FAIL" : storybookAutomatedResult === "PASS" ? "PENDING_HUMAN" : "UNKNOWN",
   targetCommit,
   inputDigest,
   tokenArtifactHash,
@@ -91,8 +94,6 @@ const record = {
         reason: "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook.",
       } : {}),
     },
-    FIGMA_DOCUMENT_SYNCED: { result: "UNKNOWN", reason: "Run the Figma document gate for this inputDigest; no current Figma evidence is recorded." },
-    FIGMA_LIBRARY_CURRENT: { result: "UNKNOWN", reason: "Requires a synced Figma document, component PUBLISHED status, and human confirmation for variables and styles." },
   },
   lastCompletedStage: codeResult === "PASS" ? "CODE_VERIFIED" : null,
   failure: failed ? { stage: storybookChecks.includes(failed) ? "STORYBOOK_VERIFIED" : "CODE_VERIFIED", check: failed.label, exitCode: failed.exitCode } : null,
@@ -101,7 +102,12 @@ const record = {
 
 await writeFile(recordPath, `${JSON.stringify(record, null, 2)}\n`)
 await mkdir(path.join(root, "apps/storybook/storybook-static/verification"), { recursive: true })
-await copyFile(recordPath, path.join(root, "apps/storybook/storybook-static/verification/design-system-sync.json"))
+await copyFile(recordPath, path.join(root, "apps/storybook/storybook-static/verification/repo-verification.json"))
+try {
+  await copyFile(figmaBaselinePath, path.join(root, "apps/storybook/storybook-static/verification/figma-baseline.json"))
+} catch (error) {
+  if (error?.code !== "ENOENT") throw error
+}
 console.log(`\nVerification record: ${path.relative(root, recordPath)}`)
 console.log(`inputDigest: ${inputDigest}`)
 console.log(`resumeAt: ${record.resumeAt}`)
