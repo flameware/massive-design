@@ -37,7 +37,7 @@ const componentContract = {
   publicExports: ["Tabs", "TabsList", "TabsTrigger", "TabsContent", "tabsVariants", "tabsVariantsConfig"],
   config: tabsVariantsConfig, className: (props: Record<string, string>) => cn(tabsVariants(props)),
   anatomy: ["Tabs", "TabsList", "TabsTrigger*", "TabsContent*"], configurationStates: { selected: ["inactive", "active"] },
-  reference: { example: "tabs", guidance: { use: "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립한다.", evidence: "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 한다.", limits: "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다." } },
+  reference: { example: "tabs", guidance: { use: "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립한다.", evidence: "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 한다.", limits: "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다. `TabsList`의 밑줄 표현 축(upstream의 `variant=\"line\"`)은 계약하지 않는다 — List와 Trigger 양쪽을 재작성해야 하는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121)." } },
 } as const
 
 export { Tabs, TabsList, TabsTrigger, TabsContent, tabsVariants, tabsVariantsConfig, componentContract }

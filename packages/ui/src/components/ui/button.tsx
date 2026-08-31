@@ -103,7 +103,7 @@ const componentContract = {
   name: "button", source: "src/components/ui/button.tsx",
   publicExports: ["Button", "buttonVariants", "buttonVariantsConfig"],
   config: buttonVariantsConfig, className: (props: Record<string, string>) => cn(buttonVariants(props)),
-  anatomy: [], configurationStates: {},
+  anatomy: ["Button"], configurationStates: {},
   reference: { example: "button", guidance: { use: "사용자가 명시적으로 시작하는 동작에 쓴다.", evidence: "거래 추가와 행 메뉴의 명시적 동작에 필요하다.", limits: "탐색 링크나 화면 전용 아이콘 API를 대신하지 않는다." } },
 } as const
 

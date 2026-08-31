@@ -4,7 +4,7 @@ import test from "node:test"
 import { publicBarrel, validateContracts } from "../scripts/component-contracts.mjs"
 
 const contract = (name, source = `src/components/ui/${name}.tsx`) => ({
-  name, source, publicExports: ["Widget"],
+  name, source, publicExports: ["Widget"], anatomy: ["Widget"],
   config: { variants: {}, defaultVariants: {} }, className: () => "",
   reference: { example: name, guidance: { use: "use", evidence: "evidence", limits: "limits" } },
 })
@@ -33,6 +33,29 @@ test("authored guidance와 대표 예시는 모든 계약에 필요하다", () =
   const empty = contract("a")
   empty.reference.guidance.use = ""
   assert.throws(() => validateContracts(["a.tsx"], [empty]), /authored guidance가 비어 있다/)
+})
+
+test("공개 컴포넌트는 anatomy에 있어야 한다", () => {
+  // parts 검사는 anatomy → parts 한 방향만 봤다. parts 없는 계약의 빈 anatomy가
+  // 43세대를 통과한 침묵을 반대 방향으로 닫는다
+  const silent = contract("a")
+  silent.publicExports = ["Widget", "WidgetHeader"]
+  assert.throws(() => validateContracts(["a.tsx"], [silent]), /anatomy에 없는 공개 컴포넌트: a\.WidgetHeader/)
+
+  const bare = contract("a")
+  bare.anatomy = []
+  assert.throws(() => validateContracts(["a.tsx"], [bare]), /anatomy에 없는 공개 컴포넌트: a\.Widget/)
+
+  // cva 헬퍼는 소문자로 시작해 컴포넌트가 아니다 — anatomy에 자리를 요구하지 않는다
+  const helpers = contract("a")
+  helpers.publicExports = ["Widget", "widgetVariants", "widgetVariantsConfig"]
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [helpers]))
+
+  // 선택·반복 표식이 붙어 있어도 같은 이름이다
+  const marked = contract("a")
+  marked.publicExports = ["Widget", "WidgetItem"]
+  marked.anatomy = ["Widget", "WidgetItem*"]
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [marked]))
 })
 
 test("외부 소유 표면에는 이유가 붙고, 우리 표면과 겹치지 않는다", () => {

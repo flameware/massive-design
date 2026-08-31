@@ -53,7 +53,7 @@ const componentContract = {
     PaginationNext: staticPart(cn(buttonVariants({ variant: "ghost", size: "default" }), "gap-1 px-2.5 sm:pr-2.5")),
     PaginationEllipsis: staticPart("flex size-9 items-center justify-center"),
   },
-  reference: { example: "pagination", guidance: { use: "긴 결과 집합을 여러 페이지로 나누고 현재 페이지와 인접 이동을 링크로 제공한다.", evidence: "투자 이력처럼 전체 결과를 한 번에 표시하기 어려운 목록에서 URL로 복원 가능한 페이지 이동이 필요하다.", limits: "데이터 양이 적거나 연속 스크롤이 핵심인 흐름에는 사용하지 않으며, 축약 뒤에도 현재 페이지·이전·다음 링크의 접근 가능한 이름과 기본 키보드 동작을 보존한다." } },
+  reference: { example: "pagination", guidance: { use: "긴 결과 집합을 여러 페이지로 나누고 현재 페이지와 인접 이동을 링크로 제공한다.", evidence: "투자 이력처럼 전체 결과를 한 번에 표시하기 어려운 목록에서 URL로 복원 가능한 페이지 이동이 필요하다.", limits: "데이터 양이 적거나 연속 스크롤이 핵심인 흐름에는 사용하지 않으며, 축약 뒤에도 현재 페이지·이전·다음 링크의 접근 가능한 이름과 기본 키보드 동작을 보존한다. 이전·다음의 문구는 children으로 소비처가 정한다 — upstream의 `text` prop에 해당하는 자리이며, 문자열이라 파생 채널이 구분하지 않는다(#121)." } },
 } as const
 
 export { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis, paginationVariants, paginationVariantsConfig, componentContract }

@@ -56,7 +56,7 @@ export const catalog = [
       "example": "alert",
       "guidance": {
         "evidence": "투자 데이터 동기화 결과와 가격 지연 경고를 성공·warning·danger 의미로 구별해야 한다.",
-        "limits": "잠깐 나타나는 작업 결과에는 Toast를 사용하고, 모든 안내를 role=alert로 반복해 쌓지 않는다.",
+        "limits": "잠깐 나타나는 작업 결과에는 Toast를 사용하고, 모든 안내를 role=alert로 반복해 쌓지 않는다. upstream의 `AlertAction`과 아이콘 슬롯은 계약하지 않는다 — `AlertAction`은 열 근거가 있으나 별도 effort로 미뤘고, 아이콘 컬럼은 이 Alert이 1열 그리드라 도입하면 기존 인스턴스의 격자를 재해석하는 breaking이다(#121).",
         "use": "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달한다."
       }
     },
@@ -92,7 +92,7 @@ export const catalog = [
       "example": "alert-dialog",
       "guidance": {
         "evidence": "투자 거래 삭제는 기록과 손익 계산에 영향을 주므로 실행과 취소의 의미를 분리해 확인해야 한다.",
-        "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다.",
+        "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다. `size` 축과 `AlertDialogMedia`는 열지 않는다 — size는 소비처가 유틸리티로 정할 수 있고, Media는 Dialog에는 없어 두 컴포넌트의 anatomy를 갈라놓는 upstream의 비대칭이라 승계할 근거가 없다(#121).",
         "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
       }
     },
@@ -126,7 +126,7 @@ export const catalog = [
       "example": "avatar",
       "guidance": {
         "evidence": "투자 기록의 작성자나 연결된 증권 계정을 목록과 활동 내역에서 빠르게 구별해야 한다.",
-        "limits": "이미지만으로 이름을 전달하지 말고 주변 텍스트나 접근 가능한 이름을 제공하며, 장식 이미지에는 빈 대체 텍스트를 사용한다.",
+        "limits": "이미지만으로 이름을 전달하지 말고 주변 텍스트나 접근 가능한 이름을 제공하며, 장식 이미지에는 빈 대체 텍스트를 사용한다. upstream의 `AvatarBadge`·`AvatarGroup`·`AvatarGroupCount`는 계약하지 않는다 — anatomy가 늘고 겹침·ring 배치를 소비처가 복제해야 하는 진짜 표면이라 열 근거는 있으나, 기존 카탈로그를 다시 여는 일이라 별도 effort에서 additive로 붙인다(#121).",
         "use": "사람이나 계정을 작은 원형 이미지로 식별하고 이미지가 없거나 실패하면 안정적인 fallback을 표시한다."
       }
     },
@@ -196,7 +196,7 @@ export const catalog = [
   {
     "component": "button",
     "displayName": "Button",
-    "hash": "8472d5d50576",
+    "hash": "6ec13ce8b0c2",
     "cells": 48,
     "axes": {
       "size": [
@@ -218,7 +218,9 @@ export const catalog = [
         "link"
       ]
     },
-    "anatomy": [],
+    "anatomy": [
+      "Button"
+    ],
     "configurationStates": {},
     "reference": {
       "example": "button",
@@ -301,16 +303,24 @@ export const catalog = [
   {
     "component": "card",
     "displayName": "Card",
-    "hash": "50895e9c5fea",
+    "hash": "82d2063c2dba",
     "cells": 1,
     "axes": {},
-    "anatomy": [],
+    "anatomy": [
+      "Card",
+      "CardHeader?",
+      "CardTitle?",
+      "CardDescription?",
+      "CardAction?",
+      "CardContent?",
+      "CardFooter?"
+    ],
     "configurationStates": {},
     "reference": {
       "example": "card",
       "guidance": {
         "evidence": "투자 이력의 요약 영역에서 기존 Card를 재사용한다.",
-        "limits": "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다.",
+        "limits": "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다. `size` 축(upstream의 default/sm)은 열지 않는다 — 축은 늘지만 간격은 소비처가 유틸리티로 정하면 되고 우리 스케일 결정을 복제하지 않는다(#121).",
         "use": "관련 콘텐츠를 하나의 표면으로 묶는다."
       }
     },
@@ -543,7 +553,7 @@ export const catalog = [
       "example": "empty",
       "guidance": {
         "evidence": "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 한다.",
-        "limits": "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다.",
+        "limits": "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다. `EmptyMedia`의 icon 축은 계약하지 않는다 — `ItemMedia`와 같은 자리이고 판정도 같다. 열 때는 upstream의 값 이름을 그대로 써 두 Media의 값 집합이 갈라지지 않게 한다(#121).",
         "use": "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립한다."
       }
     },
@@ -583,7 +593,7 @@ export const catalog = [
       "example": "field",
       "guidance": {
         "evidence": "투자 입력 화면의 라벨·메모·검증 메시지를 일관된 구조로 묶어야 한다.",
-        "limits": "폼 상태 관리, 검증 규칙, 제출 동작은 소비처가 소유한다.",
+        "limits": "폼 상태 관리, 검증 규칙, 제출 동작은 소비처가 소유한다. `FieldLegend`의 legend/label 표현 축(upstream의 `variant`)은 계약하지 않는다 — 파트에 축이 생기고 label 모양이 `FieldLabel` 클래스를 복제하게 되는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121).",
         "use": "라벨, 컨트롤, 도움말과 오류를 접근 가능한 한 필드로 조립한다."
       }
     },
@@ -637,7 +647,7 @@ export const catalog = [
       "example": "input-group",
       "guidance": {
         "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
-        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다.",
+        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다. `InputGroupAddon`의 4방향 배치 축(upstream의 `align`)은 계약하지 않는다 — 파트 축이라 열 근거는 있으나 별도 effort로 미뤘다. `InputGroupButton`의 variant·size는 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면 되고 우리 스타일 결정을 복제하지 않는다(#121).",
         "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
       }
     },
@@ -682,7 +692,7 @@ export const catalog = [
       "example": "item",
       "guidance": {
         "evidence": "검색 결과, 선택 목록, 설정 행처럼 같은 정보 위계를 공유하지만 제품 의미가 다른 반복 항목이 필요하다.",
-        "limits": "탐색·선택·버튼 역할을 자동으로 부여하지 않으며 도메인 필드와 상호작용 의미는 소비처가 명시한다.",
+        "limits": "탐색·선택·버튼 역할을 자동으로 부여하지 않으며 도메인 필드와 상호작용 의미는 소비처가 명시한다. `ItemMedia`의 icon/image 축은 계약하지 않는다 — 파트 축이라 열 근거는 있으나 별도 effort로 미뤘으며, 열 때는 upstream의 값 이름(`icon`·`image`)을 그대로 쓴다(#121).",
         "use": "미디어, 주 정보, 보조 설명과 행동을 재배치 가능한 한 항목으로 조립한다."
       }
     },
@@ -692,10 +702,12 @@ export const catalog = [
   {
     "component": "label",
     "displayName": "Label",
-    "hash": "f13a318e70a1",
+    "hash": "e09201d777d4",
     "cells": 1,
     "axes": {},
-    "anatomy": [],
+    "anatomy": [
+      "Label"
+    ],
     "configurationStates": {},
     "reference": {
       "example": "label",
@@ -804,7 +816,7 @@ export const catalog = [
       "example": "pagination",
       "guidance": {
         "evidence": "투자 이력처럼 전체 결과를 한 번에 표시하기 어려운 목록에서 URL로 복원 가능한 페이지 이동이 필요하다.",
-        "limits": "데이터 양이 적거나 연속 스크롤이 핵심인 흐름에는 사용하지 않으며, 축약 뒤에도 현재 페이지·이전·다음 링크의 접근 가능한 이름과 기본 키보드 동작을 보존한다.",
+        "limits": "데이터 양이 적거나 연속 스크롤이 핵심인 흐름에는 사용하지 않으며, 축약 뒤에도 현재 페이지·이전·다음 링크의 접근 가능한 이름과 기본 키보드 동작을 보존한다. 이전·다음의 문구는 children으로 소비처가 정한다 — upstream의 `text` prop에 해당하는 자리이며, 문자열이라 파생 채널이 구분하지 않는다(#121).",
         "use": "긴 결과 집합을 여러 페이지로 나누고 현재 페이지와 인접 이동을 링크로 제공한다."
       }
     },
@@ -962,7 +974,7 @@ export const catalog = [
       "example": "select",
       "guidance": {
         "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
-        "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다.",
+        "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다. 열린 목록의 위치 계산(upstream의 `alignItemWithTrigger`)은 계약하지 않는다 — 동작이라 파생 채널에 실리지 않는다(#121).",
         "use": "제한된 값 하나를 선택한다."
       }
     },
@@ -1215,7 +1227,7 @@ export const catalog = [
       "example": "tabs",
       "guidance": {
         "evidence": "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 한다.",
-        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다.",
+        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다. `TabsList`의 밑줄 표현 축(upstream의 `variant=\"line\"`)은 계약하지 않는다 — List와 Trigger 양쪽을 재작성해야 하는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121).",
         "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립한다."
       }
     },
@@ -1362,7 +1374,7 @@ export const catalog = [
       "example": "toggle-group",
       "guidance": {
         "evidence": "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하다.",
-        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다.",
+        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태(upstream의 `spacing={0}`)는 계약하지 않는다 — 축이 생기고 자식 radius 평탄화 로직이 따라오는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121).",
         "use": "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동한다."
       }
     },

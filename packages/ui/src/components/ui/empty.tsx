@@ -23,7 +23,7 @@ const componentContract = {
   publicExports: ["Empty", "EmptyHeader", "EmptyMedia", "EmptyTitle", "EmptyDescription", "EmptyContent", "emptyVariants", "emptyVariantsConfig"],
   config: emptyVariantsConfig, className: (props: Record<string, string>) => cn(emptyVariants(props)),
   anatomy: ["Empty", "EmptyHeader", "EmptyMedia?", "EmptyTitle", "EmptyDescription?", "EmptyContent?"], configurationStates: {},
-  reference: { example: "empty", guidance: { use: "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립한다.", evidence: "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 한다.", limits: "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다." } },
+  reference: { example: "empty", guidance: { use: "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립한다.", evidence: "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 한다.", limits: "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다. `EmptyMedia`의 icon 축은 계약하지 않는다 — `ItemMedia`와 같은 자리이고 판정도 같다. 열 때는 upstream의 값 이름을 그대로 써 두 Media의 값 집합이 갈라지지 않게 한다(#121)." } },
 } as const
 
 export { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent, emptyVariants, emptyVariantsConfig, componentContract }

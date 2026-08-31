@@ -101,9 +101,9 @@ const componentContract = {
   name: "card", source: "src/components/ui/card.tsx",
   publicExports: ["Card", "CardHeader", "CardFooter", "CardTitle", "CardAction", "CardDescription", "CardContent", "cardVariants", "cardVariantsConfig"],
   config: cardVariantsConfig, className: (props: Record<string, string>) => cn(cardVariants(props)),
-  anatomy: [],
+  anatomy: ["Card", "CardHeader?", "CardTitle?", "CardDescription?", "CardAction?", "CardContent?", "CardFooter?"],
   configurationStates: {},
-  reference: { example: "card", guidance: { use: "관련 콘텐츠를 하나의 표면으로 묶는다.", evidence: "투자 이력의 요약 영역에서 기존 Card를 재사용한다.", limits: "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다." } },
+  reference: { example: "card", guidance: { use: "관련 콘텐츠를 하나의 표면으로 묶는다.", evidence: "투자 이력의 요약 영역에서 기존 Card를 재사용한다.", limits: "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다. `size` 축(upstream의 default/sm)은 열지 않는다 — 축은 늘지만 간격은 소비처가 유틸리티로 정하면 되고 우리 스케일 결정을 복제하지 않는다(#121)." } },
 } as const
 
 export {

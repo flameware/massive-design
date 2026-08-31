@@ -33,7 +33,7 @@ const componentContract = {
   name: "label", source: "src/components/ui/label.tsx",
   publicExports: ["Label", "labelVariants", "labelVariantsConfig"],
   config: labelVariantsConfig, className: (props: Record<string, string>) => cn(labelVariants(props)),
-  anatomy: [], configurationStates: {},
+  anatomy: ["Label"], configurationStates: {},
   reference: { example: "label", guidance: { use: "폼 컨트롤에 사람이 읽는 이름을 연결한다.", evidence: "검색·필터 컨트롤의 접근 가능한 이름을 제공한다.", limits: "장식 텍스트에는 사용하지 않는다." } },
 } as const
 
