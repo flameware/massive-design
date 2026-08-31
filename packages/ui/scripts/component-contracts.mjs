@@ -4,6 +4,19 @@ import { join } from "node:path"
 
 export const COMPONENT_DIR = "src/components/ui"
 
+/* 외부 소유 표면(#122).
+ *
+ * 서드파티가 DOM과 스타일을 소유하는 컴포넌트에서, 매니페스트는 **우리 cva가 낸
+ * 클래스**만 컴파일해 줍는다. 라이브러리가 스스로 만드는 노드는 클래스를 안 내므로
+ * 매니페스트에 아예 나타나지 않는다 — 그리고 `manifest/lint.mjs`가 두 번 이름 붙인
+ * 대로 **없는 것은 통과가 아니라 침묵이다.**
+ *
+ * 그래서 경계를 손으로 적게 하고 게이트가 지킨다. 모양은 classify.mjs의
+ * `IGNORED_PROPERTIES`와 같다 — **값이 이유다. 지울 때 근거를 지운다.**
+ *
+ * `unresolved`("아직 못 다뤘다")와는 다른 등급이다. 외부 소유는 나중에 다뤄질 것이
+ * 아니라 **영영 우리 것이 아니다**. 섞으면 unresolved가 다시 잡동사니가 된다. */
+
 export function validateContracts(files, contracts) {
   const errors = []
   const expectedSources = new Set(files.map((file) => `${COMPONENT_DIR}/${file}`))
@@ -27,6 +40,27 @@ export function validateContracts(files, contracts) {
         errors.push(`anatomy에 없는 part 계약: ${contract.name}.${partName}`)
       }
     }
+    const external = contract.externalSurfaces
+    if (external !== undefined) {
+      const entries = Object.entries(external)
+      if (typeof external !== "object" || external === null || Array.isArray(external) || entries.length === 0) {
+        errors.push(`externalSurfaces는 비어 있지 않은 객체여야 한다: ${contract.name}`)
+      }
+      const ours = new Set([
+        ...(contract.anatomy ?? []).map((entry) => entry.replace(/[?*]$/, "")),
+        ...Object.keys(contract.parts ?? {}),
+      ])
+      for (const [surface, why] of entries) {
+        if (typeof why !== "string" || !why.trim()) {
+          errors.push(`외부 소유 표면에는 이유가 필요하다: ${contract.name}.${surface}`)
+        }
+        // 한 표면이 우리 것이면서 남의 것일 수는 없다. 겹치면 경계가 안 그어진 것이다
+        if (ours.has(surface)) {
+          errors.push(`외부 소유 표면이 anatomy·parts와 겹친다: ${contract.name}.${surface}`)
+        }
+      }
+    }
+
     const reference = contract.reference
     if (!reference || !reference.example || !reference.guidance) {
       errors.push(`reference 계약이 없는 컴포넌트: ${contract.name}`)

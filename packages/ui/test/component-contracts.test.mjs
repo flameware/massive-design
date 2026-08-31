@@ -34,3 +34,23 @@ test("authored guidance와 대표 예시는 모든 계약에 필요하다", () =
   empty.reference.guidance.use = ""
   assert.throws(() => validateContracts(["a.tsx"], [empty]), /authored guidance가 비어 있다/)
 })
+
+test("외부 소유 표면에는 이유가 붙고, 우리 표면과 겹치지 않는다", () => {
+  const noReason = contract("a")
+  noReason.externalSurfaces = { "슬라이드 트랙": "" }
+  assert.throws(() => validateContracts(["a.tsx"], [noReason]), /외부 소유 표면에는 이유가 필요하다/)
+
+  const overlapping = contract("a")
+  overlapping.anatomy = ["Widget", "WidgetTrack"]
+  overlapping.externalSurfaces = { WidgetTrack: "라이브러리가 트랜스폼을 소유한다" }
+  assert.throws(() => validateContracts(["a.tsx"], [overlapping]), /anatomy·parts와 겹친다/)
+
+  const empty = contract("a")
+  empty.externalSurfaces = {}
+  assert.throws(() => validateContracts(["a.tsx"], [empty]), /비어 있지 않은 객체/)
+
+  const ok = contract("a")
+  ok.anatomy = ["Widget"]
+  ok.externalSurfaces = { "슬라이드 트랙": "embla가 트랜스폼과 레이아웃을 소유한다" }
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [ok]))
+})

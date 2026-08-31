@@ -236,6 +236,6 @@
       "use": "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다."
     }
   },
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "src/components/ui/combobox.tsx"
 }

@@ -227,6 +227,6 @@
       "use": "현재 위치의 상위 계층을 링크로 제공하고 마지막 항목을 현재 위치로 표시한다."
     }
   },
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "src/components/ui/breadcrumb.tsx"
 }

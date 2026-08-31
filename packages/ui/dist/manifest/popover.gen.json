@@ -80,6 +80,6 @@
       "use": "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공한다."
     }
   },
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "src/components/ui/popover.tsx"
 }

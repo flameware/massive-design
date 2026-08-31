@@ -257,6 +257,6 @@
       "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
     }
   },
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "src/components/ui/table.tsx"
 }
