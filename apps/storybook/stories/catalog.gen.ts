@@ -374,6 +374,45 @@ export const catalog = [
     "source": "src/components/ui/collapsible.tsx"
   },
   {
+    "component": "combobox",
+    "displayName": "Combobox",
+    "hash": "720b6bb0e0de",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Combobox",
+      "ComboboxTrigger",
+      "ComboboxValue",
+      "ComboboxIcon?",
+      "ComboboxContent",
+      "CommandInput",
+      "CommandList",
+      "CommandGroup*",
+      "CommandItem*",
+      "CommandEmpty?"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ],
+      "selected": [
+        "unselected",
+        "selected"
+      ]
+    },
+    "reference": {
+      "example": "combobox",
+      "guidance": {
+        "evidence": "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.",
+        "limits": "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다.",
+        "use": "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/combobox.tsx"
+  },
+  {
     "component": "command",
     "displayName": "Command",
     "hash": "c7f9281f045a",

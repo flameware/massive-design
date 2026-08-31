@@ -1,0 +1,241 @@
+{
+  "anatomy": [
+    "Combobox",
+    "ComboboxTrigger",
+    "ComboboxValue",
+    "ComboboxIcon?",
+    "ComboboxContent",
+    "CommandInput",
+    "CommandList",
+    "CommandGroup*",
+    "CommandItem*",
+    "CommandEmpty?"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "flex h-9 w-full min-w-0 items-center justify-between gap-2 rounded-md border bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-9",
+          "px": 36,
+          "tier": "literal"
+        },
+        "justify-content": {
+          "from": "justify-between",
+          "tier": "literal",
+          "value": "space-between"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-block": {
+          "from": "py-1",
+          "multiple": 1,
+          "px": 4,
+          "scale": "space.1",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "combobox",
+  "configurationStates": {
+    "open": [
+      "closed",
+      "open"
+    ],
+    "selected": [
+      "unselected",
+      "selected"
+    ]
+  },
+  "defaults": {},
+  "hash": "720b6bb0e0de",
+  "parts": {
+    "ComboboxContent": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "w-[var(--radix-popover-trigger-width)] p-0",
+          "properties": {
+            "padding": {
+              "from": "p-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "width": {
+              "from": "w-[var(--radix-popover-trigger-width)]",
+              "tier": "unresolved",
+              "value": "var(--radix-popover-trigger-width)",
+              "why": "변수 --radix-popover-trigger-width의 값을 찾지 못했다"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "ComboboxIcon": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "size-4 shrink-0 text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "height": {
+              "from": "size-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "width": {
+              "from": "size-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "ComboboxValue": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "truncate text-left data-[placeholder=true]:text-muted-foreground",
+          "properties": {
+            "data-[placeholder=true]:color": {
+              "from": "data-[placeholder=true]:text-muted-foreground",
+              "tier": "unresolved",
+              "value": "var(--muted-foreground)",
+              "why": "수식자 data-[placeholder=true]를 아직 다루지 않는다"
+            },
+            "overflow": {
+              "from": "truncate",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "text-align": {
+              "from": "text-left",
+              "tier": "literal",
+              "value": "left"
+            },
+            "text-overflow": {
+              "from": "truncate",
+              "tier": "literal",
+              "value": "ellipsis"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "combobox",
+    "guidance": {
+      "evidence": "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.",
+      "limits": "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다.",
+      "use": "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다."
+    }
+  },
+  "schemaVersion": 4,
+  "source": "src/components/ui/combobox.tsx"
+}
