@@ -28,7 +28,7 @@
     { "component": "select", "manifestHash": "306160b2cb63" },
     { "component": "separator", "manifestHash": "5397c850ef60" },
     { "component": "skeleton", "manifestHash": "9c2250c043f6" },
-    { "component": "spinner", "manifestHash": "5880705d6f05" },
+    { "component": "spinner", "manifestHash": "5880705d6f03" },
     { "component": "switch", "manifestHash": "73605238388e" },
     { "component": "table", "manifestHash": "5503b18695d6", "componentSetId": "151:24" },
     { "component": "tabs", "manifestHash": "d6fdc43dd30e" },

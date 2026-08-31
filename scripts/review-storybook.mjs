@@ -27,6 +27,16 @@ export function applyStorybookReview(record, review, checkedAt = new Date().toIS
   if (!stage || stage.automatedResult !== 'PASS') {
     throw new Error('Storybook 자동 검사가 PASS인 최신 preflight 기록이 필요하다')
   }
+  /* PASS는 Figma Sync가 대상으로 고정하는 세대다. 입력 트리가 dirty였다면
+   * targetCommit과 inputDigest가 서로 다른 세대를 가리키므로, 사람이 본 것을
+   * 어느 commit에도 못박을 수 없다 — 그런 기록은 통과시키지 않는다. */
+  if (review.result === 'PASS' && record.inputTree && record.inputTree.clean === false) {
+    const paths = (record.inputTree.dirtyPaths ?? []).map((file) => `  ${file}`).join('\n')
+    throw new Error(
+      `입력 트리가 ${String(record.inputTree.commit).slice(0, 7)}와 달라 세대를 고정할 수 없다. ` +
+        `아래를 커밋하고 sync:preflight부터 다시 실행한다:\n${paths}`
+    )
+  }
   stage.result = review.result
   stage.visualReview = {
     reviewer: review.reviewer,
