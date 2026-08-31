@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "f2ce61cd9400f4e3681af842a87f43e475596679",
   "inputTree": {
     "commit": "f2ce61cd9400f4e3681af842a87f43e475596679",
@@ -259,7 +259,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-08-31T15:23:16.499Z",
       "automatedResult": "PASS",
       "checks": [
@@ -350,10 +350,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "<Sohn Seongki>",
+        "checkedAt": "2026-08-31T15:26:55.822Z",
+        "scope": "<쌓인 확인건 처리>"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-08-31T15:26:55.822Z"
 }
