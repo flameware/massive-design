@@ -6,6 +6,7 @@ export { Avatar, AvatarImage, AvatarFallback, avatarVariants, avatarVariantsConf
 export { Badge, badgeVariants, badgeVariantsConfig } from "./components/ui/badge.js"
 export { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis, breadcrumbVariants, breadcrumbVariantsConfig } from "./components/ui/breadcrumb.js"
 export { Button, buttonVariants, buttonVariantsConfig } from "./components/ui/button.js"
+export { Calendar, CalendarHeader, CalendarNav, CalendarCaption, CalendarGrid, CalendarHeadCell, CalendarCell, CalendarDay, calendarVariants, calendarVariantsConfig, calendarDayVariants, calendarDayVariantsConfig } from "./components/ui/calendar.js"
 export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent, cardVariants, cardVariantsConfig } from "./components/ui/card.js"
 export { Checkbox, checkboxVariants, checkboxVariantsConfig } from "./components/ui/checkbox.js"
 export { Collapsible, CollapsibleTrigger, CollapsibleContent, collapsibleVariants, collapsibleVariantsConfig } from "./components/ui/collapsible.js"

@@ -10,6 +10,7 @@ const EXPECTED = [
   "badge",
   "breadcrumb",
   "button",
+  "calendar",
   "card",
   "checkbox",
   "collapsible",

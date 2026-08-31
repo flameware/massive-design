@@ -4,7 +4,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
-  Badge, Button, buttonVariants, Card, CardContent, CardDescription, CardHeader, CardTitle,
+  Badge, Button, buttonVariants, Calendar, Card, CardContent, CardDescription, CardHeader, CardTitle,
   Checkbox, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
   DropdownMenuSeparator, DropdownMenuTrigger, Input, Label, ListRow, ListRowContent,
   ListRowDescription, ListRowMeta, ListRowTitle, ListRowTrailing, Select, SelectContent,
@@ -30,6 +30,11 @@ import itemFixture from "./fixtures/item.json"
 import tableFixture from "./fixtures/table.json"
 
 export type CatalogEntry = (typeof catalog)[number]
+
+/* 참조 스토리는 벽시계를 읽지 않는다 — 달과 "오늘"을 고정해야 axe 실행과 스냅샷이 흔들리지 않는다. */
+const REFERENCE_MONTH = new Date(2026, 7, 1)
+const REFERENCE_TODAY = new Date(2026, 7, 18)
+const REFERENCE_LAST_SELECTABLE = new Date(2026, 7, 26)
 
 function InvestmentTable() {
   return <Table>
@@ -58,6 +63,9 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     "alert-dialog": <AlertDialog defaultOpen={selection.open === "open"}><AlertDialogTrigger asChild><Button variant="destructive">거래 삭제</Button></AlertDialogTrigger><AlertDialogContent><AlertDialogHeader><AlertDialogTitle>이 거래를 삭제할까요?</AlertDialogTitle><AlertDialogDescription>삭제하면 이 거래가 투자 기록과 손익 계산에서 제거됩니다. 이 작업은 되돌릴 수 없습니다.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>취소</AlertDialogCancel><AlertDialogAction className={buttonVariants({ variant: "destructive" })}>삭제</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog>,
     badge: <Badge variant={variant}>수익</Badge>, button: <Button variant={variant} size={size}>거래 추가</Button>,
     breadcrumb: <Breadcrumb><BreadcrumbList><BreadcrumbItem><BreadcrumbLink href="#portfolio">포트폴리오</BreadcrumbLink></BreadcrumbItem><BreadcrumbSeparator/><BreadcrumbItem><BreadcrumbEllipsis/></BreadcrumbItem><BreadcrumbSeparator/><BreadcrumbItem>{selection.currentLocation === "current" ? <BreadcrumbPage>삼성전자</BreadcrumbPage> : <BreadcrumbLink href="#holding">보유 종목</BreadcrumbLink>}</BreadcrumbItem></BreadcrumbList></Breadcrumb>,
+    calendar: selection.selection === "range"
+      ? <Calendar mode="range" locale="ko-KR" defaultMonth={REFERENCE_MONTH} today={REFERENCE_TODAY} defaultSelected={{ from: new Date(2026, 7, 10), to: new Date(2026, 7, 14) }} disabled={(date) => date > REFERENCE_LAST_SELECTABLE} labels={{ previousMonth: "이전 달", nextMonth: "다음 달" }}/>
+      : <Calendar locale="ko-KR" defaultMonth={REFERENCE_MONTH} today={REFERENCE_TODAY} defaultSelected={new Date(2026, 7, 12)} disabled={(date) => date > REFERENCE_LAST_SELECTABLE} labels={{ previousMonth: "이전 달", nextMonth: "다음 달" }}/>,
     card: <Card className="max-w-sm"><CardHeader><CardTitle>투자 요약</CardTitle><CardDescription>2026년 누적 투자 기록</CardDescription></CardHeader><CardContent>총 평가금액 ₩16,680,000</CardContent></Card>,
     checkbox: <div className="flex items-center gap-2"><Checkbox checked={selection.checked === "indeterminate" ? "indeterminate" : selection.checked === "checked"} id="row-check"/><Label htmlFor="row-check">삼성전자 우선주 선택</Label></div>,
     collapsible: <Collapsible defaultOpen={selection.open === "open"} className="max-w-lg rounded-lg border p-4"><div className="flex items-center justify-between gap-4"><p className="font-medium">고급 필터 3개</p><CollapsibleTrigger asChild><Button variant="ghost" size="sm">조건 보기</Button></CollapsibleTrigger></div><CollapsibleContent className="pt-3 text-muted-foreground">시장 · 거래 유형 · 손익 범위를 추가로 제한합니다.</CollapsibleContent></Collapsible>,
