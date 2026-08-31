@@ -1,0 +1,324 @@
+{
+  "anatomy": [
+    "ButtonGroup",
+    "Button*",
+    "ButtonGroupText?",
+    "ButtonGroupSeparator?"
+  ],
+  "axes": {
+    "orientation": [
+      "horizontal",
+      "vertical"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "flex w-fit items-stretch [&>*]:relative [&>*:focus-visible]:z-10 [&>*:focus-within]:z-10 flex-row [&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
+      "orientation": "horizontal",
+      "properties": {
+        "[&>*:focus-visible]:z-index": {
+          "from": "[&>*:focus-visible]:z-10",
+          "tier": "unresolved",
+          "value": "10",
+          "why": "수식자 [&>*:focus-visible]를 아직 다루지 않는다"
+        },
+        "[&>*:focus-within]:z-index": {
+          "from": "[&>*:focus-within]:z-10",
+          "tier": "unresolved",
+          "value": "10",
+          "why": "수식자 [&>*:focus-within]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-bottom-left-radius": {
+          "from": "[&>*:not(:first-child)]:rounded-l-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-left-style": {
+          "from": "[&>*:not(:first-child)]:border-l-0",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-left-width": {
+          "from": "[&>*:not(:first-child)]:border-l-0",
+          "tier": "unresolved",
+          "value": "0px",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-top-left-radius": {
+          "from": "[&>*:not(:first-child)]:rounded-l-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:last-child)]:border-bottom-right-radius": {
+          "from": "[&>*:not(:last-child)]:rounded-r-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:last-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:last-child)]:border-top-right-radius": {
+          "from": "[&>*:not(:last-child)]:rounded-r-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:last-child)]를 아직 다루지 않는다"
+        },
+        "[&>*]:position": {
+          "from": "[&>*]:relative",
+          "tier": "unresolved",
+          "value": "relative",
+          "why": "수식자 [&>*]를 아직 다루지 않는다"
+        },
+        "align-items": {
+          "from": "items-stretch",
+          "tier": "literal",
+          "value": "stretch"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-row",
+          "tier": "literal",
+          "value": "row"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "state": null
+    },
+    {
+      "className": "flex w-fit items-stretch [&>*]:relative [&>*:focus-visible]:z-10 [&>*:focus-within]:z-10 flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none",
+      "orientation": "vertical",
+      "properties": {
+        "[&>*:focus-visible]:z-index": {
+          "from": "[&>*:focus-visible]:z-10",
+          "tier": "unresolved",
+          "value": "10",
+          "why": "수식자 [&>*:focus-visible]를 아직 다루지 않는다"
+        },
+        "[&>*:focus-within]:z-index": {
+          "from": "[&>*:focus-within]:z-10",
+          "tier": "unresolved",
+          "value": "10",
+          "why": "수식자 [&>*:focus-within]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-top-left-radius": {
+          "from": "[&>*:not(:first-child)]:rounded-t-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-top-right-radius": {
+          "from": "[&>*:not(:first-child)]:rounded-t-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-top-style": {
+          "from": "[&>*:not(:first-child)]:border-t-0",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:first-child)]:border-top-width": {
+          "from": "[&>*:not(:first-child)]:border-t-0",
+          "tier": "unresolved",
+          "value": "0px",
+          "why": "수식자 [&>*:not(:first-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:last-child)]:border-bottom-left-radius": {
+          "from": "[&>*:not(:last-child)]:rounded-b-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:last-child)]를 아직 다루지 않는다"
+        },
+        "[&>*:not(:last-child)]:border-bottom-right-radius": {
+          "from": "[&>*:not(:last-child)]:rounded-b-none",
+          "tier": "unresolved",
+          "value": "0",
+          "why": "수식자 [&>*:not(:last-child)]를 아직 다루지 않는다"
+        },
+        "[&>*]:position": {
+          "from": "[&>*]:relative",
+          "tier": "unresolved",
+          "value": "relative",
+          "why": "수식자 [&>*]를 아직 다루지 않는다"
+        },
+        "align-items": {
+          "from": "items-stretch",
+          "tier": "literal",
+          "value": "stretch"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-col",
+          "tier": "literal",
+          "value": "column"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "button-group",
+  "configurationStates": {
+    "disabled": [
+      "enabled",
+      "disabled"
+    ]
+  },
+  "defaults": {
+    "orientation": "horizontal"
+  },
+  "hash": "adcce550fd2b",
+  "parts": {
+    "ButtonGroupSeparator": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "self-stretch",
+          "properties": {
+            "align-self": {
+              "from": "self-stretch",
+              "tier": "literal",
+              "value": "stretch"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "ButtonGroupText": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex items-center gap-2 rounded-md border bg-muted px-4 text-sm font-medium text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "padding-inline": {
+              "from": "px-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&_svg:not([class*='size-'])]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "button-group",
+    "guidance": {
+      "evidence": "투자 이력의 행 도구 모음처럼 내보내기·인쇄·행 메뉴가 나란히 서야 하고, 그중 하나만 비활성이 되는 자리가 있다.",
+      "limits": "하나의 값을 고르는 선택 위젯에는 쓰지 않는다 — 그 자리는 화살표 키 이동과 선택 상태를 가진 Toggle Group이며, 이 컴포넌트는 Button의 공개 props를 주입하거나 대체하지 않는다.",
+      "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다."
+    }
+  },
+  "schemaVersion": 4,
+  "source": "src/components/ui/button-group.tsx"
+}

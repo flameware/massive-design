@@ -232,6 +232,40 @@ export const catalog = [
     "source": "src/components/ui/button.tsx"
   },
   {
+    "component": "button-group",
+    "displayName": "Button Group",
+    "hash": "adcce550fd2b",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    "anatomy": [
+      "ButtonGroup",
+      "Button*",
+      "ButtonGroupText?",
+      "ButtonGroupSeparator?"
+    ],
+    "configurationStates": {
+      "disabled": [
+        "enabled",
+        "disabled"
+      ]
+    },
+    "reference": {
+      "example": "button-group",
+      "guidance": {
+        "evidence": "투자 이력의 행 도구 모음처럼 내보내기·인쇄·행 메뉴가 나란히 서야 하고, 그중 하나만 비활성이 되는 자리가 있다.",
+        "limits": "하나의 값을 고르는 선택 위젯에는 쓰지 않는다 — 그 자리는 화살표 키 이동과 선택 상태를 가진 Toggle Group이며, 이 컴포넌트는 Button의 공개 props를 주입하거나 대체하지 않는다.",
+        "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/button-group.tsx"
+  },
+  {
     "component": "card",
     "displayName": "Card",
     "hash": "50895e9c5fea",
@@ -466,6 +500,39 @@ export const catalog = [
     "source": "src/components/ui/input.tsx"
   },
   {
+    "component": "input-group",
+    "displayName": "Input Group",
+    "hash": "e3e72b6225f6",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "InputGroup",
+      "InputGroupAddon?",
+      "InputGroupInput",
+      "InputGroupButton?"
+    ],
+    "configurationStates": {
+      "disabled": [
+        "enabled",
+        "disabled"
+      ],
+      "validity": [
+        "valid",
+        "invalid"
+      ]
+    },
+    "reference": {
+      "example": "input-group",
+      "guidance": {
+        "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
+        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다.",
+        "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/input-group.tsx"
+  },
+  {
     "component": "item",
     "displayName": "Item",
     "hash": "008b33625ebc",
@@ -560,6 +627,45 @@ export const catalog = [
     },
     "stateSamples": true,
     "source": "src/components/ui/list-row.tsx"
+  },
+  {
+    "component": "native-select",
+    "displayName": "Native Select",
+    "hash": "d6531f02868f",
+    "cells": 3,
+    "axes": {
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ]
+    },
+    "anatomy": [
+      "NativeSelect",
+      "NativeSelectIcon",
+      "NativeSelectGroup?",
+      "NativeSelectOption*"
+    ],
+    "configurationStates": {
+      "disabled": [
+        "enabled",
+        "disabled"
+      ],
+      "validity": [
+        "valid",
+        "invalid"
+      ]
+    },
+    "reference": {
+      "example": "native-select",
+      "guidance": {
+        "evidence": "투자 이력 필터의 시장·계좌처럼 값이 문자열이고 모바일에서 시스템 피커가 더 빠른 자리가 있다.",
+        "limits": "옵션에 아이콘·설명·구분선을 넣거나 열린 목록을 디자인해야 하면 Radix 기반 Select를 쓴다 — 열림 상태는 OS 소유라 이 컴포넌트의 구성 상태에 없고, 라벨은 Field가 연결한다.",
+        "use": "폼에 실려야 하는 짧은 값 하나를 고를 때 브라우저의 select를 그대로 쓰고, 필드 껍데기와 화살표만 디자인 시스템이 그린다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/native-select.tsx"
   },
   {
     "component": "pagination",
@@ -762,6 +868,45 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/skeleton.tsx"
+  },
+  {
+    "component": "slider",
+    "displayName": "Slider",
+    "hash": "f7f90ee58411",
+    "cells": 6,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ],
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ]
+    },
+    "anatomy": [
+      "Slider",
+      "SliderTrack",
+      "SliderRange",
+      "SliderThumb*"
+    ],
+    "configurationStates": {
+      "value": [
+        "single",
+        "range"
+      ]
+    },
+    "reference": {
+      "example": "slider",
+      "guidance": {
+        "evidence": "투자 이력 필터의 손익 범위처럼 최소·최대를 눈으로 훑으며 좁히는 자리가 있다.",
+        "limits": "정확한 금액이나 날짜를 입력받아야 하면 Input을 쓰고, 값이 몇 개뿐인 이산 선택에는 Toggle Group이나 Radio Group을 쓴다. thumb마다 접근 가능한 이름이 필요하므로 range에서는 thumbLabels를 반드시 준다.",
+        "use": "정확한 숫자보다 상대적 위치가 중요한 연속 범위에서 값 하나 또는 구간의 양 끝을 고른다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/slider.tsx"
   },
   {
     "component": "spinner",
