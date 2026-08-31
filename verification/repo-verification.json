@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "6147354ce09348c50ac5f1e5df93201daace70c9",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "1c20e2951dedf3a6227091f36dae6906cd7ff22b",
   "inputTree": {
-    "commit": "6147354ce09348c50ac5f1e5df93201daace70c9",
+    "commit": "1c20e2951dedf3a6227091f36dae6906cd7ff22b",
     "clean": true
   },
-  "inputDigest": "990bacfc9a0e6b355a63f76ecd0f64873aa4c5555c68cb5ecb11c6254a005281",
+  "inputDigest": "eb8a5de7cf513c5742dc7970c527174786753fc3bf3f01a5e3aaf2ebeb7fe15b",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -42,7 +42,7 @@
     },
     {
       "component": "button",
-      "manifestHash": "8472d5d50576",
+      "manifestHash": "6ec13ce8b0c2",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "component": "card",
-      "manifestHash": "50895e9c5fea",
+      "manifestHash": "82d2063c2dba",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -117,7 +117,7 @@
     },
     {
       "component": "label",
-      "manifestHash": "f13a318e70a1",
+      "manifestHash": "e09201d777d4",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -229,7 +229,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T10:32:22.290Z",
+      "checkedAt": "2026-08-31T15:19:21.696Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -259,8 +259,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-31T10:32:22.290Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-08-31T15:19:21.696Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -350,15 +350,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-08-31T10:33:11.459Z",
-        "scope": "같은 세대 재확인 — inputDigest 990bacfc…는 직전 검토 세대와 동일하므로 Storybook 빌드가 바이트 단위로 같다. 기록의 targetCommit을 실제 세대로 바로잡기 위한 재실행이며 시각 확인 내용은 P1 신규 9개와 포털 표면 Dark 재확인 범위 그대로다"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-08-31T10:33:11.459Z"
+  "resumeAt": "Storybook visual review"
 }
