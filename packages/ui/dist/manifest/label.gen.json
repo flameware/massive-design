@@ -1,5 +1,7 @@
 {
-  "anatomy": [],
+  "anatomy": [
+    "Label"
+  ],
   "axes": {},
   "base": {
     "border-color": {
@@ -84,7 +86,7 @@
   "component": "label",
   "configurationStates": {},
   "defaults": {},
-  "hash": "f13a318e70a1",
+  "hash": "e09201d777d4",
   "reference": {
     "example": "label",
     "guidance": {

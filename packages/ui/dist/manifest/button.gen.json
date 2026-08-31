@@ -1,5 +1,7 @@
 {
-  "anatomy": [],
+  "anatomy": [
+    "Button"
+  ],
   "axes": {
     "size": [
       "default",
@@ -5261,7 +5263,7 @@
     "size": "default",
     "variant": "default"
   },
-  "hash": "8472d5d50576",
+  "hash": "6ec13ce8b0c2",
   "reference": {
     "example": "button",
     "guidance": {

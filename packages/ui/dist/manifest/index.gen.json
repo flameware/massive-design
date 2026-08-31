@@ -39,7 +39,7 @@
     {
       "cells": 48,
       "component": "button",
-      "hash": "8472d5d50576",
+      "hash": "6ec13ce8b0c2",
       "path": "button.gen.json"
     },
     {
@@ -57,7 +57,7 @@
     {
       "cells": 1,
       "component": "card",
-      "hash": "50895e9c5fea",
+      "hash": "82d2063c2dba",
       "path": "card.gen.json"
     },
     {
@@ -129,7 +129,7 @@
     {
       "cells": 1,
       "component": "label",
-      "hash": "f13a318e70a1",
+      "hash": "e09201d777d4",
       "path": "label.gen.json"
     },
     {

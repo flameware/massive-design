@@ -121,7 +121,7 @@
     "example": "alert-dialog",
     "guidance": {
       "evidence": "투자 거래 삭제는 기록과 손익 계산에 영향을 주므로 실행과 취소의 의미를 분리해 확인해야 한다.",
-      "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다.",
+      "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다. `size` 축과 `AlertDialogMedia`는 열지 않는다 — size는 소비처가 유틸리티로 정할 수 있고, Media는 Dialog에는 없어 두 컴포넌트의 anatomy를 갈라놓는 upstream의 비대칭이라 승계할 근거가 없다(#121).",
       "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
     }
   },

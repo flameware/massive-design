@@ -58,6 +58,21 @@ export function validateContracts(files, contracts) {
     if (!Array.isArray(contract.publicExports) || contract.publicExports.length === 0) {
       errors.push(`공개 export가 없는 계약: ${contract.name}`)
     }
+    /* 공개 컴포넌트는 anatomy에 있어야 한다(#121).
+     *
+     * `parts` 검사는 **anatomy → parts** 한 방향만 봤다. 그래서 `parts`를 두지 않은 계약은
+     * anatomy가 비어 있어도 아무것도 걸리지 않았다 — Card가 파트 7개를 공개하면서
+     * `anatomy: []`로 43세대를 통과한 이유다. **없는 것은 통과가 아니라 침묵이다**(#122).
+     *
+     * 반대 방향을 여기서 닫는다: 대문자로 시작하는 공개 export는 컴포넌트이고, 컴포넌트는
+     * 파생 채널이 그릴 자리이므로 anatomy에 이름이 있어야 한다. `cva` 헬퍼(`*Variants`,
+     * `*VariantsConfig`)는 소문자로 시작해 저절로 빠진다. */
+    const anatomyNames = new Set((contract.anatomy ?? []).map((entry) => entry.replace(/[?*]$/, "")))
+    for (const exported of contract.publicExports ?? []) {
+      if (!/^[A-Z]/.test(exported)) continue
+      if (!anatomyNames.has(exported)) errors.push(`anatomy에 없는 공개 컴포넌트: ${contract.name}.${exported}`)
+    }
+
     for (const [partName, part] of Object.entries(contract.parts ?? {})) {
       if (!part?.config || !part?.className) errors.push(`part 계약에는 config와 className이 필요하다: ${contract.name}.${partName}`)
       if (!(contract.anatomy ?? []).some((entry) => entry.replace(/[?*]$/, "") === partName)) {
