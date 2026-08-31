@@ -1,64 +1,225 @@
 {
   "schemaVersion": 1,
   "kind": "figma-baseline",
-  "targetCommit": "7d1a68cbc27af674a87fcbd0a16d77cadbd33d23",
-  "inputDigest": "d84e7c86176e43d5f66546c15f793720c2979a8cd1b45c9ca5499da6400c6431",
+  "targetCommit": "9403155b3dceb399d3ce5fb080c60277cf08f90e",
+  "inputDigest": "990bacfc9a0e6b355a63f76ecd0f64873aa4c5555c68cb5ecb11c6254a005281",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
-  "components": [
-    { "component": "accordion", "manifestHash": "4f3463aca5d6" },
-    { "component": "alert", "manifestHash": "084e3cca70c4" },
-    { "component": "alert-dialog", "manifestHash": "ff95c8d6a7c2" },
-    { "component": "avatar", "manifestHash": "a03c4ba9bb2a" },
-    { "component": "badge", "manifestHash": "37c940c4d831" },
-    { "component": "button", "manifestHash": "8472d5d50576" },
-    { "component": "card", "manifestHash": "50895e9c5fea" },
-    { "component": "checkbox", "manifestHash": "b952b37163b6" },
-    { "component": "collapsible", "manifestHash": "4b115285961c" },
-    { "component": "dialog", "manifestHash": "61dd1a514c92" },
-    { "component": "dropdown-menu", "manifestHash": "e3617c6fd13c" },
-    { "component": "empty", "manifestHash": "b7ac43840fbd" },
-    { "component": "field", "manifestHash": "2c6116855f68" },
-    { "component": "input", "manifestHash": "238507ed3be1" },
-    { "component": "item", "manifestHash": "008b33625ebc", "componentSetId": "241:86" },
-    { "component": "label", "manifestHash": "f13a318e70a1" },
-    { "component": "list-row", "manifestHash": "109497324ece" },
-    { "component": "popover", "manifestHash": "2535c4105bf4" },
-    { "component": "progress", "manifestHash": "1861483a3c36" },
-    { "component": "radio-group", "manifestHash": "acaf77f3dfa2" },
-    { "component": "select", "manifestHash": "306160b2cb63" },
-    { "component": "separator", "manifestHash": "5397c850ef60" },
-    { "component": "skeleton", "manifestHash": "9c2250c043f6" },
-    { "component": "spinner", "manifestHash": "5880705d6f03" },
-    { "component": "switch", "manifestHash": "73605238388e" },
-    { "component": "table", "manifestHash": "5503b18695d6", "componentSetId": "151:24" },
-    { "component": "tabs", "manifestHash": "d6fdc43dd30e" },
-    { "component": "textarea", "manifestHash": "7760687906f5" },
-    { "component": "toast", "manifestHash": "15536a1ef2f6" },
-    { "component": "toggle", "manifestHash": "bf3647e14670" },
-    { "component": "toggle-group", "manifestHash": "d0b9e9cc0cb2" },
-    { "component": "tooltip", "manifestHash": "ec053f2fcb72" }
-  ],
   "stages": {
     "FIGMA_DOCUMENT_SYNCED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T07:20:52Z",
-      "scope": "Item in-place component sync; Table canonical generation marker repair; foundations and catalog normalization",
+      "checkedAt": "2026-08-31T12:25:07Z",
+      "scope": "Injected 11 new component sets (breadcrumb, pagination, input-group, native-select, button-group, scroll-area, slider, command, combobox, sheet, calendar); re-ran Foundations 01-07 idempotently; repaired Button text nodes to a loadable face so Button Group could nest real Button instances; normalized the Components page catalog layout.",
       "secondRunStructuralDiff": 0,
-      "secondRunCatalogMoved": 0
+      "secondRunCatalogMoved": 0,
+      "catalogTopLevelNodes": 43,
+      "registryComponents": 43,
+      "generationTailsMatched": 43,
+      "foundationsIdempotent": true,
+      "deviations": [
+        "Text authored on Inter without the type/family/sans binding — a bound node drops Hangul glyphs in the use_figma runtime. Temporary; see issue #115. fontSize, lineHeight and fill variable bindings are retained.",
+        "Button's 24 text nodes repaired in place to Inter (no regeneration) so Button Group could append real Button instances; label is Latin so there is no visual change.",
+        "flex-wrap: wrap mapped to layoutWrap='WRAP' — a mapping not present in figma-components.md section 7.",
+        "State samples (hover/pressed/disabled/focus) per figma-injection.md section 2.8 were not created, matching existing assets but diverging from that section."
+      ]
     },
     "FIGMA_LIBRARY_CURRENT": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T07:26:44Z",
+      "checkedAt": "2026-08-31T12:25:07Z",
       "reviewer": "seongki",
       "componentPublishStatus": {
-        "CURRENT": 31
+        "CURRENT": 43
       },
       "publishedComponents": [
-        "Item",
-        "Table"
+        "breadcrumb",
+        "button",
+        "button-group",
+        "calendar",
+        "combobox",
+        "command",
+        "input-group",
+        "item",
+        "native-select",
+        "pagination",
+        "scroll-area",
+        "sheet",
+        "slider"
       ],
-      "humanConfirmation": "Figma publish completed; no unpublished Variables, Text Styles, or Effect Styles remain."
+      "humanConfirmation": "Figma publish completed and visually reviewed in Light and Dark; no unpublished Variables, Text Styles, or Effect Styles remain. Agent re-read all 43 component sets as CURRENT."
     }
   },
-  "completedAt": "2026-08-24T07:26:44Z"
+  "completedAt": "2026-08-31T12:25:07Z",
+  "components": [
+    {
+      "component": "accordion",
+      "manifestHash": "4f3463aca5d6"
+    },
+    {
+      "component": "alert",
+      "manifestHash": "084e3cca70c4"
+    },
+    {
+      "component": "alert-dialog",
+      "manifestHash": "ff95c8d6a7c2"
+    },
+    {
+      "component": "avatar",
+      "manifestHash": "a03c4ba9bb2a"
+    },
+    {
+      "component": "badge",
+      "manifestHash": "37c940c4d831"
+    },
+    {
+      "component": "breadcrumb",
+      "manifestHash": "ca48b1d9992c"
+    },
+    {
+      "component": "button",
+      "manifestHash": "8472d5d50576"
+    },
+    {
+      "component": "button-group",
+      "manifestHash": "adcce550fd2b"
+    },
+    {
+      "component": "calendar",
+      "manifestHash": "cd1751acdc6f"
+    },
+    {
+      "component": "card",
+      "manifestHash": "50895e9c5fea"
+    },
+    {
+      "component": "checkbox",
+      "manifestHash": "b952b37163b6"
+    },
+    {
+      "component": "collapsible",
+      "manifestHash": "4b115285961c"
+    },
+    {
+      "component": "combobox",
+      "manifestHash": "720b6bb0e0de"
+    },
+    {
+      "component": "command",
+      "manifestHash": "c7f9281f045a"
+    },
+    {
+      "component": "dialog",
+      "manifestHash": "61dd1a514c92"
+    },
+    {
+      "component": "dropdown-menu",
+      "manifestHash": "e3617c6fd13c"
+    },
+    {
+      "component": "empty",
+      "manifestHash": "b7ac43840fbd"
+    },
+    {
+      "component": "field",
+      "manifestHash": "2c6116855f68"
+    },
+    {
+      "component": "input",
+      "manifestHash": "238507ed3be1"
+    },
+    {
+      "component": "input-group",
+      "manifestHash": "e3e72b6225f6"
+    },
+    {
+      "component": "item",
+      "manifestHash": "008b33625ebc"
+    },
+    {
+      "component": "label",
+      "manifestHash": "f13a318e70a1"
+    },
+    {
+      "component": "list-row",
+      "manifestHash": "109497324ece"
+    },
+    {
+      "component": "native-select",
+      "manifestHash": "d6531f02868f"
+    },
+    {
+      "component": "pagination",
+      "manifestHash": "2a3133a0cc0e"
+    },
+    {
+      "component": "popover",
+      "manifestHash": "2535c4105bf4"
+    },
+    {
+      "component": "progress",
+      "manifestHash": "1861483a3c36"
+    },
+    {
+      "component": "radio-group",
+      "manifestHash": "acaf77f3dfa2"
+    },
+    {
+      "component": "scroll-area",
+      "manifestHash": "5ec1920502d7"
+    },
+    {
+      "component": "select",
+      "manifestHash": "306160b2cb63"
+    },
+    {
+      "component": "separator",
+      "manifestHash": "5397c850ef60"
+    },
+    {
+      "component": "sheet",
+      "manifestHash": "dff903e3b672"
+    },
+    {
+      "component": "skeleton",
+      "manifestHash": "9c2250c043f6"
+    },
+    {
+      "component": "slider",
+      "manifestHash": "f7f90ee58411"
+    },
+    {
+      "component": "spinner",
+      "manifestHash": "5880705d6f03"
+    },
+    {
+      "component": "switch",
+      "manifestHash": "73605238388e"
+    },
+    {
+      "component": "table",
+      "manifestHash": "5503b18695d6"
+    },
+    {
+      "component": "tabs",
+      "manifestHash": "d6fdc43dd30e"
+    },
+    {
+      "component": "textarea",
+      "manifestHash": "7760687906f5"
+    },
+    {
+      "component": "toast",
+      "manifestHash": "15536a1ef2f6"
+    },
+    {
+      "component": "toggle",
+      "manifestHash": "bf3647e14670"
+    },
+    {
+      "component": "toggle-group",
+      "manifestHash": "d0b9e9cc0cb2"
+    },
+    {
+      "component": "tooltip",
+      "manifestHash": "ec053f2fcb72"
+    }
+  ]
 }
