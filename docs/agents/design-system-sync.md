@@ -46,12 +46,31 @@ Figma 쓰기 전에 `figma-use` skill을 읽고, 토큰은 [`figma-injection.md`
 3. 토큰·Foundations 01~07을 전부 재실행한다. 컴포넌트는 manifest 이름으로 찾아 제자리에서 갱신하며, 상태 견본 색은 `state-colors.gen.json`을 소비한다.
 4. 컴포넌트 구조 주입 뒤 카탈로그 배치 검사·정규화를 실행한다. 매니페스트 registry 순서의 단일 세로 열이어야 하고, 예상 밖 최상위 노드·누락·중복·잘못된 타입이 없어야 한다.
 5. 두 번째 실행에서 생성·삭제·교체와 정규화 구조 diff가 모두 0이고, 카탈로그 배치 `movedCount`가 0인지 확인한다.
-6. 변경된 자산을 사람이 Light/Dark와 상태 견본으로 확인한다. 토큰이 바뀐 세대에는 `Foundations`의 `Massive Foundations · generated`에서 palette 전체와 semantic 두 모드를 확인한다.
-7. 기록의 `FIGMA_DOCUMENT_SYNCED`에 결과, 검사 시각·확인자, 구조/바인딩/해시·카탈로그 배치 증거, 실패와 재개 지점을 기록한다. 구조를 읽을 수 없거나 증거가 낡았으면 `UNKNOWN`, 위반을 확인했으면 `FAIL`이다.
+6. **폰트 단계.** 에이전트가 `Components` 페이지의 TEXT 노드를 세어 `fontFamilyBound: <bound>/<total>`을 보고한다. `bound < total`이면 폰트 미완 상태가 남은 것이므로 **사람 단계가 필요하다** — 아래 Font shaping checkpoint로 간다. 여기를 건너뛴 세대는 `FIGMA_DOCUMENT_SYNCED`를 획득하지 못한다.
+7. 변경된 자산을 사람이 Light/Dark와 상태 견본으로 확인한다. 토큰이 바뀐 세대에는 `Foundations`의 `Massive Foundations · generated`에서 palette 전체와 semantic 두 모드를 확인한다. **한글 라벨이 실제로 렌더되는지 이때 함께 본다** — 폰트 단계가 빠지면 여기서만 드러난다.
+8. 기록의 `FIGMA_DOCUMENT_SYNCED`에 결과, 검사 시각·확인자, 구조/바인딩/해시·카탈로그 배치·`fontFamilyBound` 증거, 실패와 재개 지점을 기록한다. 구조를 읽을 수 없거나 증거가 낡았으면 `UNKNOWN`, 위반을 확인했으면 `FAIL`이다.
 
-완료 기준: 모든 대상 컴포넌트 이름·property 표면·바인딩·세대가 일치하고, 카탈로그 배치 구조 오류가 없으며, 멱등 diff와 두 번째 배치 이동 수가 0이고 변경 자산의 시각 확인이 남아 있다.
+완료 기준: 모든 대상 컴포넌트 이름·property 표면·바인딩·세대가 일치하고, 카탈로그 배치 구조 오류가 없으며, 멱등 diff와 두 번째 배치 이동 수가 0이고, `fontFamilyBound`가 `n/n`이며 변경 자산의 시각 확인이 남아 있다.
+
+### Font shaping checkpoint
+
+에이전트는 `use_figma`가 도는 **저작 런타임**에서 일하고, 그 런타임에는 Pretendard가 없다. 로드 불가 패밀리를 바인딩한 노드는 한글 셰이핑을 잃으므로 에이전트는 텍스트를 로드 가능한 face로 남긴다 — **폰트 미완 상태**다. 바인딩은 Pretendard가 설치된 **셰이핑 런타임**, 즉 사람의 Figma 데스크톱 앱에서만 성립한다. 근거는 [ADR-0004](../adr/0004-font-shaping-runtime.md).
+
+`fontFamilyBound`가 `n/n`이 아니면 에이전트는 `FIGMA_DOCUMENT_SYNCED`를 `PENDING_HUMAN`과 `FONT_BINDING_REQUIRED`로 기록하고 사람에게 다음을 요청한다.
+
+1. Figma **데스크톱 앱**에서 `scripts/figma-font-bind`를 실행한다. 최초 1회만 Plugins → Development → Import plugin from manifest…로 등록하면 이후에는 실행뿐이다.
+2. 플러그인이 낸 `새로 바인딩 <n>`을 확인한다. 한 번 더 돌려 `0`이 나오는지 본다(멱등).
+3. 확인자와 시각을 검증 기록에 남긴다.
+
+그 뒤 에이전트가 `fontFamilyBound`를 다시 읽어 `n/n`인지 확인해야 이 단계를 통과한다. 발행은 **이 단계가 끝난 뒤** 한다 — 순서를 뒤집으면 폰트 미완 상태가 공개 기준선에 들어가고 발행을 두 번 하게 된다.
+
+> 판정은 **바인딩 유무**이지 `fontName`이 아니다. 폰트 이름만 맞고 바인딩이 없는 상태는 화면상 정상으로 보이지만 토큰을 따르지 않으며, `fontName` 기준 검사는 그것을 통과시킨다([#115](https://github.com/flameware/massive-design/issues/115)에서 실제로 그렇게 새어 나갔다).
+>
+> 대상은 `Components` 페이지다. `Foundations`는 세대마다 01~07이 통째로 재생성하는 검증 표면이고 라벨이 라틴이라 폰트 미완 상태를 남겨도 잃을 것이 없다.
 
 ### Human publish checkpoint
+
+**Font shaping checkpoint가 끝난 뒤에 온다.** 순서가 뒤집히면 폰트 미완 상태가 발행되고, 바인딩 뒤 다시 `CHANGED`가 되어 발행을 두 번 한다.
 
 에이전트는 각 component set의 `getPublishStatusAsync()`를 `try/catch`로 읽는다. `CHANGED`나 `UNPUBLISHED`이면 `FIGMA_LIBRARY_CURRENT`를 `PENDING_HUMAN`과 `PUBLISH_CONFIRMATION_REQUIRED`로 기록하고 사람에게 다음을 요청한다.
 

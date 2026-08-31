@@ -1,0 +1,9 @@
+{
+  "name": "Massive Design — 폰트 바인딩",
+  "id": "massive-design-font-bind",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"] }
+}

@@ -54,7 +54,9 @@
 
 고칠 일이 생기면 스타일을 **지우고 다시 만든다.** 잠긴 스타일을 수정하는 경로는 없다.
 
-### 2.4 `fontFamily` 바인딩은 3회 재시도로 감싼다
+### 2.4 Text Style의 `fontFamily` 바인딩은 3회 재시도로 감싼다
+
+> **이 절은 Text Style에만 적용된다.** 캔버스의 TEXT 노드에 `fontFamily`를 바인딩하는 것은 **에이전트가 하지 않는다** — §2.5를 보라. Text Style이 예외인 이유는 스타일이 노드가 아니어서 **구워진 셰이핑을 갖지 않기** 때문이다. 잃을 것이 없고, 이것을 집는 것은 Pretendard가 설치된 디자이너의 셰이핑 런타임이다([ADR-0004](../adr/0004-font-shaping-runtime.md)).
 
 런타임이 처음 보는 `(family, style)` 쌍은 **첫 시도가 반드시 throw**한다:
 
@@ -70,16 +72,20 @@ in setBoundVariable: unloaded font "Pretendard Medium".
 >
 > **이것은 새 사실이 아니라 [#9](https://github.com/flameware/massive-design/issues/9)가 이미 전제한 조건이다.** `use_figma`는 사용자 머신이 아니라 Figma 클라우드 폰트 세트만 가진 별도 런타임에서 돌고(1,938 패밀리 중 Pretendard 0건), **그래서** 로드를 거치지 않는 변수 바인딩 경로를 택한 것이다. 로컬 설치로도 폰트 교체로도 바뀌지 않는다 — 판단은 끝나 있다.
 >
-> 실무적으로 남는 주의는 §2.5의 순서뿐이다: **`characters`를 쓰거나 노드를 옮기는 일은 전부 `fontFamily` 바인딩 *전에* 끝낸다.** 컴포넌트 저작에서는 이 순서가 `combineAsVariants`와 어떻게 맞물리는지가 아직 미검증이다 — [#26](https://github.com/flameware/massive-design/issues/26)이 기록한다.
+> **[#115](https://github.com/flameware/massive-design/issues/115) 정정:** 이 사실에서 "그러므로 변수 바인딩이 유일한 경로이고 그것으로 충분하다"가 따라 나온다고 이 문서는 적어 왔는데, 앞 절반만 맞았다. 로드 불가 패밀리를 바인딩한 **노드**는 한글 셰이핑을 얻지 못한다 — 라틴과 기호는 대체 폰트가 덮고 한글만 빠진다. Text Style은 셰이핑을 갖지 않으므로 이 절은 그대로 유효하고, 노드는 §2.5로 간다.
 
-### 2.5 노드에는 스타일이 아니라 변수를 바인딩한다
+### 2.5 노드의 `fontFamily`는 에이전트가 걸지 않는다
 
-`setTextStyleIdAsync`로 Pretendard 스타일을 노드에 **적용하는 것은 실패한다**(#9). 스와치 페이지처럼 실제 텍스트를 만들 때는:
+`setTextStyleIdAsync`로 Pretendard 스타일을 노드에 **적용하는 것은 실패한다**(#9). 그렇다고 변수를 대신 바인딩해서도 안 된다 — 이 런타임은 **저작 런타임**이라 Pretendard를 로드할 수 없고, 로드 불가 패밀리를 바인딩한 노드는 두 가지를 동시에 잃는다:
 
-1. 구조를 **전부** 만들고 (`appendChild`·`resize`·`characters` 포함)
-2. **맨 마지막에** 모든 TEXT 노드에 `fontFamily`를 일괄 바인딩
+- **한글 셰이핑.** 라틴과 기호는 대체 폰트가 덮지만 한글은 빠진다. 화면에 빈 자리로 나타난다
+- **구조 편집.** `characters` 재기록도 `appendChild` 대상이 되는 것도 막힌다. Button의 라벨이 로드 불가였을 때 Button Group이 Button 인스턴스를 품지 못한 것이 이 제약이다
 
-바인딩된 노드는 `appendChild` 대상도 될 수 없으므로 구조가 먼저다.
+그래서 에이전트는 텍스트를 **로드 가능한 face로 남기고 바인딩하지 않는다** — 이것이 폰트 미완 상태이고, 결함이 아니라 정상 중간 상태다. 바인딩은 Pretendard가 설치된 **셰이핑 런타임**에서 사람이 `scripts/figma-font-bind`로 건다([ADR-0004](../adr/0004-font-shaping-runtime.md), 절차는 [`design-system-sync.md`](design-system-sync.md)의 Figma document gate).
+
+**이미 바인딩된 노드를 고쳐야 할 때는 `fontName`을 로드 가능한 face로 되돌린 뒤 작업한다.** 재생성이 아니라 되돌리기이므로 인스턴스가 끊기지 않는다. 되돌린 노드는 다시 폰트 미완 상태가 되고 사람 단계가 그 세대에 해소한다.
+
+> 순서 규칙(구조 먼저)은 그대로 유지한다. 잠그는 것은 바인딩이 아니라 **로드할 수 없는 폰트**이므로(`docs/research/figma-component-api.md` §8-5) 바인딩을 안 거는 지금은 잠금 자체가 생기지 않지만, 되돌리기 전의 기존 자산을 만질 때는 여전히 성립한다.
 
 ### 2.6 `lineHeight` 변수는 px여야 한다
 
