@@ -1,0 +1,921 @@
+{
+  "anatomy": [
+    "Calendar",
+    "CalendarHeader",
+    "CalendarNav*",
+    "CalendarCaption",
+    "CalendarGrid",
+    "CalendarHeadCell*",
+    "CalendarCell*",
+    "CalendarDay*"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "inline-flex w-fit flex-col gap-4 rounded-lg border bg-background p-3",
+      "properties": {
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-lg",
+          "px": 10,
+          "scale": "radius.lg",
+          "tier": "token",
+          "token": "--radius-lg"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "flex-direction": {
+          "from": "flex-col",
+          "tier": "literal",
+          "value": "column"
+        },
+        "gap": {
+          "from": "gap-4",
+          "multiple": 4,
+          "px": 16,
+          "scale": "space.4",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding": {
+          "from": "p-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "calendar",
+  "configurationStates": {
+    "selection": [
+      "single",
+      "range"
+    ]
+  },
+  "defaults": {},
+  "hash": "cd1751acdc6f",
+  "parts": {
+    "CalendarCaption": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-sm font-medium",
+          "properties": {
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CalendarCell": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "p-0 text-center align-middle",
+          "properties": {
+            "padding": {
+              "from": "p-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "vertical-align": {
+              "from": "align-middle",
+              "tier": "literal",
+              "value": "middle"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CalendarDay": {
+      "axes": {
+        "day": [
+          "default",
+          "today",
+          "selected",
+          "inRange",
+          "outside",
+          "disabled"
+        ]
+      },
+      "cells": [
+        {
+          "className": "inline-flex size-9 shrink-0 items-center justify-center rounded-md text-sm font-normal tabular-nums whitespace-nowrap transition-all outline-none select-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring aria-disabled:pointer-events-none state",
+          "day": "default",
+          "properties": {
+            "-webkit-user-select": {
+              "from": "select-none",
+              "tier": "literal",
+              "value": "none"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-variant-numeric": {
+              "from": "tabular-nums",
+              "tier": "literal",
+              "value": ") var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,"
+            },
+            "font-weight": {
+              "from": "font-normal",
+              "tier": "literal",
+              "value": "400"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": {
+            "base": null,
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        },
+        {
+          "className": "inline-flex size-9 shrink-0 items-center justify-center rounded-md text-sm tabular-nums whitespace-nowrap transition-all outline-none select-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring aria-disabled:pointer-events-none state border font-semibold",
+          "day": "today",
+          "properties": {
+            "-webkit-user-select": {
+              "from": "select-none",
+              "tier": "literal",
+              "value": "none"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-variant-numeric": {
+              "from": "tabular-nums",
+              "tier": "literal",
+              "value": ") var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,"
+            },
+            "font-weight": {
+              "from": "font-semibold",
+              "tier": "literal",
+              "value": "600"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": {
+            "base": null,
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        },
+        {
+          "className": "inline-flex size-9 shrink-0 items-center justify-center rounded-md text-sm font-normal tabular-nums whitespace-nowrap transition-all outline-none select-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring aria-disabled:pointer-events-none state [--ds-state-base:var(--primary)] text-primary-foreground",
+          "day": "selected",
+          "properties": {
+            "-webkit-user-select": {
+              "from": "select-none",
+              "tier": "literal",
+              "value": "none"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-primary-foreground",
+              "tier": "token",
+              "token": "--ds-fg-on-solid"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-variant-numeric": {
+              "from": "tabular-nums",
+              "tier": "literal",
+              "value": ") var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,"
+            },
+            "font-weight": {
+              "from": "font-normal",
+              "tier": "literal",
+              "value": "400"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-accent-solid",
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        },
+        {
+          "className": "inline-flex size-9 shrink-0 items-center justify-center rounded-md text-sm font-normal tabular-nums whitespace-nowrap transition-all outline-none select-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring aria-disabled:pointer-events-none state [--ds-state-base:var(--primary-soft)] text-foreground",
+          "day": "inRange",
+          "properties": {
+            "-webkit-user-select": {
+              "from": "select-none",
+              "tier": "literal",
+              "value": "none"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-accent-soft"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-variant-numeric": {
+              "from": "tabular-nums",
+              "tier": "literal",
+              "value": ") var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,"
+            },
+            "font-weight": {
+              "from": "font-normal",
+              "tier": "literal",
+              "value": "400"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-accent-soft",
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        },
+        {
+          "className": "inline-flex size-9 shrink-0 items-center justify-center rounded-md text-sm font-normal tabular-nums whitespace-nowrap transition-all outline-none select-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring aria-disabled:pointer-events-none state text-muted-foreground",
+          "day": "outside",
+          "properties": {
+            "-webkit-user-select": {
+              "from": "select-none",
+              "tier": "literal",
+              "value": "none"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-variant-numeric": {
+              "from": "tabular-nums",
+              "tier": "literal",
+              "value": ") var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,"
+            },
+            "font-weight": {
+              "from": "font-normal",
+              "tier": "literal",
+              "value": "400"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": {
+            "base": null,
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        },
+        {
+          "className": "inline-flex size-9 shrink-0 items-center justify-center rounded-md text-sm font-normal tabular-nums whitespace-nowrap transition-all outline-none select-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring aria-disabled:pointer-events-none text-muted-foreground opacity-50",
+          "day": "disabled",
+          "properties": {
+            "-webkit-user-select": {
+              "from": "select-none",
+              "tier": "literal",
+              "value": "none"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-variant-numeric": {
+              "from": "tabular-nums",
+              "tier": "literal",
+              "value": ") var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,"
+            },
+            "font-weight": {
+              "from": "font-normal",
+              "tier": "literal",
+              "value": "400"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "opacity": {
+              "from": "opacity-50",
+              "tier": "literal",
+              "value": "50%"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {
+        "day": "default"
+      }
+    },
+    "CalendarGrid": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "w-full border-collapse",
+          "properties": {
+            "border-collapse": {
+              "from": "border-collapse",
+              "tier": "literal",
+              "value": "collapse"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CalendarHeadCell": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "size-9 p-0 text-center text-xs font-normal text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-xs",
+              "px": 12,
+              "scale": "type.size.xs",
+              "tier": "token",
+              "token": "--text-xs"
+            },
+            "font-weight": {
+              "from": "font-normal",
+              "tier": "literal",
+              "value": "400"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "line-height": {
+              "from": "text-xs",
+              "tier": "token",
+              "token": "--text-xs--line-height",
+              "value": "1.6"
+            },
+            "padding": {
+              "from": "p-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CalendarHeader": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex items-center justify-between gap-2",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-between",
+              "tier": "literal",
+              "value": "space-between"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CalendarNav": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state size-8",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "size-8",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "size-8",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&_svg:not([class*='size-'])]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": {
+            "base": null,
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "calendar",
+    "guidance": {
+      "evidence": "투자 이력의 거래일 입력은 하루를, 손익 조회 기간 필터는 구간을 고르며 미래 거래일처럼 고를 수 없는 날짜를 격자에서 미리 막아야 한다.",
+      "limits": "입력 필드·팝오버·확인 버튼을 묶는 Date Picker 조합과 연·월 드롭다운, 다중 월 표시, 흩어진 여러 날짜 선택(multiple)은 계약하지 않는다. 시간대 변환과 날짜 파싱·직렬화도 다루지 않고 지역 달력 날짜만 받는다. 월 이름·요일 이름은 locale prop이 정하고 주 시작 요일과 오늘 기준일은 소비처가 명시한다.",
+      "use": "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다."
+    }
+  },
+  "schemaVersion": 4,
+  "source": "src/components/ui/calendar.tsx"
+}

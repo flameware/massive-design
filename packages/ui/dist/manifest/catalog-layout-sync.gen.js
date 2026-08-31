@@ -11,6 +11,7 @@ const EXPECTED = [
   "breadcrumb",
   "button",
   "button-group",
+  "calendar",
   "card",
   "checkbox",
   "collapsible",

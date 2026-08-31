@@ -50,6 +50,12 @@
     },
     {
       "cells": 1,
+      "component": "calendar",
+      "hash": "cd1751acdc6f",
+      "path": "calendar.gen.json"
+    },
+    {
+      "cells": 1,
       "component": "card",
       "hash": "50895e9c5fea",
       "path": "card.gen.json"
