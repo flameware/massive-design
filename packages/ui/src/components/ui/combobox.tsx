@@ -16,7 +16,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "./popover"
  * 입력이 이미 combobox이고 그 안의 목록이 listbox라, 트리거까지 combobox로 두면
  * combobox가 둘 겹친다. 트리거는 Radix Popover가 주는 `aria-haspopup="dialog"`와
  * `aria-expanded`를 그대로 쓰는 버튼이고, 검색 가능한 목록은 열린 dialog 안에
- * 산다. */
+ * 산다.
+ *
+ * Escape는 검색어를 비우는 것이 아니라 곧바로 닫는다. Command 단독으로는 첫
+ * Escape가 검색어만 지우지만, 여기서는 고르기를 그만두겠다는 뜻이므로 한 번에
+ * 닫는 것이 맞다 — 값 하나를 고르는 컨트롤에서 두 번 눌러야 닫히면 그게 회귀다.
+ * Popover의 dismiss가 document에서 듣기 때문에 동작상으로도 이쪽이 정본이다. */
 
 type ComboboxContextValue = {
   value: string | undefined
@@ -181,7 +186,7 @@ const componentContract = {
     ComboboxIcon: staticPart(comboboxIconClass),
     ComboboxContent: staticPart(comboboxContentClass),
   },
-  reference: { example: "combobox", guidance: { use: "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다.", evidence: "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.", limits: "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다." } },
+  reference: { example: "combobox", guidance: { use: "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다.", evidence: "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.", limits: "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다." } },
 } as const
 
 export { Combobox, ComboboxTrigger, ComboboxValue, ComboboxIcon, ComboboxContent, comboboxVariants, comboboxVariantsConfig, componentContract }

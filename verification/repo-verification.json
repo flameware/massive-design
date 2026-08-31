@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "4ace6c838f59094c7f3630d8faacb1994723a8cd",
-  "inputDigest": "dee8f71c494382cf70a57f0b5881e8c538fc74dd0dc5356ccf594ef5d395ffdd",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "b9a8f8fb84bb4f90735b80537065a604fc18e8cc",
+  "inputDigest": "990bacfc9a0e6b355a63f76ecd0f64873aa4c5555c68cb5ecb11c6254a005281",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -64,6 +64,11 @@
     {
       "component": "collapsible",
       "manifestHash": "4b115285961c",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "combobox",
+      "manifestHash": "720b6bb0e0de",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -220,7 +225,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T08:08:19.020Z",
+      "checkedAt": "2026-08-31T09:59:11.676Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -250,8 +255,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-31T08:08:19.020Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-08-31T09:59:11.676Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -266,7 +271,7 @@
         }
       ],
       "a11y": {
-        "stories": 45,
+        "stories": 46,
         "violations": [],
         "incomplete": [
           {
@@ -341,15 +346,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-08-31T08:20:32.899Z",
-        "scope": "P1 신규 8개(Command, Sheet, Scroll Area, Calendar, Button Group, Input Group, Native Select, Slider)의 Light/Dark와 주요 configuration state"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-08-31T08:20:32.899Z"
+  "resumeAt": "Storybook visual review"
 }
