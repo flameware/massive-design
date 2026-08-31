@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "b9a8f8fb84bb4f90735b80537065a604fc18e8cc",
   "inputDigest": "990bacfc9a0e6b355a63f76ecd0f64873aa4c5555c68cb5ecb11c6254a005281",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
@@ -255,7 +255,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-08-31T09:59:11.676Z",
       "automatedResult": "PASS",
       "checks": [
@@ -346,10 +346,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-08-31T10:01:41.277Z",
+        "scope": "Combobox의 Light/Dark와 open·selected 축, 그리고 테마 범위 수정 뒤 포털 표면(Sheet·Dialog·Popover·Select)의 Dark 재확인"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-08-31T10:01:41.277Z"
 }
