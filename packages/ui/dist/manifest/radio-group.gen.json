@@ -88,6 +88,6 @@
       "use": "서로 배타적인 선택지에서 값 하나를 고른다."
     }
   },
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "src/components/ui/radio-group.tsx"
 }

@@ -83,6 +83,6 @@
       "use": "현재 맥락에 속하는 보조 동작을 묶는다."
     }
   },
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "src/components/ui/dropdown-menu.tsx"
 }

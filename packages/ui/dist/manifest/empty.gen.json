@@ -195,6 +195,6 @@
       "use": "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립한다."
     }
   },
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "source": "src/components/ui/empty.tsx"
 }

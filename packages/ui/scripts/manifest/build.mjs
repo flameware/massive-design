@@ -15,8 +15,12 @@ import { canonicalJson, hashComponent } from "./hash.mjs"
 import { emitCatalogLayout } from "./catalog-layout.mjs"
 import { loadTheme } from "./theme.mjs"
 
-/** 4: 합성 컴포넌트의 공개 part별 조합과 스타일을 `parts`에 담는다. */
-export const SCHEMA_VERSION = 4
+/** 5: 서드파티가 소유해 우리 cva가 설명하지 못하는 표면을 `externalSurfaces`에 담는다(#122).
+ *
+ * 파생 채널이 읽어야 하기 때문에 계약에만 두지 않는다. Figma Sync가 이 컴포넌트를
+ * 만났을 때 **매니페스트에 없는 것이 아직 못 다룬 것인지 영영 우리 것이 아닌지**를
+ * 여기서 구분한다 — 그러지 않으면 껍데기 variant를 주입한 뒤에야 알게 된다. */
+export const SCHEMA_VERSION = 5
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -78,6 +82,7 @@ export function buildManifests(components, root) {
       anatomy: component.anatomy ?? [],
       ...(Object.keys(assembledParts).length ? { parts: assembledParts } : {}),
       configurationStates: component.configurationStates ?? {},
+      ...(component.externalSurfaces ? { externalSurfaces: { ...component.externalSurfaces } } : {}),
       reference: component.reference,
       cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme })),
     }
