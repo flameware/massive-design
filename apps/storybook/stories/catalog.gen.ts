@@ -684,6 +684,41 @@ export const catalog = [
     "source": "src/components/ui/radio-group.tsx"
   },
   {
+    "component": "scroll-area",
+    "displayName": "Scroll Area",
+    "hash": "5ec1920502d7",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "anatomy": [
+      "ScrollArea",
+      "ScrollAreaViewport",
+      "ScrollBar?",
+      "ScrollAreaThumb",
+      "ScrollAreaCorner?"
+    ],
+    "configurationStates": {
+      "overflow": [
+        "fits",
+        "overflowing"
+      ]
+    },
+    "reference": {
+      "example": "scroll-area",
+      "guidance": {
+        "evidence": "투자 이력의 긴 거래 목록이나 Sheet 안의 필터 묶음처럼, 바깥 화면은 그대로 두고 한 영역만 굴려야 하는 자리가 반복된다.",
+        "limits": "페이지 전체 스크롤을 대신하지 않으며, 축을 정하지 않은 자유 스크롤이나 가상 스크롤 목록에는 쓰지 않는다. 영역에 크기 제약이 없으면 아무것도 넘치지 않으므로 스크롤도 스크롤바도 생기지 않는다. 스크롤이 콘텐츠를 가리는 유일한 통로가 되어서는 안 되며, 초점을 받는 영역에는 aria-label로 이름을 준다.",
+        "use": "높이나 너비가 고정된 영역 안에서 넘치는 콘텐츠를 한 축으로만 스크롤하게 하고, 브라우저 기본 스크롤바 대신 디자인 시스템 스크롤바를 그린다. 뷰포트가 초점을 받으므로 포인터 없이 키보드만으로도 스크롤할 수 있고, 콘텐츠가 넘치지 않으면 스크롤바는 나타나지 않는다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/scroll-area.tsx"
+  },
+  {
     "component": "select",
     "displayName": "Select",
     "hash": "306160b2cb63",
@@ -741,6 +776,48 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/separator.tsx"
+  },
+  {
+    "component": "sheet",
+    "displayName": "Sheet",
+    "hash": "dff903e3b672",
+    "cells": 4,
+    "axes": {
+      "side": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ]
+    },
+    "anatomy": [
+      "Sheet",
+      "SheetTrigger",
+      "SheetPortal",
+      "SheetOverlay",
+      "SheetContent",
+      "SheetHeader?",
+      "SheetTitle",
+      "SheetDescription?",
+      "SheetFooter?",
+      "SheetClose?"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "sheet",
+      "guidance": {
+        "evidence": "투자 이력 화면에서 목록을 보면서 시장·기간·손익 필터를 조정하거나 한 거래의 상세를 확인해야 하고, 화면 중앙을 가리면 방금 본 행을 놓친다.",
+        "limits": "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다.",
+        "use": "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 열리는 동안의 동작(포커스 트랩·Esc와 바깥 클릭으로 닫기·본문 스크롤 잠금·닫은 뒤 트리거로 초점 복귀)은 네 값이 모두 같다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/sheet.tsx"
   },
   {
     "component": "skeleton",

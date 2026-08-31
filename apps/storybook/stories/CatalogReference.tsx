@@ -24,6 +24,8 @@ import {
   Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList,
   BreadcrumbPage, BreadcrumbSeparator, Pagination, PaginationContent, PaginationEllipsis,
   PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
+  ScrollArea, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter,
+  SheetHeader, SheetTitle, SheetTrigger,
 } from "@massive/ui"
 import { catalog } from "./catalog.gen"
 import itemFixture from "./fixtures/item.json"
@@ -72,8 +74,14 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     popover: <Popover defaultOpen={selection.open === "open"}><PopoverTrigger asChild><Button variant="outline">필터 도움말</Button></PopoverTrigger><PopoverContent><p className="font-medium">시장 필터</p><p className="text-sm text-muted-foreground">선택한 시장의 거래만 투자 이력에 표시합니다.</p></PopoverContent></Popover>,
     pagination: <Pagination><PaginationContent><PaginationItem><PaginationPrevious href="#page-1"/></PaginationItem><PaginationItem><PaginationLink href="#page-1">1</PaginationLink></PaginationItem><PaginationItem><PaginationLink href="#page-2" isActive={selection.currentPage === "current"}>2</PaginationLink></PaginationItem><PaginationItem><PaginationEllipsis/></PaginationItem><PaginationItem><PaginationLink href="#page-12">12</PaginationLink></PaginationItem><PaginationItem><PaginationNext href="#page-3"/></PaginationItem></PaginationContent></Pagination>,
     progress: <div className="max-w-sm"><p className="mb-2 text-sm">투자 내역 가져오는 중</p><Progress value={selection.value === "empty" ? 0 : selection.value === "complete" ? 100 : 64} aria-label="투자 내역 가져오기 진행률" /></div>,
+    "scroll-area": <ScrollArea orientation={selection.orientation as "vertical" | "horizontal"} type="always" aria-label="최근 거래 목록" className={selection.orientation === "horizontal" ? "w-72 rounded-lg border" : "h-48 w-72 rounded-lg border"}>
+      <div className={selection.orientation === "horizontal" ? "flex w-max gap-3 p-3" : "grid gap-3 p-3"}>
+        {["삼성전자", "미래에셋 TIGER 미국S&P500", "네이버", "카카오", "현대차", "SK하이닉스"].slice(0, selection.overflow === "fits" ? 2 : 6).map((name) => <p key={name} className="whitespace-nowrap text-sm">{name}</p>)}
+      </div>
+    </ScrollArea>,
     select: <Select defaultOpen={selection.open === "open"}><SelectTrigger aria-label="시장 필터" className="max-w-xs"><SelectValue placeholder="시장 선택"/></SelectTrigger><SelectContent><SelectItem value="kr">국내</SelectItem><SelectItem value="us">미국</SelectItem></SelectContent></Select>,
     separator: <div className={selection.orientation === "vertical" ? "flex h-12 items-center gap-4" : "grid max-w-sm gap-3"}><span>보유 현황</span><Separator orientation={selection.orientation as "horizontal" | "vertical"}/><span>거래 내역</span></div>,
+    sheet: <Sheet defaultOpen={selection.open === "open"}><SheetTrigger asChild><Button variant="outline">필터 열기</Button></SheetTrigger><SheetContent side={selection.side as "top" | "right" | "bottom" | "left"}><SheetHeader><SheetTitle>투자 이력 필터</SheetTitle><SheetDescription>목록을 보면서 시장·기간·손익 조건을 조정합니다.</SheetDescription></SheetHeader><p>시장, 거래 유형, 기간을 고르는 양식이 여기에 놓입니다.</p><SheetFooter><SheetClose asChild><Button variant="outline">취소</Button></SheetClose><Button>적용</Button></SheetFooter></SheetContent></Sheet>,
     skeleton: <div className="flex max-w-sm items-center gap-3" role="status" aria-label="투자 요약 불러오는 중"><Skeleton className="size-10 rounded-full"/><div className="flex-1"><Skeleton className="mb-2 h-4 w-2/3"/><Skeleton className="h-4 w-full"/></div></div>,
     spinner: <Spinner size={size} />,
     "radio-group": <RadioGroup orientation={selection.orientation as "vertical" | "horizontal"} defaultValue={selection.checked === "checked" ? "buy" : "sell"} aria-label="거래 유형"><div className="flex items-center gap-2"><RadioGroupItem value="buy" id="trade-buy"/><Label htmlFor="trade-buy">매수</Label></div><div className="flex items-center gap-2"><RadioGroupItem value="sell" id="trade-sell"/><Label htmlFor="trade-sell">매도</Label></div></RadioGroup>,

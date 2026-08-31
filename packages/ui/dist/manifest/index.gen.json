@@ -133,6 +133,12 @@
       "path": "radio-group.gen.json"
     },
     {
+      "cells": 2,
+      "component": "scroll-area",
+      "hash": "5ec1920502d7",
+      "path": "scroll-area.gen.json"
+    },
+    {
       "cells": 1,
       "component": "select",
       "hash": "306160b2cb63",
@@ -143,6 +149,12 @@
       "component": "separator",
       "hash": "5397c850ef60",
       "path": "separator.gen.json"
+    },
+    {
+      "cells": 4,
+      "component": "sheet",
+      "hash": "dff903e3b672",
+      "path": "sheet.gen.json"
     },
     {
       "cells": 1,
