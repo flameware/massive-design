@@ -12,10 +12,25 @@
 1. 변경을 공개 기준선과 비교해 `additive`·`in-place safe`·`breaking`으로 분류한다. `breaking`이거나 `in-place safe` 증거가 없으면 여기서 멈춘다.
 2. `bun run sync:preflight`를 실행한다.
 3. 자동 검사가 통과하면 `CODE_VERIFIED: PASS`, `STORYBOOK_VERIFIED: PENDING_HUMAN`이다. 프로젝트 소유자가 변경된 컴포넌트의 Light/Dark와 영향받는 주요 상태를 확인한다. semantic 토큰이나 base 계층 변경이면 전체 카탈로그를 확인한다.
-4. 확인 결과를 `bun run sync:review-storybook -- --reviewer <이름> --scope "<확인 범위>"`로 기록한다. 오류면 `--result FAIL --reason "<이유>"`를 함께 주고 아래 분기에 따라 원인 계층을 고친 뒤 preflight부터 다시 실행한다.
-5. `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`가 모두 `PASS`인지 확인한다. 생성물과 검증 기록을 포함해 commit을 고정하고 Repo verification을 완료한다. Figma는 선택 가능한 다음 작업이지 이 작업의 재개 지점이 아니다.
+4. 계약이 `gestures`를 선언한 컴포넌트가 변경 범위에 있으면 **터치 확인**을 함께 한다(아래).
+5. 확인 결과를 `bun run sync:review-storybook -- --reviewer <이름> --scope "<확인 범위>"`로 기록한다. 오류면 `--result FAIL --reason "<이유>"`를 함께 주고 아래 분기에 따라 원인 계층을 고친 뒤 preflight부터 다시 실행한다.
+6. `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`가 모두 `PASS`인지 확인한다. 생성물과 검증 기록을 포함해 commit을 고정하고 Repo verification을 완료한다. Figma는 선택 가능한 다음 작업이지 이 작업의 재개 지점이 아니다.
 
 완료 기준: 대상 commit, `inputDigest`, 컴포넌트별 manifest/token 해시, repo 검사·테스트·Storybook build·axe 0건, 사람 시각 확인의 확인자·시각·범위가 하나의 기록에 있다.
+
+### 터치 확인 — dismiss 제스처
+
+**제스처에는 자동 검사가 없다.** Storybook은 카탈로그에서 생성되는 파생 채널이라 손으로 쓴 인터랙션 스토리가 없고, `packages/ui`의 테스트에는 DOM이 없다. 게이트가 보는 것은 계약 선언의 모양(닫히는 표면이 우리 anatomy인가, 동등 경로가 공개 export인가, 선언한 피드백 클래스가 실제로 붙어 있는가)까지이고 **동작이 옳은지는 사람만 판정한다.**
+
+계약이 `gestures`를 선언한 컴포넌트를 터치 기기 또는 기기 에뮬레이션에서 열고, 계약이 진 셋을 그대로 확인한다.
+
+- [ ] **존재** — 선언한 제스처로 실제로 닫힌다
+- [ ] **시각 피드백** — 끄는 동안 표면이 손가락을 따라오고, 임계값에 못 미쳐 놓으면 제자리로 돌아온다
+- [ ] **접근성 동등 경로** — 계약이 지목한 공개 export로 제스처 없이 닫을 수 있고, 키보드와 스크린리더로 그 수단에 닿는다
+
+확인 범위를 `--scope`에 남긴다. 판정 기준이 위 셋이므로 "터치에서 봤다"가 아니라 **어느 항목이 통과했는지**를 적는다 — 기준 없는 뷰포트 확인은 검토 기록에 판정이 아니라 인상만 남긴다([#97](https://github.com/flameware/massive-design/issues/97)).
+
+> 터치 대상 **크기** 규칙은 여기 없다. [#111](https://github.com/flameware/massive-design/issues/111)이 정한 뒤 이 절에 들어온다 — 그쪽은 `size` 축 기본값을 건드리는 base 계층 변경이라 전 카탈로그 재검증을 요구하므로 도착 시점과 적용 범위가 다르다.
 
 Figma가 뒤처진 상태에는 시간 제한을 두지 않는다. 최신 Repo verification 세대와 마지막 `FIGMA_LIBRARY_CURRENT` 공개 기준선은 독립적으로 보존해 차이를 판독할 수 있게 한다. 새 Repo verification이 마지막 Figma 증거를 덮어쓰거나 실패로 바꾸지 않는다.
 

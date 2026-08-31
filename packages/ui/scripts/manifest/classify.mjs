@@ -32,6 +32,12 @@ export const MODIFIER_POLICY = new Map([
   ["focus-visible", "ignore:포커스 링 — 컴포넌트 축이 아니라 Figma 상태 견본으로 표현한다(#43)"],
   ["aria-invalid", "ignore:검증 상태 — Figma에 대응물이 없다(#22 §5)"],
   ["hover", "ignore:상태 사다리 밖의 hover — link의 밑줄이 여기 걸린다(#24가 상태 축을 정하면 다뤄진다)"],
+  // dismiss 제스처의 시각 피드백(#110). `unresolved`("아직 못 다뤘다")가 아니라 ignore다 —
+  // 손가락을 따라오는 트랜스폼은 **동작**이고 파생 채널이 나르는 것은 anatomy와 구성 상태뿐이라,
+  // 나중에 Figma가 다룰 것이 아니라 영영 거기 없다. 검증은 사람이 터치에서 한다
+  ["data-[swipe=move]", "ignore:제스처 피드백 — 동작이라 Figma 채널에 실리지 않는다(#110)"],
+  ["data-[swipe=cancel]", "ignore:제스처 피드백 — 동작이라 Figma 채널에 실리지 않는다(#110)"],
+  ["data-[swipe=end]", "ignore:제스처 피드백 — 동작이라 Figma 채널에 실리지 않는다(#110)"],
 ])
 
 const SPACE_PROPERTIES = new Set([

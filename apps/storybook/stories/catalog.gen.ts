@@ -1281,7 +1281,7 @@ export const catalog = [
       "example": "toast",
       "guidance": {
         "evidence": "거래 저장이나 동기화 완료를 현재 맥락을 가리지 않고 확인시켜야 한다.",
-        "limits": "전역 toast 큐와 명령형 호출 API는 소비처가 소유하며, 확인이 필요한 위험 행동에는 Alert Dialog를 사용한다.",
+        "limits": "전역 toast 큐와 명령형 호출 API는 소비처가 소유하며, 확인이 필요한 위험 행동에는 Alert Dialog를 사용한다. 오른쪽 스와이프로 닫히지만 그 방향과 임계값은 계약하지 않는다 — 제스처를 쓸 수 없는 사용자는 ToastClose로 동등하게 닫는다.",
         "use": "사용자 작업 직후의 짧고 비차단적인 결과를 알리고 필요할 때 한 개의 후속 동작을 제공한다."
       }
     },
