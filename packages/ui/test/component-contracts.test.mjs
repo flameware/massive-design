@@ -54,3 +54,33 @@ test("외부 소유 표면에는 이유가 붙고, 우리 표면과 겹치지 �
   ok.externalSurfaces = { "슬라이드 트랙": "embla가 트랜스폼과 레이아웃을 소유한다" }
   assert.doesNotThrow(() => validateContracts(["a.tsx"], [ok]))
 })
+
+test("dismiss 제스처는 우리 표면 위에서만, 동등 경로와 실재하는 피드백과 함께 선언된다", () => {
+  const gesture = (over = {}) => ({
+    surface: "Widget", feedback: "data-[swipe=move]", equivalent: "Widget", why: "upstream이 갖고 온다", ...over,
+  })
+  const withGesture = (over, className = () => "data-[swipe=move]:translate-x-4") => {
+    const c = contract("a")
+    c.anatomy = ["Widget"]
+    c.className = className
+    c.gestures = { "swipe-dismiss": gesture(over) }
+    return c
+  }
+
+  // 제스처가 닫는 표면은 우리 것이어야 한다 — 남의 것이면 externalSurfaces로 간다
+  assert.throws(() => validateContracts(["a.tsx"], [withGesture({ surface: "TheirTrack" })]), /닫는 표면이 anatomy에 없다/)
+
+  // 동등 경로는 소비처가 집을 수 있어야 하므로 공개 export여야 한다
+  assert.throws(() => validateContracts(["a.tsx"], [withGesture({ equivalent: "Hidden" })]), /동등 경로가 공개 export가 아니다/)
+
+  // 선언만 하고 클래스에 없으면 통과시키지 않는다 — 이 필드가 생긴 이유가 그것이다
+  assert.throws(() => validateContracts(["a.tsx"], [withGesture({}, () => "p-4")]), /선언한 시각 피드백이 클래스에 없다/)
+  assert.throws(() => validateContracts(["a.tsx"], [withGesture({ feedback: "" })]), /시각 피드백 표식이 필요하다/)
+  assert.throws(() => validateContracts(["a.tsx"], [withGesture({ why: "" })]), /제스처에는 이유가 필요하다/)
+
+  const empty = contract("a")
+  empty.gestures = {}
+  assert.throws(() => validateContracts(["a.tsx"], [empty]), /비어 있지 않은 객체/)
+
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [withGesture()]))
+})
