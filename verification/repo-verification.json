@@ -1,13 +1,29 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "f2ce61cd9400f4e3681af842a87f43e475596679",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "fe4fef6078dabeb22bba9cc366e41638de26bf9b",
   "inputTree": {
-    "commit": "f2ce61cd9400f4e3681af842a87f43e475596679",
-    "clean": true
+    "commit": "fe4fef6078dabeb22bba9cc366e41638de26bf9b",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/CatalogReference.tsx",
+      "apps/storybook/stories/Components.stories.tsx",
+      "apps/storybook/stories/catalog.gen.ts",
+      "bun.lock",
+      "packages/ui/package.json",
+      "packages/ui/scripts/manifest/classify.mjs",
+      "packages/ui/src/components/ui/command.tsx",
+      "packages/ui/src/components/ui/dropdown-menu.tsx",
+      "packages/ui/src/components/ui/input-otp.tsx",
+      "packages/ui/src/components/ui/kbd.tsx",
+      "packages/ui/src/components/ui/popover.tsx",
+      "packages/ui/src/components/ui/resizable.tsx",
+      "packages/ui/src/components/ui/sidebar.tsx",
+      "packages/ui/src/index.gen.ts"
+    ]
   },
-  "inputDigest": "eb8a5de7cf513c5742dc7970c527174786753fc3bf3f01a5e3aaf2ebeb7fe15b",
+  "inputDigest": "c37c8cc403c6528804ba7a055bd7f3aee200e3e64ce002f7de7d56418e0e1837",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -111,8 +127,18 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
+      "component": "input-otp",
+      "manifestHash": "33f782cc7d47",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
       "component": "item",
       "manifestHash": "008b33625ebc",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "kbd",
+      "manifestHash": "5842eb5fef55",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -151,6 +177,11 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
+      "component": "resizable",
+      "manifestHash": "889a182cd242",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
       "component": "scroll-area",
       "manifestHash": "5ec1920502d7",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
@@ -168,6 +199,11 @@
     {
       "component": "sheet",
       "manifestHash": "dff903e3b672",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "sidebar",
+      "manifestHash": "63332eecc919",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -229,7 +265,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T15:23:16.499Z",
+      "checkedAt": "2026-08-31T16:09:44.645Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -259,8 +295,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-31T15:23:16.499Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-08-31T16:09:44.645Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -275,7 +311,7 @@
         }
       ],
       "a11y": {
-        "stories": 46,
+        "stories": 50,
         "violations": [],
         "incomplete": [
           {
@@ -307,6 +343,20 @@
             ]
           },
           {
+            "story": "components-manifest-references--input-otp",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 1,
+            "targets": [
+              [
+                "#input-otp-code"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            ]
+          },
+          {
             "story": "components-manifest-references--item",
             "impact": "serious",
             "rule": "color-contrast",
@@ -317,6 +367,28 @@
               ]
             ],
             "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters"
+            ]
+          },
+          {
+            "story": "components-manifest-references--kbd",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 3,
+            "targets": [
+              [
+                ".gap-5 > kbd[data-slot=\"kbd-group\"] > .bg-muted.pointer-events-none.h-5:nth-child(1) > span[aria-hidden=\"true\"]"
+              ],
+              [
+                ".text-sm.text-muted-foreground > kbd[data-slot=\"kbd-group\"] > .bg-muted.pointer-events-none.h-5:nth-child(1) > span[aria-hidden=\"true\"]"
+              ],
+              [
+                "button[data-slot=\"button\"] > .bg-muted.pointer-events-none.h-5 > span[aria-hidden=\"true\"]"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters",
+              "Fix any of the following:\n  Element content contains only non-text characters",
               "Fix any of the following:\n  Element content contains only non-text characters"
             ]
           },
@@ -347,18 +419,41 @@
             "review": [
               "Fix any of the following:\n  Element content contains only non-text characters"
             ]
+          },
+          {
+            "story": "components-manifest-references--sidebar",
+            "impact": "serious",
+            "rule": "aria-prohibited-attr",
+            "nodes": 1,
+            "targets": [
+              [
+                ".fixed"
+              ]
+            ],
+            "review": [
+              "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+            ]
+          },
+          {
+            "story": "components-manifest-references--sidebar",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 1,
+            "targets": [
+              [
+                "button[data-slot=\"sidebar-menu-action\"]"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters"
+            ]
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "<Sohn Seongki>",
-        "checkedAt": "2026-08-31T15:26:55.822Z",
-        "scope": "<쌓인 확인건 처리>"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-08-31T15:26:55.822Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }

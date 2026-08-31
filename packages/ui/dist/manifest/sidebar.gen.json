@@ -1,0 +1,2238 @@
+{
+  "anatomy": [
+    "SidebarProvider",
+    "Sidebar",
+    "SidebarHeader?",
+    "SidebarContent",
+    "SidebarGroup*",
+    "SidebarGroupLabel?",
+    "SidebarGroupAction?",
+    "SidebarGroupContent",
+    "SidebarMenu",
+    "SidebarMenuItem*",
+    "SidebarMenuButton",
+    "SidebarMenuAction?",
+    "SidebarMenuBadge?",
+    "SidebarMenuSub?",
+    "SidebarMenuSubItem*",
+    "SidebarMenuSubButton",
+    "SidebarSeparator?",
+    "SidebarFooter?",
+    "SidebarRail?",
+    "SidebarTrigger",
+    "SidebarInset?"
+  ],
+  "axes": {
+    "collapsible": [
+      "offcanvas",
+      "icon"
+    ],
+    "side": [
+      "left",
+      "right"
+    ],
+    "variant": [
+      "sidebar",
+      "floating",
+      "inset"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+      "collapsible": "offcanvas",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:data-[side=left]:left": {
+          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
+        },
+        "data-[state=collapsed]:data-[side=right]:right": {
+          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-style": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-width": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "left": {
+          "from": "left-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "left",
+      "state": null,
+      "variant": "sidebar"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r data-[state=collapsed]:w-(--sidebar-width-icon)",
+      "collapsible": "icon",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:width": {
+          "from": "data-[state=collapsed]:w-(--sidebar-width-icon)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width-icon)",
+          "why": "수식자 data-[state=collapsed]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-style": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-width": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "left": {
+          "from": "left-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "left",
+      "state": null,
+      "variant": "sidebar"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+      "collapsible": "offcanvas",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:data-[side=left]:left": {
+          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
+        },
+        "data-[state=collapsed]:data-[side=right]:right": {
+          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-style": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-width": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "left": {
+          "from": "left-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "left",
+      "state": null,
+      "variant": "floating"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r p-2 data-[state=collapsed]:w-(--sidebar-width-icon)",
+      "collapsible": "icon",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:width": {
+          "from": "data-[state=collapsed]:w-(--sidebar-width-icon)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width-icon)",
+          "why": "수식자 data-[state=collapsed]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-style": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-width": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "left": {
+          "from": "left-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "left",
+      "state": null,
+      "variant": "floating"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+      "collapsible": "offcanvas",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:data-[side=left]:left": {
+          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
+        },
+        "data-[state=collapsed]:data-[side=right]:right": {
+          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-style": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-width": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "left": {
+          "from": "left-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "left",
+      "state": null,
+      "variant": "inset"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r p-2 data-[state=collapsed]:w-(--sidebar-width-icon)",
+      "collapsible": "icon",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:width": {
+          "from": "data-[state=collapsed]:w-(--sidebar-width-icon)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width-icon)",
+          "why": "수식자 data-[state=collapsed]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-style": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-right-width": {
+          "from": "data-[variant=sidebar]:border-r",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "left": {
+          "from": "left-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "left",
+      "state": null,
+      "variant": "inset"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+      "collapsible": "offcanvas",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:data-[side=left]:left": {
+          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
+        },
+        "data-[state=collapsed]:data-[side=right]:right": {
+          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-style": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-width": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "right": {
+          "from": "right-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "right",
+      "state": null,
+      "variant": "sidebar"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l data-[state=collapsed]:w-(--sidebar-width-icon)",
+      "collapsible": "icon",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:width": {
+          "from": "data-[state=collapsed]:w-(--sidebar-width-icon)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width-icon)",
+          "why": "수식자 data-[state=collapsed]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-style": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-width": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "right": {
+          "from": "right-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "right",
+      "state": null,
+      "variant": "sidebar"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+      "collapsible": "offcanvas",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:data-[side=left]:left": {
+          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
+        },
+        "data-[state=collapsed]:data-[side=right]:right": {
+          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-style": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-width": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "right": {
+          "from": "right-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "right",
+      "state": null,
+      "variant": "floating"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l p-2 data-[state=collapsed]:w-(--sidebar-width-icon)",
+      "collapsible": "icon",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:width": {
+          "from": "data-[state=collapsed]:w-(--sidebar-width-icon)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width-icon)",
+          "why": "수식자 data-[state=collapsed]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-style": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-width": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "right": {
+          "from": "right-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "right",
+      "state": null,
+      "variant": "floating"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+      "collapsible": "offcanvas",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:data-[side=left]:left": {
+          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
+        },
+        "data-[state=collapsed]:data-[side=right]:right": {
+          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+          "tier": "unresolved",
+          "value": "calc(var(--sidebar-width) * -1)",
+          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-style": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-width": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "right": {
+          "from": "right-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "right",
+      "state": null,
+      "variant": "inset"
+    },
+    {
+      "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l p-2 data-[state=collapsed]:w-(--sidebar-width-icon)",
+      "collapsible": "icon",
+      "properties": {
+        "border-color": {
+          "from": "border-sidebar-border",
+          "tier": "token",
+          "token": "--ds-border-default"
+        },
+        "data-[state=collapsed]:width": {
+          "from": "data-[state=collapsed]:w-(--sidebar-width-icon)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width-icon)",
+          "why": "수식자 data-[state=collapsed]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-style": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "var(--tw-border-style)",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "data-[variant=sidebar]:border-left-width": {
+          "from": "data-[variant=sidebar]:border-l",
+          "tier": "unresolved",
+          "value": "1px",
+          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "height": {
+          "from": "h-svh",
+          "tier": "literal",
+          "value": "100svh"
+        },
+        "inset-block": {
+          "from": "inset-y-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "padding": {
+          "from": "p-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "position": {
+          "from": "fixed",
+          "tier": "literal",
+          "value": "fixed"
+        },
+        "right": {
+          "from": "right-0",
+          "px": 0,
+          "tier": "literal"
+        },
+        "width": {
+          "from": "w-(--sidebar-width)",
+          "tier": "unresolved",
+          "value": "var(--sidebar-width)",
+          "why": "변수 --sidebar-width의 값을 찾지 못했다"
+        },
+        "z-index": {
+          "from": "z-10",
+          "tier": "literal",
+          "value": "10"
+        }
+      },
+      "side": "right",
+      "state": null,
+      "variant": "inset"
+    }
+  ],
+  "component": "sidebar",
+  "configurationStates": {
+    "item": [
+      "default",
+      "active"
+    ],
+    "state": [
+      "expanded",
+      "collapsed"
+    ]
+  },
+  "defaults": {
+    "collapsible": "offcanvas",
+    "side": "left",
+    "variant": "sidebar"
+  },
+  "hash": "63332eecc919",
+  "parts": {
+    "SidebarContent": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex": {
+              "from": "flex-1",
+              "tier": "literal",
+              "value": "1"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "min-height": {
+              "from": "min-h-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "overflow": {
+              "from": "overflow-auto",
+              "tier": "literal",
+              "value": "auto"
+            },
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarFooter": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex flex-col gap-2 p-2",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarGroup": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "relative flex w-full min-w-0 flex-col p-2",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "min-width": {
+              "from": "min-w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarGroupContent": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "w-full text-sm",
+          "properties": {
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarGroupLabel": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-xs",
+              "px": 12,
+              "scale": "type.size.xs",
+              "tier": "token",
+              "token": "--text-xs"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "height": {
+              "from": "h-8",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "line-height": {
+              "from": "text-xs",
+              "tier": "token",
+              "token": "--text-xs--line-height",
+              "value": "1.6"
+            },
+            "padding-inline": {
+              "from": "px-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarHeader": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex flex-col gap-2 p-2",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarInset": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "relative flex w-full flex-1 flex-col bg-background",
+          "properties": {
+            "background-color": {
+              "from": "bg-background",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex": {
+              "from": "flex-1",
+              "tier": "literal",
+              "value": "1"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarMenu": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex w-full min-w-0 flex-col gap-1",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "min-width": {
+              "from": "min-w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarMenuBadge": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground",
+          "properties": {
+            "-webkit-user-select": {
+              "from": "select-none",
+              "tier": "literal",
+              "value": "none"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-xs",
+              "px": 12,
+              "scale": "type.size.xs",
+              "tier": "token",
+              "token": "--text-xs"
+            },
+            "font-variant-numeric": {
+              "from": "tabular-nums",
+              "tier": "literal",
+              "value": ") var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "height": {
+              "from": "h-5",
+              "multiple": 5,
+              "px": 20,
+              "scale": "space.5",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-xs",
+              "tier": "token",
+              "token": "--text-xs--line-height",
+              "value": "1.6"
+            },
+            "min-width": {
+              "from": "min-w-5",
+              "multiple": 5,
+              "px": 20,
+              "scale": "space.5",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-inline": {
+              "from": "px-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "position": {
+              "from": "absolute",
+              "tier": "literal",
+              "value": "absolute"
+            },
+            "right": {
+              "from": "right-1",
+              "px": 4,
+              "tier": "literal"
+            },
+            "top": {
+              "from": "top-1.5",
+              "px": 6,
+              "tier": "literal"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarMenuButton": {
+      "axes": {
+        "size": [
+          "default",
+          "sm",
+          "lg"
+        ]
+      },
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 h-8 text-sm",
+          "properties": {
+            "[&>span:last-child]:overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "hidden",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:text-overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "ellipsis",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:white-space": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "nowrap",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>svg]:flex-shrink": {
+              "from": "[&>svg]:shrink-0",
+              "tier": "unresolved",
+              "value": "0",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:height": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:width": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:opacity": {
+              "from": "aria-disabled:opacity-50",
+              "tier": "unresolved",
+              "value": "50%",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "data-[active=true]:--ds-state-base": {
+              "from": "data-[active=true]:[--ds-state-base:var(--sidebar-accent)]",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:--tw-font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:color": {
+              "from": "data-[active=true]:text-sidebar-accent-foreground",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent-foreground)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "h-8",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-left",
+              "tier": "literal",
+              "value": "left"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "size": "default",
+          "state": {
+            "base": "--ds-bg-surface",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        },
+        {
+          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 h-7 text-xs",
+          "properties": {
+            "[&>span:last-child]:overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "hidden",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:text-overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "ellipsis",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:white-space": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "nowrap",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>svg]:flex-shrink": {
+              "from": "[&>svg]:shrink-0",
+              "tier": "unresolved",
+              "value": "0",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:height": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:width": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:opacity": {
+              "from": "aria-disabled:opacity-50",
+              "tier": "unresolved",
+              "value": "50%",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "data-[active=true]:--ds-state-base": {
+              "from": "data-[active=true]:[--ds-state-base:var(--sidebar-accent)]",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:--tw-font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:color": {
+              "from": "data-[active=true]:text-sidebar-accent-foreground",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent-foreground)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-xs",
+              "px": 12,
+              "scale": "type.size.xs",
+              "tier": "token",
+              "token": "--text-xs"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "h-7",
+              "px": 28,
+              "tier": "literal"
+            },
+            "line-height": {
+              "from": "text-xs",
+              "tier": "token",
+              "token": "--text-xs--line-height",
+              "value": "1.6"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-left",
+              "tier": "literal",
+              "value": "left"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "size": "sm",
+          "state": {
+            "base": "--ds-bg-surface",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        },
+        {
+          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 h-12 text-sm",
+          "properties": {
+            "[&>span:last-child]:overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "hidden",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:text-overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "ellipsis",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:white-space": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "nowrap",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>svg]:flex-shrink": {
+              "from": "[&>svg]:shrink-0",
+              "tier": "unresolved",
+              "value": "0",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:height": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:width": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:opacity": {
+              "from": "aria-disabled:opacity-50",
+              "tier": "unresolved",
+              "value": "50%",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "data-[active=true]:--ds-state-base": {
+              "from": "data-[active=true]:[--ds-state-base:var(--sidebar-accent)]",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:--tw-font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:color": {
+              "from": "data-[active=true]:text-sidebar-accent-foreground",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent-foreground)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "h-12",
+              "multiple": 12,
+              "px": 48,
+              "scale": "space.12",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "padding": {
+              "from": "p-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-left",
+              "tier": "literal",
+              "value": "left"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "size": "lg",
+          "state": {
+            "base": "--ds-bg-surface",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {
+        "size": "default"
+      }
+    },
+    "SidebarMenuItem": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "group/menu-item relative",
+          "properties": {
+            "group/menu-item": {
+              "from": "group/menu-item",
+              "tier": "unresolved",
+              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarMenuSub": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5",
+          "properties": {
+            "border-color": {
+              "from": "border-sidebar-border",
+              "tier": "token",
+              "token": "--ds-border-default"
+            },
+            "border-left-width": {
+              "from": "border-l",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "margin-inline": {
+              "from": "mx-3.5",
+              "px": 14,
+              "tier": "literal"
+            },
+            "min-width": {
+              "from": "min-w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-block": {
+              "from": "py-0.5",
+              "px": 2,
+              "tier": "literal"
+            },
+            "padding-inline": {
+              "from": "px-2.5",
+              "px": 10,
+              "tier": "literal"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarMenuSubButton": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sm text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+          "properties": {
+            "[&>span:last-child]:overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "hidden",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:text-overflow": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "ellipsis",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>span:last-child]:white-space": {
+              "from": "[&>span:last-child]:truncate",
+              "tier": "unresolved",
+              "value": "nowrap",
+              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
+            },
+            "[&>svg]:flex-shrink": {
+              "from": "[&>svg]:shrink-0",
+              "tier": "unresolved",
+              "value": "0",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:height": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "[&>svg]:width": {
+              "from": "[&>svg]:size-4",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 4)",
+              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aria-disabled:opacity": {
+              "from": "aria-disabled:opacity-50",
+              "tier": "unresolved",
+              "value": "50%",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "aria-disabled:pointer-events": {
+              "from": "aria-disabled:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 aria-disabled를 아직 다루지 않는다"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "data-[active=true]:--ds-state-base": {
+              "from": "data-[active=true]:[--ds-state-base:var(--sidebar-accent)]",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:--tw-font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:color": {
+              "from": "data-[active=true]:text-sidebar-accent-foreground",
+              "tier": "unresolved",
+              "value": "var(--sidebar-accent-foreground)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:font-weight": {
+              "from": "data-[active=true]:font-medium",
+              "tier": "unresolved",
+              "value": "var(--font-weight-medium)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "h-7",
+              "px": 28,
+              "tier": "literal"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "min-width": {
+              "from": "min-w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "padding-inline": {
+              "from": "px-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-surface",
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarMenuSubItem": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "group/menu-sub-item relative",
+          "properties": {
+            "group/menu-sub-item": {
+              "from": "group/menu-sub-item",
+              "tier": "unresolved",
+              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "sidebar",
+    "guidance": {
+      "evidence": "투자 이력·보유 현황·회고를 오가는 탐색이 화면 상단 탭으로는 다 들어가지 않고, 본문을 보면서 다른 구역으로 이동해야 한다.",
+      "limits": "breakpoint 판정을 내장하지 않는다 — `list-row`가 이미 \"투자 도메인과 breakpoint 전환을 내장하지 않는다\"고 그은 선과 같은 자리이며, 소비처가 `isMobile`을 준다. 쿠키 열림 상태 영속화와 `Cmd/Ctrl+B` 단축키는 동작이라 파생 채널이 나르지 못하므로 계약 밖이고(#97), 저절로 따라오는 상속 표면도 아니라 소비처가 `defaultOpen`·`open`·`onOpenChange`로 배선한다. off-canvas 열고 닫기는 트리거·rail·키보드로만 하며 스와이프 제스처는 갖지 않는다 — 나중에 붙인다면 표면이 사라지는 dismiss 제스처이므로 ADR 0005의 존재·시각 피드백·접근성 동등 경로를 함께 계약해야 한다. upstream의 `collapsible: \"none\"`은 열지 않는다: 렌더 결과가 `offcanvas`의 펼친 상태와 구분되지 않아 파생 채널이 가르지 못하며(#97), 트리거와 rail을 렌더하지 않으면 같은 결과가 된다. `SidebarMenuButton`의 `outline` variant도 열지 않는다 — 컨트롤 테두리를 `--sidebar-border`(`border.default`)로 그리는데 그것은 구분선이라 3:1 게이트에서 빠져 있고 다크에서 1.31이며, 게이트를 통과하는 `border.strong`에는 alias 이름이 없어 여는 데 토큰 변경이 선행된다. `SidebarInput`과 `SidebarMenuSkeleton`은 파트로 열지 않는다: 앞은 Input에 유틸리티 두 줄을 얹은 것이라 파생 채널이 구분하지 못하고, 뒤는 폭이 난수라 참조 스토리가 결정적이지 않다 — 소비처가 Input·Skeleton을 직접 조립한다. 접힌 상태의 메뉴 버튼에 레이블을 보충해야 하면 Tooltip을 소비처가 감싼다. 페이지 랜드마크도 소유하지 않는다 — `SidebarInset`은 `<div>`이고 `<main>`은 소비처의 페이지 구조다(upstream과 다른 지점이며, 셸이 이미 `<main>`을 가진 문서에 놓이면 랜드마크가 둘이 된다). sidebar 안쪽의 탐색 랜드마크는 우리가 주되 그 접근 가능한 이름은 소비처가 준다 — 한 화면에 사이드바가 둘일 수 있다.",
+      "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정되는 세로 탐색 표면으로, 본문과 함께 살면서 접고 펼 수 있다. `variant`는 패널의 형태만, `collapsible`은 접혔을 때의 폭만 정하고 열림 상태는 소비처가 소유한다. 좁은 폭에서는 소비처가 알려준 `isMobile`에 따라 Sheet으로 갈아 끼운다."
+    }
+  },
+  "schemaVersion": 5,
+  "source": "src/components/ui/sidebar.tsx"
+}

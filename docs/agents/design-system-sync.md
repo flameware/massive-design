@@ -30,6 +30,14 @@
 
 확인 범위를 `--scope`에 남긴다. 판정 기준이 위 셋이므로 "터치에서 봤다"가 아니라 **어느 항목이 통과했는지**를 적는다 — 기준 없는 뷰포트 확인은 검토 기록에 판정이 아니라 인상만 남긴다([#97](https://github.com/flameware/massive-design/issues/97)).
 
+### 트리거 모드 확인 — 사람이 진다
+
+Dropdown Menu의 `openOn="context"`와 Popover의 `openOn="hover"`는 **자동 검증이 0이다**([#126](https://github.com/flameware/massive-design/issues/126)). `openOn`은 `cva` 축도 구성 상태도 아니라 생성된 카탈로그 스토리에 자리가 없고(`Components.stories.tsx`의 컨트롤은 `axes ∪ configurationStates`에서만 나온다), 따라서 Storybook axe가 두 모드를 한 번도 렌더하지 않는다. **`STORYBOOK_VERIFIED: PASS`는 이 두 모드에 대해 아무것도 말하지 않는다** — 기본 모드만 통과한 것이다. 세대를 넘기기 전에 사람이 확인한다.
+
+- [ ] **우클릭 모드** — 대상 영역을 우클릭하면 커서 위치에서 열린다. **키보드만으로** 열린다(Tab으로 트리거에 도달 → 컨텍스트 메뉴 키 또는 Shift+F10). 터치에서 길게 눌러 열린다. Esc로 닫히고 초점이 트리거로 돌아온다.
+- [ ] **hover 모드** — 포인터를 얹으면 지연 후 열리고, 트리거에서 콘텐츠로 건너가는 동안 닫히지 않는다. **포인터 없이** 열린다(Tab 포커스, 클릭, 터치). 열릴 때 초점이 표면으로 튀지 않는다. 콘텐츠 안의 버튼·링크가 Tab 순서에 남아 있다.
+- [ ] **기본 모드 불변** — 어느 모드도 기본 모드의 렌더 결과를 바꾸지 않는다. `sync:preflight` 기록의 `components[]`에서 `dropdown-menu = e3617c6fd13c`, `popover = 2535c4105bf4`로 확인한다.
+
 > 터치 대상 **크기** 규칙은 여기 없다. [#111](https://github.com/flameware/massive-design/issues/111)이 정한 뒤 이 절에 들어온다 — 그쪽은 `size` 축 기본값을 건드리는 base 계층 변경이라 전 카탈로그 재검증을 요구하므로 도착 시점과 적용 범위가 다르다.
 
 Figma가 뒤처진 상태에는 시간 제한을 두지 않는다. 최신 Repo verification 세대와 마지막 `FIGMA_LIBRARY_CURRENT` 공개 기준선은 독립적으로 보존해 차이를 판독할 수 있게 한다. 새 Repo verification이 마지막 Figma 증거를 덮어쓰거나 실패로 바꾸지 않는다.

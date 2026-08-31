@@ -1,0 +1,354 @@
+{
+  "anatomy": [
+    "ResizablePanelGroup",
+    "ResizablePanel*",
+    "ResizableHandle*",
+    "ResizableHandleGrip?"
+  ],
+  "axes": {
+    "orientation": [
+      "horizontal",
+      "vertical"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "h-full w-full",
+      "orientation": "horizontal",
+      "properties": {
+        "height": {
+          "from": "h-full",
+          "tier": "literal",
+          "value": "100%"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "state": null
+    },
+    {
+      "className": "h-full w-full",
+      "orientation": "vertical",
+      "properties": {
+        "height": {
+          "from": "h-full",
+          "tier": "literal",
+          "value": "100%"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "resizable",
+  "configurationStates": {
+    "panel": [
+      "expanded",
+      "collapsed"
+    ]
+  },
+  "defaults": {
+    "orientation": "horizontal"
+  },
+  "externalSurfaces": {
+    "드래그 중 전역 커서 스타일시트": "react-resizable-panels가 문서에 adoptedStyleSheet를 얹어 `*, *:hover`의 커서를 !important로 덮는다",
+    "패널 바깥 flex 래퍼": "react-resizable-panels가 Panel의 바깥 div를 스스로 만들고 우리 className은 그 안쪽 div로 간다 — flex 계산을 지키기 위한 라이브러리의 결정이다",
+    "패널 크기의 인라인 flex 값": "레이아웃이 flex-grow·flex-basis 인라인 값으로 쓰여 우리 클래스가 닿지 않는다 — 노드는 우리 것이지만 그 자리의 크기는 라이브러리 것이다",
+    "핸들의 role·tabIndex·ARIA": "react-resizable-panels가 role=separator와 tabIndex, aria-valuenow·valuemin·valuemax·aria-controls·aria-orientation을 스스로 계산해 붙이고 타입이 우리 재정의를 막는다"
+  },
+  "hash": "889a182cd242",
+  "parts": {
+    "ResizableHandle": {
+      "axes": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "cells": [
+        {
+          "className": "relative flex items-center justify-center outline-none after:absolute focus-visible:ring-[3px] focus-visible:ring-ring h-full w-0 border-l after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2",
+          "orientation": "horizontal",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "border-left-width": {
+              "from": "border-l",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "height": {
+              "from": "h-full",
+              "tier": "literal",
+              "value": "100%"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        },
+        {
+          "className": "relative flex items-center justify-center outline-none after:absolute focus-visible:ring-[3px] focus-visible:ring-ring h-0 w-full border-t after:inset-x-0 after:top-1/2 after:h-1 after:-translate-y-1/2",
+          "orientation": "vertical",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "border-top-width": {
+              "from": "border-t",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "height": {
+              "from": "h-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {
+        "orientation": "horizontal"
+      }
+    },
+    "ResizableHandleGrip": {
+      "axes": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "cells": [
+        {
+          "className": "z-10 flex items-center justify-center rounded-sm border bg-secondary h-4 w-3",
+          "orientation": "horizontal",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "bg-secondary",
+              "tier": "token",
+              "token": "--ds-bg-neutral-soft"
+            },
+            "border-radius": {
+              "from": "rounded-sm",
+              "px": 6,
+              "scale": "radius.sm",
+              "tier": "token",
+              "token": "--radius-sm"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "height": {
+              "from": "h-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "width": {
+              "from": "w-3",
+              "multiple": 3,
+              "px": 12,
+              "scale": "space.3",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "z-index": {
+              "from": "z-10",
+              "tier": "literal",
+              "value": "10"
+            }
+          },
+          "state": null
+        },
+        {
+          "className": "z-10 flex items-center justify-center rounded-sm border bg-secondary h-3 w-4",
+          "orientation": "vertical",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "bg-secondary",
+              "tier": "token",
+              "token": "--ds-bg-neutral-soft"
+            },
+            "border-radius": {
+              "from": "rounded-sm",
+              "px": 6,
+              "scale": "radius.sm",
+              "tier": "token",
+              "token": "--radius-sm"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "height": {
+              "from": "h-3",
+              "multiple": 3,
+              "px": 12,
+              "scale": "space.3",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "width": {
+              "from": "w-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "z-index": {
+              "from": "z-10",
+              "tier": "literal",
+              "value": "10"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {
+        "orientation": "horizontal"
+      }
+    },
+    "ResizablePanel": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "min-h-0 min-w-0",
+          "properties": {
+            "min-height": {
+              "from": "min-h-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "min-width": {
+              "from": "min-w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "resizable",
+    "guidance": {
+      "evidence": "투자 이력은 목록과 상세를 나란히 보는 자리가 있고, 종목 이름이 긴 사용자와 숫자를 넓게 보려는 사용자가 원하는 경계가 서로 다르다.",
+      "limits": "고정 비율 레이아웃에는 쓰지 않으며 패널 크기는 계약하지 않는다 — 크기는 연속값이라 조합으로 나오지 않고 defaultSize·minSize·maxSize는 소비처의 값이다. 핸들은 초점을 받는 컨트롤이므로 접근 가능한 이름은 소비처가 aria-label로 준다. 키보드는 upstream이 준다 — 화살표로 ±5, Home/End로 끝까지, collapsible 패널에서 Enter로 접기·펴기, F6로 핸들 순회. 핸들을 끄는 것은 컨트롤 제스처라 표면이 사라지지 않고 위 키보드 경로가 이미 동등 경로이며, 터치 히트 영역의 크기(upstream 기본값은 coarse 20px·fine 10px)는 터치 대상 크기 규칙(#111)이 정한 뒤에 다시 본다. 레이아웃 저장(useDefaultLayout)과 명령형 API는 소비처가 소유한다.",
+      "use": "한 화면 안에서 두 영역의 넓이를 사용자가 직접 나눠 갖게 하고, 그 경계를 포인터와 키보드 양쪽으로 옮길 수 있게 한다."
+    }
+  },
+  "schemaVersion": 5,
+  "source": "src/components/ui/resizable.tsx"
+}

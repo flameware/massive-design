@@ -31,6 +31,13 @@ import {
   ButtonGroup, ButtonGroupSeparator, ButtonGroupText,
   InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput,
   NativeSelect, NativeSelectGroup, NativeSelectOption, Slider,
+  Kbd, KbdGroup,
+  InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot,
+  ResizableHandle, ResizablePanel, ResizablePanelGroup,
+  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent,
+  SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge,
+  SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem,
+  SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger,
 } from "@massive/ui"
 import { catalog } from "./catalog.gen"
 import itemFixture from "./fixtures/item.json"
@@ -116,6 +123,60 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     textarea: <Field className="max-w-sm"><FieldLabel htmlFor="trade-note">거래 메모</FieldLabel><Textarea id="trade-note" size={size} placeholder="판단 근거를 남겨보세요"/><FieldDescription>다음 회고에서 확인할 수 있습니다.</FieldDescription></Field>,
     tooltip: <TooltipProvider><Tooltip defaultOpen={selection.open === "open"}><TooltipTrigger asChild><Button size="icon" variant="outline" aria-label="수익률 계산 방식">?</Button></TooltipTrigger><TooltipContent>매입 금액을 기준으로 계산합니다.</TooltipContent></Tooltip></TooltipProvider>,
     toast: <ToastProvider><Toast open={selection.open === "open"} variant={variant}><div><ToastTitle>거래를 저장했습니다</ToastTitle><ToastDescription>삼성전자 우선주 매수 기록이 추가되었습니다.</ToastDescription></div><ToastAction altText="저장한 거래 보기">보기</ToastAction><ToastClose/></Toast><ToastViewport/></ToastProvider>,
+    kbd: <div className="grid gap-5">
+      <KbdGroup><Kbd><span aria-hidden="true">⌘</span><span className="sr-only">Command</span></Kbd><span>+</span><Kbd>K</Kbd></KbdGroup>
+      <p className="text-sm text-muted-foreground">투자 기록 검색은 <KbdGroup><Kbd><span aria-hidden="true">⌘</span><span className="sr-only">Command</span></Kbd><span>+</span><Kbd>K</Kbd></KbdGroup> 로 엽니다.</p>
+      <Button variant="outline" aria-keyshortcuts="Meta+Enter" className="w-fit">거래 저장 <Kbd><span aria-hidden="true">⏎</span><span className="sr-only">Enter</span></Kbd></Button>
+      <TooltipProvider><Tooltip defaultOpen><TooltipTrigger asChild><Button variant="outline" aria-keyshortcuts="n" className="w-fit">거래 추가</Button></TooltipTrigger><TooltipContent>거래 추가 <Kbd className="bg-transparent text-[var(--ds-fg-on-inverse)]">N</Kbd></TooltipContent></Tooltip></TooltipProvider>
+    </div>,
+    "input-otp": <Field className="max-w-sm">
+      <FieldLabel htmlFor="input-otp-code">인증번호</FieldLabel>
+      <InputOTP id="input-otp-code" maxLength={6} value={selection.value === "filled" ? "042195" : ""} onChange={() => {}} aria-invalid={selection.validity === "invalid" || undefined}>
+        <InputOTPGroup>{[0, 1, 2].map((index) => <InputOTPSlot key={index} index={index} active={selection.cursor === "active" && index === 0} aria-invalid={selection.validity === "invalid" || undefined}/>)}</InputOTPGroup>
+        <InputOTPSeparator/>
+        <InputOTPGroup>{[3, 4, 5].map((index) => <InputOTPSlot key={index} index={index} aria-invalid={selection.validity === "invalid" || undefined}/>)}</InputOTPGroup>
+      </InputOTP>
+      <FieldDescription>문자로 받은 여섯 자리 숫자를 입력하세요.</FieldDescription>
+      {selection.validity === "invalid" && <FieldError>인증번호가 일치하지 않습니다.</FieldError>}
+    </Field>,
+    resizable: <ResizablePanelGroup orientation={selection.orientation as "horizontal" | "vertical"} className="h-48 max-w-lg rounded-lg border">
+      <ResizablePanel collapsible minSize="20%" collapsedSize="0%" defaultSize={selection.panel === "collapsed" ? "0%" : "35%"}><div className="h-full p-3 text-sm">보유 종목</div></ResizablePanel>
+      <ResizableHandle withHandle aria-label="목록과 상세의 경계"/>
+      <ResizablePanel defaultSize={selection.panel === "collapsed" ? "100%" : "65%"}><div className="h-full p-3 text-sm">삼성전자 · 평가금액 ₩4,230,000</div></ResizablePanel>
+    </ResizablePanelGroup>,
+    sidebar: <div className="relative h-80 w-full overflow-hidden rounded-lg border [transform:translate(0)]">
+      <SidebarProvider open={selection.state !== "collapsed"} isMobile={false} className="h-full min-h-0">
+        <Sidebar aria-label="투자 기록 탐색" side={selection.side as "left" | "right"} variant={selection.variant as "sidebar" | "floating" | "inset"} collapsible={selection.collapsible as "offcanvas" | "icon"}>
+          <SidebarHeader><p className="px-2 text-sm font-medium">투자 기록</p></SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>포트폴리오</SidebarGroupLabel>
+              <SidebarGroupAction aria-label="구역 추가">＋</SidebarGroupAction>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton isActive={selection.item === "active"}><span>보유 현황</span></SidebarMenuButton>
+                    <SidebarMenuBadge>12</SidebarMenuBadge>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton size="sm"><span>거래 내역</span></SidebarMenuButton>
+                    <SidebarMenuAction aria-label="거래 내역 작업">⋯</SidebarMenuAction>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem><SidebarMenuSubButton href="#kr">국내</SidebarMenuSubButton></SidebarMenuSubItem>
+                      <SidebarMenuSubItem><SidebarMenuSubButton href="#us" isActive={selection.item === "active"}>미국</SidebarMenuSubButton></SidebarMenuSubItem>
+                    </SidebarMenuSub>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarSeparator/>
+          </SidebarContent>
+          <SidebarFooter><p className="px-2 text-sm text-muted-foreground">김서경</p></SidebarFooter>
+          <SidebarRail/>
+        </Sidebar>
+        <SidebarInset className="p-4"><SidebarTrigger/><p className="mt-3 text-sm">본문이 여기에 놓입니다.</p></SidebarInset>
+      </SidebarProvider>
+    </div>,
   }
   return previews[name]
 }
