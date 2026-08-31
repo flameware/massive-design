@@ -1,0 +1,771 @@
+{
+  "anatomy": [
+    "Slider",
+    "SliderTrack",
+    "SliderRange",
+    "SliderThumb*"
+  ],
+  "axes": {
+    "orientation": [
+      "horizontal",
+      "vertical"
+    ],
+    "size": [
+      "sm",
+      "default",
+      "lg"
+    ]
+  },
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "relative flex touch-none items-center select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full flex-row",
+      "orientation": "horizontal",
+      "properties": {
+        "-webkit-user-select": {
+          "from": "select-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "data-[disabled]:opacity": {
+          "from": "data-[disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "data-[disabled]:pointer-events": {
+          "from": "data-[disabled]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-row",
+          "tier": "literal",
+          "value": "row"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "touch-action": {
+          "from": "touch-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "size": "sm",
+      "state": null
+    },
+    {
+      "className": "relative flex touch-none items-center select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 h-44 w-fit flex-col",
+      "orientation": "vertical",
+      "properties": {
+        "-webkit-user-select": {
+          "from": "select-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "data-[disabled]:opacity": {
+          "from": "data-[disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "data-[disabled]:pointer-events": {
+          "from": "data-[disabled]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-col",
+          "tier": "literal",
+          "value": "column"
+        },
+        "height": {
+          "from": "h-44",
+          "px": 176,
+          "tier": "literal"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "touch-action": {
+          "from": "touch-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "size": "sm",
+      "state": null
+    },
+    {
+      "className": "relative flex touch-none items-center select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full flex-row",
+      "orientation": "horizontal",
+      "properties": {
+        "-webkit-user-select": {
+          "from": "select-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "data-[disabled]:opacity": {
+          "from": "data-[disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "data-[disabled]:pointer-events": {
+          "from": "data-[disabled]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-row",
+          "tier": "literal",
+          "value": "row"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "touch-action": {
+          "from": "touch-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "size": "default",
+      "state": null
+    },
+    {
+      "className": "relative flex touch-none items-center select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 h-44 w-fit flex-col",
+      "orientation": "vertical",
+      "properties": {
+        "-webkit-user-select": {
+          "from": "select-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "data-[disabled]:opacity": {
+          "from": "data-[disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "data-[disabled]:pointer-events": {
+          "from": "data-[disabled]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-col",
+          "tier": "literal",
+          "value": "column"
+        },
+        "height": {
+          "from": "h-44",
+          "px": 176,
+          "tier": "literal"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "touch-action": {
+          "from": "touch-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "size": "default",
+      "state": null
+    },
+    {
+      "className": "relative flex touch-none items-center select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full flex-row",
+      "orientation": "horizontal",
+      "properties": {
+        "-webkit-user-select": {
+          "from": "select-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "data-[disabled]:opacity": {
+          "from": "data-[disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "data-[disabled]:pointer-events": {
+          "from": "data-[disabled]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-row",
+          "tier": "literal",
+          "value": "row"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "touch-action": {
+          "from": "touch-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "size": "lg",
+      "state": null
+    },
+    {
+      "className": "relative flex touch-none items-center select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 h-44 w-fit flex-col",
+      "orientation": "vertical",
+      "properties": {
+        "-webkit-user-select": {
+          "from": "select-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "data-[disabled]:opacity": {
+          "from": "data-[disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "data-[disabled]:pointer-events": {
+          "from": "data-[disabled]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-col",
+          "tier": "literal",
+          "value": "column"
+        },
+        "height": {
+          "from": "h-44",
+          "px": 176,
+          "tier": "literal"
+        },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
+        "touch-action": {
+          "from": "touch-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "size": "lg",
+      "state": null
+    }
+  ],
+  "component": "slider",
+  "configurationStates": {
+    "value": [
+      "single",
+      "range"
+    ]
+  },
+  "defaults": {
+    "orientation": "horizontal",
+    "size": "default"
+  },
+  "hash": "f7f90ee58411",
+  "parts": {
+    "SliderRange": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "absolute bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full",
+          "properties": {
+            "background-color": {
+              "from": "bg-primary",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            },
+            "data-[orientation=horizontal]:height": {
+              "from": "data-[orientation=horizontal]:h-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
+            },
+            "data-[orientation=vertical]:width": {
+              "from": "data-[orientation=vertical]:w-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+            },
+            "position": {
+              "from": "absolute",
+              "tier": "literal",
+              "value": "absolute"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SliderThumb": {
+      "axes": {
+        "size": [
+          "sm",
+          "default",
+          "lg"
+        ]
+      },
+      "cells": [
+        {
+          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-3.5",
+          "properties": {
+            "background-color": {
+              "from": "bg-background",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "box-shadow": {
+              "from": "shadow-sm",
+              "scale": "shadow.sm",
+              "tier": "token",
+              "token": "--shadow-sm"
+            },
+            "display": {
+              "from": "block",
+              "tier": "literal",
+              "value": "block"
+            },
+            "height": {
+              "from": "size-3.5",
+              "px": 14,
+              "tier": "literal"
+            },
+            "width": {
+              "from": "size-3.5",
+              "px": 14,
+              "tier": "literal"
+            }
+          },
+          "size": "sm",
+          "state": null
+        },
+        {
+          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-4",
+          "properties": {
+            "background-color": {
+              "from": "bg-background",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "box-shadow": {
+              "from": "shadow-sm",
+              "scale": "shadow.sm",
+              "tier": "token",
+              "token": "--shadow-sm"
+            },
+            "display": {
+              "from": "block",
+              "tier": "literal",
+              "value": "block"
+            },
+            "height": {
+              "from": "size-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "width": {
+              "from": "size-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "size": "default",
+          "state": null
+        },
+        {
+          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-5",
+          "properties": {
+            "background-color": {
+              "from": "bg-background",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "box-shadow": {
+              "from": "shadow-sm",
+              "scale": "shadow.sm",
+              "tier": "token",
+              "token": "--shadow-sm"
+            },
+            "display": {
+              "from": "block",
+              "tier": "literal",
+              "value": "block"
+            },
+            "height": {
+              "from": "size-5",
+              "multiple": 5,
+              "px": 20,
+              "scale": "space.5",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "width": {
+              "from": "size-5",
+              "multiple": 5,
+              "px": 20,
+              "scale": "space.5",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "size": "lg",
+          "state": null
+        }
+      ],
+      "defaults": {
+        "size": "default"
+      }
+    },
+    "SliderTrack": {
+      "axes": {
+        "size": [
+          "sm",
+          "default",
+          "lg"
+        ]
+      },
+      "cells": [
+        {
+          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1",
+          "properties": {
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "data-[orientation=horizontal]:height": {
+              "from": "data-[orientation=horizontal]:h-1",
+              "tier": "unresolved",
+              "value": "0.25rem",
+              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
+            },
+            "data-[orientation=horizontal]:width": {
+              "from": "data-[orientation=horizontal]:w-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
+            },
+            "data-[orientation=vertical]:height": {
+              "from": "data-[orientation=vertical]:h-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+            },
+            "data-[orientation=vertical]:width": {
+              "from": "data-[orientation=vertical]:w-1",
+              "tier": "unresolved",
+              "value": "0.25rem",
+              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+            },
+            "flex-grow": {
+              "from": "grow",
+              "tier": "literal",
+              "value": "1"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            }
+          },
+          "size": "sm",
+          "state": null
+        },
+        {
+          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5",
+          "properties": {
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "data-[orientation=horizontal]:height": {
+              "from": "data-[orientation=horizontal]:h-1.5",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 1.5)",
+              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
+            },
+            "data-[orientation=horizontal]:width": {
+              "from": "data-[orientation=horizontal]:w-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
+            },
+            "data-[orientation=vertical]:height": {
+              "from": "data-[orientation=vertical]:h-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+            },
+            "data-[orientation=vertical]:width": {
+              "from": "data-[orientation=vertical]:w-1.5",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 1.5)",
+              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+            },
+            "flex-grow": {
+              "from": "grow",
+              "tier": "literal",
+              "value": "1"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            }
+          },
+          "size": "default",
+          "state": null
+        },
+        {
+          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-2 data-[orientation=vertical]:w-2",
+          "properties": {
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "data-[orientation=horizontal]:height": {
+              "from": "data-[orientation=horizontal]:h-2",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 2)",
+              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
+            },
+            "data-[orientation=horizontal]:width": {
+              "from": "data-[orientation=horizontal]:w-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
+            },
+            "data-[orientation=vertical]:height": {
+              "from": "data-[orientation=vertical]:h-full",
+              "tier": "unresolved",
+              "value": "100%",
+              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+            },
+            "data-[orientation=vertical]:width": {
+              "from": "data-[orientation=vertical]:w-2",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 2)",
+              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+            },
+            "flex-grow": {
+              "from": "grow",
+              "tier": "literal",
+              "value": "1"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            }
+          },
+          "size": "lg",
+          "state": null
+        }
+      ],
+      "defaults": {
+        "size": "default"
+      }
+    }
+  },
+  "reference": {
+    "example": "slider",
+    "guidance": {
+      "evidence": "투자 이력 필터의 손익 범위처럼 최소·최대를 눈으로 훑으며 좁히는 자리가 있다.",
+      "limits": "정확한 금액이나 날짜를 입력받아야 하면 Input을 쓰고, 값이 몇 개뿐인 이산 선택에는 Toggle Group이나 Radio Group을 쓴다. thumb마다 접근 가능한 이름이 필요하므로 range에서는 thumbLabels를 반드시 준다.",
+      "use": "정확한 숫자보다 상대적 위치가 중요한 연속 범위에서 값 하나 또는 구간의 양 끝을 고른다."
+    }
+  },
+  "schemaVersion": 4,
+  "source": "src/components/ui/slider.tsx"
+}

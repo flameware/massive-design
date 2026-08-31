@@ -2,8 +2,8 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "8b7b04ac412738d867e79687a56ba33b7c31f379",
-  "inputDigest": "f1f99647614814ea6b7bbf004b3c1dbef8085a3b8ef797c467749b637a731c7c",
+  "targetCommit": "4ace6c838f59094c7f3630d8faacb1994723a8cd",
+  "inputDigest": "dee8f71c494382cf70a57f0b5881e8c538fc74dd0dc5356ccf594ef5d395ffdd",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -42,6 +42,16 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
+      "component": "button-group",
+      "manifestHash": "adcce550fd2b",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "calendar",
+      "manifestHash": "cd1751acdc6f",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
       "component": "card",
       "manifestHash": "50895e9c5fea",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
@@ -54,6 +64,11 @@
     {
       "component": "collapsible",
       "manifestHash": "4b115285961c",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "command",
+      "manifestHash": "c7f9281f045a",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -82,6 +97,11 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
+      "component": "input-group",
+      "manifestHash": "e3e72b6225f6",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
       "component": "item",
       "manifestHash": "008b33625ebc",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
@@ -94,6 +114,11 @@
     {
       "component": "list-row",
       "manifestHash": "109497324ece",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "native-select",
+      "manifestHash": "d6531f02868f",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -117,6 +142,11 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
+      "component": "scroll-area",
+      "manifestHash": "5ec1920502d7",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
       "component": "select",
       "manifestHash": "306160b2cb63",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
@@ -127,8 +157,18 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
+      "component": "sheet",
+      "manifestHash": "dff903e3b672",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
       "component": "skeleton",
       "manifestHash": "9c2250c043f6",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "slider",
+      "manifestHash": "f7f90ee58411",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -180,7 +220,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T12:10:15.736Z",
+      "checkedAt": "2026-08-31T08:08:19.020Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -211,7 +251,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-24T12:10:15.736Z",
+      "checkedAt": "2026-08-31T08:08:19.020Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -226,7 +266,7 @@
         }
       ],
       "a11y": {
-        "stories": 37,
+        "stories": 45,
         "violations": [],
         "incomplete": [
           {
@@ -237,6 +277,20 @@
             "targets": [
               [
                 ".size-10"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters"
+            ]
+          },
+          {
+            "story": "components-manifest-references--input-group",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 1,
+            "targets": [
+              [
+                ".\\[\\&_svg\\:not\\(\\[class\\*\\=\\'size-\\'\\]\\)\\]\\:size-4"
               ]
             ],
             "review": [
@@ -288,14 +342,14 @@
         ]
       },
       "visualReview": {
-        "reviewer": "flameware",
-        "checkedAt": "2026-08-24T12:10:54.295Z",
-        "scope": "Breadcrumb·Pagination — Light/Dark, 현재 위치·현재 페이지 상태, 축약 표시"
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-08-31T08:20:32.899Z",
+        "scope": "P1 신규 8개(Command, Sheet, Scroll Area, Calendar, Button Group, Input Group, Native Select, Slider)의 Light/Dark와 주요 configuration state"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-08-24T12:10:54.295Z"
+  "completedAt": "2026-08-31T08:20:32.899Z"
 }

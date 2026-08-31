@@ -1,0 +1,444 @@
+{
+  "anatomy": [
+    "InputGroup",
+    "InputGroupAddon?",
+    "InputGroupInput",
+    "InputGroupButton?"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "flex h-9 w-full min-w-0 items-center gap-2 rounded-md border bg-background px-3 text-sm shadow-xs outline-none has-[:focus-visible]:border-focus-contrast has-[:focus-visible]:ring-[3px] has-[:focus-visible]:ring-ring has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50 has-[[aria-invalid=true]]:border-destructive has-[[aria-invalid=true]]:ring-destructive/20",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "has-[:disabled]:opacity": {
+          "from": "has-[:disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 has-[:disabled]를 아직 다루지 않는다"
+        },
+        "has-[:disabled]:pointer-events": {
+          "from": "has-[:disabled]:pointer-events-none",
+          "tier": "unresolved",
+          "value": "none",
+          "why": "수식자 has-[:disabled]를 아직 다루지 않는다"
+        },
+        "has-[:focus-visible]:--tw-ring-color": {
+          "from": "has-[:focus-visible]:ring-ring",
+          "tier": "unresolved",
+          "value": "var(--ring)",
+          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
+        },
+        "has-[:focus-visible]:--tw-ring-shadow": {
+          "from": "has-[:focus-visible]:ring-[3px]",
+          "tier": "unresolved",
+          "value": "var(--tw-ring-inset,) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor)",
+          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
+        },
+        "has-[:focus-visible]:border-color": {
+          "from": "has-[:focus-visible]:border-focus-contrast",
+          "tier": "unresolved",
+          "value": "var(--focus-contrast)",
+          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
+        },
+        "has-[:focus-visible]:box-shadow": {
+          "from": "has-[:focus-visible]:ring-[3px]",
+          "tier": "unresolved",
+          "value": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)",
+          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
+        },
+        "has-[[aria-invalid=true]]:--tw-ring-color": {
+          "from": "has-[[aria-invalid=true]]:ring-destructive/20",
+          "tier": "unresolved",
+          "value": "var(--destructive)",
+          "why": "수식자 has-[[aria-invalid=true]]를 아직 다루지 않는다"
+        },
+        "has-[[aria-invalid=true]]:border-color": {
+          "from": "has-[[aria-invalid=true]]:border-destructive",
+          "tier": "unresolved",
+          "value": "var(--destructive)",
+          "why": "수식자 has-[[aria-invalid=true]]를 아직 다루지 않는다"
+        },
+        "height": {
+          "from": "h-9",
+          "px": 36,
+          "tier": "literal"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-0",
+          "multiple": 0,
+          "px": 0,
+          "scale": "space.0",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "input-group",
+  "configurationStates": {
+    "disabled": [
+      "enabled",
+      "disabled"
+    ],
+    "validity": [
+      "valid",
+      "invalid"
+    ]
+  },
+  "defaults": {},
+  "hash": "e3e72b6225f6",
+  "parts": {
+    "InputGroupAddon": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex shrink-0 items-center gap-2 text-sm text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            }
+          },
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&_svg:not([class*='size-'])]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "InputGroupButton": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "inline-flex items-center justify-center gap-2 text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 state size-6 rounded-md [&_svg:not([class*='size-'])]:size-3 shrink-0",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "size-6",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "width": {
+              "from": "size-6",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&_svg:not([class*='size-'])]:size-3",
+                "multiple": 3,
+                "px": 12,
+                "scale": "space.3",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": {
+            "base": null,
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    },
+    "InputGroupInput": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "w-full min-w-0 py-1 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-focus-contrast focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 h-full flex-1 rounded-none border-0 bg-transparent px-0 shadow-none focus-visible:border-0 focus-visible:ring-0 aria-invalid:border-0 aria-invalid:ring-0",
+          "properties": {
+            "background-color": {
+              "from": "bg-transparent",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "border-radius": {
+              "from": "rounded-none",
+              "px": 0,
+              "tier": "literal"
+            },
+            "border-width": {
+              "from": "border-0",
+              "px": 0,
+              "tier": "literal"
+            },
+            "box-shadow": {
+              "from": "shadow-none",
+              "tier": "unresolved",
+              "value": "0 0 #0000",
+              "why": "shadow 스케일에 없는 그림자다"
+            },
+            "flex": {
+              "from": "flex-1",
+              "tier": "literal",
+              "value": "1"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "height": {
+              "from": "h-full",
+              "tier": "literal",
+              "value": "100%"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "min-width": {
+              "from": "min-w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-block": {
+              "from": "py-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-inline": {
+              "from": "px-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "placeholder:color": {
+              "from": "placeholder:text-muted-foreground",
+              "tier": "unresolved",
+              "value": "var(--muted-foreground)",
+              "why": "수식자 placeholder를 아직 다루지 않는다"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "input-group",
+    "guidance": {
+      "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
+      "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다.",
+      "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
+    }
+  },
+  "schemaVersion": 4,
+  "source": "src/components/ui/input-group.tsx"
+}

@@ -43,6 +43,18 @@
       "path": "button.gen.json"
     },
     {
+      "cells": 2,
+      "component": "button-group",
+      "hash": "adcce550fd2b",
+      "path": "button-group.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "calendar",
+      "hash": "cd1751acdc6f",
+      "path": "calendar.gen.json"
+    },
+    {
       "cells": 1,
       "component": "card",
       "hash": "50895e9c5fea",
@@ -59,6 +71,12 @@
       "component": "collapsible",
       "hash": "4b115285961c",
       "path": "collapsible.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "command",
+      "hash": "c7f9281f045a",
+      "path": "command.gen.json"
     },
     {
       "cells": 1,
@@ -91,6 +109,12 @@
       "path": "input.gen.json"
     },
     {
+      "cells": 1,
+      "component": "input-group",
+      "hash": "e3e72b6225f6",
+      "path": "input-group.gen.json"
+    },
+    {
       "cells": 6,
       "component": "item",
       "hash": "008b33625ebc",
@@ -107,6 +131,12 @@
       "component": "list-row",
       "hash": "109497324ece",
       "path": "list-row.gen.json"
+    },
+    {
+      "cells": 3,
+      "component": "native-select",
+      "hash": "d6531f02868f",
+      "path": "native-select.gen.json"
     },
     {
       "cells": 1,
@@ -133,6 +163,12 @@
       "path": "radio-group.gen.json"
     },
     {
+      "cells": 2,
+      "component": "scroll-area",
+      "hash": "5ec1920502d7",
+      "path": "scroll-area.gen.json"
+    },
+    {
       "cells": 1,
       "component": "select",
       "hash": "306160b2cb63",
@@ -145,10 +181,22 @@
       "path": "separator.gen.json"
     },
     {
+      "cells": 4,
+      "component": "sheet",
+      "hash": "dff903e3b672",
+      "path": "sheet.gen.json"
+    },
+    {
       "cells": 1,
       "component": "skeleton",
       "hash": "9c2250c043f6",
       "path": "skeleton.gen.json"
+    },
+    {
+      "cells": 6,
+      "component": "slider",
+      "hash": "f7f90ee58411",
+      "path": "slider.gen.json"
     },
     {
       "cells": 3,

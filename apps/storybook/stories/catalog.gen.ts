@@ -232,6 +232,73 @@ export const catalog = [
     "source": "src/components/ui/button.tsx"
   },
   {
+    "component": "button-group",
+    "displayName": "Button Group",
+    "hash": "adcce550fd2b",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    "anatomy": [
+      "ButtonGroup",
+      "Button*",
+      "ButtonGroupText?",
+      "ButtonGroupSeparator?"
+    ],
+    "configurationStates": {
+      "disabled": [
+        "enabled",
+        "disabled"
+      ]
+    },
+    "reference": {
+      "example": "button-group",
+      "guidance": {
+        "evidence": "투자 이력의 행 도구 모음처럼 내보내기·인쇄·행 메뉴가 나란히 서야 하고, 그중 하나만 비활성이 되는 자리가 있다.",
+        "limits": "하나의 값을 고르는 선택 위젯에는 쓰지 않는다 — 그 자리는 화살표 키 이동과 선택 상태를 가진 Toggle Group이며, 이 컴포넌트는 Button의 공개 props를 주입하거나 대체하지 않는다.",
+        "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/button-group.tsx"
+  },
+  {
+    "component": "calendar",
+    "displayName": "Calendar",
+    "hash": "cd1751acdc6f",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Calendar",
+      "CalendarHeader",
+      "CalendarNav*",
+      "CalendarCaption",
+      "CalendarGrid",
+      "CalendarHeadCell*",
+      "CalendarCell*",
+      "CalendarDay*"
+    ],
+    "configurationStates": {
+      "selection": [
+        "single",
+        "range"
+      ]
+    },
+    "reference": {
+      "example": "calendar",
+      "guidance": {
+        "evidence": "투자 이력의 거래일 입력은 하루를, 손익 조회 기간 필터는 구간을 고르며 미래 거래일처럼 고를 수 없는 날짜를 격자에서 미리 막아야 한다.",
+        "limits": "입력 필드·팝오버·확인 버튼을 묶는 Date Picker 조합과 연·월 드롭다운, 다중 월 표시, 흩어진 여러 날짜 선택(multiple)은 계약하지 않는다. 시간대 변환과 날짜 파싱·직렬화도 다루지 않고 지역 달력 날짜만 받는다. 월 이름·요일 이름은 locale prop이 정하고 주 시작 요일과 오늘 기준일은 소비처가 명시한다.",
+        "use": "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/calendar.tsx"
+  },
+  {
     "component": "card",
     "displayName": "Card",
     "hash": "50895e9c5fea",
@@ -305,6 +372,46 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/collapsible.tsx"
+  },
+  {
+    "component": "command",
+    "displayName": "Command",
+    "hash": "c7f9281f045a",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Command",
+      "CommandInput",
+      "CommandList",
+      "CommandGroup*",
+      "CommandGroupHeading?",
+      "CommandItem*",
+      "CommandEmpty?"
+    ],
+    "configurationStates": {
+      "highlighted": [
+        "highlighted",
+        "idle"
+      ],
+      "results": [
+        "matches",
+        "empty"
+      ],
+      "selected": [
+        "unselected",
+        "selected"
+      ]
+    },
+    "reference": {
+      "example": "command",
+      "guidance": {
+        "evidence": "종목·거래·화면 이동이 한 자리에 섞여 있어 마우스로 메뉴를 파고들기보다 이름을 입력해 바로 실행하는 진입점이 필요하다.",
+        "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다.",
+        "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/command.tsx"
   },
   {
     "component": "dialog",
@@ -466,6 +573,39 @@ export const catalog = [
     "source": "src/components/ui/input.tsx"
   },
   {
+    "component": "input-group",
+    "displayName": "Input Group",
+    "hash": "e3e72b6225f6",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "InputGroup",
+      "InputGroupAddon?",
+      "InputGroupInput",
+      "InputGroupButton?"
+    ],
+    "configurationStates": {
+      "disabled": [
+        "enabled",
+        "disabled"
+      ],
+      "validity": [
+        "valid",
+        "invalid"
+      ]
+    },
+    "reference": {
+      "example": "input-group",
+      "guidance": {
+        "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
+        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다.",
+        "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/input-group.tsx"
+  },
+  {
     "component": "item",
     "displayName": "Item",
     "hash": "008b33625ebc",
@@ -560,6 +700,45 @@ export const catalog = [
     },
     "stateSamples": true,
     "source": "src/components/ui/list-row.tsx"
+  },
+  {
+    "component": "native-select",
+    "displayName": "Native Select",
+    "hash": "d6531f02868f",
+    "cells": 3,
+    "axes": {
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ]
+    },
+    "anatomy": [
+      "NativeSelect",
+      "NativeSelectIcon",
+      "NativeSelectGroup?",
+      "NativeSelectOption*"
+    ],
+    "configurationStates": {
+      "disabled": [
+        "enabled",
+        "disabled"
+      ],
+      "validity": [
+        "valid",
+        "invalid"
+      ]
+    },
+    "reference": {
+      "example": "native-select",
+      "guidance": {
+        "evidence": "투자 이력 필터의 시장·계좌처럼 값이 문자열이고 모바일에서 시스템 피커가 더 빠른 자리가 있다.",
+        "limits": "옵션에 아이콘·설명·구분선을 넣거나 열린 목록을 디자인해야 하면 Radix 기반 Select를 쓴다 — 열림 상태는 OS 소유라 이 컴포넌트의 구성 상태에 없고, 라벨은 Field가 연결한다.",
+        "use": "폼에 실려야 하는 짧은 값 하나를 고를 때 브라우저의 select를 그대로 쓰고, 필드 껍데기와 화살표만 디자인 시스템이 그린다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/native-select.tsx"
   },
   {
     "component": "pagination",
@@ -684,6 +863,41 @@ export const catalog = [
     "source": "src/components/ui/radio-group.tsx"
   },
   {
+    "component": "scroll-area",
+    "displayName": "Scroll Area",
+    "hash": "5ec1920502d7",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "vertical",
+        "horizontal"
+      ]
+    },
+    "anatomy": [
+      "ScrollArea",
+      "ScrollAreaViewport",
+      "ScrollBar?",
+      "ScrollAreaThumb",
+      "ScrollAreaCorner?"
+    ],
+    "configurationStates": {
+      "overflow": [
+        "fits",
+        "overflowing"
+      ]
+    },
+    "reference": {
+      "example": "scroll-area",
+      "guidance": {
+        "evidence": "투자 이력의 긴 거래 목록이나 Sheet 안의 필터 묶음처럼, 바깥 화면은 그대로 두고 한 영역만 굴려야 하는 자리가 반복된다.",
+        "limits": "페이지 전체 스크롤을 대신하지 않으며, 축을 정하지 않은 자유 스크롤이나 가상 스크롤 목록에는 쓰지 않는다. 영역에 크기 제약이 없으면 아무것도 넘치지 않으므로 스크롤도 스크롤바도 생기지 않는다. 스크롤이 콘텐츠를 가리는 유일한 통로가 되어서는 안 되며, 초점을 받는 영역에는 aria-label로 이름을 준다.",
+        "use": "높이나 너비가 고정된 영역 안에서 넘치는 콘텐츠를 한 축으로만 스크롤하게 하고, 브라우저 기본 스크롤바 대신 디자인 시스템 스크롤바를 그린다. 뷰포트가 초점을 받으므로 포인터 없이 키보드만으로도 스크롤할 수 있고, 콘텐츠가 넘치지 않으면 스크롤바는 나타나지 않는다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/scroll-area.tsx"
+  },
+  {
     "component": "select",
     "displayName": "Select",
     "hash": "306160b2cb63",
@@ -743,6 +957,48 @@ export const catalog = [
     "source": "src/components/ui/separator.tsx"
   },
   {
+    "component": "sheet",
+    "displayName": "Sheet",
+    "hash": "dff903e3b672",
+    "cells": 4,
+    "axes": {
+      "side": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ]
+    },
+    "anatomy": [
+      "Sheet",
+      "SheetTrigger",
+      "SheetPortal",
+      "SheetOverlay",
+      "SheetContent",
+      "SheetHeader?",
+      "SheetTitle",
+      "SheetDescription?",
+      "SheetFooter?",
+      "SheetClose?"
+    ],
+    "configurationStates": {
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "sheet",
+      "guidance": {
+        "evidence": "투자 이력 화면에서 목록을 보면서 시장·기간·손익 필터를 조정하거나 한 거래의 상세를 확인해야 하고, 화면 중앙을 가리면 방금 본 행을 놓친다.",
+        "limits": "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다.",
+        "use": "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 열리는 동안의 동작(포커스 트랩·Esc와 바깥 클릭으로 닫기·본문 스크롤 잠금·닫은 뒤 트리거로 초점 복귀)은 네 값이 모두 같다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/sheet.tsx"
+  },
+  {
     "component": "skeleton",
     "displayName": "Skeleton",
     "hash": "9c2250c043f6",
@@ -762,6 +1018,45 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/skeleton.tsx"
+  },
+  {
+    "component": "slider",
+    "displayName": "Slider",
+    "hash": "f7f90ee58411",
+    "cells": 6,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ],
+      "size": [
+        "sm",
+        "default",
+        "lg"
+      ]
+    },
+    "anatomy": [
+      "Slider",
+      "SliderTrack",
+      "SliderRange",
+      "SliderThumb*"
+    ],
+    "configurationStates": {
+      "value": [
+        "single",
+        "range"
+      ]
+    },
+    "reference": {
+      "example": "slider",
+      "guidance": {
+        "evidence": "투자 이력 필터의 손익 범위처럼 최소·최대를 눈으로 훑으며 좁히는 자리가 있다.",
+        "limits": "정확한 금액이나 날짜를 입력받아야 하면 Input을 쓰고, 값이 몇 개뿐인 이산 선택에는 Toggle Group이나 Radio Group을 쓴다. thumb마다 접근 가능한 이름이 필요하므로 range에서는 thumbLabels를 반드시 준다.",
+        "use": "정확한 숫자보다 상대적 위치가 중요한 연속 범위에서 값 하나 또는 구간의 양 끝을 고른다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/slider.tsx"
   },
   {
     "component": "spinner",
