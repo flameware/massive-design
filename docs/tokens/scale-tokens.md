@@ -94,8 +94,10 @@ line-height는 **무단위 비율**로 쓴다. px로 못박으면 Figma PERCENT 
 - 스타일 이름 = t-shirt 이름(`xs` … `5xl`). 9개.
 - ~~`lineHeight`는 `{unit:'PERCENT', value: 160|140|125}`~~ → **`{unit:'PIXELS'}`, 사이즈별 선계산**. [#10](https://github.com/flameware/massive-design/issues/10) 왕복에서 뒤집혔다: `setBoundVariable('lineHeight', floatVar)`가 **단위를 PIXELS로 강제 변환**한다(`PERCENT 160` → `PIXELS 160`). 바인딩과 PERCENT는 양립하지 않고, 바인딩 뒤에는 폰트 잠금 때문에 `lineHeight` 재기록도 막힌다. radius가 `calc`를 못 받아 빌드 시점에 선계산한 것과 **같은 처방**을 쓴다 — 비율을 빌드가 곱해 px로 낸다.
 - `letterSpacing`은 `{unit:'PERCENT', value: -1|-2}` 그대로. 변수 바인딩을 하지 않으므로 PERCENT가 유지된다. 맨 숫자를 넣으면 throw(#4).
-- `fontFamily`는 **STRING 변수 바인딩**(#9). 로컬 폰트를 못 보는 실행 컨텍스트를 우회하는 유일한 경로다. **웨이트 9종 전부 통과**(#10 실측, 사람 눈 확인) — 다만 `(family, style)` 쌍의 **첫 바인딩 시도는 실패**하므로 재시도가 필수다(§2.6).
+- `fontFamily`는 **STRING 변수 바인딩**(#9). 로컬 폰트를 못 보는 실행 컨텍스트를 우회하는 경로다. **웨이트 9종 전부 통과**(#10 실측, 사람 눈 확인) — 다만 `(family, style)` 쌍의 **첫 바인딩 시도는 실패**하므로 재시도가 필수다(§2.6).
 - 주입 순서: 텍스트를 다 쓴 뒤 마지막에 바인딩(#9 제약).
+
+> ⚠️ **이 절은 Text Style에만 해당한다.** 같은 바인딩을 **캔버스의 TEXT 노드**에 걸면 한글 셰이핑이 사라진다 — 저작 런타임에 Pretendard가 없기 때문이고, 스타일은 셰이핑을 갖지 않아 영향이 없다. 노드의 `fontFamily`는 사람이 셰이핑 런타임에서 건다([#115](https://github.com/flameware/massive-design/issues/115), [ADR-0004](../adr/0004-font-shaping-runtime.md)).
 
 FLOAT 변수: `type/size/{xs..5xl}` 9개 + `type/line-height/{xs..5xl}` **9개**(tier 3개가 아니라 사이즈별 px). STRING 변수: `type/family/sans` 1개.
 

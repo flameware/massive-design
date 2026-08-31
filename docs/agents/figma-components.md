@@ -215,7 +215,7 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `font-weight` | `label` | `fontName.style` — ⚠️ 아래 |
 | `text-align` | `label` | `textAlignHorizontal` |
 | `vertical-align` | `root` | auto layout의 교차축 정렬 |
-| (`type/family/sans`) | `label` | `fontFamily` — **맨 마지막**, 3회 재시도 |
+| (`type/family/sans`) | `label` | `fontFamily` — **에이전트가 걸지 않는다.** 셰이핑 런타임의 사람 단계가 건다 — §9.4 |
 | `slots.icon.size` | `icon` | `resize(n, n)` |
 | `border-width` | `root` | `strokeWeight` + `strokes[0]` = **`base`의 `border-color`** — ⚠️ 아래 |
 
@@ -321,7 +321,8 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 
 ### 2. 구조 조립
 
-- **`fontFamily` 바인딩 전에** `characters` 쓰기와 `appendChild`를 **전부** 끝낸다. 바인딩된 노드는 둘 다 못 한다([`figma-injection.md`](figma-injection.md) §2.5)
+- 텍스트는 **로드 가능한 face로 남긴다**(부트스트랩 폰트 Inter). `fontFamily`를 바인딩하지 않는다 — 저작 런타임에서 바인딩된 노드는 한글을 잃고 `characters` 재기록도 `appendChild`도 못 한다([`figma-injection.md`](figma-injection.md) §2.5)
+- **기존 자산이 이미 바인딩돼 있으면 `fontName`을 로드 가능한 face로 되돌린 뒤** 구조를 만진다. 재생성이 아니므로 인스턴스는 끊기지 않는다
 - 세트 조립은 `combineAsVariants`. `createComponentSet()`은 **없다**([#20](https://github.com/flameware/massive-design/issues/20))
 - 축 추가는 `addComponentProperty(node, 'VARIANT', …)` 한 줄 — 자식 이름이 자동 갱신된다([#32](https://github.com/flameware/massive-design/issues/32))
 - 세트 Auto Layout은 **한 줄만** 된다. `GRID`는 1px도 안 움직인다 — 격자는 수동 좌표 계산이다
@@ -330,9 +331,15 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 
 §7의 역할별로. 색·space는 **리터럴이 아니라 변수 바인딩**이다. `setBoundVariableForPaint`·`setBoundVariableForEffect`는 **새 객체를 반환**하므로 받아서 재할당한다.
 
-### 4. `fontFamily` — 맨 마지막, 3회 재시도
+### 4. `fontFamily` — 걸지 않고, 폰트 미완 상태로 넘긴다
 
-`loadFontAsync({family: 'Pretendard'})`를 **부르지 않는다.** 이 런타임에 Pretendard는 없고 앞으로도 없다([#9](https://github.com/flameware/massive-design/issues/9)). STRING 변수 `type/family/sans` → `fontFamily` 바인딩이 유일한 경로이고 부트스트랩 폰트는 Inter다. 처음 보는 `(family, style)` 쌍은 **첫 시도가 반드시 throw**한다.
+`loadFontAsync({family: 'Pretendard'})`를 **부르지 않는다.** 이 런타임에 Pretendard는 없고 앞으로도 없다([#9](https://github.com/flameware/massive-design/issues/9)).
+
+**그렇다고 `type/family/sans`를 바인딩하지도 않는다.** 여기가 [#115](https://github.com/flameware/massive-design/issues/115)가 고친 자리다 — 이 문서는 오랫동안 바인딩이 "유일한 경로이고 동작한다"고 적어 왔지만, 저작 런타임에서 로드 불가 패밀리를 바인딩한 노드는 **한글 셰이핑을 얻지 못한다.** 라틴 라벨만 있는 컴포넌트에서는 눈에 띄지 않으므로 규약으로 막는다.
+
+에이전트가 남기는 상태는 **Inter · 바인딩 없음** = 폰트 미완 상태다. 그 세대의 사람 단계가 셰이핑 런타임에서 `scripts/figma-font-bind`를 돌려 해소한다([ADR-0004](../adr/0004-font-shaping-runtime.md)).
+
+보고에는 **바인딩 없는 TEXT 노드 수**를 남긴다 — 그것이 사람 단계의 작업 큐다.
 
 ### 5. 해시 기록
 
@@ -373,6 +380,7 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 | `setPluginData` · `addDevResourceAsync` · `getDevResourcesAsync` · `loadAllPagesAsync` · `createImageAsync` | MCP 호스트 런타임이 막는다. dev resources는 **REST 전용 채널**이다 |
 | 감싸지 않은 getter | throw 하나가 atomic 롤백으로 주입 전체를 되돌린다 |
 | `loadFontAsync({family: 'Pretendard'})` | 이 런타임에 없다. 폰트 선택은 [#9](https://github.com/flameware/massive-design/issues/9)에서 닫힌 문제다 |
+| TEXT 노드에 `setBoundVariable('fontFamily', …)` | 한글 셰이핑이 사라지고 노드가 로드 불가가 되어 `appendChild`·`characters`가 막힌다. 바인딩은 셰이핑 런타임의 사람 단계 몫이다 ([#115](https://github.com/flameware/massive-design/issues/115), §9.4) |
 | `figma.createComponent()` 직후 기존 `fills[0]`을 재사용해 `setBoundVariableForPaint` | 그 기본 paint는 `visible: false`로 온다(`createFrame()`과 다르다) — 바인딩은 정확한데 **칠이 안 보인다**. `createComponent()`에서 나온 노드의 paint를 건드릴 땐 `.visible`을 명시로 확인/설정할 것 ([#26](https://github.com/flameware/massive-design/issues/26), 32칸이 실제로 이렇게 비어 보였다) |
 
 ---
@@ -380,7 +388,7 @@ strokeWeight = cell["border-width"] ?? 0        // 없으면 stroke를 아예 �
 ## 11. 아직 안 본 것
 
 - **스케일 변수가 사는 컬렉션.** 노출([#41](https://github.com/flameware/massive-design/issues/41)이 되돌렸다)과 **별개 문제**다 — 노출은 플래그이고 컬렉션은 그룹핑이다. 섞으면 되돌리기 어려운 쪽(변수 ID가 바뀌어 기존 바인딩이 전부 재지정된다)이 쉬운 쪽에 묻어 들어온다. fog에 남는다
-- ~~**`fontFamily` 바인딩 순서가 컴포넌트 세트에서도 성립하는가.**~~ [#26](https://github.com/flameware/massive-design/issues/26)이 밟았다 — `combineAsVariants` **완료 후** 24개 label을 일괄 바인딩했고 전부 **1회 시도로 성공**했다(재시도 0회). §2.4가 예고한 "첫 시도는 반드시 throw"가 여기선 재현되지 않았다 — 콜드 파일이 아니었거나(§0의 01~07 재실행 규칙과 무관하게 이 세션이 이미 Pretendard 페이스를 한 번 건드린 뒤였을 가능성) 컴포넌트 세트 경로가 Text Style/평범한 텍스트 노드 경로와 다르게 동작하는 것일 수 있다. 재시도 루프는 안전망으로 유지하되, "항상 1회 실패"를 전제로 코드를 짜지 말 것
+- ~~**`fontFamily` 바인딩 순서가 컴포넌트 세트에서도 성립하는가.**~~ [#26](https://github.com/flameware/massive-design/issues/26)이 밟았다 — `combineAsVariants` **완료 후** 24개 label을 일괄 바인딩했고 전부 **1회 시도로 성공**했다(재시도 0회). §2.4가 예고한 "첫 시도는 반드시 throw"가 여기선 재현되지 않았다 — 콜드 파일이 아니었거나(§0의 01~07 재실행 규칙과 무관하게 이 세션이 이미 Pretendard 페이스를 한 번 건드린 뒤였을 가능성) 컴포넌트 세트 경로가 Text Style/평범한 텍스트 노드 경로와 다르게 동작하는 것일 수 있다. 재시도 루프는 안전망으로 유지하되, "항상 1회 실패"를 전제로 코드를 짜지 말 것. **[#115](https://github.com/flameware/massive-design/issues/115) 이후 이 항목은 컴포넌트에서 소멸했다** — 에이전트가 노드에 바인딩하지 않으므로 순서 문제 자체가 없다. 재시도 루프가 남아 있는 곳은 Text Style을 만드는 `05-text-styles.js` 하나뿐이다
 - **매니페스트가 CSS 상속으로 오는 `color`를 못 잡는다.** `outline`·`ghost` 셀은 `properties`에 `color` 키가 아예 없다(shadcn이 `text-foreground` 상속에 기대기 때문 — §7 표는 셀 하나를 클래스 집합으로 읽으므로 상속은 안 보인다). [#26](https://github.com/flameware/massive-design/issues/26)은 판단으로 `fg/default`에 바인딩해 메웠다(실제 렌더 색과 일치) — 매니페스트 스키마가 이 경우를 언제 정식으로 흡수할지는 fog로 남긴다
 - **`description` 재발행 버그의 발현 조건.** [#31](https://github.com/flameware/massive-design/issues/31)의 왕복에서 발현하지 않았다. §3.3이 대비만 해 두었다
 - **`sharedPluginData`로의 이전.** 발행 경계를 넘는 것은 확인됐다([#31](https://github.com/flameware/massive-design/issues/31) §8.3). `description`의 가시성 오염이 실제 문제로 드러나면 옮겨갈 자리다. 지금 병행하지 않는 이유는 **같은 값이 두 자리에 있으면 어긋났을 때 정본 규약이 또 필요**하기 때문
