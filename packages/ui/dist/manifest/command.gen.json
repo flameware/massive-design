@@ -1,0 +1,433 @@
+{
+  "anatomy": [
+    "Command",
+    "CommandInput",
+    "CommandList",
+    "CommandGroup*",
+    "CommandGroupHeading?",
+    "CommandItem*",
+    "CommandEmpty?"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "flex w-full flex-col rounded-md border bg-popover text-popover-foreground shadow-md",
+      "properties": {
+        "background-color": {
+          "from": "bg-popover",
+          "tier": "token",
+          "token": "--ds-bg-overlay"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-md",
+          "scale": "shadow.md",
+          "tier": "token",
+          "token": "--shadow-md"
+        },
+        "color": {
+          "from": "text-popover-foreground",
+          "tier": "token",
+          "token": "--ds-fg-default"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "flex-direction": {
+          "from": "flex-col",
+          "tier": "literal",
+          "value": "column"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "command",
+  "configurationStates": {
+    "highlighted": [
+      "highlighted",
+      "idle"
+    ],
+    "results": [
+      "matches",
+      "empty"
+    ],
+    "selected": [
+      "unselected",
+      "selected"
+    ]
+  },
+  "defaults": {},
+  "hash": "c7f9281f045a",
+  "parts": {
+    "CommandEmpty": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "px-3 py-6 text-center text-sm text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "padding-block": {
+              "from": "py-6",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-inline": {
+              "from": "px-3",
+              "multiple": 3,
+              "px": 12,
+              "scale": "space.3",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-center",
+              "tier": "literal",
+              "value": "center"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CommandGroup": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "py-1",
+          "properties": {
+            "padding-block": {
+              "from": "py-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CommandGroupHeading": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "px-2 py-1.5 text-xs font-medium text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-xs",
+              "px": 12,
+              "scale": "type.size.xs",
+              "tier": "token",
+              "token": "--text-xs"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "line-height": {
+              "from": "text-xs",
+              "tier": "token",
+              "token": "--text-xs--line-height",
+              "value": "1.6"
+            },
+            "padding-block": {
+              "from": "py-1.5",
+              "px": 6,
+              "tier": "literal"
+            },
+            "padding-inline": {
+              "from": "px-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CommandInput": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex h-9 w-full border-b bg-transparent px-3 py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+          "properties": {
+            "background-color": {
+              "from": "bg-transparent",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "border-bottom-width": {
+              "from": "border-b",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "height": {
+              "from": "h-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "padding-block": {
+              "from": "py-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-inline": {
+              "from": "px-3",
+              "multiple": 3,
+              "px": 12,
+              "scale": "space.3",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "placeholder:color": {
+              "from": "placeholder:text-muted-foreground",
+              "tier": "unresolved",
+              "value": "var(--muted-foreground)",
+              "why": "수식자 placeholder를 아직 다루지 않는다"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CommandItem": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--popover)] relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-none data-[highlighted=true]:bg-accent data-[highlighted=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-overlay"
+            },
+            "border-radius": {
+              "from": "rounded-sm",
+              "px": 6,
+              "scale": "radius.sm",
+              "tier": "token",
+              "token": "--radius-sm"
+            },
+            "data-[disabled=true]:opacity": {
+              "from": "data-[disabled=true]:opacity-50",
+              "tier": "unresolved",
+              "value": "50%",
+              "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+            },
+            "data-[disabled=true]:pointer-events": {
+              "from": "data-[disabled=true]:pointer-events-none",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
+            },
+            "data-[highlighted=true]:background-color": {
+              "from": "data-[highlighted=true]:bg-accent",
+              "tier": "unresolved",
+              "value": "var(--accent)",
+              "why": "수식자 data-[highlighted=true]를 아직 다루지 않는다"
+            },
+            "data-[highlighted=true]:color": {
+              "from": "data-[highlighted=true]:text-accent-foreground",
+              "tier": "unresolved",
+              "value": "var(--accent-foreground)",
+              "why": "수식자 data-[highlighted=true]를 아직 다루지 않는다"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "padding-block": {
+              "from": "py-1.5",
+              "px": 6,
+              "tier": "literal"
+            },
+            "padding-left": {
+              "from": "pl-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-right": {
+              "from": "pr-8",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-overlay",
+            "disabled": null,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    },
+    "CommandList": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "max-h-64 overflow-y-auto p-1",
+          "properties": {
+            "max-height": {
+              "from": "max-h-64",
+              "px": 256,
+              "tier": "literal"
+            },
+            "overflow-y": {
+              "from": "overflow-y-auto",
+              "tier": "literal",
+              "value": "auto"
+            },
+            "padding": {
+              "from": "p-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "command",
+    "guidance": {
+      "evidence": "종목·거래·화면 이동이 한 자리에 섞여 있어 마우스로 메뉴를 파고들기보다 이름을 입력해 바로 실행하는 진입점이 필요하다.",
+      "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다.",
+      "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
+    }
+  },
+  "schemaVersion": 4,
+  "source": "src/components/ui/command.tsx"
+}

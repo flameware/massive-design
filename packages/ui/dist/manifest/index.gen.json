@@ -62,6 +62,12 @@
     },
     {
       "cells": 1,
+      "component": "command",
+      "hash": "c7f9281f045a",
+      "path": "command.gen.json"
+    },
+    {
+      "cells": 1,
       "component": "dialog",
       "hash": "61dd1a514c92",
       "path": "dialog.gen.json"

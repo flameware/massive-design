@@ -9,6 +9,7 @@ export { Button, buttonVariants, buttonVariantsConfig } from "./components/ui/bu
 export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent, cardVariants, cardVariantsConfig } from "./components/ui/card.js"
 export { Checkbox, checkboxVariants, checkboxVariantsConfig } from "./components/ui/checkbox.js"
 export { Collapsible, CollapsibleTrigger, CollapsibleContent, collapsibleVariants, collapsibleVariantsConfig } from "./components/ui/collapsible.js"
+export { Command, CommandInput, CommandList, CommandGroup, CommandGroupHeading, CommandItem, CommandEmpty, commandVariants, commandVariantsConfig } from "./components/ui/command.js"
 export { Dialog, DialogTrigger, DialogPortal, DialogClose, DialogOverlay, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, dialogVariants, dialogVariantsConfig } from "./components/ui/dialog.js"
 export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, dropdownMenuVariants, dropdownMenuVariantsConfig } from "./components/ui/dropdown-menu.js"
 export { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent, emptyVariants, emptyVariantsConfig } from "./components/ui/empty.js"

@@ -307,6 +307,46 @@ export const catalog = [
     "source": "src/components/ui/collapsible.tsx"
   },
   {
+    "component": "command",
+    "displayName": "Command",
+    "hash": "c7f9281f045a",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Command",
+      "CommandInput",
+      "CommandList",
+      "CommandGroup*",
+      "CommandGroupHeading?",
+      "CommandItem*",
+      "CommandEmpty?"
+    ],
+    "configurationStates": {
+      "highlighted": [
+        "highlighted",
+        "idle"
+      ],
+      "results": [
+        "matches",
+        "empty"
+      ],
+      "selected": [
+        "unselected",
+        "selected"
+      ]
+    },
+    "reference": {
+      "example": "command",
+      "guidance": {
+        "evidence": "종목·거래·화면 이동이 한 자리에 섞여 있어 마우스로 메뉴를 파고들기보다 이름을 입력해 바로 실행하는 진입점이 필요하다.",
+        "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다.",
+        "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/command.tsx"
+  },
+  {
     "component": "dialog",
     "displayName": "Dialog",
     "hash": "61dd1a514c92",
