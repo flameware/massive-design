@@ -2,7 +2,11 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "b9a8f8fb84bb4f90735b80537065a604fc18e8cc",
+  "targetCommit": "6147354ce09348c50ac5f1e5df93201daace70c9",
+  "inputTree": {
+    "commit": "6147354ce09348c50ac5f1e5df93201daace70c9",
+    "clean": true
+  },
   "inputDigest": "990bacfc9a0e6b355a63f76ecd0f64873aa4c5555c68cb5ecb11c6254a005281",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
@@ -225,7 +229,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T09:59:11.676Z",
+      "checkedAt": "2026-08-31T10:32:22.290Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -256,7 +260,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T09:59:11.676Z",
+      "checkedAt": "2026-08-31T10:32:22.290Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -348,13 +352,13 @@
       },
       "visualReview": {
         "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-08-31T10:01:41.277Z",
-        "scope": "Combobox의 Light/Dark와 open·selected 축, 그리고 테마 범위 수정 뒤 포털 표면(Sheet·Dialog·Popover·Select)의 Dark 재확인"
+        "checkedAt": "2026-08-31T10:33:11.459Z",
+        "scope": "같은 세대 재확인 — inputDigest 990bacfc…는 직전 검토 세대와 동일하므로 Storybook 빌드가 바이트 단위로 같다. 기록의 targetCommit을 실제 세대로 바로잡기 위한 재실행이며 시각 확인 내용은 P1 신규 9개와 포털 표면 Dark 재확인 범위 그대로다"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-08-31T10:01:41.277Z"
+  "completedAt": "2026-08-31T10:33:11.459Z"
 }
