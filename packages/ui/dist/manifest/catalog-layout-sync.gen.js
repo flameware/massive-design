@@ -15,6 +15,7 @@ const EXPECTED = [
   "card",
   "checkbox",
   "collapsible",
+  "combobox",
   "command",
   "dialog",
   "dropdown-menu",

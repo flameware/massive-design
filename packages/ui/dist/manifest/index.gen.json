@@ -74,6 +74,12 @@
     },
     {
       "cells": 1,
+      "component": "combobox",
+      "hash": "720b6bb0e0de",
+      "path": "combobox.gen.json"
+    },
+    {
+      "cells": 1,
       "component": "command",
       "hash": "c7f9281f045a",
       "path": "command.gen.json"
