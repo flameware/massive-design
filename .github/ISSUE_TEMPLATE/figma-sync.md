@@ -2,7 +2,7 @@
 name: Figma Sync
 about: 검증된 Repo verification 세대를 Figma 문서와 발행 라이브러리에 동기화한다
 title: "Figma Sync: "
-labels: ""
+labels: needs-triage
 assignees: ""
 ---
 
