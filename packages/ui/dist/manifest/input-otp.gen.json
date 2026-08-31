@@ -1,0 +1,288 @@
+{
+  "anatomy": [
+    "InputOTP",
+    "InputOTPGroup*",
+    "InputOTPSlot*",
+    "InputOTPSeparator?",
+    "InputOTPControl"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "flex items-center gap-2 has-[:disabled]:opacity-50",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "has-[:disabled]:opacity": {
+          "from": "has-[:disabled]:opacity-50",
+          "tier": "unresolved",
+          "value": "50%",
+          "why": "수식자 has-[:disabled]를 아직 다루지 않는다"
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "input-otp",
+  "configurationStates": {
+    "cursor": [
+      "idle",
+      "active"
+    ],
+    "validity": [
+      "valid",
+      "invalid"
+    ],
+    "value": [
+      "empty",
+      "filled"
+    ]
+  },
+  "defaults": {},
+  "externalSurfaces": {
+    "no-script 폴백 스타일": "input-otp이 <noscript><style>로 자기 기본 스타일을 !important로 낸다",
+    "문서 수준 선택·자동완성 스타일": "input-otp이 document.head에 ::selection과 :autofill 규칙을 한 번 심는다",
+    "숨은 입력의 인라인 지오메트리": "input-otp이 color·caret-color·letter-spacing·font-family와 --root-height를 인라인으로 소유한다 — 노드는 우리 것이지만 그 자리의 모양은 우리 클래스가 이기지 못한다",
+    "입력 래퍼": "input-otp이 컨테이너 안에 절대 배치 div를 스스로 만들고 className도 style도 받지 않는다"
+  },
+  "hash": "33f782cc7d47",
+  "parts": {
+    "InputOTPControl": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "disabled:cursor-not-allowed",
+          "properties": {},
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "InputOTPGroup": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex items-center",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "InputOTPSeparator": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex items-center justify-center text-muted-foreground",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "InputOTPSlot": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "relative flex size-9 items-center justify-center border-y border-r text-sm shadow-xs outline-none first:rounded-l-md first:border-l last:rounded-r-md data-[active=true]:z-10 data-[active=true]:border-focus-contrast data-[active=true]:ring-[3px] data-[active=true]:ring-ring aria-invalid:border-destructive aria-invalid:ring-destructive/20",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "border-block-width": {
+              "from": "border-y",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "border-right-width": {
+              "from": "border-r",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "box-shadow": {
+              "from": "shadow-xs",
+              "scale": "shadow.xs",
+              "tier": "token",
+              "token": "--shadow-xs"
+            },
+            "data-[active=true]:--tw-ring-color": {
+              "from": "data-[active=true]:ring-ring",
+              "tier": "unresolved",
+              "value": "var(--ring)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:--tw-ring-shadow": {
+              "from": "data-[active=true]:ring-[3px]",
+              "tier": "unresolved",
+              "value": "var(--tw-ring-inset,) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:border-color": {
+              "from": "data-[active=true]:border-focus-contrast",
+              "tier": "unresolved",
+              "value": "var(--focus-contrast)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:box-shadow": {
+              "from": "data-[active=true]:ring-[3px]",
+              "tier": "unresolved",
+              "value": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "data-[active=true]:z-index": {
+              "from": "data-[active=true]:z-10",
+              "tier": "unresolved",
+              "value": "10",
+              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "first:border-bottom-left-radius": {
+              "from": "first:rounded-l-md",
+              "tier": "unresolved",
+              "value": "0.5rem",
+              "why": "수식자 first를 아직 다루지 않는다"
+            },
+            "first:border-left-style": {
+              "from": "first:border-l",
+              "tier": "unresolved",
+              "value": "var(--tw-border-style)",
+              "why": "수식자 first를 아직 다루지 않는다"
+            },
+            "first:border-left-width": {
+              "from": "first:border-l",
+              "tier": "unresolved",
+              "value": "1px",
+              "why": "수식자 first를 아직 다루지 않는다"
+            },
+            "first:border-top-left-radius": {
+              "from": "first:rounded-l-md",
+              "tier": "unresolved",
+              "value": "0.5rem",
+              "why": "수식자 first를 아직 다루지 않는다"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "height": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "last:border-bottom-right-radius": {
+              "from": "last:rounded-r-md",
+              "tier": "unresolved",
+              "value": "0.5rem",
+              "why": "수식자 last를 아직 다루지 않는다"
+            },
+            "last:border-top-right-radius": {
+              "from": "last:rounded-r-md",
+              "tier": "unresolved",
+              "value": "0.5rem",
+              "why": "수식자 last를 아직 다루지 않는다"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "size-9",
+              "px": 36,
+              "tier": "literal"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "input-otp",
+    "guidance": {
+      "evidence": "투자 이력의 계좌 연동과 재로그인에서 문자로 받은 인증번호를 넣는 자리가 있고, 몇 자리를 넣었는지가 한눈에 보여야 한다.",
+      "limits": "일반 텍스트나 금액에는 Input을 쓴다. 값의 정본은 보이지 않는 입력 하나이므로 접근 가능한 이름은 소비처가 Field나 aria-label로 주고, 오류 표시는 컨트롤의 aria-invalid가 정본이며 슬롯은 같은 값을 받아 테두리를 붉힌다 — 라이브러리가 컨테이너에 속성을 주는 통로를 열어 두지 않아 CSS로 전파할 자리가 없다. 붙여넣기는 upstream이 소유한다(iOS와 pasteTransformer를 제외하면 네이티브 경로 그대로다). IME 조합은 upstream이 다루지 않으므로 조합 문자가 필요한 코드에는 쓰지 않는다. 모바일 문자 자동완성 경로인 autoComplete=\"one-time-code\"는 켠 채로 두고, 비밀번호 관리자 배지는 컨테이너 폭을 바꾸므로 껐다. 커서 깜박임은 기존 animate-pulse로 그린다 — 전용 키프레임을 새로 열지 않는다. 재전송 타이머, 자동 제출, 검증 규칙은 소비처가 소유한다.",
+      "use": "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다."
+    }
+  },
+  "schemaVersion": 5,
+  "source": "src/components/ui/input-otp.tsx"
+}

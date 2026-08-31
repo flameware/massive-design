@@ -121,10 +121,22 @@
       "path": "input-group.gen.json"
     },
     {
+      "cells": 1,
+      "component": "input-otp",
+      "hash": "33f782cc7d47",
+      "path": "input-otp.gen.json"
+    },
+    {
       "cells": 6,
       "component": "item",
       "hash": "008b33625ebc",
       "path": "item.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "kbd",
+      "hash": "5842eb5fef55",
+      "path": "kbd.gen.json"
     },
     {
       "cells": 1,
@@ -170,6 +182,12 @@
     },
     {
       "cells": 2,
+      "component": "resizable",
+      "hash": "889a182cd242",
+      "path": "resizable.gen.json"
+    },
+    {
+      "cells": 2,
       "component": "scroll-area",
       "hash": "5ec1920502d7",
       "path": "scroll-area.gen.json"
@@ -191,6 +209,12 @@
       "component": "sheet",
       "hash": "dff903e3b672",
       "path": "sheet.gen.json"
+    },
+    {
+      "cells": 12,
+      "component": "sidebar",
+      "hash": "63332eecc919",
+      "path": "sidebar.gen.json"
     },
     {
       "cells": 1,

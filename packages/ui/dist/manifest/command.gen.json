@@ -424,7 +424,7 @@
     "example": "command",
     "guidance": {
       "evidence": "종목·거래·화면 이동이 한 자리에 섞여 있어 마우스로 메뉴를 파고들기보다 이름을 입력해 바로 실행하는 진입점이 필요하다.",
-      "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다.",
+      "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다. 항목 끝의 단축키 표기(upstream의 `CommandShortcut`)는 열지 않는다 — 소비처가 `Kbd`를 `ml-auto`와 함께 놓으면 되고 그 클래스가 우리 스타일 결정을 복제하지 않는다(#121 ⓑ, `InputGroupButton`의 variant·size와 같은 판정 2). upstream의 `CommandShortcut`도 키캡이 아니라 평평한 muted 텍스트라 Kbd가 채우던 자리가 아니다.",
       "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
     }
   },

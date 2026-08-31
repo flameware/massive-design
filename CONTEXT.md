@@ -26,6 +26,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 - **구성 상태(configuration state)** — 정적 화면을 조립할 때 선택해야 하는 의미 상태. `checked / unchecked / indeterminate`, 행의 `selected`, Select·메뉴의 `open / closed`가 여기에 속한다. 코드에서는 네이티브·Radix 상태이고 Figma에서는 component property 또는 별도의 공개 조립 표면으로 표현한다. hover·pressed·focus·disabled 같은 상호작용 상태와 구분하며, 새 토큰 계층을 만들지 않는다.
 - **state layer** — 상태별 완성 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. `state.layer`는 semantic 계층에 있는 **상태 합성 전용 입력**이며 alias 소비 규칙의 유일한 예외다. Figma에는 `color-mix`가 없어 코드와 같은 oklab 합성 결과를 빌드가 미리 계산한 hex로 상태 견본에 넣는다. 이 hex는 파생값이지 새 토큰이 아니다.
 - **상태 견본(state sample)** — 상태를 Figma에 보여주는 단위. **컴포넌트 세트의 축이 아니다** — 축으로 두면 조합 수에 곱해지고, 정적 시안을 조립하는 데는 쓰이지 않는다. 컴포넌트마다 한 장씩 매니페스트에서 생성되는 프레임이다.
+- **열림 계기(open cause)** — 표면을 여는 상호작용. press(클릭·탭), hover(포인터 머무름), context(우클릭·롱프레스)로 가른다. 구성 상태가 아니라 **동작**이므로 파생 채널이 나르지 않는다 — `cva` 축에도 `configurationStates`에도 두지 않으며, 코드에서는 기본값이 정해진 선택적 prop(`openOn`)으로만 존재한다. hover·pressed 같은 상호작용 상태가 "지금 어떤 상태인가"라면 열림 계기는 "무엇이 열었는가"이고, 둘을 같은 말로 부르면 상태 견본이 그려야 할 것과 그리지 말아야 할 것이 섞인다.
 
 ## 출력과 주입
 

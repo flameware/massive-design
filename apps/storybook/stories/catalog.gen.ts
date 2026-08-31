@@ -455,7 +455,7 @@ export const catalog = [
       "example": "command",
       "guidance": {
         "evidence": "종목·거래·화면 이동이 한 자리에 섞여 있어 마우스로 메뉴를 파고들기보다 이름을 입력해 바로 실행하는 진입점이 필요하다.",
-        "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다.",
+        "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다. 항목 끝의 단축키 표기(upstream의 `CommandShortcut`)는 열지 않는다 — 소비처가 `Kbd`를 `ml-auto`와 함께 놓으면 되고 그 클래스가 우리 스타일 결정을 복제하지 않는다(#121 ⓑ, `InputGroupButton`의 variant·size와 같은 판정 2). upstream의 `CommandShortcut`도 키캡이 아니라 평평한 muted 텍스트라 Kbd가 채우던 자리가 아니다.",
         "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
       }
     },
@@ -521,9 +521,9 @@ export const catalog = [
     "reference": {
       "example": "dropdown-menu",
       "guidance": {
-        "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하다.",
-        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다.",
-        "use": "현재 맥락에 속하는 보조 동작을 묶는다."
+        "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다.",
+        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다.",
+        "use": "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다."
       }
     },
     "stateSamples": false,
@@ -655,6 +655,44 @@ export const catalog = [
     "source": "src/components/ui/input-group.tsx"
   },
   {
+    "component": "input-otp",
+    "displayName": "Input Otp",
+    "hash": "33f782cc7d47",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "InputOTP",
+      "InputOTPGroup*",
+      "InputOTPSlot*",
+      "InputOTPSeparator?",
+      "InputOTPControl"
+    ],
+    "configurationStates": {
+      "cursor": [
+        "idle",
+        "active"
+      ],
+      "validity": [
+        "valid",
+        "invalid"
+      ],
+      "value": [
+        "empty",
+        "filled"
+      ]
+    },
+    "reference": {
+      "example": "input-otp",
+      "guidance": {
+        "evidence": "투자 이력의 계좌 연동과 재로그인에서 문자로 받은 인증번호를 넣는 자리가 있고, 몇 자리를 넣었는지가 한눈에 보여야 한다.",
+        "limits": "일반 텍스트나 금액에는 Input을 쓴다. 값의 정본은 보이지 않는 입력 하나이므로 접근 가능한 이름은 소비처가 Field나 aria-label로 주고, 오류 표시는 컨트롤의 aria-invalid가 정본이며 슬롯은 같은 값을 받아 테두리를 붉힌다 — 라이브러리가 컨테이너에 속성을 주는 통로를 열어 두지 않아 CSS로 전파할 자리가 없다. 붙여넣기는 upstream이 소유한다(iOS와 pasteTransformer를 제외하면 네이티브 경로 그대로다). IME 조합은 upstream이 다루지 않으므로 조합 문자가 필요한 코드에는 쓰지 않는다. 모바일 문자 자동완성 경로인 autoComplete=\"one-time-code\"는 켠 채로 두고, 비밀번호 관리자 배지는 컨테이너 폭을 바꾸므로 껐다. 커서 깜박임은 기존 animate-pulse로 그린다 — 전용 키프레임을 새로 열지 않는다. 재전송 타이머, 자동 제출, 검증 규칙은 소비처가 소유한다.",
+        "use": "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/input-otp.tsx"
+  },
+  {
     "component": "item",
     "displayName": "Item",
     "hash": "008b33625ebc",
@@ -698,6 +736,28 @@ export const catalog = [
     },
     "stateSamples": true,
     "source": "src/components/ui/item.tsx"
+  },
+  {
+    "component": "kbd",
+    "displayName": "Kbd",
+    "hash": "5842eb5fef55",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "KbdGroup?",
+      "Kbd*"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "kbd",
+      "guidance": {
+        "evidence": "투자 기록 검색과 거래 추가처럼 자주 쓰는 명령에 단축키를 함께 알려야 하고, 그 표기는 주변 문장과 눈으로 구분돼야 한다.",
+        "limits": "크기 축을 두지 않는다 — 고정 20px `text-xs` 캡 하나가 Button의 네 크기와 Tooltip·Input Group의 줄 안에 모두 들어가고, 실측할 소비처가 아직 없는 상태에서 스케일을 정하면 우리가 정한 적 없는 결정을 떠안는다(#121 ⓑ). 나중에 여는 것은 additive이고 닫는 것은 breaking이라 지금은 닫는다. 조합의 구분자(`+`)도 파트로 열지 않는다 — 클래스도 노드도 없는 문자열이라 파생 채널이 그릴 것이 없다(#119·#121). `KbdGroup`을 `<kbd>`로 렌더해 중첩되는 것은 의도이며, `<kbd>`는 HTML-AAM에서 대응 역할이 없어 이 요소에 접근 가능한 이름을 붙이지 않는다 — `⌘`·`⇧` 같은 기호의 이름은 소비처가 주고, 이름이 실제로 필요한 자리는 동작을 수행하는 컨트롤의 `aria-keyshortcuts`다. Command 항목 끝의 배치도 소비처가 소유한다(`ml-auto`). Tooltip의 반전 면 위에 놓일 때 필요한 반전 subtle 채움은 우리에게 없다 — upstream의 불투명도·`dark:` 분기가 우리 규약 밖이라 가져오지 않았고, 이 수요는 열지 않은 채 확인된 공백으로 남긴다(#109·ADR-0003과 같은 모양). 그때 색은 소비처가 `className`으로 바꾼다.",
+        "use": "키보드 키와 단축키 조합을 본문·툴팁·버튼 안에서 본문 글자와 구분되는 키캡으로 표기한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/kbd.tsx"
   },
   {
     "component": "label",
@@ -844,9 +904,9 @@ export const catalog = [
     "reference": {
       "example": "popover",
       "guidance": {
-        "evidence": "투자 기록의 필터 설명과 빠른 설정을 원래 화면 맥락을 떠나지 않고 보여줘야 한다.",
-        "limits": "핵심 작업 흐름이나 긴 양식은 Dialog로 옮기고, 행동 없는 짧은 설명은 Tooltip을 사용한다.",
-        "use": "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공한다."
+        "evidence": "투자 기록의 필터 설명과 빠른 설정을 원래 화면 맥락을 떠나지 않고 보여줘야 하고, 종목 이름 위에 잠깐 머무르는 것만으로 그 종목의 요약을 미리 보는 경로도 같은 자산이어야 한다.",
+        "limits": "핵심 작업 흐름이나 긴 양식은 Dialog로 옮기고, 행동 없는 짧은 설명은 Tooltip을 사용한다. openOn=\"hover\"에서도 컨트롤의 의미를 보충하는 한 줄 설명은 여전히 Tooltip이다 — Tooltip은 트리거에 aria-describedby로 묶여 이름을 보조하는 설명이고, hover 모드의 Popover는 트리거가 가리키는 대상의 미리보기다. 미리보기 안의 정보와 행동은 hover 없이도 도달할 수 있는 다른 경로가 있어야 하며 이 모드는 필수 작업 흐름을 담지 않는다. 여는 지연과 닫는 지연은 우리가 정하지만 공개 prop이 아니다.",
+        "use": "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공한다. 클릭으로 여는 기본 모드와, 포인터가 머무르면 지연 후 여는 openOn=\"hover\" 모드를 같은 계약으로 덮는다."
       }
     },
     "stateSamples": false,
@@ -912,6 +972,40 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/radio-group.tsx"
+  },
+  {
+    "component": "resizable",
+    "displayName": "Resizable",
+    "hash": "889a182cd242",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    "anatomy": [
+      "ResizablePanelGroup",
+      "ResizablePanel*",
+      "ResizableHandle*",
+      "ResizableHandleGrip?"
+    ],
+    "configurationStates": {
+      "panel": [
+        "expanded",
+        "collapsed"
+      ]
+    },
+    "reference": {
+      "example": "resizable",
+      "guidance": {
+        "evidence": "투자 이력은 목록과 상세를 나란히 보는 자리가 있고, 종목 이름이 긴 사용자와 숫자를 넓게 보려는 사용자가 원하는 경계가 서로 다르다.",
+        "limits": "고정 비율 레이아웃에는 쓰지 않으며 패널 크기는 계약하지 않는다 — 크기는 연속값이라 조합으로 나오지 않고 defaultSize·minSize·maxSize는 소비처의 값이다. 핸들은 초점을 받는 컨트롤이므로 접근 가능한 이름은 소비처가 aria-label로 준다. 키보드는 upstream이 준다 — 화살표로 ±5, Home/End로 끝까지, collapsible 패널에서 Enter로 접기·펴기, F6로 핸들 순회. 핸들을 끄는 것은 컨트롤 제스처라 표면이 사라지지 않고 위 키보드 경로가 이미 동등 경로이며, 터치 히트 영역의 크기(upstream 기본값은 coarse 20px·fine 10px)는 터치 대상 크기 규칙(#111)이 정한 뒤에 다시 본다. 레이아웃 저장(useDefaultLayout)과 명령형 API는 소비처가 소유한다.",
+        "use": "한 화면 안에서 두 영역의 넓이를 사용자가 직접 나눠 갖게 하고, 그 경계를 포인터와 키보드 양쪽으로 옮길 수 있게 한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/resizable.tsx"
   },
   {
     "component": "scroll-area",
@@ -1048,6 +1142,70 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/sheet.tsx"
+  },
+  {
+    "component": "sidebar",
+    "displayName": "Sidebar",
+    "hash": "63332eecc919",
+    "cells": 12,
+    "axes": {
+      "collapsible": [
+        "offcanvas",
+        "icon"
+      ],
+      "side": [
+        "left",
+        "right"
+      ],
+      "variant": [
+        "sidebar",
+        "floating",
+        "inset"
+      ]
+    },
+    "anatomy": [
+      "SidebarProvider",
+      "Sidebar",
+      "SidebarHeader?",
+      "SidebarContent",
+      "SidebarGroup*",
+      "SidebarGroupLabel?",
+      "SidebarGroupAction?",
+      "SidebarGroupContent",
+      "SidebarMenu",
+      "SidebarMenuItem*",
+      "SidebarMenuButton",
+      "SidebarMenuAction?",
+      "SidebarMenuBadge?",
+      "SidebarMenuSub?",
+      "SidebarMenuSubItem*",
+      "SidebarMenuSubButton",
+      "SidebarSeparator?",
+      "SidebarFooter?",
+      "SidebarRail?",
+      "SidebarTrigger",
+      "SidebarInset?"
+    ],
+    "configurationStates": {
+      "item": [
+        "default",
+        "active"
+      ],
+      "state": [
+        "expanded",
+        "collapsed"
+      ]
+    },
+    "reference": {
+      "example": "sidebar",
+      "guidance": {
+        "evidence": "투자 이력·보유 현황·회고를 오가는 탐색이 화면 상단 탭으로는 다 들어가지 않고, 본문을 보면서 다른 구역으로 이동해야 한다.",
+        "limits": "breakpoint 판정을 내장하지 않는다 — `list-row`가 이미 \"투자 도메인과 breakpoint 전환을 내장하지 않는다\"고 그은 선과 같은 자리이며, 소비처가 `isMobile`을 준다. 쿠키 열림 상태 영속화와 `Cmd/Ctrl+B` 단축키는 동작이라 파생 채널이 나르지 못하므로 계약 밖이고(#97), 저절로 따라오는 상속 표면도 아니라 소비처가 `defaultOpen`·`open`·`onOpenChange`로 배선한다. off-canvas 열고 닫기는 트리거·rail·키보드로만 하며 스와이프 제스처는 갖지 않는다 — 나중에 붙인다면 표면이 사라지는 dismiss 제스처이므로 ADR 0005의 존재·시각 피드백·접근성 동등 경로를 함께 계약해야 한다. upstream의 `collapsible: \"none\"`은 열지 않는다: 렌더 결과가 `offcanvas`의 펼친 상태와 구분되지 않아 파생 채널이 가르지 못하며(#97), 트리거와 rail을 렌더하지 않으면 같은 결과가 된다. `SidebarMenuButton`의 `outline` variant도 열지 않는다 — 컨트롤 테두리를 `--sidebar-border`(`border.default`)로 그리는데 그것은 구분선이라 3:1 게이트에서 빠져 있고 다크에서 1.31이며, 게이트를 통과하는 `border.strong`에는 alias 이름이 없어 여는 데 토큰 변경이 선행된다. `SidebarInput`과 `SidebarMenuSkeleton`은 파트로 열지 않는다: 앞은 Input에 유틸리티 두 줄을 얹은 것이라 파생 채널이 구분하지 못하고, 뒤는 폭이 난수라 참조 스토리가 결정적이지 않다 — 소비처가 Input·Skeleton을 직접 조립한다. 접힌 상태의 메뉴 버튼에 레이블을 보충해야 하면 Tooltip을 소비처가 감싼다. 페이지 랜드마크도 소유하지 않는다 — `SidebarInset`은 `<div>`이고 `<main>`은 소비처의 페이지 구조다(upstream과 다른 지점이며, 셸이 이미 `<main>`을 가진 문서에 놓이면 랜드마크가 둘이 된다). sidebar 안쪽의 탐색 랜드마크는 우리가 주되 그 접근 가능한 이름은 소비처가 준다 — 한 화면에 사이드바가 둘일 수 있다.",
+        "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정되는 세로 탐색 표면으로, 본문과 함께 살면서 접고 펼 수 있다. `variant`는 패널의 형태만, `collapsible`은 접혔을 때의 폭만 정하고 열림 상태는 소비처가 소유한다. 좁은 폭에서는 소비처가 알려준 `isMobile`에 따라 Sheet으로 갈아 끼운다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/sidebar.tsx"
   },
   {
     "component": "skeleton",

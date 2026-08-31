@@ -1,0 +1,185 @@
+{
+  "anatomy": [
+    "KbdGroup?",
+    "Kbd*"
+  ],
+  "axes": {},
+  "base": {
+    "border-color": {
+      "from": "@layer base",
+      "tier": "token",
+      "token": "--ds-border-default"
+    }
+  },
+  "cells": [
+    {
+      "className": "pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm bg-muted px-1 font-sans text-xs font-medium text-muted-foreground select-none [&_svg:not([class*='size-'])]:size-3",
+      "properties": {
+        "-webkit-user-select": {
+          "from": "select-none",
+          "tier": "literal",
+          "value": "none"
+        },
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-muted",
+          "tier": "token",
+          "token": "--ds-bg-subtle"
+        },
+        "border-radius": {
+          "from": "rounded-sm",
+          "px": 6,
+          "scale": "radius.sm",
+          "tier": "token",
+          "token": "--radius-sm"
+        },
+        "color": {
+          "from": "text-muted-foreground",
+          "tier": "token",
+          "token": "--ds-fg-muted"
+        },
+        "display": {
+          "from": "inline-flex",
+          "tier": "literal",
+          "value": "inline-flex"
+        },
+        "font-family": {
+          "from": "font-sans",
+          "tier": "literal",
+          "value": "\"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, \"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Malgun Gothic\", sans-serif"
+        },
+        "font-size": {
+          "from": "text-xs",
+          "px": 12,
+          "scale": "type.size.xs",
+          "tier": "token",
+          "token": "--text-xs"
+        },
+        "font-weight": {
+          "from": "font-medium",
+          "tier": "literal",
+          "value": "500"
+        },
+        "gap": {
+          "from": "gap-1",
+          "multiple": 1,
+          "px": 4,
+          "scale": "space.1",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-5",
+          "multiple": 5,
+          "px": 20,
+          "scale": "space.5",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "justify-content": {
+          "from": "justify-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "line-height": {
+          "from": "text-xs",
+          "tier": "token",
+          "token": "--text-xs--line-height",
+          "value": "1.6"
+        },
+        "min-width": {
+          "from": "min-w-5",
+          "multiple": 5,
+          "px": 20,
+          "scale": "space.5",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-1",
+          "multiple": 1,
+          "px": 4,
+          "scale": "space.1",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-fit",
+          "tier": "literal",
+          "value": "fit-content"
+        }
+      },
+      "slots": {
+        "icon": {
+          "gap": {
+            "from": "gap-1",
+            "multiple": 1,
+            "px": 4,
+            "scale": "space.1",
+            "tier": "token",
+            "token": "--spacing"
+          },
+          "size": {
+            "from": "[&_svg:not([class*='size-'])]:size-3",
+            "multiple": 3,
+            "px": 12,
+            "scale": "space.3",
+            "tier": "token",
+            "token": "--spacing"
+          }
+        }
+      },
+      "state": null
+    }
+  ],
+  "component": "kbd",
+  "configurationStates": {},
+  "defaults": {},
+  "hash": "5842eb5fef55",
+  "parts": {
+    "KbdGroup": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "inline-flex items-center gap-1",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "gap": {
+              "from": "gap-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
+  "reference": {
+    "example": "kbd",
+    "guidance": {
+      "evidence": "투자 기록 검색과 거래 추가처럼 자주 쓰는 명령에 단축키를 함께 알려야 하고, 그 표기는 주변 문장과 눈으로 구분돼야 한다.",
+      "limits": "크기 축을 두지 않는다 — 고정 20px `text-xs` 캡 하나가 Button의 네 크기와 Tooltip·Input Group의 줄 안에 모두 들어가고, 실측할 소비처가 아직 없는 상태에서 스케일을 정하면 우리가 정한 적 없는 결정을 떠안는다(#121 ⓑ). 나중에 여는 것은 additive이고 닫는 것은 breaking이라 지금은 닫는다. 조합의 구분자(`+`)도 파트로 열지 않는다 — 클래스도 노드도 없는 문자열이라 파생 채널이 그릴 것이 없다(#119·#121). `KbdGroup`을 `<kbd>`로 렌더해 중첩되는 것은 의도이며, `<kbd>`는 HTML-AAM에서 대응 역할이 없어 이 요소에 접근 가능한 이름을 붙이지 않는다 — `⌘`·`⇧` 같은 기호의 이름은 소비처가 주고, 이름이 실제로 필요한 자리는 동작을 수행하는 컨트롤의 `aria-keyshortcuts`다. Command 항목 끝의 배치도 소비처가 소유한다(`ml-auto`). Tooltip의 반전 면 위에 놓일 때 필요한 반전 subtle 채움은 우리에게 없다 — upstream의 불투명도·`dark:` 분기가 우리 규약 밖이라 가져오지 않았고, 이 수요는 열지 않은 채 확인된 공백으로 남긴다(#109·ADR-0003과 같은 모양). 그때 색은 소비처가 `className`으로 바꾼다.",
+      "use": "키보드 키와 단축키 조합을 본문·툴팁·버튼 안에서 본문 글자와 구분되는 키캡으로 표기한다."
+    }
+  },
+  "schemaVersion": 5,
+  "source": "src/components/ui/kbd.tsx"
+}

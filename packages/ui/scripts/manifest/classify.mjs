@@ -38,6 +38,9 @@ export const MODIFIER_POLICY = new Map([
   ["data-[swipe=move]", "ignore:제스처 피드백 — 동작이라 Figma 채널에 실리지 않는다(#110)"],
   ["data-[swipe=cancel]", "ignore:제스처 피드백 — 동작이라 Figma 채널에 실리지 않는다(#110)"],
   ["data-[swipe=end]", "ignore:제스처 피드백 — 동작이라 Figma 채널에 실리지 않는다(#110)"],
+  // Resizable 핸들의 포인터 히트 영역(#124). 1px 선 위에 투명한 의사 요소를 얹어 잡기 쉽게 만든 것이라
+  // 그릴 것이 없다 — unresolved로 두면 "아직 못 다뤘다"가 되지만, 이건 영영 Figma에 없다
+  ["after", "ignore:포인터 히트 영역 — 투명한 의사 요소라 Figma에 그릴 것이 없다(#124)"],
 ])
 
 const SPACE_PROPERTIES = new Set([
