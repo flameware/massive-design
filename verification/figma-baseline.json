@@ -7,8 +7,8 @@
   "stages": {
     "FIGMA_DOCUMENT_SYNCED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T12:25:07Z",
-      "scope": "Injected 11 new component sets (breadcrumb, pagination, input-group, native-select, button-group, scroll-area, slider, command, combobox, sheet, calendar); re-ran Foundations 01-07 idempotently; repaired Button text nodes to a loadable face so Button Group could nest real Button instances; normalized the Components page catalog layout.",
+      "checkedAt": "2026-08-31T14:22:25Z",
+      "scope": "Injected 11 new component sets (breadcrumb, pagination, input-group, native-select, button-group, scroll-area, slider, command, combobox, sheet, calendar); re-ran Foundations 01-07 idempotently; normalized the Components page catalog layout. Font shaping checkpoint completed: the human ran scripts/figma-font-bind in the shaping runtime, binding every Components text node to type/family/sans.",
       "secondRunStructuralDiff": 0,
       "secondRunCatalogMoved": 0,
       "catalogTopLevelNodes": 43,
@@ -16,38 +16,60 @@
       "generationTailsMatched": 43,
       "foundationsIdempotent": true,
       "deviations": [
-        "Text authored on Inter without the type/family/sans binding — a bound node drops Hangul glyphs in the use_figma runtime. Temporary; see issue #115. fontSize, lineHeight and fill variable bindings are retained.",
-        "Button's 24 text nodes repaired in place to Inter (no regeneration) so Button Group could append real Button instances; label is Latin so there is no visual change.",
         "flex-wrap: wrap mapped to layoutWrap='WRAP' — a mapping not present in figma-components.md section 7.",
-        "State samples (hover/pressed/disabled/focus) per figma-injection.md section 2.8 were not created, matching existing assets but diverging from that section."
-      ]
+        "State samples (hover/pressed/disabled/focus) per figma-injection.md section 2.8 were not created, matching existing assets but diverging from that section.",
+        "The plugin reported 208 nodes as already bound where an agent read taken shortly before had counted 204. The four-node difference was not explained; the end state is verified at 443/443."
+      ],
+      "fontFamilyBound": "443/443",
+      "fontBinding": {
+        "page": "Components",
+        "textNodes": 443,
+        "boundToTypeFamilySans": 443,
+        "variableId": "VariableID:12:59",
+        "runBy": "seongki",
+        "runtime": "Figma desktop client (shaping runtime)",
+        "tool": "scripts/figma-font-bind",
+        "pluginReport": {
+          "total": 443,
+          "newlyBound": 235,
+          "alreadyBound": 208
+        },
+        "agentReverify": "All 443 text nodes resolve fontFamily to type/family/sans; 0 unbound, 0 pointing elsewhere."
+      }
     },
     "FIGMA_LIBRARY_CURRENT": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T12:25:07Z",
+      "checkedAt": "2026-08-31T14:22:25Z",
       "reviewer": "seongki",
       "componentPublishStatus": {
         "CURRENT": 43
       },
       "publishedComponents": [
+        "alert",
+        "avatar",
         "breadcrumb",
         "button",
         "button-group",
         "calendar",
+        "collapsible",
         "combobox",
         "command",
+        "empty",
+        "field",
         "input-group",
-        "item",
         "native-select",
         "pagination",
+        "radio-group",
         "scroll-area",
         "sheet",
-        "slider"
+        "tabs",
+        "textarea",
+        "toast"
       ],
-      "humanConfirmation": "Figma publish completed and visually reviewed in Light and Dark; no unpublished Variables, Text Styles, or Effect Styles remain. Agent re-read all 43 component sets as CURRENT."
+      "humanConfirmation": "Figma publish completed after the font shaping checkpoint; the 20 component sets whose text nodes gained the type/family/sans binding were republished. Agent re-read all 43 component sets as CURRENT."
     }
   },
-  "completedAt": "2026-08-31T12:25:07Z",
+  "completedAt": "2026-08-31T14:22:25Z",
   "components": [
     {
       "component": "accordion",
