@@ -38,6 +38,11 @@ import {
   SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge,
   SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem,
   SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger,
+  Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarLabel, MenubarMenu,
+  MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarSub, MenubarSubContent,
+  MenubarSubTrigger, MenubarTrigger,
+  NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
+  NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerVariants,
 } from "@massive/ui"
 import { catalog } from "./catalog.gen"
 import itemFixture from "./fixtures/item.json"
@@ -177,6 +182,52 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
         <SidebarInset className="p-4"><SidebarTrigger/><p className="mt-3 text-sm">본문이 여기에 놓입니다.</p></SidebarInset>
       </SidebarProvider>
     </div>,
+    menubar: <Menubar aria-label="투자 기록 명령 막대" defaultValue={selection.open === "open" ? "view" : undefined}>
+      <MenubarMenu value="record">
+        <MenubarTrigger>기록</MenubarTrigger>
+        <MenubarContent>
+          <MenubarLabel>거래</MenubarLabel>
+          <MenubarItem>거래 추가</MenubarItem>
+          <MenubarItem>거래 가져오기</MenubarItem>
+          <MenubarSeparator/>
+          <MenubarSub>
+            <MenubarSubTrigger>내보내기</MenubarSubTrigger>
+            <MenubarSubContent><MenubarItem>CSV</MenubarItem><MenubarItem disabled>PDF</MenubarItem></MenubarSubContent>
+          </MenubarSub>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu value="view">
+        <MenubarTrigger>보기</MenubarTrigger>
+        <MenubarContent>
+          <MenubarCheckboxItem checked={selection.checked === "checked"}>수익률 열 표시</MenubarCheckboxItem>
+          <MenubarSeparator/>
+          <MenubarLabel>정렬</MenubarLabel>
+          <MenubarRadioGroup value={selection.checked === "checked" ? "date" : "amount"}>
+            <MenubarRadioItem value="date">거래일순</MenubarRadioItem>
+            <MenubarRadioItem value="amount">금액순</MenubarRadioItem>
+          </MenubarRadioGroup>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>,
+    "navigation-menu": <NavigationMenu aria-label="투자 기록 주요 탐색" defaultValue={selection.open === "open" ? "portfolio" : undefined}>
+      <NavigationMenuList>
+        <NavigationMenuItem value="portfolio">
+          <NavigationMenuTrigger>포트폴리오</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-64 list-none gap-1">
+              <li><NavigationMenuLink href="#holdings" active={selection.currentLocation === "current"}><span className="font-medium">보유 현황</span><span className="text-muted-foreground">평가금액과 비중을 한눈에 봅니다.</span></NavigationMenuLink></li>
+              <li><NavigationMenuLink href="#allocation"><span className="font-medium">자산 배분</span><span className="text-muted-foreground">목표 비중과의 차이를 확인합니다.</span></NavigationMenuLink></li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem value="trades">
+          <NavigationMenuLink href="#trades" className={navigationMenuTriggerVariants()}>거래</NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem value="review">
+          <NavigationMenuLink href="#review" className={navigationMenuTriggerVariants()}>회고</NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>,
   }
   return previews[name]
 }

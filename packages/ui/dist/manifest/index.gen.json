@@ -151,10 +151,22 @@
       "path": "list-row.gen.json"
     },
     {
+      "cells": 1,
+      "component": "menubar",
+      "hash": "d3912a8526c5",
+      "path": "menubar.gen.json"
+    },
+    {
       "cells": 3,
       "component": "native-select",
       "hash": "d6531f02868f",
       "path": "native-select.gen.json"
+    },
+    {
+      "cells": 1,
+      "component": "navigation-menu",
+      "hash": "68d4fed90210",
+      "path": "navigation-menu.gen.json"
     },
     {
       "cells": 1,
