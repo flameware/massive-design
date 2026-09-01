@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "98c396961d74125e59efc0c428bd3b8ff9f77954",
   "inputTree": {
     "commit": "98c396961d74125e59efc0c428bd3b8ff9f77954",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T00:26:19.427Z",
       "automatedResult": "PASS",
       "checks": [
@@ -488,10 +488,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "sohnseongki",
+        "checkedAt": "2026-09-01T00:35:16.040Z",
+        "scope": "Carousel·Chart·Menubar·Navigation Menu 신규 4개의 Light/Dark 전 조합 — Carousel orientation×currentSlide 6칸, Chart indicator 3칸(홀로 선 툴팁·범례 포함), Menubar open×checked, Navigation Menu open×currentLocation"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T00:35:16.040Z"
 }
