@@ -27,7 +27,14 @@ import { loadTheme } from "./theme.mjs"
  * 이며 쉬는 상태(`properties`)에 대한 차이다. Figma 쪽에서 이것은 variant 축이 아니라
  * **component property**이므로 카탈로그의 조합 수는 늘지 않는다. `drawnBy`는 매니페스트에도
  * 실리지만 코드 쪽 사실이라 해시의 입력이 아니다. */
-export const SCHEMA_VERSION = 6
+/** 7: `drawnBy` 항목에 세 번째 모양 `{ modifiers, carriedBy: "none" }`이 생긴다(#184).
+ *
+ * 소비처가 새로 해야 하는 일은 **판별**이다 — 이제 이유 문자열과 `{ attribute, values }`
+ * 둘로 가르면 안 된다. 뜻은 *"우리 클래스가 그리지만 파생 채널이 나르지 않기로 판정됐다"*
+ * 이므로, 이 자리를 만난 주입은 `unresolved`처럼 "아직 못 다룬 것"으로 읽지 말고 그릴 것이
+ * 없는 것으로 읽는다. `drawnBy`는 여전히 해시의 입력이 아니라 이 세대는 해시를 움직이지
+ * 않는다. */
+export const SCHEMA_VERSION = 7
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {

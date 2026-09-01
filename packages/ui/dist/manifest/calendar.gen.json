@@ -883,6 +883,6 @@
       "use": "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다."
     }
   },
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "source": "src/components/ui/calendar.tsx"
 }

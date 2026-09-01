@@ -151,3 +151,48 @@ test("그리는 자리는 이유 문자열이거나 실제로 붙어 있는 data
     /그리는 속성은 data-\* 이름이어야 한다/
   )
 })
+
+/* 세 번째 drawnBy 모양(#184). 이 모양이 사는 이유는 **주장이 검사된다**는 것 하나이므로,
+ * 검사가 실제로 무는지를 못박는다 — 물지 않으면 이유 문자열보다 나을 것이 없다. */
+
+const carried = (drawn, className) => ({
+  ...contract("widget"),
+  className: () => className,
+  configurationStates: { validity: ["valid", "invalid"] },
+  drawnBy: { validity: drawn },
+})
+
+test("carriedBy는 정책이 정말 ignore:일 때만 통과한다", () => {
+  // `aria-invalid`는 정책표에서 ignore: 다 — 클래스에도 있으므로 통과한다
+  assert.doesNotThrow(() => validateContracts(["widget.tsx"], [
+    carried({ modifiers: ["aria-invalid"], carriedBy: "none" }, "aria-invalid:border-destructive"),
+  ]))
+})
+
+test("정책이 나르기로 판정한 수식자에 carriedBy를 적으면 깨진다", () => {
+  // `disabled`는 `state` 정책이다 — 나르지 않는다는 주장이 거짓이다
+  assert.throws(() => validateContracts(["widget.tsx"], [
+    carried({ modifiers: ["disabled"], carriedBy: "none" }, "disabled:opacity-50"),
+  ]), /정책이 나르기로 판정했다/)
+})
+
+test("정책이 아예 없는 수식자는 unresolved로 새고 있다고 말한다", () => {
+  assert.throws(() => validateContracts(["widget.tsx"], [
+    carried({ modifiers: ["data-[orientation=vertical]"], carriedBy: "none" }, "data-[orientation=vertical]:w-2"),
+  ]), /정책이 없는 수식자/)
+})
+
+test("선언한 수식자가 클래스에 없으면 깨진다 — 앞의 모양과 같은 검사다", () => {
+  assert.throws(() => validateContracts(["widget.tsx"], [
+    carried({ modifiers: ["aria-invalid"], carriedBy: "none" }, "border"),
+  ]), /선언한 수식자가 클래스에 없다/)
+})
+
+test("carriedBy는 \"none\"만 쓴다 — 상태 사다리는 셀 단위라 계약이 말할 수 없다", () => {
+  assert.throws(() => validateContracts(["widget.tsx"], [
+    carried({ modifiers: ["disabled"], carriedBy: "state" }, "state disabled:opacity-50"),
+  ]), /carriedBy는 "none"만 쓴다/)
+  assert.throws(() => validateContracts(["widget.tsx"], [
+    carried({ modifiers: [], carriedBy: "none" }, "aria-invalid:border-destructive"),
+  ]), /그리는 수식자 목록이 필요하다/)
+})

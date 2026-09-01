@@ -102,7 +102,7 @@ const componentContract = {
   publicExports: ["InputGroup", "InputGroupAddon", "InputGroupInput", "InputGroupButton", "inputGroupVariants", "inputGroupVariantsConfig"],
   config: inputGroupVariantsConfig, className: (props: Record<string, string>) => cn(inputGroupVariants(props)),
   anatomy: ["InputGroup", "InputGroupAddon?", "InputGroupInput", "InputGroupButton?"],
-  configurationStates: { validity: ["valid", "invalid"], disabled: ["enabled", "disabled"] }, drawnBy: { validity: "`has-[[aria-invalid=true]]`와 `aria-invalid`가 그린다 — 같은 이유로 `data-*`가 아니다(#178)", disabled: "`has-[:disabled]`가 그린다 — pseudo-class라 `data-*` 모양으로 적을 수 없고, 정책이 뜻 단위가 될 때 다뤄진다(#178)" },
+  configurationStates: { validity: ["valid", "invalid"], disabled: ["enabled", "disabled"] }, drawnBy: { validity: { modifiers: ["has-[[aria-invalid=true]]", "aria-invalid"], carriedBy: "none" }, disabled: "루트의 `has-[:disabled]`가 그리는데 조립이 담을 자리가 없다 — 그 셀에 상태 사다리가 없어 불투명도가 버려진다. `InputGroupButton`의 `state.disabled`는 Button base가 낸 별개 값이다(#184)" },
   parts: {
     InputGroupAddon: { config: inputGroupAddonVariantsConfig, className: (props: Record<string, string>) => cn(inputGroupAddonVariants(props)) },
     InputGroupInput: staticPart(cn(inputVariants(), CONTROL)),

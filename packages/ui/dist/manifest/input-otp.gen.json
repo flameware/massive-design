@@ -63,7 +63,12 @@
         "active": "true"
       }
     },
-    "validity": "`aria-invalid` 수식자가 그리는데 지금 정책이 그것을 버린다 — 뜻 단위 정규화가 다룬다(#178)",
+    "validity": {
+      "carriedBy": "none",
+      "modifiers": [
+        "aria-invalid"
+      ]
+    },
     "value": "칸에 글자가 렌더되는 것이 그린다 — 내용이지 클래스가 아니다"
   },
   "externalSurfaces": {
@@ -273,6 +278,6 @@
       "use": "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다."
     }
   },
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "source": "src/components/ui/input-otp.tsx"
 }
