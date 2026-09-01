@@ -33,7 +33,7 @@
     {
       "cells": 1,
       "component": "breadcrumb",
-      "hash": "ca48b1d9992c",
+      "hash": "5c0f1d4f0990",
       "path": "breadcrumb.gen.json"
     },
     {
@@ -45,13 +45,13 @@
     {
       "cells": 2,
       "component": "button-group",
-      "hash": "adcce550fd2b",
+      "hash": "ebd825e73f40",
       "path": "button-group.gen.json"
     },
     {
       "cells": 1,
       "component": "calendar",
-      "hash": "cd1751acdc6f",
+      "hash": "391ec5e6e100",
       "path": "calendar.gen.json"
     },
     {
@@ -93,7 +93,7 @@
     {
       "cells": 1,
       "component": "command",
-      "hash": "6f45a55b984d",
+      "hash": "759ec21cce8b",
       "path": "command.gen.json"
     },
     {
@@ -105,13 +105,13 @@
     {
       "cells": 1,
       "component": "dropdown-menu",
-      "hash": "460ce70ee692",
+      "hash": "6fbac9bfcf45",
       "path": "dropdown-menu.gen.json"
     },
     {
       "cells": 2,
       "component": "empty",
-      "hash": "ec678ab2dfd5",
+      "hash": "fd84bc32372e",
       "path": "empty.gen.json"
     },
     {
@@ -129,19 +129,19 @@
     {
       "cells": 1,
       "component": "input-group",
-      "hash": "13e8f3db38a6",
+      "hash": "f51d02488886",
       "path": "input-group.gen.json"
     },
     {
       "cells": 1,
       "component": "input-otp",
-      "hash": "18f7da74b84d",
+      "hash": "78235e88ad40",
       "path": "input-otp.gen.json"
     },
     {
       "cells": 6,
       "component": "item",
-      "hash": "edd38728a553",
+      "hash": "7092b0fd4e0a",
       "path": "item.gen.json"
     },
     {
@@ -153,7 +153,7 @@
     {
       "cells": 1,
       "component": "label",
-      "hash": "e09201d777d4",
+      "hash": "12a012388cca",
       "path": "label.gen.json"
     },
     {
@@ -165,7 +165,7 @@
     {
       "cells": 1,
       "component": "menubar",
-      "hash": "a4b58bb8cf3e",
+      "hash": "717e9b70857e",
       "path": "menubar.gen.json"
     },
     {
@@ -237,7 +237,7 @@
     {
       "cells": 12,
       "component": "sidebar",
-      "hash": "6d9e845e1cd7",
+      "hash": "d92340903a71",
       "path": "sidebar.gen.json"
     },
     {
@@ -249,7 +249,7 @@
     {
       "cells": 6,
       "component": "slider",
-      "hash": "f7f90ee58411",
+      "hash": "2e03f8cc2cc1",
       "path": "slider.gen.json"
     },
     {

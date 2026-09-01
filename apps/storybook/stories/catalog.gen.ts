@@ -172,7 +172,7 @@ export const catalog = [
   {
     "component": "breadcrumb",
     "displayName": "Breadcrumb",
-    "hash": "ca48b1d9992c",
+    "hash": "5c0f1d4f0990",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -244,7 +244,7 @@ export const catalog = [
   {
     "component": "button-group",
     "displayName": "Button Group",
-    "hash": "adcce550fd2b",
+    "hash": "ebd825e73f40",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -278,7 +278,7 @@ export const catalog = [
   {
     "component": "calendar",
     "displayName": "Calendar",
-    "hash": "cd1751acdc6f",
+    "hash": "391ec5e6e100",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -505,7 +505,7 @@ export const catalog = [
   {
     "component": "command",
     "displayName": "Command",
-    "hash": "6f45a55b984d",
+    "hash": "759ec21cce8b",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -580,7 +580,7 @@ export const catalog = [
   {
     "component": "dropdown-menu",
     "displayName": "Dropdown Menu",
-    "hash": "460ce70ee692",
+    "hash": "6fbac9bfcf45",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -622,7 +622,7 @@ export const catalog = [
   {
     "component": "empty",
     "displayName": "Empty",
-    "hash": "ec678ab2dfd5",
+    "hash": "fd84bc32372e",
     "cells": 2,
     "axes": {
       "variant": [
@@ -714,7 +714,7 @@ export const catalog = [
   {
     "component": "input-group",
     "displayName": "Input Group",
-    "hash": "13e8f3db38a6",
+    "hash": "f51d02488886",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -747,7 +747,7 @@ export const catalog = [
   {
     "component": "input-otp",
     "displayName": "Input Otp",
-    "hash": "18f7da74b84d",
+    "hash": "78235e88ad40",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -785,7 +785,7 @@ export const catalog = [
   {
     "component": "item",
     "displayName": "Item",
-    "hash": "edd38728a553",
+    "hash": "7092b0fd4e0a",
     "cells": 6,
     "axes": {
       "size": [
@@ -852,7 +852,7 @@ export const catalog = [
   {
     "component": "label",
     "displayName": "Label",
-    "hash": "e09201d777d4",
+    "hash": "12a012388cca",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -905,7 +905,7 @@ export const catalog = [
   {
     "component": "menubar",
     "displayName": "Menubar",
-    "hash": "a4b58bb8cf3e",
+    "hash": "717e9b70857e",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1314,7 +1314,7 @@ export const catalog = [
   {
     "component": "sidebar",
     "displayName": "Sidebar",
-    "hash": "6d9e845e1cd7",
+    "hash": "d92340903a71",
     "cells": 12,
     "axes": {
       "collapsible": [
@@ -1399,7 +1399,7 @@ export const catalog = [
   {
     "component": "slider",
     "displayName": "Slider",
-    "hash": "f7f90ee58411",
+    "hash": "2e03f8cc2cc1",
     "cells": 6,
     "axes": {
       "orientation": [

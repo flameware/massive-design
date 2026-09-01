@@ -1,13 +1,18 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "59033e3e94a134e4039c9d643f534ce3158576ab",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "64cf1c18e3d60600141ba9b5106842b6b5f97da0",
   "inputTree": {
-    "commit": "59033e3e94a134e4039c9d643f534ce3158576ab",
-    "clean": true
+    "commit": "64cf1c18e3d60600141ba9b5106842b6b5f97da0",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/scripts/manifest/assemble.mjs",
+      "packages/ui/scripts/manifest/classify.mjs"
+    ]
   },
-  "inputDigest": "b7b7d75061b2b1471bb66ec0c5c4b1160f55c2ccede9eb4549b6de8888c5c4b8",
+  "inputDigest": "f9bd72b2b6234338972e64d828496066ae00fd4824c23266d803248b93b75e3d",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -37,7 +42,7 @@
     },
     {
       "component": "breadcrumb",
-      "manifestHash": "ca48b1d9992c",
+      "manifestHash": "5c0f1d4f0990",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -47,12 +52,12 @@
     },
     {
       "component": "button-group",
-      "manifestHash": "adcce550fd2b",
+      "manifestHash": "ebd825e73f40",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "calendar",
-      "manifestHash": "cd1751acdc6f",
+      "manifestHash": "391ec5e6e100",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -87,7 +92,7 @@
     },
     {
       "component": "command",
-      "manifestHash": "6f45a55b984d",
+      "manifestHash": "759ec21cce8b",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -97,12 +102,12 @@
     },
     {
       "component": "dropdown-menu",
-      "manifestHash": "460ce70ee692",
+      "manifestHash": "6fbac9bfcf45",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "empty",
-      "manifestHash": "ec678ab2dfd5",
+      "manifestHash": "fd84bc32372e",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -117,17 +122,17 @@
     },
     {
       "component": "input-group",
-      "manifestHash": "13e8f3db38a6",
+      "manifestHash": "f51d02488886",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "input-otp",
-      "manifestHash": "18f7da74b84d",
+      "manifestHash": "78235e88ad40",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "item",
-      "manifestHash": "edd38728a553",
+      "manifestHash": "7092b0fd4e0a",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -137,7 +142,7 @@
     },
     {
       "component": "label",
-      "manifestHash": "e09201d777d4",
+      "manifestHash": "12a012388cca",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -147,7 +152,7 @@
     },
     {
       "component": "menubar",
-      "manifestHash": "a4b58bb8cf3e",
+      "manifestHash": "717e9b70857e",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -207,7 +212,7 @@
     },
     {
       "component": "sidebar",
-      "manifestHash": "6d9e845e1cd7",
+      "manifestHash": "d92340903a71",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -217,7 +222,7 @@
     },
     {
       "component": "slider",
-      "manifestHash": "f7f90ee58411",
+      "manifestHash": "2e03f8cc2cc1",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +274,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T11:07:48.146Z",
+      "checkedAt": "2026-09-01T11:42:35.275Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +304,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-01T11:07:48.146Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-01T11:42:35.275Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +501,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-01T11:19:08.551Z",
-        "scope": "해시가 움직인 15개(checkbox·command·dropdown-menu·field·input-otp·item·list-row·menubar·navigation-menu·sidebar·switch·table·tabs·toggle·toggle-group)를 Light/Dark로 확인했다. 이 세대는 계약 메타데이터만 바뀌어 렌더 결과가 그대로여야 하고, 그대로였다."
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-01T11:19:08.551Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }

@@ -23,18 +23,6 @@
       "className": "flex w-fit items-stretch [&>*]:relative [&>*:focus-visible]:z-10 [&>*:focus-within]:z-10 flex-row [&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
       "orientation": "horizontal",
       "properties": {
-        "[&>*:focus-visible]:z-index": {
-          "from": "[&>*:focus-visible]:z-10",
-          "tier": "unresolved",
-          "value": "10",
-          "why": "수식자 [&>*:focus-visible]를 아직 다루지 않는다"
-        },
-        "[&>*:focus-within]:z-index": {
-          "from": "[&>*:focus-within]:z-10",
-          "tier": "unresolved",
-          "value": "10",
-          "why": "수식자 [&>*:focus-within]를 아직 다루지 않는다"
-        },
         "[&>*:not(:first-child)]:border-bottom-left-radius": {
           "from": "[&>*:not(:first-child)]:rounded-l-none",
           "tier": "unresolved",
@@ -104,18 +92,6 @@
       "className": "flex w-fit items-stretch [&>*]:relative [&>*:focus-visible]:z-10 [&>*:focus-within]:z-10 flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none",
       "orientation": "vertical",
       "properties": {
-        "[&>*:focus-visible]:z-index": {
-          "from": "[&>*:focus-visible]:z-10",
-          "tier": "unresolved",
-          "value": "10",
-          "why": "수식자 [&>*:focus-visible]를 아직 다루지 않는다"
-        },
-        "[&>*:focus-within]:z-index": {
-          "from": "[&>*:focus-within]:z-10",
-          "tier": "unresolved",
-          "value": "10",
-          "why": "수식자 [&>*:focus-within]를 아직 다루지 않는다"
-        },
         "[&>*:not(:first-child)]:border-top-left-radius": {
           "from": "[&>*:not(:first-child)]:rounded-t-none",
           "tier": "unresolved",
@@ -195,7 +171,7 @@
   "drawnBy": {
     "disabled": "각 `Button`이 자기 `disabled`를 소유하고 Button base의 `disabled:opacity-50`이 그린다 — 그룹은 그리지 않는다(경계 ③)"
   },
-  "hash": "adcce550fd2b",
+  "hash": "ebd825e73f40",
   "parts": {
     "ButtonGroupSeparator": {
       "axes": {},

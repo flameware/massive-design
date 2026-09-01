@@ -94,7 +94,7 @@
     "results": "`CommandEmpty`의 존재가 그린다 — 결과가 없을 때만 그 파트가 렌더된다",
     "selected": "선택된 행에만 붙는 `✓` 글리프가 그린다 — 자기 클래스가 없는 노드다"
   },
-  "hash": "6f45a55b984d",
+  "hash": "759ec21cce8b",
   "parts": {
     "CommandEmpty": {
       "axes": {},
@@ -327,18 +327,6 @@
               "tier": "token",
               "token": "--radius-sm"
             },
-            "data-[disabled=true]:opacity": {
-              "from": "data-[disabled=true]:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
-            },
-            "data-[disabled=true]:pointer-events": {
-              "from": "data-[disabled=true]:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
-            },
             "display": {
               "from": "flex",
               "tier": "literal",
@@ -394,7 +382,7 @@
           },
           "state": {
             "base": "--ds-bg-overlay",
-            "disabled": null,
+            "disabled": 0.5,
             "hover": 0.08,
             "layer": "--ds-state-layer",
             "pressed": 0.12

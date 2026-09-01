@@ -1028,7 +1028,7 @@
       }
     }
   },
-  "hash": "6d9e845e1cd7",
+  "hash": "d92340903a71",
   "parts": {
     "SidebarContent": {
       "axes": {},
@@ -1550,40 +1550,10 @@
               "value": "nowrap",
               "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
             },
-            "[&>svg]:flex-shrink": {
-              "from": "[&>svg]:shrink-0",
-              "tier": "unresolved",
-              "value": "0",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:height": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:width": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
               "value": "center"
-            },
-            "aria-disabled:opacity": {
-              "from": "aria-disabled:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
-            },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
             },
             "background-color": {
               "from": "state",
@@ -1661,6 +1631,26 @@
             }
           },
           "size": "default",
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&>svg]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
           "state": {
             "base": "--ds-bg-surface",
             "disabled": 0.5,
@@ -1711,40 +1701,10 @@
               "value": "nowrap",
               "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
             },
-            "[&>svg]:flex-shrink": {
-              "from": "[&>svg]:shrink-0",
-              "tier": "unresolved",
-              "value": "0",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:height": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:width": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
               "value": "center"
-            },
-            "aria-disabled:opacity": {
-              "from": "aria-disabled:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
-            },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
             },
             "background-color": {
               "from": "state",
@@ -1819,6 +1779,26 @@
             }
           },
           "size": "sm",
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&>svg]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
           "state": {
             "base": "--ds-bg-surface",
             "disabled": 0.5,
@@ -1869,40 +1849,10 @@
               "value": "nowrap",
               "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
             },
-            "[&>svg]:flex-shrink": {
-              "from": "[&>svg]:shrink-0",
-              "tier": "unresolved",
-              "value": "0",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:height": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:width": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
               "value": "center"
-            },
-            "aria-disabled:opacity": {
-              "from": "aria-disabled:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
-            },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
             },
             "background-color": {
               "from": "state",
@@ -1980,6 +1930,26 @@
             }
           },
           "size": "lg",
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&>svg]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
           "state": {
             "base": "--ds-bg-surface",
             "disabled": 0.5,
@@ -2124,40 +2094,10 @@
               "value": "nowrap",
               "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
             },
-            "[&>svg]:flex-shrink": {
-              "from": "[&>svg]:shrink-0",
-              "tier": "unresolved",
-              "value": "0",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:height": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:width": {
-              "from": "[&>svg]:size-4",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 4)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
               "value": "center"
-            },
-            "aria-disabled:opacity": {
-              "from": "aria-disabled:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
-            },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
             },
             "background-color": {
               "from": "state",
@@ -2229,9 +2169,29 @@
               "token": "--spacing"
             }
           },
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&>svg]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
           "state": {
             "base": "--ds-bg-surface",
-            "disabled": null,
+            "disabled": 0.5,
             "hover": 0.08,
             "layer": "--ds-state-layer",
             "pressed": 0.12
