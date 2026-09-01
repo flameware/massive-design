@@ -274,6 +274,12 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 
 이유: 의미 패밀리에서 **범주형 5색을 뽑는 건 원래 잘 안 된다.** danger/success/warning을 차트 시리즈로 쓰면 상태 의미가 데이터에 잘못 실린다. invest diary는 손익 색을 자기가 소유한다(ADR-0008). 여기서 어설픈 5색을 확정하면 그게 굳는다.
 
+> **재판정 — [#125](https://github.com/flameware/massive-design/issues/125), Chart 축소 구현.** [토큰 계층 전수 스캔](https://github.com/flameware/massive-design/issues/72)이 이 다섯을 "semantic 우회"로 표시한 뒤 처음으로 **실제 소비 컴포넌트**를 갖고 다시 봤다. 판정은 **유지**이고, 등급이 하나 분명해졌다: 데이터 계열 색은 semantic도 alias도 아니라 **소비처가 주입하는 입력**이다(`ChartConfig`의 `color`). `chart-1..5`는 그 입력이 없을 때의 무채색 기본값이지 계열 색의 정본이 아니다.
+>
+> 그래서 `chart` 계약은 계열 색을 **하나도 소비하지 않는다.** 견본(툴팁 indicator·범례 swatch)의 `cva`는 **모양만** 갖고 색은 payload에서 인라인으로 온다 — 매니페스트 어디에도 `--chart-*`가 나타나지 않는다. palette 직참조 예외는 남아 있으나 **계약 안 소비처가 0개**라 폭발 반경이 없다. 예외를 없애려면 시각화 팔레트를 확정해야 하고, 그건 여전히 이 맵 밖이다.
+>
+> 다크 모드도 이 판정에 딸려 풀린다. upstream `ChartContainer`는 `theme: {light, dark}`를 받아 `.light`/`.dark` 두 블록을 **컴포넌트가** 주입하지만, 우리는 `theme` 키를 받지 않고 `--color-<key>` 한 벌만 낸다. 모드에 따라 갈려야 하는 색은 소비처가 **모드 전환이 이미 끝난 변수**를 값으로 주며, 전환 자리는 토큰 계층에 남는다 — *라이트/다크 전환은 오직 semantic 계층에서만 일어난다*는 규칙이 컴포넌트에서 세 번째로 깨지지 않는다.
+
 ### 7.3 link 확장 — 그리고 이 표가 배경 중심이라는 사실
 
 [#37](https://github.com/flameware/massive-design/issues/37)이 Button `link` variant에서 `color → var(--primary) → bg.accent.solid`를 발견했다. **배경용 solid 색(램프 9단)을 글자색에 쓰고 있었다** — 다크 `bg.canvas` 위에서 CR **3.61**, 본문 게이트 4.5 미달이다. `fg.link`(램프 10단)는 같은 자리에서 5.68이다.

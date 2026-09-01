@@ -13,6 +13,8 @@ const EXPECTED = [
   "button-group",
   "calendar",
   "card",
+  "carousel",
+  "chart",
   "checkbox",
   "collapsible",
   "combobox",

@@ -61,6 +61,18 @@
       "path": "card.gen.json"
     },
     {
+      "cells": 2,
+      "component": "carousel",
+      "hash": "c2666ff27501",
+      "path": "carousel.gen.json"
+    },
+    {
+      "cells": 3,
+      "component": "chart",
+      "hash": "1e10e7cac154",
+      "path": "chart.gen.json"
+    },
+    {
       "cells": 1,
       "component": "checkbox",
       "hash": "b952b37163b6",
