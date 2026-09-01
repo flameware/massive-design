@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "84d3d0dbf1180b2d3cf8b531ac2fde8642876468",
   "inputTree": {
     "commit": "84d3d0dbf1180b2d3cf8b531ac2fde8642876468",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T08:28:49.202Z",
       "automatedResult": "PASS",
       "checks": [
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "sohnseongki",
+        "checkedAt": "2026-09-01T08:31:05.467Z",
+        "scope": "item·empty의 frame 축 Light/Dark. 세 값의 지름·면·클리핑, Avatar 조합 행, 그리고 Empty의 기본 모양이 icon 기본값 뒤에도 이전과 동일한 것을 확인했다. 나머지 49개는 매니페스트가 움직이지 않았고 새 토큰이 0개라 범위 밖이다."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T08:31:05.467Z"
 }
