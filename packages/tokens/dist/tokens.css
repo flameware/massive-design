@@ -158,6 +158,7 @@
   --ds-fg-link: var(--ds-palette-brand-light-10);
   --ds-border-default: var(--ds-palette-neutral-light-6);
   --ds-border-field: var(--ds-palette-neutral-light-7);
+  --ds-border-knockout: var(--ds-palette-neutral-light-2);
   --ds-border-strong: var(--ds-palette-neutral-light-9);
   --ds-border-accent: var(--ds-palette-brand-light-9);
   --ds-border-danger: var(--ds-palette-danger-light-9);
@@ -189,6 +190,7 @@
   --destructive-text: var(--ds-fg-danger);
   --border: var(--ds-border-default);
   --input: var(--ds-border-field);
+  --knockout: var(--ds-border-knockout);
   --ring: var(--ds-border-focus);
   --focus-contrast: var(--ds-border-focus-contrast);
   --chart-1: var(--ds-palette-neutral-light-12);
@@ -246,6 +248,7 @@
   --ds-fg-link: var(--ds-palette-brand-dark-10);
   --ds-border-default: var(--ds-palette-alpha-white-10);
   --ds-border-field: var(--ds-palette-alpha-white-15);
+  --ds-border-knockout: var(--ds-palette-neutral-dark-1);
   --ds-border-strong: var(--ds-palette-neutral-dark-9);
   --ds-border-accent: var(--ds-palette-brand-dark-9);
   --ds-border-danger: var(--ds-palette-danger-dark-9);
@@ -275,6 +278,7 @@
   --destructive-text: var(--ds-fg-danger);
   --border: var(--ds-border-default);
   --input: var(--ds-border-field);
+  --knockout: var(--ds-border-knockout);
   --ring: var(--ds-border-focus);
   --focus-contrast: var(--ds-border-focus-contrast);
   --chart-1: var(--ds-palette-neutral-dark-12);
@@ -325,6 +329,7 @@
   --color-destructive-text: var(--destructive-text);
   --color-border: var(--border);
   --color-input: var(--input);
+  --color-knockout: var(--knockout);
   --color-ring: var(--ring);
   --color-focus-contrast: var(--focus-contrast);
   --color-chart-1: var(--chart-1);

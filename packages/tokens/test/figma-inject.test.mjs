@@ -131,7 +131,7 @@ test('콜드 파일에 6단계가 순서대로 실린다', async () => {
 
   assert.deepEqual(census(stub).collections, ['palette(Value)', 'semantic(Light/Dark)'])
   assert.equal(results['02-palette-color.js'].count, 125)   // 램프 120 + 리터럴 5
-  assert.equal(results['04-semantic.js'].count, 35)
+  assert.equal(results['04-semantic.js'].count, 36)
   assert.equal(results['05-text-styles.js'].count, 9)
   assert.equal(results['06-effect-styles.js'].count, 5)
 })

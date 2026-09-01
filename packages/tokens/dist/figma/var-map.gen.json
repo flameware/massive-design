@@ -401,6 +401,11 @@
     "collection": "semantic",
     "name": "border/field"
   },
+  "--ds-border-knockout": {
+    "kind": "variable",
+    "collection": "semantic",
+    "name": "border/knockout"
+  },
   "--ds-border-strong": {
     "kind": "variable",
     "collection": "semantic",

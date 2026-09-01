@@ -2,274 +2,274 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "98c396961d74125e59efc0c428bd3b8ff9f77954",
+  "targetCommit": "17ccd27ce339ef7d8aa41bf705cca3b523ecbf58",
   "inputTree": {
-    "commit": "98c396961d74125e59efc0c428bd3b8ff9f77954",
+    "commit": "17ccd27ce339ef7d8aa41bf705cca3b523ecbf58",
     "clean": true
   },
-  "inputDigest": "117af86eacb48738b3e3aed379a3950eb127293271c5783ee7f192e2c0064c57",
-  "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
+  "inputDigest": "eb58c0fa71ed4a6f997ad42b2f0898f244d8439235db520037f05d188a390ff0",
+  "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
       "component": "accordion",
       "manifestHash": "4f3463aca5d6",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "alert",
       "manifestHash": "084e3cca70c4",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "alert-dialog",
       "manifestHash": "ff95c8d6a7c2",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "avatar",
-      "manifestHash": "a03c4ba9bb2a",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "manifestHash": "756a033048b3",
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "badge",
       "manifestHash": "37c940c4d831",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "breadcrumb",
       "manifestHash": "ca48b1d9992c",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "button",
       "manifestHash": "6ec13ce8b0c2",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "button-group",
       "manifestHash": "adcce550fd2b",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "calendar",
       "manifestHash": "cd1751acdc6f",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "card",
       "manifestHash": "82d2063c2dba",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "carousel",
       "manifestHash": "c2666ff27501",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "chart",
       "manifestHash": "1e10e7cac154",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "checkbox",
       "manifestHash": "b952b37163b6",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "collapsible",
       "manifestHash": "4b115285961c",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "combobox",
       "manifestHash": "720b6bb0e0de",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "command",
       "manifestHash": "c7f9281f045a",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "dialog",
       "manifestHash": "61dd1a514c92",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "dropdown-menu",
       "manifestHash": "e3617c6fd13c",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "empty",
       "manifestHash": "b7ac43840fbd",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "field",
       "manifestHash": "2c6116855f68",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "input",
       "manifestHash": "238507ed3be1",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "input-group",
       "manifestHash": "e3e72b6225f6",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "input-otp",
       "manifestHash": "33f782cc7d47",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "item",
       "manifestHash": "008b33625ebc",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "kbd",
       "manifestHash": "5842eb5fef55",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "label",
       "manifestHash": "e09201d777d4",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "list-row",
       "manifestHash": "109497324ece",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "menubar",
       "manifestHash": "d3912a8526c5",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "native-select",
       "manifestHash": "d6531f02868f",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "navigation-menu",
       "manifestHash": "68d4fed90210",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "pagination",
       "manifestHash": "2a3133a0cc0e",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "popover",
       "manifestHash": "2535c4105bf4",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "progress",
       "manifestHash": "1861483a3c36",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "radio-group",
       "manifestHash": "acaf77f3dfa2",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "resizable",
       "manifestHash": "889a182cd242",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "scroll-area",
       "manifestHash": "5ec1920502d7",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "select",
       "manifestHash": "306160b2cb63",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "separator",
       "manifestHash": "5397c850ef60",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "sheet",
       "manifestHash": "dff903e3b672",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "sidebar",
       "manifestHash": "63332eecc919",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "skeleton",
       "manifestHash": "9c2250c043f6",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "slider",
       "manifestHash": "f7f90ee58411",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "spinner",
       "manifestHash": "5880705d6f03",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "switch",
       "manifestHash": "73605238388e",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "table",
       "manifestHash": "5503b18695d6",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "tabs",
       "manifestHash": "d6fdc43dd30e",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "textarea",
       "manifestHash": "7760687906f5",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "toast",
       "manifestHash": "15536a1ef2f6",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "toggle",
       "manifestHash": "bf3647e14670",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "toggle-group",
       "manifestHash": "d0b9e9cc0cb2",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "tooltip",
       "manifestHash": "ec053f2fcb72",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+      "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     }
   ],
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T00:26:19.427Z",
+      "checkedAt": "2026-09-01T06:44:42.161Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -300,7 +300,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T00:26:19.427Z",
+      "checkedAt": "2026-09-01T06:44:42.161Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -490,13 +490,13 @@
       },
       "visualReview": {
         "reviewer": "sohnseongki",
-        "checkedAt": "2026-09-01T00:35:16.040Z",
-        "scope": "Carousel·Chart·Menubar·Navigation Menu 신규 4개의 Light/Dark 전 조합 — Carousel orientation×currentSlide 6칸, Chart indicator 3칸(홀로 선 툴팁·범례 포함), Menubar open×checked, Navigation Menu open×currentLocation"
+        "checkedAt": "2026-09-01T06:54:11.404Z",
+        "scope": "Avatar 승격 3표면의 Light/Dark — Avatar size×knockout 6칸, AvatarBadge·AvatarGroup·AvatarGroupCount 각 size 3칸, source=image/fallback 양쪽에서 knockout 링이 면과 일치하는지. semantic 토큰(border.knockout)이 추가된 세대이나 매니페스트는 avatar 하나만 움직였다(다른 50개는 이 토큰을 집지 않는다) — 전체 카탈로그 확인 규칙의 대상인 '파급이 있는 토큰 변경'에 해당하지 않는다"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-09-01T00:35:16.040Z"
+  "completedAt": "2026-09-01T06:54:11.404Z"
 }

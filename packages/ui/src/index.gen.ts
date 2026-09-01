@@ -2,7 +2,7 @@
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent, accordionVariants, accordionVariantsConfig } from "./components/ui/accordion.js"
 export { Alert, AlertTitle, AlertDescription, alertVariants, alertVariantsConfig } from "./components/ui/alert.js"
 export { AlertDialog, AlertDialogTrigger, AlertDialogPortal, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel, alertDialogVariants, alertDialogVariantsConfig } from "./components/ui/alert-dialog.js"
-export { Avatar, AvatarImage, AvatarFallback, avatarVariants, avatarVariantsConfig } from "./components/ui/avatar.js"
+export { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, AvatarGroupCount, avatarVariants, avatarVariantsConfig } from "./components/ui/avatar.js"
 export { Badge, badgeVariants, badgeVariantsConfig } from "./components/ui/badge.js"
 export { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis, breadcrumbVariants, breadcrumbVariantsConfig } from "./components/ui/breadcrumb.js"
 export { Button, buttonVariants, buttonVariantsConfig } from "./components/ui/button.js"
