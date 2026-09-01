@@ -16,7 +16,7 @@ export { Collapsible, CollapsibleTrigger, CollapsibleContent, collapsibleVariant
 export { Combobox, ComboboxTrigger, ComboboxValue, ComboboxIcon, ComboboxContent, comboboxVariants, comboboxVariantsConfig } from "./components/ui/combobox.js"
 export { Command, CommandInput, CommandList, CommandGroup, CommandGroupHeading, CommandItem, CommandEmpty, commandVariants, commandVariantsConfig } from "./components/ui/command.js"
 export { Dialog, DialogTrigger, DialogPortal, DialogClose, DialogOverlay, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, dialogVariants, dialogVariantsConfig } from "./components/ui/dialog.js"
-export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, dropdownMenuVariants, dropdownMenuVariantsConfig } from "./components/ui/dropdown-menu.js"
+export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, dropdownMenuVariants, dropdownMenuVariantsConfig } from "./components/ui/dropdown-menu.js"
 export { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent, emptyVariants, emptyVariantsConfig } from "./components/ui/empty.js"
 export { Field, FieldLabel, FieldContent, FieldDescription, FieldError, FieldGroup, FieldSet, FieldLegend, fieldVariants, fieldVariantsConfig } from "./components/ui/field.js"
 export { Input, inputVariants, inputVariantsConfig } from "./components/ui/input.js"

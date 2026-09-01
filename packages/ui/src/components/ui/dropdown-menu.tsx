@@ -31,8 +31,62 @@ import { cn } from "@/lib/utils"
  * 닫히는 표면이 없고 피드백 클래스를 넣는 순간 셀이 바뀌어 매니페스트 해시가 깨진다.
  * 지킬 수 없는 것을 지킨다고 적지 않고 `limits`의 문장으로 남긴다 — 침묵은 선택지가
  * 아니다. */
+/* 체크·라디오·서브메뉴 여섯 파트를 두 모드 모두에 낸다(#154, 판정은 #142).
+ *
+ * 43세대 동안 이 계약은 upstream의 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않았고,
+ * 그 자리는 판정을 거친 적조차 없는 **확인된 공백**이었다(#127). #142가 ADR-0006의 두
+ * 관문에 걸어 열기로 판정했다 — ⓐ Menubar가 같은 표면에 이미 독립 셀을 내고 있고
+ * (`INDICATOR_ITEM`의 `pr-2 pl-8`은 `ITEM`의 `px-2`와 다른 셀이며 `SUB_TRIGGER`는
+ * `data-[state=open]`으로 구성 상태까지 낸다), ⓑ 소비처에는 재현할 우리 노드조차 없어
+ * `radix-ui`를 직접 집고 표식 기하를 손으로 다시 정해야 한다(#122가 닫은 자리).
+ *
+ * **여섯을 한 번에 연다.** `RadioItem`은 `value`를 소유하는 `RadioGroup` 없이 뜻이 없고
+ * `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않는다 — 셋만 열면 나머지 셋을
+ * 소비처가 `radix-ui`에서 직접 가져와야 해서 ⓑ가 그대로 다시 샌다.
+ *
+ * **두 모드 모두에 낸다.** `openOn`이 `cva` 축도 구성 상태도 아닌 근거가 "두 모드가 같은
+ * 공개 anatomy를 갖는다"이므로(#126), 한쪽에만 열면 그 전제가 깨져 `openOn`이 축이 되어야
+ * 하는 컴포넌트로 바뀐다. `ContextMenuPrimitive`가 여섯 + `ItemIndicator`를 모두 갖는
+ * 것은 확인했다(`@radix-ui/react-context-menu@2.3.7`). 관용구는 기존 `Item`·`Label`·
+ * `Separator`·`Group`과 같다 — `useContext(DropdownMenuOpenOnContext)`로 컴포넌트만 고른다.
+ *
+ * **클래스 상수는 Menubar와 공유하지 않고 복제한다.** 리포의 교차 import 9건은 전부 다른
+ * 컴포넌트의 `cva` 또는 컴포넌트 자체를 **소비**하는 #91의 자리다(`ToggleGroupItem`은
+ * Toggle **이므로** `toggleVariants`를 쓴다). 여기는 그 관계가 아니다 — 두 메뉴는 같은
+ * `@radix-ui/react-menu` 파트로 내려갈 뿐 한쪽이 다른 쪽인 것은 아니고, 맨 클래스 문자열을
+ * 공유하는 선례는 하나도 없다. 게다가 두 파일은 이미 갈라져 있다(Menubar `ITEM`에는
+ * `select-none`이 있고 여기에는 없다). 공유 상수는 그 차이를 지우거나 조건을 달게 만들고,
+ * 무엇보다 두 계약의 해시를 한 줄에 묶어 한쪽 조정이 다른 쪽 매니페스트를 움직인다.
+ * 그래서 `INDICATOR_ITEM`·`SUB_TRIGGER`는 이 파일의 `ITEM` 관용구에 맞춰 복제한다.
+ *
+ * **`ItemIndicator`는 파트로 열지 않는다.** Menubar가 닫은 근거 그대로 — 켜졌을 때만
+ * 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니고,
+ * 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이
+ * 가르지 못한다. 대신 `configurationStates`에 `checked`가 선다.
+ *
+ * **`SubContent`는 `dropdownMenuVariants`를 그대로 쓴다.** 서브 표면은 떠 있는 같은 면이고
+ * 여기에는 다시 정할 결정이 없다 — 복제하면 한쪽만 조정되는 두 번째 진실이 생긴다.
+ * Menubar가 `CONTENT` 한 상수를 `Content`·`SubContent` 둘에 쓴 것과 같은 자리다. */
 const dropdownMenuVariantsConfig = { variants: {}, defaultVariants: {} } as const
 const dropdownMenuVariants = cva("min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md", dropdownMenuVariantsConfig)
+
+const ITEM = "state [--ds-state-base:var(--popover)] relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset=true]:pl-8"
+const LABEL = "px-2 py-1.5 text-xs font-medium data-[inset=true]:pl-8"
+/* 구분선을 `bg-border`가 아니라 `border-t`로 그린다. 43세대 동안 이 노드는 `h-px bg-border`
+ * 였고 게이트에 걸린 적이 없다 — `parts`가 없어 매니페스트에 아예 나타나지 않았기 때문이다.
+ * 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다:
+ * **없는 것은 통과가 아니라 침묵이다**(ADR-0006). 렌더는 같은 1px 선이고 menubar.tsx·
+ * resizable.tsx가 이미 낸 답이다. */
+const SEPARATOR = "-mx-1 my-1 h-0 border-t"
+/* 체크·라디오 항목은 표식이 앉는 왼쪽 칸만큼 들여 쓴다. `ITEM`의 `px-2`와는 다른 셀이고
+ * (`pr-2 pl-8`), 표식 자체는 자기 클래스가 없는 `ItemIndicator`다. Menubar의 같은 상수에서
+ * `select-none`만 뺐다 — 이 파일의 `ITEM`이 그것을 갖지 않으므로 여기서 새로 들이면 두
+ * 항목이 같은 메뉴 안에서 서로 다른 선택 동작을 갖는다. */
+const INDICATOR_ITEM = "state [--ds-state-base:var(--popover)] relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+/* 서브 트리거는 화살표를 오른쪽 끝으로 밀고(`justify-between gap-4`), 열려 있는 동안 base를
+ * accent로 갈아 끼운다 — 불투명도 트릭이 아니라 base 교체다(menubar.tsx·sidebar.tsx). */
+const SUB_TRIGGER = "state [--ds-state-base:var(--popover)] data-[state=open]:[--ds-state-base:var(--accent)] relative flex cursor-default items-center justify-between gap-4 rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+
 
 type DropdownMenuOpenOn = "press" | "context"
 const DropdownMenuOpenOnContext = React.createContext<DropdownMenuOpenOn>("press")
@@ -104,18 +158,94 @@ function DropdownMenuContent({ className, sideOffset = 4, ...props }: React.Comp
 
 /* Item·Label·Separator·Group은 두 primitive가 같은 `@radix-ui/react-menu` 파트로
  * 내려가 prop 타입이 동일하다. 다른 것은 scope뿐이라 컴포넌트만 고른다 */
-function DropdownMenuItem({ className, inset, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Item> & { inset?: boolean }) { const Item = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Item : DropdownMenuPrimitive.Item; return <Item data-slot="dropdown-menu-item" data-inset={inset} className={cn("state [--ds-state-base:var(--popover)] relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset=true]:pl-8", className)} {...props} /> }
-function DropdownMenuLabel({ className, inset, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Label> & { inset?: boolean }) { const Label = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Label : DropdownMenuPrimitive.Label; return <Label data-slot="dropdown-menu-label" data-inset={inset} className={cn("px-2 py-1.5 text-xs font-medium data-[inset=true]:pl-8", className)} {...props} /> }
-function DropdownMenuSeparator({ className, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Separator>) { const Separator = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Separator : DropdownMenuPrimitive.Separator; return <Separator data-slot="dropdown-menu-separator" className={cn("-mx-1 my-1 h-px bg-border", className)} {...props} /> }
+function DropdownMenuItem({ className, inset, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Item> & { inset?: boolean }) { const Item = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Item : DropdownMenuPrimitive.Item; return <Item data-slot="dropdown-menu-item" data-inset={inset} className={cn(ITEM, className)} {...props} /> }
+function DropdownMenuLabel({ className, inset, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Label> & { inset?: boolean }) { const Label = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Label : DropdownMenuPrimitive.Label; return <Label data-slot="dropdown-menu-label" data-inset={inset} className={cn(LABEL, className)} {...props} /> }
+function DropdownMenuSeparator({ className, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Separator>) { const Separator = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Separator : DropdownMenuPrimitive.Separator; return <Separator data-slot="dropdown-menu-separator" className={cn(SEPARATOR, className)} {...props} /> }
 function DropdownMenuGroup(props: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) { const Group = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Group : DropdownMenuPrimitive.Group; return <Group data-slot="dropdown-menu-group" {...props} /> }
+
+/* 아래 여섯도 같은 관용구다 — 두 primitive가 같은 `@radix-ui/react-menu` 파트로 내려가
+ * prop 타입이 동일하므로 컴포넌트만 고른다. 체크·라디오는 `ItemIndicator`까지 같은 모드에서
+ * 골라야 한다: 다른 scope의 indicator는 켜짐 상태를 읽지 못해 표식이 영영 나타나지 않는다. */
+function DropdownMenuCheckboxItem({ className, children, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {
+  const isContext = React.useContext(DropdownMenuOpenOnContext) === "context"
+  const CheckboxItem = isContext ? ContextMenuPrimitive.CheckboxItem : DropdownMenuPrimitive.CheckboxItem
+  const ItemIndicator = isContext ? ContextMenuPrimitive.ItemIndicator : DropdownMenuPrimitive.ItemIndicator
+  return <CheckboxItem data-slot="dropdown-menu-checkbox-item" className={cn(INDICATOR_ITEM, className)} {...props}>
+    <ItemIndicator className="absolute left-2 flex size-4 items-center justify-center">
+      <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4"><path d="m3.5 8.5 3 3 6-7" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/></svg>
+    </ItemIndicator>
+    {children}
+  </CheckboxItem>
+}
+
+/** 배타 선택의 `value` 소유자. 클래스가 없는 묶음 노드다. */
+function DropdownMenuRadioGroup(props: React.ComponentProps<typeof DropdownMenuPrimitive.RadioGroup>) {
+  const RadioGroup = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.RadioGroup : DropdownMenuPrimitive.RadioGroup
+  return <RadioGroup data-slot="dropdown-menu-radio-group" {...props} />
+}
+
+function DropdownMenuRadioItem({ className, children, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem>) {
+  const isContext = React.useContext(DropdownMenuOpenOnContext) === "context"
+  const RadioItem = isContext ? ContextMenuPrimitive.RadioItem : DropdownMenuPrimitive.RadioItem
+  const ItemIndicator = isContext ? ContextMenuPrimitive.ItemIndicator : DropdownMenuPrimitive.ItemIndicator
+  return <RadioItem data-slot="dropdown-menu-radio-item" className={cn(INDICATOR_ITEM, className)} {...props}>
+    <ItemIndicator className="absolute left-2 flex size-4 items-center justify-center">
+      <svg aria-hidden="true" viewBox="0 0 16 16" className="size-2"><circle cx="8" cy="8" r="8" fill="currentColor"/></svg>
+    </ItemIndicator>
+    {children}
+  </RadioItem>
+}
+
+/** 항목 안에서 다시 열리는 메뉴. 클래스가 없는 묶음 노드다. */
+function DropdownMenuSub(props: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
+  const Sub = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Sub : DropdownMenuPrimitive.Sub
+  return <Sub {...props} />
+}
+
+function DropdownMenuSubTrigger({ className, children, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.SubTrigger>) {
+  const SubTrigger = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.SubTrigger : DropdownMenuPrimitive.SubTrigger
+  return <SubTrigger data-slot="dropdown-menu-sub-trigger" className={cn(SUB_TRIGGER, className)} {...props}>
+    {children}
+    <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4 shrink-0"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"/></svg>
+  </SubTrigger>
+}
+
+/* 서브 표면도 Portal로 나간다 — 루트 `Content`와 같은 이유(잘림·쌓임 맥락)이고 Radix가
+ * 문서화한 배치다. 면은 `dropdownMenuVariants`를 그대로 호출한다. */
+function DropdownMenuSubContent({ className, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.SubContent>) {
+  const isContext = React.useContext(DropdownMenuOpenOnContext) === "context"
+  const Portal = isContext ? ContextMenuPrimitive.Portal : DropdownMenuPrimitive.Portal
+  const SubContent = isContext ? ContextMenuPrimitive.SubContent : DropdownMenuPrimitive.SubContent
+  return <Portal><SubContent data-slot="dropdown-menu-sub-content" className={cn(dropdownMenuVariants({ className }))} {...props} /></Portal>
+}
+
+const staticPart = (className: string) => ({
+  config: { variants: {}, defaultVariants: {} } as const,
+  className: () => className,
+})
 
 const componentContract = {
   name: "dropdown-menu", source: "src/components/ui/dropdown-menu.tsx",
-  publicExports: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuItem", "DropdownMenuLabel", "DropdownMenuSeparator", "DropdownMenuGroup", "dropdownMenuVariants", "dropdownMenuVariantsConfig"],
+  publicExports: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuItem", "DropdownMenuLabel", "DropdownMenuSeparator", "DropdownMenuGroup", "DropdownMenuCheckboxItem", "DropdownMenuRadioGroup", "DropdownMenuRadioItem", "DropdownMenuSub", "DropdownMenuSubTrigger", "DropdownMenuSubContent", "dropdownMenuVariants", "dropdownMenuVariantsConfig"],
   config: dropdownMenuVariantsConfig, className: (props: Record<string, string>) => cn(dropdownMenuVariants(props)),
-  anatomy: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuGroup*", "DropdownMenuLabel?", "DropdownMenuItem*", "DropdownMenuSeparator?"],
-  configurationStates: { open: ["closed", "open"] },
-  reference: { example: "dropdown-menu", guidance: { use: "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다.", limits: "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). upstream이 갖는 `CheckboxItem`·`RadioItem`·`Sub`를 우리는 공개하지 않으며 이 세대에서도 열지 않았다: 셋은 #119가 Menubar를 별도 컴포넌트로 세운 anatomy 근거라 여기서 함께 열면 그 판정의 전제가 사라지고, 이미 완성된 43개에 anatomy를 더하는 일이라 #121이 승격 8건을 맵 밖에 둔 것과 같은 성질이다. 다만 이 세 표면은 #121의 종류 ② 전수 대조 목록에 없었으므로 판정을 거친 자리가 아니라 **확인된 공백**이다 — 여는 근거는 두 관문으로 따로 판정해야 한다." } },
+  anatomy: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuGroup*", "DropdownMenuLabel?", "DropdownMenuItem*", "DropdownMenuCheckboxItem*", "DropdownMenuRadioGroup?", "DropdownMenuRadioItem*", "DropdownMenuSeparator?", "DropdownMenuSub?", "DropdownMenuSubTrigger", "DropdownMenuSubContent"],
+  configurationStates: { open: ["closed", "open"], checked: ["unchecked", "checked"] },
+  /* `parts`를 신설하면서 기존 `Item`·`Label`·`Separator`까지 함께 등록한다(#154).
+   * 이 계약에는 `parts`가 아예 없었다 — 세 노드가 클래스를 내면서 등록되지 않은,
+   * ADR-0006이 `Card`에서 잡아낸 것과 같은 모양의 침묵이다. 새 넷만 넣으면 매니페스트가
+   * "CheckboxItem은 클래스가 있고 Item은 없다"고 말하는데 그건 거짓이고, 반쯤 메우면 다음
+   * 재조회가 같은 파일을 또 판다. #155의 모집단이 14 → 13이 된다.
+   * `Group`·`RadioGroup`·`Sub`는 클래스를 내지 않으므로 파트가 아니다(anatomy에만 선다). */
+  parts: {
+    DropdownMenuItem: staticPart(ITEM),
+    DropdownMenuLabel: staticPart(LABEL),
+    DropdownMenuSeparator: staticPart(SEPARATOR),
+    DropdownMenuCheckboxItem: staticPart(INDICATOR_ITEM),
+    DropdownMenuRadioItem: staticPart(INDICATOR_ITEM),
+    DropdownMenuSubTrigger: staticPart(SUB_TRIGGER),
+    DropdownMenuSubContent: { config: dropdownMenuVariantsConfig, className: (props: Record<string, string>) => cn(dropdownMenuVariants(props)) },
+  },
+  reference: { example: "dropdown-menu", guidance: { use: "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다. 켜고 끄는 항목은 `DropdownMenuCheckboxItem`, 배타 선택은 `DropdownMenuRadioGroup`, 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고르는 일이 행마다 일어난다.", limits: "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). `CheckboxItem`·`RadioItem`·`Sub`는 43세대 동안 **확인된 공백**이었고 #142가 ADR-0006의 두 관문으로 판정해 **열었다**(#154). Menubar가 같은 표면에 이미 독립 셀을 내고 있었고(ⓐ), 소비처에는 재현할 우리 노드조차 없어 `radix-ui`를 직접 집고 표식 기하를 손으로 다시 정해야 했다(ⓑ). 여섯을 한 번에 열었다 — `RadioItem`은 `RadioGroup` 없이 뜻이 없고 `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않아, 셋만 열면 ⓑ가 그대로 다시 샌다. **Menubar와의 비대칭은 이 세대에서 해소됐고 #119의 판정은 그대로 선다**: 두 컴포넌트를 가르는 것은 루트 막대 + `MenubarMenu*` 다중 메뉴 + `value`이지 이 세 파트가 아니다. openOn=\"context\" 모드에도 상시 노출 막대가 없고 진입점이 하나이므로 여섯 파트를 줘도 Menubar가 되지 않는다. 표식(`ItemIndicator`)은 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리). 같은 이유로 `DropdownMenuCheckboxItem`과 `DropdownMenuRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. 체크·라디오 항목의 role과 `aria-checked`, 서브메뉴의 `aria-haspopup`·`aria-expanded`는 primitive가 내고 표식·화살표 `<svg>`는 `aria-hidden`이라 이름에 섞이지 않는다. `DropdownMenuSeparator`는 `border-t`로 그린다 — 43세대 동안 `h-px bg-border`였으나 `parts`가 없어 매니페스트에 나타나지 않았고, 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다(없는 것은 통과가 아니라 침묵이다, ADR-0006). 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. `DropdownMenuShortcut`은 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다." } },
 } as const
 
-export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, dropdownMenuVariants, dropdownMenuVariantsConfig, componentContract }
+export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, dropdownMenuVariants, dropdownMenuVariantsConfig, componentContract }

@@ -13,19 +13,25 @@ import { cn } from "@/lib/utils"
  * "트리거가 여럿이다"뿐이고, 그건 #97이 닫은 자리(동작 차이)에 가까워진다. 그래서
  * 세 파트를 전부 공개 anatomy로 낸다.
  *
- * ── Dropdown Menu와의 비대칭은 남긴다 ───────────────────────────────────────
- * 우리 Dropdown Menu는 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않는다(upstream은
- * 한다). 여기서 그쪽을 함께 여는 선택지가 있었고 열지 않는다. 이유는 둘이다:
- *   1. 여는 순간 #119가 두 컴포넌트를 갈라 세운 근거가 사라진다. 판정을 실행하는
- *      티켓이 판정의 전제를 지우면 안 된다.
- *   2. Dropdown Menu는 **이미 완성된 43개**의 하나이고, 거기에 anatomy를 더하는 것은
- *      #121(미계약 표면 재판정)이 승격 8건을 이 맵 밖으로 보낸 것과 정확히 같은
- *      성질의 일이다(기존 43개 재개방 + 두 관문 재판정). 같은 근거를 한쪽에만
- *      적용하면 경계가 자의적이 된다.
- * 다만 **Dropdown Menu의 그 세 표면은 #121의 전수 대조에 등장한 적이 없다** — 종류
- * ②("upstream에 있고 우리 계약에 없음")인데 14개 목록에 없었다. 근거가 있었는지부터
- * 확인해야 하는 자리라는 뜻이므로, 양쪽 `limits`에 확인된 공백으로 적어 다음 재조회가
- * 이 자리를 처음 보는 것처럼 발견하지 않게 한다.
+ * ── Dropdown Menu와의 비대칭은 해소됐다 ─────────────────────────────────────
+ * 이 파일이 처음 섰을 때 우리 Dropdown Menu는 `CheckboxItem`·`RadioItem`·`Sub`를
+ * 공개하지 않았고, 여기서는 그것을 **확인된 공백**으로 남겼다 — 종류 ②인데 #121의
+ * 14개 전수 대조에 등장한 적이 없어(#127) 근거가 있었는지부터 확인해야 하는 자리였다.
+ * #142가 두 관문으로 판정해 **열었고** #154가 여섯 파트를 두 `openOn` 모드 모두에 냈다.
+ *
+ * **그래도 위 근거는 무너지지 않는다.** 서술이 불완전했을 뿐이다 — 두 컴포넌트를 실제로
+ * 가르는 것은 `Menubar` 루트 막대 + `MenubarMenu*` 다중 메뉴 + 어느 것이 열렸는지를 쥔
+ * `value`이고, 그 셋은 Dropdown Menu가 여섯 파트를 다 가져도 그대로 남는다. Dropdown
+ * Menu는 `openOn="context"`에서도 상시 노출 막대가 없고 진입점이 하나다. "근거는 틀렸지만
+ * 결과는 유지한다"로 적지 않고 **서술을 고쳐서** 남기는 이유는, 그러면 다음 재조회가 같은
+ * 자리를 또 파기 때문이다 — ADR-0006이 없애려던 반복이다.
+ *
+ * 클래스 상수는 두 파일이 각자 갖는다. `INDICATOR_ITEM`·`SUB_TRIGGER`를 공유 모듈로 빼면
+ * 두 계약의 해시가 한 줄에 묶여 한쪽 조정이 다른 쪽 매니페스트를 움직이고, 두 파일은 이미
+ * 갈라져 있다(여기 `ITEM`에는 `select-none`이 있고 그쪽에는 없다). #91은 **컴포넌트를**
+ * 복사하지 말라는 규칙이지 맨 클래스 문자열 규칙이 아니며, 리포의 교차 import 9건은 전부
+ * "A는 B다"라서 성립한 소비 관계다 — `MenubarCheckboxItem`과 `DropdownMenuCheckboxItem`
+ * 사이에는 그 관계가 없다(#154).
  *
  * ── 구성 상태 ───────────────────────────────────────────────────────────────
  * **"어느 메뉴가 열려 있는가"는 구성 상태가 아니다.** Radix 루트의 `value`는 소비처가
@@ -168,7 +174,7 @@ const componentContract = {
     MenubarSubTrigger: staticPart(SUB_TRIGGER),
     MenubarSubContent: staticPart(CONTENT),
   },
-  reference: { example: "menubar", guidance: { use: "화면에 계속 떠 있는 가로 막대에 명령 메뉴 여러 개를 나란히 두고, 그 안에서 실행·전환·설정 항목을 묶는다. 켜고 끄는 항목은 `MenubarCheckboxItem`, 배타 선택은 `MenubarRadioGroup`, 더 깊은 묶음은 `MenubarSub`가 진다.", evidence: "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.", limits: "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않는 비대칭은 남긴다 — 함께 열면 #119가 두 컴포넌트를 갈라 세운 anatomy 근거가 사라지고, Dropdown Menu에 파트를 더하는 것은 이미 완성된 43개를 다시 여는 일이라 #121이 승격 8건을 이 맵 밖에 둔 것과 같은 성질이다. 다만 그 세 표면은 #121의 전수 대조 목록에 없었으므로 근거가 있었는지부터 확인해야 하는 확인된 공백으로 남긴다." } },
+  reference: { example: "menubar", guidance: { use: "화면에 계속 떠 있는 가로 막대에 명령 메뉴 여러 개를 나란히 두고, 그 안에서 실행·전환·설정 항목을 묶는다. 켜고 끄는 항목은 `MenubarCheckboxItem`, 배타 선택은 `MenubarRadioGroup`, 더 깊은 묶음은 `MenubarSub`가 진다.", evidence: "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.", limits: "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않던 비대칭은 해소됐다 — #142가 두 관문으로 열기로 판정했고 #154가 여섯 파트를 두 `openOn` 모드 모두에 냈다. **#119가 두 컴포넌트를 갈라 세운 근거는 그대로 선다**: 서술이 불완전했을 뿐이고, 둘을 실제로 가르는 것은 이 루트 막대 + `MenubarMenu*` 다중 메뉴 + 어느 것이 열렸는지를 쥔 `value`이지 이 세 파트가 아니다. Dropdown Menu는 여섯 파트를 다 가져도 진입점이 하나이고 상시 노출 막대가 없다. 두 파일은 `INDICATOR_ITEM`·`SUB_TRIGGER`를 공유하지 않고 각자 갖는다 — 공유 상수는 두 계약의 해시를 한 줄에 묶고, 여기 `ITEM`의 `select-none`처럼 이미 갈라진 차이를 지운다(#154)." } },
 } as const
 
 export { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarGroup, MenubarLabel, MenubarItem, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarSub, MenubarSubTrigger, MenubarSubContent, menubarVariants, menubarVariantsConfig, componentContract }
