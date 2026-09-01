@@ -9,7 +9,7 @@
     {
       "cells": 4,
       "component": "alert",
-      "hash": "084e3cca70c4",
+      "hash": "6b88a734dc1b",
       "path": "alert.gen.json"
     },
     {
@@ -129,7 +129,7 @@
     {
       "cells": 1,
       "component": "input-group",
-      "hash": "e3e72b6225f6",
+      "hash": "13e8f3db38a6",
       "path": "input-group.gen.json"
     },
     {

@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "17ccd27ce339ef7d8aa41bf705cca3b523ecbf58",
+  "targetCommit": "5e23f925c8c1aa72d3226aa69627591ca4c684cc",
   "inputTree": {
-    "commit": "17ccd27ce339ef7d8aa41bf705cca3b523ecbf58",
+    "commit": "5e23f925c8c1aa72d3226aa69627591ca4c684cc",
     "clean": true
   },
-  "inputDigest": "eb58c0fa71ed4a6f997ad42b2f0898f244d8439235db520037f05d188a390ff0",
+  "inputDigest": "21c98352ea8024a02178184d7e0ad73d17804de876f3e275e0e0ecd06c108763",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -17,7 +17,7 @@
     },
     {
       "component": "alert",
-      "manifestHash": "084e3cca70c4",
+      "manifestHash": "6b88a734dc1b",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -117,7 +117,7 @@
     },
     {
       "component": "input-group",
-      "manifestHash": "e3e72b6225f6",
+      "manifestHash": "13e8f3db38a6",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T06:44:42.161Z",
+      "checkedAt": "2026-09-01T07:16:24.929Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -300,7 +300,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T06:44:42.161Z",
+      "checkedAt": "2026-09-01T07:16:24.929Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -373,7 +373,7 @@
             "nodes": 1,
             "targets": [
               [
-                ".\\[\\&_svg\\:not\\(\\[class\\*\\=\\'size-\\'\\]\\)\\]\\:size-4"
+                ".order-first"
               ]
             ],
             "review": [
@@ -490,13 +490,13 @@
       },
       "visualReview": {
         "reviewer": "sohnseongki",
-        "checkedAt": "2026-09-01T06:54:11.404Z",
-        "scope": "Avatar 승격 3표면의 Light/Dark — Avatar size×knockout 6칸, AvatarBadge·AvatarGroup·AvatarGroupCount 각 size 3칸, source=image/fallback 양쪽에서 knockout 링이 면과 일치하는지. semantic 토큰(border.knockout)이 추가된 세대이나 매니페스트는 avatar 하나만 움직였다(다른 50개는 이 토큰을 집지 않는다) — 전체 카탈로그 확인 규칙의 대상인 '파급이 있는 토큰 변경'에 해당하지 않는다"
+        "checkedAt": "2026-09-01T07:18:05.168Z",
+        "scope": "alert(4 variant)·input-group(validity·disabled) Light/Dark. AlertAction의 오른쪽 위 배치와 제목·설명과의 겹침 여백, InputGroupAddon placement=start/end의 순서를 확인했다. 나머지 49개는 매니페스트가 움직이지 않았고 새 토큰이 0개라 범위 밖이다."
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-09-01T06:54:11.404Z"
+  "completedAt": "2026-09-01T07:18:05.168Z"
 }

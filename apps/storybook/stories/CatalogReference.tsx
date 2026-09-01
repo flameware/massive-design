@@ -20,7 +20,7 @@ import {
   Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader,
   DialogTitle, DialogTrigger, Popover, PopoverContent, PopoverTrigger, Tooltip,
   TooltipContent, TooltipProvider, TooltipTrigger,
-  Alert, AlertDescription, AlertTitle, Progress, Skeleton, Spinner,
+  Alert, AlertAction, AlertDescription, AlertTitle, Progress, Skeleton, Spinner,
   Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport,
   Separator, Tabs, TabsContent, TabsList, TabsTrigger, Avatar, AvatarFallback, AvatarImage,
   AvatarBadge, AvatarGroup, AvatarGroupCount,
@@ -102,7 +102,7 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     accordion: selection.expansion === "multiple"
       ? <Accordion type="multiple" defaultValue={selection.open === "open" ? ["fees", "tax"] : []} className="max-w-lg"><AccordionItem value="fees"><AccordionTrigger>수수료는 어떻게 계산하나요?</AccordionTrigger><AccordionContent>거래별 수수료를 입력하면 손익에 반영합니다.</AccordionContent></AccordionItem><AccordionItem value="tax"><AccordionTrigger>세금은 포함되나요?</AccordionTrigger><AccordionContent>현재 기록에 입력한 세금만 계산합니다.</AccordionContent></AccordionItem></Accordion>
       : <Accordion type="single" collapsible defaultValue={selection.open === "open" ? "fees" : undefined} className="max-w-lg"><AccordionItem value="fees"><AccordionTrigger>수수료는 어떻게 계산하나요?</AccordionTrigger><AccordionContent>거래별 수수료를 입력하면 손익에 반영합니다.</AccordionContent></AccordionItem><AccordionItem value="tax"><AccordionTrigger>세금은 포함되나요?</AccordionTrigger><AccordionContent>현재 기록에 입력한 세금만 계산합니다.</AccordionContent></AccordionItem></Accordion>,
-    alert: <Alert variant={variant}><AlertTitle>가격 정보가 지연되고 있습니다</AlertTitle><AlertDescription>마지막으로 확인한 가격을 기준으로 평가금액을 표시합니다.</AlertDescription></Alert>,
+    alert: <Alert variant={variant} className="max-w-lg"><AlertTitle className="pr-24">가격 정보가 지연되고 있습니다</AlertTitle><AlertDescription className="pr-24">마지막으로 확인한 가격을 기준으로 평가금액을 표시합니다.</AlertDescription><AlertAction><Button variant="outline" size="sm">다시 시도</Button></AlertAction></Alert>,
     avatar: <div className="flex items-center gap-6">
       <div className="flex items-center gap-3">
         <Avatar size={size}>
@@ -139,7 +139,7 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     field: <Field orientation={selection.orientation as "vertical" | "horizontal" | "responsive"} data-invalid={selection.validity === "invalid" || undefined} className="max-w-sm"><FieldLabel htmlFor="field-symbol">종목명</FieldLabel><Input id="field-symbol" aria-invalid={selection.validity === "invalid" || undefined} placeholder="예: 삼성전자"/><FieldDescription>거래한 종목의 정식 이름을 입력하세요.</FieldDescription>{selection.validity === "invalid" && <FieldError>종목명을 입력하세요.</FieldError>}</Field>,
     empty: <Empty variant={variant} className="max-w-lg"><EmptyHeader><EmptyMedia aria-hidden="true">⌕</EmptyMedia><EmptyTitle>검색 결과가 없습니다</EmptyTitle><EmptyDescription>검색어를 바꾸거나 필터를 초기화해 보세요.</EmptyDescription></EmptyHeader><EmptyContent><Button variant="outline">필터 초기화</Button></EmptyContent></Empty>,
     input: <div className="max-w-sm"><Label htmlFor="search">투자 이력 검색</Label><Input id="search" placeholder="종목명 또는 메모"/></div>,
-    "input-group": <Field className="max-w-sm" data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="input-group-search">투자 이력 검색</FieldLabel><InputGroup><InputGroupAddon aria-hidden="true">⌕</InputGroupAddon><InputGroupInput id="input-group-search" placeholder="종목명 또는 메모" disabled={selection.disabled === "disabled"} aria-invalid={selection.validity === "invalid" || undefined}/><InputGroupButton aria-label="검색어 지우기">×</InputGroupButton></InputGroup>{selection.validity === "invalid" && <FieldError>검색어를 입력하세요.</FieldError>}</Field>,
+    "input-group": <Field className="max-w-sm" data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="input-group-search">투자 이력 검색</FieldLabel><InputGroup><InputGroupAddon placement="start" aria-hidden="true">⌕</InputGroupAddon><InputGroupInput id="input-group-search" placeholder="종목명 또는 메모" disabled={selection.disabled === "disabled"} aria-invalid={selection.validity === "invalid" || undefined}/><InputGroupAddon placement="end" aria-hidden="true">KRW</InputGroupAddon><InputGroupButton aria-label="검색어 지우기">×</InputGroupButton></InputGroup>{selection.validity === "invalid" && <FieldError>검색어를 입력하세요.</FieldError>}</Field>,
     item: <Item variant={variant} size={size} data-state={selection.item === "selected" ? "selected" : undefined} className="max-w-lg"><ItemMedia aria-hidden="true">{itemFixture.media}</ItemMedia><ItemContent><ItemTitle>{itemFixture.title}</ItemTitle><ItemDescription>{itemFixture.description}</ItemDescription></ItemContent><ItemActions><Button size="sm" variant="outline">{itemFixture.action}</Button></ItemActions></Item>,
     label: <Label htmlFor="label-sample">거래 메모</Label>,
     "list-row": <ListRow data-state={selected ? "selected" : undefined} className="max-w-lg"><ListRowContent><ListRowTitle>미래에셋 TIGER 미국S&amp;P500</ListRowTitle><ListRowDescription>2026. 08. 18. · 매수</ListRowDescription></ListRowContent><ListRowMeta>₩4,230,000</ListRowMeta><ListRowTrailing className="text-destructive-text">−₩115,000</ListRowTrailing></ListRow>,

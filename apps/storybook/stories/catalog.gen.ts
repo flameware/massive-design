@@ -36,7 +36,7 @@ export const catalog = [
   {
     "component": "alert",
     "displayName": "Alert",
-    "hash": "084e3cca70c4",
+    "hash": "6b88a734dc1b",
     "cells": 4,
     "axes": {
       "variant": [
@@ -49,15 +49,16 @@ export const catalog = [
     "anatomy": [
       "Alert",
       "AlertTitle?",
-      "AlertDescription"
+      "AlertDescription",
+      "AlertAction?"
     ],
     "configurationStates": {},
     "reference": {
       "example": "alert",
       "guidance": {
-        "evidence": "투자 데이터 동기화 결과와 가격 지연 경고를 성공·warning·danger 의미로 구별해야 한다.",
-        "limits": "잠깐 나타나는 작업 결과에는 Toast를 사용하고, 모든 안내를 role=alert로 반복해 쌓지 않는다. upstream의 `AlertAction`과 아이콘 슬롯은 계약하지 않는다 — `AlertAction`은 열 근거가 있으나 별도 effort로 미뤘고, 아이콘 컬럼은 이 Alert이 1열 그리드라 도입하면 기존 인스턴스의 격자를 재해석하는 breaking이다(#121).",
-        "use": "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달한다."
+        "evidence": "투자 데이터 동기화 결과와 가격 지연 경고를 성공·warning·danger 의미로 구별해야 하고, 동기화가 실패한 경고에는 다시 시도 버튼이 같은 카드 안에 있어야 한다.",
+        "limits": "잠깐 나타나는 작업 결과에는 Toast를 사용하고, 모든 안내를 role=alert로 반복해 쌓지 않는다. `AlertAction`은 **자리만 정하고 내용은 소비처가 넣는다** — 대개 `Button`이며, 우리가 variant·size 기본값을 먹이지 않는다(#91). `AlertAction`은 anatomy 순서대로 **DOM의 맨 뒤**에 둔다: `role=alert`은 삽입 시점에 내용을 통째로 읽고 그 순서는 DOM이 정하므로, 앞에 두면 버튼 이름부터 읽힌다. 위치 축은 계약하지 않는다 — upstream이 위치 prop 없이 오른쪽 위로 고정하고 실측 수요 없이 축을 열지 않는다(#123). **absolute라 제목·설명과 겹칠 수 있다**: 긴 제목은 소비처가 `pr-*`로 자리를 비운다. 열로 두면 겹치지 않지만 1열 그리드를 재해석하거나(breaking) 조건부 열이 되어 파생 채널이 못 그린다(#144). 아이콘 컬럼은 계약하지 않는다 — 이 Alert이 1열 그리드라 도입하면 기존 인스턴스의 격자를 재해석하는 breaking이다(#121).",
+        "use": "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달하고, 그 자리에서 할 수 있는 동작 하나를 `AlertAction`에 얹는다."
       }
     },
     "stateSamples": false,
@@ -703,7 +704,7 @@ export const catalog = [
   {
     "component": "input-group",
     "displayName": "Input Group",
-    "hash": "e3e72b6225f6",
+    "hash": "13e8f3db38a6",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -726,7 +727,7 @@ export const catalog = [
       "example": "input-group",
       "guidance": {
         "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
-        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다. `InputGroupAddon`의 4방향 배치 축(upstream의 `align`)은 계약하지 않는다 — 파트 축이라 열 근거는 있으나 별도 effort로 미뤘다. `InputGroupButton`의 variant·size는 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면 되고 우리 스타일 결정을 복제하지 않는다(#121).",
+        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다. `InputGroupAddon`의 배치는 `placement` 축이 진다 — `auto`(DOM 순서가 정한다, 기본값)·`start`·`end` 셋이다. 이름이 `align`이 아닌 것은 우리 카탈로그에서 `align`이 이미 Radix의 prop 이름 공간에 속해 **떠 있는 표면이 트리거의 어느 모서리에 붙는가**를 뜻하기 때문이고, `placement`는 #125가 `ChartLegendContent`에 같은 이유로 세운 이름이다. 기본값이 `start`가 아닌 `auto`인 것은 `order-first`가 컨트롤 뒤에 쓴 기존 부가물을 앞으로 옮겨 발행된 인스턴스를 재해석하기 때문이다(#143의 `knockout: none`과 같은 자리). **upstream의 `block-start`·`block-end`는 계약하지 않는다** — 껍데기 위·아래에 한 줄을 통째로 두는 배치라 루트가 줄바꿈하는 auto 높이 컨테이너가 되어야 하고, 그건 `h-9` 한 줄과 `h-full` 컨트롤을 재해석하는 breaking이다. 조건부 클래스로 피하면 그 선언이 매니페스트에서 `unresolved`가 되어 파생 채널이 못 그린다(#144). 위·아래 줄이 필요하면 Field의 세로 축을 쓴다. 부가물 안의 버튼·`Kbd`를 필드 가장자리에 광학 정렬하는 음수 마진(upstream의 `has-[>button]:ml-*`)도 계약하지 않는다 — 부가물의 **자식**에 걸리는 조건부라 셀이 아니라 수식자가 되고, 필요하면 소비처가 그 자리에서 준다. `InputGroupButton`의 variant·size는 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면 되고 우리 스타일 결정을 복제하지 않는다(#121).",
         "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
       }
     },
