@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "5b79bde4cb0032cba2215fa4bf5028c384836774",
   "inputTree": {
     "commit": "5b79bde4cb0032cba2215fa4bf5028c384836774",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T08:32:08.190Z",
       "automatedResult": "PASS",
       "checks": [
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "sohnseongki",
+        "checkedAt": "2026-09-01T08:34:56.059Z",
+        "scope": "tabs indicator(pill·line)와 toggle-group spacing(separate·attached)의 Light/Dark. line에서 활성 밑줄이 기준선에 밀착하고 비활성은 획이 0인 것, Tab 포커스가 비활성 탭을 활성처럼 보이게 하지 않는 것, attached에서 항목 경계가 보이고 바깥 모서리만 둥근 것을 확인했다. 나머지 49개는 매니페스트가 움직이지 않았고 새 토큰이 0개라 범위 밖이다."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T08:34:56.059Z"
 }
