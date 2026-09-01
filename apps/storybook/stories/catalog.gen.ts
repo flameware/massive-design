@@ -580,7 +580,7 @@ export const catalog = [
   {
     "component": "dropdown-menu",
     "displayName": "Dropdown Menu",
-    "hash": "e3617c6fd13c",
+    "hash": "fa7ada0fad97",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -590,9 +590,19 @@ export const catalog = [
       "DropdownMenuGroup*",
       "DropdownMenuLabel?",
       "DropdownMenuItem*",
-      "DropdownMenuSeparator?"
+      "DropdownMenuCheckboxItem*",
+      "DropdownMenuRadioGroup?",
+      "DropdownMenuRadioItem*",
+      "DropdownMenuSeparator?",
+      "DropdownMenuSub?",
+      "DropdownMenuSubTrigger",
+      "DropdownMenuSubContent"
     ],
     "configurationStates": {
+      "checked": [
+        "unchecked",
+        "checked"
+      ],
       "open": [
         "closed",
         "open"
@@ -601,9 +611,9 @@ export const catalog = [
     "reference": {
       "example": "dropdown-menu",
       "guidance": {
-        "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다.",
-        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). upstream이 갖는 `CheckboxItem`·`RadioItem`·`Sub`를 우리는 공개하지 않으며 이 세대에서도 열지 않았다: 셋은 #119가 Menubar를 별도 컴포넌트로 세운 anatomy 근거라 여기서 함께 열면 그 판정의 전제가 사라지고, 이미 완성된 43개에 anatomy를 더하는 일이라 #121이 승격 8건을 맵 밖에 둔 것과 같은 성질이다. 다만 이 세 표면은 #121의 종류 ② 전수 대조 목록에 없었으므로 판정을 거친 자리가 아니라 **확인된 공백**이다 — 여는 근거는 두 관문으로 따로 판정해야 한다.",
-        "use": "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다."
+        "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고르는 일이 행마다 일어난다.",
+        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). `CheckboxItem`·`RadioItem`·`Sub`는 43세대 동안 **확인된 공백**이었고 #142가 ADR-0006의 두 관문으로 판정해 **열었다**(#154). Menubar가 같은 표면에 이미 독립 셀을 내고 있었고(ⓐ), 소비처에는 재현할 우리 노드조차 없어 `radix-ui`를 직접 집고 표식 기하를 손으로 다시 정해야 했다(ⓑ). 여섯을 한 번에 열었다 — `RadioItem`은 `RadioGroup` 없이 뜻이 없고 `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않아, 셋만 열면 ⓑ가 그대로 다시 샌다. **Menubar와의 비대칭은 이 세대에서 해소됐고 #119의 판정은 그대로 선다**: 두 컴포넌트를 가르는 것은 루트 막대 + `MenubarMenu*` 다중 메뉴 + `value`이지 이 세 파트가 아니다. openOn=\"context\" 모드에도 상시 노출 막대가 없고 진입점이 하나이므로 여섯 파트를 줘도 Menubar가 되지 않는다. 표식(`ItemIndicator`)은 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리). 같은 이유로 `DropdownMenuCheckboxItem`과 `DropdownMenuRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. 체크·라디오 항목의 role과 `aria-checked`, 서브메뉴의 `aria-haspopup`·`aria-expanded`는 primitive가 내고 표식·화살표 `<svg>`는 `aria-hidden`이라 이름에 섞이지 않는다. `DropdownMenuSeparator`는 `border-t`로 그린다 — 43세대 동안 `h-px bg-border`였으나 `parts`가 없어 매니페스트에 나타나지 않았고, 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다(없는 것은 통과가 아니라 침묵이다, ADR-0006). 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. `DropdownMenuShortcut`은 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다.",
+        "use": "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다. 켜고 끄는 항목은 `DropdownMenuCheckboxItem`, 배타 선택은 `DropdownMenuRadioGroup`, 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다."
       }
     },
     "stateSamples": false,
@@ -928,7 +938,7 @@ export const catalog = [
       "example": "menubar",
       "guidance": {
         "evidence": "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.",
-        "limits": "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않는 비대칭은 남긴다 — 함께 열면 #119가 두 컴포넌트를 갈라 세운 anatomy 근거가 사라지고, Dropdown Menu에 파트를 더하는 것은 이미 완성된 43개를 다시 여는 일이라 #121이 승격 8건을 이 맵 밖에 둔 것과 같은 성질이다. 다만 그 세 표면은 #121의 전수 대조 목록에 없었으므로 근거가 있었는지부터 확인해야 하는 확인된 공백으로 남긴다.",
+        "limits": "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않던 비대칭은 해소됐다 — #142가 두 관문으로 열기로 판정했고 #154가 여섯 파트를 두 `openOn` 모드 모두에 냈다. **#119가 두 컴포넌트를 갈라 세운 근거는 그대로 선다**: 서술이 불완전했을 뿐이고, 둘을 실제로 가르는 것은 이 루트 막대 + `MenubarMenu*` 다중 메뉴 + 어느 것이 열렸는지를 쥔 `value`이지 이 세 파트가 아니다. Dropdown Menu는 여섯 파트를 다 가져도 진입점이 하나이고 상시 노출 막대가 없다. 두 파일은 `INDICATOR_ITEM`·`SUB_TRIGGER`를 공유하지 않고 각자 갖는다 — 공유 상수는 두 계약의 해시를 한 줄에 묶고, 여기 `ITEM`의 `select-none`처럼 이미 갈라진 차이를 지운다(#154).",
         "use": "화면에 계속 떠 있는 가로 막대에 명령 메뉴 여러 개를 나란히 두고, 그 안에서 실행·전환·설정 항목을 묶는다. 켜고 끄는 항목은 `MenubarCheckboxItem`, 배타 선택은 `MenubarRadioGroup`, 더 깊은 묶음은 `MenubarSub`가 진다."
       }
     },
