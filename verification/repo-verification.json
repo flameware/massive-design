@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "c670fb2f516f444ec4d5129350fc096c26c3dae7",
   "inputTree": {
     "commit": "c670fb2f516f444ec4d5129350fc096c26c3dae7",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T08:24:09.232Z",
       "automatedResult": "PASS",
       "checks": [
@@ -488,10 +488,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "sohnseongki",
+        "checkedAt": "2026-09-01T08:27:32.088Z",
+        "scope": "dropdown-menu 승격 6파트의 Light/Dark. 체크·라디오 표식과 SubTrigger 화살표, checked 두 샘플(unchecked에서 라디오 둘 다 비어 있음), Separator를 h-px bg-border에서 h-0 border-t로 바꾼 뒤의 1px 선을 확인했다. 구성 상태 축이 checked 하나 는 것을 명시적으로 봤다. menubar는 산문만 움직여 해시가 불변이고 나머지 49개는 매니페스트가 그대로이며 새 토큰이 0개라 범위 밖이다."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T08:27:32.088Z"
 }
