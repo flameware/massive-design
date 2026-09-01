@@ -43,12 +43,16 @@ export function cellsOf(config) {
  * 계약의 `drawnBy`를 수식자 → 구성 상태 자리로 뒤집는다(#148).
  *
  * 조회 키가 수식자인 이유는 조립이 클래스에서 출발하기 때문이다. 이유 문자열 항목은
- * 우리 클래스가 그리지 않는다고 말한 것이므로 여기 오지 않는다.
+ * 우리 클래스가 그리지 않는다고 말한 것이므로 여기 오지 않고, `carriedBy` 항목은
+ * 그리지만 담기지 않는다고 말한 것이므로 역시 오지 않는다(#184).
  */
 export function drawnByModifier(drawnBy) {
   const map = new Map()
   for (const [state, drawn] of Object.entries(drawnBy ?? {})) {
     if (typeof drawn !== "object" || drawn === null) continue
+    // `carriedBy` 모양은 우리 클래스가 그리지만 정책이 나르지 않기로 판정한 것이라
+    // 담을 자리를 지목하지 않는다 — 조회표에 오지 않고 정책이 그대로 처리한다(#184)
+    if (typeof drawn.attribute !== "string") continue
     for (const [value, domValue] of Object.entries(drawn.values ?? {})) {
       map.set(`data-[${drawn.attribute.slice("data-".length)}=${domValue}]`, { state, value })
     }

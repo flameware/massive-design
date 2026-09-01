@@ -4789,6 +4789,6 @@
       "use": "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동하며, 항목을 떨어뜨려 둘지 하나의 덩어리로 붙일지 `spacing`으로 고른다."
     }
   },
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "source": "src/components/ui/toggle-group.tsx"
 }

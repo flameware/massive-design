@@ -3,6 +3,7 @@ import { pathToFileURL } from "node:url"
 import { join } from "node:path"
 
 import { cellsOf } from "./manifest/assemble.mjs"
+import { policyFor } from "./manifest/classify.mjs"
 
 export const COMPONENT_DIR = "src/components/ui"
 
@@ -34,13 +35,68 @@ export const COMPONENT_DIR = "src/components/ui"
  * 일부는 그리는 파트가 아직 계약에 없다(#155). **둘을 가려 적는다** — "그리는 것이 없다"와
  * "그리는 것이 계약 밖에 있다"는 다른 사실이고, 뒤는 파트가 등록되면 앞 모양으로 바뀐다.
  *
- * 게이트가 지킬 수 있는 것은 **선언한 수식자가 실제로 우리 클래스에 있는가**까지다.
- * 이유 문자열이 참인지는 못 본다 — `externalSurfaces`·`IGNORED_PROPERTIES`와 같은 등급의
+ * 세 번째 모양이 있다(#184). **우리 클래스가 그리는데 파생 채널이 나르지 않기로 판정된**
+ * 경우다 — 앞의 둘 중 어느 것도 아니다: 그리는 클래스가 실재하므로 이유 문자열이 거짓이고,
+ * 조립이 담을 자리가 없으므로 `{ attribute, values }`도 거짓이다.
+ *
+ *   drawnBy: { validity: { modifiers: ["aria-invalid"], carriedBy: "none" } }
+ *
+ * `carriedBy: "none"`은 `MODIFIER_POLICY`가 그 수식자를 `ignore:`로 판정했다는 뜻이고,
+ * **게이트가 `policyFor`로 그것을 실제로 확인한다**. 이유는 여기 복사하지 않는다 — 정본은
+ * 정책표의 `ignore:` 값이고, 복사하면 두 자리가 갈린다.
+ *
+ * 이 모양이 사는 이유는 낡음이다. 앞의 두 모양에서 이유 문자열은 손으로 적은 근거라
+ * 뒤집혀도 아무 게이트가 못 보지만(#140), 이 모양의 주장은 **검사 가능한 사실**이다 —
+ * #24가 상태 축을 정해 `aria-invalid`의 `ignore:`가 뒤집히면 게이트가 깨지고 누군가
+ * 반드시 이 자리를 다시 본다.
+ *
+ * `carriedBy`에 `"state"`(상태 사다리가 담는다)는 **두지 않는다.** 사다리는 셀 단위이고
+ * 같은 계약 안에서도 셀마다 있고 없다 — `input-group`은 루트에 `has-[:disabled]`가 있는데
+ * 사다리는 `InputGroupButton` 파트에만 있어 루트의 불투명도는 버려진다. 참으로 쓸 수 있는
+ * 계약이 지금 하나도 없는 모드를 열어 두면 거짓 선언을 부른다(ADR-0006).
+ *
+ * 게이트가 지킬 수 있는 것은 **선언한 수식자가 실제로 우리 클래스에 있는가**와, 세 번째
+ * 모양에서 **그 수식자의 정책 등급이 정말 `ignore:`인가**까지다. 앞의 두 모양의 이유
+ * 문자열이 참인지는 못 본다 — `externalSurfaces`·`IGNORED_PROPERTIES`와 같은 등급의
  * 손으로 적은 근거이고, ADR-0006대로 지킬 수 없는 것을 지킨다고 적지 않는다. */
 
 /** `{ attribute: "data-state", value: "on" }` → `data-[state=on]`. Tailwind가 쓰는 모양이다. */
 export function modifierFor(attribute, value) {
   return `data-[${attribute.slice("data-".length)}=${value}]`
+}
+
+/**
+ * 세 번째 모양을 검사한다(#184) — **주장이 검사 가능한 유일한 모양**이다.
+ *
+ * 두 가지를 본다: 선언한 수식자가 우리 클래스에 실제로 있는가(앞의 모양과 같은 검사),
+ * 그리고 그 수식자의 정책 등급이 정말 `ignore:`인가. 뒤가 이 모양의 값어치다 — 정책이
+ * 뒤집히면 여기서 깨져 이유가 낡은 채 남지 못한다.
+ */
+function checkCarriedBy(errors, contract, state, drawn, classNames) {
+  const { modifiers, carriedBy } = drawn
+  if (carriedBy !== "none") {
+    errors.push(`carriedBy는 "none"만 쓴다 — 상태 사다리는 셀 단위라 계약이 참으로 말할 수 없다: ${contract.name}.${state}`)
+    return
+  }
+  if (!Array.isArray(modifiers) || modifiers.length === 0 || modifiers.some((m) => typeof m !== "string" || !m.trim())) {
+    errors.push(`carriedBy에는 그리는 수식자 목록이 필요하다: ${contract.name}.${state}`)
+    return
+  }
+  for (const modifier of modifiers) {
+    if (!classNames.some((cls) => cls.split(/\s+/).some((token) => token.startsWith(`${modifier}:`)))) {
+      errors.push(`선언한 수식자가 클래스에 없다: ${contract.name}.${state} (${modifier})`)
+      continue
+    }
+    // 정책표의 판정을 계약에 복사하지 않고 **되묻는다**. 이 줄이 낡음을 막는 자리다
+    const policy = policyFor(modifier)
+    if (policy === undefined) {
+      errors.push(`정책이 없는 수식자를 carriedBy로 적었다 — 지금은 unresolved로 샌다: ${contract.name}.${state} (${modifier})`)
+      continue
+    }
+    if (!policy.startsWith("ignore:")) {
+      errors.push(`carriedBy: "none"인데 정책이 나르기로 판정했다: ${contract.name}.${state} (${modifier} → ${policy})`)
+    }
+  }
 }
 
 /** 계약이 내는 모든 클래스 — 루트 셀과 파트 셀 전부. 기본 조합만 보면 다른 variant가 그리는 자리를 놓친다. */
@@ -209,7 +265,11 @@ export function validateContracts(files, contracts) {
             continue
           }
           if (typeof drawn !== "object" || drawn === null || Array.isArray(drawn)) {
-            errors.push(`drawnBy 항목은 이유 문자열이거나 { attribute, values }여야 한다: ${contract.name}.${state}`)
+            errors.push(`drawnBy 항목은 이유 문자열이거나 { attribute, values } 또는 { modifiers, carriedBy }여야 한다: ${contract.name}.${state}`)
+            continue
+          }
+          if ("carriedBy" in drawn) {
+            checkCarriedBy(errors, contract, state, drawn, classNames)
             continue
           }
           const { attribute, values } = drawn
