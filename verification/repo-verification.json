@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "84d3d0dbf1180b2d3cf8b531ac2fde8642876468",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "5b79bde4cb0032cba2215fa4bf5028c384836774",
   "inputTree": {
-    "commit": "84d3d0dbf1180b2d3cf8b531ac2fde8642876468",
+    "commit": "5b79bde4cb0032cba2215fa4bf5028c384836774",
     "clean": true
   },
-  "inputDigest": "b7bee724a70d060140779b69bc62cc69d6decf04679ad989961a9dfdaf0fd365",
+  "inputDigest": "4a46499f80357ba2a8c485160c325d53cca2f94cbab6e0e5c68d8c8a69eb17e1",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -237,7 +237,7 @@
     },
     {
       "component": "tabs",
-      "manifestHash": "d6fdc43dd30e",
+      "manifestHash": "25f494288674",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -257,7 +257,7 @@
     },
     {
       "component": "toggle-group",
-      "manifestHash": "d0b9e9cc0cb2",
+      "manifestHash": "4952918a933c",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T08:28:49.202Z",
+      "checkedAt": "2026-09-01T08:32:08.190Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-01T08:28:49.202Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-01T08:32:08.190Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +496,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "sohnseongki",
-        "checkedAt": "2026-09-01T08:31:05.467Z",
-        "scope": "item·empty의 frame 축 Light/Dark. 세 값의 지름·면·클리핑, Avatar 조합 행, 그리고 Empty의 기본 모양이 icon 기본값 뒤에도 이전과 동일한 것을 확인했다. 나머지 49개는 매니페스트가 움직이지 않았고 새 토큰이 0개라 범위 밖이다."
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-01T08:31:05.467Z"
+  "resumeAt": "Storybook visual review"
 }
