@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "3ad5875c54c26ca3fcebd4cb2a69df385a107ce3",
+  "targetCommit": "98c396961d74125e59efc0c428bd3b8ff9f77954",
   "inputTree": {
-    "commit": "3ad5875c54c26ca3fcebd4cb2a69df385a107ce3",
+    "commit": "98c396961d74125e59efc0c428bd3b8ff9f77954",
     "clean": true
   },
-  "inputDigest": "c37c8cc403c6528804ba7a055bd7f3aee200e3e64ce002f7de7d56418e0e1837",
+  "inputDigest": "117af86eacb48738b3e3aed379a3950eb127293271c5783ee7f192e2c0064c57",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -58,6 +58,16 @@
     {
       "component": "card",
       "manifestHash": "82d2063c2dba",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "carousel",
+      "manifestHash": "c2666ff27501",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "chart",
+      "manifestHash": "1e10e7cac154",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -136,8 +146,18 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
+      "component": "menubar",
+      "manifestHash": "d3912a8526c5",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
       "component": "native-select",
       "manifestHash": "d6531f02868f",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "navigation-menu",
+      "manifestHash": "68d4fed90210",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -249,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T16:11:00.570Z",
+      "checkedAt": "2026-09-01T00:26:19.427Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -280,7 +300,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-08-31T16:11:00.570Z",
+      "checkedAt": "2026-09-01T00:26:19.427Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -295,9 +315,43 @@
         }
       ],
       "a11y": {
-        "stories": 50,
+        "stories": 54,
         "violations": [],
         "incomplete": [
+          {
+            "story": "components-manifest-references--chart",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 6,
+            "targets": [
+              [
+                "div[content=\"[object Object]\"] > .gap-1\\.5.text-muted-foreground[data-slot=\"chart-legend-item\"]:nth-child(1)"
+              ],
+              [
+                "div[content=\"[object Object]\"] > .gap-1\\.5.text-muted-foreground[data-slot=\"chart-legend-item\"]:nth-child(2)"
+              ],
+              [
+                "tspan[x=\"122.5\"]"
+              ],
+              [
+                "tspan[x=\"357.5\"]"
+              ],
+              [
+                "tspan[x=\"592.5\"]"
+              ],
+              [
+                "tspan[x=\"827.5\"]"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            ]
+          },
           {
             "story": "components-manifest-references--empty",
             "impact": "serious",
@@ -435,14 +489,14 @@
         ]
       },
       "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-08-31T16:16:23.582Z",
-        "scope": "신규 4개(Kbd·Input OTP·Resizable·Sidebar)의 Light/Dark와 생성 카탈로그가 내는 전 조합 — Input OTP value×cursor×validity, Resizable orientation×panel, Sidebar state×item×side×variant×collapsible. Kbd는 고정 캡이 Button 네 크기·Tooltip·본문 줄에 정렬되는지로 크기 축을 닫은 판정을 확인. Dropdown Menu·Popover는 기본 모드 렌더 불변 확인(해시 e3617c6fd13c·2535c4105bf4 동일). 미확인: openOn=context의 키보드 열기와 openOn=hover의 포인터 없는 열기 — 생성 스토리에 자리가 없어 이 채널에서 렌더되지 않으며 자동 검증도 0이다(design-system-sync.md의 트리거 모드 절)."
+        "reviewer": "sohnseongki",
+        "checkedAt": "2026-09-01T00:35:16.040Z",
+        "scope": "Carousel·Chart·Menubar·Navigation Menu 신규 4개의 Light/Dark 전 조합 — Carousel orientation×currentSlide 6칸, Chart indicator 3칸(홀로 선 툴팁·범례 포함), Menubar open×checked, Navigation Menu open×currentLocation"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-08-31T16:16:23.582Z"
+  "completedAt": "2026-09-01T00:35:16.040Z"
 }

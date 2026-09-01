@@ -328,6 +328,78 @@ export const catalog = [
     "source": "src/components/ui/card.tsx"
   },
   {
+    "component": "carousel",
+    "displayName": "Carousel",
+    "hash": "c2666ff27501",
+    "cells": 2,
+    "axes": {
+      "orientation": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    "anatomy": [
+      "Carousel",
+      "CarouselContent",
+      "CarouselTrack",
+      "CarouselItem*",
+      "CarouselPrevious?",
+      "CarouselNext?"
+    ],
+    "configurationStates": {
+      "currentSlide": [
+        "first",
+        "middle",
+        "last"
+      ]
+    },
+    "reference": {
+      "example": "carousel",
+      "guidance": {
+        "evidence": "투자 이력의 요약 화면은 보유 종목 카드와 월별 회고 카드를 좁은 폭에 나란히 놓아야 하고, 세로로 다 펼치면 그 아래의 거래 목록이 화면 밖으로 밀린다.",
+        "limits": "목록을 전부 봐야 하는 자리에는 쓰지 않는다 — 넘겨야만 보이는 항목은 훑기의 대상이 되지 못한다. 접근 가능한 이름은 소비처가 루트에 aria-label로 준다. 자동 재생은 없다: Embla autoplay 플러그인을 넣지 않았으므로 스스로 움직이는 것이 없고 정지 수단을 계약할 것도 없다. 드래그는 컨트롤 제스처라 표면이 사라지지 않고 키보드 동등 경로(가로 ←/→, 세로 ↑/↓)가 계약 안에 있으므로 gestures를 선언하지 않는다(ADR 0005) — 다만 Embla의 watchDrag·watchFocus 기본값이 켜진 채로 출하되는 상속 표면이라 여기 적는다. 끄려면 소비처가 opts로 끈다. 한 번에 몇 장을 보일지(basis-*)와 loop·align·slidesToScroll은 소비처가 소유한다 — 스냅 지점은 Embla가 실측으로 정하고 우리 계약에 나타나지 않는다. 슬라이드 위치 표시기(dots)는 열지 않았다: 현재 위치를 표식 있는 노드로 그리는 표면이라 열 근거는 있으나 upstream에 없고 리포에 수요가 0건이라, 지금 열면 우리가 정한 적 없는 표시기 스케일을 떠안는다(#123이 Kbd의 크기 축을 닫은 것과 같은 근거). 터치 히트 영역의 크기는 터치 대상 크기 규칙(#111)이 정한 뒤에 다시 본다.",
+        "use": "같은 무게의 항목 여럿을 한 자리에서 몇 개씩만 보여주고 나머지는 이전·다음으로 넘겨 보게 한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/carousel.tsx"
+  },
+  {
+    "component": "chart",
+    "displayName": "Chart",
+    "hash": "1e10e7cac154",
+    "cells": 3,
+    "axes": {
+      "indicator": [
+        "dot",
+        "line",
+        "dashed"
+      ]
+    },
+    "anatomy": [
+      "ChartContainer",
+      "ChartTooltipContent?",
+      "ChartTooltipLabel?",
+      "ChartTooltipItem*",
+      "ChartTooltipIndicator?",
+      "ChartTooltipValue?",
+      "ChartLegendContent?",
+      "ChartLegendItem*",
+      "ChartLegendSwatch?"
+    ],
+    "configurationStates": {},
+    "reference": {
+      "example": "chart",
+      "guidance": {
+        "evidence": "투자 이력은 월별 매수·매도 금액과 평가금액 추이를 같은 화면에서 보여주고, 그 위에 뜨는 툴팁과 범례가 카드·팝오버와 다른 면으로 보이면 같은 앱으로 읽히지 않는다.",
+        "limits": "차트 본체(축·격자·데이터 마크)는 계약하지 않는다 — Recharts 소유이고 우리 className이 닿는 노드가 없다. 자손 선택자로 그 노드를 칠하지도 않는다: 매니페스트에는 담기지만 Figma가 그리지 못해 자산의 공백이 아니라 거짓 자산이 되기 때문이며, 본체 스타일은 소비처가 stroke·tick·fill prop으로 준다. ChartTooltip·ChartLegend를 재수출하지 않는다 — Recharts의 Tooltip·Legend를 우리 이름으로 내보내면 우리 클래스가 하나도 없는 노드가 공개 anatomy에 들어가고, 그건 외부 소유 표면과 겹칠 수 없다는 규칙과 정면으로 부딪친다. 소비처가 recharts에서 직접 가져와 content에 우리 카드를 꽂는다. 데이터 계열 색은 우리 토큰이 아니라 소비처가 ChartConfig의 color로 주입하는 입력이고, 우리 cva는 견본의 모양만 소유한다 — --chart-1~5 alias는 무채색 플레이스홀더로 남으며(semantic-tokens.md §7.2) 시각화 팔레트 확정은 이 맵 밖이다. 다크 모드 분기는 컨테이너가 하지 않는다: theme 키를 받지 않고 --color-<key> 한 벌만 내며, 모드에 따라 갈려야 하는 색은 소비처가 이미 모드 전환이 끝난 변수를 값으로 준다 — 라이트/다크 전환은 오직 semantic 계층에서만 일어난다. ChartContainer는 공개하되 Figma 자산으로 내지 않는다: 테마 주입 통로라 자기 축도 구성 상태도 없고 그 자리에서 얻는 것은 빈 프레임 하나다. 데이터 표를 대신하지 않는다 — 값 자체를 읽어야 하는 자리에는 Table을 쓴다.",
+        "use": "시계열이나 범주 비교를 Recharts로 그리면서, 툴팁 카드와 범례만 카탈로그의 면·글자·모서리 규칙에 맞춰 통일한다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/chart.tsx"
+  },
+  {
     "component": "checkbox",
     "displayName": "Checkbox",
     "hash": "b952b37163b6",
@@ -522,7 +594,7 @@ export const catalog = [
       "example": "dropdown-menu",
       "guidance": {
         "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다.",
-        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다.",
+        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). upstream이 갖는 `CheckboxItem`·`RadioItem`·`Sub`를 우리는 공개하지 않으며 이 세대에서도 열지 않았다: 셋은 #119가 Menubar를 별도 컴포넌트로 세운 anatomy 근거라 여기서 함께 열면 그 판정의 전제가 사라지고, 이미 완성된 43개에 anatomy를 더하는 일이라 #121이 승격 8건을 맵 밖에 둔 것과 같은 성질이다. 다만 이 세 표면은 #121의 종류 ② 전수 대조 목록에 없었으므로 판정을 거친 자리가 아니라 **확인된 공백**이다 — 여는 근거는 두 관문으로 따로 판정해야 한다.",
         "use": "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다."
       }
     },
@@ -813,6 +885,49 @@ export const catalog = [
     "source": "src/components/ui/list-row.tsx"
   },
   {
+    "component": "menubar",
+    "displayName": "Menubar",
+    "hash": "d3912a8526c5",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "Menubar",
+      "MenubarMenu*",
+      "MenubarTrigger",
+      "MenubarContent",
+      "MenubarGroup*",
+      "MenubarLabel?",
+      "MenubarItem*",
+      "MenubarCheckboxItem*",
+      "MenubarRadioGroup?",
+      "MenubarRadioItem*",
+      "MenubarSeparator?",
+      "MenubarSub?",
+      "MenubarSubTrigger",
+      "MenubarSubContent"
+    ],
+    "configurationStates": {
+      "checked": [
+        "unchecked",
+        "checked"
+      ],
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "menubar",
+      "guidance": {
+        "evidence": "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.",
+        "limits": "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않는 비대칭은 남긴다 — 함께 열면 #119가 두 컴포넌트를 갈라 세운 anatomy 근거가 사라지고, Dropdown Menu에 파트를 더하는 것은 이미 완성된 43개를 다시 여는 일이라 #121이 승격 8건을 이 맵 밖에 둔 것과 같은 성질이다. 다만 그 세 표면은 #121의 전수 대조 목록에 없었으므로 근거가 있었는지부터 확인해야 하는 확인된 공백으로 남긴다.",
+        "use": "화면에 계속 떠 있는 가로 막대에 명령 메뉴 여러 개를 나란히 두고, 그 안에서 실행·전환·설정 항목을 묶는다. 켜고 끄는 항목은 `MenubarCheckboxItem`, 배타 선택은 `MenubarRadioGroup`, 더 깊은 묶음은 `MenubarSub`가 진다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/menubar.tsx"
+  },
+  {
     "component": "native-select",
     "displayName": "Native Select",
     "hash": "d6531f02868f",
@@ -850,6 +965,41 @@ export const catalog = [
     },
     "stateSamples": false,
     "source": "src/components/ui/native-select.tsx"
+  },
+  {
+    "component": "navigation-menu",
+    "displayName": "Navigation Menu",
+    "hash": "68d4fed90210",
+    "cells": 1,
+    "axes": {},
+    "anatomy": [
+      "NavigationMenu",
+      "NavigationMenuList",
+      "NavigationMenuItem*",
+      "NavigationMenuTrigger?",
+      "NavigationMenuContent?",
+      "NavigationMenuLink*"
+    ],
+    "configurationStates": {
+      "currentLocation": [
+        "other",
+        "current"
+      ],
+      "open": [
+        "closed",
+        "open"
+      ]
+    },
+    "reference": {
+      "example": "navigation-menu",
+      "guidance": {
+        "evidence": "투자 기록은 포트폴리오·거래·회고가 각각 URL로 직접 열려야 하는 별개 화면이고, 포트폴리오 아래에는 보유 현황·비중 같은 하위 목적지가 더 있어 막대에서 한 겹 펼쳐 보여야 한다.",
+        "limits": "Tabs가 *\"URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다\"*고 가리킨 자리가 여기다 — 같은 화면 안에서 패널만 갈아 끼우는 전환은 Tabs이고, 주소가 바뀌는 이동은 이쪽이다. Menubar와도 갈린다: 저기 항목은 실행하는 명령이라 `Link`도 `aria-current`도 없고 `CheckboxItem`·`RadioItem`·`Sub`를 갖는 반면, 여기 항목은 목적지라 그 셋을 갖지 않는다. 진입점 하나에 달린 보조 동작 묶음은 Dropdown Menu다. `NavigationMenuViewport`와 `NavigationMenuIndicator`는 공개하지 않는다 — 둘 다 실행 중 측정으로 자기 위치와 치수를 얻는 파생 노드이고, Viewport를 열면 열린 카드를 그리는 노드가 `Content`와 둘이 되어 파생 채널이 가르지 못하며(#97·#119) Indicator는 이미 열림 면을 가진 트리거를 한 번 더 가리키는 표식이다. 나중에 여는 것은 additive다. 열린 카드의 위치·치수도 계약하지 않는다: 자리는 항목이 잡고 폭은 내용이 정한다. 라우터 링크는 `NavigationMenuLink`의 `asChild`로 끼운다 — upstream이 `render`로 부르는 확장점과 같은 자리이며, 우리는 카탈로그가 이미 쓰는 `asChild` 어휘를 쓴다(Base UI 이행은 #118의 미확정 항목이라 그 어휘를 선취하지 않는다). 활성 판정 자체와 라우팅은 소비처가 소유한다. 탐색 랜드마크의 접근 가능한 이름은 소비처가 `aria-label`로 준다.",
+        "use": "화면 상단에서 사이트의 주요 목적지를 가로로 늘어놓고, 하위 목적지가 여럿인 항목만 카드로 펼친다. 현재 화면을 가리키는 링크는 `active`로 표시하고, 하위가 없는 항목은 `NavigationMenuLink`에 `navigationMenuTriggerVariants()`를 입혀 막대에 직접 놓는다."
+      }
+    },
+    "stateSamples": false,
+    "source": "src/components/ui/navigation-menu.tsx"
   },
   {
     "component": "pagination",
@@ -1385,7 +1535,7 @@ export const catalog = [
       "example": "tabs",
       "guidance": {
         "evidence": "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 한다.",
-        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다. `TabsList`의 밑줄 표현 축(upstream의 `variant=\"line\"`)은 계약하지 않는다 — List와 Trigger 양쪽을 재작성해야 하는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121).",
+        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다 — 그 내비게이션이 Navigation Menu다(#127). 이 문장이 가리키던 자리가 카탈로그에 실제로 생겼으므로 경계가 닫혔다: 주소가 바뀌면 Navigation Menu, 같은 화면 안에서 패널만 갈아 끼우면 Tabs다. `TabsList`의 밑줄 표현 축(upstream의 `variant=\"line\"`)은 계약하지 않는다 — List와 Trigger 양쪽을 재작성해야 하는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121).",
         "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립한다."
       }
     },
