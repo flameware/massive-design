@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "17ccd27ce339ef7d8aa41bf705cca3b523ecbf58",
   "inputTree": {
     "commit": "17ccd27ce339ef7d8aa41bf705cca3b523ecbf58",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T06:44:42.161Z",
       "automatedResult": "PASS",
       "checks": [
@@ -488,10 +488,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "sohnseongki",
+        "checkedAt": "2026-09-01T06:54:11.404Z",
+        "scope": "Avatar 승격 3표면의 Light/Dark — Avatar size×knockout 6칸, AvatarBadge·AvatarGroup·AvatarGroupCount 각 size 3칸, source=image/fallback 양쪽에서 knockout 링이 면과 일치하는지. semantic 토큰(border.knockout)이 추가된 세대이나 매니페스트는 avatar 하나만 움직였다(다른 50개는 이 토큰을 집지 않는다) — 전체 카탈로그 확인 규칙의 대상인 '파급이 있는 토큰 변경'에 해당하지 않는다"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T06:54:11.404Z"
 }
