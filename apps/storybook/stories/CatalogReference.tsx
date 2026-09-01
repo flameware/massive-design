@@ -43,7 +43,13 @@ import {
   MenubarSubTrigger, MenubarTrigger,
   NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
   NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerVariants,
+  Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious,
+  ChartContainer, ChartLegendContent, ChartTooltipContent,
 } from "@massive/ui"
+/* 차트 본체는 계약 밖이라 소비처가 recharts를 직접 가져온다(#125). Storybook은
+ * 이 카탈로그에서 그 소비처 자리에 선다 — @massive/ui는 Tooltip·Legend를
+ * 재수출하지 않는다. */
+import { Bar, BarChart, CartesianGrid, Legend, Tooltip as RechartsTooltip, XAxis } from "recharts"
 import { catalog } from "./catalog.gen"
 import itemFixture from "./fixtures/item.json"
 import tableFixture from "./fixtures/table.json"
@@ -68,6 +74,24 @@ function InvestmentTable() {
     </TableRow>)}</TableBody>
   </Table>
 }
+
+/* 계열 색은 소비처가 주입하는 입력이다(#125). `--chart-1`~`5`는 무채색
+ * 플레이스홀더이고, 모드 전환은 그 변수가 사는 토큰 계층에서 이미 끝나 있다 —
+ * 컨테이너는 값을 그대로 `--color-<key>`로 내려보낼 뿐 모드를 알지 않는다. */
+const CHART_CONFIG = {
+  buy: { label: "매수", color: "var(--chart-1)" },
+  sell: { label: "매도", color: "var(--chart-3)" },
+}
+const CHART_DATA = [
+  { month: "5월", buy: 1_820_000, sell: 640_000 },
+  { month: "6월", buy: 2_140_000, sell: 980_000 },
+  { month: "7월", buy: 1_260_000, sell: 1_510_000 },
+  { month: "8월", buy: 2_680_000, sell: 720_000 },
+]
+const CHART_SAMPLE_PAYLOAD = [
+  { dataKey: "buy", name: "매수", value: "₩2,680,000", color: "var(--chart-1)" },
+  { dataKey: "sell", name: "매도", value: "₩720,000", color: "var(--chart-3)" },
+]
 
 function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["example"]; selection?: Record<string, string> }) {
   const variant = selection.variant as never
@@ -228,6 +252,42 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>,
+    carousel: (() => {
+      const slides = ["삼성전자", "TIGER 미국S&P500", "현대차", "SK하이닉스"]
+      const startIndex = selection.currentSlide === "last" ? slides.length - 1 : selection.currentSlide === "middle" ? 1 : 0
+      const vertical = selection.orientation === "vertical"
+      return <Carousel
+        aria-label="보유 종목 요약"
+        orientation={vertical ? "vertical" : "horizontal"}
+        opts={{ startIndex }}
+        className={vertical ? "mx-auto w-64 py-12" : "mx-auto max-w-md px-12"}
+      >
+        <CarouselContent className={vertical ? "h-48" : undefined}>
+          {slides.map((slide) => <CarouselItem key={slide}>
+            <Card className="h-full"><CardHeader><CardTitle>{slide}</CardTitle><CardDescription>평가금액 ₩4,230,000</CardDescription></CardHeader></Card>
+          </CarouselItem>)}
+        </CarouselContent>
+        <CarouselPrevious/>
+        <CarouselNext/>
+      </Carousel>
+    })(),
+    chart: <div className="grid gap-6">
+      <ChartContainer config={CHART_CONFIG} indicator={selection.indicator as "dot" | "line" | "dashed"} className="aspect-auto h-56 w-full">
+        <BarChart data={CHART_DATA} accessibilityLayer>
+          <CartesianGrid vertical={false} stroke="var(--border)"/>
+          <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}/>
+          <RechartsTooltip cursor={{ fill: "var(--muted)" }} content={<ChartTooltipContent indicator={selection.indicator as "dot" | "line" | "dashed"}/>}/>
+          <Legend content={<ChartLegendContent/>}/>
+          <Bar dataKey="buy" fill="var(--color-buy)" radius={4}/>
+          <Bar dataKey="sell" fill="var(--color-sell)" radius={4}/>
+        </BarChart>
+      </ChartContainer>
+      {/* 우리가 소유하는 두 자산은 차트 없이도 홀로 선다 — Figma가 그리는 것도 이 둘이다. */}
+      <div className="flex flex-wrap items-start gap-6">
+        <ChartTooltipContent active label="2026년 8월" indicator={selection.indicator as "dot" | "line" | "dashed"} payload={CHART_SAMPLE_PAYLOAD}/>
+        <ChartLegendContent payload={CHART_SAMPLE_PAYLOAD}/>
+      </div>
+    </div>,
   }
   return previews[name]
 }

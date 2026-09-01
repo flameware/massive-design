@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PENDING_HUMAN",
-  "targetCommit": "5d049a96deb93e9d282b0d200d62ac5ad2c1652f",
+  "targetCommit": "9134be35ccdde063b464d3ce5ba7f8f4144f2d30",
   "inputTree": {
-    "commit": "5d049a96deb93e9d282b0d200d62ac5ad2c1652f",
+    "commit": "9134be35ccdde063b464d3ce5ba7f8f4144f2d30",
     "clean": true
   },
-  "inputDigest": "7350467026095e6157901ab5a9ba78f6eba6123a56a4d8f0b97a988ba70da082",
+  "inputDigest": "b7e8ad3f8e0fca7b384ee5457e40ddc7d043c6a2488f5452c261cfc0d01d4c50",
   "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
   "components": [
     {
@@ -58,6 +58,16 @@
     {
       "component": "card",
       "manifestHash": "82d2063c2dba",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "carousel",
+      "manifestHash": "c2666ff27501",
+      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
+    },
+    {
+      "component": "chart",
+      "manifestHash": "1e10e7cac154",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -136,18 +146,8 @@
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
-      "component": "menubar",
-      "manifestHash": "d3912a8526c5",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
-    },
-    {
       "component": "native-select",
       "manifestHash": "d6531f02868f",
-      "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
-    },
-    {
-      "component": "navigation-menu",
-      "manifestHash": "68d4fed90210",
       "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d"
     },
     {
@@ -259,7 +259,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T00:17:51.839Z",
+      "checkedAt": "2026-09-01T00:21:47.872Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -290,7 +290,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PENDING_HUMAN",
-      "checkedAt": "2026-09-01T00:17:51.839Z",
+      "checkedAt": "2026-09-01T00:21:47.872Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -308,6 +308,40 @@
         "stories": 52,
         "violations": [],
         "incomplete": [
+          {
+            "story": "components-manifest-references--chart",
+            "impact": "serious",
+            "rule": "color-contrast",
+            "nodes": 6,
+            "targets": [
+              [
+                "div[content=\"[object Object]\"] > .gap-1\\.5.text-muted-foreground[data-slot=\"chart-legend-item\"]:nth-child(1)"
+              ],
+              [
+                "div[content=\"[object Object]\"] > .gap-1\\.5.text-muted-foreground[data-slot=\"chart-legend-item\"]:nth-child(2)"
+              ],
+              [
+                "tspan[x=\"122.5\"]"
+              ],
+              [
+                "tspan[x=\"357.5\"]"
+              ],
+              [
+                "tspan[x=\"592.5\"]"
+              ],
+              [
+                "tspan[x=\"827.5\"]"
+              ]
+            ],
+            "review": [
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node",
+              "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            ]
+          },
           {
             "story": "components-manifest-references--empty",
             "impact": "serious",

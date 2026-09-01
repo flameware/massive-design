@@ -9,6 +9,8 @@ export { Button, buttonVariants, buttonVariantsConfig } from "./components/ui/bu
 export { ButtonGroup, ButtonGroupText, ButtonGroupSeparator, buttonGroupVariants, buttonGroupVariantsConfig } from "./components/ui/button-group.js"
 export { Calendar, CalendarHeader, CalendarNav, CalendarCaption, CalendarGrid, CalendarHeadCell, CalendarCell, CalendarDay, calendarVariants, calendarVariantsConfig, calendarDayVariants, calendarDayVariantsConfig } from "./components/ui/calendar.js"
 export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent, cardVariants, cardVariantsConfig } from "./components/ui/card.js"
+export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, carouselVariants, carouselVariantsConfig, carouselItemVariants, carouselItemVariantsConfig } from "./components/ui/carousel.js"
+export { ChartContainer, ChartTooltipContent, ChartLegendContent, chartVariants, chartVariantsConfig, chartTooltipIndicatorVariants, chartTooltipIndicatorVariantsConfig, chartLegendContentVariants, chartLegendContentVariantsConfig } from "./components/ui/chart.js"
 export { Checkbox, checkboxVariants, checkboxVariantsConfig } from "./components/ui/checkbox.js"
 export { Collapsible, CollapsibleTrigger, CollapsibleContent, collapsibleVariants, collapsibleVariantsConfig } from "./components/ui/collapsible.js"
 export { Combobox, ComboboxTrigger, ComboboxValue, ComboboxIcon, ComboboxContent, comboboxVariants, comboboxVariantsConfig } from "./components/ui/combobox.js"
