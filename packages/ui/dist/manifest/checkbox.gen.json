@@ -14,6 +14,34 @@
   "cells": [
     {
       "className": "state [--ds-state-base:var(--background)] size-4 shrink-0 rounded border shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground data-[state=indeterminate]:[--ds-state-base:var(--primary)] data-[state=indeterminate]:text-primary-foreground",
+      "configurations": {
+        "checked": {
+          "checked": {
+            "background-color": {
+              "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            },
+            "color": {
+              "from": "data-[state=checked]:text-primary-foreground",
+              "tier": "token",
+              "token": "--ds-fg-on-solid"
+            }
+          },
+          "indeterminate": {
+            "background-color": {
+              "from": "data-[state=indeterminate]:[--ds-state-base:var(--primary)]",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            },
+            "color": {
+              "from": "data-[state=indeterminate]:text-primary-foreground",
+              "tier": "token",
+              "token": "--ds-fg-on-solid"
+            }
+          }
+        }
+      },
       "properties": {
         "background-color": {
           "from": "state",
@@ -36,30 +64,6 @@
           "scale": "shadow.xs",
           "tier": "token",
           "token": "--shadow-xs"
-        },
-        "data-[state=checked]:--ds-state-base": {
-          "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
-          "tier": "unresolved",
-          "value": "var(--primary)",
-          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
-        },
-        "data-[state=checked]:color": {
-          "from": "data-[state=checked]:text-primary-foreground",
-          "tier": "unresolved",
-          "value": "var(--primary-foreground)",
-          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
-        },
-        "data-[state=indeterminate]:--ds-state-base": {
-          "from": "data-[state=indeterminate]:[--ds-state-base:var(--primary)]",
-          "tier": "unresolved",
-          "value": "var(--primary)",
-          "why": "수식자 data-[state=indeterminate]를 아직 다루지 않는다"
-        },
-        "data-[state=indeterminate]:color": {
-          "from": "data-[state=indeterminate]:text-primary-foreground",
-          "tier": "unresolved",
-          "value": "var(--primary-foreground)",
-          "why": "수식자 data-[state=indeterminate]를 아직 다루지 않는다"
         },
         "height": {
           "from": "size-4",
@@ -96,7 +100,16 @@
     ]
   },
   "defaults": {},
-  "hash": "b952b37163b6",
+  "drawnBy": {
+    "checked": {
+      "attribute": "data-state",
+      "values": {
+        "checked": "checked",
+        "indeterminate": "indeterminate"
+      }
+    }
+  },
+  "hash": "49611f71f120",
   "reference": {
     "example": "checkbox",
     "guidance": {
@@ -105,6 +118,6 @@
       "use": "복수 행 선택과 불확정 전체 선택을 표현한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/checkbox.tsx"
 }

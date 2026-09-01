@@ -30,7 +30,7 @@ const componentContract = {
   name: "field", source: "src/components/ui/field.tsx",
   publicExports: ["Field", "FieldLabel", "FieldContent", "FieldDescription", "FieldError", "FieldGroup", "FieldSet", "FieldLegend", "fieldVariants", "fieldVariantsConfig"],
   config: fieldVariantsConfig, className: (props: Record<string, string>) => cn(fieldVariants(props)),
-  anatomy: ["Field", "FieldLabel", "Control", "FieldDescription?", "FieldError?", "FieldContent?", "FieldGroup?", "FieldSet?", "FieldLegend?"], configurationStates: { validity: ["valid", "invalid"] },
+  anatomy: ["Field", "FieldLabel", "Control", "FieldDescription?", "FieldError?", "FieldContent?", "FieldGroup?", "FieldSet?", "FieldLegend?"], configurationStates: { validity: ["valid", "invalid"] }, drawnBy: { validity: { attribute: "data-invalid", values: { invalid: "true" } } },
   reference: { example: "field", guidance: { use: "라벨, 컨트롤, 도움말과 오류를 접근 가능한 한 필드로 조립한다.", evidence: "투자 입력 화면의 라벨·메모·검증 메시지를 일관된 구조로 묶어야 한다.", limits: "폼 상태 관리, 검증 규칙, 제출 동작은 소비처가 소유한다. `FieldLegend`의 legend/label 표현 축(upstream의 `variant`)은 계약하지 않는다 — 파트에 축이 생기고 label 모양이 `FieldLabel` 클래스를 복제하게 되는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121)." } },
 } as const
 

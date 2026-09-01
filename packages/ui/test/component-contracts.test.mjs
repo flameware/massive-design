@@ -5,7 +5,7 @@ import { publicBarrel, validateContracts } from "../scripts/component-contracts.
 
 const contract = (name, source = `src/components/ui/${name}.tsx`) => ({
   name, source, publicExports: ["Widget"], anatomy: ["Widget"],
-  config: { variants: {}, defaultVariants: {} }, className: () => "",
+  config: { variants: {}, defaultVariants: {} }, className: () => "", configurationStates: {},
   reference: { example: name, guidance: { use: "use", evidence: "evidence", limits: "limits" } },
 })
 
@@ -106,4 +106,48 @@ test("dismiss 제스처는 우리 표면 위에서만, 동등 경로와 실재�
   assert.throws(() => validateContracts(["a.tsx"], [empty]), /비어 있지 않은 객체/)
 
   assert.doesNotThrow(() => validateContracts(["a.tsx"], [withGesture()]))
+})
+
+test("구성 상태는 무엇이 그리는지를 함께 선언한다", () => {
+  // 선언과 그림이 이어져 있지 않으면 계약이 이미 선언한 것이 매니페스트에서
+  // `unresolved`("아직 못 다뤘다")로 떨어진다(#147·#148)
+  const silent = contract("a")
+  silent.configurationStates = { pressed: ["unpressed", "pressed"] }
+  assert.throws(() => validateContracts(["a.tsx"], [silent]), /구성 상태를 그리는 자리가 선언되지 않았다: a\.pressed/)
+
+  const stale = contract("a")
+  stale.drawnBy = { ghost: "없는 구성 상태" }
+  assert.throws(() => validateContracts(["a.tsx"], [stale]), /구성 상태가 아닌 것에 drawnBy가 있다: a\.ghost/)
+})
+
+test("그리는 자리는 이유 문자열이거나 실제로 붙어 있는 data-* 수식자다", () => {
+  const drawn = (drawnBy, className = "") => {
+    const c = contract("a")
+    c.configurationStates = { pressed: ["unpressed", "pressed"] }
+    c.drawnBy = drawnBy
+    c.className = () => className
+    return c
+  }
+
+  // 이유 문자열은 손으로 적은 근거다 — externalSurfaces와 같은 등급이고 비어 있으면 안 된다
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [drawn({ pressed: "표면의 존재가 그린다" })]))
+  assert.throws(() => validateContracts(["a.tsx"], [drawn({ pressed: "  " })]), /그리는 자리가 클래스가 아니면 이유가 필요하다/)
+
+  const attribute = { attribute: "data-state", values: { pressed: "on" } }
+  // 제스처의 피드백 검사와 같다 — 선언한 수식자가 클래스에 없으면 매니페스트는 아무것도 해소하지 못한다
+  assert.throws(
+    () => validateContracts(["a.tsx"], [drawn({ pressed: attribute }, "rounded-md")]),
+    /선언한 수식자가 클래스에 없다: a\.pressed\.pressed \(data-\[state=on\]\)/
+  )
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [drawn({ pressed: attribute }, "data-[state=on]:bg-accent")]))
+
+  // 이름표는 계약이 지지만, 계약이 자기 축에 없는 값을 지어내지는 못한다
+  assert.throws(
+    () => validateContracts(["a.tsx"], [drawn({ pressed: { attribute: "data-state", values: { on: "on" } } }, "data-[state=on]:bg-accent")]),
+    /구성 상태에 없는 값을 대응시킨다: a\.pressed\.on/
+  )
+  assert.throws(
+    () => validateContracts(["a.tsx"], [drawn({ pressed: { attribute: "state", values: { pressed: "on" } } }, "data-[state=on]:bg-accent")]),
+    /그리는 속성은 data-\* 이름이어야 한다/
+  )
 })

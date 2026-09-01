@@ -141,7 +141,7 @@ const componentContract = {
   publicExports: ["Avatar", "AvatarImage", "AvatarFallback", "AvatarBadge", "AvatarGroup", "AvatarGroupCount", "avatarVariants", "avatarVariantsConfig"],
   config: avatarVariantsConfig, className: (props: Record<string, string>) => cn(avatarVariants(props)),
   anatomy: ["Avatar", "AvatarImage?", "AvatarFallback", "AvatarBadge?", "AvatarGroup?", "AvatarGroupCount?"],
-  configurationStates: { source: ["image", "fallback"] },
+  configurationStates: { source: ["image", "fallback"] }, drawnBy: { source: "`AvatarImage`가 뜨면 `AvatarFallback`이 사라진다 — 어느 자식이 렌더되는지가 그리고 클래스는 둘 다 같다" },
   parts: {
     AvatarImage: staticPart("aspect-square size-full object-cover"),
     AvatarFallback: staticPart("flex size-full items-center justify-center rounded-full bg-muted text-muted-foreground"),

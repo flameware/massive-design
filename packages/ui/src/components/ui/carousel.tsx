@@ -262,7 +262,7 @@ const componentContract = {
   publicExports: ["Carousel", "CarouselContent", "CarouselItem", "CarouselPrevious", "CarouselNext", "carouselVariants", "carouselVariantsConfig", "carouselItemVariants", "carouselItemVariantsConfig"],
   config: carouselVariantsConfig, className: (props: Record<string, string>) => cn(carouselVariants(props)),
   anatomy: ["Carousel", "CarouselContent", "CarouselTrack", "CarouselItem*", "CarouselPrevious?", "CarouselNext?"],
-  configurationStates: { currentSlide: ["first", "middle", "last"] },
+  configurationStates: { currentSlide: ["first", "middle", "last"] }, drawnBy: { currentSlide: "Embla가 트랙에 인라인 `transform`을 쓴다 — `externalSurfaces`가 이미 그 자리를 남의 것으로 적었다" },
   parts: {
     CarouselContent: staticPart(VIEWPORT),
     CarouselTrack: { config: carouselTrackVariantsConfig, className: (props: Record<string, string>) => cn(carouselTrackVariants(props)) },

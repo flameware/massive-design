@@ -16,6 +16,8 @@ const CSS = `
   .text-xs { font-size: var(--text-xs); line-height: var(--tw-leading, 1.6); }
   .disabled\\:opacity-50:disabled { opacity: 50%; }
   .data-open\\:underline[data-open] { text-decoration-line: underline; }
+  .data-\\[state\\=on\\]\\:underline[data-state="on"] { text-decoration-line: underline; }
+  .data-\\[state\\=on\\]\\:\\[--ds-state-base\\:var\\(--primary\\)\\][data-state="on"] { --ds-state-base: var(--primary); }
   .state {
     --ds-state-alpha: 0%;
     background-color: var(--ds-state-base, transparent);
@@ -95,4 +97,28 @@ test("state가 아예 없는 variant는 state가 null이다", () => {
 test("처음 보는 수식자는 조용히 사라지지 않고 unresolved로 뜬다", () => {
   const c = cell("data-open:underline")
   assert.equal(c.properties["data-open:text-decoration-line"].tier, "unresolved")
+})
+
+test("계약이 이름표를 준 수식자는 unresolved가 아니라 구성 상태의 차이가 된다", () => {
+  // 선언(`pressed`)과 그림(`data-[state=on]`)은 키도 값도 다르다 — 이름표는 계약이 진다(#148)
+  const drawnBy = { pressed: { attribute: "data-state", values: { pressed: "on" } } }
+  const resolved = assembleCell({
+    props: { variant: "default", size: "xs" },
+    className: "data-[state=on]:underline data-[state=on]:[--ds-state-base:var(--primary)]",
+    tree, theme, drawnBy,
+  })
+  assert.deepEqual(resolved.configurations.pressed.pressed["text-decoration-line"], {
+    tier: "literal", value: "underline", from: "data-[state=on]:underline",
+  })
+  // 쉬는 상태와 같은 뜻이다 — 상태 사다리가 얹히는 면이 이 구성 상태에서 바뀐다
+  assert.deepEqual(resolved.configurations.pressed.pressed["background-color"], {
+    tier: "token", token: "--ds-bg-accent-solid", from: "data-[state=on]:[--ds-state-base:var(--primary)]",
+  })
+  // 차이만 담는다 — 쉬는 상태의 자리를 덮어쓰지 않는다
+  assert.equal(resolved.properties["text-decoration-line"], undefined)
+
+  // 이름표가 없으면 그대로 unresolved다. 그것이 "아직 못 다뤘다"의 신호다
+  const silent = cell("data-[state=on]:underline")
+  assert.equal(silent.configurations, undefined)
+  assert.equal(silent.properties["data-[state=on]:text-decoration-line"].tier, "unresolved")
 })

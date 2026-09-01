@@ -82,6 +82,9 @@
     ]
   },
   "defaults": {},
+  "drawnBy": {
+    "selection": "`mode`가 고르는 조립이 그린다 — 날짜 하나하나는 `CalendarDay`의 `day` 축이 그리고, single/range는 그 중 어느 값이 나타나는지만 정한다"
+  },
   "hash": "cd1751acdc6f",
   "parts": {
     "CalendarCaption": {
@@ -916,6 +919,6 @@
       "use": "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/calendar.tsx"
 }

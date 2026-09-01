@@ -199,3 +199,24 @@ test("effectStyle 칸도 통과한다 — kind가 달라도 표에 있으면 있
     []
   )
 })
+
+test("구성 상태별 차이도 같은 게이트를 지난다", () => {
+  // `data-[state=checked]:text-*`가 해소되면서 계열 규칙 밖으로 빠져나가면
+  // 침묵이 하나 늘어난다 — 해소는 검사를 면제하는 것이 아니다(#148)
+  const doc = {
+    component: "checkbox",
+    cells: [{
+      variant: "default", size: "default", properties: {},
+      configurations: { checked: { checked: { color: token("--ds-bg-accent-solid") } } },
+    }],
+  }
+  const errors = lintManifest(doc)
+  assert.equal(errors.length, 1)
+  assert.match(errors[0], /checkbox default\/default checked=checked/)
+
+  assert.deepEqual(
+    lintVarMapCoverage(doc, { "--ds-bg-accent-solid": { kind: "variable" } }),
+    []
+  )
+  assert.match(lintVarMapCoverage(doc, {})[0], /checked=checked\/color — --ds-bg-accent-solid가 번역표/)
+})

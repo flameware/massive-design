@@ -192,6 +192,9 @@
   "defaults": {
     "orientation": "horizontal"
   },
+  "drawnBy": {
+    "disabled": "각 `Button`이 자기 `disabled`를 소유하고 Button base의 `disabled:opacity-50`이 그린다 — 그룹은 그리지 않는다(경계 ③)"
+  },
   "hash": "adcce550fd2b",
   "parts": {
     "ButtonGroupSeparator": {
@@ -319,6 +322,6 @@
       "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/button-group.tsx"
 }

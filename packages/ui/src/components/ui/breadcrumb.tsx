@@ -44,7 +44,7 @@ const componentContract = {
   name: "breadcrumb", source: "src/components/ui/breadcrumb.tsx",
   publicExports: ["Breadcrumb", "BreadcrumbList", "BreadcrumbItem", "BreadcrumbLink", "BreadcrumbPage", "BreadcrumbSeparator", "BreadcrumbEllipsis", "breadcrumbVariants", "breadcrumbVariantsConfig"],
   config: breadcrumbVariantsConfig, className: (props: Record<string, string>) => cn(breadcrumbVariants(props)),
-  anatomy: ["Breadcrumb", "BreadcrumbList", "BreadcrumbItem*", "BreadcrumbLink*", "BreadcrumbPage", "BreadcrumbSeparator*", "BreadcrumbEllipsis?"], configurationStates: { currentLocation: ["ancestor", "current"] },
+  anatomy: ["Breadcrumb", "BreadcrumbList", "BreadcrumbItem*", "BreadcrumbLink*", "BreadcrumbPage", "BreadcrumbSeparator*", "BreadcrumbEllipsis?"], configurationStates: { currentLocation: ["ancestor", "current"] }, drawnBy: { currentLocation: "값마다 파트가 다르다 — `BreadcrumbPage`가 현재이고 `BreadcrumbLink`가 조상이다" },
   parts: {
     BreadcrumbList: staticPart("flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground sm:gap-2.5"),
     BreadcrumbItem: staticPart("inline-flex items-center gap-1.5"),

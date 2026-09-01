@@ -62,13 +62,23 @@
     ]
   },
   "defaults": {},
+  "drawnBy": {
+    "cursor": {
+      "attribute": "data-active",
+      "values": {
+        "active": "true"
+      }
+    },
+    "validity": "`aria-invalid` 수식자가 그리는데 지금 정책이 그것을 버린다 — 뜻 단위 정규화가 다룬다(#178)",
+    "value": "칸에 글자가 렌더되는 것이 그린다 — 내용이지 클래스가 아니다"
+  },
   "externalSurfaces": {
     "no-script 폴백 스타일": "input-otp이 <noscript><style>로 자기 기본 스타일을 !important로 낸다",
     "문서 수준 선택·자동완성 스타일": "input-otp이 document.head에 ::selection과 :autofill 규칙을 한 번 심는다",
     "숨은 입력의 인라인 지오메트리": "input-otp이 color·caret-color·letter-spacing·font-family와 --root-height를 인라인으로 소유한다 — 노드는 우리 것이지만 그 자리의 모양은 우리 클래스가 이기지 못한다",
     "입력 래퍼": "input-otp이 컨테이너 안에 절대 배치 div를 스스로 만들고 className도 style도 받지 않는다"
   },
-  "hash": "33f782cc7d47",
+  "hash": "18f7da74b84d",
   "parts": {
     "InputOTPControl": {
       "axes": {},
@@ -140,6 +150,22 @@
       "cells": [
         {
           "className": "relative flex size-9 items-center justify-center border-y border-r text-sm shadow-xs outline-none first:rounded-l-md first:border-l last:rounded-r-md data-[active=true]:z-10 data-[active=true]:border-focus-contrast data-[active=true]:ring-[3px] data-[active=true]:ring-ring aria-invalid:border-destructive aria-invalid:ring-destructive/20",
+          "configurations": {
+            "cursor": {
+              "active": {
+                "border-color": {
+                  "from": "data-[active=true]:border-focus-contrast",
+                  "tier": "token",
+                  "token": "--ds-border-focus-contrast"
+                },
+                "z-index": {
+                  "from": "data-[active=true]:z-10",
+                  "tier": "literal",
+                  "value": "10"
+                }
+              }
+            }
+          },
           "properties": {
             "align-items": {
               "from": "items-center",
@@ -163,36 +189,6 @@
               "scale": "shadow.xs",
               "tier": "token",
               "token": "--shadow-xs"
-            },
-            "data-[active=true]:--tw-ring-color": {
-              "from": "data-[active=true]:ring-ring",
-              "tier": "unresolved",
-              "value": "var(--ring)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
-            },
-            "data-[active=true]:--tw-ring-shadow": {
-              "from": "data-[active=true]:ring-[3px]",
-              "tier": "unresolved",
-              "value": "var(--tw-ring-inset,) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
-            },
-            "data-[active=true]:border-color": {
-              "from": "data-[active=true]:border-focus-contrast",
-              "tier": "unresolved",
-              "value": "var(--focus-contrast)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
-            },
-            "data-[active=true]:box-shadow": {
-              "from": "data-[active=true]:ring-[3px]",
-              "tier": "unresolved",
-              "value": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
-            },
-            "data-[active=true]:z-index": {
-              "from": "data-[active=true]:z-10",
-              "tier": "unresolved",
-              "value": "10",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
             },
             "display": {
               "from": "flex",
@@ -283,6 +279,6 @@
       "use": "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/input-otp.tsx"
 }

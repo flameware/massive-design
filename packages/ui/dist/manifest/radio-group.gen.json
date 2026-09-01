@@ -79,6 +79,9 @@
   "defaults": {
     "orientation": "vertical"
   },
+  "drawnBy": {
+    "checked": "`RadioGroupItem`이 `data-[state=checked]`로 그리지만 그 파트가 아직 계약에 없다(#155)"
+  },
   "hash": "acaf77f3dfa2",
   "reference": {
     "example": "radio-group",
@@ -88,6 +91,6 @@
       "use": "서로 배타적인 선택지에서 값 하나를 고른다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/radio-group.tsx"
 }

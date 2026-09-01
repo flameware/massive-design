@@ -98,6 +98,7 @@
   "component": "input",
   "configurationStates": {},
   "defaults": {},
+  "drawnBy": {},
   "hash": "238507ed3be1",
   "reference": {
     "example": "input",
@@ -107,6 +108,6 @@
       "use": "한 줄 텍스트 값을 입력하거나 검색어를 받는다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/input.tsx"
 }

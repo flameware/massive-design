@@ -343,6 +343,9 @@
   "defaults": {
     "variant": "default"
   },
+  "drawnBy": {
+    "open": "표면의 존재가 곧 열림이다 — viewport에 붙고 떨어지는 것이 전부다"
+  },
   "hash": "15536a1ef2f6",
   "reference": {
     "example": "toast",
@@ -352,6 +355,6 @@
       "use": "사용자 작업 직후의 짧고 비차단적인 결과를 알리고 필요할 때 한 개의 후속 동작을 제공한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/toast.tsx"
 }

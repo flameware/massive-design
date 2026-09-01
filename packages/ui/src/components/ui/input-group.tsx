@@ -102,7 +102,7 @@ const componentContract = {
   publicExports: ["InputGroup", "InputGroupAddon", "InputGroupInput", "InputGroupButton", "inputGroupVariants", "inputGroupVariantsConfig"],
   config: inputGroupVariantsConfig, className: (props: Record<string, string>) => cn(inputGroupVariants(props)),
   anatomy: ["InputGroup", "InputGroupAddon?", "InputGroupInput", "InputGroupButton?"],
-  configurationStates: { validity: ["valid", "invalid"], disabled: ["enabled", "disabled"] },
+  configurationStates: { validity: ["valid", "invalid"], disabled: ["enabled", "disabled"] }, drawnBy: { validity: "`has-[[aria-invalid=true]]`와 `aria-invalid`가 그린다 — 같은 이유로 `data-*`가 아니다(#178)", disabled: "`has-[:disabled]`가 그린다 — pseudo-class라 `data-*` 모양으로 적을 수 없고, 정책이 뜻 단위가 될 때 다뤄진다(#178)" },
   parts: {
     InputGroupAddon: { config: inputGroupAddonVariantsConfig, className: (props: Record<string, string>) => cn(inputGroupAddonVariants(props)) },
     InputGroupInput: staticPart(cn(inputVariants(), CONTROL)),

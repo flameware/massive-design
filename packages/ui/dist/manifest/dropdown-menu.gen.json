@@ -84,7 +84,16 @@
     ]
   },
   "defaults": {},
-  "hash": "fa7ada0fad97",
+  "drawnBy": {
+    "checked": "`ItemIndicator` 글리프의 존재가 그린다 — 파트로 열지 않기로 판정했고(#154) 그 노드는 자기 클래스가 없다",
+    "open": {
+      "attribute": "data-state",
+      "values": {
+        "open": "open"
+      }
+    }
+  },
+  "hash": "460ce70ee692",
   "parts": {
     "DropdownMenuCheckboxItem": {
       "axes": {},
@@ -501,6 +510,17 @@
       "cells": [
         {
           "className": "state [--ds-state-base:var(--popover)] data-[state=open]:[--ds-state-base:var(--accent)] relative flex cursor-default items-center justify-between gap-4 rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          "configurations": {
+            "open": {
+              "open": {
+                "background-color": {
+                  "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
+                  "tier": "token",
+                  "token": "--ds-bg-subtle"
+                }
+              }
+            }
+          },
           "properties": {
             "align-items": {
               "from": "items-center",
@@ -530,12 +550,6 @@
               "tier": "unresolved",
               "value": "none",
               "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
-            "data-[state=open]:--ds-state-base": {
-              "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
-              "tier": "unresolved",
-              "value": "var(--accent)",
-              "why": "수식자 data-[state=open]를 아직 다루지 않는다"
             },
             "display": {
               "from": "flex",
@@ -607,6 +621,6 @@
       "use": "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다. 켜고 끄는 항목은 `DropdownMenuCheckboxItem`, 배타 선택은 `DropdownMenuRadioGroup`, 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/dropdown-menu.tsx"
 }

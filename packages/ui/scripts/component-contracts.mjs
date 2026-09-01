@@ -2,7 +2,61 @@ import { readdirSync } from "node:fs"
 import { pathToFileURL } from "node:url"
 import { join } from "node:path"
 
+import { cellsOf } from "./manifest/assemble.mjs"
+
 export const COMPONENT_DIR = "src/components/ui"
+
+/* 구성 상태를 그리는 자리(#148).
+ *
+ * `configurationStates`는 **무엇을 고를 수 있는가**만 적는다. 그것을 **무엇이 그리는가**는
+ * 적히지 않았고, 그래서 `data-[state=checked]:text-primary-foreground`가 계약이 이미
+ * 선언한 `checked`를 그리면서도 매니페스트에서는 `unresolved`("아직 못 다뤘다")로
+ * 떨어졌다 — 선언과 그림이 매니페스트 안에서 이어져 있지 않았다(#147).
+ *
+ * 조인은 자동으로 되지 않는다. DOM 속성 이름이 선언 이름과 거의 언제나 다르고
+ * (`data-[state=on]` ↔ `pressed`), 값 이름까지 다르다. 선언 이름을 DOM에 맞추는 선택지는
+ * ADR-0008이 막는다 — 값 이름의 이름 공간은 축이고 `pressed`는 Radix의 `on`을 우리 말로
+ * 옮긴 결과이며 Figma component property 이름까지 따라 바뀐다. 그래서 **이름표는 계약이
+ * 진다**: 중앙 대응표를 두면 51개 컴포넌트의 DOM 사실이 계약 밖에 쌓이고 새 컴포넌트의
+ * 누락을 아무 게이트도 못 본다.
+ *
+ * 모양은 두 갈래다 — **값이 이유다**는 `externalSurfaces`와 같다.
+ *
+ *   drawnBy: { checked: { attribute: "data-state", values: { checked: "checked" } } }
+ *   drawnBy: { open: "표면의 존재가 곧 열림이다 — 우리 클래스가 그리지 않는다" }
+ *
+ * 앞은 우리 클래스가 그리는 경우다. `attribute`는 DOM 이름이고(`data-state`), `values`는
+ * **구성 상태 값 → DOM 속성 값**이다. 여기서 `data-[state=checked]`가 파생돼 조립이 그
+ * 수식자의 선언을 `unresolved` 대신 셀의 `configurations`로 담는다. 쉬는 값(아무 수식자도
+ * 그리지 않는 값)은 `values`에 적지 않는다 — 셀의 `properties`가 이미 그것이다.
+ *
+ * 뒤는 우리 클래스가 그리지 않는 경우다. 대부분은 표면의 존재·부재나 내용이 그리고,
+ * 일부는 그리는 파트가 아직 계약에 없다(#155). **둘을 가려 적는다** — "그리는 것이 없다"와
+ * "그리는 것이 계약 밖에 있다"는 다른 사실이고, 뒤는 파트가 등록되면 앞 모양으로 바뀐다.
+ *
+ * 게이트가 지킬 수 있는 것은 **선언한 수식자가 실제로 우리 클래스에 있는가**까지다.
+ * 이유 문자열이 참인지는 못 본다 — `externalSurfaces`·`IGNORED_PROPERTIES`와 같은 등급의
+ * 손으로 적은 근거이고, ADR-0006대로 지킬 수 없는 것을 지킨다고 적지 않는다. */
+
+/** `{ attribute: "data-state", value: "on" }` → `data-[state=on]`. Tailwind가 쓰는 모양이다. */
+export function modifierFor(attribute, value) {
+  return `data-[${attribute.slice("data-".length)}=${value}]`
+}
+
+/** 계약이 내는 모든 클래스 — 루트 셀과 파트 셀 전부. 기본 조합만 보면 다른 variant가 그리는 자리를 놓친다. */
+function allClassNames(contract) {
+  const classes = []
+  const collect = (holder) => {
+    try {
+      for (const props of cellsOf(holder.config)) classes.push(String(holder.className(props)))
+    } catch {
+      // config·className이 계약의 모양을 못 갖춘 것은 위에서 이미 잡는다
+    }
+  }
+  collect(contract)
+  for (const part of Object.values(contract.parts ?? {})) collect(part)
+  return classes
+}
 
 /* 외부 소유 표면(#122).
  *
@@ -127,6 +181,63 @@ export function validateContracts(files, contracts) {
         }
         if (typeof why !== "string" || !why.trim()) {
           errors.push(`제스처에는 이유가 필요하다: ${contract.name}.${gesture}`)
+        }
+      }
+    }
+
+    const states = contract.configurationStates
+    if (typeof states !== "object" || states === null || Array.isArray(states)) {
+      errors.push(`configurationStates가 없다: ${contract.name} — 없으면 빈 객체로 적는다`)
+    } else {
+      const drawnBy = contract.drawnBy ?? {}
+      if (typeof drawnBy !== "object" || drawnBy === null || Array.isArray(drawnBy)) {
+        errors.push(`drawnBy는 객체여야 한다: ${contract.name}`)
+      } else {
+        // 두 자리에 적히므로 드리프트가 가능하다. 키가 정확히 같아야 한다 —
+        // 남은 drawnBy는 지워진 구성 상태를 그린다고 말하고, 빠진 것은 침묵이다
+        for (const state of Object.keys(states)) {
+          if (!(state in drawnBy)) errors.push(`구성 상태를 그리는 자리가 선언되지 않았다: ${contract.name}.${state}`)
+        }
+        const classNames = allClassNames(contract)
+        for (const [state, drawn] of Object.entries(drawnBy)) {
+          if (!(state in states)) {
+            errors.push(`구성 상태가 아닌 것에 drawnBy가 있다: ${contract.name}.${state}`)
+            continue
+          }
+          if (typeof drawn === "string") {
+            if (!drawn.trim()) errors.push(`그리는 자리가 클래스가 아니면 이유가 필요하다: ${contract.name}.${state}`)
+            continue
+          }
+          if (typeof drawn !== "object" || drawn === null || Array.isArray(drawn)) {
+            errors.push(`drawnBy 항목은 이유 문자열이거나 { attribute, values }여야 한다: ${contract.name}.${state}`)
+            continue
+          }
+          const { attribute, values } = drawn
+          if (typeof attribute !== "string" || !attribute.startsWith("data-") || attribute.length <= "data-".length) {
+            errors.push(`그리는 속성은 data-* 이름이어야 한다: ${contract.name}.${state}`)
+            continue
+          }
+          const entries = Object.entries(values ?? {})
+          if (typeof values !== "object" || values === null || Array.isArray(values) || entries.length === 0) {
+            errors.push(`그리는 속성에는 값 대응이 필요하다: ${contract.name}.${state}`)
+            continue
+          }
+          for (const [value, domValue] of entries) {
+            if (!states[state].includes(value)) {
+              errors.push(`구성 상태에 없는 값을 대응시킨다: ${contract.name}.${state}.${value}`)
+              continue
+            }
+            if (typeof domValue !== "string" || !domValue.trim()) {
+              errors.push(`DOM 속성 값이 비어 있다: ${contract.name}.${state}.${value}`)
+              continue
+            }
+            // 제스처의 피드백 검사와 같은 종류다 — 선언으로 끝내지 않고 우리 클래스에
+            // 실제로 붙어 있는지 본다. 없으면 매니페스트는 아무것도 해소하지 못한다
+            const modifier = modifierFor(attribute, domValue)
+            if (!classNames.some((cls) => cls.includes(`${modifier}:`))) {
+              errors.push(`선언한 수식자가 클래스에 없다: ${contract.name}.${state}.${value} (${modifier})`)
+            }
+          }
         }
       }
     }

@@ -121,7 +121,7 @@ const componentContract = {
   publicExports: ["NavigationMenu", "NavigationMenuList", "NavigationMenuItem", "NavigationMenuTrigger", "NavigationMenuContent", "NavigationMenuLink", "navigationMenuVariants", "navigationMenuVariantsConfig", "navigationMenuTriggerVariants", "navigationMenuTriggerVariantsConfig"],
   config: navigationMenuVariantsConfig, className: (props: Record<string, string>) => cn(navigationMenuVariants(props)),
   anatomy: ["NavigationMenu", "NavigationMenuList", "NavigationMenuItem*", "NavigationMenuTrigger?", "NavigationMenuContent?", "NavigationMenuLink*"],
-  configurationStates: { open: ["closed", "open"], currentLocation: ["other", "current"] },
+  configurationStates: { open: ["closed", "open"], currentLocation: ["other", "current"] }, drawnBy: { open: { attribute: "data-state", values: { open: "open" } }, currentLocation: { attribute: "data-active", values: { current: "true" } } },
   parts: {
     NavigationMenuList: staticPart(LIST),
     NavigationMenuItem: staticPart(ITEM),

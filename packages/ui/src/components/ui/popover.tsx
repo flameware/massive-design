@@ -107,7 +107,7 @@ const componentContract = {
   publicExports: ["Popover", "PopoverTrigger", "PopoverAnchor", "PopoverContent", "popoverVariants", "popoverVariantsConfig"],
   config: popoverVariantsConfig, className: (props: Record<string, string>) => cn(popoverVariants(props)),
   anatomy: ["Popover", "PopoverTrigger", "PopoverAnchor?", "PopoverContent"],
-  configurationStates: { open: ["closed", "open"] },
+  configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다" },
   reference: { example: "popover", guidance: { use: "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공한다. 클릭으로 여는 기본 모드와, 포인터가 머무르면 지연 후 여는 openOn=\"hover\" 모드를 같은 계약으로 덮는다.", evidence: "투자 기록의 필터 설명과 빠른 설정을 원래 화면 맥락을 떠나지 않고 보여줘야 하고, 종목 이름 위에 잠깐 머무르는 것만으로 그 종목의 요약을 미리 보는 경로도 같은 자산이어야 한다.", limits: "핵심 작업 흐름이나 긴 양식은 Dialog로 옮기고, 행동 없는 짧은 설명은 Tooltip을 사용한다. openOn=\"hover\"에서도 컨트롤의 의미를 보충하는 한 줄 설명은 여전히 Tooltip이다 — Tooltip은 트리거에 aria-describedby로 묶여 이름을 보조하는 설명이고, hover 모드의 Popover는 트리거가 가리키는 대상의 미리보기다. 미리보기 안의 정보와 행동은 hover 없이도 도달할 수 있는 다른 경로가 있어야 하며 이 모드는 필수 작업 흐름을 담지 않는다. 여는 지연과 닫는 지연은 우리가 정하지만 공개 prop이 아니다." } },
 } as const
 

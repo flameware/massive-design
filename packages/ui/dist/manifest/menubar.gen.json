@@ -103,7 +103,16 @@
     ]
   },
   "defaults": {},
-  "hash": "d3912a8526c5",
+  "drawnBy": {
+    "checked": "`ItemIndicator` 글리프의 존재가 그린다 — Dropdown Menu와 같은 판정이다(#154)",
+    "open": {
+      "attribute": "data-state",
+      "values": {
+        "open": "open"
+      }
+    }
+  },
+  "hash": "a4b58bb8cf3e",
   "parts": {
     "MenubarCheckboxItem": {
       "axes": {},
@@ -592,6 +601,17 @@
       "cells": [
         {
           "className": "state [--ds-state-base:var(--popover)] data-[state=open]:[--ds-state-base:var(--accent)] relative flex cursor-default select-none items-center justify-between gap-4 rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          "configurations": {
+            "open": {
+              "open": {
+                "background-color": {
+                  "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
+                  "tier": "token",
+                  "token": "--ds-bg-subtle"
+                }
+              }
+            }
+          },
           "properties": {
             "-webkit-user-select": {
               "from": "select-none",
@@ -626,12 +646,6 @@
               "tier": "unresolved",
               "value": "none",
               "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
-            "data-[state=open]:--ds-state-base": {
-              "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
-              "tier": "unresolved",
-              "value": "var(--accent)",
-              "why": "수식자 data-[state=open]를 아직 다루지 않는다"
             },
             "display": {
               "from": "flex",
@@ -699,6 +713,17 @@
       "cells": [
         {
           "className": "state [--ds-state-base:var(--background)] data-[state=open]:[--ds-state-base:var(--accent)] flex select-none items-center rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+          "configurations": {
+            "open": {
+              "open": {
+                "background-color": {
+                  "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
+                  "tier": "token",
+                  "token": "--ds-bg-subtle"
+                }
+              }
+            }
+          },
           "properties": {
             "-webkit-user-select": {
               "from": "select-none",
@@ -721,12 +746,6 @@
               "scale": "radius.sm",
               "tier": "token",
               "token": "--radius-sm"
-            },
-            "data-[state=open]:--ds-state-base": {
-              "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
-              "tier": "unresolved",
-              "value": "var(--accent)",
-              "why": "수식자 data-[state=open]를 아직 다루지 않는다"
             },
             "display": {
               "from": "flex",
@@ -788,6 +807,6 @@
       "use": "화면에 계속 떠 있는 가로 막대에 명령 메뉴 여러 개를 나란히 두고, 그 안에서 실행·전환·설정 항목을 묶는다. 켜고 끄는 항목은 `MenubarCheckboxItem`, 배타 선택은 `MenubarRadioGroup`, 더 깊은 묶음은 `MenubarSub`가 진다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/menubar.tsx"
 }

@@ -281,6 +281,7 @@
   "defaults": {
     "size": "default"
   },
+  "drawnBy": {},
   "hash": "7760687906f5",
   "reference": {
     "example": "textarea",
@@ -290,6 +291,6 @@
       "use": "여러 줄 메모나 설명을 입력받는다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/textarea.tsx"
 }

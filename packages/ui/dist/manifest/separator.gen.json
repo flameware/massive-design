@@ -79,6 +79,7 @@
   "defaults": {
     "orientation": "horizontal"
   },
+  "drawnBy": {},
   "hash": "5397c850ef60",
   "reference": {
     "example": "separator",
@@ -88,6 +89,6 @@
       "use": "서로 관련된 콘텐츠 묶음 사이의 시각적 경계를 가로 또는 세로 방향으로 표시한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/separator.tsx"
 }

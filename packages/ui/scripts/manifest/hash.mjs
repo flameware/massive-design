@@ -30,10 +30,14 @@ function sortKeys(value) {
  * 이 목록에 명시하지 않는 한 해시가 조용히 바뀌지 않는다.
  */
 function figmaPayload(doc) {
-  const payloadCells = (cells) => (cells ?? []).map(({ props, properties, slots, state }) => ({
+  const payloadCells = (cells) => (cells ?? []).map(({ props, properties, slots, configurations, state }) => ({
     props,
     properties,
     ...(slots ? { slots } : {}),
+    // 구성 상태별 차이는 Figma component property가 그리는 입력이다(#148).
+    // `drawnBy`는 반대로 여기 없다 — 어느 DOM 속성이 그것을 그리는지는 코드 쪽 사실이고
+    // Figma 노드를 만드는 입력이 아니라 해시의 입력도 아니다
+    ...(configurations ? { configurations } : {}),
     ...(state ? { state } : {}),
   }))
   const parts = Object.fromEntries(Object.entries(doc.parts ?? {}).map(([name, part]) => [name, {

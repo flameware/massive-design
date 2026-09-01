@@ -27,14 +27,19 @@
   "cells": [
     {
       "className": "group/field w-full data-[invalid=true]:text-destructive-text flex flex-col gap-2",
+      "configurations": {
+        "validity": {
+          "invalid": {
+            "color": {
+              "from": "data-[invalid=true]:text-destructive-text",
+              "tier": "token",
+              "token": "--ds-fg-danger"
+            }
+          }
+        }
+      },
       "orientation": "vertical",
       "properties": {
-        "data-[invalid=true]:color": {
-          "from": "data-[invalid=true]:text-destructive-text",
-          "tier": "unresolved",
-          "value": "var(--destructive-text)",
-          "why": "수식자 data-[invalid=true]를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -68,18 +73,23 @@
     },
     {
       "className": "group/field w-full data-[invalid=true]:text-destructive-text flex items-center gap-3",
+      "configurations": {
+        "validity": {
+          "invalid": {
+            "color": {
+              "from": "data-[invalid=true]:text-destructive-text",
+              "tier": "token",
+              "token": "--ds-fg-danger"
+            }
+          }
+        }
+      },
       "orientation": "horizontal",
       "properties": {
         "align-items": {
           "from": "items-center",
           "tier": "literal",
           "value": "center"
-        },
-        "data-[invalid=true]:color": {
-          "from": "data-[invalid=true]:text-destructive-text",
-          "tier": "unresolved",
-          "value": "var(--destructive-text)",
-          "why": "수식자 data-[invalid=true]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -109,6 +119,17 @@
     },
     {
       "className": "group/field w-full data-[invalid=true]:text-destructive-text flex flex-col gap-2 @md/field-group:flex-row @md/field-group:items-center @md/field-group:gap-3",
+      "configurations": {
+        "validity": {
+          "invalid": {
+            "color": {
+              "from": "data-[invalid=true]:text-destructive-text",
+              "tier": "token",
+              "token": "--ds-fg-danger"
+            }
+          }
+        }
+      },
       "orientation": "responsive",
       "properties": {
         "@md/field-group:align-items": {
@@ -128,12 +149,6 @@
           "tier": "unresolved",
           "value": "calc(0.25rem * 3)",
           "why": "수식자 @md/field-group를 아직 다루지 않는다"
-        },
-        "data-[invalid=true]:color": {
-          "from": "data-[invalid=true]:text-destructive-text",
-          "tier": "unresolved",
-          "value": "var(--destructive-text)",
-          "why": "수식자 data-[invalid=true]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -177,7 +192,15 @@
   "defaults": {
     "orientation": "vertical"
   },
-  "hash": "2c6116855f68",
+  "drawnBy": {
+    "validity": {
+      "attribute": "data-invalid",
+      "values": {
+        "invalid": "true"
+      }
+    }
+  },
+  "hash": "b89f447e9468",
   "reference": {
     "example": "field",
     "guidance": {
@@ -186,6 +209,6 @@
       "use": "라벨, 컨트롤, 도움말과 오류를 접근 가능한 한 필드로 조립한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/field.tsx"
 }

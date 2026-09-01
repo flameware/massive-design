@@ -62,7 +62,7 @@ const componentContract = {
   publicExports: ["ButtonGroup", "ButtonGroupText", "ButtonGroupSeparator", "buttonGroupVariants", "buttonGroupVariantsConfig"],
   config: buttonGroupVariantsConfig, className: (props: Record<string, string>) => cn(buttonGroupVariants(props)),
   anatomy: ["ButtonGroup", "Button*", "ButtonGroupText?", "ButtonGroupSeparator?"],
-  configurationStates: { disabled: ["enabled", "disabled"] },
+  configurationStates: { disabled: ["enabled", "disabled"] }, drawnBy: { disabled: "각 `Button`이 자기 `disabled`를 소유하고 Button base의 `disabled:opacity-50`이 그린다 — 그룹은 그리지 않는다(경계 ③)" },
   parts: {
     ButtonGroupText: staticPart("flex items-center gap-2 rounded-md border bg-muted px-4 text-sm font-medium text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"),
     ButtonGroupSeparator: staticPart("self-stretch"),

@@ -229,7 +229,7 @@ const componentContract = {
   publicExports: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuItem", "DropdownMenuLabel", "DropdownMenuSeparator", "DropdownMenuGroup", "DropdownMenuCheckboxItem", "DropdownMenuRadioGroup", "DropdownMenuRadioItem", "DropdownMenuSub", "DropdownMenuSubTrigger", "DropdownMenuSubContent", "dropdownMenuVariants", "dropdownMenuVariantsConfig"],
   config: dropdownMenuVariantsConfig, className: (props: Record<string, string>) => cn(dropdownMenuVariants(props)),
   anatomy: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuGroup*", "DropdownMenuLabel?", "DropdownMenuItem*", "DropdownMenuCheckboxItem*", "DropdownMenuRadioGroup?", "DropdownMenuRadioItem*", "DropdownMenuSeparator?", "DropdownMenuSub?", "DropdownMenuSubTrigger", "DropdownMenuSubContent"],
-  configurationStates: { open: ["closed", "open"], checked: ["unchecked", "checked"] },
+  configurationStates: { open: ["closed", "open"], checked: ["unchecked", "checked"] }, drawnBy: { open: { attribute: "data-state", values: { open: "open" } }, checked: "`ItemIndicator` 글리프의 존재가 그린다 — 파트로 열지 않기로 판정했고(#154) 그 노드는 자기 클래스가 없다" },
   /* `parts`를 신설하면서 기존 `Item`·`Label`·`Separator`까지 함께 등록한다(#154).
    * 이 계약에는 `parts`가 아예 없었다 — 세 노드가 클래스를 내면서 등록되지 않은,
    * ADR-0006이 `Card`에서 잡아낸 것과 같은 모양의 침묵이다. 새 넷만 넣으면 매니페스트가

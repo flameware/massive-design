@@ -75,7 +75,7 @@
     {
       "cells": 1,
       "component": "checkbox",
-      "hash": "b952b37163b6",
+      "hash": "49611f71f120",
       "path": "checkbox.gen.json"
     },
     {
@@ -93,7 +93,7 @@
     {
       "cells": 1,
       "component": "command",
-      "hash": "c7f9281f045a",
+      "hash": "6f45a55b984d",
       "path": "command.gen.json"
     },
     {
@@ -105,7 +105,7 @@
     {
       "cells": 1,
       "component": "dropdown-menu",
-      "hash": "fa7ada0fad97",
+      "hash": "460ce70ee692",
       "path": "dropdown-menu.gen.json"
     },
     {
@@ -117,7 +117,7 @@
     {
       "cells": 3,
       "component": "field",
-      "hash": "2c6116855f68",
+      "hash": "b89f447e9468",
       "path": "field.gen.json"
     },
     {
@@ -135,13 +135,13 @@
     {
       "cells": 1,
       "component": "input-otp",
-      "hash": "33f782cc7d47",
+      "hash": "18f7da74b84d",
       "path": "input-otp.gen.json"
     },
     {
       "cells": 6,
       "component": "item",
-      "hash": "328a0c09800b",
+      "hash": "edd38728a553",
       "path": "item.gen.json"
     },
     {
@@ -159,13 +159,13 @@
     {
       "cells": 1,
       "component": "list-row",
-      "hash": "109497324ece",
+      "hash": "318cb36fbbd1",
       "path": "list-row.gen.json"
     },
     {
       "cells": 1,
       "component": "menubar",
-      "hash": "d3912a8526c5",
+      "hash": "a4b58bb8cf3e",
       "path": "menubar.gen.json"
     },
     {
@@ -177,7 +177,7 @@
     {
       "cells": 1,
       "component": "navigation-menu",
-      "hash": "68d4fed90210",
+      "hash": "39a1d096b2c3",
       "path": "navigation-menu.gen.json"
     },
     {
@@ -237,7 +237,7 @@
     {
       "cells": 12,
       "component": "sidebar",
-      "hash": "63332eecc919",
+      "hash": "6d9e845e1cd7",
       "path": "sidebar.gen.json"
     },
     {
@@ -261,19 +261,19 @@
     {
       "cells": 2,
       "component": "switch",
-      "hash": "73605238388e",
+      "hash": "bcf1744bc1bc",
       "path": "switch.gen.json"
     },
     {
       "cells": 1,
       "component": "table",
-      "hash": "5503b18695d6",
+      "hash": "7b66614b9b57",
       "path": "table.gen.json"
     },
     {
       "cells": 2,
       "component": "tabs",
-      "hash": "25f494288674",
+      "hash": "41af970533cb",
       "path": "tabs.gen.json"
     },
     {
@@ -291,13 +291,13 @@
     {
       "cells": 6,
       "component": "toggle",
-      "hash": "bf3647e14670",
+      "hash": "4aaf46275096",
       "path": "toggle.gen.json"
     },
     {
       "cells": 24,
       "component": "toggle-group",
-      "hash": "4952918a933c",
+      "hash": "6cff2b86c2dd",
       "path": "toggle-group.gen.json"
     },
     {
@@ -307,5 +307,5 @@
       "path": "tooltip.gen.json"
     }
   ],
-  "schemaVersion": 5
+  "schemaVersion": 6
 }

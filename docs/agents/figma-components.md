@@ -176,6 +176,12 @@ if (set.componentPropertyDefinitions.variant?.defaultValue !== "default") {
 
 [#24](https://github.com/flameware/massive-design/issues/24)가 확정했다 — hover/pressed/disabled는 **컴포넌트 세트의 축이 아니다.** 정적 시안은 hover를 꺼내지 않는다. 상태는 **컴포넌트별 견본 한 장**(매니페스트에서 생성)으로만 보인다.
 
+### 6.2.1 구성 상태는 매니페스트에 도착했지만 그리는 방법은 아직 정해지지 않았다
+
+`schemaVersion: 6`부터 셀은 `configurations[구성 상태][값]`을 낸다 — 계약의 `drawnBy`가 이름표를 준 수식자가 낸 값이고, `properties`(쉬는 상태)에 대한 **차이**다([#148](https://github.com/flameware/massive-design/issues/148)).
+
+**이 자리를 Figma에서 무엇으로 그리는지는 이 문서가 아직 정하지 않았다.** `CONTEXT.md`는 구성 상태를 "component property 또는 별도의 공개 조립 표면"으로 표현한다고만 적고 있고, Figma의 property 종류(VARIANT·BOOLEAN·TEXT·INSTANCE_SWAP) 중 어느 것인지는 판정된 적이 없다 — VARIANT로 두면 세트의 조합 수가 곱해지므로 §6.2가 상태에 대해 내린 판정과 같은 무게의 결정이다. **정해지기 전까지 주입은 이 필드를 읽지 않는다.** 즉흥으로 축을 늘리면 발행된 인스턴스를 재해석하게 된다.
+
 ### 6.3 아이콘 슬롯 — leading 고정, 조합은 만들지 않는다
 
 `cva`는 children에 대해 아무 말도 하지 않으므로 규약이 필요하다.
