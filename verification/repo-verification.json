@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "59033e3e94a134e4039c9d643f534ce3158576ab",
   "inputTree": {
     "commit": "59033e3e94a134e4039c9d643f534ce3158576ab",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T11:07:48.146Z",
       "automatedResult": "PASS",
       "checks": [
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-01T11:19:08.551Z",
+        "scope": "해시가 움직인 15개(checkbox·command·dropdown-menu·field·input-otp·item·list-row·menubar·navigation-menu·sidebar·switch·table·tabs·toggle·toggle-group)를 Light/Dark로 확인했다. 이 세대는 계약 메타데이터만 바뀌어 렌더 결과가 그대로여야 하고, 그대로였다."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T11:19:08.551Z"
 }
