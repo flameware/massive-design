@@ -23,6 +23,7 @@ import {
   Alert, AlertDescription, AlertTitle, Progress, Skeleton, Spinner,
   Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport,
   Separator, Tabs, TabsContent, TabsList, TabsTrigger, Avatar, AvatarFallback, AvatarImage,
+  AvatarBadge, AvatarGroup, AvatarGroupCount,
   Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList,
   BreadcrumbPage, BreadcrumbSeparator, Pagination, PaginationContent, PaginationEllipsis,
   PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
@@ -102,7 +103,25 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
       ? <Accordion type="multiple" defaultValue={selection.open === "open" ? ["fees", "tax"] : []} className="max-w-lg"><AccordionItem value="fees"><AccordionTrigger>수수료는 어떻게 계산하나요?</AccordionTrigger><AccordionContent>거래별 수수료를 입력하면 손익에 반영합니다.</AccordionContent></AccordionItem><AccordionItem value="tax"><AccordionTrigger>세금은 포함되나요?</AccordionTrigger><AccordionContent>현재 기록에 입력한 세금만 계산합니다.</AccordionContent></AccordionItem></Accordion>
       : <Accordion type="single" collapsible defaultValue={selection.open === "open" ? "fees" : undefined} className="max-w-lg"><AccordionItem value="fees"><AccordionTrigger>수수료는 어떻게 계산하나요?</AccordionTrigger><AccordionContent>거래별 수수료를 입력하면 손익에 반영합니다.</AccordionContent></AccordionItem><AccordionItem value="tax"><AccordionTrigger>세금은 포함되나요?</AccordionTrigger><AccordionContent>현재 기록에 입력한 세금만 계산합니다.</AccordionContent></AccordionItem></Accordion>,
     alert: <Alert variant={variant}><AlertTitle>가격 정보가 지연되고 있습니다</AlertTitle><AlertDescription>마지막으로 확인한 가격을 기준으로 평가금액을 표시합니다.</AlertDescription></Alert>,
-    avatar: <div className="flex items-center gap-3"><Avatar size={size}><AvatarImage src={selection.source === "image" ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%2364748b'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%23f8fafc'/%3E%3Cpath d='M18 94c3-22 15-34 30-34s27 12 30 34' fill='%23f8fafc'/%3E%3C/svg%3E" : undefined} alt=""/><AvatarFallback>SK</AvatarFallback></Avatar><span>김서경</span></div>,
+    avatar: <div className="flex items-center gap-6">
+      <div className="flex items-center gap-3">
+        <Avatar size={size}>
+          <AvatarImage src={selection.source === "image" ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%2364748b'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%23f8fafc'/%3E%3Cpath d='M18 94c3-22 15-34 30-34s27 12 30 34' fill='%23f8fafc'/%3E%3C/svg%3E" : undefined} alt=""/>
+          <AvatarFallback>SK</AvatarFallback>
+          <AvatarBadge size={size} aria-label="온라인"/>
+        </Avatar>
+        <span>김서경</span>
+      </div>
+      <AvatarGroup size={size} aria-label="이 기록의 참여자">
+        <Avatar>
+          <AvatarImage src={selection.source === "image" ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' fill='%2364748b'/%3E%3Ccircle cx='48' cy='36' r='18' fill='%23f8fafc'/%3E%3Cpath d='M18 94c3-22 15-34 30-34s27 12 30 34' fill='%23f8fafc'/%3E%3C/svg%3E" : undefined} alt=""/>
+          <AvatarFallback>SK</AvatarFallback>
+        </Avatar>
+        <Avatar><AvatarFallback>이</AvatarFallback></Avatar>
+        <Avatar><AvatarFallback>박</AvatarFallback></Avatar>
+        <AvatarGroupCount aria-label="외 3명">+3</AvatarGroupCount>
+      </AvatarGroup>
+    </div>,
     "alert-dialog": <AlertDialog defaultOpen={selection.open === "open"}><AlertDialogTrigger asChild><Button variant="destructive">거래 삭제</Button></AlertDialogTrigger><AlertDialogContent><AlertDialogHeader><AlertDialogTitle>이 거래를 삭제할까요?</AlertDialogTitle><AlertDialogDescription>삭제하면 이 거래가 투자 기록과 손익 계산에서 제거됩니다. 이 작업은 되돌릴 수 없습니다.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>취소</AlertDialogCancel><AlertDialogAction className={buttonVariants({ variant: "destructive" })}>삭제</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog>,
     badge: <Badge variant={variant}>수익</Badge>, button: <Button variant={variant} size={size}>거래 추가</Button>,
     "button-group": <ButtonGroup orientation={selection.orientation as "horizontal" | "vertical"} aria-label="거래 내보내기"><Button variant="outline">CSV</Button><Button variant="outline" disabled={selection.disabled === "disabled"}>PDF</Button><ButtonGroupSeparator orientation={selection.orientation === "vertical" ? "horizontal" : "vertical"}/><ButtonGroupText>3건</ButtonGroupText></ButtonGroup>,

@@ -23,6 +23,7 @@
   "destructive-text": "color.fg.danger",
   "border": "color.border.default",
   "input": "color.border.field",
+  "knockout": "color.border.knockout",
   "ring": "color.border.focus",
   "focus-contrast": "color.border.focus-contrast",
 

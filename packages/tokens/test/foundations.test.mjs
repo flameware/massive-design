@@ -7,7 +7,7 @@ import { foundationsData } from '../scripts/lib/emit/figma.mjs'
 test('Foundations 데이터가 palette 전체와 semantic 두 모드를 덮는다', () => {
   const data = foundationsData(loadSources())
   assert.equal(data.palette.length, 125)
-  assert.equal(data.semantic.length, 35)
+  assert.equal(data.semantic.length, 36)
   assert.deepEqual(Object.keys(data.semantic[0]), ['name', 'Light', 'Dark'])
   assert.ok(data.palette.some(({ name }) => name.startsWith('danger/')))
   assert.ok(data.palette.some(({ name }) => name.startsWith('success/')))
@@ -99,6 +99,6 @@ test('07을 두 번 실행해도 생성 영역의 노드 수가 늘지 않는다
   assert.match(firstResult.pageId, /^PAGE:/)
   assert.match(firstResult.rootId, /^FRAME:/)
   assert.deepEqual({ palette: firstResult.palette, semantic: firstResult.semantic, modes: firstResult.modes }, {
-    palette: 125, semantic: 35, modes: ['Light', 'Dark'],
+    palette: 125, semantic: 36, modes: ['Light', 'Dark'],
   })
 })

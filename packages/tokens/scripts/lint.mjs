@@ -111,8 +111,12 @@ export function lintLayers({ gen, literal, semantic }, err) {
   }
 
   // 8. #82가 feedback용 warning soft/solid/text/on-warning 역할을 추가했다.
-  if (semanticTokens.size !== 35) {
-    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 35여야 한다`)
+  //    #143이 border.knockout을 더했다 — 겹친 요소를 가르려고 뒤 면을 되그리는
+  //    테두리다. 값은 bg.canvas와 같지만 계열이 달라야 했다: 매니페스트 게이트가
+  //    border-color에 --ds-bg-*가 오는 것을 문다(packages/ui lint 규칙 3).
+  //    근거와 고려한 대안은 ADR-0007에 있다.
+  if (semanticTokens.size !== 36) {
+    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 36이어야 한다`)
   }
 }
 

@@ -291,6 +291,16 @@
           }
         }
       },
+      "knockout": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.2}",
+        "$description": "겹친 요소를 가르려고 뒤 면을 되그리는 테두리. 값은 bg.canvas와 같고 역할이 다르다 — 요소의 경계가 아니라 knockout이다(#143)",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.neutral.dark.1}"
+          }
+        }
+      },
       "strong": {
         "$type": "color",
         "$value": "{palette.neutral.light.9}",

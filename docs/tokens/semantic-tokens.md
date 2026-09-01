@@ -112,12 +112,13 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 32 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
 | 33 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
 | 34 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 35 | `border.knockout` | 겹친 요소를 가르려고 뒤 면을 되그리는 테두리 | neutral 2 `#f8f8f8` | neutral 1 `#111111` |
 
 ### 상태 메커니즘 (1)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 35 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
+| 36 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
 
 현재 총계는 `dist/tokens.d.ts`의 `SemanticColorToken`과 `dist/figma/04-semantic.js`의 생성 로그에서 확인한다. 두 생성물의 개수 일치는 `test/build.test.mjs`가 검증한다.
 
@@ -143,6 +144,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | `bg.scrim` 추가 | #13. `bg.overlay`는 팝오버 **면**이라 별개다 |
 | `bg.inverse` · `fg.on-inverse` 추가 | shadcn `Tooltip`이 실제로 반전 배경을 쓴다. Primer·M3·Polaris 셋 다 보유 |
 | `border.field` 추가 | #13이 이름을 붙였으나 후보 목록에 없었다. 다크 알파 예외(`alpha.white.15`)를 걸 자리 |
+| `border.knockout` 추가 | [#143](https://github.com/flameware/massive-design/issues/143). 값은 `bg.canvas`와 같지만 **계열이 달라야 했다** — 매니페스트 게이트가 `border-color`에 `--ds-bg-*`가 오는 것을 문다. 근거와 고려한 대안은 [ADR-0007](../adr/0007-knockout-border.md) |
 | `fg.muted` 및 유채 텍스트 **11 → 10** | 아래 §5 |
 | `bg.canvas`/`bg.surface` 라이트에서 **단계 교차** | 아래 §6 |
 
@@ -239,6 +241,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 | `--destructive-foreground` | `fg.on-solid` | 정본에서 빠졌으나 **호환 보험으로 출력** |
 | `--border` | `border.default` | |
 | `--input` | `border.field` | |
+| `--knockout` | `border.knockout` | 정본에 없다. 겹침 링을 클래스로 쓰려면 alias가 필요하다 — `--ds-*`는 `@theme`에 들어가지 않는다(#7) |
 | `--ring` | `border.focus` | |
 | `--chart-1` … `--chart-5` | neutral 12 / 10 / 8 / 6 / 4 | **플레이스홀더** (§7.2) |
 | `--sidebar` | `bg.surface` | shadcn 정본에서 `--sidebar` ≈ `--card` |
@@ -302,7 +305,7 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 - **비텍스트 40조합 전부 3:1 통과.** 최저 3.08 (dark `border.focus`·`border.accent` on `bg.overlay`)
 - `fg.on-solid`는 어두운 4패밀리 solid 위에서 4.80~5.41로 유지한다. warning 9는 밝아 흰 전경이 실패하므로 `fg.on-warning`의 검정을 쓴다.
 
-다크 보더는 알파 합성이라 대비값이 낮다(`border.default` 1.31 / `border.field` 1.56 on `bg.surface`). 이건 shadcn 정본과 같은 성질이고, 보더는 비텍스트 3:1 요건 대상이 아니다(요건은 "상태를 나타내는 UI 컴포넌트"에 걸린다).
+다크 보더는 알파 합성이라 대비값이 낮다(`border.default` 1.31 / `border.field` 1.56 on `bg.surface`). 이건 shadcn 정본과 같은 성질이고, 보더는 비텍스트 3:1 요건 대상이 아니다(요건은 "상태를 나타내는 UI 컴포넌트"에 걸린다). `border.knockout`은 한 겹 더 밖이다 — 뒤 면을 되그려 **지우는** 자리라 대비를 내는 것이 목적이 아니고, 값이 면색과 같아 자기가 놓이는 면과의 대비는 정의상 1:1이다.
 
 ### 8.1 비텍스트 게이트는 5면 전부를 본다 ([#33](https://github.com/flameware/massive-design/issues/33))
 

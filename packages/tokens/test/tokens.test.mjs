@@ -17,8 +17,9 @@ const tokens = new Map([
 ])
 const semanticColors = [...flatten(semantic).keys()]
 
-test('semantic 색 토큰이 정확히 35개다', () => {
-  assert.equal(semanticColors.length, 35)
+test('semantic 색 토큰이 정확히 36개다', () => {
+  // 35 → 36: #143의 border.knockout. 근거는 ADR-0007에 있다
+  assert.equal(semanticColors.length, 36)
 })
 
 test('semantic은 전부 {palette.*} 참조다 — 리터럴 금지', () => {
@@ -61,13 +62,16 @@ test('모든 semantic 참조가 실재하는 palette 토큰을 가리킨다', ()
 })
 
 test('모드가 실제로 갈리는 지점은 semantic 하나뿐이다', () => {
-  // 라이트에서만 canvas/surface가 단계를 교차한다 — 나머지 29개는 두 모드가
+  // 라이트에서만 canvas/surface가 단계를 교차한다 — 나머지는 두 모드가
   // 같은 단계 번호를 쓴다(같은 값이라는 뜻은 아니다).
+  // border.knockout은 bg.canvas를 그대로 따라가므로 같이 교차한다 — 그것이
+  // 이 토큰의 정의다(뒤에 있는 면을 되그린다, #143).
   const step = (path, mode) => refPath(valueFor(tokens.get(path), mode)).split('.').at(-1)
   const crossed = semanticColors.filter((p) => step(p, 'light') !== step(p, 'dark'))
   assert.deepEqual(crossed.sort(), [
     'color.bg.canvas', 'color.bg.overlay', 'color.bg.surface',
-    'color.border.default', 'color.border.field', 'color.fg.warning', 'color.state.layer',
+    'color.border.default', 'color.border.field', 'color.border.knockout',
+    'color.fg.warning', 'color.state.layer',
   ])
 })
 

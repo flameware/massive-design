@@ -73,9 +73,10 @@ test('중첩 .dark에서 alias 원본 전부가 루트 다크와 같은 값이 �
   for (const name of alias) assert.equal(nestedDark.get(name), rootDark.get(name), name)
 
   // 모드별 alias 값이 갈리는 전량을 감시한다. #82의 warning은 solid와 전용 검정
-  // 전경이 모드 공통이고, soft/text가 모드별로 갈린다.
+  // 전경이 모드 공통이고, soft/text가 모드별로 갈린다. #143의 knockout은 bg.canvas를
+  // 그대로 따라가므로 canvas와 같이 갈린다 — 그것이 이 토큰의 정의다.
   const flips = alias.filter((n) => rootDark.get(n) !== light.get(n))
-  assert.equal(flips.length, 34)
+  assert.equal(flips.length, 35)
   for (const name of flips) assert.notEqual(nestedDark.get(name), light.get(name), name)
 })
 
