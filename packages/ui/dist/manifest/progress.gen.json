@@ -61,6 +61,9 @@
     ]
   },
   "defaults": {},
+  "drawnBy": {
+    "value": "`ProgressIndicator`의 인라인 `transform`이 그린다 — 계산된 값이라 클래스가 아니고 그 파트도 아직 계약에 없다(#155)"
+  },
   "hash": "1861483a3c36",
   "reference": {
     "example": "progress",
@@ -70,6 +73,6 @@
       "use": "완료량을 알 수 있는 작업의 진행 정도를 0에서 100 사이 값으로 보여준다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/progress.tsx"
 }

@@ -381,6 +381,9 @@
     "orientation": "horizontal",
     "size": "default"
   },
+  "drawnBy": {
+    "value": "thumb의 개수가 그린다 — 조립이지 클래스가 아니다"
+  },
   "hash": "f7f90ee58411",
   "parts": {
     "SliderRange": {
@@ -766,6 +769,6 @@
       "use": "정확한 숫자보다 상대적 위치가 중요한 연속 범위에서 값 하나 또는 구간의 양 끝을 고른다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/slider.tsx"
 }

@@ -143,7 +143,7 @@ const componentContract = {
   name: "tabs", source: "src/components/ui/tabs.tsx",
   publicExports: ["Tabs", "TabsList", "TabsTrigger", "TabsContent", "tabsVariants", "tabsVariantsConfig"],
   config: tabsVariantsConfig, className: (props: Record<string, string>) => cn(tabsVariants(props)),
-  anatomy: ["Tabs", "TabsList", "TabsTrigger*", "TabsContent*"], configurationStates: { selected: ["inactive", "active"] },
+  anatomy: ["Tabs", "TabsList", "TabsTrigger*", "TabsContent*"], configurationStates: { selected: ["inactive", "active"] }, drawnBy: { selected: { attribute: "data-state", values: { active: "active" } } },
   parts: {
     TabsList: { config: tabsListVariantsConfig, className: (props: Record<string, string>) => cn(tabsListVariants(props)) },
     TabsTrigger: { config: tabsTriggerVariantsConfig, className: (props: Record<string, string>) => cn(tabsTriggerVariants(props)) },

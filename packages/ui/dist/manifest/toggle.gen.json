@@ -23,6 +23,22 @@
   "cells": [
     {
       "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-8 min-w-8 px-1.5",
+      "configurations": {
+        "pressed": {
+          "pressed": {
+            "background-color": {
+              "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "color": {
+              "from": "data-[state=on]:text-accent-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            }
+          }
+        }
+      },
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -40,18 +56,6 @@
           "scale": "radius.md",
           "tier": "token",
           "token": "--radius-md"
-        },
-        "data-[state=on]:--ds-state-base": {
-          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
-          "tier": "unresolved",
-          "value": "var(--accent)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
-        },
-        "data-[state=on]:color": {
-          "from": "data-[state=on]:text-accent-foreground",
-          "tier": "unresolved",
-          "value": "var(--accent-foreground)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -143,6 +147,22 @@
     },
     {
       "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-9 min-w-9 px-2",
+      "configurations": {
+        "pressed": {
+          "pressed": {
+            "background-color": {
+              "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "color": {
+              "from": "data-[state=on]:text-accent-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            }
+          }
+        }
+      },
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -160,18 +180,6 @@
           "scale": "radius.md",
           "tier": "token",
           "token": "--radius-md"
-        },
-        "data-[state=on]:--ds-state-base": {
-          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
-          "tier": "unresolved",
-          "value": "var(--accent)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
-        },
-        "data-[state=on]:color": {
-          "from": "data-[state=on]:text-accent-foreground",
-          "tier": "unresolved",
-          "value": "var(--accent-foreground)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -260,6 +268,22 @@
     },
     {
       "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-10 min-w-10 px-2.5",
+      "configurations": {
+        "pressed": {
+          "pressed": {
+            "background-color": {
+              "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "color": {
+              "from": "data-[state=on]:text-accent-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            }
+          }
+        }
+      },
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -277,18 +301,6 @@
           "scale": "radius.md",
           "tier": "token",
           "token": "--radius-md"
-        },
-        "data-[state=on]:--ds-state-base": {
-          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
-          "tier": "unresolved",
-          "value": "var(--accent)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
-        },
-        "data-[state=on]:color": {
-          "from": "data-[state=on]:text-accent-foreground",
-          "tier": "unresolved",
-          "value": "var(--accent-foreground)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -380,6 +392,22 @@
     },
     {
       "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] border shadow-xs data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-8 min-w-8 px-1.5",
+      "configurations": {
+        "pressed": {
+          "pressed": {
+            "background-color": {
+              "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "color": {
+              "from": "data-[state=on]:text-accent-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            }
+          }
+        }
+      },
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -409,18 +437,6 @@
           "scale": "shadow.xs",
           "tier": "token",
           "token": "--shadow-xs"
-        },
-        "data-[state=on]:--ds-state-base": {
-          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
-          "tier": "unresolved",
-          "value": "var(--accent)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
-        },
-        "data-[state=on]:color": {
-          "from": "data-[state=on]:text-accent-foreground",
-          "tier": "unresolved",
-          "value": "var(--accent-foreground)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -512,6 +528,22 @@
     },
     {
       "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] border shadow-xs data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-9 min-w-9 px-2",
+      "configurations": {
+        "pressed": {
+          "pressed": {
+            "background-color": {
+              "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "color": {
+              "from": "data-[state=on]:text-accent-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            }
+          }
+        }
+      },
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -541,18 +573,6 @@
           "scale": "shadow.xs",
           "tier": "token",
           "token": "--shadow-xs"
-        },
-        "data-[state=on]:--ds-state-base": {
-          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
-          "tier": "unresolved",
-          "value": "var(--accent)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
-        },
-        "data-[state=on]:color": {
-          "from": "data-[state=on]:text-accent-foreground",
-          "tier": "unresolved",
-          "value": "var(--accent-foreground)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -641,6 +661,22 @@
     },
     {
       "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] border shadow-xs data-[state=on]:[--ds-state-base:var(--accent)] data-[state=on]:text-accent-foreground h-10 min-w-10 px-2.5",
+      "configurations": {
+        "pressed": {
+          "pressed": {
+            "background-color": {
+              "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "color": {
+              "from": "data-[state=on]:text-accent-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            }
+          }
+        }
+      },
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -670,18 +706,6 @@
           "scale": "shadow.xs",
           "tier": "token",
           "token": "--shadow-xs"
-        },
-        "data-[state=on]:--ds-state-base": {
-          "from": "data-[state=on]:[--ds-state-base:var(--accent)]",
-          "tier": "unresolved",
-          "value": "var(--accent)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
-        },
-        "data-[state=on]:color": {
-          "from": "data-[state=on]:text-accent-foreground",
-          "tier": "unresolved",
-          "value": "var(--accent-foreground)",
-          "why": "수식자 data-[state=on]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -783,7 +807,15 @@
     "size": "default",
     "variant": "default"
   },
-  "hash": "bf3647e14670",
+  "drawnBy": {
+    "pressed": {
+      "attribute": "data-state",
+      "values": {
+        "pressed": "on"
+      }
+    }
+  },
+  "hash": "4aaf46275096",
   "reference": {
     "example": "toggle",
     "guidance": {
@@ -792,6 +824,6 @@
       "use": "한 항목의 켜짐 상태를 눌러 전환하며 현재 pressed 상태를 즉시 드러낸다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/toggle.tsx"
 }

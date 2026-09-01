@@ -271,7 +271,7 @@ const componentContract = {
   publicExports: ["SidebarProvider", "Sidebar", "SidebarInset", "SidebarTrigger", "SidebarRail", "SidebarHeader", "SidebarContent", "SidebarFooter", "SidebarSeparator", "SidebarGroup", "SidebarGroupLabel", "SidebarGroupContent", "SidebarGroupAction", "SidebarMenu", "SidebarMenuItem", "SidebarMenuButton", "SidebarMenuAction", "SidebarMenuBadge", "SidebarMenuSub", "SidebarMenuSubItem", "SidebarMenuSubButton", "useSidebar", "sidebarVariants", "sidebarVariantsConfig", "sidebarMenuButtonVariants", "sidebarMenuButtonVariantsConfig"],
   config: sidebarVariantsConfig, className: (props: Record<string, string>) => cn(sidebarVariants(props)),
   anatomy: ["SidebarProvider", "Sidebar", "SidebarHeader?", "SidebarContent", "SidebarGroup*", "SidebarGroupLabel?", "SidebarGroupAction?", "SidebarGroupContent", "SidebarMenu", "SidebarMenuItem*", "SidebarMenuButton", "SidebarMenuAction?", "SidebarMenuBadge?", "SidebarMenuSub?", "SidebarMenuSubItem*", "SidebarMenuSubButton", "SidebarSeparator?", "SidebarFooter?", "SidebarRail?", "SidebarTrigger", "SidebarInset?"],
-  configurationStates: { state: ["expanded", "collapsed"], item: ["default", "active"] },
+  configurationStates: { state: ["expanded", "collapsed"], item: ["default", "active"] }, drawnBy: { state: { attribute: "data-state", values: { collapsed: "collapsed" } }, item: { attribute: "data-active", values: { active: "true" } } },
   parts: {
     SidebarMenuButton: { config: sidebarMenuButtonVariantsConfig, className: (props: Record<string, string>) => cn(sidebarMenuButtonVariants(props)) },
     SidebarMenuSubButton: staticPart(sidebarMenuSubButtonClassName),

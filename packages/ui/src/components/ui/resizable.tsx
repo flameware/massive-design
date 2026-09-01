@@ -134,7 +134,7 @@ const componentContract = {
   anatomy: ["ResizablePanelGroup", "ResizablePanel*", "ResizableHandle*", "ResizableHandleGrip?"],
   /* 패널 크기는 연속값이라 조합으로 나오지 않는다. 계약이 나르는 이산 상태는
    * 라이브러리가 실제로 구현하는 접힘 하나뿐이다. */
-  configurationStates: { panel: ["expanded", "collapsed"] },
+  configurationStates: { panel: ["expanded", "collapsed"] }, drawnBy: { panel: "react-resizable-panels가 패널 크기를 인라인 flex 값으로 쓴다 — `externalSurfaces`가 이미 그 자리를 남의 것으로 적었다" },
   parts: {
     ResizablePanel: { config: { variants: {}, defaultVariants: {} } as const, className: () => PANEL },
     ResizableHandle: { config: resizableHandleVariantsConfig, className: (props: Record<string, string>) => cn(resizableHandleVariants(props)) },

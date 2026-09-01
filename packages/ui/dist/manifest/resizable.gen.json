@@ -64,6 +64,9 @@
   "defaults": {
     "orientation": "horizontal"
   },
+  "drawnBy": {
+    "panel": "react-resizable-panels가 패널 크기를 인라인 flex 값으로 쓴다 — `externalSurfaces`가 이미 그 자리를 남의 것으로 적었다"
+  },
   "externalSurfaces": {
     "드래그 중 전역 커서 스타일시트": "react-resizable-panels가 문서에 adoptedStyleSheet를 얹어 `*, *:hover`의 커서를 !important로 덮는다",
     "패널 바깥 flex 래퍼": "react-resizable-panels가 Panel의 바깥 div를 스스로 만들고 우리 className은 그 안쪽 div로 간다 — flex 계산을 지키기 위한 라이브러리의 결정이다",
@@ -349,6 +352,6 @@
       "use": "한 화면 안에서 두 영역의 넓이를 사용자가 직접 나눠 갖게 하고, 그 경계를 포인터와 키보드 양쪽으로 옮길 수 있게 한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/resizable.tsx"
 }

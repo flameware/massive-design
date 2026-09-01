@@ -106,7 +106,7 @@ const componentContract = {
   anatomy: ["InputOTP", "InputOTPGroup*", "InputOTPSlot*", "InputOTPSeparator?", "InputOTPControl"],
   /* value는 칸이 찼는지, cursor는 다음 차례가 어디인지, validity는 오류 표시다.
    * 셋을 한 축으로 합치면 "커서가 앉은 채 이미 채워진 칸"을 조립할 수 없다(#93). */
-  configurationStates: { value: ["empty", "filled"], cursor: ["idle", "active"], validity: ["valid", "invalid"] },
+  configurationStates: { value: ["empty", "filled"], cursor: ["idle", "active"], validity: ["valid", "invalid"] }, drawnBy: { value: "칸에 글자가 렌더되는 것이 그린다 — 내용이지 클래스가 아니다", cursor: { attribute: "data-active", values: { active: "true" } }, validity: "`aria-invalid` 수식자가 그리는데 지금 정책이 그것을 버린다 — 뜻 단위 정규화가 다룬다(#178)" },
   parts: {
     InputOTPControl: staticPart(CONTROL),
     InputOTPGroup: staticPart(GROUP),

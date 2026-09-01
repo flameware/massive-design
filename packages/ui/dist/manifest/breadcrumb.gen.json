@@ -31,6 +31,9 @@
     ]
   },
   "defaults": {},
+  "drawnBy": {
+    "currentLocation": "값마다 파트가 다르다 — `BreadcrumbPage`가 현재이고 `BreadcrumbLink`가 조상이다"
+  },
   "hash": "ca48b1d9992c",
   "parts": {
     "BreadcrumbEllipsis": {
@@ -227,6 +230,6 @@
       "use": "현재 위치의 상위 계층을 링크로 제공하고 마지막 항목을 현재 위치로 표시한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/breadcrumb.tsx"
 }

@@ -296,6 +296,7 @@
   "defaults": {
     "variant": "neutral"
   },
+  "drawnBy": {},
   "hash": "37c940c4d831",
   "reference": {
     "example": "badge",
@@ -305,6 +306,6 @@
       "use": "짧은 분류와 상태를 보조한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/badge.tsx"
 }

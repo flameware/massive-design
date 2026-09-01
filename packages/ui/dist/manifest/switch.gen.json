@@ -19,6 +19,17 @@
   "cells": [
     {
       "className": "state [--ds-state-base:var(--secondary)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-4 w-7 [&_[data-slot=switch-thumb]]:size-3 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-3",
+      "configurations": {
+        "checked": {
+          "checked": {
+            "background-color": {
+              "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            }
+          }
+        }
+      },
       "properties": {
         "[&_[data-slot=switch-thumb]]:data-[state=checked]:--tw-translate-x": {
           "from": "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-3",
@@ -75,12 +86,6 @@
           "scale": "shadow.xs",
           "tier": "token",
           "token": "--shadow-xs"
-        },
-        "data-[state=checked]:--ds-state-base": {
-          "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
-          "tier": "unresolved",
-          "value": "var(--primary)",
-          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -112,6 +117,17 @@
     },
     {
       "className": "state [--ds-state-base:var(--secondary)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-5 w-9 [&_[data-slot=switch-thumb]]:size-4 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-4",
+      "configurations": {
+        "checked": {
+          "checked": {
+            "background-color": {
+              "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            }
+          }
+        }
+      },
       "properties": {
         "[&_[data-slot=switch-thumb]]:data-[state=checked]:--tw-translate-x": {
           "from": "[&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-4",
@@ -168,12 +184,6 @@
           "scale": "shadow.xs",
           "tier": "token",
           "token": "--shadow-xs"
-        },
-        "data-[state=checked]:--ds-state-base": {
-          "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
-          "tier": "unresolved",
-          "value": "var(--primary)",
-          "why": "수식자 data-[state=checked]를 아직 다루지 않는다"
         },
         "display": {
           "from": "inline-flex",
@@ -214,7 +224,15 @@
   "defaults": {
     "size": "default"
   },
-  "hash": "73605238388e",
+  "drawnBy": {
+    "checked": {
+      "attribute": "data-state",
+      "values": {
+        "checked": "checked"
+      }
+    }
+  },
+  "hash": "bcf1744bc1bc",
   "reference": {
     "example": "switch",
     "guidance": {
@@ -223,6 +241,6 @@
       "use": "즉시 적용되는 이진 설정을 켜거나 끈다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/switch.tsx"
 }

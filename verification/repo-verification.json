@@ -1,13 +1,61 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "5b79bde4cb0032cba2215fa4bf5028c384836774",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "46c413c89c3865171550cd616ed946279823dccd",
   "inputTree": {
-    "commit": "5b79bde4cb0032cba2215fa4bf5028c384836774",
-    "clean": true
+    "commit": "46c413c89c3865171550cd616ed946279823dccd",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/scripts/component-contracts.mjs",
+      "packages/ui/scripts/manifest/assemble.mjs",
+      "packages/ui/scripts/manifest/build.mjs",
+      "packages/ui/scripts/manifest/classify.mjs",
+      "packages/ui/scripts/manifest/hash.mjs",
+      "packages/ui/scripts/manifest/lint.mjs",
+      "packages/ui/src/components/ui/accordion.tsx",
+      "packages/ui/src/components/ui/alert-dialog.tsx",
+      "packages/ui/src/components/ui/avatar.tsx",
+      "packages/ui/src/components/ui/breadcrumb.tsx",
+      "packages/ui/src/components/ui/button-group.tsx",
+      "packages/ui/src/components/ui/calendar.tsx",
+      "packages/ui/src/components/ui/carousel.tsx",
+      "packages/ui/src/components/ui/chart.tsx",
+      "packages/ui/src/components/ui/checkbox.tsx",
+      "packages/ui/src/components/ui/collapsible.tsx",
+      "packages/ui/src/components/ui/combobox.tsx",
+      "packages/ui/src/components/ui/command.tsx",
+      "packages/ui/src/components/ui/dialog.tsx",
+      "packages/ui/src/components/ui/dropdown-menu.tsx",
+      "packages/ui/src/components/ui/field.tsx",
+      "packages/ui/src/components/ui/input-group.tsx",
+      "packages/ui/src/components/ui/input-otp.tsx",
+      "packages/ui/src/components/ui/item.tsx",
+      "packages/ui/src/components/ui/list-row.tsx",
+      "packages/ui/src/components/ui/menubar.tsx",
+      "packages/ui/src/components/ui/native-select.tsx",
+      "packages/ui/src/components/ui/navigation-menu.tsx",
+      "packages/ui/src/components/ui/pagination.tsx",
+      "packages/ui/src/components/ui/popover.tsx",
+      "packages/ui/src/components/ui/progress.tsx",
+      "packages/ui/src/components/ui/radio-group.tsx",
+      "packages/ui/src/components/ui/resizable.tsx",
+      "packages/ui/src/components/ui/scroll-area.tsx",
+      "packages/ui/src/components/ui/select.tsx",
+      "packages/ui/src/components/ui/sheet.tsx",
+      "packages/ui/src/components/ui/sidebar.tsx",
+      "packages/ui/src/components/ui/slider.tsx",
+      "packages/ui/src/components/ui/switch.tsx",
+      "packages/ui/src/components/ui/table.tsx",
+      "packages/ui/src/components/ui/tabs.tsx",
+      "packages/ui/src/components/ui/toast.tsx",
+      "packages/ui/src/components/ui/toggle-group.tsx",
+      "packages/ui/src/components/ui/toggle.tsx",
+      "packages/ui/src/components/ui/tooltip.tsx"
+    ]
   },
-  "inputDigest": "4a46499f80357ba2a8c485160c325d53cca2f94cbab6e0e5c68d8c8a69eb17e1",
+  "inputDigest": "b7b7d75061b2b1471bb66ec0c5c4b1160f55c2ccede9eb4549b6de8888c5c4b8",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -72,7 +120,7 @@
     },
     {
       "component": "checkbox",
-      "manifestHash": "b952b37163b6",
+      "manifestHash": "49611f71f120",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -87,7 +135,7 @@
     },
     {
       "component": "command",
-      "manifestHash": "c7f9281f045a",
+      "manifestHash": "6f45a55b984d",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -97,7 +145,7 @@
     },
     {
       "component": "dropdown-menu",
-      "manifestHash": "fa7ada0fad97",
+      "manifestHash": "460ce70ee692",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -107,7 +155,7 @@
     },
     {
       "component": "field",
-      "manifestHash": "2c6116855f68",
+      "manifestHash": "b89f447e9468",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -122,12 +170,12 @@
     },
     {
       "component": "input-otp",
-      "manifestHash": "33f782cc7d47",
+      "manifestHash": "18f7da74b84d",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "item",
-      "manifestHash": "328a0c09800b",
+      "manifestHash": "edd38728a553",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -142,12 +190,12 @@
     },
     {
       "component": "list-row",
-      "manifestHash": "109497324ece",
+      "manifestHash": "318cb36fbbd1",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "menubar",
-      "manifestHash": "d3912a8526c5",
+      "manifestHash": "a4b58bb8cf3e",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -157,7 +205,7 @@
     },
     {
       "component": "navigation-menu",
-      "manifestHash": "68d4fed90210",
+      "manifestHash": "39a1d096b2c3",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -207,7 +255,7 @@
     },
     {
       "component": "sidebar",
-      "manifestHash": "63332eecc919",
+      "manifestHash": "6d9e845e1cd7",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -227,17 +275,17 @@
     },
     {
       "component": "switch",
-      "manifestHash": "73605238388e",
+      "manifestHash": "bcf1744bc1bc",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "table",
-      "manifestHash": "5503b18695d6",
+      "manifestHash": "7b66614b9b57",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "tabs",
-      "manifestHash": "25f494288674",
+      "manifestHash": "41af970533cb",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -252,12 +300,12 @@
     },
     {
       "component": "toggle",
-      "manifestHash": "bf3647e14670",
+      "manifestHash": "4aaf46275096",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
       "component": "toggle-group",
-      "manifestHash": "4952918a933c",
+      "manifestHash": "6cff2b86c2dd",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +317,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T08:32:08.190Z",
+      "checkedAt": "2026-09-01T11:04:58.153Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +347,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-01T08:32:08.190Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-01T11:04:58.153Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +544,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "sohnseongki",
-        "checkedAt": "2026-09-01T08:34:56.059Z",
-        "scope": "tabs indicator(pill·line)와 toggle-group spacing(separate·attached)의 Light/Dark. line에서 활성 밑줄이 기준선에 밀착하고 비활성은 획이 0인 것, Tab 포커스가 비활성 탭을 활성처럼 보이게 하지 않는 것, attached에서 항목 경계가 보이고 바깥 모서리만 둥근 것을 확인했다. 나머지 49개는 매니페스트가 움직이지 않았고 새 토큰이 0개라 범위 밖이다."
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-01T08:34:56.059Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }

@@ -27,7 +27,7 @@ const componentContract = {
   name: "accordion", source: "src/components/ui/accordion.tsx",
   publicExports: ["Accordion", "AccordionItem", "AccordionTrigger", "AccordionContent", "accordionVariants", "accordionVariantsConfig"],
   config: accordionVariantsConfig, className: (props: Record<string, string>) => cn(accordionVariants(props)),
-  anatomy: ["Accordion", "AccordionItem*", "AccordionTrigger", "AccordionContent"], configurationStates: { expansion: ["single", "multiple"], open: ["closed", "open"] },
+  anatomy: ["Accordion", "AccordionItem*", "AccordionTrigger", "AccordionContent"], configurationStates: { expansion: ["single", "multiple"], open: ["closed", "open"] }, drawnBy: { expansion: "`type` prop이 고르는 조립이 그린다 — 여러 항목이 동시에 열릴 수 있는지는 클래스가 아니라 primitive의 동작이다", open: "`AccordionTrigger`의 화살표 회전과 `AccordionContent`의 열림 애니메이션이 그리지만 두 파트가 아직 계약에 없다(#155)" },
   reference: { example: "accordion", guidance: { use: "관련된 여러 섹션의 제목을 훑고 필요한 내용을 하나 또는 여러 개 펼친다.", evidence: "설정·도움말처럼 제목별로 나뉜 긴 보조 정보를 좁은 화면에서 단계적으로 확인해야 한다.", limits: "순서가 필수인 절차, 항상 보여야 하는 핵심 정보, 서로 무관한 동작 모음에는 사용하지 않는다." } },
 } as const
 

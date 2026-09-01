@@ -52,6 +52,9 @@
     ]
   },
   "defaults": {},
+  "drawnBy": {
+    "currentPage": "`PaginationLink`가 현재 페이지에서 Button의 `outline` variant로 바뀐다 — 그리는 것은 Button 계약의 축이다"
+  },
   "hash": "2a3133a0cc0e",
   "parts": {
     "PaginationContent": {
@@ -482,6 +485,6 @@
       "use": "긴 결과 집합을 여러 페이지로 나누고 현재 페이지와 인접 이동을 링크로 제공한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/pagination.tsx"
 }

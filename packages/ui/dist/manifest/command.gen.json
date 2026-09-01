@@ -84,7 +84,17 @@
     ]
   },
   "defaults": {},
-  "hash": "c7f9281f045a",
+  "drawnBy": {
+    "highlighted": {
+      "attribute": "data-highlighted",
+      "values": {
+        "highlighted": "true"
+      }
+    },
+    "results": "`CommandEmpty`의 존재가 그린다 — 결과가 없을 때만 그 파트가 렌더된다",
+    "selected": "선택된 행에만 붙는 `✓` 글리프가 그린다 — 자기 클래스가 없는 노드다"
+  },
+  "hash": "6f45a55b984d",
   "parts": {
     "CommandEmpty": {
       "axes": {},
@@ -283,6 +293,22 @@
       "cells": [
         {
           "className": "state [--ds-state-base:var(--popover)] relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-none data-[highlighted=true]:bg-accent data-[highlighted=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+          "configurations": {
+            "highlighted": {
+              "highlighted": {
+                "background-color": {
+                  "from": "data-[highlighted=true]:bg-accent",
+                  "tier": "token",
+                  "token": "--ds-bg-subtle"
+                },
+                "color": {
+                  "from": "data-[highlighted=true]:text-accent-foreground",
+                  "tier": "token",
+                  "token": "--ds-fg-default"
+                }
+              }
+            }
+          },
           "properties": {
             "align-items": {
               "from": "items-center",
@@ -312,18 +338,6 @@
               "tier": "unresolved",
               "value": "none",
               "why": "수식자 data-[disabled=true]를 아직 다루지 않는다"
-            },
-            "data-[highlighted=true]:background-color": {
-              "from": "data-[highlighted=true]:bg-accent",
-              "tier": "unresolved",
-              "value": "var(--accent)",
-              "why": "수식자 data-[highlighted=true]를 아직 다루지 않는다"
-            },
-            "data-[highlighted=true]:color": {
-              "from": "data-[highlighted=true]:text-accent-foreground",
-              "tier": "unresolved",
-              "value": "var(--accent-foreground)",
-              "why": "수식자 data-[highlighted=true]를 아직 다루지 않는다"
             },
             "display": {
               "from": "flex",
@@ -428,6 +442,6 @@
       "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/command.tsx"
 }

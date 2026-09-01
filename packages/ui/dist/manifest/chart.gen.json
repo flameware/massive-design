@@ -136,6 +136,7 @@
   "defaults": {
     "indicator": "dot"
   },
+  "drawnBy": {},
   "externalSurfaces": {
     "Legend가 복제하며 넣는 prop 이름": "recharts Legend가 content 요소를 align·verticalAlign·payload로 복제한다 — 외부 소유는 노드만이 아니라 prop 이름 공간에도 있고, 그래서 우리 축 이름을 placement로 피했다",
     "반응형 컨테이너의 인라인 크기": "recharts ResponsiveContainer가 ChartContainer 안쪽에 자기 div를 만들고 width·height를 인라인으로 쓴다 — 그 한 겹은 우리 노드가 아니다",
@@ -577,6 +578,6 @@
       "use": "시계열이나 범주 비교를 Recharts로 그리면서, 툴팁 카드와 범례만 카탈로그의 면·글자·모서리 규칙에 맞춰 통일한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/chart.tsx"
 }

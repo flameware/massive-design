@@ -78,7 +78,7 @@ const componentContract = {
   name: "item", source: "src/components/ui/item.tsx",
   publicExports: ["Item", "ItemMedia", "ItemContent", "ItemTitle", "ItemDescription", "ItemActions", "ItemHeader", "ItemFooter", "ItemGroup", "ItemSeparator", "itemVariants", "itemVariantsConfig"],
   config: itemVariantsConfig, className: (props: Record<string, string>) => cn(itemVariants(props)),
-  anatomy: ["Item", "ItemMedia?", "ItemContent", "ItemTitle", "ItemDescription?", "ItemActions?", "ItemHeader?", "ItemFooter?", "ItemGroup?", "ItemSeparator?"], configurationStates: { item: ["default", "selected"] },
+  anatomy: ["Item", "ItemMedia?", "ItemContent", "ItemTitle", "ItemDescription?", "ItemActions?", "ItemHeader?", "ItemFooter?", "ItemGroup?", "ItemSeparator?"], configurationStates: { item: ["default", "selected"] }, drawnBy: { item: { attribute: "data-state", values: { selected: "selected" } } },
   parts: {
     ItemMedia: { config: itemMediaVariantsConfig, className: (props: Record<string, string>) => cn(itemMediaVariants(props)) },
     ItemContent: staticPart("flex min-w-0 flex-1 flex-col gap-1"),

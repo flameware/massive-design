@@ -60,7 +60,21 @@
     ]
   },
   "defaults": {},
-  "hash": "68d4fed90210",
+  "drawnBy": {
+    "currentLocation": {
+      "attribute": "data-active",
+      "values": {
+        "current": "true"
+      }
+    },
+    "open": {
+      "attribute": "data-state",
+      "values": {
+        "open": "open"
+      }
+    }
+  },
+  "hash": "39a1d096b2c3",
   "parts": {
     "NavigationMenuContent": {
       "axes": {},
@@ -163,6 +177,22 @@
       "cells": [
         {
           "className": "state [--ds-state-base:var(--popover)] data-[active=true]:[--ds-state-base:var(--accent)] flex flex-col gap-1 rounded-sm p-2 text-sm outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring data-[active=true]:font-medium",
+          "configurations": {
+            "currentLocation": {
+              "current": {
+                "background-color": {
+                  "from": "data-[active=true]:[--ds-state-base:var(--accent)]",
+                  "tier": "token",
+                  "token": "--ds-bg-subtle"
+                },
+                "font-weight": {
+                  "from": "data-[active=true]:font-medium",
+                  "tier": "literal",
+                  "value": "500"
+                }
+              }
+            }
+          },
           "properties": {
             "background-color": {
               "from": "state",
@@ -175,24 +205,6 @@
               "scale": "radius.sm",
               "tier": "token",
               "token": "--radius-sm"
-            },
-            "data-[active=true]:--ds-state-base": {
-              "from": "data-[active=true]:[--ds-state-base:var(--accent)]",
-              "tier": "unresolved",
-              "value": "var(--accent)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
-            },
-            "data-[active=true]:--tw-font-weight": {
-              "from": "data-[active=true]:font-medium",
-              "tier": "unresolved",
-              "value": "var(--font-weight-medium)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
-            },
-            "data-[active=true]:font-weight": {
-              "from": "data-[active=true]:font-medium",
-              "tier": "unresolved",
-              "value": "var(--font-weight-medium)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
             },
             "display": {
               "from": "flex",
@@ -285,6 +297,26 @@
       "cells": [
         {
           "className": "state [--ds-state-base:var(--background)] data-[state=open]:[--ds-state-base:var(--accent)] data-[active=true]:[--ds-state-base:var(--accent)] inline-flex h-9 w-max items-center justify-center gap-1 rounded-md px-3 py-2 text-sm font-medium outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
+          "configurations": {
+            "currentLocation": {
+              "current": {
+                "background-color": {
+                  "from": "data-[active=true]:[--ds-state-base:var(--accent)]",
+                  "tier": "token",
+                  "token": "--ds-bg-subtle"
+                }
+              }
+            },
+            "open": {
+              "open": {
+                "background-color": {
+                  "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
+                  "tier": "token",
+                  "token": "--ds-bg-subtle"
+                }
+              }
+            }
+          },
           "properties": {
             "[&[data-state=open]>svg]:rotate": {
               "from": "[&[data-state=open]>svg]:rotate-180",
@@ -308,18 +340,6 @@
               "scale": "radius.md",
               "tier": "token",
               "token": "--radius-md"
-            },
-            "data-[active=true]:--ds-state-base": {
-              "from": "data-[active=true]:[--ds-state-base:var(--accent)]",
-              "tier": "unresolved",
-              "value": "var(--accent)",
-              "why": "수식자 data-[active=true]를 아직 다루지 않는다"
-            },
-            "data-[state=open]:--ds-state-base": {
-              "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
-              "tier": "unresolved",
-              "value": "var(--accent)",
-              "why": "수식자 data-[state=open]를 아직 다루지 않는다"
             },
             "display": {
               "from": "inline-flex",
@@ -404,6 +424,6 @@
       "use": "화면 상단에서 사이트의 주요 목적지를 가로로 늘어놓고, 하위 목적지가 여럿인 항목만 카드로 펼친다. 현재 화면을 가리키는 링크는 `active`로 표시하고, 하위가 없는 항목은 `NavigationMenuLink`에 `navigationMenuTriggerVariants()`를 입혀 막대에 직접 놓는다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/navigation-menu.tsx"
 }

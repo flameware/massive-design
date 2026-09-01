@@ -48,7 +48,7 @@ const componentContract = {
   name: "toast", source: "src/components/ui/toast.tsx",
   publicExports: ["ToastProvider", "ToastViewport", "Toast", "ToastTitle", "ToastDescription", "ToastAction", "ToastClose", "toastVariants", "toastVariantsConfig"],
   config: toastVariantsConfig, className: (props: Record<string, string>) => cn(toastVariants(props)),
-  anatomy: ["ToastProvider", "ToastViewport", "Toast", "ToastTitle?", "ToastDescription", "ToastAction?", "ToastClose?"], configurationStates: { open: ["closed", "open"] },
+  anatomy: ["ToastProvider", "ToastViewport", "Toast", "ToastTitle?", "ToastDescription", "ToastAction?", "ToastClose?"], configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — viewport에 붙고 떨어지는 것이 전부다" },
   gestures: {
     "swipe-dismiss": {
       surface: "Toast",

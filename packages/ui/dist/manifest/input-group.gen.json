@@ -162,6 +162,10 @@
     ]
   },
   "defaults": {},
+  "drawnBy": {
+    "disabled": "`has-[:disabled]`가 그린다 — pseudo-class라 `data-*` 모양으로 적을 수 없고, 정책이 뜻 단위가 될 때 다뤄진다(#178)",
+    "validity": "`has-[[aria-invalid=true]]`와 `aria-invalid`가 그린다 — 같은 이유로 `data-*`가 아니다(#178)"
+  },
   "hash": "13e8f3db38a6",
   "parts": {
     "InputGroupAddon": {
@@ -584,6 +588,6 @@
       "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/input-group.tsx"
 }

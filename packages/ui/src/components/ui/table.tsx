@@ -45,7 +45,7 @@ const componentContract = {
     TableCell: staticPart("p-2 align-middle"),
     TableCaption: staticPart("mt-4 text-sm text-muted-foreground"),
   },
-  configurationStates: { row: ["default", "selected"] },
+  configurationStates: { row: ["default", "selected"] }, drawnBy: { row: { attribute: "data-state", values: { selected: "selected" } } },
   reference: { example: "table", guidance: { use: "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다.", evidence: "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.", limits: "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다." } },
 } as const
 export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, tableVariants, tableVariantsConfig, componentContract }

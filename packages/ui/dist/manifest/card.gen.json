@@ -82,6 +82,7 @@
   "component": "card",
   "configurationStates": {},
   "defaults": {},
+  "drawnBy": {},
   "hash": "82d2063c2dba",
   "reference": {
     "example": "card",
@@ -91,6 +92,6 @@
       "use": "관련 콘텐츠를 하나의 표면으로 묶는다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/card.tsx"
 }

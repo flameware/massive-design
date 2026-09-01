@@ -55,7 +55,15 @@
     ]
   },
   "defaults": {},
-  "hash": "5503b18695d6",
+  "drawnBy": {
+    "row": {
+      "attribute": "data-state",
+      "values": {
+        "selected": "selected"
+      }
+    }
+  },
+  "hash": "7b66614b9b57",
   "parts": {
     "TableBody": {
       "axes": {},
@@ -218,6 +226,17 @@
       "cells": [
         {
           "className": "state [--ds-state-base:var(--background)] border-b transition-colors data-[state=selected]:bg-primary-soft",
+          "configurations": {
+            "row": {
+              "selected": {
+                "background-color": {
+                  "from": "data-[state=selected]:bg-primary-soft",
+                  "tier": "token",
+                  "token": "--ds-bg-accent-soft"
+                }
+              }
+            }
+          },
           "properties": {
             "background-color": {
               "from": "state",
@@ -229,12 +248,6 @@
               "px": 1,
               "scale": "borderWidth.1",
               "tier": "token"
-            },
-            "data-[state=selected]:background-color": {
-              "from": "data-[state=selected]:bg-primary-soft",
-              "tier": "unresolved",
-              "value": "var(--primary-soft)",
-              "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
             }
           },
           "state": {
@@ -257,6 +270,6 @@
       "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/table.tsx"
 }

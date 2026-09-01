@@ -65,7 +65,7 @@ const componentContract = {
   publicExports: ["ScrollArea", "ScrollAreaViewport", "ScrollBar", "ScrollAreaThumb", "ScrollAreaCorner", "scrollAreaVariants", "scrollAreaVariantsConfig", "scrollBarVariants", "scrollBarVariantsConfig"],
   config: scrollAreaVariantsConfig, className: (props: Record<string, string>) => cn(scrollAreaVariants(props)),
   anatomy: ["ScrollArea", "ScrollAreaViewport", "ScrollBar?", "ScrollAreaThumb", "ScrollAreaCorner?"],
-  configurationStates: { overflow: ["fits", "overflowing"] },
+  configurationStates: { overflow: ["fits", "overflowing"] }, drawnBy: { overflow: "Radix가 넘칠 때만 스크롤바 노드를 붙인다 — 존재가 그린다" },
   parts: {
     ScrollBar: { config: scrollBarVariantsConfig, className: (props: Record<string, string>) => cn(scrollBarVariants(props)) },
     ScrollAreaThumb: { config: { variants: {}, defaultVariants: {} } as const, className: () => scrollAreaThumbClassName },

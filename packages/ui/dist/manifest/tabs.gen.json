@@ -90,7 +90,15 @@
   "defaults": {
     "orientation": "horizontal"
   },
-  "hash": "25f494288674",
+  "drawnBy": {
+    "selected": {
+      "attribute": "data-state",
+      "values": {
+        "active": "active"
+      }
+    }
+  },
+  "hash": "41af970533cb",
   "parts": {
     "TabsContent": {
       "axes": {},
@@ -237,6 +245,28 @@
       "cells": [
         {
           "className": "state inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground [--ds-state-base:var(--muted)] rounded-md border data-[state=active]:[--ds-state-base:var(--background)] data-[state=active]:shadow-sm",
+          "configurations": {
+            "selected": {
+              "active": {
+                "background-color": {
+                  "from": "data-[state=active]:[--ds-state-base:var(--background)]",
+                  "tier": "token",
+                  "token": "--ds-bg-canvas"
+                },
+                "box-shadow": {
+                  "from": "data-[state=active]:shadow-sm",
+                  "scale": "shadow.sm",
+                  "tier": "token",
+                  "token": "--shadow-sm"
+                },
+                "color": {
+                  "from": "data-[state=active]:text-foreground",
+                  "tier": "token",
+                  "token": "--ds-fg-default"
+                }
+              }
+            }
+          },
           "indicator": "pill",
           "properties": {
             "align-items": {
@@ -266,30 +296,6 @@
               "px": 1,
               "scale": "borderWidth.1",
               "tier": "token"
-            },
-            "data-[state=active]:--ds-state-base": {
-              "from": "data-[state=active]:[--ds-state-base:var(--background)]",
-              "tier": "unresolved",
-              "value": "var(--background)",
-              "why": "수식자 data-[state=active]를 아직 다루지 않는다"
-            },
-            "data-[state=active]:--tw-shadow": {
-              "from": "data-[state=active]:shadow-sm",
-              "tier": "unresolved",
-              "value": "0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / .08)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / .08))",
-              "why": "수식자 data-[state=active]를 아직 다루지 않는다"
-            },
-            "data-[state=active]:box-shadow": {
-              "from": "data-[state=active]:shadow-sm",
-              "tier": "unresolved",
-              "value": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)",
-              "why": "수식자 data-[state=active]를 아직 다루지 않는다"
-            },
-            "data-[state=active]:color": {
-              "from": "data-[state=active]:text-foreground",
-              "tier": "unresolved",
-              "value": "var(--foreground)",
-              "why": "수식자 data-[state=active]를 아직 다루지 않는다"
             },
             "display": {
               "from": "inline-flex",
@@ -361,6 +367,23 @@
         },
         {
           "className": "state inline-flex flex-1 items-center justify-center gap-1.5 px-2 py-1 text-sm font-medium whitespace-nowrap outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground h-auto -mb-px rounded-none border-focus-contrast border-b-0 data-[state=active]:border-b-2",
+          "configurations": {
+            "selected": {
+              "active": {
+                "border-bottom-width": {
+                  "from": "data-[state=active]:border-b-2",
+                  "px": 2,
+                  "scale": "borderWidth.2",
+                  "tier": "token"
+                },
+                "color": {
+                  "from": "data-[state=active]:text-foreground",
+                  "tier": "token",
+                  "token": "--ds-fg-default"
+                }
+              }
+            }
+          },
           "indicator": "line",
           "properties": {
             "align-items": {
@@ -387,24 +410,6 @@
               "from": "rounded-none",
               "px": 0,
               "tier": "literal"
-            },
-            "data-[state=active]:border-bottom-style": {
-              "from": "data-[state=active]:border-b-2",
-              "tier": "unresolved",
-              "value": "var(--tw-border-style)",
-              "why": "수식자 data-[state=active]를 아직 다루지 않는다"
-            },
-            "data-[state=active]:border-bottom-width": {
-              "from": "data-[state=active]:border-b-2",
-              "tier": "unresolved",
-              "value": "2px",
-              "why": "수식자 data-[state=active]를 아직 다루지 않는다"
-            },
-            "data-[state=active]:color": {
-              "from": "data-[state=active]:text-foreground",
-              "tier": "unresolved",
-              "value": "var(--foreground)",
-              "why": "수식자 data-[state=active]를 아직 다루지 않는다"
             },
             "display": {
               "from": "inline-flex",
@@ -493,6 +498,6 @@
       "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립하고, 활성 탭을 알약으로 표시할지 밑줄로 표시할지 `TabsList`의 `indicator`로 고른다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/tabs.tsx"
 }

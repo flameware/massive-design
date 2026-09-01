@@ -23,7 +23,12 @@ export const IGNORED_PROPERTIES = new Map([
   ["box-shadow", "shadow-* 유틸리티 자체를 Effect Style로 옮긴다 — 합성된 box-shadow는 읽지 않는다"],
 ])
 
-/** 수식자별 처리. 여기 없는 수식자는 unresolved로 뜬다. */
+/** 수식자별 처리. 여기 없는 수식자는 unresolved로 뜬다.
+ *
+ * 이 표는 **전역**이다 — 컴포넌트를 가리지 않는 뜻만 온다. 한 컴포넌트의 구성 상태를
+ * 그리는 수식자(`data-[state=on]` ↔ `pressed`)는 여기 오지 않는다: 뜻이 컴포넌트마다
+ * 다르고, 여기 쌓으면 51개 컴포넌트의 DOM 사실이 계약 밖에 모여 새 컴포넌트의 누락을
+ * 아무 게이트도 못 본다. 그쪽 이름표는 계약의 `drawnBy`가 지고 조립이 조회한다(#148). */
 export const MODIFIER_POLICY = new Map([
   ["disabled", "state"],
   ["has-[>svg]", "slot-icon"],

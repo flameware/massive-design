@@ -162,7 +162,7 @@ const componentContract = {
   publicExports: ["Menubar", "MenubarMenu", "MenubarTrigger", "MenubarContent", "MenubarGroup", "MenubarLabel", "MenubarItem", "MenubarCheckboxItem", "MenubarRadioGroup", "MenubarRadioItem", "MenubarSeparator", "MenubarSub", "MenubarSubTrigger", "MenubarSubContent", "menubarVariants", "menubarVariantsConfig"],
   config: menubarVariantsConfig, className: (props: Record<string, string>) => cn(menubarVariants(props)),
   anatomy: ["Menubar", "MenubarMenu*", "MenubarTrigger", "MenubarContent", "MenubarGroup*", "MenubarLabel?", "MenubarItem*", "MenubarCheckboxItem*", "MenubarRadioGroup?", "MenubarRadioItem*", "MenubarSeparator?", "MenubarSub?", "MenubarSubTrigger", "MenubarSubContent"],
-  configurationStates: { open: ["closed", "open"], checked: ["unchecked", "checked"] },
+  configurationStates: { open: ["closed", "open"], checked: ["unchecked", "checked"] }, drawnBy: { open: { attribute: "data-state", values: { open: "open" } }, checked: "`ItemIndicator` 글리프의 존재가 그린다 — Dropdown Menu와 같은 판정이다(#154)" },
   parts: {
     MenubarTrigger: staticPart(TRIGGER),
     MenubarContent: staticPart(CONTENT),

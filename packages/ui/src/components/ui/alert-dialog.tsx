@@ -80,7 +80,7 @@ const componentContract = {
     "AlertDialogContent", "AlertDialogHeader?", "AlertDialogTitle",
     "AlertDialogDescription", "AlertDialogFooter", "AlertDialogCancel", "AlertDialogAction",
   ],
-  configurationStates: { open: ["closed", "open"] },
+  configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다" },
   reference: {
     example: "alert-dialog",
     guidance: {

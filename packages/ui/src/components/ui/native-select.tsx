@@ -74,7 +74,7 @@ const componentContract = {
   publicExports: ["NativeSelect", "NativeSelectIcon", "NativeSelectOption", "NativeSelectGroup", "nativeSelectVariants", "nativeSelectVariantsConfig"],
   config: nativeSelectVariantsConfig, className: (props: Record<string, string>) => cn(nativeSelectVariants(props)),
   anatomy: ["NativeSelect", "NativeSelectIcon", "NativeSelectGroup?", "NativeSelectOption*"],
-  configurationStates: { validity: ["valid", "invalid"], disabled: ["enabled", "disabled"] },
+  configurationStates: { validity: ["valid", "invalid"], disabled: ["enabled", "disabled"] }, drawnBy: { validity: "`aria-invalid` 수식자가 그리는데 지금 정책이 그것을 버린다(#178)", disabled: "네이티브 `:disabled`가 그린다 — `data-*`가 아니라 pseudo-class이고 조립은 그것을 상태 사다리의 `disabled`로 담는다" },
   parts: {
     NativeSelectIcon: staticPart(ICON),
   },

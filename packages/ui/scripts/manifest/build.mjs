@@ -20,7 +20,14 @@ import { loadTheme } from "./theme.mjs"
  * 파생 채널이 읽어야 하기 때문에 계약에만 두지 않는다. Figma Sync가 이 컴포넌트를
  * 만났을 때 **매니페스트에 없는 것이 아직 못 다룬 것인지 영영 우리 것이 아닌지**를
  * 여기서 구분한다 — 그러지 않으면 껍데기 variant를 주입한 뒤에야 알게 된다. */
-export const SCHEMA_VERSION = 5
+/** 6: 계약이 구성 상태를 그리는 자리를 `drawnBy`로 함께 선언하고, 셀이 구성 상태별 차이를
+ * `configurations`에 담는다(#148).
+ *
+ * 소비처가 새로 읽어야 하는 것은 셀의 `configurations`다 — `{ 구성 상태: { 값: { CSS 속성: 항목 } } }`
+ * 이며 쉬는 상태(`properties`)에 대한 차이다. Figma 쪽에서 이것은 variant 축이 아니라
+ * **component property**이므로 카탈로그의 조합 수는 늘지 않는다. `drawnBy`는 매니페스트에도
+ * 실리지만 코드 쪽 사실이라 해시의 입력이 아니다. */
+export const SCHEMA_VERSION = 6
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -69,7 +76,9 @@ export function buildManifests(components, root) {
       {
         axes: Object.fromEntries(Object.entries(part.contract.config.variants).map(([a, v]) => [a, Object.keys(v)])),
         defaults: { ...part.contract.config.defaultVariants },
-        cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme })),
+        // 구성 상태는 컴포넌트가 선언하고 파트가 그린다 — tabs의 `selected`를 `TabsTrigger`가
+        // 그리는 것이 그 예다. 그래서 파트 셀도 같은 이름표를 받는다
+        cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy })),
       },
     ]))
     const doc = {
@@ -82,9 +91,10 @@ export function buildManifests(components, root) {
       anatomy: component.anatomy ?? [],
       ...(Object.keys(assembledParts).length ? { parts: assembledParts } : {}),
       configurationStates: component.configurationStates ?? {},
+      drawnBy: component.drawnBy ?? {},
       ...(component.externalSurfaces ? { externalSurfaces: { ...component.externalSurfaces } } : {}),
       reference: component.reference,
-      cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme })),
+      cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy })),
     }
     doc.hash = hashComponent(doc)
     const file = `${component.name}.gen.json`

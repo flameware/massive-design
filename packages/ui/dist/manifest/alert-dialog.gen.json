@@ -116,6 +116,9 @@
     ]
   },
   "defaults": {},
+  "drawnBy": {
+    "open": "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다"
+  },
   "hash": "ff95c8d6a7c2",
   "reference": {
     "example": "alert-dialog",
@@ -125,6 +128,6 @@
       "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/alert-dialog.tsx"
 }

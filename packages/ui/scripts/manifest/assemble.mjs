@@ -39,9 +39,36 @@ export function cellsOf(config) {
   return rows
 }
 
-export function assembleCell({ props, className, tree, theme }) {
+/**
+ * 계약의 `drawnBy`를 수식자 → 구성 상태 자리로 뒤집는다(#148).
+ *
+ * 조회 키가 수식자인 이유는 조립이 클래스에서 출발하기 때문이다. 이유 문자열 항목은
+ * 우리 클래스가 그리지 않는다고 말한 것이므로 여기 오지 않는다.
+ */
+export function drawnByModifier(drawnBy) {
+  const map = new Map()
+  for (const [state, drawn] of Object.entries(drawnBy ?? {})) {
+    if (typeof drawn !== "object" || drawn === null) continue
+    for (const [value, domValue] of Object.entries(drawn.values ?? {})) {
+      map.set(`data-[${drawn.attribute.slice("data-".length)}=${domValue}]`, { state, value })
+    }
+  }
+  return map
+}
+
+/**
+ * 셀 하나를 조립한다.
+ *
+ * `properties`는 **쉬는 상태**다. 계약이 `drawnBy`로 이름표를 준 수식자는 `unresolved`가
+ * 아니라 `configurations[구성 상태][값]`에 담기며, 그 자리는 쉬는 상태에 대한 **차이**만
+ * 갖는다 — 값이 없는 구성 상태 값은 `properties`가 그대로 그린다는 뜻이다. Figma에서
+ * 이 자리는 variant 축이 아니라 **component property**다(#147의 어휘 교정).
+ */
+export function assembleCell({ props, className, tree, theme, drawnBy }) {
   const properties = {}
   const slots = {}
+  const configurations = {}
+  const byModifier = drawnByModifier(drawnBy)
   let state = null
   let stateBase = undefined
   let disabledOpacity = null
@@ -69,6 +96,32 @@ export function assembleCell({ props, className, tree, theme }) {
         if (d.prop.startsWith("--ds-")) continue
         const hit = classifyDeclaration(theme, d.prop, d.value, cls)
         if (hit) properties[hit.prop] = hit.entry
+      }
+      continue
+    }
+
+    // 계약이 이름표를 지므로 전역 정책보다 앞선다 — 이 수식자가 무엇을 그리는지는
+    // 그 컴포넌트만 안다. 복합 수식자는 여기 안 걸린다(#182이 조회를 넓힌다)
+    const drawn = modifiers.length === 1 ? byModifier.get(modifiers[0]) : undefined
+    if (drawn) {
+      const bucket = () => ((configurations[drawn.state] ??= {})[drawn.value] ??= {})
+      if (utility.startsWith("shadow-")) {
+        const hit = classifyShadow(theme, decls, cls)
+        if (hit) bucket()[hit.prop] = hit.entry
+        continue
+      }
+      for (const d of decls) {
+        // 쉬는 상태와 같은 뜻이다 — 상태 사다리가 얹히는 면이 이 구성 상태에서 바뀐다
+        if (d.prop === "--ds-state-base") {
+          const chain = resolveVarChain(theme, varName(d.value))
+          bucket()["background-color"] = chain.kind === "token"
+            ? { tier: "token", token: chain.token, from: cls }
+            : { tier: "literal", value: d.value, from: cls }
+          continue
+        }
+        if (d.prop.startsWith("--ds-")) continue
+        const hit = classifyDeclaration(theme, d.prop, d.value, cls)
+        if (hit) bucket()[hit.prop] = hit.entry
       }
       continue
     }
@@ -121,7 +174,14 @@ export function assembleCell({ props, className, tree, theme }) {
       : { tier: "literal", value: "transparent", from: "state" }
   }
 
-  return { ...props, className, properties, ...(Object.keys(slots).length ? { slots } : {}), state }
+  return {
+    ...props,
+    className,
+    properties,
+    ...(Object.keys(slots).length ? { slots } : {}),
+    ...(Object.keys(configurations).length ? { configurations } : {}),
+    state,
+  }
 }
 
 /** `.state` 규칙에서 사다리와 층 색을 읽는다 — 손으로 적힌 사본을 만들지 않는다. */

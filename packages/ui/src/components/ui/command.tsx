@@ -329,7 +329,7 @@ const componentContract = {
   anatomy: ["Command", "CommandInput", "CommandList", "CommandGroup*", "CommandGroupHeading?", "CommandItem*", "CommandEmpty?"],
   /* highlighted는 키보드 커서가 놓인 행 하나, selected는 이미 고른 값이다.
    * results는 검색 결과가 있는 목록과 빈 결과 표면 중 무엇을 조립하는지 고른다. */
-  configurationStates: { highlighted: ["highlighted", "idle"], selected: ["unselected", "selected"], results: ["matches", "empty"] },
+  configurationStates: { highlighted: ["highlighted", "idle"], selected: ["unselected", "selected"], results: ["matches", "empty"] }, drawnBy: { highlighted: { attribute: "data-highlighted", values: { highlighted: "true" } }, selected: "선택된 행에만 붙는 `✓` 글리프가 그린다 — 자기 클래스가 없는 노드다", results: "`CommandEmpty`의 존재가 그린다 — 결과가 없을 때만 그 파트가 렌더된다" },
   parts: {
     CommandInput: staticPart(commandInputClass),
     CommandList: staticPart(commandListClass),

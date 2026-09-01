@@ -137,7 +137,7 @@ const componentContract = {
   publicExports: ["Slider", "SliderTrack", "SliderRange", "SliderThumb", "sliderVariants", "sliderVariantsConfig"],
   config: sliderVariantsConfig, className: (props: Record<string, string>) => cn(sliderVariants(props)),
   anatomy: ["Slider", "SliderTrack", "SliderRange", "SliderThumb*"],
-  configurationStates: { value: ["single", "range"] },
+  configurationStates: { value: ["single", "range"] }, drawnBy: { value: "thumb의 개수가 그린다 — 조립이지 클래스가 아니다" },
   parts: {
     SliderTrack: { config: sliderTrackVariantsConfig, className: (props: Record<string, string>) => cn(sliderTrackVariants(props)) },
     SliderRange: { config: sliderRangeVariantsConfig, className: (props: Record<string, string>) => cn(sliderRangeVariants(props)) },

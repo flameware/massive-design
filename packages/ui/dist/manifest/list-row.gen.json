@@ -19,6 +19,17 @@
   "cells": [
     {
       "className": "state [--ds-state-base:var(--background)] flex min-w-0 items-center gap-3 rounded-md px-3 py-3 data-[state=selected]:bg-primary-soft",
+      "configurations": {
+        "row": {
+          "selected": {
+            "background-color": {
+              "from": "data-[state=selected]:bg-primary-soft",
+              "tier": "token",
+              "token": "--ds-bg-accent-soft"
+            }
+          }
+        }
+      },
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -36,12 +47,6 @@
           "scale": "radius.md",
           "tier": "token",
           "token": "--radius-md"
-        },
-        "data-[state=selected]:background-color": {
-          "from": "data-[state=selected]:bg-primary-soft",
-          "tier": "unresolved",
-          "value": "var(--primary-soft)",
-          "why": "수식자 data-[state=selected]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -98,7 +103,15 @@
     ]
   },
   "defaults": {},
-  "hash": "109497324ece",
+  "drawnBy": {
+    "row": {
+      "attribute": "data-state",
+      "values": {
+        "selected": "selected"
+      }
+    }
+  },
+  "hash": "318cb36fbbd1",
   "reference": {
     "example": "list-row",
     "guidance": {
@@ -107,6 +120,6 @@
       "use": "모바일 폭에서 한 항목의 우선 정보와 보조 동작을 조립한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/list-row.tsx"
 }

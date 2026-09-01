@@ -45,7 +45,7 @@ const componentContract = {
   name: "pagination", source: "src/components/ui/pagination.tsx",
   publicExports: ["Pagination", "PaginationContent", "PaginationItem", "PaginationLink", "PaginationPrevious", "PaginationNext", "PaginationEllipsis", "paginationVariants", "paginationVariantsConfig"],
   config: paginationVariantsConfig, className: (props: Record<string, string>) => cn(paginationVariants(props)),
-  anatomy: ["Pagination", "PaginationContent", "PaginationItem*", "PaginationPrevious?", "PaginationLink*", "PaginationEllipsis?", "PaginationNext?"], configurationStates: { currentPage: ["other", "current"] },
+  anatomy: ["Pagination", "PaginationContent", "PaginationItem*", "PaginationPrevious?", "PaginationLink*", "PaginationEllipsis?", "PaginationNext?"], configurationStates: { currentPage: ["other", "current"] }, drawnBy: { currentPage: "`PaginationLink`가 현재 페이지에서 Button의 `outline` variant로 바뀐다 — 그리는 것은 Button 계약의 축이다" },
   parts: {
     PaginationContent: staticPart("flex flex-row items-center gap-1"),
     PaginationLink: staticPart(buttonVariants({ variant: "ghost", size: "icon" })),

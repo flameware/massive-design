@@ -62,6 +62,15 @@ export function lintManifest(doc) {
     for (const [prop, entry] of Object.entries(cell.properties ?? {})) {
       if (entry?.tier === "token" && entry.token) check(prop, entry.token, where, errors)
     }
+    // 구성 상태별 차이도 같은 자리의 값이다 — 검사하지 않으면 `data-[state=checked]:text-*`가
+    // 계열 규칙 밖으로 빠져나간다(#148)
+    for (const [state, values] of Object.entries(cell.configurations ?? {})) {
+      for (const [value, properties] of Object.entries(values)) {
+        for (const [prop, entry] of Object.entries(properties)) {
+          if (entry?.tier === "token" && entry.token) check(prop, entry.token, `${where} ${state}=${value}`, errors)
+        }
+      }
+    }
     // state.base는 layer가 얹히는 **면**이라 background-color와 같은 자리다.
     // state.layer는 --ds-state-layer라 계열이 다르고 검사 대상이 아니다
     if (cell.state?.base) check("background-color", cell.state.base, `${where} state.base`, errors)
@@ -106,6 +115,11 @@ export function lintVarMapCoverage(doc, varMap) {
   const checkCells = (cells, prefix) => { for (const cell of cells ?? []) {
     const where = `${prefix} ${cell.variant}/${cell.size}`
     for (const [prop, entry] of Object.entries(cell.properties ?? {})) need(entry, `${where}/${prop}`)
+    for (const [state, values] of Object.entries(cell.configurations ?? {})) {
+      for (const [value, properties] of Object.entries(values)) {
+        for (const [prop, entry] of Object.entries(properties)) need(entry, `${where} ${state}=${value}/${prop}`)
+      }
+    }
     for (const [role, slot] of Object.entries(cell.slots ?? {})) {
       for (const [prop, entry] of Object.entries(slot)) need(entry, `${where} ${role}/${prop}`)
     }

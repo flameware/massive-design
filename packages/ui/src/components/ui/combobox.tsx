@@ -180,7 +180,7 @@ const componentContract = {
   anatomy: ["Combobox", "ComboboxTrigger", "ComboboxValue", "ComboboxIcon?", "ComboboxContent", "CommandInput", "CommandList", "CommandGroup*", "CommandItem*", "CommandEmpty?"],
   /* Command는 커서(highlighted)까지 세 축을 갖지만 Combobox는 두 축이다 — 커서는
    * 열린 목록 안에서만 뜻이 있고 그 조립은 Command의 참조 화면이 이미 나른다. */
-  configurationStates: { open: ["closed", "open"], selected: ["unselected", "selected"] },
+  configurationStates: { open: ["closed", "open"], selected: ["unselected", "selected"] }, drawnBy: { open: "표면(`ComboboxContent`)의 존재가 곧 열림이다", selected: "`ComboboxValue`의 내용이 그린다 — `data-selected`가 DOM에 붙지만 우리 클래스는 그것을 읽지 않는다" },
   parts: {
     ComboboxValue: staticPart(comboboxValueClass),
     ComboboxIcon: staticPart(comboboxIconClass),

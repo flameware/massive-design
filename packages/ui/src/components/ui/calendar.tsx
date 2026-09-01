@@ -332,7 +332,7 @@ const componentContract = {
   publicExports: ["Calendar", "CalendarHeader", "CalendarNav", "CalendarCaption", "CalendarGrid", "CalendarHeadCell", "CalendarCell", "CalendarDay", "calendarVariants", "calendarVariantsConfig", "calendarDayVariants", "calendarDayVariantsConfig"],
   config: calendarVariantsConfig, className: (props: Record<string, string>) => cn(calendarVariants(props)),
   anatomy: ["Calendar", "CalendarHeader", "CalendarNav*", "CalendarCaption", "CalendarGrid", "CalendarHeadCell*", "CalendarCell*", "CalendarDay*"],
-  configurationStates: { selection: ["single", "range"] },
+  configurationStates: { selection: ["single", "range"] }, drawnBy: { selection: "`mode`가 고르는 조립이 그린다 — 날짜 하나하나는 `CalendarDay`의 `day` 축이 그리고, single/range는 그 중 어느 값이 나타나는지만 정한다" },
   parts: {
     CalendarHeader: staticPart(HEADER_CLASS),
     CalendarNav: staticPart(NAV_CLASS),

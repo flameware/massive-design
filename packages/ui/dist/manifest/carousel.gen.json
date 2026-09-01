@@ -57,6 +57,9 @@
   "defaults": {
     "orientation": "horizontal"
   },
+  "drawnBy": {
+    "currentSlide": "Embla가 트랙에 인라인 `transform`을 쓴다 — `externalSurfaces`가 이미 그 자리를 남의 것으로 적었다"
+  },
   "externalSurfaces": {
     "드래그 중 포인터·클릭 억제": "embla-carousel이 트랙에 dragstart·touchmove·contextmenu와 캡처 단계 click 리스너를 걸어 드래그 직후의 클릭을 삼킨다 — 우리 노드 위에서 일어나지만 우리가 구현하지도 끄지도 않는다",
     "스냅 지점과 슬라이드 그룹 계산": "embla-carousel이 뷰포트와 슬라이드를 실측해 스냅 지점·정렬·그룹을 정한다 — 우리 basis-full은 그 계산의 입력일 뿐이고 결과는 계약에 나타나지 않는다",
@@ -786,6 +789,6 @@
       "use": "같은 무게의 항목 여럿을 한 자리에서 몇 개씩만 보여주고 나머지는 이전·다음으로 넘겨 보게 한다."
     }
   },
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "source": "src/components/ui/carousel.tsx"
 }

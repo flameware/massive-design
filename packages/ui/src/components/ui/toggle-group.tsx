@@ -130,7 +130,7 @@ const componentContract = {
   name: "toggle-group", source: "src/components/ui/toggle-group.tsx",
   publicExports: ["ToggleGroup", "ToggleGroupItem", "toggleGroupVariants", "toggleGroupVariantsConfig"],
   config: toggleGroupVariantsConfig, className: (props: Record<string, string>) => cn(toggleGroupVariants(props)),
-  anatomy: ["ToggleGroup", "ToggleGroupItem*"], configurationStates: { selection: ["single", "multiple"], pressed: ["unpressed", "pressed"] },
+  anatomy: ["ToggleGroup", "ToggleGroupItem*"], configurationStates: { selection: ["single", "multiple"], pressed: ["unpressed", "pressed"] }, drawnBy: { selection: "`type` prop이 고르는 조립이 그린다 — 하나만 눌리는지 여럿인지는 primitive의 동작이다", pressed: { attribute: "data-state", values: { pressed: "on" } } },
   parts: {
     ToggleGroupItem: { config: toggleGroupItemVariantsConfig, className: toggleGroupItemClassName },
   },
