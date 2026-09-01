@@ -53,6 +53,7 @@ const componentContract = {
     BreadcrumbSeparator: staticPart("[&>svg]:size-3.5"),
     BreadcrumbEllipsis: staticPart("flex size-9 items-center justify-center"),
   },
+  behaviors: {},
   reference: { example: "breadcrumb", guidance: { use: "현재 위치의 상위 계층을 링크로 제공하고 마지막 항목을 현재 위치로 표시한다.", evidence: "깊은 설정이나 상세 화면에서 사용자가 상위 범위로 되돌아갈 수 있는 짧은 경로가 필요하다.", limits: "단일 단계 화면이나 선형 진행 상황에는 사용하지 않으며, 긴 경로를 축약해도 현재 위치와 접근 가능한 탐색 이름은 유지한다." } },
 } as const
 

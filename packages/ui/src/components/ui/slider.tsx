@@ -143,6 +143,9 @@ const componentContract = {
     SliderRange: { config: sliderRangeVariantsConfig, className: (props: Record<string, string>) => cn(sliderRangeVariants(props)) },
     SliderThumb: { config: sliderThumbVariantsConfig, className: (props: Record<string, string>) => cn(sliderThumbVariants(props)) },
   },
+  behaviors: {
+    thumbDrag: { kind: "control-gesture", surface: "SliderThumb", origin: "inherited", why: "radix-ui Slider가 갖고 오는 상속 표면이다 — thumb을 끌면 값이 바뀐다. 컨트롤 제스처라 표면이 사라지지 않고 키보드 동등 경로(화살표·Home/End·PageUp/PageDown)가 upstream에 있으므로 `gestures`가 아니다(ADR-0005). 트랙을 눌러 값을 옮기는 것도 같은 표면이다." },
+  },
   reference: { example: "slider", guidance: { use: "정확한 숫자보다 상대적 위치가 중요한 연속 범위에서 값 하나 또는 구간의 양 끝을 고른다.", evidence: "투자 이력 필터의 손익 범위처럼 최소·최대를 눈으로 훑으며 좁히는 자리가 있다.", limits: "정확한 금액이나 날짜를 입력받아야 하면 Input을 쓰고, 값이 몇 개뿐인 이산 선택에는 Toggle Group이나 Radio Group을 쓴다. thumb마다 접근 가능한 이름이 필요하므로 range에서는 thumbLabels를 반드시 준다." } },
 } as const
 

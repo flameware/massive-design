@@ -14,6 +14,7 @@ const componentContract = {
   config: checkboxVariantsConfig, className: (props: Record<string, string>) => cn(checkboxVariants(props)),
   anatomy: ["Checkbox", "Indicator"],
   configurationStates: { checked: ["unchecked", "checked", "indeterminate"] }, drawnBy: { checked: { attribute: "data-state", values: { checked: "checked", indeterminate: "indeterminate" } } },
+  behaviors: {},
   reference: { example: "checkbox", guidance: { use: "복수 행 선택과 불확정 전체 선택을 표현한다.", evidence: "투자 이력 Table의 checked·unchecked·indeterminate 구성 상태가 필요하다.", limits: "선택 모델과 일괄 동작은 소비처 책임이다." } },
 } as const
 export { Checkbox, checkboxVariants, checkboxVariantsConfig, componentContract }

@@ -12,7 +12,7 @@
 1. 변경을 공개 기준선과 비교해 `additive`·`in-place safe`·`breaking`으로 분류한다. `breaking`이거나 `in-place safe` 증거가 없으면 여기서 멈춘다.
 2. `bun run sync:preflight`를 실행한다.
 3. 자동 검사가 통과하면 `CODE_VERIFIED: PASS`, `STORYBOOK_VERIFIED: PENDING_HUMAN`이다. 프로젝트 소유자가 변경된 컴포넌트의 Light/Dark와 영향받는 주요 상태를 확인한다. semantic 토큰이나 base 계층 변경이면 전체 카탈로그를 확인한다.
-4. 계약이 `gestures`를 선언한 컴포넌트가 변경 범위에 있으면 **터치 확인**을 함께 한다(아래).
+4. `bun run sync:checklist`를 실행한다. 계약의 `gestures`·`behaviors`에서 이번 세대의 확인 항목이 나온다 — `gestures`가 걸리면 **터치 확인**을, `behaviors`가 걸리면 **컨트롤 제스처 확인**·**열림 계기 확인**을 한다(아래). 확인표는 좁히지 않는다: 선언한 자리를 매 세대 전부 찍는다.
 5. 확인 결과를 `bun run sync:review-storybook -- --reviewer <이름> --scope "<확인 범위>"`로 기록한다. 오류면 `--result FAIL --reason "<이유>"`를 함께 주고 아래 분기에 따라 원인 계층을 고친 뒤 preflight부터 다시 실행한다.
 6. `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`가 모두 `PASS`인지 확인한다. 생성물과 검증 기록을 포함해 commit을 고정하고 Repo verification을 완료한다. Figma는 선택 가능한 다음 작업이지 이 작업의 재개 지점이 아니다.
 
@@ -28,18 +28,36 @@
 - [ ] **시각 피드백** — 끄는 동안 표면이 손가락을 따라오고, 임계값에 못 미쳐 놓으면 제자리로 돌아온다
 - [ ] **접근성 동등 경로** — 계약이 지목한 공개 export로 제스처 없이 닫을 수 있고, 키보드와 스크린리더로 그 수단에 닿는다
 
+이 절은 **dismiss 제스처만** 본다 — 드래그가 컨트롤의 기능 자체이거나(컨트롤 제스처) 표면을 여는 계기이면(열림 계기) 표면이 사라지지 않으므로 `gestures`가 아니라 `behaviors`이고, 아래 두 절이 본다([ADR-0010](../adr/0010-behaviors-are-declared-and-human-verified.md)).
+
 확인 범위를 `--scope`에 남긴다. 판정 기준이 위 셋이므로 "터치에서 봤다"가 아니라 **어느 항목이 통과했는지**를 적는다 — 기준 없는 뷰포트 확인은 검토 기록에 판정이 아니라 인상만 남긴다([#97](https://github.com/flameware/massive-design/issues/97)).
 
-### 트리거 모드 확인 — 사람이 진다
+### 컨트롤 제스처 확인 — 사람이 진다
 
-Dropdown Menu의 `openOn="context"`와 Popover의 `openOn="hover"`는 **자동 검증이 0이다**([#126](https://github.com/flameware/massive-design/issues/126)). `openOn`은 `cva` 축도 구성 상태도 아니라 생성된 카탈로그 스토리에 자리가 없고(`Components.stories.tsx`의 컨트롤은 `axes ∪ configurationStates`에서만 나온다), 따라서 Storybook axe가 두 모드를 한 번도 렌더하지 않는다. **`STORYBOOK_VERIFIED: PASS`는 이 두 모드에 대해 아무것도 말하지 않는다** — 기본 모드만 통과한 것이다. 세대를 넘기기 전에 사람이 확인한다.
+계약이 `behaviors`에 `kind: "control-gesture"`로 선언한 자리를 본다. 드래그가 컨트롤의 기능 자체라 표면이 사라지지 않고, 그래서 dismiss 제스처의 요건(시각 피드백·동등 경로)을 물려받지 않는다 — 대신 **값이 옳게 바뀌는가**가 판정 기준이다.
 
-- [ ] **우클릭 모드** — 대상 영역을 우클릭하면 커서 위치에서 열린다. **키보드만으로** 열린다(Tab으로 트리거에 도달 → 컨텍스트 메뉴 키 또는 Shift+F10). 터치에서 길게 눌러 열린다. Esc로 닫히고 초점이 트리거로 돌아온다.
-- [ ] **hover 모드** — 포인터를 얹으면 지연 후 열리고, 트리거에서 콘텐츠로 건너가는 동안 닫히지 않는다. **포인터 없이** 열린다(Tab 포커스, 클릭, 터치). 열릴 때 초점이 표면으로 튀지 않는다. 콘텐츠 안의 버튼·링크가 Tab 순서에 남아 있다.
-- [ ] **체크·라디오·서브메뉴 여섯 파트** — 두 모드 모두에서 표식·화살표가 나오고 서브메뉴가 열린다(#154). **켜고 끄는 동작은 카탈로그가 보여 주지 못한다** — 생성된 스토리는 `checked`를 구성 상태로 **고정해** 렌더하므로(`onCheckedChange` 없는 controlled) 클릭해도 표식이 바뀌지 않는 것이 정상이고, 그것을 실패로 읽지 않는다. 토글과 우클릭 모드는 이 절의 다른 항목과 같이 손으로 만든 자리에서 본다.
-- [ ] **기본 모드 불변** — 어느 모드도 기본 모드의 렌더 결과를 바꾸지 않는다. `sync:preflight` 기록의 `components[]`에서 `dropdown-menu = 6fbac9bfcf45`, `popover = 2535c4105bf4`로 확인한다.
+**어느 컴포넌트의 어느 표면인지는 여기 적지 않는다.** `bun run sync:checklist`가 계약에서 찍는다 — 목록을 이 문서가 손으로 들고 있던 동안 세 번 샜다([#124](https://github.com/flameware/massive-design/issues/124)·[#125](https://github.com/flameware/massive-design/issues/125)·[#127](https://github.com/flameware/massive-design/issues/127)).
 
-> 터치 대상 **크기** 규칙은 여기 없다. [#111](https://github.com/flameware/massive-design/issues/111)이 정한 뒤 이 절에 들어온다 — 그쪽은 `size` 축 기본값을 건드리는 base 계층 변경이라 전 카탈로그 재검증을 요구하므로 도착 시점과 적용 범위가 다르다.
+- [ ] **값이 바뀐다** — 포인터로 끌면 컨트롤의 값이 따라 움직이고, 놓으면 그 값에 머문다
+- [ ] **키보드 동등 경로** — 같은 값 변화에 포인터 없이 닿는다(각 계약의 축·키보드 계약이 지는 몫이므로 여기서 새로 계약하지 않고 **작동하는지만** 본다)
+- [ ] **끄는 자리** — 확인표가 `바꾸는 자리`를 적어 준 항목은 그것으로 실제로 꺼지거나 바뀐다. 적히지 않은 항목은 끄는 수단이 없다는 뜻이고, 그것도 사실로 확인한다
+- [ ] **상속 항목의 upstream 기본값** — 확인표가 `상속`으로 적은 항목은 upstream 기본값이 여전히 우리가 적어 둔 그대로인지 함께 본다. 게이트는 서드파티 소스를 읽지 못한다([ADR-0005](../adr/0005-inherited-dismiss-gestures.md))
+
+### 열림 계기 확인 — 사람이 진다
+
+계약이 `behaviors`에 `kind: "open-cause"`로 선언한 자리를 본다. **자동 검증이 0이다** — 열림 계기는 `cva` 축도 구성 상태도 아니라 생성된 카탈로그 스토리에 자리가 없고(`Components.stories.tsx`의 컨트롤은 `axes ∪ configurationStates`에서만 나온다), 따라서 Storybook axe가 기본 모드 밖을 한 번도 렌더하지 않는다. **`STORYBOOK_VERIFIED: PASS`는 기본 모드만 통과한 것이다.** 세대를 넘기기 전에 사람이 확인한다.
+
+- [ ] **그 계기로 열린다** — 확인표가 적은 계기(우클릭·컨텍스트 메뉴 키, 터치 롱프레스, 포인터 머무름)로 실제로 열리고, 열린 표면이 계약이 지목한 그 표면이다
+- [ ] **그 계기 없이도 열린다** — 포인터를 못 쓰는 사용자가 같은 표면에 닿는다. 우클릭 모드는 Tab으로 트리거에 도달한 뒤 컨텍스트 메뉴 키 또는 Shift+F10으로, hover 모드는 Tab 포커스·클릭·터치로 열린다
+- [ ] **초점과 닫기** — 열릴 때 초점이 표면으로 튀지 않고, 콘텐츠 안의 버튼·링크가 Tab 순서에 남으며, Esc로 닫히고 초점이 트리거로 돌아온다. hover 모드는 트리거에서 콘텐츠로 건너가는 동안 닫히지 않는다
+- [ ] **기본 모드 불변** — 어느 계기도 기본 모드의 렌더 결과를 바꾸지 않는다. 확인표가 항목마다 적어 준 `기본 모드 해시`를 `sync:preflight` 기록의 `components[]`와 대조한다(그래서 확인표는 preflight **뒤**에 선다)
+- [ ] **상속 항목의 upstream 기본값** — 확인표가 `상속`으로 적은 항목은 지연·임계값이 여전히 upstream 기본값인지 함께 본다. 값은 계약하지 않으므로([ADR-0005](../adr/0005-inherited-dismiss-gestures.md)) 게이트가 볼 수 있는 것이 없다
+
+> 메뉴의 **체크·라디오·서브메뉴 여섯 파트**는 두 모드 모두에서 표식·화살표가 나오고 서브메뉴가 열리는지 함께 본다([#154](https://github.com/flameware/massive-design/issues/154)). **켜고 끄는 동작은 카탈로그가 보여 주지 못한다** — 생성된 스토리는 `checked`를 구성 상태로 **고정해** 렌더하므로(`onCheckedChange` 없는 controlled) 클릭해도 표식이 바뀌지 않는 것이 정상이고, 그것을 실패로 읽지 않는다.
+
+> 터치 대상 **크기** 규칙은 여기 없다. [#111](https://github.com/flameware/massive-design/issues/111)이 정한 뒤 들어온다 — 그쪽은 `size` 축 기본값을 건드리는 base 계층 변경이라 전 카탈로그 재검증을 요구하므로 도착 시점과 적용 범위가 다르다.
+
+> **`behaviors: {}`는 "갖고 오는 것이 없다"가 아니라 "아직 안 봤다"일 수 있다.** 지금 채워진 것은 아는 아홉 자리뿐이고 나머지 43개 계약은 비어 있다 — 전수 조사는 [#187](https://github.com/flameware/massive-design/issues/187)이 진다. 새 컴포넌트를 계약하면서 upstream이 갖고 오는 동작을 발견하면 그 자리에서 `behaviors`에 적는다: 끄거나 선언하거나 둘 중 하나이고 침묵은 선택지가 아니다.
 
 Figma가 뒤처진 상태에는 시간 제한을 두지 않는다. 최신 Repo verification 세대와 마지막 `FIGMA_LIBRARY_CURRENT` 공개 기준선은 독립적으로 보존해 차이를 판독할 수 있게 한다. 새 Repo verification이 마지막 Figma 증거를 덮어쓰거나 실패로 바꾸지 않는다.
 

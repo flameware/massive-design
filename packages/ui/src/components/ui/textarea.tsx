@@ -27,6 +27,7 @@ const componentContract = {
   publicExports: ["Textarea", "textareaVariants", "textareaVariantsConfig"],
   config: textareaVariantsConfig, className: (props: Record<string, string>) => cn(textareaVariants(props)),
   anatomy: ["Textarea"], configurationStates: {},
+  behaviors: {},
   reference: { example: "textarea", guidance: { use: "여러 줄 메모나 설명을 입력받는다.", evidence: "투자 거래의 근거와 회고를 남기는 가변 길이 메모가 필요하다.", limits: "리치 텍스트 편집, 자동 저장, 글자 수 정책은 소비처가 조립한다." } },
 } as const
 

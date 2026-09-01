@@ -283,6 +283,7 @@ const componentContract = {
     "Legend가 복제하며 넣는 prop 이름": "recharts Legend가 content 요소를 align·verticalAlign·payload로 복제한다 — 외부 소유는 노드만이 아니라 prop 이름 공간에도 있고, 그래서 우리 축 이름을 placement로 피했다",
   },
   configurationStates: {},
+  behaviors: {},
   reference: { example: "chart", guidance: { use: "시계열이나 범주 비교를 Recharts로 그리면서, 툴팁 카드와 범례만 카탈로그의 면·글자·모서리 규칙에 맞춰 통일한다.", evidence: "투자 이력은 월별 매수·매도 금액과 평가금액 추이를 같은 화면에서 보여주고, 그 위에 뜨는 툴팁과 범례가 카드·팝오버와 다른 면으로 보이면 같은 앱으로 읽히지 않는다.", limits: "차트 본체(축·격자·데이터 마크)는 계약하지 않는다 — Recharts 소유이고 우리 className이 닿는 노드가 없다. 자손 선택자로 그 노드를 칠하지도 않는다: 매니페스트에는 담기지만 Figma가 그리지 못해 자산의 공백이 아니라 거짓 자산이 되기 때문이며, 본체 스타일은 소비처가 stroke·tick·fill prop으로 준다. ChartTooltip·ChartLegend를 재수출하지 않는다 — Recharts의 Tooltip·Legend를 우리 이름으로 내보내면 우리 클래스가 하나도 없는 노드가 공개 anatomy에 들어가고, 그건 외부 소유 표면과 겹칠 수 없다는 규칙과 정면으로 부딪친다. 소비처가 recharts에서 직접 가져와 content에 우리 카드를 꽂는다. 데이터 계열 색은 우리 토큰이 아니라 소비처가 ChartConfig의 color로 주입하는 입력이고, 우리 cva는 견본의 모양만 소유한다 — --chart-1~5 alias는 무채색 플레이스홀더로 남으며(semantic-tokens.md §7.2) 시각화 팔레트 확정은 이 맵 밖이다. 다크 모드 분기는 컨테이너가 하지 않는다: theme 키를 받지 않고 --color-<key> 한 벌만 내며, 모드에 따라 갈려야 하는 색은 소비처가 이미 모드 전환이 끝난 변수를 값으로 준다 — 라이트/다크 전환은 오직 semantic 계층에서만 일어난다. ChartContainer는 공개하되 Figma 자산으로 내지 않는다: 테마 주입 통로라 자기 축도 구성 상태도 없고 그 자리에서 얻는 것은 빈 프레임 하나다. 데이터 표를 대신하지 않는다 — 값 자체를 읽어야 하는 자리에는 Table을 쓴다." } },
 } as const
 

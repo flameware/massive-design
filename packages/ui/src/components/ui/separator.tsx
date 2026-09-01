@@ -25,6 +25,7 @@ const componentContract = {
   publicExports: ["Separator", "separatorVariants", "separatorVariantsConfig"],
   config: separatorVariantsConfig, className: (props: Record<string, string>) => cn(separatorVariants(props)),
   anatomy: ["Separator"], configurationStates: {},
+  behaviors: {},
   reference: { example: "separator", guidance: { use: "서로 관련된 콘텐츠 묶음 사이의 시각적 경계를 가로 또는 세로 방향으로 표시한다.", evidence: "투자 요약의 지표 묶음과 거래 상세의 정보 그룹을 구획하되 별도 컨테이너를 추가할 필요는 없다.", limits: "의미 있는 구역 제목이나 레이아웃 간격을 대신하지 않으며, 보조 기술에 경계를 알려야 할 때만 decorative를 false로 지정한다." } },
 } as const
 

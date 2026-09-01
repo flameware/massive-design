@@ -34,4 +34,4 @@ Open follow-ups, each large enough to want its own charting: the touch target si
 
 The P2 map left four open questions in its **Not yet specified** — the Base UI migration (our 24 primitives are all `radix-ui`; upstream leads with Base UI), the dependency weight `recharts` added, configuration-state modifiers landing as `unresolved` in manifests, and control gestures having neither automated checks nor a runbook hook. Figma's published baseline stands at 43 component sets (`verification/figma-baseline.json`) against 51 in code, and five more Repo verification generations have landed since — [#138](https://github.com/flameware/massive-design/issues/138) carries the target. Figma Sync runs only on an explicit request, in its own issue.
 
-When updating code-derived Storybook or Figma channels, start with `bun run sync:preflight`, then follow `docs/agents/design-system-sync.md` for Figma and human checkpoints.
+When updating code-derived Storybook or Figma channels, start with `bun run sync:preflight`, then `bun run sync:checklist` for the human behaviour checks the contracts declare, then follow `docs/agents/design-system-sync.md` for Figma and human checkpoints.

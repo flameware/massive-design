@@ -119,6 +119,7 @@ const componentContract = {
     "no-script 폴백 스타일": "input-otp이 <noscript><style>로 자기 기본 스타일을 !important로 낸다",
     "문서 수준 선택·자동완성 스타일": "input-otp이 document.head에 ::selection과 :autofill 규칙을 한 번 심는다",
   },
+  behaviors: {},
   reference: { example: "input-otp", guidance: { use: "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다.", evidence: "투자 이력의 계좌 연동과 재로그인에서 문자로 받은 인증번호를 넣는 자리가 있고, 몇 자리를 넣었는지가 한눈에 보여야 한다.", limits: "일반 텍스트나 금액에는 Input을 쓴다. 값의 정본은 보이지 않는 입력 하나이므로 접근 가능한 이름은 소비처가 Field나 aria-label로 주고, 오류 표시는 컨트롤의 aria-invalid가 정본이며 슬롯은 같은 값을 받아 테두리를 붉힌다 — 라이브러리가 컨테이너에 속성을 주는 통로를 열어 두지 않아 CSS로 전파할 자리가 없다. 붙여넣기는 upstream이 소유한다(iOS와 pasteTransformer를 제외하면 네이티브 경로 그대로다). IME 조합은 upstream이 다루지 않으므로 조합 문자가 필요한 코드에는 쓰지 않는다. 모바일 문자 자동완성 경로인 autoComplete=\"one-time-code\"는 켠 채로 두고, 비밀번호 관리자 배지는 컨테이너 폭을 바꾸므로 껐다. 커서 깜박임은 기존 animate-pulse로 그린다 — 전용 키프레임을 새로 열지 않는다. 재전송 타이머, 자동 제출, 검증 규칙은 소비처가 소유한다." } },
 } as const
 

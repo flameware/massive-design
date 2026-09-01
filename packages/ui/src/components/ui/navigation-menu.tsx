@@ -129,6 +129,9 @@ const componentContract = {
     NavigationMenuContent: staticPart(CONTENT),
     NavigationMenuLink: staticPart(LINK),
   },
+  behaviors: {
+    hoverOpen: { kind: "open-cause", surface: "NavigationMenuContent", origin: "inherited", control: "delayDuration", why: "radix-ui NavigationMenu가 `delayDuration`·`skipDelayDuration` 기본값으로 갖고 오는 상속 표면이다 — 포인터를 얹으면 지연 후 열린다. 우리는 루트에 이 값을 타이핑하지 않고 통과시키므로 우리가 정한 적 없는 열림 계기가 우리 이름으로 나간다(#127). 값은 계약하지 않는다 — upstream이 기본을 바꿔도 우리 약속이 되지 않게 한다(ADR-0005)." },
+  },
   reference: { example: "navigation-menu", guidance: { use: "화면 상단에서 사이트의 주요 목적지를 가로로 늘어놓고, 하위 목적지가 여럿인 항목만 카드로 펼친다. 현재 화면을 가리키는 링크는 `active`로 표시하고, 하위가 없는 항목은 `NavigationMenuLink`에 `navigationMenuTriggerVariants()`를 입혀 막대에 직접 놓는다.", evidence: "투자 기록은 포트폴리오·거래·회고가 각각 URL로 직접 열려야 하는 별개 화면이고, 포트폴리오 아래에는 보유 현황·비중 같은 하위 목적지가 더 있어 막대에서 한 겹 펼쳐 보여야 한다.", limits: "Tabs가 *\"URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다\"*고 가리킨 자리가 여기다 — 같은 화면 안에서 패널만 갈아 끼우는 전환은 Tabs이고, 주소가 바뀌는 이동은 이쪽이다. Menubar와도 갈린다: 저기 항목은 실행하는 명령이라 `Link`도 `aria-current`도 없고 `CheckboxItem`·`RadioItem`·`Sub`를 갖는 반면, 여기 항목은 목적지라 그 셋을 갖지 않는다. 진입점 하나에 달린 보조 동작 묶음은 Dropdown Menu다. `NavigationMenuViewport`와 `NavigationMenuIndicator`는 공개하지 않는다 — 둘 다 실행 중 측정으로 자기 위치와 치수를 얻는 파생 노드이고, Viewport를 열면 열린 카드를 그리는 노드가 `Content`와 둘이 되어 파생 채널이 가르지 못하며(#97·#119) Indicator는 이미 열림 면을 가진 트리거를 한 번 더 가리키는 표식이다. 나중에 여는 것은 additive다. 열린 카드의 위치·치수도 계약하지 않는다: 자리는 항목이 잡고 폭은 내용이 정한다. 라우터 링크는 `NavigationMenuLink`의 `asChild`로 끼운다 — upstream이 `render`로 부르는 확장점과 같은 자리이며, 우리는 카탈로그가 이미 쓰는 `asChild` 어휘를 쓴다(Base UI 이행은 #118의 미확정 항목이라 그 어휘를 선취하지 않는다). 활성 판정 자체와 라우팅은 소비처가 소유한다. 탐색 랜드마크의 접근 가능한 이름은 소비처가 `aria-label`로 준다." } },
 } as const
 

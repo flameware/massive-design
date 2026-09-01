@@ -1,13 +1,68 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "3b49edc513c48c767cfa7978b44a41ba2f6e4bc2",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "3d589891d016e03604e568e3eac02aa99e397bfe",
   "inputTree": {
-    "commit": "3b49edc513c48c767cfa7978b44a41ba2f6e4bc2",
-    "clean": true
+    "commit": "3d589891d016e03604e568e3eac02aa99e397bfe",
+    "clean": false,
+    "dirtyPaths": [
+      "package.json",
+      "packages/ui/scripts/component-contracts.mjs",
+      "packages/ui/src/components/ui/accordion.tsx",
+      "packages/ui/src/components/ui/alert-dialog.tsx",
+      "packages/ui/src/components/ui/alert.tsx",
+      "packages/ui/src/components/ui/avatar.tsx",
+      "packages/ui/src/components/ui/badge.tsx",
+      "packages/ui/src/components/ui/breadcrumb.tsx",
+      "packages/ui/src/components/ui/button-group.tsx",
+      "packages/ui/src/components/ui/button.tsx",
+      "packages/ui/src/components/ui/calendar.tsx",
+      "packages/ui/src/components/ui/card.tsx",
+      "packages/ui/src/components/ui/carousel.tsx",
+      "packages/ui/src/components/ui/chart.tsx",
+      "packages/ui/src/components/ui/checkbox.tsx",
+      "packages/ui/src/components/ui/collapsible.tsx",
+      "packages/ui/src/components/ui/combobox.tsx",
+      "packages/ui/src/components/ui/command.tsx",
+      "packages/ui/src/components/ui/dialog.tsx",
+      "packages/ui/src/components/ui/dropdown-menu.tsx",
+      "packages/ui/src/components/ui/empty.tsx",
+      "packages/ui/src/components/ui/field.tsx",
+      "packages/ui/src/components/ui/input-group.tsx",
+      "packages/ui/src/components/ui/input-otp.tsx",
+      "packages/ui/src/components/ui/input.tsx",
+      "packages/ui/src/components/ui/item.tsx",
+      "packages/ui/src/components/ui/kbd.tsx",
+      "packages/ui/src/components/ui/label.tsx",
+      "packages/ui/src/components/ui/list-row.tsx",
+      "packages/ui/src/components/ui/menubar.tsx",
+      "packages/ui/src/components/ui/native-select.tsx",
+      "packages/ui/src/components/ui/navigation-menu.tsx",
+      "packages/ui/src/components/ui/pagination.tsx",
+      "packages/ui/src/components/ui/popover.tsx",
+      "packages/ui/src/components/ui/progress.tsx",
+      "packages/ui/src/components/ui/radio-group.tsx",
+      "packages/ui/src/components/ui/resizable.tsx",
+      "packages/ui/src/components/ui/scroll-area.tsx",
+      "packages/ui/src/components/ui/select.tsx",
+      "packages/ui/src/components/ui/separator.tsx",
+      "packages/ui/src/components/ui/sheet.tsx",
+      "packages/ui/src/components/ui/sidebar.tsx",
+      "packages/ui/src/components/ui/skeleton.tsx",
+      "packages/ui/src/components/ui/slider.tsx",
+      "packages/ui/src/components/ui/spinner.tsx",
+      "packages/ui/src/components/ui/switch.tsx",
+      "packages/ui/src/components/ui/table.tsx",
+      "packages/ui/src/components/ui/tabs.tsx",
+      "packages/ui/src/components/ui/textarea.tsx",
+      "packages/ui/src/components/ui/toast.tsx",
+      "packages/ui/src/components/ui/toggle-group.tsx",
+      "packages/ui/src/components/ui/toggle.tsx",
+      "packages/ui/src/components/ui/tooltip.tsx"
+    ]
   },
-  "inputDigest": "7f020ac11ec000eb737601e25cb3436b92c5948a9d5b3f96a4da214162bd901c",
+  "inputDigest": "c3eaa98975ab126795d7e1ada9a9ece0e5a8f30070b6e1950a7a76f3378b6962",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -269,7 +324,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T12:10:33.529Z",
+      "checkedAt": "2026-09-01T13:29:30.238Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +354,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-01T12:10:33.529Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-01T13:29:30.238Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +551,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-01T12:12:44.857Z",
-        "scope": "input-group·input-otp·native-select Light/Dark — 이전 세대와 렌더 동일함 확인, validity 컨트롤이 그대로 있는 것 확인(해시 무이동 세대)"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-01T12:12:44.857Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }

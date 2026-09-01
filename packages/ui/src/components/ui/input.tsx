@@ -10,6 +10,7 @@ const componentContract = {
   publicExports: ["Input", "inputVariants", "inputVariantsConfig"],
   config: inputVariantsConfig, className: (props: Record<string, string>) => cn(inputVariants(props)),
   anatomy: ["Input"], configurationStates: {},
+  behaviors: {},
   reference: { example: "input", guidance: { use: "한 줄 텍스트 값을 입력하거나 검색어를 받는다.", evidence: "투자 이력 검색의 접근 가능한 기본 필드가 필요하다.", limits: "SearchField, 검색 아이콘, debounce는 소비처가 조립한다." } },
 } as const
 export { Input, inputVariants, inputVariantsConfig, componentContract }
