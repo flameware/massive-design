@@ -186,13 +186,323 @@
   "defaults": {
     "variant": "default"
   },
-  "hash": "b7ac43840fbd",
+  "hash": "ec678ab2dfd5",
+  "parts": {
+    "EmptyContent": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "gap": {
+              "from": "gap-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "max-width": {
+              "from": "max-w-sm",
+              "px": 384,
+              "tier": "literal"
+            },
+            "min-width": {
+              "from": "min-w-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "width": {
+              "from": "w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "EmptyDescription": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-sm text-muted-foreground [&>a:hover]:text-foreground [&>a]:underline [&>a]:underline-offset-4",
+          "properties": {
+            "[&>a:hover]:color": {
+              "from": "[&>a:hover]:text-foreground",
+              "tier": "unresolved",
+              "value": "var(--foreground)",
+              "why": "수식자 [&>a:hover]를 아직 다루지 않는다"
+            },
+            "[&>a]:text-decoration-line": {
+              "from": "[&>a]:underline",
+              "tier": "unresolved",
+              "value": "underline",
+              "why": "수식자 [&>a]를 아직 다루지 않는다"
+            },
+            "[&>a]:text-underline-offset": {
+              "from": "[&>a]:underline-offset-4",
+              "tier": "unresolved",
+              "value": "4px",
+              "why": "수식자 [&>a]를 아직 다루지 않는다"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "EmptyHeader": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex max-w-sm flex-col items-center gap-2 text-center",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "max-width": {
+              "from": "max-w-sm",
+              "px": 384,
+              "tier": "literal"
+            },
+            "text-align": {
+              "from": "text-center",
+              "tier": "literal",
+              "value": "center"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "EmptyMedia": {
+      "axes": {
+        "frame": [
+          "none",
+          "icon"
+        ]
+      },
+      "cells": [
+        {
+          "className": "flex items-center justify-center text-muted-foreground [&_svg]:size-6",
+          "frame": "none",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            }
+          },
+          "slots": {
+            "icon": {
+              "size": {
+                "from": "[&_svg]:size-6",
+                "multiple": 6,
+                "px": 24,
+                "scale": "space.6",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": null
+        },
+        {
+          "className": "flex items-center justify-center text-muted-foreground size-10 rounded-lg bg-muted [&_svg]:size-6",
+          "frame": "icon",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-lg",
+              "px": 10,
+              "scale": "radius.lg",
+              "tier": "token",
+              "token": "--radius-lg"
+            },
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "height": {
+              "from": "size-10",
+              "multiple": 10,
+              "px": 40,
+              "scale": "space.10",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "width": {
+              "from": "size-10",
+              "multiple": 10,
+              "px": 40,
+              "scale": "space.10",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "slots": {
+            "icon": {
+              "size": {
+                "from": "[&_svg]:size-6",
+                "multiple": 6,
+                "px": 24,
+                "scale": "space.6",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {
+        "frame": "icon"
+      }
+    },
+    "EmptyTitle": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-lg font-medium",
+          "properties": {
+            "font-size": {
+              "from": "text-lg",
+              "px": 18,
+              "scale": "type.size.lg",
+              "tier": "token",
+              "token": "--text-lg"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "line-height": {
+              "from": "text-lg",
+              "tier": "token",
+              "token": "--text-lg--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "empty",
     "guidance": {
-      "evidence": "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 한다.",
-      "limits": "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다. `EmptyMedia`의 icon 축은 계약하지 않는다 — `ItemMedia`와 같은 자리이고 판정도 같다. 열 때는 upstream의 값 이름을 그대로 써 두 Media의 값 집합이 갈라지지 않게 한다(#121).",
-      "use": "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립한다."
+      "evidence": "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 하고, 같은 자리에 면을 두른 글리프 칩과 면 없는 글리프가 화면 밀도에 따라 갈린다.",
+      "limits": "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다. `EmptyMedia`가 그리는 틀은 `frame` 축이 지고 **`ItemMedia`와 같은 축 이름·같은 값 이름을 쓴다**(#145) — `icon`(면을 두른 `size-10` 칩, 기본값)·`none`(면 없음) 둘이다. 기본값이 `icon`인 것은 **오늘의 `EmptyMedia`가 이미 upstream의 `icon` 값이기 때문**이다: 기본값은 발행된 인스턴스를 지키는 값이고(#143·#144), `ItemMedia`의 기본값이 `none`인 것과 방향이 반대로 보이는 것은 두 슬롯이 오늘 서 있는 자리가 다르기 때문이지 어휘가 갈린 것이 아니다. **`image`는 계약하지 않는다** — upstream에도 없고, 이 슬롯이 제목 위 가운데 `size-10`이라 40px 틀은 빈 상태 일러스트가 아니라 글리프 칩이다. 일러스트를 원하는 소비처는 지름부터 덮으므로 그 값이 질 우리 결정이 남지 않고(ADR-0006 ⓑ), 실측 수요도 없다(#123). 큰 그림이 필요하면 소비처가 `EmptyHeader` 안에 자기 노드를 둔다. 대체 텍스트는 계약이 지지 않는다 — 장식이면 `EmptyMedia`에 `aria-hidden`을 걸고, 뜻이 있으면 소비처가 안쪽 요소의 `alt`에 넣는다. **`EmptyDescription`의 `[&>a]` 계열 세 선언은 매니페스트에서 `unresolved`로 떨어진다** — 파트를 계약에 등록하면서 드러난 것이고, 등록하지 않았을 때는 매니페스트에 아예 없어 **침묵**이었다(#122). 자손 링크의 밑줄은 `MODIFIER_POLICY`에 정책이 없다(#140의 모집단).",
+      "use": "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립하고, 미디어 자리가 그릴 틀은 `EmptyMedia`의 `frame` 축이 정한다."
     }
   },
   "schemaVersion": 5,
