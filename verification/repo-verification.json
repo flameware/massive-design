@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "8b924ed6b87e63e25d55786162f169a8f2ffb859",
   "inputTree": {
     "commit": "8b924ed6b87e63e25d55786162f169a8f2ffb859",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T13:31:05.670Z",
       "automatedResult": "PASS",
       "checks": [
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-01T23:38:33.729Z",
+        "scope": "동작 확인표 9자리 전부 출력 확인(carousel·resizable·slider·scroll-area 드래그, dropdown-menu contextOpen·longPressOpen, popover·navigation-menu·tooltip hover 열림) — #124·#125·#126·#127이 지나친 사례가 모두 걸린다. 열림 계기 4자리의 기본 모드 해시가 runbook에 손으로 박혀 있던 값과 일치. 전체 카탈로그 Light/Dark 이전 세대와 렌더 동일(className 무변경·해시 무이동 세대)"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T23:38:33.729Z"
 }
