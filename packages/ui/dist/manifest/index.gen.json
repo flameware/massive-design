@@ -273,7 +273,7 @@
     {
       "cells": 2,
       "component": "tabs",
-      "hash": "d6fdc43dd30e",
+      "hash": "25f494288674",
       "path": "tabs.gen.json"
     },
     {
@@ -295,9 +295,9 @@
       "path": "toggle.gen.json"
     },
     {
-      "cells": 12,
+      "cells": 24,
       "component": "toggle-group",
-      "hash": "d0b9e9cc0cb2",
+      "hash": "4952918a933c",
       "path": "toggle-group.gen.json"
     },
     {

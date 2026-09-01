@@ -1529,7 +1529,7 @@ export const catalog = [
   {
     "component": "tabs",
     "displayName": "Tabs",
-    "hash": "d6fdc43dd30e",
+    "hash": "25f494288674",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -1552,9 +1552,9 @@ export const catalog = [
     "reference": {
       "example": "tabs",
       "guidance": {
-        "evidence": "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 한다.",
-        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다 — 그 내비게이션이 Navigation Menu다(#127). 이 문장이 가리키던 자리가 카탈로그에 실제로 생겼으므로 경계가 닫혔다: 주소가 바뀌면 Navigation Menu, 같은 화면 안에서 패널만 갈아 끼우면 Tabs다. `TabsList`의 밑줄 표현 축(upstream의 `variant=\"line\"`)은 계약하지 않는다 — List와 Trigger 양쪽을 재작성해야 하는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121).",
-        "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립한다."
+        "evidence": "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 하고, 본문 위에 얹히는 탭 막대는 트랙 없이 기준선 하나로 서야 한다.",
+        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다 — 그 내비게이션이 Navigation Menu다(#127). 이 문장이 가리키던 자리가 카탈로그에 실제로 생겼으므로 경계가 닫혔다: 주소가 바뀌면 Navigation Menu, 같은 화면 안에서 패널만 갈아 끼우면 Tabs다. 활성 표식은 `indicator` 축이 진다 — `pill`(기본값)·`line` 둘이며 축은 `TabsList`에 앉고 `TabsTrigger`가 context로 받아 그린다(#125의 `ChartTooltipIndicator`가 선 자리와 같다). 이름이 upstream의 `variant`가 아닌 것은 우리 카탈로그에서 `variant`가 Button·Badge·Alert·Toggle의 **면의 계열** 이름이라 한 이름이 두 뜻을 갖기 때문이다(#144가 `align`을 버린 것과 같은 판정). 기본값이 `pill`인 것은 `line`을 기본으로 두면 발행된 탭이 트랙을 잃어 인스턴스가 재해석되기 때문이다. **Toggle Group의 `spacing`과 같은 개념이 아니다** — 저기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 여기서 갈리는 것은 활성 표식의 정체라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 밑줄은 색만으로 활성을 말하지 않는다: 갈리는 것은 색조가 아니라 아래 변의 **폭**(`0` → `2px`)이라 쉬는 트리거에는 획이 아예 없고, 여기에 `text-foreground`의 대비 상승과 Radix의 `aria-selected`가 겹친다. 색이 아니라 폭이 상태를 지는 두 번째 이유는 포커스다 — `focus-visible:border-focus-contrast`가 색만 바꾸므로, 색을 상태에 매달았다면 초점만 받은 비활성 탭이 `activationMode=\"manual\"`에서 활성 탭과 같은 밑줄을 그렸을 것이다. 선 색은 `--ds-border-focus-contrast`이고 `InputOTPSlot`이 활성 칸의 테두리에 쓰는 것과 같은 토큰이다 — 새 토큰은 세우지 않았다(맵 규칙 4). 색을 수식자 없는 `border-color`에 둔 덕에 그 토큰 선택은 `manifest/lint.mjs`의 계열 규칙이 실제로 보지만, **폭 쪽은 게이트가 보지 못한다** — `data-[state=active]`가 `MODIFIER_POLICY`에 없어 `unresolved`로 떨어지므로 활성일 때 획이 실제로 서는지는 사람이 Storybook에서 판정하며, 그 더미는 #140이 소유한다. 밑줄 형태의 트리거는 상태 면(`--ds-state-base`)을 갖지 않는다 — 깔 트랙이 없는 형태에 `--background`를 주면 트리거마다 `--ds-bg-canvas` 사각형이 깔려 이 축이 없애려는 트랙을 되그리고 Card·Dialog·Sidebar 면 위에서 면색이 어긋난다. 밑줄 형태에서도 목록은 가로로 늘어선다 — `orientation: vertical`이 옮기는 것은 목록과 패널의 관계이지 목록 안의 방향이 아니므로 기준선은 두 축 모두에서 목록의 아래 변이다. 목록의 폭은 계약하지 않는다(`w-fit`이 두 형태에 같다) — 기준선을 본문 폭까지 늘리는 것은 소비처가 `className`으로 정한다.",
+        "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립하고, 활성 탭을 알약으로 표시할지 밑줄로 표시할지 `TabsList`의 `indicator`로 고른다."
       }
     },
     "stateSamples": false,
@@ -1665,8 +1665,8 @@ export const catalog = [
   {
     "component": "toggle-group",
     "displayName": "Toggle Group",
-    "hash": "d0b9e9cc0cb2",
-    "cells": 12,
+    "hash": "4952918a933c",
+    "cells": 24,
     "axes": {
       "orientation": [
         "horizontal",
@@ -1676,6 +1676,10 @@ export const catalog = [
         "sm",
         "default",
         "lg"
+      ],
+      "spacing": [
+        "separate",
+        "attached"
       ],
       "variant": [
         "default",
@@ -1699,9 +1703,9 @@ export const catalog = [
     "reference": {
       "example": "toggle-group",
       "guidance": {
-        "evidence": "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하다.",
-        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태(upstream의 `spacing={0}`)는 계약하지 않는다 — 축이 생기고 자식 radius 평탄화 로직이 따라오는 진짜 표면이라 열 근거는 있으나 별도 effort로 미뤘다(#121).",
-        "use": "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동한다."
+        "evidence": "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하고, 좁은 도구 막대에서는 그 묶음이 한 덩어리로 붙어야 한다.",
+        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태는 `spacing` 축이 진다 — `separate`(기본값)·`attached` 둘이고, 이름은 upstream을 따르되 값은 우리 어휘다(upstream의 `spacing={0}`은 숫자라 파생 채널이 그릴 이름이 되지 못한다). 기본값이 `separate`인 것은 `attached`를 기본으로 두면 발행된 모든 그룹이 `gap-0`과 테두리를 얻어 인스턴스가 재해석되기 때문이다(#144의 `placement: auto`와 같은 자리). **`TabsList`의 밑줄 축과 같은 개념이 아니다** — 여기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 저기서 갈리는 것은 활성 항목을 무엇이 표시하는가라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 붙은 형태에서 각 항목의 경계는 `border`가 진다 — `variant: default`에는 테두리가 없어 간격만 0으로 만들면 이웃과의 경계가 남지 않으므로, 이 축이 붙을 때만 테두리를 세우고 맞닿는 변은 한 번만 그린다. **이 선은 대비 기준을 지는 구분선이 아니다**: 색이 `--ds-border-default`라 canvas 위에서 약 1.4:1이고, 그 토큰은 `tokens:contrast`의 비텍스트 3:1 조합표에서 의도적으로 빠져 있다(`border.field`·`knockout`과 같은 자리). 이 선이 지는 것은 형태의 판독이며, `InputOTPSlot`과 `ButtonGroup`의 붙은 형태가 같은 색으로 같은 일을 하므로 여기만 다르게 그리지 않는다. 3:1을 지는 구분선은 `border.strong`의 자리인데 그 토큰에는 Tailwind 유틸리티가 없어 별칭을 새로 내야 하고 그건 `tokens.css`를 움직이는 일이라 맵 규칙 4가 금한다 — 필요하면 소비처가 `className`으로 덮는다. 바깥 모서리는 `Toggle`이 이미 쓰는 `rounded-md`를 그대로 남기므로 새 radius 단계를 요구하지 않는다. 첫·마지막 항목을 지목하는 `first:`·`last:` 수식자는 매니페스트에서 `unresolved`로 남는다 — `InputOTPSlot`이 붙은 칸을 그리는 것과 같은 관용구이고 그 더미는 #140이 소유한다. 붙은 형태에서도 이 컴포넌트는 여전히 선택 위젯이다: roving tabindex 한 칸과 화살표 키 이동은 Radix가 지며, 모양이 Button Group과 같아 보여도 자식마다 탭 정지가 남는 그쪽과 갈린다.",
+        "use": "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동하며, 항목을 떨어뜨려 둘지 하나의 덩어리로 붙일지 `spacing`으로 고른다."
       }
     },
     "stateSamples": false,
