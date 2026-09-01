@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "5e23f925c8c1aa72d3226aa69627591ca4c684cc",
   "inputTree": {
     "commit": "5e23f925c8c1aa72d3226aa69627591ca4c684cc",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-01T07:16:24.929Z",
       "automatedResult": "PASS",
       "checks": [
@@ -488,10 +488,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "sohnseongki",
+        "checkedAt": "2026-09-01T07:18:05.168Z",
+        "scope": "alert(4 variant)·input-group(validity·disabled) Light/Dark. AlertAction의 오른쪽 위 배치와 제목·설명과의 겹침 여백, InputGroupAddon placement=start/end의 순서를 확인했다. 나머지 49개는 매니페스트가 움직이지 않았고 새 토큰이 0개라 범위 밖이다."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T07:18:05.168Z"
 }
