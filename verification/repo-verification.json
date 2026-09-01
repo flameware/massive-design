@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "c670fb2f516f444ec4d5129350fc096c26c3dae7",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "84d3d0dbf1180b2d3cf8b531ac2fde8642876468",
   "inputTree": {
-    "commit": "c670fb2f516f444ec4d5129350fc096c26c3dae7",
+    "commit": "84d3d0dbf1180b2d3cf8b531ac2fde8642876468",
     "clean": true
   },
-  "inputDigest": "84bafafd4c7c8c0edd8a7b000de87a34ac064c6b283389b771d1e369014891d7",
+  "inputDigest": "b7bee724a70d060140779b69bc62cc69d6decf04679ad989961a9dfdaf0fd365",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -102,7 +102,7 @@
     },
     {
       "component": "empty",
-      "manifestHash": "b7ac43840fbd",
+      "manifestHash": "ec678ab2dfd5",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -127,7 +127,7 @@
     },
     {
       "component": "item",
-      "manifestHash": "008b33625ebc",
+      "manifestHash": "328a0c09800b",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T08:24:09.232Z",
+      "checkedAt": "2026-09-01T08:28:49.202Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-01T08:24:09.232Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-01T08:28:49.202Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -356,13 +356,17 @@
             "story": "components-manifest-references--empty",
             "impact": "serious",
             "rule": "color-contrast",
-            "nodes": 1,
+            "nodes": 2,
             "targets": [
               [
                 ".size-10"
+              ],
+              [
+                "div[data-frame=\"none\"]"
               ]
             ],
             "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters",
               "Fix any of the following:\n  Element content contains only non-text characters"
             ]
           },
@@ -398,13 +402,17 @@
             "story": "components-manifest-references--item",
             "impact": "serious",
             "rule": "color-contrast",
-            "nodes": 1,
+            "nodes": 2,
             "targets": [
               [
-                ".\\[\\&_svg\\]\\:size-5"
+                ".\\[\\&_svg\\]\\:size-5[data-frame=\"none\"][aria-hidden=\"true\"]"
+              ],
+              [
+                ".\\[\\&_svg\\]\\:size-4"
               ]
             ],
             "review": [
+              "Fix any of the following:\n  Element content contains only non-text characters",
               "Fix any of the following:\n  Element content contains only non-text characters"
             ]
           },
@@ -488,15 +496,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "sohnseongki",
-        "checkedAt": "2026-09-01T08:27:32.088Z",
-        "scope": "dropdown-menu 승격 6파트의 Light/Dark. 체크·라디오 표식과 SubTrigger 화살표, checked 두 샘플(unchecked에서 라디오 둘 다 비어 있음), Separator를 h-px bg-border에서 h-0 border-t로 바꾼 뒤의 1px 선을 확인했다. 구성 상태 축이 checked 하나 는 것을 명시적으로 봤다. menubar는 산문만 움직여 해시가 불변이고 나머지 49개는 매니페스트가 그대로이며 새 토큰이 0개라 범위 밖이다."
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-01T08:27:32.088Z"
+  "resumeAt": "Storybook visual review"
 }
