@@ -1,19 +1,11 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
-  "targetCommit": "c3261b2504e6c0e23f18cb016f2f1ec94cb81f8a",
+  "result": "PASS",
+  "targetCommit": "3b49edc513c48c767cfa7978b44a41ba2f6e4bc2",
   "inputTree": {
-    "commit": "c3261b2504e6c0e23f18cb016f2f1ec94cb81f8a",
-    "clean": false,
-    "dirtyPaths": [
-      "packages/ui/scripts/component-contracts.mjs",
-      "packages/ui/scripts/manifest/assemble.mjs",
-      "packages/ui/scripts/manifest/build.mjs",
-      "packages/ui/src/components/ui/input-group.tsx",
-      "packages/ui/src/components/ui/input-otp.tsx",
-      "packages/ui/src/components/ui/native-select.tsx"
-    ]
+    "commit": "3b49edc513c48c767cfa7978b44a41ba2f6e4bc2",
+    "clean": true
   },
   "inputDigest": "7f020ac11ec000eb737601e25cb3436b92c5948a9d5b3f96a4da214162bd901c",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
@@ -277,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T12:09:24.260Z",
+      "checkedAt": "2026-09-01T12:10:33.529Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -307,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-09-01T12:09:24.260Z",
+      "result": "PASS",
+      "checkedAt": "2026-09-01T12:10:33.529Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -504,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-01T12:12:44.857Z",
+        "scope": "input-group·input-otp·native-select Light/Dark — 이전 세대와 렌더 동일함 확인, validity 컨트롤이 그대로 있는 것 확인(해시 무이동 세대)"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "commit the input changes, then re-run sync:preflight"
+  "resumeAt": null,
+  "completedAt": "2026-09-01T12:12:44.857Z"
 }
