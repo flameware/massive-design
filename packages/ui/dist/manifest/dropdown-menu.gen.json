@@ -93,7 +93,7 @@
       }
     }
   },
-  "hash": "460ce70ee692",
+  "hash": "6fbac9bfcf45",
   "parts": {
     "DropdownMenuCheckboxItem": {
       "axes": {},
@@ -117,18 +117,6 @@
               "scale": "radius.sm",
               "tier": "token",
               "token": "--radius-sm"
-            },
-            "data-[disabled]:opacity": {
-              "from": "data-[disabled]:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
-            "data-[disabled]:pointer-events": {
-              "from": "data-[disabled]:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
             },
             "display": {
               "from": "flex",
@@ -177,7 +165,7 @@
           },
           "state": {
             "base": "--ds-bg-overlay",
-            "disabled": null,
+            "disabled": 0.5,
             "hover": 0.08,
             "layer": "--ds-state-layer",
             "pressed": 0.12
@@ -208,18 +196,6 @@
               "scale": "radius.sm",
               "tier": "token",
               "token": "--radius-sm"
-            },
-            "data-[disabled]:opacity": {
-              "from": "data-[disabled]:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
-            "data-[disabled]:pointer-events": {
-              "from": "data-[disabled]:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
             },
             "data-[inset=true]:padding-left": {
               "from": "data-[inset=true]:pl-8",
@@ -266,7 +242,7 @@
           },
           "state": {
             "base": "--ds-bg-overlay",
-            "disabled": null,
+            "disabled": 0.5,
             "hover": 0.08,
             "layer": "--ds-state-layer",
             "pressed": 0.12
@@ -347,18 +323,6 @@
               "tier": "token",
               "token": "--radius-sm"
             },
-            "data-[disabled]:opacity": {
-              "from": "data-[disabled]:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
-            "data-[disabled]:pointer-events": {
-              "from": "data-[disabled]:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
             "display": {
               "from": "flex",
               "tier": "literal",
@@ -406,7 +370,7 @@
           },
           "state": {
             "base": "--ds-bg-overlay",
-            "disabled": null,
+            "disabled": 0.5,
             "hover": 0.08,
             "layer": "--ds-state-layer",
             "pressed": 0.12
@@ -539,18 +503,6 @@
               "tier": "token",
               "token": "--radius-sm"
             },
-            "data-[disabled]:opacity": {
-              "from": "data-[disabled]:opacity-50",
-              "tier": "unresolved",
-              "value": "50%",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
-            "data-[disabled]:pointer-events": {
-              "from": "data-[disabled]:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-            },
             "display": {
               "from": "flex",
               "tier": "literal",
@@ -603,7 +555,7 @@
           },
           "state": {
             "base": "--ds-bg-overlay",
-            "disabled": null,
+            "disabled": 0.5,
             "hover": 0.08,
             "layer": "--ds-state-layer",
             "pressed": 0.12

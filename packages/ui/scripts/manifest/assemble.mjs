@@ -4,7 +4,7 @@
  * tailwind-merge가 정리한 뒤에야 값이 확정된다. 축별로 담으면 매니페스트가
  * `xs` 버튼의 아이콘을 16px이라고 말한다 — 실제로는 12px이다. */
 import { declarations, rulesForClass, splitModifiers, starRulesInBase } from "./css.mjs"
-import { classifyDeclaration, classifyShadow, MODIFIER_POLICY, resolveVarChain } from "./classify.mjs"
+import { classifyDeclaration, classifyShadow, policyFor, resolveVarChain } from "./classify.mjs"
 
 /**
  * 모든 셀에 **앞서** 적용되는 기저. `@layer base`의 `*` 규칙에서 파생한다(#36).
@@ -126,7 +126,8 @@ export function assembleCell({ props, className, tree, theme, drawnBy }) {
       continue
     }
 
-    const policy = modifiers.length === 1 ? MODIFIER_POLICY.get(modifiers[0]) : undefined
+    // 조회는 형태가 아니라 뜻에 걸린다 — `policyFor`가 도달 경로를 벗겨 정책표를 본다(#178)
+    const policy = modifiers.length === 1 ? policyFor(modifiers[0]) : undefined
     if (policy === undefined) {
       for (const d of decls) {
         properties[`${modifiers.join(":")}:${d.prop}`] = {

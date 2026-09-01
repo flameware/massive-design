@@ -2,7 +2,12 @@
  *
  * 무시 화이트리스트는 조용히 버리는 것과 다르다 — Figma에 대응물이 아예 없는
  * 축만 여기 적히고, 그래야 남은 `unresolved`가 "아직 못 다룬 것"만 가리킨다.
- * 목록에 없는 속성이나 수식자가 새로 들어오면 unresolved로 떠서 눈에 띈다. */
+ * 목록에 없는 속성이나 수식자가 새로 들어오면 unresolved로 떠서 눈에 띈다.
+ *
+ * 정책 조회는 **문자열이 아니라 뜻**에 걸린다(#178). 같은 뜻이 여러 형태로 도달하므로
+ * (`data-[disabled]` · `aria-disabled` · `peer-disabled` · `has-[:disabled]`), 조회는
+ * 수식자를 축약해 뜻을 남긴 뒤 정책표를 본다. 형태를 나열해 표를 늘리면 다음 변종이
+ * 하나 더 생길 때 또 뚫린다 — 그래서 표에는 뜻만 오고 형태는 축약이 감당한다. */
 import { lengthToPx, parseVar, normalizeShadow } from "./theme.mjs"
 
 /** Figma에 대응물이 없는 축. 값이 이유다 — 지울 때 근거를 지운다. */
@@ -46,7 +51,76 @@ export const MODIFIER_POLICY = new Map([
   // Resizable 핸들의 포인터 히트 영역(#124). 1px 선 위에 투명한 의사 요소를 얹어 잡기 쉽게 만든 것이라
   // 그릴 것이 없다 — unresolved로 두면 "아직 못 다뤘다"가 되지만, 이건 영영 Figma에 없다
   ["after", "ignore:포인터 히트 영역 — 투명한 의사 요소라 Figma에 그릴 것이 없다(#124)"],
+  // 포커스가 자손에 있을 때 컨테이너가 그리는 링(#178). `focus-visible`과 **같은 그림**이지만
+  // 다른 의사 클래스라 축약이 접지 않는다 — 축약은 도달 경로만 벗기고 뜻을 바꾸지 않는다
+  ["focus-within", "ignore:포커스 링 — 컴포넌트 축이 아니라 Figma 상태 견본으로 표현한다(#43)"],
 ])
+
+/** 수식자를 한 단계씩 축약한다. 첫 번째로 걸린 규칙만 적용하고, `null`이면 더 줄 것이 없다.
+ *
+ * 규칙은 **도달 경로**와 **표기**만 벗긴다 — 뜻은 절대 바꾸지 않는다. `peer-disabled`는
+ * 형제가, `group-data-[disabled=true]`는 조상이, `has-[:disabled]`는 자손이 disabled라는
+ * 뜻이지만 **그려지는 것은 언제나 이 요소**이고 그림은 셋 다 같다. 도달 경로는 DOM 배선
+ * 사실이지 파생 채널이 나르는 것이 아니다.
+ *
+ * `focus-within`을 `focus-visible`로 접지 않는 이유가 이 선의 반대쪽이다 — 그림이 같아도
+ * 서로 다른 의사 클래스이므로 **정책표가 각각 이유를 지고**, 축약은 관여하지 않는다. */
+const REDUCTIONS = [
+  // has-[SEL] — 자손이 그 상태다
+  [/^has-\[(.+)\]$/, (m) => m[1]],
+  // group-* 는 조상이, peer-* 는 형제가 그 상태다
+  [/^(?:group|peer)-(.+)$/, (m) => m[1]],
+  // 임의 변형 [&...] — & 를 걷어내고 안쪽 선택자를 줄인다
+  [/^\[&(.+)\]$/, (m) => reduceSelector(m[1])],
+  // :disabled 같은 의사 클래스는 이름이 곧 변형 이름이다
+  [/^:([\w-]+)$/, (m) => m[1]],
+  // [aria-invalid=true] 같은 속성 선택자 → 같은 뜻의 변형 이름
+  [/^\[([\w-]+)=["']?true["']?\]$/, (m) => m[1]],
+  // data-[x] · data-[x=true] 는 "x가 참"이라는 뜻이다. 값이 true가 **아닌** 것
+  // (`data-[swipe=move]` · `data-[orientation=vertical]`)은 값이 뜻을 가르므로 접지 않는다
+  [/^data-\[([\w-]+)(?:=["']?true["']?)?\]$/, (m) => m[1]],
+  // aria-disabled 는 disabled 와 같은 그림이다 — 접근성 속성으로 도달했을 뿐이다
+  [/^aria-([\w-]+)$/, (m) => m[1]],
+]
+
+/** 임의 변형 안쪽 선택자(`&` 를 뗀 나머지)를 줄인다.
+ *
+ * 상태부(의사 클래스)가 있으면 그것이 뜻이다 — `>a:hover`가 그리는 것은 hover다.
+ * 없으면 요소를 가리키는 슬롯이고, 자식 결합자와 자손 결합자는 **같은 슬롯**을 가리키므로
+ * (`[&>svg]` ≡ `[&_svg]`) 자손 형태로 모은다. */
+function reduceSelector(rest) {
+  const state = /^[>_]\s*[\w*-]+:(.+)$/.exec(rest)
+  if (state) return state[1]
+  const child = /^>\s*(.+)$/.exec(rest)
+  return child ? `[&_${child[1]}]` : null
+}
+
+/**
+ * 수식자 하나의 정책을 찾는다. 축약해 가며 **먼저 걸린 뜻**이 이긴다.
+ *
+ * 원형을 먼저 보는 것이 중요하다 — `aria-invalid`는 그 자체로 표에 있고, 접어 버리면
+ * `invalid`가 되어 다른 것을 가리킨다. 못 찾으면 `undefined`이고 호출자가 unresolved로
+ * 띄운다: **축약은 표에 이미 있는 뜻으로만 접고, 없는 뜻을 만들어 내지 않는다.**
+ *
+ * 그래서 표의 키는 **상태의 뜻**이어야 한다. 의사 요소와 이름이 겹치는 키(`placeholder`)를
+ * 넣으면 `data-[placeholder=true]`(combobox)와 `::placeholder`(input)가 한 뜻으로 접힌다 —
+ * 서로 다른 것이므로 그런 이름은 이 표에 오지 않는다.
+ *
+ * @returns {string|undefined}
+ */
+export function policyFor(modifier) {
+  let cur = modifier
+  for (let step = 0; step < REDUCTIONS.length + 1; step++) {
+    const hit = MODIFIER_POLICY.get(cur)
+    if (hit !== undefined) return hit
+    const rule = REDUCTIONS.find(([re]) => re.test(cur))
+    if (!rule) return undefined
+    const next = rule[1](rule[0].exec(cur))
+    if (next === null || next === cur) return undefined
+    cur = next
+  }
+  return undefined
+}
 
 const SPACE_PROPERTIES = new Set([
   "width", "height", "min-width", "min-height", "max-width", "max-height",

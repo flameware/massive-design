@@ -34,7 +34,7 @@
   "drawnBy": {
     "currentLocation": "값마다 파트가 다르다 — `BreadcrumbPage`가 현재이고 `BreadcrumbLink`가 조상이다"
   },
-  "hash": "ca48b1d9992c",
+  "hash": "5c0f1d4f0990",
   "parts": {
     "BreadcrumbEllipsis": {
       "axes": {},
@@ -202,18 +202,14 @@
       "cells": [
         {
           "className": "[&>svg]:size-3.5",
-          "properties": {
-            "[&>svg]:height": {
-              "from": "[&>svg]:size-3.5",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 3.5)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
-            },
-            "[&>svg]:width": {
-              "from": "[&>svg]:size-3.5",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 3.5)",
-              "why": "수식자 [&>svg]를 아직 다루지 않는다"
+          "properties": {},
+          "slots": {
+            "icon": {
+              "size": {
+                "from": "[&>svg]:size-3.5",
+                "px": 14,
+                "tier": "literal"
+              }
             }
           },
           "state": null

@@ -187,7 +187,7 @@
     "variant": "default"
   },
   "drawnBy": {},
-  "hash": "ec678ab2dfd5",
+  "hash": "fd84bc32372e",
   "parts": {
     "EmptyContent": {
       "axes": {},
@@ -261,12 +261,6 @@
         {
           "className": "text-sm text-muted-foreground [&>a:hover]:text-foreground [&>a]:underline [&>a]:underline-offset-4",
           "properties": {
-            "[&>a:hover]:color": {
-              "from": "[&>a:hover]:text-foreground",
-              "tier": "unresolved",
-              "value": "var(--foreground)",
-              "why": "수식자 [&>a:hover]를 아직 다루지 않는다"
-            },
             "[&>a]:text-decoration-line": {
               "from": "[&>a]:underline",
               "tier": "unresolved",

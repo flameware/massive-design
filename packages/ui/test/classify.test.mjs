@@ -2,7 +2,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { classifyDeclaration, classifyShadow, resolveVarChain } from "../scripts/manifest/classify.mjs"
+import { MODIFIER_POLICY, classifyDeclaration, classifyShadow, policyFor, resolveVarChain } from "../scripts/manifest/classify.mjs"
 import { lengthToPx, loadTheme, normalizeShadow, parseVar } from "../scripts/manifest/theme.mjs"
 
 const TOKENS_CSS = `
@@ -113,4 +113,54 @@ test("그림자는 색 자리를 벗겨 되짚는다", () => {
   assert.equal(normalizeShadow("0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / .05))"), "0 1px 2px 0 rgb(0 0 0 / .05)")
   const hit = classifyShadow(theme, [{ prop: "--tw-shadow", value: "0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / .05))" }], "shadow-xs")
   assert.deepEqual(hit.entry, { tier: "token", token: "--shadow-xs", scale: "shadow.xs", from: "shadow-xs" })
+})
+
+/* 정책 조회는 뜻에 걸린다(#178). 여기가 느슨해지면 같은 뜻의 다음 변종이 또 unresolved로
+ * 새고, 반대로 헐거워지면 서로 다른 것이 한 뜻으로 접힌다. 양쪽을 다 못박는다. */
+
+test("도달 경로는 그림을 바꾸지 않는다 — disabled의 여섯 형태가 한 뜻이다", () => {
+  for (const mod of [
+    "disabled",                    // 자기 자신
+    "data-[disabled]",             // 존재 형태
+    "data-[disabled=true]",        // 값 형태
+    "aria-disabled",               // 접근성 속성
+    "has-[:disabled]",             // 자손이 disabled
+    "peer-disabled",               // 형제가 disabled
+    "group-data-[disabled=true]",  // 조상이 disabled
+  ]) assert.equal(policyFor(mod), "state", mod)
+})
+
+test("자식 결합자와 자손 결합자는 같은 슬롯을 가리킨다", () => {
+  assert.equal(policyFor("[&>svg]"), "slot-icon")
+  assert.equal(policyFor("[&_svg]"), "slot-icon")
+  assert.equal(policyFor("has-[>svg]"), "slot-icon")
+  assert.equal(policyFor("[&_svg:not([class*='size-'])]"), "slot-icon")
+})
+
+test("임의 변형 안의 상태부가 뜻이다 — 요소부는 도달 경로다", () => {
+  assert.match(policyFor("[&>a:hover]"), /^ignore:/)
+  assert.match(policyFor("[&>*:focus-visible]"), /^ignore:/)
+  assert.match(policyFor("has-[:focus-visible]"), /^ignore:/)
+  assert.match(policyFor("has-[[aria-invalid=true]]"), /^ignore:/)
+})
+
+test("원형이 먼저다 — aria-invalid는 invalid로 접히기 전에 자기 이름으로 걸린다", () => {
+  assert.equal(policyFor("aria-invalid"), MODIFIER_POLICY.get("aria-invalid"))
+})
+
+test("값이 true가 아닌 data 속성은 값이 뜻을 가르므로 접지 않는다", () => {
+  assert.match(policyFor("data-[swipe=move]"), /^ignore:/)       // 표에 원형으로 있다
+  assert.equal(policyFor("data-[orientation=vertical]"), undefined)
+  assert.equal(policyFor("data-[variant=sidebar]"), undefined)
+})
+
+test("표에 없는 뜻은 만들어 내지 않는다 — 다른 무리는 그대로 unresolved다", () => {
+  for (const mod of [
+    "first", "last",                       // E — 무리 안 위치(#180)
+    "[&_img]", "[&_tr]", "[&>span:last-child]",  // D — 자손 슬롯(#181)
+    "sm", "md", "@md/field-group",         // D — 반응형(#181)
+    "[&>*:not(:first-child)]",             // E — 무리 안 위치(#180)
+    "data-[inset=true]", "data-[placeholder=true]", "placeholder",  // 맵 밖(#140 Out of scope)
+    "[&[data-state=open]>svg]",            // 복합 선택자
+  ]) assert.equal(policyFor(mod), undefined, mod)
 })

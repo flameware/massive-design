@@ -49,35 +49,11 @@
           "tier": "token",
           "token": "--spacing"
         },
-        "group-data-[disabled=true]:opacity": {
-          "from": "group-data-[disabled=true]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 group-data-[disabled=true]를 아직 다루지 않는다"
-        },
-        "group-data-[disabled=true]:pointer-events": {
-          "from": "group-data-[disabled=true]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 group-data-[disabled=true]를 아직 다루지 않는다"
-        },
         "line-height": {
           "from": "leading-none",
           "tier": "token",
           "token": "--text-sm--line-height",
           "value": "1"
-        },
-        "peer-disabled:cursor": {
-          "from": "peer-disabled:cursor-not-allowed",
-          "tier": "unresolved",
-          "value": "not-allowed",
-          "why": "수식자 peer-disabled를 아직 다루지 않는다"
-        },
-        "peer-disabled:opacity": {
-          "from": "peer-disabled:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 peer-disabled를 아직 다루지 않는다"
         }
       },
       "state": null
@@ -87,7 +63,7 @@
   "configurationStates": {},
   "defaults": {},
   "drawnBy": {},
-  "hash": "e09201d777d4",
+  "hash": "12a012388cca",
   "reference": {
     "example": "label",
     "guidance": {

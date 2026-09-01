@@ -66,54 +66,6 @@
           "tier": "token",
           "token": "--spacing"
         },
-        "has-[:disabled]:opacity": {
-          "from": "has-[:disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 has-[:disabled]를 아직 다루지 않는다"
-        },
-        "has-[:disabled]:pointer-events": {
-          "from": "has-[:disabled]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 has-[:disabled]를 아직 다루지 않는다"
-        },
-        "has-[:focus-visible]:--tw-ring-color": {
-          "from": "has-[:focus-visible]:ring-ring",
-          "tier": "unresolved",
-          "value": "var(--ring)",
-          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
-        },
-        "has-[:focus-visible]:--tw-ring-shadow": {
-          "from": "has-[:focus-visible]:ring-[3px]",
-          "tier": "unresolved",
-          "value": "var(--tw-ring-inset,) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor)",
-          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
-        },
-        "has-[:focus-visible]:border-color": {
-          "from": "has-[:focus-visible]:border-focus-contrast",
-          "tier": "unresolved",
-          "value": "var(--focus-contrast)",
-          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
-        },
-        "has-[:focus-visible]:box-shadow": {
-          "from": "has-[:focus-visible]:ring-[3px]",
-          "tier": "unresolved",
-          "value": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)",
-          "why": "수식자 has-[:focus-visible]를 아직 다루지 않는다"
-        },
-        "has-[[aria-invalid=true]]:--tw-ring-color": {
-          "from": "has-[[aria-invalid=true]]:ring-destructive/20",
-          "tier": "unresolved",
-          "value": "var(--destructive)",
-          "why": "수식자 has-[[aria-invalid=true]]를 아직 다루지 않는다"
-        },
-        "has-[[aria-invalid=true]]:border-color": {
-          "from": "has-[[aria-invalid=true]]:border-destructive",
-          "tier": "unresolved",
-          "value": "var(--destructive)",
-          "why": "수식자 has-[[aria-invalid=true]]를 아직 다루지 않는다"
-        },
         "height": {
           "from": "h-9",
           "px": 36,
@@ -166,7 +118,7 @@
     "disabled": "`has-[:disabled]`가 그린다 — pseudo-class라 `data-*` 모양으로 적을 수 없고, 정책이 뜻 단위가 될 때 다뤄진다(#178)",
     "validity": "`has-[[aria-invalid=true]]`와 `aria-invalid`가 그린다 — 같은 이유로 `data-*`가 아니다(#178)"
   },
-  "hash": "13e8f3db38a6",
+  "hash": "f51d02488886",
   "parts": {
     "InputGroupAddon": {
       "axes": {

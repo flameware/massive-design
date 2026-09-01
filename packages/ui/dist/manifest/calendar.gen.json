@@ -85,7 +85,7 @@
   "drawnBy": {
     "selection": "`mode`가 고르는 조립이 그린다 — 날짜 하나하나는 `CalendarDay`의 `day` 축이 그리고, single/range는 그 중 어느 값이 나타나는지만 정한다"
   },
-  "hash": "cd1751acdc6f",
+  "hash": "391ec5e6e100",
   "parts": {
     "CalendarCaption": {
       "axes": {},
@@ -173,12 +173,6 @@
               "tier": "literal",
               "value": "center"
             },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
-            },
             "background-color": {
               "from": "state",
               "tier": "literal",
@@ -256,12 +250,6 @@
               "from": "items-center",
               "tier": "literal",
               "value": "center"
-            },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
             },
             "background-color": {
               "from": "state",
@@ -347,12 +335,6 @@
               "tier": "literal",
               "value": "center"
             },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
-            },
             "background-color": {
               "from": "state",
               "tier": "token",
@@ -435,12 +417,6 @@
               "from": "items-center",
               "tier": "literal",
               "value": "center"
-            },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
             },
             "background-color": {
               "from": "state",
@@ -525,12 +501,6 @@
               "tier": "literal",
               "value": "center"
             },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
-            },
             "background-color": {
               "from": "state",
               "tier": "literal",
@@ -613,12 +583,6 @@
               "from": "items-center",
               "tier": "literal",
               "value": "center"
-            },
-            "aria-disabled:pointer-events": {
-              "from": "aria-disabled:pointer-events-none",
-              "tier": "unresolved",
-              "value": "none",
-              "why": "수식자 aria-disabled를 아직 다루지 않는다"
             },
             "border-radius": {
               "from": "rounded-md",

@@ -35,12 +35,6 @@
           "scale": "space.2",
           "tier": "token",
           "token": "--spacing"
-        },
-        "has-[:disabled]:opacity": {
-          "from": "has-[:disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 has-[:disabled]를 아직 다루지 않는다"
         }
       },
       "state": null
@@ -78,7 +72,7 @@
     "숨은 입력의 인라인 지오메트리": "input-otp이 color·caret-color·letter-spacing·font-family와 --root-height를 인라인으로 소유한다 — 노드는 우리 것이지만 그 자리의 모양은 우리 클래스가 이기지 못한다",
     "입력 래퍼": "input-otp이 컨테이너 안에 절대 배치 div를 스스로 만들고 className도 style도 받지 않는다"
   },
-  "hash": "18f7da74b84d",
+  "hash": "78235e88ad40",
   "parts": {
     "InputOTPControl": {
       "axes": {},

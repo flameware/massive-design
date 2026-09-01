@@ -38,18 +38,6 @@
           "tier": "literal",
           "value": "center"
         },
-        "data-[disabled]:opacity": {
-          "from": "data-[disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
-        "data-[disabled]:pointer-events": {
-          "from": "data-[disabled]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -92,18 +80,6 @@
           "from": "items-center",
           "tier": "literal",
           "value": "center"
-        },
-        "data-[disabled]:opacity": {
-          "from": "data-[disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
-        "data-[disabled]:pointer-events": {
-          "from": "data-[disabled]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -153,18 +129,6 @@
           "tier": "literal",
           "value": "center"
         },
-        "data-[disabled]:opacity": {
-          "from": "data-[disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
-        "data-[disabled]:pointer-events": {
-          "from": "data-[disabled]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -207,18 +171,6 @@
           "from": "items-center",
           "tier": "literal",
           "value": "center"
-        },
-        "data-[disabled]:opacity": {
-          "from": "data-[disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
-        "data-[disabled]:pointer-events": {
-          "from": "data-[disabled]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -267,18 +219,6 @@
           "from": "items-center",
           "tier": "literal",
           "value": "center"
-        },
-        "data-[disabled]:opacity": {
-          "from": "data-[disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
-        "data-[disabled]:pointer-events": {
-          "from": "data-[disabled]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -322,18 +262,6 @@
           "from": "items-center",
           "tier": "literal",
           "value": "center"
-        },
-        "data-[disabled]:opacity": {
-          "from": "data-[disabled]:opacity-50",
-          "tier": "unresolved",
-          "value": "50%",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
-        },
-        "data-[disabled]:pointer-events": {
-          "from": "data-[disabled]:pointer-events-none",
-          "tier": "unresolved",
-          "value": "none",
-          "why": "수식자 data-[disabled]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -384,7 +312,7 @@
   "drawnBy": {
     "value": "thumb의 개수가 그린다 — 조립이지 클래스가 아니다"
   },
-  "hash": "f7f90ee58411",
+  "hash": "2e03f8cc2cc1",
   "parts": {
     "SliderRange": {
       "axes": {},
