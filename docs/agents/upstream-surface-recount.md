@@ -177,11 +177,13 @@ wc -l < "$WORK/ours-axes.tsv"   # 2026-09-02 기준 64
 
 ```sh
 comm -23 "$WORK/upstream-exports.tsv" "$WORK/ours-exports.tsv" \
-  | grep -Ff "$WORK/ours-slugs.txt" > "$WORK/diff-exports.tsv"
-wc -l < "$WORK/diff-exports.tsv"   # 2026-09-02 기준 40 — 이 40이 **모집단**이지 공백이 아니다
+  | awk -F'\t' 'NR==FNR{s[$1];next} ($1 in s)' "$WORK/ours-slugs.txt" - > "$WORK/diff-exports.tsv"
+wc -l < "$WORK/diff-exports.tsv"   # 2026-09-03 기준 37 — 이 37이 **모집단**이지 공백이 아니다
 ```
 
-`grep -Ff "$WORK/ours-slugs.txt"`가 하는 일은 **층위를 가르는 것**이다. 우리에게 대응 컴포넌트가 아예 없는 slug(upstream 64개 중 우리에게 없는 것들)는 **컴포넌트 층위 공백**이고 [#118](https://github.com/flameware/massive-design/issues/118)이 끝낸 영역이다. 이 절차는 **표면 층위**만 잰다. `list-row`는 반대 방향 — upstream에 대응 항목이 없는 우리 자체 컴포넌트라 대조 대상이 아니다.
+이 필터가 하는 일은 **층위를 가르는 것**이다. 우리에게 대응 컴포넌트가 아예 없는 slug(upstream 64개 중 우리에게 없는 것들)는 **컴포넌트 층위 공백**이고 [#118](https://github.com/flameware/massive-design/issues/118)이 끝낸 영역이다. 이 절차는 **표면 층위**만 잰다. `list-row`는 반대 방향 — upstream에 대응 항목이 없는 우리 자체 컴포넌트라 대조 대상이 아니다.
+
+> **`grep -Ff`를 쓰지 않는다 — slug는 부분 문자열로 맞히면 안 된다.** 이 자리는 원래 `grep -Ff "$WORK/ours-slugs.txt"`였고, [#177](https://github.com/flameware/massive-design/issues/177)이 절차를 돌리며 실측으로 고쳤다. `grep -F`는 **줄 어디에서든** 부분 문자열을 맞히므로 upstream의 `hover-card`가 우리 slug `card`에 걸려 모집단에 들어왔다 — Hover Card는 [#118](https://github.com/flameware/massive-design/issues/118)이 Popover의 트리거 모드로 흡수해 **우리에게 계약이 없는** 컴포넌트라, 이 절차가 재지 않기로 한 컴포넌트 층위가 표면 층위 모집단에 섞인 것이다(2026-09-02에 40으로 보고된 수 중 셋이 이것이었다). 층위를 가르는 필터가 층위를 섞으면 필터가 아니다. **slug는 첫 열과 정확히 같을 때만 맞힌다.**
 
 ### 3.2 축·값 차집합
 
@@ -190,8 +192,10 @@ wc -l < "$WORK/diff-exports.tsv"   # 2026-09-02 기준 40 — 이 40이 **모집
 ```sh
 awk -F'\t' '{print $1"\tUP  \t"$2"\t"$3"\t"$4}' "$WORK/upstream-axes.tsv"  > "$WORK/axes-both.tsv"
 awk -F'\t' '{print $1"\tOURS\t\t"$2"."$3"\t"$4}' "$WORK/ours-axes.tsv"    >> "$WORK/axes-both.tsv"
-grep -Ff "$WORK/ours-slugs.txt" "$WORK/axes-both.tsv" | sort
+awk -F'\t' 'NR==FNR{s[$1];next} ($1 in s)' "$WORK/ours-slugs.txt" "$WORK/axes-both.tsv" | sort
 ```
+
+§3.1과 **같은 이유로 여기도 첫 열 정확 일치**다. `grep -Ff`였을 때는 값 열까지 맞혀서 upstream 전용 컴포넌트 `marker`의 `markerVariants.variant default,separator,border` 줄이 우리 slug `separator`에 걸려 들어왔다 — slug 열이 아니라 **값**에 걸린 것이라 §3.1의 `hover-card`보다 한 걸음 더 나쁘다([#177](https://github.com/flameware/massive-design/issues/177) 실측).
 
 읽는 기준은 셋이다. ① upstream에 있고 우리에게 **축 자체가 없다** ② 축은 있는데 **값이 모자란다** — `item UP itemVariants.size default,sm,xs` 옆에 `item OURS ..size default,sm`이 서는 자리가 [#174](https://github.com/flameware/massive-design/issues/174)가 판정한 그 꼴이다 ③ **이름만 다르다** — 공백이 아니고, §3.3이 `limits`로 확인한다.
 
