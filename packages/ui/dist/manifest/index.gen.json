@@ -213,7 +213,7 @@
     {
       "cells": 2,
       "component": "scroll-area",
-      "hash": "5ec1920502d7",
+      "hash": "b913c1235a75",
       "path": "scroll-area.gen.json"
     },
     {
@@ -249,7 +249,7 @@
     {
       "cells": 6,
       "component": "slider",
-      "hash": "6b5083fe732a",
+      "hash": "e2a8080a65c8",
       "path": "slider.gen.json"
     },
     {
@@ -261,7 +261,7 @@
     {
       "cells": 2,
       "component": "switch",
-      "hash": "bcf1744bc1bc",
+      "hash": "c33616592c82",
       "path": "switch.gen.json"
     },
     {

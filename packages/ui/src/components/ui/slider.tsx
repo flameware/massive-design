@@ -53,8 +53,11 @@ const sliderTrackVariantsConfig = {
   },
   defaultVariants: { size: "default" },
 } as const
+/* 트랙은 **잔여 트랙**이다 — 값이 아직 닿지 않은 바닥이고 의미는 Range가 나르므로
+ * 대비 요구가 없다. 색은 변하지 않는다: `bg-muted`(bg.subtle)와 `bg-secondary`
+ * (bg.neutral.soft)는 둘 다 neutral 3이라 렌더가 같고, Progress와 이름만 맞춘다(#109). */
 const sliderTrackVariants = cva(
-  "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full",
+  "relative grow overflow-hidden rounded-full bg-secondary data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full",
   sliderTrackVariantsConfig
 )
 

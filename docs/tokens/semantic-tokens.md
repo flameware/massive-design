@@ -73,8 +73,8 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 3 | `bg.subtle` | 2차 그룹핑 (테이블 헤더, 사이드바 hover) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
 | 4 | `bg.inset` | 파묻힌 영역 (코드블록, 입력 내부) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
 | 5 | `bg.overlay` | 다이얼로그·팝오버 면 | neutral 1 `#fdfdfd` | neutral 3 `#1e1e1e` |
-| 6 | `bg.neutral.soft` | 중립 뱃지·태그 배경 | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
-| 7 | `bg.neutral.solid` | 중립 채움 | neutral 9 `#727272` | neutral 9 `#727272` |
+| 6 | `bg.neutral.soft` | 중립 뱃지·태그 배경, secondary 버튼, 잔여 트랙 (§8.3) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
+| 7 | `bg.neutral.solid` | 컨트롤 어포던스 채움 (§8.3) | neutral 9 `#727272` | neutral 9 `#727272` |
 | 8 | `bg.accent.soft` | 연한 브랜드 배경 | brand 3 `#eaeef4` | brand 3 `#0d1d3b` [^gen] |
 | 9 | `bg.accent.solid` | 브랜드 채움 (primary) | brand 9 `#0f5fed` | brand 9 `#0f5fed` |
 | 10 | `bg.danger.soft` | 에러 배너 | danger 3 `#f4eceb` | danger 3 `#341210` |
@@ -233,6 +233,7 @@ Radix 정석 순서(1=앱 배경, 2=올라온 면)를 그대로 쓰면 라이트
 | `--primary-foreground` | `fg.on-solid` | |
 | `--secondary` | `bg.neutral.soft` | |
 | `--secondary-foreground` | `fg.default` | |
+| `--neutral-solid` | `bg.neutral.solid` | 정본에 없다. **확장** (§8.3, [ADR-0003](../adr/0003-neutral-solid-alias-name.md)). `secondary-solid`가 아닌 이유는 neutral만 접미사 없는 이름이 soft라 그 모양이 반대 뜻을 갖기 때문이다 |
 | `--muted` | `bg.subtle` | |
 | `--muted-foreground` | `fg.muted` | |
 | `--accent` | `bg.subtle` | **hover 배경 슬롯.** 브랜드색 아님 |
@@ -302,7 +303,7 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 전 조합 자동 검산 결과 — 스크립트는 #7 코멘트 참조.
 
 - **텍스트 74조합 전부 WCAG AA(4.5:1) 통과.** 최저 4.80 (`fg.on-solid` on `bg.danger.solid`)
-- **비텍스트 40조합 전부 3:1 통과.** 최저 3.08 (dark `border.focus`·`border.accent` on `bg.overlay`)
+- **비텍스트 50조합 전부 3:1 통과.** 최저 3.08 (dark `border.focus`·`border.accent` on `bg.overlay`)
 - `fg.on-solid`는 어두운 4패밀리 solid 위에서 4.80~5.41로 유지한다. warning 9는 밝아 흰 전경이 실패하므로 `fg.on-warning`의 검정을 쓴다.
 
 다크 보더는 알파 합성이라 대비값이 낮다(`border.default` 1.31 / `border.field` 1.56 on `bg.surface`). 이건 shadcn 정본과 같은 성질이고, 보더는 비텍스트 3:1 요건 대상이 아니다(요건은 "상태를 나타내는 UI 컴포넌트"에 걸린다). `border.knockout`은 한 겹 더 밖이다 — 뒤 면을 되그려 **지우는** 자리라 대비를 내는 것이 목적이 아니고, 값이 면색과 같아 자기가 놓이는 면과의 대비는 정의상 1:1이다.
@@ -311,7 +312,7 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 
 #7이 확정한 원래 6조합은 **전부 `bg.canvas` 위**만 봤다. [#17](https://github.com/flameware/massive-design/issues/17)이 `bg.surface`를 재며 구멍을 열었고, #33이 나머지 면까지 재자 **바닥이 `bg.surface`가 아니었다**: 다크 `bg.subtle`·`bg.inset`·`bg.overlay`는 전부 `#1e1e1e`이고 그 위에서 인터랙티브 테두리 **4종이 전부** 3:1 아래였다 — `focus`/`accent` 2.59 · `danger` 2.80 · `strong` 2.86. 라이트도 `border.strong` on `bg.subtle`이 2.98이었다.
 
-그래서 게이트는 **인터랙티브 테두리 4종 × 면 5종 × 2모드 = 40조합**이 됐다. 곱집합이 무의미한 쌍을 만든다는 #7의 우려는 텍스트 조합의 이야기다 — 이 5면은 전부 "무언가가 그 위에 놓이는 면"이라 해당되지 않는다. 그중 `bg.overlay`가 다이얼로그·팝오버 안의 인풋과 버튼이 실제로 놓이는 면이라 가장 중요하다.
+그래서 게이트는 **인터랙티브 테두리 4종 × 면 5종 × 2모드 = 40조합**이 됐다(§8.3이 채움 한 종을 더해 50조합이다). 곱집합이 무의미한 쌍을 만든다는 #7의 우려는 텍스트 조합의 이야기다 — 이 5면은 전부 "무언가가 그 위에 놓이는 면"이라 해당되지 않는다. 그중 `bg.overlay`가 다이얼로그·팝오버 안의 인풋과 버튼이 실제로 놓이는 면이라 가장 중요하다.
 
 **고친 방법: 네 토큰의 참조를 팔레트 8단 → 9단으로 올렸다**(양 모드). 파급이 정확히 네 칸인 이유는 **semantic 계층에서 8단을 참조하던 것이 이 네 토큰뿐**이었기 때문이다 — 램프는 건드리지 않았다.
 
@@ -336,6 +337,16 @@ shadcn 원본의 `focus-visible:ring-ring/50`이 정확히 그 경우였다. 실
 `packages/ui/src/components/ui/button.tsx`에서 `ring-ring/50` → `ring-ring`, `ring-destructive/20` → `ring-destructive`로 걷어냈다. `aria-invalid:ring-destructive/20`은 남겼다 — 그 상태를 지는 것은 같이 걸린 `aria-invalid:border-destructive`(원색, 게이트 대상)이고 링은 그 위의 글로우다.
 
 ⚠️ **딸려 오는 결과: `border.focus`가 `bg.accent.solid`와 같은 hex가 됐다**(양 모드 다 9단). primary 버튼은 링이 면과 동색이라 포커스가 "조금 커진 덩어리"로 보인다 — 실제 렌더로 확인했다. 바깥 경계(링 대 배경면)가 3.08로 요건을 지므로 성립하지만, 다섯 variant 중 `default`만 눈에 띄게 약하다. 구조로 고치려면 두 겹 링이고, 그건 아직 안 연 항목이다.
+
+### 8.3 컨트롤 어포던스는 채움인데도 이 게이트 안이다 ([#109](https://github.com/flameware/massive-design/issues/109))
+
+요건이 걸리는 것은 계열이 아니라 **"상태를 나타내는 UI 컴포넌트"**다. 그래서 테두리가 아니라 **채움**인데도 이 게이트 안에 오는 자리가 있다 — **컨트롤 어포던스**, 즉 채움 자체가 조작 대상인 자리다. Scroll Area의 thumb과 Switch의 off 트랙이 그것이고, 사용자가 그것을 잡으려면 앉는 면과 갈려 보여야 한다.
+
+둘 다 `bg-secondary`(neutral 3)를 집고 있었고 실측은 **라이트 1.09 · 다크 1.17**이었다 — 두 모드 모두 WCAG 1.4.11 미달이고, 사실상 보이지 않았다. 세 겹의 침묵을 통과했다: `tokens:contrast`의 조합표에 이 쌍이 없었고, 매니페스트 lint 규칙 3은 계열만 보며(대비를 보지 않는다고 스스로 적어 뒀다), Storybook axe는 커스텀 스크롤바·트랙의 어포던스를 재지 않는다.
+
+`bg.neutral.solid`(neutral 9)로 옮기면 5면 위에서 라이트 4.15~4.73 · 다크 3.47~4.07이다. 게이트에 `bg.neutral.solid × 면 5종 × 2모드 = 10조합`이 늘어 이제 침묵이 아니라 측정이다.
+
+**반대편에 잔여 트랙이 있다** — Progress·Slider의 트랙처럼 값이 아직 닿지 않은 바닥이다. 의미는 채워진 부분이 나르므로 대비 요구가 없고, 요구가 정반대라 컨트롤 어포던스와 같은 토큰을 쓰지 않는다. 이 둘은 `bg-secondary`와 `bg-muted`로 갈려 있었으나 값이 둘 다 neutral 3이라 화면은 같았다 — 이름만 `bg-secondary`로 정렬했고 렌더된 값은 바뀌지 않았다. 두 역할의 정의는 `CONTEXT.md`에 산다.
 
 ## 9. 다음 티켓으로 넘기는 것
 

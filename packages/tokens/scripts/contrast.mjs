@@ -43,12 +43,19 @@ const TEXT_PAIRS = [
 /**
  * [전경, 배경] — 비텍스트. 3:1 게이트.
  *
- * 대상은 **인터랙티브 테두리 4종 × 면 5종 × 2모드 = 40조합**이다. #7이 확정한
+ * 대상은 **인터랙티브 테두리 4종 + 컨트롤 어포던스 채움 1종, × 면 5종 × 2모드 =
+ * 50조합**이다. #7이 확정한
  * 원래 6조합은 `bg.canvas` 위만 봤는데, #33이 나머지 면을 재 보니 다크
  * `#1e1e1e`(`bg.subtle`·`bg.inset`·`bg.overlay`) 위에서 4종이 전부 3:1 아래로
  * 내려갔다 — 그중 `bg.overlay`는 다이얼로그·팝오버 안의 인풋과 버튼이 실제로
  * 놓이는 면이다. 곱집합이 무의미한 쌍을 만든다는 #7의 우려는 텍스트 조합의
  * 이야기고, 여기 5면은 전부 "무언가가 그 위에 놓이는 면"이라 해당되지 않는다.
+ *
+ * 채움도 하나 온다. `bg.neutral.solid`는 **컨트롤 어포던스**의 색이다 — thumb·off
+ * 트랙처럼 채움 자체가 조작 대상인 자리라, 사용자가 그것을 잡으려면 앉는 면과
+ * 갈려 보여야 한다(#109). 이 계열의 다른 배경은 오지 않는다: 면은 그 위에 놓이는
+ * 것과 재고 자기 자신과는 재지 않으며, 잔여 트랙(Progress·Slider)은 의미를 채워진
+ * 부분이 나르므로 대비 요구가 없다.
  *
  * `border.default` · `border.field` · `border.knockout`은 여전히 제외한다 — 요건은
  * "상태를 나타내는 UI 컴포넌트"에 걸리고 구분선은 그 대상이 아니다. `knockout`은
@@ -62,8 +69,13 @@ const TEXT_PAIRS = [
  * 그래서 규약이 대신 막는다: **상태 테두리는 토큰을 불투명도 없이 칠한다**
  * (semantic-tokens.md §8).
  */
-const NONTEXT_PAIRS = ['border.strong', 'border.accent', 'border.danger', 'border.focus']
-  .flatMap((fg) => SURFACES.map((bg) => [fg, bg]))
+const NONTEXT_PAIRS = [
+  ...['border.strong', 'border.accent', 'border.danger', 'border.focus']
+    .flatMap((fg) => SURFACES.map((bg) => [fg, bg])),
+  // 컨트롤 어포던스는 테두리가 아니라 **채움**이지만 요건이 같은 자리다 — 요건이
+  // 걸리는 것은 계열이 아니라 "상태를 나타내는 UI 컴포넌트"라서다(#109).
+  ...SURFACES.map((bg) => ['bg.neutral.solid', bg]),
+]
 
 // ── 계산 ────────────────────────────────────────────────────────────────────
 
@@ -127,11 +139,11 @@ function main() {
   const failed = rows.filter((r) => r.gated && r.cr < r.gate)
 
   const pad = (s, n) => String(s).padEnd(n)
-  console.log(`${pad('mode', 6)}${pad('전경', 16)}${pad('배경', 20)}${pad('CR', 8)}${pad('APCA', 8)}판정`)
+  console.log(`${pad('mode', 6)}${pad('전경', 18)}${pad('배경', 20)}${pad('CR', 8)}${pad('APCA', 8)}판정`)
   for (const r of rows) {
     const verdict = r.cr >= r.gate ? '✓' : r.gated ? `✗ < ${r.gate}` : `⚠ < ${r.gate} (참고)`
     console.log(
-      pad(r.mode, 6) + pad(r.fg, 16) + pad(r.bg, 20) +
+      pad(r.mode, 6) + pad(r.fg, 18) + pad(r.bg, 20) +
       pad(r.cr.toFixed(2), 8) + pad(r.apca.toFixed(1), 8) + verdict,
     )
   }
