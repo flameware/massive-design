@@ -546,6 +546,6 @@
       "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
     }
   },
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "source": "src/components/ui/input-group.tsx"
 }

@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "8b924ed6b87e63e25d55786162f169a8f2ffb859",
+  "targetCommit": "ef5294fc70e2faf96de21788678e45b2124bafa6",
   "inputTree": {
-    "commit": "8b924ed6b87e63e25d55786162f169a8f2ffb859",
+    "commit": "ef5294fc70e2faf96de21788678e45b2124bafa6",
     "clean": true
   },
-  "inputDigest": "c3eaa98975ab126795d7e1ada9a9ece0e5a8f30070b6e1950a7a76f3378b6962",
+  "inputDigest": "b387162b18bfe9f34ded94faea341cca58a0589518052c8678cb129f60fafe15",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -207,7 +207,7 @@
     },
     {
       "component": "sidebar",
-      "manifestHash": "d92340903a71",
+      "manifestHash": "b9fc5263cc4c",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -217,7 +217,7 @@
     },
     {
       "component": "slider",
-      "manifestHash": "2e03f8cc2cc1",
+      "manifestHash": "6b5083fe732a",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T13:31:05.670Z",
+      "checkedAt": "2026-09-02T00:33:23.800Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -300,7 +300,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T13:31:05.670Z",
+      "checkedAt": "2026-09-02T00:33:23.800Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -498,13 +498,13 @@
       },
       "visualReview": {
         "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-01T23:38:33.729Z",
-        "scope": "동작 확인표 9자리 전부 출력 확인(carousel·resizable·slider·scroll-area 드래그, dropdown-menu contextOpen·longPressOpen, popover·navigation-menu·tooltip hover 열림) — #124·#125·#126·#127이 지나친 사례가 모두 걸린다. 열림 계기 4자리의 기본 모드 해시가 runbook에 손으로 박혀 있던 값과 일치. 전체 카탈로그 Light/Dark 이전 세대와 렌더 동일(className 무변경·해시 무이동 세대)"
+        "checkedAt": "2026-09-02T00:39:59.321Z",
+        "scope": "sidebar·slider Light/Dark 확인 — 해시가 움직인 두 컴포넌트. 렌더 코드 무변경 세대다(slider.tsx의 변경은 계약 메타데이터뿐이고 브라우저는 이미 sidebar 테두리와 SliderTrack 두께를 그리고 있었다 — 눈이 먼 쪽은 매니페스트였다). 이전 세대와 렌더 동일. 동작 확인표 9자리 전부 출력 확인(carousel·resizable·slider·scroll-area 드래그, dropdown-menu contextOpen·longPressOpen, popover·navigation-menu·tooltip hover 열림) — 확인표는 좁히지 않았다. 열림 계기 4자리의 기본 모드 해시가 이번 세대 preflight 기록의 components[]와 일치"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-09-01T23:38:33.729Z"
+  "completedAt": "2026-09-02T00:39:59.321Z"
 }

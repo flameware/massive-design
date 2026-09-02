@@ -237,7 +237,7 @@
     {
       "cells": 12,
       "component": "sidebar",
-      "hash": "d92340903a71",
+      "hash": "b9fc5263cc4c",
       "path": "sidebar.gen.json"
     },
     {
@@ -249,7 +249,7 @@
     {
       "cells": 6,
       "component": "slider",
-      "hash": "2e03f8cc2cc1",
+      "hash": "6b5083fe732a",
       "path": "slider.gen.json"
     },
     {
@@ -307,5 +307,5 @@
       "path": "tooltip.gen.json"
     }
   ],
-  "schemaVersion": 7
+  "schemaVersion": 8
 }

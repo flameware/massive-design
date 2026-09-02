@@ -1314,7 +1314,7 @@ export const catalog = [
   {
     "component": "sidebar",
     "displayName": "Sidebar",
-    "hash": "d92340903a71",
+    "hash": "b9fc5263cc4c",
     "cells": 12,
     "axes": {
       "collapsible": [
@@ -1399,7 +1399,7 @@ export const catalog = [
   {
     "component": "slider",
     "displayName": "Slider",
-    "hash": "2e03f8cc2cc1",
+    "hash": "6b5083fe732a",
     "cells": 6,
     "axes": {
       "orientation": [

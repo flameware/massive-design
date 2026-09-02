@@ -225,7 +225,9 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `slots.icon.size` | `icon` | `resize(n, n)` |
 | `border-width` | `root` | `strokeWeight` + `strokes[0]` = **`base`의 `border-color`** — ⚠️ 아래 |
 
-합성 컴포넌트는 루트 `cells`만 읽으면 안 된다. `parts`의 각 이름은 `anatomy`에 있는 **파트**이고, 파트마다 `axes`·`defaults`·`cells`가 루트와 같은 방식으로 존재한다. 먼저 파트의 조합을 해당 하위 프레임에 적용한 뒤, 그 프레임 내부의 `root`·`label`·`icon` 역할에 위 번역표를 적용한다. `TableHead`의 40px 높이·8px 좌우 패딩과 `TableCell`의 8px 패딩처럼 자식에서 선언된 값은 루트로 끌어올리거나 손으로 복사하지 않는다.
+합성 컴포넌트는 루트 `cells`만 읽으면 안 된다. `parts`의 각 이름은 `anatomy`에 있는 **파트**이고, 파트마다 `axes`·`defaults`·`cells`가 루트와 같은 방식으로 존재한다.
+
+⚠️ **`schemaVersion: 8`부터 파트의 `axes`에 그 파트의 cva에 없는 축이 올 수 있다** ([#179](https://github.com/flameware/massive-design/issues/179)). 계약이 `inheritedAxes`로 지목한 root의 축이며, 값과 기본값은 root의 것 그대로다 — `SliderTrack`이 root의 `orientation`을 물려받아 3칸에서 6칸이 되는 것이 그 예다. **주입은 이것을 파트 자신의 축과 구분하지 않는다**: 셀이 그 값을 고정하고 있으므로 §6.1의 조합 전개가 그대로 적용된다. 물려받은 축은 파트의 컴포넌트 세트를 실제로 늘리므로, root의 인스턴스가 파트를 놓을 때 root의 축 값과 **같은 값**을 골라 준다. 먼저 파트의 조합을 해당 하위 프레임에 적용한 뒤, 그 프레임 내부의 `root`·`label`·`icon` 역할에 위 번역표를 적용한다. `TableHead`의 40px 높이·8px 좌우 패딩과 `TableCell`의 8px 패딩처럼 자식에서 선언된 값은 루트로 끌어올리거나 손으로 복사하지 않는다.
 
 Table의 시각 검토와 Figma 참조 콘텐츠는 `apps/storybook/stories/fixtures/table.json`을 함께 사용한다. fixture는 공개 컴포넌트 계약이 아니라 채널 간 비교를 위한 repo-owned 견본이다. 기본 공개 자산에서는 선택적인 `TableCaption`을 강제로 넣지 않으며, 사용하면 `margin-top: 16px`를 보존한다.
 

@@ -83,6 +83,6 @@
       "use": "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공한다. 클릭으로 여는 기본 모드와, 포인터가 머무르면 지연 후 여는 openOn=\"hover\" 모드를 같은 계약으로 덮는다."
     }
   },
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "source": "src/components/ui/popover.tsx"
 }

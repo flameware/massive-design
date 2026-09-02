@@ -234,3 +234,50 @@ test("carriedBy는 \"none\"만 쓴다 — 상태 사다리는 셀 단위라 계�
     carried({ modifiers: [], carriedBy: "none" }, "aria-invalid:border-destructive"),
   ]), /그리는 수식자 목록이 필요하다/)
 })
+
+/* 파트의 축 상속(#179). 지목은 셀 수를 늘리는 결정이라 게이트가 두 가지를 본다 —
+ * root에 그 축이 실재하는가, 그리고 이 파트가 그것을 실제로 되읽는가. */
+const withPart = (part, variants = { orientation: { horizontal: "", vertical: "" } }) => {
+  const c = contract("a")
+  c.config = { variants, defaultVariants: {} }
+  c.anatomy = ["Widget", "WidgetTrack"]
+  c.parts = { WidgetTrack: { config: { variants: {}, defaultVariants: {} }, className: () => "", ...part } }
+  return c
+}
+
+test("root에 없는 축은 물려받지 못한다", () => {
+  assert.throws(
+    () => validateContracts(["a.tsx"], [withPart({ inheritedAxes: ["orientation"] }, {})]),
+    /root에 없는 축을 물려받는다: a\.WidgetTrack \(orientation\)/
+  )
+})
+
+test("되읽지 않는 축을 물려받으면 셀만 늘어나므로 걸린다", () => {
+  // #147이 막으려던 조합 폭발이 정확히 이 모양이다
+  assert.throws(
+    () => validateContracts(["a.tsx"], [withPart({ inheritedAxes: ["orientation"] })]),
+    /되읽지 않는 축을 물려받는다 — 셀만 는다: a\.WidgetTrack \(orientation\)/
+  )
+})
+
+test("되읽는 파트의 지목은 통과한다", () => {
+  const ok = withPart({ className: () => "data-[orientation=vertical]:w-1", inheritedAxes: ["orientation"] })
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [ok]))
+})
+
+test("파트가 이미 가진 축은 물려받을 것이 없다", () => {
+  const own = withPart({
+    config: { variants: { orientation: { horizontal: "", vertical: "" } }, defaultVariants: {} },
+    className: () => "data-[orientation=vertical]:w-1", inheritedAxes: ["orientation"],
+  })
+  assert.throws(() => validateContracts(["a.tsx"], [own]), /파트가 이미 가진 축을 물려받는다/)
+})
+
+test("구성 상태의 DOM 속성은 축 이름과 겹칠 수 없다", () => {
+  // 겹치면 조립이 축 되읽기를 먼저 보므로 그 구성 상태가 조용히 사라진다(#179)
+  const clash = contract("a")
+  clash.config = { variants: { variant: { sidebar: "", floating: "" } }, defaultVariants: {} }
+  clash.configurationStates = { look: ["sidebar"] }
+  clash.drawnBy = { look: { attribute: "data-variant", values: { sidebar: "sidebar" } } }
+  assert.throws(() => validateContracts(["a.tsx"], [clash]), /축 이름과 겹친다 .*a\.look \(data-variant\)/)
+})

@@ -108,6 +108,6 @@
       "use": "한 줄 텍스트 값을 입력하거나 검색어를 받는다."
     }
   },
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "source": "src/components/ui/input.tsx"
 }

@@ -578,6 +578,6 @@
       "use": "시계열이나 범주 비교를 Recharts로 그리면서, 툴팁 카드와 범례만 카탈로그의 면·글자·모서리 규칙에 맞춰 통일한다."
     }
   },
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "source": "src/components/ui/chart.tsx"
 }

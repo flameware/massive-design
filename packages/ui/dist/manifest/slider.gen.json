@@ -312,30 +312,29 @@
   "drawnBy": {
     "value": "thumb의 개수가 그린다 — 조립이지 클래스가 아니다"
   },
-  "hash": "2e03f8cc2cc1",
+  "hash": "6b5083fe732a",
   "parts": {
     "SliderRange": {
-      "axes": {},
+      "axes": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ]
+      },
       "cells": [
         {
           "className": "absolute bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full",
+          "orientation": "horizontal",
           "properties": {
             "background-color": {
               "from": "bg-primary",
               "tier": "token",
               "token": "--ds-bg-accent-solid"
             },
-            "data-[orientation=horizontal]:height": {
+            "height": {
               "from": "data-[orientation=horizontal]:h-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
-            },
-            "data-[orientation=vertical]:width": {
-              "from": "data-[orientation=vertical]:w-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
+              "tier": "literal",
+              "value": "100%"
             },
             "position": {
               "from": "absolute",
@@ -344,9 +343,33 @@
             }
           },
           "state": null
+        },
+        {
+          "className": "absolute bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full",
+          "orientation": "vertical",
+          "properties": {
+            "background-color": {
+              "from": "bg-primary",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            },
+            "position": {
+              "from": "absolute",
+              "tier": "literal",
+              "value": "absolute"
+            },
+            "width": {
+              "from": "data-[orientation=vertical]:w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "state": null
         }
       ],
-      "defaults": {}
+      "defaults": {
+        "orientation": "horizontal"
+      }
     },
     "SliderThumb": {
       "axes": {
@@ -508,6 +531,10 @@
     },
     "SliderTrack": {
       "axes": {
+        "orientation": [
+          "horizontal",
+          "vertical"
+        ],
         "size": [
           "sm",
           "default",
@@ -517,6 +544,7 @@
       "cells": [
         {
           "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1",
+          "orientation": "horizontal",
           "properties": {
             "background-color": {
               "from": "bg-muted",
@@ -528,34 +556,18 @@
               "tier": "literal",
               "value": "calc(infinity * 1px)"
             },
-            "data-[orientation=horizontal]:height": {
-              "from": "data-[orientation=horizontal]:h-1",
-              "tier": "unresolved",
-              "value": "0.25rem",
-              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
-            },
-            "data-[orientation=horizontal]:width": {
-              "from": "data-[orientation=horizontal]:w-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
-            },
-            "data-[orientation=vertical]:height": {
-              "from": "data-[orientation=vertical]:h-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
-            },
-            "data-[orientation=vertical]:width": {
-              "from": "data-[orientation=vertical]:w-1",
-              "tier": "unresolved",
-              "value": "0.25rem",
-              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
-            },
             "flex-grow": {
               "from": "grow",
               "tier": "literal",
               "value": "1"
+            },
+            "height": {
+              "from": "data-[orientation=horizontal]:h-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
             },
             "overflow": {
               "from": "overflow-hidden",
@@ -566,6 +578,57 @@
               "from": "relative",
               "tier": "literal",
               "value": "relative"
+            },
+            "width": {
+              "from": "data-[orientation=horizontal]:w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "size": "sm",
+          "state": null
+        },
+        {
+          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1",
+          "orientation": "vertical",
+          "properties": {
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "flex-grow": {
+              "from": "grow",
+              "tier": "literal",
+              "value": "1"
+            },
+            "height": {
+              "from": "data-[orientation=vertical]:h-full",
+              "tier": "literal",
+              "value": "100%"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "data-[orientation=vertical]:w-1",
+              "multiple": 1,
+              "px": 4,
+              "scale": "space.1",
+              "tier": "token",
+              "token": "--spacing"
             }
           },
           "size": "sm",
@@ -573,6 +636,7 @@
         },
         {
           "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5",
+          "orientation": "horizontal",
           "properties": {
             "background-color": {
               "from": "bg-muted",
@@ -584,34 +648,15 @@
               "tier": "literal",
               "value": "calc(infinity * 1px)"
             },
-            "data-[orientation=horizontal]:height": {
-              "from": "data-[orientation=horizontal]:h-1.5",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 1.5)",
-              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
-            },
-            "data-[orientation=horizontal]:width": {
-              "from": "data-[orientation=horizontal]:w-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
-            },
-            "data-[orientation=vertical]:height": {
-              "from": "data-[orientation=vertical]:h-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
-            },
-            "data-[orientation=vertical]:width": {
-              "from": "data-[orientation=vertical]:w-1.5",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 1.5)",
-              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
-            },
             "flex-grow": {
               "from": "grow",
               "tier": "literal",
               "value": "1"
+            },
+            "height": {
+              "from": "data-[orientation=horizontal]:h-1.5",
+              "px": 6,
+              "tier": "literal"
             },
             "overflow": {
               "from": "overflow-hidden",
@@ -622,6 +667,54 @@
               "from": "relative",
               "tier": "literal",
               "value": "relative"
+            },
+            "width": {
+              "from": "data-[orientation=horizontal]:w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "size": "default",
+          "state": null
+        },
+        {
+          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5",
+          "orientation": "vertical",
+          "properties": {
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "flex-grow": {
+              "from": "grow",
+              "tier": "literal",
+              "value": "1"
+            },
+            "height": {
+              "from": "data-[orientation=vertical]:h-full",
+              "tier": "literal",
+              "value": "100%"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "data-[orientation=vertical]:w-1.5",
+              "px": 6,
+              "tier": "literal"
             }
           },
           "size": "default",
@@ -629,6 +722,7 @@
         },
         {
           "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-2 data-[orientation=vertical]:w-2",
+          "orientation": "horizontal",
           "properties": {
             "background-color": {
               "from": "bg-muted",
@@ -640,34 +734,18 @@
               "tier": "literal",
               "value": "calc(infinity * 1px)"
             },
-            "data-[orientation=horizontal]:height": {
-              "from": "data-[orientation=horizontal]:h-2",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 2)",
-              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
-            },
-            "data-[orientation=horizontal]:width": {
-              "from": "data-[orientation=horizontal]:w-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=horizontal]를 아직 다루지 않는다"
-            },
-            "data-[orientation=vertical]:height": {
-              "from": "data-[orientation=vertical]:h-full",
-              "tier": "unresolved",
-              "value": "100%",
-              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
-            },
-            "data-[orientation=vertical]:width": {
-              "from": "data-[orientation=vertical]:w-2",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 2)",
-              "why": "수식자 data-[orientation=vertical]를 아직 다루지 않는다"
-            },
             "flex-grow": {
               "from": "grow",
               "tier": "literal",
               "value": "1"
+            },
+            "height": {
+              "from": "data-[orientation=horizontal]:h-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
             },
             "overflow": {
               "from": "overflow-hidden",
@@ -678,6 +756,57 @@
               "from": "relative",
               "tier": "literal",
               "value": "relative"
+            },
+            "width": {
+              "from": "data-[orientation=horizontal]:w-full",
+              "tier": "literal",
+              "value": "100%"
+            }
+          },
+          "size": "lg",
+          "state": null
+        },
+        {
+          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-2 data-[orientation=vertical]:w-2",
+          "orientation": "vertical",
+          "properties": {
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "flex-grow": {
+              "from": "grow",
+              "tier": "literal",
+              "value": "1"
+            },
+            "height": {
+              "from": "data-[orientation=vertical]:h-full",
+              "tier": "literal",
+              "value": "100%"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "data-[orientation=vertical]:w-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
             }
           },
           "size": "lg",
@@ -685,6 +814,7 @@
         }
       ],
       "defaults": {
+        "orientation": "horizontal",
         "size": "default"
       }
     }
@@ -697,6 +827,6 @@
       "use": "정확한 숫자보다 상대적 위치가 중요한 연속 범위에서 값 하나 또는 구간의 양 끝을 고른다."
     }
   },
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "source": "src/components/ui/slider.tsx"
 }
