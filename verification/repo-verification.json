@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "cc65ff43ba7ab54698a9d1e74459c99c906bd906",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "f71d659b1355f4a29c6a3b5986a09fe17c9c19ee",
   "inputTree": {
-    "commit": "cc65ff43ba7ab54698a9d1e74459c99c906bd906",
+    "commit": "f71d659b1355f4a29c6a3b5986a09fe17c9c19ee",
     "clean": true
   },
-  "inputDigest": "5d6a5a87d89e870d0f8941cdae6b5f15edc3aae1a833ad35442d2614088252e9",
+  "inputDigest": "ee790f47ee9804545647a447cbb9c638d5b5d92b2cda9106040ca279f22355b9",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "component": "alert-dialog",
-      "manifestHash": "ff95c8d6a7c2",
+      "manifestHash": "c9af7f17e33a",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -47,7 +47,7 @@
     },
     {
       "component": "button-group",
-      "manifestHash": "05664875c9ab",
+      "manifestHash": "5a1d4c7c81d6",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -82,17 +82,17 @@
     },
     {
       "component": "combobox",
-      "manifestHash": "720b6bb0e0de",
+      "manifestHash": "378d48951e29",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
       "component": "command",
-      "manifestHash": "759ec21cce8b",
+      "manifestHash": "b5123b0d147e",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
       "component": "dialog",
-      "manifestHash": "61dd1a514c92",
+      "manifestHash": "8cbe1a36cc9e",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -107,7 +107,7 @@
     },
     {
       "component": "field",
-      "manifestHash": "0b3f04564ac7",
+      "manifestHash": "1a2e02b81836",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -117,7 +117,7 @@
     },
     {
       "component": "input-group",
-      "manifestHash": "f51d02488886",
+      "manifestHash": "b0c644a4b024",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -172,7 +172,7 @@
     },
     {
       "component": "progress",
-      "manifestHash": "1861483a3c36",
+      "manifestHash": "9a2746f492c7",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -202,7 +202,7 @@
     },
     {
       "component": "sheet",
-      "manifestHash": "dff903e3b672",
+      "manifestHash": "c3e0784ff1ea",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -232,7 +232,7 @@
     },
     {
       "component": "table",
-      "manifestHash": "9baef1c66ff4",
+      "manifestHash": "aaafe040c4a6",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T07:35:07.106Z",
+      "checkedAt": "2026-09-02T10:54:54.009Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-02T07:35:07.106Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-02T10:54:54.009Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +496,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-02T07:36:11.340Z",
-        "scope": "동작 확인표 22자리 / 14개 컴포넌트 — 컨트롤 제스처 5, 열림 계기 11, 우발 변경 6. 우발 변경 절이 처음 서는 세대라 여섯 자리(tabs 자동 활성화, radio-group 화살표 체크, 닫힌 select 트리거 typeahead, carousel watchFocus, toast 자동 닫힘)를 활성화 없이 계기만 주고 확인했고, scroll-area의 hover 스크롤바는 정적 시안과 다른 점을 함께 봤다. 시각 변화는 없다 — 해시 51/51 무이동"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-02T07:36:11.340Z"
+  "resumeAt": "Storybook visual review"
 }
