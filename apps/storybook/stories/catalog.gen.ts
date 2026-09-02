@@ -161,7 +161,7 @@ export const catalog = [
       "example": "badge",
       "guidance": {
         "evidence": "매수·매도, 시장, 손익 의미를 neutral·accent·success·danger에 소비처가 매핑한다.",
-        "limits": "도메인 값을 variant 이름으로 추가하지 않는다.",
+        "limits": "도메인 값을 variant 이름으로 추가하지 않는다. **`variant`는 의미 계열만 채운다 — 이것은 upstream과의 어긋남이 아니다.** 이 축은 루트 자신이 어떤 표면으로 서는가를 이름하고 의미·강조·형태 세 차원 중 해당하는 것만 채우면 되며(ADR-0019), 의미만 채운 것은 `Alert`·`Toast`와 같다. upstream의 `outline`·`ghost`·`link`(채움 종류)를 더하지 않는 근거는 **성질이 다른 값이라서가 아니라 실측 수요가 없어서**다 — `Button`이 이미 한 축에 의미와 강조를 함께 담고 있어 섞는 것 자체는 금지되지 않는다(#123, #118 규칙 2, #173). **수요가 확인되면 여는 것이 기본값이고**, 같은 축에 올지 두 번째 축이 될지는 그때 정한다 — 파생 채널이 두 차원을 곱해야 하면 별도 축이고 실제로는 하나만 고르는 것이면 같은 축이다(ADR-0019).",
         "use": "짧은 분류와 상태를 보조한다."
       }
     },
@@ -981,7 +981,7 @@ export const catalog = [
       "example": "native-select",
       "guidance": {
         "evidence": "투자 이력 필터의 시장·계좌처럼 값이 문자열이고 모바일에서 시스템 피커가 더 빠른 자리가 있다.",
-        "limits": "옵션에 아이콘·설명·구분선을 넣거나 열린 목록을 디자인해야 하면 Radix 기반 Select를 쓴다 — 열림 상태는 OS 소유라 이 컴포넌트의 구성 상태에 없고, 라벨은 Field가 연결한다.",
+        "limits": "옵션에 아이콘·설명·구분선을 넣거나 열린 목록을 디자인해야 하면 Radix 기반 Select를 쓴다 — 열림 상태는 OS 소유라 이 컴포넌트의 구성 상태에 없고, 라벨은 Field가 연결한다. **`NativeSelectGroup`은 upstream의 `NativeSelectOptGroup`과 이름이 다르고, 그대로 둔다 — 바꿀 수 없어서가 아니라 바꾸지 않는 것이 옳아서다.** 카탈로그의 그룹 노드는 스무 개가 전부 `*Group`이고(`SelectGroup`·`CommandGroup`·`FieldGroup`·`AvatarGroup`…), upstream의 `OptGroup`은 HTML 요소 이름 `<optgroup>`을 따른 것이다. 하나만 HTML 이름을 따르게 하면 노드 이름의 전역 일관성이 깨진다(ADR-0008 규칙 1의 정신). **`breaking`이라 못 바꾼다는 것은 근거가 아니다** — ADR-0018이 미발행·소비처 부재 동안 `breaking` 실행이 열려 있음을 정했고 리포 안 사용처도 참조 시안 하나뿐이다(#173).",
         "use": "폼에 실려야 하는 짧은 값 하나를 고를 때 브라우저의 select를 그대로 쓰고, 필드 껍데기와 화살표만 디자인 시스템이 그린다."
       }
     },
