@@ -23,7 +23,7 @@ import {
   Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader,
   DialogTitle, DialogTrigger, Popover, PopoverContent, PopoverTrigger, Tooltip,
   TooltipContent, TooltipProvider, TooltipTrigger,
-  Alert, AlertAction, AlertDescription, AlertTitle, Progress, Skeleton, Spinner,
+  Alert, AlertAction, AlertDescription, AlertTitle, Progress, ProgressLabel, ProgressValue, Skeleton, Spinner,
   Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport,
   Separator, Tabs, TabsContent, TabsList, TabsTrigger, Avatar, AvatarFallback, AvatarImage,
   AvatarBadge, AvatarGroup, AvatarGroupCount,
@@ -164,7 +164,7 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     "native-select": <Field className="max-w-sm" data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="native-select-market">시장</FieldLabel><NativeSelect id="native-select-market" size={size} defaultValue="kr" disabled={selection.disabled === "disabled"} aria-invalid={selection.validity === "invalid" || undefined}><NativeSelectOption value="kr">국내</NativeSelectOption><NativeSelectGroup label="해외"><NativeSelectOption value="us">미국</NativeSelectOption><NativeSelectOption value="jp">일본</NativeSelectOption></NativeSelectGroup></NativeSelect>{selection.validity === "invalid" && <FieldError>시장을 선택하세요.</FieldError>}</Field>,
     popover: <Popover defaultOpen={selection.open === "open"}><PopoverTrigger asChild><Button variant="outline">필터 도움말</Button></PopoverTrigger><PopoverContent><p className="font-medium">시장 필터</p><p className="text-sm text-muted-foreground">선택한 시장의 거래만 투자 이력에 표시합니다.</p></PopoverContent></Popover>,
     pagination: <Pagination><PaginationContent><PaginationItem><PaginationPrevious href="#page-1"/></PaginationItem><PaginationItem><PaginationLink href="#page-1">1</PaginationLink></PaginationItem><PaginationItem><PaginationLink href="#page-2" isActive={selection.currentPage === "current"}>2</PaginationLink></PaginationItem><PaginationItem><PaginationEllipsis/></PaginationItem><PaginationItem><PaginationLink href="#page-12">12</PaginationLink></PaginationItem><PaginationItem><PaginationNext href="#page-3"/></PaginationItem></PaginationContent></Pagination>,
-    progress: <div className="max-w-sm"><p className="mb-2 text-sm">투자 내역 가져오는 중</p><Progress value={selection.value === "empty" ? 0 : selection.value === "complete" ? 100 : 64} aria-label="투자 내역 가져오기 진행률" /></div>,
+    progress: (() => { const percent = selection.value === "empty" ? 0 : selection.value === "complete" ? 100 : 64; return <div className="max-w-sm"><div className="mb-2 flex items-center gap-2"><ProgressLabel id="progress-label">투자 내역 가져오는 중</ProgressLabel><ProgressValue>{percent}%</ProgressValue></div><Progress value={percent} aria-labelledby="progress-label" /></div> })(),
     "scroll-area": <ScrollArea orientation={selection.orientation as "vertical" | "horizontal"} type="always" aria-label="최근 거래 목록" className={selection.orientation === "horizontal" ? "w-72 rounded-lg border" : "h-48 w-72 rounded-lg border"}>
       <div className={selection.orientation === "horizontal" ? "flex w-max gap-3 p-3" : "grid gap-3 p-3"}>
         {["삼성전자", "미래에셋 TIGER 미국S&P500", "네이버", "카카오", "현대차", "SK하이닉스"].slice(0, selection.overflow === "fits" ? 2 : 6).map((name) => <p key={name} className="whitespace-nowrap text-sm">{name}</p>)}
