@@ -1,13 +1,18 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "bce0a02f3a660bd01a17f2277cb48ae8372cc0ee",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "1b4a8c2231a5b8b1f86fa3883da1282cb3671e74",
   "inputTree": {
-    "commit": "bce0a02f3a660bd01a17f2277cb48ae8372cc0ee",
-    "clean": true
+    "commit": "1b4a8c2231a5b8b1f86fa3883da1282cb3671e74",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/CatalogReference.tsx",
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/src/components/ui/field.tsx"
+    ]
   },
-  "inputDigest": "eca86626d10e97550d590bbca10e1627932b7eae24c5873bef91adca0fb3c057",
+  "inputDigest": "5c4a8b3a37bb39bb54082b789373929634556a3e6b42e589c3f64c886536878a",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -107,7 +112,7 @@
     },
     {
       "component": "field",
-      "manifestHash": "726a3004ec0f",
+      "manifestHash": "0b3f04564ac7",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +274,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T02:16:14.974Z",
+      "checkedAt": "2026-09-02T03:44:28.187Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +304,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-02T02:16:14.974Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-02T03:44:28.187Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +501,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-02T02:33:41.023Z",
-        "scope": "#181 D — 해시가 움직인 8개(breadcrumb button-group empty field item pagination sidebar table)의 시각 회귀. className과 cva config가 하나도 움직이지 않은 in-place safe 세대라 변화가 없어야 한다"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-02T02:33:41.023Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }
