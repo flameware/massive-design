@@ -368,6 +368,6 @@
       "use": "폼에 실려야 하는 짧은 값 하나를 고를 때 브라우저의 select를 그대로 쓰고, 필드 껍데기와 화살표만 디자인 시스템이 그린다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/native-select.tsx"
 }

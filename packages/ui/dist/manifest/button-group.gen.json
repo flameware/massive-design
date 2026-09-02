@@ -240,6 +240,6 @@
       "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/button-group.tsx"
 }

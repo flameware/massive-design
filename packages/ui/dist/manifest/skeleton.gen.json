@@ -48,6 +48,6 @@
       "use": "콘텐츠 구조를 예측할 수 있는 로딩 구간에서 최종 레이아웃과 닮은 자리표시자를 보여준다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/skeleton.tsx"
 }

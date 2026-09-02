@@ -188,68 +188,17 @@ export function assembleCell({ props, className, tree, theme, drawnBy, declaredS
       continue
     }
 
-    // 축 되읽기가 가장 앞이다 — 셀이 그 값을 이미 고정했으므로 판정이 정적이고,
-    // 고를 것이 남아 있지 않다. 계약이 이름표를 줄 자리도 아니다(#179)
-    const axis = modifiers.length === 1 ? axisReadback(props, modifiers[0]) : undefined
-    if (axis === false) continue
-    if (axis === true) {
-      if (utility.startsWith("shadow-")) {
-        const hit = classifyShadow(theme, decls, cls)
-        if (hit) properties[hit.prop] = hit.entry
-        continue
-      }
-      for (const d of decls) {
-        if (d.prop.startsWith("--ds-")) continue
-        const hit = classifyDeclaration(theme, d.prop, d.value, cls)
-        if (hit) properties[hit.prop] = hit.entry
-      }
+    /* 수식자 사슬을 **경로**로 걷는다(#182). 각 항은 그 자리의 주어에 걸리고, 주어를
+     * 옮기는 것은 슬롯 지목뿐이다 — 그래서 순서가 뜻을 바꾸는 것은 오직 주어 이동을
+     * 통해서다. CSS가 그것을 증명한다: `[&_svg]:disabled` ≡ `svg:disabled`이고
+     * `disabled:[&_svg]` ≡ `:disabled svg`다. */
+    const verdict = resolveChain(modifiers, { props, byModifier, bySlot })
+    if (verdict.kind === "drop") continue
+    if (verdict.kind === "elsewhere") {
+      if (elsewhere) for (const d of decls) elsewhere(verdict.modifier, verdict.reason, d.prop)
       continue
     }
-
-    // 계약이 이름표를 지므로 전역 정책보다 앞선다 — 이 수식자가 무엇을 그리는지는
-    // 그 컴포넌트만 안다. 복합 수식자는 여기 안 걸린다(#182이 조회를 넓힌다)
-    const drawn = modifiers.length === 1 ? byModifier.get(modifiers[0]) : undefined
-    if (drawn) {
-      const bucket = () => ((configurations[drawn.state] ??= {})[drawn.value] ??= {})
-      if (utility.startsWith("shadow-")) {
-        const hit = classifyShadow(theme, decls, cls)
-        if (hit) bucket()[hit.prop] = hit.entry
-        continue
-      }
-      for (const d of decls) {
-        // 쉬는 상태와 같은 뜻이다 — 상태 사다리가 얹히는 면이 이 구성 상태에서 바뀐다
-        if (d.prop === "--ds-state-base") {
-          const chain = resolveVarChain(theme, varName(d.value))
-          bucket()["background-color"] = chain.kind === "token"
-            ? { tier: "token", token: chain.token, from: cls }
-            : { tier: "literal", value: d.value, from: cls }
-          continue
-        }
-        if (d.prop.startsWith("--ds-")) continue
-        const hit = classifyDeclaration(theme, d.prop, d.value, cls)
-        if (hit) bucket()[hit.prop] = hit.entry
-      }
-      continue
-    }
-
-    // 계약이 지목한 슬롯도 전역 정책보다 앞선다 — 같은 이유이고 같은 자리다(#181).
-    // 속성 이름은 **CSS 그대로** 담는다: `slot-icon`의 개명(`height`→`size`)은 정사각형이라는
-    // 사실을 담느라 필요했던 것이지 규약이 아니고, 여러 선언을 우리가 지은 이름 하나로
-    // 접으면 매니페스트가 CSS보다 앞서 해석하게 된다. 접는 것은 번역표(§7)의 몫이다.
-    // 무시 화이트리스트는 여기서도 그대로 돈다 — `truncate`의 `white-space`가 그렇게 빠진다
-    const role = modifiers.length === 1 ? bySlot.get(modifiers[0]) : undefined
-    if (role) {
-      for (const d of decls) {
-        if (d.prop.startsWith("--ds-")) continue
-        const hit = classifyDeclaration(theme, d.prop, d.value, cls)
-        if (hit) (slots[role] ??= {})[hit.prop] = hit.entry
-      }
-      continue
-    }
-
-    // 조회는 형태가 아니라 뜻에 걸린다 — `policyFor`가 도달 경로를 벗겨 정책표를 본다(#178)
-    const policy = modifiers.length === 1 ? policyFor(modifiers[0]) : undefined
-    if (policy === undefined) {
+    if (verdict.kind === "unresolved") {
       for (const d of decls) {
         properties[`${modifiers.join(":")}:${d.prop}`] = {
           tier: "unresolved",
@@ -260,28 +209,49 @@ export function assembleCell({ props, className, tree, theme, drawnBy, declaredS
       }
       continue
     }
-    if (policy.startsWith("ignore:")) continue
-    // 그려지지만 이 자산이 아니다. 셀에서 빠지는 것은 `ignore:`와 같고 **뜻이 반대라**
-    // 문서 단위로 모아 파생 채널이 침묵과 구분하게 한다(#180)
-    if (policy.startsWith("elsewhere:")) {
-      if (elsewhere) for (const d of decls) elsewhere(modifiers[0], policy.slice("elsewhere:".length), d.prop)
-      continue
-    }
-    if (policy === "state") {
+    if (verdict.ladder) {
       // disabled는 층이 아니라 요소 전체의 불투명도다. state가 없는 variant(link)에는
       // 상태 자체가 없으므로 여기서 바로 얹지 않고 마지막에 합친다
       for (const d of decls) if (d.prop === "opacity") disabledOpacity = percent(d.value)
       continue
     }
-    if (policy === "slot-icon") {
-      for (const d of decls) {
-        const hit = classifyDeclaration(theme, d.prop, d.value, cls)
-        if (!hit) continue
-        if (hit.prop === "height") slots.icon = { ...(slots.icon ?? {}), size: hit.entry }
-        if (hit.prop === "padding-inline") slots.icon = { ...(slots.icon ?? {}), paddingInline: hit.entry }
+
+    /* 앉는 자리는 **주어 × 구성 상태**다. 구성 상태가 바깥이고 슬롯이 안쪽인 이유는
+     * 한 번의 property 전환이 여러 노드를 함께 바꾸기 때문이다 — switch의 `checked`는
+     * 루트의 면과 thumb의 위치를 같이 옮긴다. 슬롯을 바깥에 두면 그 한 사실이 서로
+     * 모르는 두 자리에 흩어져, 소비처가 *"켜지면 무엇이 달라지는가"*를 슬롯마다 훑어
+     * 다시 모아야 한다. `slots`는 CSS 속성 이름이 될 수 없으므로 이 자리에서 예약
+     * 키로 서도 속성과 섞이지 않는다. */
+    const bucket = () => {
+      const at = verdict.state ? ((configurations[verdict.state.state] ??= {})[verdict.state.value] ??= {}) : properties
+      if (!verdict.slot) return at
+      const host = verdict.state ? (at.slots ??= {}) : slots
+      return (host[verdict.slot] ??= {})
+    }
+
+    if (utility.startsWith("shadow-")) {
+      const hit = classifyShadow(theme, decls, cls)
+      if (hit) bucket()[hit.prop] = hit.entry
+      continue
+    }
+    for (const d of decls) {
+      // 쉬는 상태와 같은 뜻이다 — 상태 사다리가 얹히는 면이 이 구성 상태에서 바뀐다
+      if (d.prop === "--ds-state-base" && verdict.state && !verdict.slot) {
+        const chain = resolveVarChain(theme, varName(d.value))
+        bucket()["background-color"] = chain.kind === "token"
+          ? { tier: "token", token: chain.token, from: cls }
+          : { tier: "literal", value: d.value, from: cls }
+        continue
       }
+      if (d.prop.startsWith("--ds-")) continue
+      const hit = classifyDeclaration(theme, d.prop, d.value, cls)
+      if (hit) bucket()[hit.prop] = hit.entry
     }
   }
+
+  // 슬롯 버킷은 CSS 이름으로 모은 뒤 한 번에 정리한다 — 개명은 자리가 아니라 속성의 사실이다
+  foldSlots(slots)
+  for (const values of Object.values(configurations)) for (const diff of Object.values(values)) if (diff.slots) foldSlots(diff.slots)
 
   // 아이콘 간격은 쉬는 상태의 gap 그대로다 — 아이콘 전용 유틸리티가 따로 없다
   if (slots.icon && properties.gap) slots.icon.gap = properties.gap
@@ -333,3 +303,151 @@ function readStateRule(rule) {
 
 const percent = (v) => Number(String(v).replace("%", "")) / 100
 const varName = (v) => /var\(\s*(--[\w-]+)/.exec(v)?.[1] ?? v
+
+/**
+ * 수식자 사슬 하나를 판정한다(#182).
+ *
+ * **조회를 넓히는 것만으로는 답이 안 나온다** — `data-[state=collapsed]:data-[side=left]`는
+ * 구성 상태와 축 되읽기가 만난 자리이고, 둘은 셀에서 하는 일이 서로 다르다. 그래서 이 함수는
+ * 표를 한 번 더 뒤지는 것이 아니라 사슬을 **경로로 걷는다**: 항은 그 자리의 주어에 걸리고,
+ * 주어를 옮기는 것은 슬롯 지목뿐이다.
+ *
+ * 판정의 우선순위가 이 순서인 데는 이유가 있다.
+ *
+ * 1. **떨어뜨리는 항이 이긴다** — 거짓 축 · `ignore:` · `elsewhere:`. 선언은 모든 항이 참일
+ *    때만 그려지므로, 한 항이 *"여기 그려지지 않는다"*고 말하면 나머지를 몰라도 결론이 난다.
+ *    모르는 항이 섞였다고 `unresolved`로 올리면 **아는 사실을 신호에 잡음으로 붓는다.**
+ * 2. **모르는 항이 있으면 전체가 `unresolved`다** — 아는 쪽만 적용하면 반쪽만 그린 채
+ *    통과한다. switch의 `[&_[data-slot=switch-thumb]]:data-[state=checked]`가 그 증거다:
+ *    상태만 읽어 담으면 매니페스트가 **루트가 움직인다**고 말하는데 실제로 움직이는 것은
+ *    thumb이다. 안전한 실패가 거짓 통과보다 낫다.
+ * 3. 남으면 앉는 자리를 정한다 — 주어(슬롯) × 구성 상태.
+ *
+ * 구성 상태와 축 되읽기는 **주어가 이 자산일 때만** 걸린다. 계약의 `drawnBy`도 `config.variants`도
+ * *이 자산*이 무엇을 그리는지를 선언한 것이지 자손의 DOM 사실을 선언한 것이 아니다 — 옮겨진
+ * 주어에까지 그 이름표를 붙이면 계약이 말한 적 없는 사실을 매니페스트가 주장하게 되고, 그것은
+ * #148이 진단한 병(DOM 사실이 계약 밖에 사는 것)이다. 지금 그런 사슬은 switch 하나뿐이고
+ * 어차피 슬롯 쪽도 미지라 `unresolved`로 서지만, `Thumb`이 파트로 등록되면(#155) 이 선이
+ * 그 세대에 다시 판정되도록 남는다.
+ *
+ * @returns {{kind:"drop"}|{kind:"elsewhere",modifier:string,reason:string}|{kind:"unresolved"}|{kind:"place",state?:object,slot?:string,ladder?:boolean}}
+ */
+export function resolveChain(modifiers, ctx) {
+  const acc = { state: null, slot: null, ladder: false, unknown: false, elsewhere: null }
+  const drop = walkTerms(modifiers, ctx, acc)
+  if (drop) return acc.elsewhere ? { kind: "elsewhere", ...acc.elsewhere } : { kind: "drop" }
+  if (acc.unknown) return { kind: "unresolved" }
+  return { kind: "place", ...(acc.state ? { state: acc.state } : {}), ...(acc.slot ? { slot: acc.slot } : {}), ...(acc.ladder ? { ladder: true } : {}) }
+}
+
+/** @returns {boolean} true면 선언 전체가 이 셀에서 떨어진다 */
+function walkTerms(terms, ctx, acc) {
+  for (const term of terms) if (walkTerm(term, ctx, acc)) return true
+  return false
+}
+
+function walkTerm(term, ctx, acc) {
+  // 옮겨진 주어에는 이 자산의 축도 구성 상태도 걸리지 않는다 — 위 주석의 선이다
+  if (!acc.slot) {
+    const axis = axisReadback(ctx.props, term)
+    if (axis === false) return true
+    if (axis === true) return false
+
+    const drawn = ctx.byModifier.get(term)
+    if (drawn) { if (acc.state) acc.unknown = true; else acc.state = drawn; return false }
+  }
+
+  const role = ctx.bySlot.get(term)
+  if (role) { if (acc.slot) acc.unknown = true; else acc.slot = role; return false }
+
+  /* 원형을 먼저 본다(#178) — `[&>*:not(:first-child)]`는 표에 `not(:first-child)`로 있고
+   * 축약이 거기 닿는다. 쪼개기부터 하면 그 사슬이 `[&_*]`(`ignore:`)로 떨어져 #180이 세운
+   * 항등(`elsewhere`에 오는 속성 집합 = 이 등급이 없었다면 unresolved로 떴을 것)이 깨진다. */
+  const policy = policyFor(term)
+  if (policy !== undefined) {
+    if (policy.startsWith("ignore:")) return true
+    if (policy.startsWith("elsewhere:")) {
+      acc.elsewhere = { modifier: term, reason: policy.slice("elsewhere:".length) }
+      return true
+    }
+    if (policy === "slot-icon") { if (acc.slot) acc.unknown = true; else acc.slot = "icon"; return false }
+    if (policy === "state") {
+      // 상태 사다리는 사슬의 유일한 항일 때만 뜻이 분명하다. 다른 자리와 겹치면
+      // 어느 쪽이 이기는지 정한 적이 없으므로 안전하게 실패한다
+      if (acc.ladder || acc.state || acc.slot) acc.unknown = true
+      else acc.ladder = true
+      return false
+    }
+    acc.unknown = true
+    return false
+  }
+
+  const inner = decomposeVariant(term)
+  if (!inner) { acc.unknown = true; return false }
+  return walkTerms(inner, ctx, acc)
+}
+
+/**
+ * 주어 이동을 품은 임의 변형을 사슬로 편다(#182).
+ *
+ * `[&[data-state=open]>svg]`와 `data-[state=open]:[&>svg]`는 **같은 선택자로 컴파일된다** —
+ * 표기가 둘일 뿐 뜻은 하나다. 표에는 뜻이 오고 형태는 축약이 감당한다는 #178의 규칙이
+ * 여기서도 그대로다: 형태로 갈리면 매니페스트의 신호가 철자에 좌우된다.
+ *
+ * `&`에 붙은 술어가 없으면 `null`이다 — 쪼갤 것이 없고, 그 형태(`[&_svg]`·`[&>*:not(:first-child)]`)는
+ * `policyFor`가 이미 감당한다.
+ *
+ * @returns {string[]|null}
+ */
+export function decomposeVariant(term) {
+  const m = /^\[&(.+)\]$/.exec(term)
+  if (!m) return null
+  const sel = m[1]
+  let depth = 0
+  for (let i = 0; i < sel.length; i++) {
+    const ch = sel[i]
+    if (ch === "[" || ch === "(") depth++
+    else if (ch === "]" || ch === ")") depth--
+    else if (depth === 0 && (ch === ">" || ch === "_")) {
+      const predicate = sel.slice(0, i).trim()
+      const rest = sel.slice(i + 1).trim()
+      if (!predicate || !rest) return null
+      const asTerm = predicateTerm(predicate)
+      // 자식 결합자와 자손 결합자는 같은 슬롯을 가리킨다(#178) — 자손 형태로 모은다
+      return asTerm ? [asTerm, `[&_${rest}]`] : null
+    }
+  }
+  return null
+}
+
+/** `&`에 붙은 술어를 수식자 이름으로 되돌린다. 되돌릴 수 없으면 `null`이다. */
+function predicateTerm(predicate) {
+  const data = /^\[(data-[\w-]+)(?:=["']?([\w-]+)["']?)?\]$/.exec(predicate)
+  if (data) return data[2] === undefined ? `${data[1]}` : `data-[${data[1].slice("data-".length)}=${data[2]}]`
+  const pseudo = /^:([\w-]+)$/.exec(predicate)
+  if (pseudo) return pseudo[1]
+  return null
+}
+
+/**
+ * 슬롯 자리의 속성 이름을 정리한다(#181의 규약 — **CSS 이름 그대로**).
+ *
+ * `icon`만 두 개명을 진다. `size`는 `size-*`가 낸 width·height가 **같다**는 사실을 담는
+ * 이름이라 둘이 갈리면 개명하지 않고 CSS 이름 둘을 그대로 둔다 — 정사각형이 아닌 것을
+ * `size` 하나로 접으면 매니페스트가 한 변을 조용히 버린다. `paddingInline`은 이 규약이
+ * 서기 전부터 있던 이름이고, 새 역할은 개명하지 않는다.
+ */
+function foldSlot(role, bucket) {
+  if (role !== "icon") return bucket
+  const out = {}
+  const { width, height, ...rest } = bucket
+  if (width && height && JSON.stringify(width) === JSON.stringify(height)) out.size = height
+  else { if (width) out.width = width; if (height) out.height = height }
+  for (const [prop, entry] of Object.entries(rest)) out[prop === "padding-inline" ? "paddingInline" : prop] = entry
+  return out
+}
+
+/** 셀과 구성 상태 자리에 모인 슬롯 버킷을 한 번에 정리한다. */
+function foldSlots(host) {
+  for (const [role, bucket] of Object.entries(host)) host[role] = foldSlot(role, bucket)
+}

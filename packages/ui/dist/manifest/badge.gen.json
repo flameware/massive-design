@@ -306,6 +306,6 @@
       "use": "짧은 분류와 상태를 보조한다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/badge.tsx"
 }

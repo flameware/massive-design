@@ -264,6 +264,6 @@
       "use": "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/input-otp.tsx"
 }

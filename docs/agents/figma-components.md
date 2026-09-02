@@ -190,6 +190,17 @@ if (set.componentPropertyDefinitions.variant?.defaultValue !== "default") {
 
 `schemaVersion: 6`부터 셀은 `configurations[구성 상태][값]`을 낸다 — 계약의 `drawnBy`가 이름표를 준 수식자가 낸 값이고, `properties`(쉬는 상태)에 대한 **차이**다([#148](https://github.com/flameware/massive-design/issues/148)).
 
+`schemaVersion: 11`부터 그 차이 안에 `slots.<역할>`이 앉을 수 있다([#182](https://github.com/flameware/massive-design/issues/182)) — 셀의 `slots`와 **같은 종류의 값**이고, 다른 것은 쉬는 상태가 아니라 그 구성 상태의 차이라는 것뿐이다. `slots`는 CSS 속성 이름이 될 수 없으므로 이 자리에서 예약 키로 서도 속성과 섞이지 않는다.
+
+```json
+"configurations": { "open": { "open": {
+  "background-color": { "tier": "token", "token": "--ds-bg-subtle" },
+  "slots": { "icon": { "rotate": { "tier": "literal", "value": "180deg" } } }
+} } }
+```
+
+구성 상태가 바깥이고 슬롯이 안쪽인 이유는 **한 번의 property 전환이 여러 노드를 함께 바꾸기** 때문이다 — `NavigationMenuTrigger`가 열리면 트리거의 면과 그 안 아이콘의 회전이 같이 움직인다. 슬롯을 바깥에 두면 그 한 사실이 서로 모르는 두 자리에 흩어진다.
+
 **이 자리를 Figma에서 무엇으로 그리는지는 이 문서가 아직 정하지 않았다.** `CONTEXT.md`는 구성 상태를 "component property 또는 별도의 공개 조립 표면"으로 표현한다고만 적고 있고, Figma의 property 종류(VARIANT·BOOLEAN·TEXT·INSTANCE_SWAP) 중 어느 것인지는 판정된 적이 없다 — VARIANT로 두면 세트의 조합 수가 곱해지므로 §6.2가 상태에 대해 내린 판정과 같은 무게의 결정이다. **정해지기 전까지 주입은 이 필드를 읽지 않는다.** 즉흥으로 축을 늘리면 발행된 인스턴스를 재해석하게 된다.
 
 ### 6.2.2 `elsewhere`에 적힌 것은 누락이 아니다
