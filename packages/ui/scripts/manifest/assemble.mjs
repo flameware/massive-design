@@ -40,6 +40,39 @@ export function cellsOf(config) {
 }
 
 /**
+ * 파트가 root에서 물려받는 축을 푼다(#179).
+ *
+ * `data-[orientation=*]`는 root의 축인데 그것을 그리는 클래스가 `SliderTrack`·`SliderRange`
+ * **파트**의 셀에 떨어진다. 파트의 축에는 orientation이 없으므로 **대고 해소할 값이 없다** —
+ * 물려받는 것은 값을 주기 위해서이고, 값을 얻고 나면 해소는 root와 **똑같은 규칙**이다.
+ *
+ * 전부 물려받지 않고 **계약이 지목한다**(#147). 셀 수는 발행되는 Figma 자산의 크기이므로
+ * 클래스 한 줄을 더하는 것만으로 조용히 늘면 안 된다 — 지목을 계약에 적게 하면 그 변경이
+ * 리뷰에 보인다. 지목하지 않은 축의 되읽기는 그대로 `unresolved`로 뜬다.
+ *
+ * 축 값과 기본값은 **root의 것 그대로다.** 파트가 다시 적으면 두 자리가 갈린다.
+ */
+export function inheritedAxesOf(component, part) {
+  const out = {}
+  for (const axis of part.inheritedAxes ?? []) {
+    const values = component.config.variants?.[axis]
+    if (!values) continue
+    out[axis] = { values: Object.keys(values), default: component.config.defaultVariants?.[axis] }
+  }
+  return out
+}
+
+/** 파트 셀을 물려받은 축만큼 전개한다. 클래스는 **파트 자신의 축**만으로 낸다 —
+ * 물려받은 축은 클래스를 고르지 않고 어느 수식자가 살아 있는지를 고른다. */
+export function partCellsOf(part, inherited) {
+  let rows = cellsOf(part.config).map((own) => ({ props: own, className: String(part.className(own)) }))
+  for (const [axis, { values }] of Object.entries(inherited)) {
+    rows = rows.flatMap((row) => values.map((v) => ({ ...row, props: { ...row.props, [axis]: v } })))
+  }
+  return rows
+}
+
+/**
  * 계약의 `drawnBy`를 수식자 → 구성 상태 자리로 뒤집는다(#148).
  *
  * 조회 키가 수식자인 이유는 조립이 클래스에서 출발하기 때문이다. 이유 문자열 항목은
@@ -58,6 +91,31 @@ export function drawnByModifier(drawnBy) {
     }
   }
   return map
+}
+
+/**
+ * 축을 DOM 속성으로 되읽는 수식자를 **셀의 축 값에 대고** 해소한다(#179).
+ *
+ * `data-[variant=sidebar]`는 이미 선언된 cva 축을 읽는다. 축은 셀로 전개되므로 셀이
+ * 그 값을 **이미 고정하고 있고**, 그래서 판정이 정적이다 — 값이 같으면 그 선언은 이
+ * 셀의 쉬는 상태이고, 다르면 이 셀에는 그 규칙이 아예 적용되지 않는다.
+ *
+ * 구성 상태와 **앉는 자리가 다르다**(#148과의 갈림). `configurations`는 셀이 고르지
+ * 않은 상태의 차이를 담는 자리인데, 축은 셀이 이미 골랐다. 그래서 참이면 `properties`에
+ * 접히고 거짓이면 사라진다 — Figma 쪽에서 이것은 component property가 아니라 이미
+ * 존재하는 variant 축이며, 조합 수도 늘지 않는다.
+ *
+ * 축 이름과 DOM 속성 이름은 **같다고 본다.** 축의 이름 공간은 우리 것이고(ADR-0008)
+ * 되읽히는 속성도 우리가 쓴다(`data-variant={variant}`) — 언젠가 갈리면 이 조회가
+ * 빗나가 `unresolved`로 뜬다. 그것이 이 맵이 지키려는 신호이므로 안전한 실패다.
+ *
+ * @returns {true|false|undefined} undefined면 이 수식자가 축을 읽는 것이 아니다
+ */
+function axisReadback(props, modifier) {
+  const m = /^data-\[([\w-]+)=([\w-]+)\]$/.exec(modifier)
+  if (!m) return undefined
+  const current = props?.[m[1]]
+  return current === undefined ? undefined : current === m[2]
 }
 
 /**
@@ -97,6 +155,24 @@ export function assembleCell({ props, className, tree, theme, drawnBy }) {
       }
       for (const d of decls) {
         if (d.prop === "--ds-state-base") { stateBase = d.value; continue }
+        if (d.prop.startsWith("--ds-")) continue
+        const hit = classifyDeclaration(theme, d.prop, d.value, cls)
+        if (hit) properties[hit.prop] = hit.entry
+      }
+      continue
+    }
+
+    // 축 되읽기가 가장 앞이다 — 셀이 그 값을 이미 고정했으므로 판정이 정적이고,
+    // 고를 것이 남아 있지 않다. 계약이 이름표를 줄 자리도 아니다(#179)
+    const axis = modifiers.length === 1 ? axisReadback(props, modifiers[0]) : undefined
+    if (axis === false) continue
+    if (axis === true) {
+      if (utility.startsWith("shadow-")) {
+        const hit = classifyShadow(theme, decls, cls)
+        if (hit) properties[hit.prop] = hit.entry
+        continue
+      }
+      for (const d of decls) {
         if (d.prop.startsWith("--ds-")) continue
         const hit = classifyDeclaration(theme, d.prop, d.value, cls)
         if (hit) properties[hit.prop] = hit.entry

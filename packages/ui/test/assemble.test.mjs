@@ -3,7 +3,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { assembleCell, cellsOf } from "../scripts/manifest/assemble.mjs"
+import { assembleCell, cellsOf, inheritedAxesOf, partCellsOf } from "../scripts/manifest/assemble.mjs"
 import { parseCss } from "../scripts/manifest/css.mjs"
 import { loadTheme } from "../scripts/manifest/theme.mjs"
 
@@ -16,6 +16,8 @@ const CSS = `
   .text-xs { font-size: var(--text-xs); line-height: var(--tw-leading, 1.6); }
   .disabled\\:opacity-50:disabled { opacity: 50%; }
   .data-open\\:underline[data-open] { text-decoration-line: underline; }
+  .data-\\[variant\\=sidebar\\]\\:border-r[data-variant="sidebar"] { border-right-style: var(--tw-border-style); border-right-width: 1px; }
+  .data-\\[orientation\\=horizontal\\]\\:h-6[data-orientation="horizontal"] { height: calc(0.25rem * 6); }
   .data-\\[state\\=on\\]\\:underline[data-state="on"] { text-decoration-line: underline; }
   .data-\\[state\\=on\\]\\:\\[--ds-state-base\\:var\\(--primary\\)\\][data-state="on"] { --ds-state-base: var(--primary); }
   .state {
@@ -121,4 +123,59 @@ test("계약이 이름표를 준 수식자는 unresolved가 아니라 구성 상
   const silent = cell("data-[state=on]:underline")
   assert.equal(silent.configurations, undefined)
   assert.equal(silent.properties["data-[state=on]:text-decoration-line"].tier, "unresolved")
+})
+
+test("축을 되읽는 수식자는 셀의 축 값에 대고 해소된다", () => {
+  // 축은 셀로 전개되므로 셀이 값을 **이미 고정하고 있다** — 판정이 정적이다(#179)
+  const on = cell("data-[variant=sidebar]:border-r", { side: "left", variant: "sidebar" })
+  assert.deepEqual(on.properties["border-right-width"], { tier: "literal", px: 1, from: "data-[variant=sidebar]:border-r" })
+  // 구성 상태가 아니다 — 셀이 이미 골랐으므로 고를 것이 남아 있지 않다
+  assert.equal(on.configurations, undefined)
+
+  // 값이 다른 셀에는 그 규칙이 아예 적용되지 않는다. unresolved도 아니고 빈 자리도 아니다
+  const off = cell("data-[variant=sidebar]:border-r", { side: "left", variant: "floating" })
+  assert.deepEqual(off.properties, {})
+})
+
+test("축이 아닌 이름을 읽는 data 수식자는 그대로 unresolved다", () => {
+  // 축 되읽기는 셀이 그 축을 가질 때만 걸린다 — 없는 것을 만들어 내지 않는다
+  const c = cell("data-[variant=sidebar]:border-r", { size: "xs" })
+  assert.equal(c.properties["data-[variant=sidebar]:border-right-width"].tier, "unresolved")
+})
+
+test("파트는 지목한 root 축만 물려받고 값·기본값은 root의 것 그대로다", () => {
+  const component = {
+    config: { variants: { size: { sm: "", lg: "" }, orientation: { horizontal: "", vertical: "" } },
+              defaultVariants: { size: "sm", orientation: "horizontal" } },
+  }
+  const part = {
+    config: { variants: { size: { sm: "", lg: "" } }, defaultVariants: { size: "sm" } },
+    className: () => "data-[orientation=horizontal]:h-6",
+    inheritedAxes: ["orientation"],
+  }
+  assert.deepEqual(inheritedAxesOf(component, part), {
+    orientation: { values: ["horizontal", "vertical"], default: "horizontal" },
+  })
+  // 지목하지 않은 축(size는 파트 자신의 것)은 곱해지지 않는다 — 2 x 2이지 2 x 2 x 2가 아니다
+  const cells = partCellsOf(part, inheritedAxesOf(component, part))
+  assert.equal(cells.length, 4)
+  assert.deepEqual(cells.map((c) => c.props), [
+    { size: "sm", orientation: "horizontal" }, { size: "sm", orientation: "vertical" },
+    { size: "lg", orientation: "horizontal" }, { size: "lg", orientation: "vertical" },
+  ])
+
+  // 물려받은 축은 클래스를 고르지 않는다 — 어느 수식자가 살아 있는지를 고른다
+  assert.ok(cells.every((c) => c.className === "data-[orientation=horizontal]:h-6"))
+  const [horizontal, vertical] = cells
+  assert.equal(assembleCell({ ...horizontal, tree, theme }).properties.height.px, 24)
+  assert.deepEqual(assembleCell({ ...vertical, tree, theme }).properties, {})
+})
+
+test("물려받지 않은 파트에서는 같은 수식자가 unresolved로 남는다", () => {
+  // 지목이 셀 수를 늘리는 결정이므로, 지목하지 않으면 신호가 그대로 뜬다(#179)
+  const component = { config: { variants: { orientation: { horizontal: "", vertical: "" } }, defaultVariants: {} } }
+  const part = { config: { variants: {}, defaultVariants: {} }, className: () => "data-[orientation=horizontal]:h-6" }
+  const [only] = partCellsOf(part, inheritedAxesOf(component, part))
+  assert.deepEqual(only.props, {})
+  assert.equal(assembleCell({ ...only, tree, theme }).properties["data-[orientation=horizontal]:height"].tier, "unresolved")
 })

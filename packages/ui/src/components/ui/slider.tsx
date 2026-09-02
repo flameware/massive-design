@@ -138,9 +138,13 @@ const componentContract = {
   config: sliderVariantsConfig, className: (props: Record<string, string>) => cn(sliderVariants(props)),
   anatomy: ["Slider", "SliderTrack", "SliderRange", "SliderThumb*"],
   configurationStates: { value: ["single", "range"] }, drawnBy: { value: "thumb의 개수가 그린다 — 조립이지 클래스가 아니다" },
+  /* Track과 Range는 root의 `orientation`을 물려받는다(#179). Radix가 `data-orientation`을
+   * 두 노드에 내려 주고 우리 클래스가 그것을 되읽어 두께와 길이를 가르므로, 축 값이 없으면
+   * 대고 해소할 것이 없어 두께가 파생 채널에서 통째로 비었다. Thumb은 되읽지 않는다 —
+   * 지름이 `size`만 따르므로 물려받으면 셀만 배로 는다. */
   parts: {
-    SliderTrack: { config: sliderTrackVariantsConfig, className: (props: Record<string, string>) => cn(sliderTrackVariants(props)) },
-    SliderRange: { config: sliderRangeVariantsConfig, className: (props: Record<string, string>) => cn(sliderRangeVariants(props)) },
+    SliderTrack: { config: sliderTrackVariantsConfig, className: (props: Record<string, string>) => cn(sliderTrackVariants(props)), inheritedAxes: ["orientation"] },
+    SliderRange: { config: sliderRangeVariantsConfig, className: (props: Record<string, string>) => cn(sliderRangeVariants(props)), inheritedAxes: ["orientation"] },
     SliderThumb: { config: sliderThumbVariantsConfig, className: (props: Record<string, string>) => cn(sliderThumbVariants(props)) },
   },
   behaviors: {

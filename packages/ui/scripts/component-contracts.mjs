@@ -195,6 +195,65 @@ const BEHAVIOR_KINDS = new Set(["control-gesture", "open-cause"])
 /** 값이 어디서 왔는가. 확인표가 무엇을 볼지를 이것이 가른다. */
 const BEHAVIOR_ORIGINS = new Set(["inherited", "ours"])
 
+/* 파트의 축 상속(#179).
+ *
+ * 지목은 **셀 수를 늘리는 결정**이고 셀 수는 발행되는 Figma 자산의 크기다. 그래서
+ * 게이트가 두 가지를 본다 — 지목한 축이 root에 실재하는가, 그리고 이 파트가 그 축을
+ * 실제로 되읽는가. 뒤가 이 검사의 값어치다: 되읽지 않는 축을 물려받으면 아무것도 얻지
+ * 못한 채 셀만 배로 늘고, #147이 막으려던 조합 폭발이 그 모양이다.
+ *
+ * 축 이름과 DOM 속성 이름이 같다는 것이 이 검사의 전제이자 `assemble.mjs`의 전제다.
+ * 갈리면 되읽기가 빗나가 `unresolved`로 뜨고 — 안전한 실패다 — 여기서도 걸린다. */
+function checkInheritedAxes(errors, contract, partName, part) {
+  const inherited = part.inheritedAxes
+  if (inherited === undefined) return
+  const where = `${contract.name}.${partName}`
+  if (!Array.isArray(inherited) || inherited.length === 0) {
+    errors.push(`inheritedAxes는 비어 있지 않은 배열이어야 한다: ${where}`)
+    return
+  }
+  let classNames = []
+  try {
+    classNames = cellsOf(part.config).map((props) => String(part.className(props)))
+  } catch {
+    return // config·className이 계약의 모양을 못 갖춘 것은 위에서 이미 잡는다
+  }
+  for (const axis of inherited) {
+    const values = contract.config?.variants?.[axis]
+    if (!values) {
+      errors.push(`root에 없는 축을 물려받는다: ${where} (${axis})`)
+      continue
+    }
+    if (part.config?.variants?.[axis]) {
+      errors.push(`파트가 이미 가진 축을 물려받는다 — 물려받을 것이 없다: ${where} (${axis})`)
+      continue
+    }
+    const reads = Object.keys(values).some((value) =>
+      classNames.some((cls) => cls.split(/\s+/).some((token) => token.startsWith(`${modifierFor("data-" + axis, value)}:`)))
+    )
+    if (!reads) {
+      errors.push(`되읽지 않는 축을 물려받는다 — 셀만 는다: ${where} (${axis})`)
+    }
+  }
+}
+
+/* 축 이름과 구성 상태의 DOM 속성 이름은 겹치면 안 된다(#179).
+ *
+ * 겹치면 한 수식자가 두 뜻을 갖는다 — 조립은 축 되읽기를 먼저 보므로 그 구성 상태가
+ * 조용히 `configurations`에서 사라진다. ADR-0008이 축 이름에 그은 선("이미 다른 것을
+ * 뜻하는 이름을 쓰지 않는다")이 DOM 이름 공간까지 닿는 자리다. 지금 걸리는 계약은
+ * 없고, 이 검사는 그 사실을 지킨다. */
+function checkAxisNameSpace(errors, contract) {
+  const axes = new Set(Object.keys(contract.config?.variants ?? {}))
+  for (const [state, drawn] of Object.entries(contract.drawnBy ?? {})) {
+    if (typeof drawn?.attribute !== "string") continue
+    const name = drawn.attribute.slice("data-".length)
+    if (axes.has(name)) {
+      errors.push(`구성 상태의 DOM 속성이 축 이름과 겹친다 — 수식자 하나가 두 뜻을 갖는다: ${contract.name}.${state} (${drawn.attribute})`)
+    }
+  }
+}
+
 export function validateContracts(files, contracts) {
   const errors = []
   const expectedSources = new Set(files.map((file) => `${COMPONENT_DIR}/${file}`))
@@ -232,7 +291,9 @@ export function validateContracts(files, contracts) {
       if (!(contract.anatomy ?? []).some((entry) => entry.replace(/[?*]$/, "") === partName)) {
         errors.push(`anatomy에 없는 part 계약: ${contract.name}.${partName}`)
       }
+      checkInheritedAxes(errors, contract, partName, part)
     }
+    checkAxisNameSpace(errors, contract)
     const external = contract.externalSurfaces
     if (external !== undefined) {
       const entries = Object.entries(external)

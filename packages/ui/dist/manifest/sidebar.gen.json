@@ -54,6 +54,12 @@
           "tier": "token",
           "token": "--ds-border-default"
         },
+        "border-right-width": {
+          "from": "data-[variant=sidebar]:border-r",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
         "data-[state=collapsed]:data-[side=left]:left": {
           "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
           "tier": "unresolved",
@@ -65,18 +71,6 @@
           "tier": "unresolved",
           "value": "calc(var(--sidebar-width) * -1)",
           "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-right-style": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-right-width": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -140,17 +134,11 @@
           "tier": "token",
           "token": "--ds-border-default"
         },
-        "data-[variant=sidebar]:border-right-style": {
+        "border-right-width": {
           "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-right-width": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
         },
         "display": {
           "from": "flex",
@@ -214,18 +202,6 @@
           "value": "calc(var(--sidebar-width) * -1)",
           "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
-        "data-[variant=sidebar]:border-right-style": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-right-width": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -295,18 +271,6 @@
           "from": "border-sidebar-border",
           "tier": "token",
           "token": "--ds-border-default"
-        },
-        "data-[variant=sidebar]:border-right-style": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-right-width": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -378,18 +342,6 @@
           "value": "calc(var(--sidebar-width) * -1)",
           "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
-        "data-[variant=sidebar]:border-right-style": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-right-width": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -460,18 +412,6 @@
           "tier": "token",
           "token": "--ds-border-default"
         },
-        "data-[variant=sidebar]:border-right-style": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-right-width": {
-          "from": "data-[variant=sidebar]:border-r",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -530,6 +470,12 @@
           "tier": "token",
           "token": "--ds-border-default"
         },
+        "border-left-width": {
+          "from": "data-[variant=sidebar]:border-l",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
         "data-[state=collapsed]:data-[side=left]:left": {
           "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
           "tier": "unresolved",
@@ -541,18 +487,6 @@
           "tier": "unresolved",
           "value": "calc(var(--sidebar-width) * -1)",
           "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-style": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-width": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -616,17 +550,11 @@
           "tier": "token",
           "token": "--ds-border-default"
         },
-        "data-[variant=sidebar]:border-left-style": {
+        "border-left-width": {
           "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-width": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
         },
         "display": {
           "from": "flex",
@@ -689,18 +617,6 @@
           "tier": "unresolved",
           "value": "calc(var(--sidebar-width) * -1)",
           "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-style": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-width": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -772,18 +688,6 @@
           "tier": "token",
           "token": "--ds-border-default"
         },
-        "data-[variant=sidebar]:border-left-style": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-width": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -853,18 +757,6 @@
           "tier": "unresolved",
           "value": "calc(var(--sidebar-width) * -1)",
           "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-style": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-width": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -935,18 +827,6 @@
           "from": "border-sidebar-border",
           "tier": "token",
           "token": "--ds-border-default"
-        },
-        "data-[variant=sidebar]:border-left-style": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "var(--tw-border-style)",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
-        },
-        "data-[variant=sidebar]:border-left-width": {
-          "from": "data-[variant=sidebar]:border-l",
-          "tier": "unresolved",
-          "value": "1px",
-          "why": "수식자 data-[variant=sidebar]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -1028,7 +908,7 @@
       }
     }
   },
-  "hash": "d92340903a71",
+  "hash": "b9fc5263cc4c",
   "parts": {
     "SidebarContent": {
       "axes": {},
@@ -2231,6 +2111,6 @@
       "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정되는 세로 탐색 표면으로, 본문과 함께 살면서 접고 펼 수 있다. `variant`는 패널의 형태만, `collapsible`은 접혔을 때의 폭만 정하고 열림 상태는 소비처가 소유한다. 좁은 폭에서는 소비처가 알려준 `isMobile`에 따라 Sheet으로 갈아 끼운다."
     }
   },
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "source": "src/components/ui/sidebar.tsx"
 }

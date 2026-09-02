@@ -8,7 +8,7 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
-import { assembleBase, assembleCell, cellsOf } from "./assemble.mjs"
+import { assembleBase, assembleCell, cellsOf, inheritedAxesOf, partCellsOf } from "./assemble.mjs"
 import { compileClasses } from "./compile.mjs"
 import { parseCss } from "./css.mjs"
 import { canonicalJson, hashComponent } from "./hash.mjs"
@@ -34,7 +34,19 @@ import { loadTheme } from "./theme.mjs"
  * 이므로, 이 자리를 만난 주입은 `unresolved`처럼 "아직 못 다룬 것"으로 읽지 말고 그릴 것이
  * 없는 것으로 읽는다. `drawnBy`는 여전히 해시의 입력이 아니라 이 세대는 해시를 움직이지
  * 않는다. */
-export const SCHEMA_VERSION = 7
+/** 8: 파트가 root의 축을 `inheritedAxes`로 지목해 물려받고, 축 되읽기가 셀의 축 값에
+ * 대고 해소된다(#179).
+ *
+ * 소비처가 새로 해야 하는 일은 **파트의 축을 다시 읽는 것**이다 — `part.axes`에 파트
+ * 자신의 cva 축이 아닌 이름이 들어올 수 있고(`SliderTrack.orientation`), 그만큼 파트의
+ * 셀 수가 는다. 값과 기본값은 root의 것 그대로이므로 root와 파트가 같은 축을 가지면
+ * 같은 값으로 읽는다.
+ *
+ * 루트 쪽은 필드가 늘지 않는다. 축을 되읽는 수식자는 `unresolved`로 뜨는 대신 그 셀의
+ * `properties`에 접히거나(값이 같을 때) 사라진다(다를 때) — `configurations`가 아니다.
+ * 셀이 이미 고른 것이라 고를 것이 남아 있지 않고, Figma 쪽에서도 component property가
+ * 아니라 이미 존재하는 variant 축이다. */
+export const SCHEMA_VERSION = 8
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -48,13 +60,10 @@ export function buildManifests(components, root) {
 
   const planFor = (c) => {
     const cells = cellsOf(c.config).map((props) => ({ props, className: c.className(props) }))
-    const parts = Object.fromEntries(Object.entries(c.parts ?? {}).map(([name, part]) => [
-      name,
-      {
-        contract: part,
-        cells: cellsOf(part.config).map((props) => ({ props, className: part.className(props) })),
-      },
-    ]))
+    const parts = Object.fromEntries(Object.entries(c.parts ?? {}).map(([name, part]) => {
+      const inherited = inheritedAxesOf(c, part)
+      return [name, { contract: part, inherited, cells: partCellsOf(part, inherited) }]
+    }))
     return { component: c, cells, parts }
   }
   const plans = components.map(planFor)
@@ -81,8 +90,15 @@ export function buildManifests(components, root) {
     const assembledParts = Object.fromEntries(Object.entries(parts).map(([name, part]) => [
       name,
       {
-        axes: Object.fromEntries(Object.entries(part.contract.config.variants).map(([a, v]) => [a, Object.keys(v)])),
-        defaults: { ...part.contract.config.defaultVariants },
+        // 물려받은 축도 파트의 축이다 — 셀이 그 값을 고정하므로 파생 채널이 그것으로 전개한다(#179)
+        axes: {
+          ...Object.fromEntries(Object.entries(part.contract.config.variants).map(([a, v]) => [a, Object.keys(v)])),
+          ...Object.fromEntries(Object.entries(part.inherited).map(([a, i]) => [a, i.values])),
+        },
+        defaults: {
+          ...part.contract.config.defaultVariants,
+          ...Object.fromEntries(Object.entries(part.inherited).map(([a, i]) => [a, i.default])),
+        },
         // 구성 상태는 컴포넌트가 선언하고 파트가 그린다 — tabs의 `selected`를 `TabsTrigger`가
         // 그리는 것이 그 예다. 그래서 파트 셀도 같은 이름표를 받는다
         cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy })),

@@ -1156,6 +1156,6 @@
       "use": "사람이나 계정을 작은 원형 이미지로 식별하고 이미지가 없거나 실패하면 안정적인 fallback을 표시한다. 여럿을 겹쳐 보일 때는 `AvatarGroup`이 겹침 간격과 가르는 링을 지고, 넘치는 수는 `AvatarGroupCount`가 같은 지름으로 잇는다. 상태 점은 `AvatarBadge`가 오른쪽 아래에 얹는다."
     }
   },
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "source": "src/components/ui/avatar.tsx"
 }

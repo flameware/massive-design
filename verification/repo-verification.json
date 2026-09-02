@@ -1,13 +1,20 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "8b924ed6b87e63e25d55786162f169a8f2ffb859",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "31fc26b3fa8147ef8f2e63c02e8d77d1c554bd64",
   "inputTree": {
-    "commit": "8b924ed6b87e63e25d55786162f169a8f2ffb859",
-    "clean": true
+    "commit": "31fc26b3fa8147ef8f2e63c02e8d77d1c554bd64",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/scripts/component-contracts.mjs",
+      "packages/ui/scripts/manifest/assemble.mjs",
+      "packages/ui/scripts/manifest/build.mjs",
+      "packages/ui/src/components/ui/slider.tsx"
+    ]
   },
-  "inputDigest": "c3eaa98975ab126795d7e1ada9a9ece0e5a8f30070b6e1950a7a76f3378b6962",
+  "inputDigest": "b387162b18bfe9f34ded94faea341cca58a0589518052c8678cb129f60fafe15",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -207,7 +214,7 @@
     },
     {
       "component": "sidebar",
-      "manifestHash": "d92340903a71",
+      "manifestHash": "b9fc5263cc4c",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -217,7 +224,7 @@
     },
     {
       "component": "slider",
-      "manifestHash": "2e03f8cc2cc1",
+      "manifestHash": "6b5083fe732a",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +276,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-01T13:31:05.670Z",
+      "checkedAt": "2026-09-02T00:31:55.520Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +306,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-01T13:31:05.670Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-02T00:31:55.520Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +503,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-01T23:38:33.729Z",
-        "scope": "동작 확인표 9자리 전부 출력 확인(carousel·resizable·slider·scroll-area 드래그, dropdown-menu contextOpen·longPressOpen, popover·navigation-menu·tooltip hover 열림) — #124·#125·#126·#127이 지나친 사례가 모두 걸린다. 열림 계기 4자리의 기본 모드 해시가 runbook에 손으로 박혀 있던 값과 일치. 전체 카탈로그 Light/Dark 이전 세대와 렌더 동일(className 무변경·해시 무이동 세대)"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-01T23:38:33.729Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }
