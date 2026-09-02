@@ -12,7 +12,7 @@ import {
   ListRowDescription, ListRowMeta, ListRowTitle, ListRowTrailing, Select, SelectContent,
   SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead,
   TableHeader, TableRow, Field, FieldDescription, FieldError, FieldGroup, FieldLabel,
-  FieldLegend, FieldSet, RadioGroup,
+  FieldLegend, FieldSeparator, FieldSet, RadioGroup,
   RadioGroupItem, Switch, Textarea,
   Toggle, ToggleGroup, ToggleGroupItem,
   Collapsible, CollapsibleContent, CollapsibleTrigger,
@@ -145,6 +145,7 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
     dialog: <Dialog defaultOpen={selection.open === "open"}><DialogTrigger asChild><Button>거래 추가</Button></DialogTrigger><DialogContent><DialogHeader><DialogTitle>거래 추가</DialogTitle><DialogDescription>새 투자 거래의 기본 정보를 입력합니다.</DialogDescription></DialogHeader><p>종목, 거래일, 금액을 입력하는 양식이 여기에 놓입니다.</p><DialogFooter><DialogClose asChild><Button variant="outline">취소</Button></DialogClose><Button>저장</Button></DialogFooter></DialogContent></Dialog>,
     field: <FieldGroup className="max-w-sm">
       <FieldSet><FieldLegend>거래 정보</FieldLegend><Field orientation={selection.orientation as "vertical" | "horizontal" | "responsive"} data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="field-symbol">종목명</FieldLabel><Input id="field-symbol" aria-invalid={selection.validity === "invalid" || undefined} placeholder="예: 삼성전자"/><FieldDescription>거래한 종목의 정식 이름을 입력하세요.</FieldDescription>{selection.validity === "invalid" && <FieldError>종목명을 입력하세요.</FieldError>}</Field></FieldSet>
+      <FieldSeparator>또는</FieldSeparator>
       <FieldSet><FieldLegend rank="label">보유 수량</FieldLegend><Field orientation={selection.orientation as "vertical" | "horizontal" | "responsive"} data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="field-quantity">수량</FieldLabel><Input id="field-quantity" aria-invalid={selection.validity === "invalid" || undefined} placeholder="예: 10"/><FieldDescription>소수점 아래 넷째 자리까지 입력할 수 있습니다.</FieldDescription>{selection.validity === "invalid" && <FieldError>수량을 입력하세요.</FieldError>}</Field></FieldSet>
     </FieldGroup>,
     empty: <div className="flex flex-col gap-4">
