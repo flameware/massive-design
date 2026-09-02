@@ -45,7 +45,7 @@
     {
       "cells": 2,
       "component": "button-group",
-      "hash": "ebd825e73f40",
+      "hash": "21adffd42eb0",
       "path": "button-group.gen.json"
     },
     {
@@ -135,7 +135,7 @@
     {
       "cells": 1,
       "component": "input-otp",
-      "hash": "78235e88ad40",
+      "hash": "05e041a813e9",
       "path": "input-otp.gen.json"
     },
     {
@@ -297,7 +297,7 @@
     {
       "cells": 24,
       "component": "toggle-group",
-      "hash": "6cff2b86c2dd",
+      "hash": "a2a397c6cac4",
       "path": "toggle-group.gen.json"
     },
     {
@@ -307,5 +307,5 @@
       "path": "tooltip.gen.json"
     }
   ],
-  "schemaVersion": 8
+  "schemaVersion": 9
 }

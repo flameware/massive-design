@@ -52,14 +52,19 @@ type ToggleGroupSpacing = NonNullable<ToggleGroupStyleProps["spacing"]>
 /* **붙이는 것은 컨테이너가 정하고 그리는 것은 항목이다.** 컨테이너가 지는 것은
  * `gap-0` 하나뿐이고, 모서리 평탄화·경계선·포커스 링 겹침은 전부 항목의 셀 안에서
  * 끝난다. Button Group은 같은 일을 컨테이너의 자식 선택자
- * (`[&>*:not(:first-child)]:rounded-l-none`)로 하는데, 그 선언은 매니페스트에서
- * 전부 `unresolved`로 떨어진다 — 실제로 `button-group.gen.json`의 두 셀이 그 여덟
- * 항목을 지고 있다. 항목에 두면 `border-radius`·`border-width`·`position`이 제 셀에서
- * 해결된 값으로 나르고, 남는 `unresolved`는 첫·마지막 항목의 바깥 모서리를 지목하는
- * `first:`·`last:` 여섯 개뿐이다. 그 여섯은 **이미 카탈로그가 지고 있는 것과 같은
- * 관용구**다 — `InputOTPSlot`이 `border-y border-r first:rounded-l-md first:border-l
- * last:rounded-r-md`로 붙은 칸을 그린다. 붙은 형태를 두 번째 방식으로 다시 발명하지
- * 않는다(#140이 그 더미를 소유한다).
+ * (`[&>*:not(:first-child)]:rounded-l-none`)로 하는데, 항목에 두면
+ * `border-radius`·`border-width`·`position`이 제 셀에서 해결된 값으로 나르고, 셀 밖으로
+ * 나가는 것은 첫·마지막 항목의 바깥 모서리를 지목하는 `first:`·`last:` 여섯 개뿐이다.
+ * 그 여섯은 **이미 카탈로그가 지고 있는 것과 같은 관용구**다 — `InputOTPSlot`이
+ * `border-y border-r first:rounded-l-md first:border-l last:rounded-r-md`로 붙은 칸을
+ * 그린다. 붙은 형태를 두 번째 방식으로 다시 발명하지 않는다.
+ *
+ * 그 여섯은 `unresolved`가 아니라 **`elsewhere:`**로 판정된다(#180·ADR-0012) —
+ * 바깥 모서리는 Figma에 실재하되 항목 자산이 아니라 그것을 **조립한 그룹**에 있고,
+ * 매니페스트의 문서 단위 `elsewhere`가 그 사실을 나른다. Button Group의 여덟도 같은
+ * 등급이다: 형태는 컨테이너가 자식을 고르는 쪽으로 반대이지만 — 그쪽 경계 ①이 자식의
+ * props를 건드리지 않기로 했고 자식은 남의 컴포넌트라 항목의 셀로 옮길 자리가 없다 —
+ * 그려지는 자리는 같은 조립된 그룹이다.
  *
  * **`border`가 붙는 이유는 카탈로그가 붙은 칸을 그리는 방식이 그것이기 때문이다.**
  * `variant: default`의 항목에는 테두리가 없어 간격을 0으로 만들면 이웃과의 경계가
@@ -135,7 +140,7 @@ const componentContract = {
     ToggleGroupItem: { config: toggleGroupItemVariantsConfig, className: toggleGroupItemClassName },
   },
   behaviors: {},
-  reference: { example: "toggle-group", guidance: { use: "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동하며, 항목을 떨어뜨려 둘지 하나의 덩어리로 붙일지 `spacing`으로 고른다.", evidence: "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하고, 좁은 도구 막대에서는 그 묶음이 한 덩어리로 붙어야 한다.", limits: "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태는 `spacing` 축이 진다 — `separate`(기본값)·`attached` 둘이고, 이름은 upstream을 따르되 값은 우리 어휘다(upstream의 `spacing={0}`은 숫자라 파생 채널이 그릴 이름이 되지 못한다). 기본값이 `separate`인 것은 `attached`를 기본으로 두면 발행된 모든 그룹이 `gap-0`과 테두리를 얻어 인스턴스가 재해석되기 때문이다(#144의 `placement: auto`와 같은 자리). **`TabsList`의 밑줄 축과 같은 개념이 아니다** — 여기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 저기서 갈리는 것은 활성 항목을 무엇이 표시하는가라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 붙은 형태에서 각 항목의 경계는 `border`가 진다 — `variant: default`에는 테두리가 없어 간격만 0으로 만들면 이웃과의 경계가 남지 않으므로, 이 축이 붙을 때만 테두리를 세우고 맞닿는 변은 한 번만 그린다. **이 선은 대비 기준을 지는 구분선이 아니다**: 색이 `--ds-border-default`라 canvas 위에서 약 1.4:1이고, 그 토큰은 `tokens:contrast`의 비텍스트 3:1 조합표에서 의도적으로 빠져 있다(`border.field`·`knockout`과 같은 자리). 이 선이 지는 것은 형태의 판독이며, `InputOTPSlot`과 `ButtonGroup`의 붙은 형태가 같은 색으로 같은 일을 하므로 여기만 다르게 그리지 않는다. 3:1을 지는 구분선은 `border.strong`의 자리인데 그 토큰에는 Tailwind 유틸리티가 없어 별칭을 새로 내야 하고 그건 `tokens.css`를 움직이는 일이라 맵 규칙 4가 금한다 — 필요하면 소비처가 `className`으로 덮는다. 바깥 모서리는 `Toggle`이 이미 쓰는 `rounded-md`를 그대로 남기므로 새 radius 단계를 요구하지 않는다. 첫·마지막 항목을 지목하는 `first:`·`last:` 수식자는 매니페스트에서 `unresolved`로 남는다 — `InputOTPSlot`이 붙은 칸을 그리는 것과 같은 관용구이고 그 더미는 #140이 소유한다. 붙은 형태에서도 이 컴포넌트는 여전히 선택 위젯이다: roving tabindex 한 칸과 화살표 키 이동은 Radix가 지며, 모양이 Button Group과 같아 보여도 자식마다 탭 정지가 남는 그쪽과 갈린다." } },
+  reference: { example: "toggle-group", guidance: { use: "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동하며, 항목을 떨어뜨려 둘지 하나의 덩어리로 붙일지 `spacing`으로 고른다.", evidence: "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하고, 좁은 도구 막대에서는 그 묶음이 한 덩어리로 붙어야 한다.", limits: "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태는 `spacing` 축이 진다 — `separate`(기본값)·`attached` 둘이고, 이름은 upstream을 따르되 값은 우리 어휘다(upstream의 `spacing={0}`은 숫자라 파생 채널이 그릴 이름이 되지 못한다). 기본값이 `separate`인 것은 `attached`를 기본으로 두면 발행된 모든 그룹이 `gap-0`과 테두리를 얻어 인스턴스가 재해석되기 때문이다(#144의 `placement: auto`와 같은 자리). **`TabsList`의 밑줄 축과 같은 개념이 아니다** — 여기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 저기서 갈리는 것은 활성 항목을 무엇이 표시하는가라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 붙은 형태에서 각 항목의 경계는 `border`가 진다 — `variant: default`에는 테두리가 없어 간격만 0으로 만들면 이웃과의 경계가 남지 않으므로, 이 축이 붙을 때만 테두리를 세우고 맞닿는 변은 한 번만 그린다. **이 선은 대비 기준을 지는 구분선이 아니다**: 색이 `--ds-border-default`라 canvas 위에서 약 1.4:1이고, 그 토큰은 `tokens:contrast`의 비텍스트 3:1 조합표에서 의도적으로 빠져 있다(`border.field`·`knockout`과 같은 자리). 이 선이 지는 것은 형태의 판독이며, `InputOTPSlot`과 `ButtonGroup`의 붙은 형태가 같은 색으로 같은 일을 하므로 여기만 다르게 그리지 않는다. 3:1을 지는 구분선은 `border.strong`의 자리인데 그 토큰에는 Tailwind 유틸리티가 없어 별칭을 새로 내야 하고 그건 `tokens.css`를 움직이는 일이라 맵 규칙 4가 금한다 — 필요하면 소비처가 `className`으로 덮는다. 바깥 모서리는 `Toggle`이 이미 쓰는 `rounded-md`를 그대로 남기므로 새 radius 단계를 요구하지 않는다. 첫·마지막 항목을 지목하는 `first:`·`last:` 수식자는 셀에 나타나지 않고 매니페스트의 `elsewhere`가 진다 — `unresolved`(\"아직 못 다뤘다\")도 `ignore:`(\"영영 거기 없다\")도 아니고, 바깥 모서리는 Figma에 실재하되 항목 자산이 아니라 **조립된 그룹**에 그려진다(ADR-0012). `InputOTPSlot`이 붙은 칸을 그리는 것과 같은 관용구다. 붙은 형태에서도 이 컴포넌트는 여전히 선택 위젯이다: roving tabindex 한 칸과 화살표 키 이동은 Radix가 지며, 모양이 Button Group과 같아 보여도 자식마다 탭 정지가 남는 그쪽과 갈린다." } },
 } as const
 
 export { ToggleGroup, ToggleGroupItem, toggleGroupVariants, toggleGroupVariantsConfig, componentContract }

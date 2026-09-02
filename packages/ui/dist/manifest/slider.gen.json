@@ -827,6 +827,6 @@
       "use": "정확한 숫자보다 상대적 위치가 중요한 연속 범위에서 값 하나 또는 구간의 양 끝을 고른다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/slider.tsx"
 }

@@ -2111,6 +2111,6 @@
       "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정되는 세로 탐색 표면으로, 본문과 함께 살면서 접고 펼 수 있다. `variant`는 패널의 형태만, `collapsible`은 접혔을 때의 폭만 정하고 열림 상태는 소비처가 소유한다. 좁은 폭에서는 소비처가 알려준 `isMobile`에 따라 Sheet으로 갈아 끼운다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/sidebar.tsx"
 }

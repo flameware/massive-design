@@ -156,11 +156,34 @@ test("값이 true가 아닌 data 속성은 값이 뜻을 가르므로 접지 않
 
 test("표에 없는 뜻은 만들어 내지 않는다 — 다른 무리는 그대로 unresolved다", () => {
   for (const mod of [
-    "first", "last",                       // E — 무리 안 위치(#180)
     "[&_img]", "[&_tr]", "[&>span:last-child]",  // D — 자손 슬롯(#181)
     "sm", "md", "@md/field-group",         // D — 반응형(#181)
-    "[&>*:not(:first-child)]",             // E — 무리 안 위치(#180)
     "data-[inset=true]", "data-[placeholder=true]", "placeholder",  // 맵 밖(#140 Out of scope)
     "[&[data-state=open]>svg]",            // 복합 선택자
   ]) assert.equal(policyFor(mod), undefined, mod)
+})
+
+test("무리 안 위치는 elsewhere다 — ignore와 등급이 다르다", () => {
+  // 그려지되 이 자산이 아닌 자리에 그려진다. `ignore:`("영영 거기 없다")를 쓰면
+  // 이 맵이 고치려던 병을 `ignore:`로 옮긴다(#180)
+  for (const mod of ["first", "last"]) assert.match(policyFor(mod), /^elsewhere:/, mod)
+
+  // 컨테이너가 자식을 고르는 형태는 축약이 뜻만 남겨 도달한다 — 표에는 형태가 아니라
+  // 뜻(`not(:first-child)`)이 있고, 요소부는 도달 경로라 무엇이든 같은 자리로 온다(#178)
+  for (const mod of [
+    "[&>*:not(:first-child)]", "[&>*:not(:last-child)]",
+    "[&>button:not(:first-child)]", "[&_*:not(:last-child)]",
+  ]) assert.match(policyFor(mod), /^elsewhere:/, mod)
+
+  // 이유가 **저기가 어디인지**를 지목한다는 것이 이 등급의 규약이다(ADR-0012)
+  for (const [, policy] of MODIFIER_POLICY) {
+    if (policy.startsWith("elsewhere:")) assert.match(policy, /조립된 그룹/)
+  }
+})
+
+test("자손 슬롯의 last-child는 무리 안 위치가 아니다", () => {
+  // `[&>span:last-child]`(sidebar)·`[&_tr:last-child]`(table)는 무리의 끝 항목이 아니라
+  // **자손을 지목**한다. `last`로 접히면 #181의 무리가 통째로 조용해진다(#147 판정 규칙 4)
+  assert.equal(policyFor("[&>span:last-child]"), undefined)
+  assert.equal(policyFor("[&_tr:last-child]"), undefined)
 })

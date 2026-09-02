@@ -1,13 +1,22 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "ef5294fc70e2faf96de21788678e45b2124bafa6",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "bd9ed9747693f562a715f3df790e544f8d9e4c48",
   "inputTree": {
-    "commit": "ef5294fc70e2faf96de21788678e45b2124bafa6",
-    "clean": true
+    "commit": "bd9ed9747693f562a715f3df790e544f8d9e4c48",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/scripts/manifest/assemble.mjs",
+      "packages/ui/scripts/manifest/build.mjs",
+      "packages/ui/scripts/manifest/classify.mjs",
+      "packages/ui/src/components/ui/button-group.tsx",
+      "packages/ui/src/components/ui/input-otp.tsx",
+      "packages/ui/src/components/ui/toggle-group.tsx"
+    ]
   },
-  "inputDigest": "b387162b18bfe9f34ded94faea341cca58a0589518052c8678cb129f60fafe15",
+  "inputDigest": "06f38f6e8ec1fb4cabc930c0b30be9c6c6f7468807f984e9fc663ab19c777cc6",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -47,7 +56,7 @@
     },
     {
       "component": "button-group",
-      "manifestHash": "ebd825e73f40",
+      "manifestHash": "21adffd42eb0",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -122,7 +131,7 @@
     },
     {
       "component": "input-otp",
-      "manifestHash": "78235e88ad40",
+      "manifestHash": "05e041a813e9",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -257,7 +266,7 @@
     },
     {
       "component": "toggle-group",
-      "manifestHash": "6cff2b86c2dd",
+      "manifestHash": "a2a397c6cac4",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +278,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T00:33:23.800Z",
+      "checkedAt": "2026-09-02T01:05:21.947Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +308,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-02T00:33:23.800Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-02T01:05:21.947Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +505,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-02T00:39:59.321Z",
-        "scope": "sidebar·slider Light/Dark 확인 — 해시가 움직인 두 컴포넌트. 렌더 코드 무변경 세대다(slider.tsx의 변경은 계약 메타데이터뿐이고 브라우저는 이미 sidebar 테두리와 SliderTrack 두께를 그리고 있었다 — 눈이 먼 쪽은 매니페스트였다). 이전 세대와 렌더 동일. 동작 확인표 9자리 전부 출력 확인(carousel·resizable·slider·scroll-area 드래그, dropdown-menu contextOpen·longPressOpen, popover·navigation-menu·tooltip hover 열림) — 확인표는 좁히지 않았다. 열림 계기 4자리의 기본 모드 해시가 이번 세대 preflight 기록의 components[]와 일치"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-02T00:39:59.321Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }

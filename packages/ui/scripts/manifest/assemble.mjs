@@ -125,8 +125,13 @@ function axisReadback(props, modifier) {
  * 아니라 `configurations[구성 상태][값]`에 담기며, 그 자리는 쉬는 상태에 대한 **차이**만
  * 갖는다 — 값이 없는 구성 상태 값은 `properties`가 그대로 그린다는 뜻이다. Figma에서
  * 이 자리는 variant 축이 아니라 **component property**다(#147의 어휘 교정).
+ *
+ * `elsewhere`는 선택적 수집기다(#180). 정책이 `elsewhere:`인 수식자는 `ignore:`처럼 셀에서
+ * 빠지지만 **뜻이 반대다** — 그려지되 이 자산이 아닌 자리에 그려진다. 조용히 버리면 파생
+ * 채널에서 `ignore:`와 구분되지 않아 "여기 없다"가 "어디에도 없다"로 읽히므로, 문서 단위로
+ * 모아 두라고 호출자에게 넘긴다. 넘기지 않으면 그냥 버린다 — 셀 판정은 수집과 무관하다.
  */
-export function assembleCell({ props, className, tree, theme, drawnBy }) {
+export function assembleCell({ props, className, tree, theme, drawnBy, elsewhere }) {
   const properties = {}
   const slots = {}
   const configurations = {}
@@ -220,6 +225,12 @@ export function assembleCell({ props, className, tree, theme, drawnBy }) {
       continue
     }
     if (policy.startsWith("ignore:")) continue
+    // 그려지지만 이 자산이 아니다. 셀에서 빠지는 것은 `ignore:`와 같고 **뜻이 반대라**
+    // 문서 단위로 모아 파생 채널이 침묵과 구분하게 한다(#180)
+    if (policy.startsWith("elsewhere:")) {
+      if (elsewhere) for (const d of decls) elsewhere(modifiers[0], policy.slice("elsewhere:".length), d.prop)
+      continue
+    }
     if (policy === "state") {
       // disabled는 층이 아니라 요소 전체의 불투명도다. state가 없는 variant(link)에는
       // 상태 자체가 없으므로 여기서 바로 얹지 않고 마지막에 합친다

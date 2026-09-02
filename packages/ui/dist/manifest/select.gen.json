@@ -131,6 +131,6 @@
       "use": "제한된 값 하나를 선택한다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/select.tsx"
 }

@@ -41,22 +41,32 @@ payload는 다음 구조로 고정한다:
 
 ```js
 {
+  anatomy,
   axes,
   base,
-  cells: cells.map(({ props, properties, slots, state }) => ({
+  configurationStates,
+  cells: cells.map(({ props, properties, slots, configurations, state }) => ({
     props,
     properties,
     ...(slots ? { slots } : {}),
+    ...(configurations ? { configurations } : {}),
     ...(state ? { state } : {}),
   })),
+  parts,   // 파트마다 axes · defaults · 같은 모양의 cells
 }
 ```
 
 셀의 `className`은 CSS 컴파일에서 나온 파생값이며 Figma에 주입되지 않으므로
 해시 입력에서 제외한다. 따라서 CSS 클래스 문자열만 바뀌어도 Figma 세대는
-낡지 않는다. 반대로 축, base, `properties`, `slots`, `state`가 바뀌면 해시가
-바뀌어 재주입 대상이 된다. 새 매니페스트 필드는 이 목록에 명시적으로
-추가하기 전까지 해시에 들어가지 않는다.
+낡지 않는다. 반대로 축, base, `properties`, `slots`, `configurations`, `state`가
+바뀌면 해시가 바뀌어 재주입 대상이 된다. 새 매니페스트 필드는 이 목록에
+명시적으로 추가하기 전까지 해시에 들어가지 않는다.
+
+**바깥에 있는 것들이 왜 바깥인가.** `drawnBy`는 어느 DOM 속성이 구성 상태를
+그리는지를 적은 **코드 쪽 사실**이라 Figma 노드를 만드는 입력이 아니다
+([#148](https://github.com/flameware/massive-design/issues/148)). `externalSurfaces`와
+`elsewhere`는 셀에 **없는 이유**를 적은 것이지 무엇을 그리는지가 아니다. `reference`는
+가이드 산문이다. 셋 다 주입이 읽되 해시는 움직이지 않는다.
 
 ### 3.1 형식
 
@@ -181,6 +191,31 @@ if (set.componentPropertyDefinitions.variant?.defaultValue !== "default") {
 `schemaVersion: 6`부터 셀은 `configurations[구성 상태][값]`을 낸다 — 계약의 `drawnBy`가 이름표를 준 수식자가 낸 값이고, `properties`(쉬는 상태)에 대한 **차이**다([#148](https://github.com/flameware/massive-design/issues/148)).
 
 **이 자리를 Figma에서 무엇으로 그리는지는 이 문서가 아직 정하지 않았다.** `CONTEXT.md`는 구성 상태를 "component property 또는 별도의 공개 조립 표면"으로 표현한다고만 적고 있고, Figma의 property 종류(VARIANT·BOOLEAN·TEXT·INSTANCE_SWAP) 중 어느 것인지는 판정된 적이 없다 — VARIANT로 두면 세트의 조합 수가 곱해지므로 §6.2가 상태에 대해 내린 판정과 같은 무게의 결정이다. **정해지기 전까지 주입은 이 필드를 읽지 않는다.** 즉흥으로 축을 늘리면 발행된 인스턴스를 재해석하게 된다.
+
+### 6.2.2 `elsewhere`에 적힌 것은 누락이 아니다
+
+`schemaVersion: 9`부터 문서에 선택적 `elsewhere`가 붙는다([#180](https://github.com/flameware/massive-design/issues/180)·[ADR-0012](../adr/0012-drawn-elsewhere.md)).
+
+```json
+"elsewhere": {
+  "first": {
+    "reason": "무리 안 위치(첫 항목) — 이 자산이 아니라 조립된 그룹이 그린다",
+    "declaredOn": { "ToggleGroupItem": ["border-left-width", "border-top-left-radius"] }
+  }
+}
+```
+
+**여기 적힌 속성은 그 컴포넌트의 셀 어디에도 없고, 그것이 정상이다.** 붙은
+`ToggleGroupItem`은 12개 셀이 전부 `border-radius: 0`인데 **중간 항목으로서 옳다** —
+바깥 모서리는 Figma에 실재하되 항목 자산이 아니라 그것을 조립한 그룹에 그려진다.
+`unresolved`("아직 못 다뤘다")도 `ignore:`("영영 거기 없다")도 아니다.
+
+**주입이 할 일: 아무것도 하지 않는다.** 이 필드를 보고 셀을 보정하거나 축을 늘리지
+않는다 — 위치는 항목이 아는 것이 아니라 **조립이 정하는 것**이고, 축으로 열면 세트의
+조합 수가 곱해진다(§6.2와 같은 판정). 이 필드가 하는 일은 **침묵을 없애는 것**뿐이다:
+그 자산에 모서리가 없는 것이 우리가 아직 못 그린 공백이 아님을 말한다. 사람이 그
+자산으로 그룹을 조립할 때 바깥 모서리를 그리며, `declaredOn`이 어느 자산의 무리인지를
+지목한다.
 
 ### 6.3 아이콘 슬롯 — leading 고정, 조합은 만들지 않는다
 

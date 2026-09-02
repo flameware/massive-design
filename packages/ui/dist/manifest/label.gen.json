@@ -72,6 +72,6 @@
       "use": "폼 컨트롤에 사람이 읽는 이름을 연결한다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/label.tsx"
 }

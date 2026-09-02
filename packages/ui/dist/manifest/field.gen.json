@@ -209,6 +209,6 @@
       "use": "라벨, 컨트롤, 도움말과 오류를 접근 가능한 한 필드로 조립한다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/field.tsx"
 }

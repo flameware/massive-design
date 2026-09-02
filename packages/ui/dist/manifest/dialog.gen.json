@@ -127,6 +127,6 @@
       "use": "현재 흐름을 잠시 멈추고 집중해서 완료할 작업을 연다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/dialog.tsx"
 }
