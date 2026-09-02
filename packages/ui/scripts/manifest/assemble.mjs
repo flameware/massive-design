@@ -4,7 +4,7 @@
  * tailwind-merge가 정리한 뒤에야 값이 확정된다. 축별로 담으면 매니페스트가
  * `xs` 버튼의 아이콘을 16px이라고 말한다 — 실제로는 12px이다. */
 import { declarations, rulesForClass, splitModifiers, starRulesInBase } from "./css.mjs"
-import { classifyDeclaration, classifyShadow, policyFor, resolveVarChain } from "./classify.mjs"
+import { IGNORED_CLASSES, classifyDeclaration, classifyShadow, policyFor, resolveVarChain } from "./classify.mjs"
 
 /**
  * 모든 셀에 **앞서** 적용되는 기저. `@layer base`의 `*` 규칙에서 파생한다(#36).
@@ -94,6 +94,23 @@ export function drawnByModifier(drawnBy) {
 }
 
 /**
+ * 계약의 `slots`를 수식자 → 역할로 뒤집는다(#181).
+ *
+ * `drawnByModifier`와 **같은 모양**이고 같은 이유로 계약이 진다 — 선택자는 자기가 무엇을
+ * 가리키는지 말하지 않는다. `[&_svg]`는 *"svg는 어디서나 아이콘"*이라 전역 표가 이름을
+ * 줄 수 있지만, `>span:last-child`는 그럴 수 없다: 마지막 자식인 span이 라벨인 것은 이
+ * 파트의 사실이지 51개 컴포넌트의 사실이 아니다. 전역 표에 넣으면 다음 컴포넌트에서
+ * 조용히 빗나가고, 그 표는 자기 주석에 "컴포넌트를 가리지 않는 뜻만 온다"고 적어 두었다.
+ *
+ * 그래서 선이 이렇다 — **선택자가 역할을 스스로 말하면 전역 표, 말하지 않으면 계약**(ADR-0013).
+ *
+ * 조회 키가 수식자인 것도 `drawnByModifier`와 같다: 조립은 클래스에서 출발한다.
+ */
+export function slotByModifier(slots) {
+  return new Map(Object.entries(slots ?? {}).map(([role, selector]) => [selector, role]))
+}
+
+/**
  * 축을 DOM 속성으로 되읽는 수식자를 **셀의 축 값에 대고** 해소한다(#179).
  *
  * `data-[variant=sidebar]`는 이미 선언된 cva 축을 읽는다. 축은 셀로 전개되므로 셀이
@@ -131,11 +148,12 @@ function axisReadback(props, modifier) {
  * 채널에서 `ignore:`와 구분되지 않아 "여기 없다"가 "어디에도 없다"로 읽히므로, 문서 단위로
  * 모아 두라고 호출자에게 넘긴다. 넘기지 않으면 그냥 버린다 — 셀 판정은 수집과 무관하다.
  */
-export function assembleCell({ props, className, tree, theme, drawnBy, elsewhere }) {
+export function assembleCell({ props, className, tree, theme, drawnBy, declaredSlots, elsewhere }) {
   const properties = {}
   const slots = {}
   const configurations = {}
   const byModifier = drawnByModifier(drawnBy)
+  const bySlot = slotByModifier(declaredSlots)
   let state = null
   let stateBase = undefined
   let disabledOpacity = null
@@ -146,6 +164,9 @@ export function assembleCell({ props, className, tree, theme, drawnBy, elsewhere
     const { modifiers, utility } = splitModifiers(cls)
     const rules = rulesForClass(tree, cls)
     if (!rules.length) {
+      // 규칙을 하나도 내지 않는 것이 **의도**인 클래스가 있다 — Tailwind의 group 이름표가
+      // 그렇다. 셋째 표가 그것을 ②로 닫는다(#181): 여기 없으면 여전히 unresolved다
+      if (IGNORED_CLASSES.has(cls)) continue
       properties[cls] = { tier: "unresolved", why: "컴파일 출력에 이 클래스의 규칙이 없다", from: cls }
       continue
     }
@@ -207,6 +228,21 @@ export function assembleCell({ props, className, tree, theme, drawnBy, elsewhere
         if (d.prop.startsWith("--ds-")) continue
         const hit = classifyDeclaration(theme, d.prop, d.value, cls)
         if (hit) bucket()[hit.prop] = hit.entry
+      }
+      continue
+    }
+
+    // 계약이 지목한 슬롯도 전역 정책보다 앞선다 — 같은 이유이고 같은 자리다(#181).
+    // 속성 이름은 **CSS 그대로** 담는다: `slot-icon`의 개명(`height`→`size`)은 정사각형이라는
+    // 사실을 담느라 필요했던 것이지 규약이 아니고, 여러 선언을 우리가 지은 이름 하나로
+    // 접으면 매니페스트가 CSS보다 앞서 해석하게 된다. 접는 것은 번역표(§7)의 몫이다.
+    // 무시 화이트리스트는 여기서도 그대로 돈다 — `truncate`의 `white-space`가 그렇게 빠진다
+    const role = modifiers.length === 1 ? bySlot.get(modifiers[0]) : undefined
+    if (role) {
+      for (const d of decls) {
+        if (d.prop.startsWith("--ds-")) continue
+        const hit = classifyDeclaration(theme, d.prop, d.value, cls)
+        if (hit) (slots[role] ??= {})[hit.prop] = hit.entry
       }
       continue
     }

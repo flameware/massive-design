@@ -63,27 +63,34 @@
       }
     }
   },
-  "hash": "7b66614b9b57",
+  "elsewhere": {
+    "[&_tr:last-child]": {
+      "declaredOn": {
+        "TableBody": [
+          "border-style",
+          "border-width"
+        ]
+      },
+      "reason": "무리 안 위치(끝 행) — 이 자산이 아니라 조립된 표가 그린다"
+    },
+    "[&_tr]": {
+      "declaredOn": {
+        "TableHeader": [
+          "border-bottom-style",
+          "border-bottom-width"
+        ]
+      },
+      "reason": "행의 테두리 — 이 자산이 아니라 TableRow 파트가 그린다"
+    }
+  },
+  "hash": "9baef1c66ff4",
   "parts": {
     "TableBody": {
       "axes": {},
       "cells": [
         {
           "className": "[&_tr:last-child]:border-0",
-          "properties": {
-            "[&_tr:last-child]:border-style": {
-              "from": "[&_tr:last-child]:border-0",
-              "tier": "unresolved",
-              "value": "var(--tw-border-style)",
-              "why": "수식자 [&_tr:last-child]를 아직 다루지 않는다"
-            },
-            "[&_tr:last-child]:border-width": {
-              "from": "[&_tr:last-child]:border-0",
-              "tier": "unresolved",
-              "value": "0px",
-              "why": "수식자 [&_tr:last-child]를 아직 다루지 않는다"
-            }
-          },
+          "properties": {},
           "state": null
         }
       ],
@@ -202,20 +209,7 @@
       "cells": [
         {
           "className": "[&_tr]:border-b",
-          "properties": {
-            "[&_tr]:border-bottom-style": {
-              "from": "[&_tr]:border-b",
-              "tier": "unresolved",
-              "value": "var(--tw-border-style)",
-              "why": "수식자 [&_tr]를 아직 다루지 않는다"
-            },
-            "[&_tr]:border-bottom-width": {
-              "from": "[&_tr]:border-b",
-              "tier": "unresolved",
-              "value": "1px",
-              "why": "수식자 [&_tr]를 아직 다루지 않는다"
-            }
-          },
+          "properties": {},
           "state": null
         }
       ],
@@ -270,6 +264,6 @@
       "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/table.tsx"
 }

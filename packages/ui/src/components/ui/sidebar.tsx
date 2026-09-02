@@ -273,8 +273,10 @@ const componentContract = {
   anatomy: ["SidebarProvider", "Sidebar", "SidebarHeader?", "SidebarContent", "SidebarGroup*", "SidebarGroupLabel?", "SidebarGroupAction?", "SidebarGroupContent", "SidebarMenu", "SidebarMenuItem*", "SidebarMenuButton", "SidebarMenuAction?", "SidebarMenuBadge?", "SidebarMenuSub?", "SidebarMenuSubItem*", "SidebarMenuSubButton", "SidebarSeparator?", "SidebarFooter?", "SidebarRail?", "SidebarTrigger", "SidebarInset?"],
   configurationStates: { state: ["expanded", "collapsed"], item: ["default", "active"] }, drawnBy: { state: { attribute: "data-state", values: { collapsed: "collapsed" } }, item: { attribute: "data-active", values: { active: "true" } } },
   parts: {
-    SidebarMenuButton: { config: sidebarMenuButtonVariantsConfig, className: (props: Record<string, string>) => cn(sidebarMenuButtonVariants(props)) },
-    SidebarMenuSubButton: staticPart(sidebarMenuSubButtonClassName),
+    // `[&>span:last-child]:truncate`가 지목하는 것은 **라벨**이다(#181). 선택자가 그것을
+    // 스스로 말하지 않으므로 전역 `MODIFIER_POLICY`가 아니라 계약이 이름표를 진다(ADR-0013)
+    SidebarMenuButton: { config: sidebarMenuButtonVariantsConfig, className: (props: Record<string, string>) => cn(sidebarMenuButtonVariants(props)), slots: { label: "[&>span:last-child]" } },
+    SidebarMenuSubButton: { ...staticPart(sidebarMenuSubButtonClassName), slots: { label: "[&>span:last-child]" } },
     SidebarHeader: staticPart("flex flex-col gap-2 p-2"),
     SidebarContent: staticPart("flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2"),
     SidebarFooter: staticPart("flex flex-col gap-2 p-2"),

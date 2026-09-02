@@ -34,7 +34,7 @@
   "drawnBy": {
     "currentLocation": "값마다 파트가 다르다 — `BreadcrumbPage`가 현재이고 `BreadcrumbLink`가 조상이다"
   },
-  "hash": "5c0f1d4f0990",
+  "hash": "28e34b93c508",
   "parts": {
     "BreadcrumbEllipsis": {
       "axes": {},
@@ -162,12 +162,6 @@
               "tier": "token",
               "token": "--text-sm--line-height",
               "value": "1.6"
-            },
-            "sm:gap": {
-              "from": "sm:gap-2.5",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 2.5)",
-              "why": "수식자 sm를 아직 다루지 않는다"
             }
           },
           "state": null
@@ -226,6 +220,6 @@
       "use": "현재 위치의 상위 계층을 링크로 제공하고 마지막 항목을 현재 위치로 표시한다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/breadcrumb.tsx"
 }

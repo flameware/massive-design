@@ -64,7 +64,22 @@ import { loadTheme } from "./theme.mjs"
  * 말하는 것은 이 컴포넌트의 Figma 자산이 무엇을 그리는가가 아니라 무엇을 **그리지
  * 않는가**라, 자산을 만드는 입력이 아니다. 이 세대에 해시가 움직이는 것은 90건이
  * `properties`에서 빠지기 때문이고 그 폭은 세 컴포넌트다. */
-export const SCHEMA_VERSION = 9
+/** 10: 자산이 자기 자손 슬롯을 `slots`로 지목하고, 셀이 그 자리를 `slots.<역할>`에 담는다(#181).
+ *
+ * 소비처가 새로 읽어야 하는 것은 `slots.label`이다 — `slots.icon`이 이미 앉아 있는 자리에
+ * 같은 모양으로 앉지만 **키가 CSS 속성 이름 그대로다**(`overflow`·`text-overflow`). `icon`
+ * 쪽의 `size`·`paddingInline` 개명은 `height`가 정사각형의 한 변이라는 사실을 담느라 생긴
+ * 것이지 이 필드의 규약이 아니므로, 새 역할은 개명하지 않는다. 접는 것은 번역표(§7)다.
+ *
+ * 이름표를 **계약이 진다.** `[&_svg]`처럼 선택자가 역할을 스스로 말하면 전역 표가 이름을
+ * 주지만, `[&>span:last-child]`는 말하지 않는다 — 마지막 자식인 span이 라벨인 것은 그
+ * 파트의 사실이지 카탈로그의 사실이 아니다(ADR-0013). `drawnBy`·`inheritedAxes`가 두 번
+ * 세운 선례와 같은 방향이고, 게이트가 **선언한 선택자가 그 자산의 className에 실재하는지**를
+ * 본다(ADR-0009가 `carriedBy`에 세운 것과 같은 모양).
+ *
+ * 해시가 움직인다 — `properties`에서 46건이 빠지기 때문이고, 그 폭은 여덟 컴포넌트다.
+ * `slots`는 셀 안에 있으므로 해시의 입력이다. */
+export const SCHEMA_VERSION = 10
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -120,7 +135,9 @@ export function buildManifests(components, root) {
         },
         // 구성 상태는 컴포넌트가 선언하고 파트가 그린다 — tabs의 `selected`를 `TabsTrigger`가
         // 그리는 것이 그 예다. 그래서 파트 셀도 같은 이름표를 받는다
-        cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy, elsewhere: elsewhere.on(name) })),
+        // 슬롯 지목은 **자산마다 다르다** — 선택자가 그 자산의 className에 있는 사실이라
+        // 컴포넌트 단위인 `drawnBy`와 달리 파트가 자기 것을 진다(#181)
+        cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy, declaredSlots: part.contract.slots, elsewhere: elsewhere.on(name) })),
       },
     ]))
     const doc = {
@@ -136,7 +153,7 @@ export function buildManifests(components, root) {
       drawnBy: component.drawnBy ?? {},
       ...(component.externalSurfaces ? { externalSurfaces: { ...component.externalSurfaces } } : {}),
       reference: component.reference,
-      cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy, elsewhere: elsewhere.on(component.name) })),
+      cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy, declaredSlots: component.slots, elsewhere: elsewhere.on(component.name) })),
     }
     // 셀을 다 조립한 뒤에야 수집이 끝난다 — 파트가 먼저 돌지만 루트 셀도 얹는다
     const drawnElsewhere = elsewhere.value()

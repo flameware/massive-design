@@ -23,12 +23,6 @@
       "className": "flex w-fit items-stretch [&>*]:relative [&>*:focus-visible]:z-10 [&>*:focus-within]:z-10 flex-row [&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
       "orientation": "horizontal",
       "properties": {
-        "[&>*]:position": {
-          "from": "[&>*]:relative",
-          "tier": "unresolved",
-          "value": "relative",
-          "why": "수식자 [&>*]를 아직 다루지 않는다"
-        },
         "align-items": {
           "from": "items-stretch",
           "tier": "literal",
@@ -56,12 +50,6 @@
       "className": "flex w-fit items-stretch [&>*]:relative [&>*:focus-visible]:z-10 [&>*:focus-within]:z-10 flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none",
       "orientation": "vertical",
       "properties": {
-        "[&>*]:position": {
-          "from": "[&>*]:relative",
-          "tier": "unresolved",
-          "value": "relative",
-          "why": "수식자 [&>*]를 아직 다루지 않는다"
-        },
         "align-items": {
           "from": "items-stretch",
           "tier": "literal",
@@ -125,7 +113,7 @@
       "reason": "무리 안 위치(끝 항목이 아닌 것) — 이 자산이 아니라 조립된 그룹이 그린다"
     }
   },
-  "hash": "21adffd42eb0",
+  "hash": "05664875c9ab",
   "parts": {
     "ButtonGroupSeparator": {
       "axes": {},
@@ -252,6 +240,6 @@
       "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/button-group.tsx"
 }

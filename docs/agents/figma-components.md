@@ -258,7 +258,12 @@ BOOLEAN property로 아이콘을 토글하지 않는 이유가 결정적이다 �
 | `vertical-align` | `root` | auto layout의 교차축 정렬 |
 | (`type/family/sans`) | `label` | `fontFamily` — **에이전트가 걸지 않는다.** 셰이핑 런타임의 사람 단계가 건다 — §9.4 |
 | `slots.icon.size` | `icon` | `resize(n, n)` |
+| `slots.label.overflow` + `slots.label.text-overflow` | `label` | `textTruncation = 'ENDING'` — 둘이 함께 왔을 때만. ⚠️ 아래 |
 | `border-width` | `root` | `strokeWeight` + `strokes[0]` = **`base`의 `border-color`** — ⚠️ 아래 |
+
+⚠️ **`slots`의 키는 두 종류로 온다** ([#181](https://github.com/flameware/massive-design/issues/181)). `icon`은 `size`·`paddingInline`·`gap`이라는 **개명된** 이름을 쓰고, `schemaVersion: 10`부터 오는 새 역할(`label`)은 **CSS 속성 이름을 그대로** 쓴다. `icon` 쪽의 개명은 `height`가 정사각형의 한 변이라는 사실을 담느라 생긴 것이지 이 필드의 규약이 아니므로 새 역할로 번지지 않는다 — 여러 선언을 하나로 접는 것은 **이 번역표의 몫**이고, 위의 `textTruncation` 줄이 그 자리다. `overflow: hidden` 하나만 온 셀은 잘라내기가 아니라 넘침 처리이므로 접지 않는다.
+
+⚠️ **자산이 자기 자손 슬롯을 계약으로 지목한다** ([#181](https://github.com/flameware/massive-design/issues/181), [ADR-0013](../adr/0013-slot-labels-are-borne-by-the-contract.md)). 조립이 이름표를 얻는 경로가 둘이다 — 선택자가 역할을 스스로 말하면 전역 `MODIFIER_POLICY`가(`[&_svg]` → `icon`), 말하지 않으면 파트 계약의 `slots`가(`SidebarMenuButton.slots.label = "[&>span:last-child]"`) 준다. **주입은 둘을 구분하지 않는다**: 매니페스트에 도착한 `cell.slots.<역할>`은 어느 경로로 왔든 같은 자리다. 계약이 지목하지 않은 자손 선택자는 그대로 `unresolved`로 뜬다 — 슬롯이 조용히 느는 일은 없다.
 
 합성 컴포넌트는 루트 `cells`만 읽으면 안 된다. `parts`의 각 이름은 `anatomy`에 있는 **파트**이고, 파트마다 `axes`·`defaults`·`cells`가 루트와 같은 방식으로 존재한다.
 

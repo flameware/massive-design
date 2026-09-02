@@ -55,7 +55,7 @@
   "drawnBy": {
     "currentPage": "`PaginationLink`가 현재 페이지에서 Button의 `outline` variant로 바뀐다 — 그리는 것은 Button 계약의 축이다"
   },
-  "hash": "2a3133a0cc0e",
+  "hash": "d4c46e1ca5f0",
   "parts": {
     "PaginationContent": {
       "axes": {},
@@ -306,12 +306,6 @@
               "from": "px-2.5",
               "px": 10,
               "tier": "literal"
-            },
-            "sm:padding-right": {
-              "from": "sm:pr-2.5",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 2.5)",
-              "why": "수식자 sm를 아직 다루지 않는다"
             }
           },
           "slots": {
@@ -429,12 +423,6 @@
               "from": "px-2.5",
               "px": 10,
               "tier": "literal"
-            },
-            "sm:padding-left": {
-              "from": "sm:pl-2.5",
-              "tier": "unresolved",
-              "value": "calc(0.25rem * 2.5)",
-              "why": "수식자 sm를 아직 다루지 않는다"
             }
           },
           "slots": {
@@ -485,6 +473,6 @@
       "use": "긴 결과 집합을 여러 페이지로 나누고 현재 페이지와 인접 이동을 링크로 제공한다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/pagination.tsx"
 }

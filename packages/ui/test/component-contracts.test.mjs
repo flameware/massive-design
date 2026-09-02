@@ -281,3 +281,43 @@ test("구성 상태의 DOM 속성은 축 이름과 겹칠 수 없다", () => {
   clash.drawnBy = { look: { attribute: "data-variant", values: { sidebar: "sidebar" } } }
   assert.throws(() => validateContracts(["a.tsx"], [clash]), /축 이름과 겹친다 .*a\.look \(data-variant\)/)
 })
+
+/* 슬롯 지목의 게이트(#181). 보는 것은 ADR-0009가 `carriedBy`에 세운 것과 같다 — 거짓 선언이다.
+ * 선언은 손으로 적히고 className은 리팩터링으로 움직이므로, 지목한 선택자가 사라져도
+ * 매니페스트는 조용히 슬롯 하나를 잃는다. */
+const withSlots = (slots, className = "[&>span:last-child]:truncate") => {
+  const c = contract("a")
+  c.className = () => className
+  c.slots = slots
+  return () => validateContracts(["a.tsx"], [c])
+}
+
+test("계약이 지목한 슬롯은 className에 실재해야 한다", () => {
+  assert.doesNotThrow(withSlots({ label: "[&>span:last-child]" }))
+  assert.throws(withSlots({ label: "[&>span:first-child]" }), /className에 없는 선택자/)
+  // 리팩터링이 클래스를 지우면 선언만 남는다 — 그 자리를 이 검사가 잡는다
+  assert.throws(withSlots({ label: "[&>span:last-child]" }, "truncate"), /className에 없는 선택자/)
+})
+
+test("슬롯 이름은 파생 채널의 역할 어휘여야 한다", () => {
+  // 매니페스트가 §7의 어휘 밖 역할을 내면 주입이 그것을 놓을 노드를 찾지 못한다
+  assert.throws(withSlots({ thumb: "[&>span:last-child]" }), /역할 어휘에 없는 슬롯 이름/)
+})
+
+test("전역 정책이 이미 판정한 선택자는 계약이 지목하지 않는다", () => {
+  // 조립이 계약을 먼저 보므로 겹치면 전역 정책이 조용히 가려지고, 두 자리가 같은 선택자에
+  // 서로 다른 뜻을 적어 두게 된다
+  assert.throws(withSlots({ icon: "[&_svg]" }, "[&_svg]:size-4"), /전역 정책이 이미 판정한 선택자/)
+})
+
+test("한 선택자를 두 역할이 지목할 수 없다", () => {
+  assert.throws(
+    withSlots({ label: "[&>span:last-child]", icon: "[&>span:last-child]" }),
+    /한 선택자를 두 역할이 지목한다/
+  )
+})
+
+test("slots는 있으면 비어 있지 않은 객체다", () => {
+  assert.throws(withSlots({}), /slots는 비어 있지 않은 객체/)
+  assert.throws(withSlots({ label: "" }), /슬롯 지목에는 수식자가 필요하다/)
+})

@@ -51,6 +51,6 @@
       "use": "관련된 여러 섹션의 제목을 훑고 필요한 내용을 하나 또는 여러 개 펼친다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/accordion.tsx"
 }

@@ -908,7 +908,7 @@
       }
     }
   },
-  "hash": "b9fc5263cc4c",
+  "hash": "1ad71f9cb50f",
   "parts": {
     "SidebarContent": {
       "axes": {},
@@ -1412,24 +1412,6 @@
             }
           },
           "properties": {
-            "[&>span:last-child]:overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "hidden",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:text-overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "ellipsis",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:white-space": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "nowrap",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
@@ -1529,6 +1511,18 @@
                 "tier": "token",
                 "token": "--spacing"
               }
+            },
+            "label": {
+              "overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "hidden"
+              },
+              "text-overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "ellipsis"
+              }
             }
           },
           "state": {
@@ -1563,24 +1557,6 @@
             }
           },
           "properties": {
-            "[&>span:last-child]:overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "hidden",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:text-overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "ellipsis",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:white-space": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "nowrap",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
@@ -1677,6 +1653,18 @@
                 "tier": "token",
                 "token": "--spacing"
               }
+            },
+            "label": {
+              "overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "hidden"
+              },
+              "text-overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "ellipsis"
+              }
             }
           },
           "state": {
@@ -1711,24 +1699,6 @@
             }
           },
           "properties": {
-            "[&>span:last-child]:overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "hidden",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:text-overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "ellipsis",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:white-space": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "nowrap",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
@@ -1828,6 +1798,18 @@
                 "tier": "token",
                 "token": "--spacing"
               }
+            },
+            "label": {
+              "overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "hidden"
+              },
+              "text-overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "ellipsis"
+              }
             }
           },
           "state": {
@@ -1849,11 +1831,6 @@
         {
           "className": "group/menu-item relative",
           "properties": {
-            "group/menu-item": {
-              "from": "group/menu-item",
-              "tier": "unresolved",
-              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
-            },
             "position": {
               "from": "relative",
               "tier": "literal",
@@ -1956,24 +1933,6 @@
             }
           },
           "properties": {
-            "[&>span:last-child]:overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "hidden",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:text-overflow": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "ellipsis",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
-            "[&>span:last-child]:white-space": {
-              "from": "[&>span:last-child]:truncate",
-              "tier": "unresolved",
-              "value": "nowrap",
-              "why": "수식자 [&>span:last-child]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
@@ -2067,6 +2026,18 @@
                 "tier": "token",
                 "token": "--spacing"
               }
+            },
+            "label": {
+              "overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "hidden"
+              },
+              "text-overflow": {
+                "from": "[&>span:last-child]:truncate",
+                "tier": "literal",
+                "value": "ellipsis"
+              }
             }
           },
           "state": {
@@ -2086,11 +2057,6 @@
         {
           "className": "group/menu-sub-item relative",
           "properties": {
-            "group/menu-sub-item": {
-              "from": "group/menu-sub-item",
-              "tier": "unresolved",
-              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
-            },
             "position": {
               "from": "relative",
               "tier": "literal",
@@ -2111,6 +2077,6 @@
       "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정되는 세로 탐색 표면으로, 본문과 함께 살면서 접고 펼 수 있다. `variant`는 패널의 형태만, `collapsible`은 접혔을 때의 폭만 정하고 열림 상태는 소비처가 소유한다. 좁은 폭에서는 소비처가 알려준 `isMobile`에 따라 Sheet으로 갈아 끼운다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/sidebar.tsx"
 }

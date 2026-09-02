@@ -45,6 +45,6 @@
       "use": "한 덩어리의 보조 내용을 명시적인 트리거로 펼치거나 접는다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/collapsible.tsx"
 }
