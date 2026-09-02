@@ -1,13 +1,20 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "65bb4f45023a808205cab730787a088b2d4fe927",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "ec67e2397b47393d1e82e85f4754eead5488fd19",
   "inputTree": {
-    "commit": "65bb4f45023a808205cab730787a088b2d4fe927",
-    "clean": true
+    "commit": "ec67e2397b47393d1e82e85f4754eead5488fd19",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/scripts/manifest/assemble.mjs",
+      "packages/ui/scripts/manifest/build.mjs",
+      "packages/ui/scripts/manifest/classify.mjs",
+      "packages/ui/scripts/manifest/lint.mjs"
+    ]
   },
-  "inputDigest": "5c4a8b3a37bb39bb54082b789373929634556a3e6b42e589c3f64c886536878a",
+  "inputDigest": "359191e7c3018e740587b1429e6566058abab94470730b5ed3b0fe525aa15257",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -157,7 +164,7 @@
     },
     {
       "component": "navigation-menu",
-      "manifestHash": "39a1d096b2c3",
+      "manifestHash": "af3c3587734c",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -207,7 +214,7 @@
     },
     {
       "component": "sidebar",
-      "manifestHash": "1ad71f9cb50f",
+      "manifestHash": "f8b696d95ea6",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +276,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T03:45:51.224Z",
+      "checkedAt": "2026-09-02T06:31:12.791Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +306,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-02T03:45:51.224Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-02T06:31:12.791Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +503,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-02T05:01:54.553Z",
-        "scope": "field Light/Dark — FieldLegend rank 두 값(legend·label) × orientation 3 × validity 2, 기본값 모양이 이전 세대와 같은지 포함"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-02T05:01:54.553Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }

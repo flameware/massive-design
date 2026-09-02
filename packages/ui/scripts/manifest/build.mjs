@@ -79,7 +79,23 @@ import { loadTheme } from "./theme.mjs"
  *
  * 해시가 움직인다 — `properties`에서 46건이 빠지기 때문이고, 그 폭은 여덟 컴포넌트다.
  * `slots`는 셀 안에 있으므로 해시의 입력이다. */
-export const SCHEMA_VERSION = 10
+/** 11: 복합 수식자가 사슬로 해소되고, 구성 상태의 차이가 슬롯 안에 앉을 수 있다(#182).
+ *
+ * 소비처가 새로 읽어야 하는 것은 `configurations[상태][값].slots.<역할>`이다 — 셀의
+ * `slots`와 **같은 종류의 값**이고, 다른 것은 쉬는 상태가 아니라 그 구성 상태의 차이라는
+ * 것뿐이다. `slots`는 CSS 속성 이름이 될 수 없으므로 이 자리에서 예약 키로 서도 속성과
+ * 섞이지 않는다. 구성 상태가 바깥이고 슬롯이 안쪽인 이유는 **한 번의 property 전환이 여러
+ * 노드를 함께 바꾸기** 때문이다 — 슬롯을 바깥에 두면 *"켜지면 무엇이 달라지는가"*가 슬롯마다
+ * 흩어져 소비처가 다시 모아야 한다.
+ *
+ * 판정 자체도 바뀐다. `modifiers.length === 1`일 때만 표를 보던 조회가 **사슬 전체**로
+ * 넓어졌고, 그래서 이전 세대에 `unresolved`로 서 있던 복합 수식자가 자기 자리를 찾는다.
+ * 합성 규칙은 `classify.mjs` 상단의 불변식과 나란히 적혀 있다.
+ *
+ * 해시가 움직인다 — `sidebar`와 `navigation-menu` 둘이고, 둘 다 이전에 없던 자리에 값이
+ * 생기기 때문이다. `switch`는 움직이지 않는다: 사슬의 슬롯 쪽이 아직 미지라 규칙 2에 따라
+ * 통째로 `unresolved`로 남는다(#155가 `Thumb`을 파트로 등록할 때 닫힌다). */
+export const SCHEMA_VERSION = 11
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {

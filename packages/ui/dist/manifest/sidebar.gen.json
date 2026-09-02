@@ -48,6 +48,17 @@
     {
       "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
       "collapsible": "offcanvas",
+      "configurations": {
+        "state": {
+          "collapsed": {
+            "left": {
+              "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+              "tier": "literal",
+              "value": "calc(var(--sidebar-width) * -1)"
+            }
+          }
+        }
+      },
       "properties": {
         "border-color": {
           "from": "border-sidebar-border",
@@ -59,18 +70,6 @@
           "px": 1,
           "scale": "borderWidth.1",
           "tier": "token"
-        },
-        "data-[state=collapsed]:data-[side=left]:left": {
-          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
-        },
-        "data-[state=collapsed]:data-[side=right]:right": {
-          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -184,23 +183,22 @@
     {
       "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
       "collapsible": "offcanvas",
+      "configurations": {
+        "state": {
+          "collapsed": {
+            "left": {
+              "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+              "tier": "literal",
+              "value": "calc(var(--sidebar-width) * -1)"
+            }
+          }
+        }
+      },
       "properties": {
         "border-color": {
           "from": "border-sidebar-border",
           "tier": "token",
           "token": "--ds-border-default"
-        },
-        "data-[state=collapsed]:data-[side=left]:left": {
-          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
-        },
-        "data-[state=collapsed]:data-[side=right]:right": {
-          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -324,23 +322,22 @@
     {
       "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear left-0 data-[variant=sidebar]:border-r p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
       "collapsible": "offcanvas",
+      "configurations": {
+        "state": {
+          "collapsed": {
+            "left": {
+              "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
+              "tier": "literal",
+              "value": "calc(var(--sidebar-width) * -1)"
+            }
+          }
+        }
+      },
       "properties": {
         "border-color": {
           "from": "border-sidebar-border",
           "tier": "token",
           "token": "--ds-border-default"
-        },
-        "data-[state=collapsed]:data-[side=left]:left": {
-          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
-        },
-        "data-[state=collapsed]:data-[side=right]:right": {
-          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -464,6 +461,17 @@
     {
       "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
       "collapsible": "offcanvas",
+      "configurations": {
+        "state": {
+          "collapsed": {
+            "right": {
+              "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+              "tier": "literal",
+              "value": "calc(var(--sidebar-width) * -1)"
+            }
+          }
+        }
+      },
       "properties": {
         "border-color": {
           "from": "border-sidebar-border",
@@ -475,18 +483,6 @@
           "px": 1,
           "scale": "borderWidth.1",
           "tier": "token"
-        },
-        "data-[state=collapsed]:data-[side=left]:left": {
-          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
-        },
-        "data-[state=collapsed]:data-[side=right]:right": {
-          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -600,23 +596,22 @@
     {
       "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
       "collapsible": "offcanvas",
+      "configurations": {
+        "state": {
+          "collapsed": {
+            "right": {
+              "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+              "tier": "literal",
+              "value": "calc(var(--sidebar-width) * -1)"
+            }
+          }
+        }
+      },
       "properties": {
         "border-color": {
           "from": "border-sidebar-border",
           "tier": "token",
           "token": "--ds-border-default"
-        },
-        "data-[state=collapsed]:data-[side=left]:left": {
-          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
-        },
-        "data-[state=collapsed]:data-[side=right]:right": {
-          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -740,23 +735,22 @@
     {
       "className": "fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear right-0 data-[variant=sidebar]:border-l p-2 data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)] data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
       "collapsible": "offcanvas",
+      "configurations": {
+        "state": {
+          "collapsed": {
+            "right": {
+              "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
+              "tier": "literal",
+              "value": "calc(var(--sidebar-width) * -1)"
+            }
+          }
+        }
+      },
       "properties": {
         "border-color": {
           "from": "border-sidebar-border",
           "tier": "token",
           "token": "--ds-border-default"
-        },
-        "data-[state=collapsed]:data-[side=left]:left": {
-          "from": "data-[state=collapsed]:data-[side=left]:left-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=left]를 아직 다루지 않는다"
-        },
-        "data-[state=collapsed]:data-[side=right]:right": {
-          "from": "data-[state=collapsed]:data-[side=right]:right-[calc(var(--sidebar-width)*-1)]",
-          "tier": "unresolved",
-          "value": "calc(var(--sidebar-width) * -1)",
-          "why": "수식자 data-[state=collapsed]:data-[side=right]를 아직 다루지 않는다"
         },
         "display": {
           "from": "flex",
@@ -908,7 +902,7 @@
       }
     }
   },
-  "hash": "1ad71f9cb50f",
+  "hash": "f8b696d95ea6",
   "parts": {
     "SidebarContent": {
       "axes": {},
@@ -2077,6 +2071,6 @@
       "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정되는 세로 탐색 표면으로, 본문과 함께 살면서 접고 펼 수 있다. `variant`는 패널의 형태만, `collapsible`은 접혔을 때의 폭만 정하고 열림 상태는 소비처가 소유한다. 좁은 폭에서는 소비처가 알려준 `isMobile`에 따라 Sheet으로 갈아 끼운다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/sidebar.tsx"
 }

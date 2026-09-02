@@ -74,7 +74,7 @@
       }
     }
   },
-  "hash": "39a1d096b2c3",
+  "hash": "af3c3587734c",
   "parts": {
     "NavigationMenuContent": {
       "axes": {},
@@ -313,17 +313,20 @@
                   "from": "data-[state=open]:[--ds-state-base:var(--accent)]",
                   "tier": "token",
                   "token": "--ds-bg-subtle"
+                },
+                "slots": {
+                  "icon": {
+                    "rotate": {
+                      "from": "[&[data-state=open]>svg]:rotate-180",
+                      "tier": "literal",
+                      "value": "180deg"
+                    }
+                  }
                 }
               }
             }
           },
           "properties": {
-            "[&[data-state=open]>svg]:rotate": {
-              "from": "[&[data-state=open]>svg]:rotate-180",
-              "tier": "unresolved",
-              "value": "180deg",
-              "why": "수식자 [&[data-state=open]>svg]를 아직 다루지 않는다"
-            },
             "align-items": {
               "from": "items-center",
               "tier": "literal",
@@ -424,6 +427,6 @@
       "use": "화면 상단에서 사이트의 주요 목적지를 가로로 늘어놓고, 하위 목적지가 여럿인 항목만 카드로 펼친다. 현재 화면을 가리키는 링크는 `active`로 표시하고, 하위가 없는 항목은 `NavigationMenuLink`에 `navigationMenuTriggerVariants()`를 입혀 막대에 직접 놓는다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/navigation-menu.tsx"
 }

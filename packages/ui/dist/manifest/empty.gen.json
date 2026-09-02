@@ -476,6 +476,6 @@
       "use": "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립하고, 미디어 자리가 그릴 틀은 `EmptyMedia`의 `frame` 축이 정한다."
     }
   },
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "source": "src/components/ui/empty.tsx"
 }

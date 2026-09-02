@@ -62,12 +62,25 @@ export function lintManifest(doc) {
     for (const [prop, entry] of Object.entries(cell.properties ?? {})) {
       if (entry?.tier === "token" && entry.token) check(prop, entry.token, where, errors)
     }
+    // 자손 슬롯도 같은 자리의 값이다(#181). 게이트가 여기를 보지 않으면 `slots.icon.color`에
+    // 배경 이름이 와도 조용하다 — #182이 세어 보고 메운 침묵이다
+    for (const [role, slot] of Object.entries(cell.slots ?? {})) {
+      for (const [prop, entry] of Object.entries(slot)) {
+        if (entry?.tier === "token" && entry.token) check(prop, entry.token, `${where} ${role}`, errors)
+      }
+    }
     // 구성 상태별 차이도 같은 자리의 값이다 — 검사하지 않으면 `data-[state=checked]:text-*`가
-    // 계열 규칙 밖으로 빠져나간다(#148)
+    // 계열 규칙 밖으로 빠져나간다(#148). 그 차이가 슬롯 안에 앉는 자리(#182)도 같이 본다
     for (const [state, values] of Object.entries(cell.configurations ?? {})) {
-      for (const [value, properties] of Object.entries(values)) {
-        for (const [prop, entry] of Object.entries(properties)) {
+      for (const [value, diff] of Object.entries(values)) {
+        for (const [prop, entry] of Object.entries(diff)) {
+          if (prop === "slots") continue
           if (entry?.tier === "token" && entry.token) check(prop, entry.token, `${where} ${state}=${value}`, errors)
+        }
+        for (const [role, slot] of Object.entries(diff.slots ?? {})) {
+          for (const [prop, entry] of Object.entries(slot)) {
+            if (entry?.tier === "token" && entry.token) check(prop, entry.token, `${where} ${state}=${value} ${role}`, errors)
+          }
         }
       }
     }
@@ -116,8 +129,14 @@ export function lintVarMapCoverage(doc, varMap) {
     const where = `${prefix} ${cell.variant}/${cell.size}`
     for (const [prop, entry] of Object.entries(cell.properties ?? {})) need(entry, `${where}/${prop}`)
     for (const [state, values] of Object.entries(cell.configurations ?? {})) {
-      for (const [value, properties] of Object.entries(values)) {
-        for (const [prop, entry] of Object.entries(properties)) need(entry, `${where} ${state}=${value}/${prop}`)
+      for (const [value, diff] of Object.entries(values)) {
+        for (const [prop, entry] of Object.entries(diff)) {
+          if (prop !== "slots") need(entry, `${where} ${state}=${value}/${prop}`)
+        }
+        // 구성 상태의 차이가 슬롯 안에 앉는 자리(#182). 셀의 `slots`와 같은 종류의 값이다
+        for (const [role, slot] of Object.entries(diff.slots ?? {})) {
+          for (const [prop, entry] of Object.entries(slot)) need(entry, `${where} ${state}=${value} ${role}/${prop}`)
+        }
       }
     }
     for (const [role, slot] of Object.entries(cell.slots ?? {})) {

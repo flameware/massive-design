@@ -36,6 +36,12 @@ const CSS = `
   .\\[\\&_svg\\:not\\(\\[class\\*\\=\\'size-\\'\\]\\)\\]\\:size-4 svg:not([class*='size-']) { width: calc(0.25rem * 4); height: calc(0.25rem * 4); }
   .\\[\\&\\>span\\:last-child\\]\\:truncate > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .md\\:p-12 { @media (width >= 48rem) { padding: calc(0.25rem * 12); } }
+  .data-\\[state\\=collapsed\\]\\:data-\\[side\\=left\\]\\:px-2[data-state="collapsed"][data-side="left"] { padding-inline: calc(0.25rem * 2); }
+  .\\[\\&\\[data-state\\=on\\]\\>svg\\]\\:size-6[data-state=on] > svg { width: calc(0.25rem * 6); height: calc(0.25rem * 6); }
+  .data-\\[state\\=on\\]\\:\\[\\&\\>svg\\]\\:size-6[data-state="on"] > svg { width: calc(0.25rem * 6); height: calc(0.25rem * 6); }
+  .\\[\\&_svg\\]\\:data-\\[state\\=on\\]\\:size-6 svg[data-state="on"] { width: calc(0.25rem * 6); height: calc(0.25rem * 6); }
+  .\\[\\&_\\[data-slot\\=thumb\\]\\]\\:data-\\[state\\=on\\]\\:underline [data-slot=thumb][data-state="on"] { text-decoration-line: underline; }
+  .focus-visible\\:data-\\[slot\\=zzz\\]\\:underline:focus-visible[data-slot="zzz"] { text-decoration-line: underline; }
 }
 `
 const TOKENS_CSS = `
@@ -251,4 +257,57 @@ test("규칙을 하나도 내지 않는 표식 클래스는 셀에서 조용히 
 
 test("뷰포트 폭에 걸린 선언은 ignore로 빠진다 — 다른 자산이 아니라 다른 뷰포트다(#181)", () => {
   assert.equal(Object.keys(cell("md:p-12").properties).length, 0)
+})
+
+/* 복합 수식자의 합성(#182). 사슬은 **경로**이고, 항은 그 자리의 주어에 걸린다. */
+const PRESSED = { pressed: { attribute: "data-state", values: { pressed: "on" } } }
+
+test("축 되읽기와 구성 상태가 한 사슬에서 만나면 각자의 일을 한다(#182)", () => {
+  const drawnBy = { state: { attribute: "data-state", values: { collapsed: "collapsed" } } }
+  const cls = "data-[state=collapsed]:data-[side=left]:px-2"
+  // 축은 셀이 이미 고정했으므로 거르고, 남은 구성 상태가 자리를 고른다
+  const left = assembleCell({ props: { side: "left" }, className: cls, tree, theme, drawnBy })
+  assert.equal(left.configurations.state.collapsed["padding-inline"].px, 8)
+  // 축이 거짓인 셀에는 그 규칙이 아예 적용되지 않는다 — unresolved도 빈 자리도 아니다
+  const right = assembleCell({ props: { side: "right" }, className: cls, tree, theme, drawnBy })
+  assert.deepEqual(right.properties, {})
+  assert.equal(right.configurations, undefined)
+})
+
+test("주어를 옮긴 뒤의 구성 상태 차이는 그 슬롯 안에 앉는다(#182)", () => {
+  const c = assembleCell({ props: {}, className: "data-[state=on]:[&>svg]:size-6", tree, theme, drawnBy: PRESSED })
+  // 구성 상태가 바깥이고 슬롯이 안쪽이다 — 한 번의 전환이 여러 노드를 함께 바꾼다
+  assert.equal(c.configurations.pressed.pressed.slots.icon.size.px, 24)
+  assert.equal(c.slots, undefined)
+})
+
+test("같은 뜻의 두 표기가 같은 자리에 앉는다 — 신호가 철자에 좌우되지 않는다(#182)", () => {
+  const one = assembleCell({ props: {}, className: "[&[data-state=on]>svg]:size-6", tree, theme, drawnBy: PRESSED })
+  const two = assembleCell({ props: {}, className: "data-[state=on]:[&>svg]:size-6", tree, theme, drawnBy: PRESSED })
+  assert.equal(one.configurations.pressed.pressed.slots.icon.size.px, 24)
+  assert.deepEqual(
+    Object.keys(one.configurations.pressed.pressed.slots),
+    Object.keys(two.configurations.pressed.pressed.slots),
+  )
+})
+
+test("주어가 옮겨진 뒤에는 이 자산의 구성 상태가 걸리지 않는다(#182)", () => {
+  // `[&_svg]:data-[state=on]`이 그리는 것은 **svg가 on일 때**다. 계약의 `drawnBy`는 이
+  // 자산이 무엇을 그리는지를 선언한 것이라 자손의 DOM 사실에까지 이름표를 주지 않는다
+  const c = assembleCell({ props: {}, className: "[&_svg]:data-[state=on]:size-6", tree, theme, drawnBy: PRESSED })
+  assert.equal(c.properties["[&_svg]:data-[state=on]:height"].tier, "unresolved")
+  assert.equal(c.configurations, undefined)
+})
+
+test("모르는 항이 하나라도 섞이면 전체가 unresolved다 — 반쪽만 그리지 않는다(#182)", () => {
+  // 상태만 읽어 담으면 매니페스트가 **루트가 밑줄을 긋는다**고 말하는데 실제로 긋는 것은 thumb이다
+  const c = assembleCell({ props: {}, className: "[&_[data-slot=thumb]]:data-[state=on]:underline", tree, theme, drawnBy: PRESSED })
+  assert.equal(c.properties["[&_[data-slot=thumb]]:data-[state=on]:text-decoration-line"].tier, "unresolved")
+  assert.equal(c.configurations, undefined)
+})
+
+test("떨어뜨리는 항이 모르는 항을 이긴다 — 아는 사실을 신호에 잡음으로 붓지 않는다(#182)", () => {
+  // `focus-visible`은 영영 컴포넌트 축이 아니다(②). 나머지를 몰라도 결론이 난다
+  const c = cell("focus-visible:data-[slot=zzz]:underline")
+  assert.deepEqual(c.properties, {})
 })

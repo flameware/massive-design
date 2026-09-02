@@ -987,7 +987,7 @@ export const catalog = [
   {
     "component": "navigation-menu",
     "displayName": "Navigation Menu",
-    "hash": "39a1d096b2c3",
+    "hash": "af3c3587734c",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1314,7 +1314,7 @@ export const catalog = [
   {
     "component": "sidebar",
     "displayName": "Sidebar",
-    "hash": "1ad71f9cb50f",
+    "hash": "f8b696d95ea6",
     "cells": 12,
     "axes": {
       "collapsible": [
