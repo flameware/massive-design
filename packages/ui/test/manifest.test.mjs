@@ -127,3 +127,21 @@ test("Item의 하위 파트 스타일이 루트와 분리된 조합으로 남는
   assert.equal(item.parts.ItemDescription.cells[0].properties["font-size"].px, 14)
   assert.equal(item.parts.ItemActions.cells[0].properties.gap.px, 8)
 })
+
+/* 중립 채움은 두 역할이고 각각 이름으로 구분된다(CONTEXT.md, #109).
+ * 컨트롤 어포던스는 앉는 면에 3:1이 필요해 solid를 집고, 잔여 트랙은 대비 요구가
+ * 없어 값이 그대로 남되 **한 가지** 이름으로 정렬한다 — 전에는 셋으로 갈려 있었다. */
+test("컨트롤 어포던스는 solid 중립을, 잔여 트랙은 한 이름을 집는다", () => {
+  const affordance = "--ds-bg-neutral-solid"
+  const remainder = "--ds-bg-neutral-soft"
+  assert.equal(
+    read("scroll-area.gen.json").parts.ScrollAreaThumb.cells[0].properties["background-color"].token,
+    affordance
+  )
+  assert.equal(read("switch.gen.json").cells[0].state.base, affordance)
+  assert.equal(read("progress.gen.json").cells[0].properties["background-color"].token, remainder)
+  assert.equal(
+    read("slider.gen.json").parts.SliderTrack.cells[0].properties["background-color"].token,
+    remainder
+  )
+})

@@ -161,3 +161,26 @@ test('resolve가 순환 참조와 미아 참조를 조용히 통과시키지 않
   assert.throws(() => resolve(broken, 'a'), /순환 참조/)
   assert.throws(() => resolve(broken, 'c'), /알 수 없는 토큰 참조/)
 })
+
+/* 컨트롤 어포던스 — 채움 자체가 조작 대상인 자리(Scroll Area thumb, Switch off 트랙).
+ * 앉는 면에 대해 비텍스트 3:1을 지켜야 하고 그래서 solid 계열 중립 배경을 집는데,
+ * 그 semantic 토큰에 shadcn 이름이 없어 Tailwind 유틸리티로 닿지 못했다(#109). */
+test('neutral-solid alias가 중립 solid 배경을 가리킨다', () => {
+  assert.equal(shadcn['neutral-solid'], 'color.bg.neutral.solid')
+})
+
+test('neutral-solid가 정본 목록에 있어 C13이 :root 존재를 지킨다', async () => {
+  const { SHADCN_CANON } = await import('../scripts/lint.mjs')
+  assert.ok(SHADCN_CANON.includes('neutral-solid'))
+})
+
+test('컨트롤 어포던스가 다섯 면 위에서 비텍스트 3:1을 넘는다 — 양 모드', async () => {
+  const { report } = await import('../scripts/contrast.mjs')
+  const rows = report().filter((r) => r.fg === 'bg.neutral.solid')
+  // 면 5종 × 2모드. 게이트가 텍스트 4.5가 아니라 비텍스트 3이어야 한다
+  assert.equal(rows.length, 10)
+  for (const r of rows) {
+    assert.equal(r.gate, 3, `${r.mode} on ${r.bg}`)
+    assert.ok(r.gated && r.cr >= 3, `${r.mode} on ${r.bg} — ${r.cr.toFixed(2)}`)
+  }
+})

@@ -18,7 +18,7 @@
   },
   "cells": [
     {
-      "className": "state [--ds-state-base:var(--secondary)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-4 w-7 [&_[data-slot=switch-thumb]]:size-3 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-3",
+      "className": "state [--ds-state-base:var(--neutral-solid)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-4 w-7 [&_[data-slot=switch-thumb]]:size-3 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-3",
       "configurations": {
         "checked": {
           "checked": {
@@ -63,7 +63,7 @@
         "background-color": {
           "from": "state",
           "tier": "token",
-          "token": "--ds-bg-neutral-soft"
+          "token": "--ds-bg-neutral-solid"
         },
         "border-color": {
           "from": "border-transparent",
@@ -108,7 +108,7 @@
       },
       "size": "sm",
       "state": {
-        "base": "--ds-bg-neutral-soft",
+        "base": "--ds-bg-neutral-solid",
         "disabled": 0.5,
         "hover": 0.08,
         "layer": "--ds-state-layer",
@@ -116,7 +116,7 @@
       }
     },
     {
-      "className": "state [--ds-state-base:var(--secondary)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-5 w-9 [&_[data-slot=switch-thumb]]:size-4 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-4",
+      "className": "state [--ds-state-base:var(--neutral-solid)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] h-5 w-9 [&_[data-slot=switch-thumb]]:size-4 [&_[data-slot=switch-thumb]]:data-[state=checked]:translate-x-4",
       "configurations": {
         "checked": {
           "checked": {
@@ -161,7 +161,7 @@
         "background-color": {
           "from": "state",
           "tier": "token",
-          "token": "--ds-bg-neutral-soft"
+          "token": "--ds-bg-neutral-solid"
         },
         "border-color": {
           "from": "border-transparent",
@@ -206,7 +206,7 @@
       },
       "size": "default",
       "state": {
-        "base": "--ds-bg-neutral-soft",
+        "base": "--ds-bg-neutral-solid",
         "disabled": 0.5,
         "hover": 0.08,
         "layer": "--ds-state-layer",
@@ -232,12 +232,12 @@
       }
     }
   },
-  "hash": "bcf1744bc1bc",
+  "hash": "c33616592c82",
   "reference": {
     "example": "switch",
     "guidance": {
       "evidence": "배당 재투자나 알림처럼 현재 활성 여부가 중요한 설정이 필요하다.",
-      "limits": "확인이 필요한 위험 동작이나 세 값 이상의 선택에는 쓰지 않는다.",
+      "limits": "확인이 필요한 위험 동작이나 세 값 이상의 선택에는 쓰지 않는다. off 트랙은 누르는 컨트롤 어포던스이므로 자기가 앉는 면에 대해 비텍스트 대비 3:1(WCAG 1.4.11)을 만족해야 하고, Progress·Slider의 잔여 트랙과 같은 중립 soft를 쓰지 않는다.",
       "use": "즉시 적용되는 이진 설정을 켜거나 끈다."
     }
   },

@@ -12,7 +12,9 @@ const switchVariantsConfig = {
   },
   defaultVariants: { size: "default" },
 } as const
-const switchVariants = cva("state [--ds-state-base:var(--secondary)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)]", switchVariantsConfig)
+/* off 트랙은 **컨트롤 어포던스**다 — 켜고 끄려고 누르는 면 자체라 앉는 면과 갈려
+ * 보여야 한다. 그래서 상태 층이 얹히는 base가 중립 soft가 아니라 solid다(#109). */
+const switchVariants = cva("state [--ds-state-base:var(--neutral-solid)] inline-flex shrink-0 items-center rounded-full border border-transparent shadow-xs outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)]", switchVariantsConfig)
 
 function Switch({ className, size = "default", ...props }: React.ComponentProps<typeof SwitchPrimitive.Root> & VariantProps<typeof switchVariants>) {
   return <SwitchPrimitive.Root data-slot="switch" data-size={size} className={cn(switchVariants({ size, className }))} {...props}><SwitchPrimitive.Thumb data-slot="switch-thumb" className="pointer-events-none block translate-x-0 rounded-full bg-background ring-0 transition-transform" /></SwitchPrimitive.Root>
@@ -24,7 +26,7 @@ const componentContract = {
   config: switchVariantsConfig, className: (props: Record<string, string>) => cn(switchVariants(props)),
   anatomy: ["Switch", "Thumb"], configurationStates: { checked: ["unchecked", "checked"] }, drawnBy: { checked: { attribute: "data-state", values: { checked: "checked" } } },
   behaviors: {},
-  reference: { example: "switch", guidance: { use: "즉시 적용되는 이진 설정을 켜거나 끈다.", evidence: "배당 재투자나 알림처럼 현재 활성 여부가 중요한 설정이 필요하다.", limits: "확인이 필요한 위험 동작이나 세 값 이상의 선택에는 쓰지 않는다." } },
+  reference: { example: "switch", guidance: { use: "즉시 적용되는 이진 설정을 켜거나 끈다.", evidence: "배당 재투자나 알림처럼 현재 활성 여부가 중요한 설정이 필요하다.", limits: "확인이 필요한 위험 동작이나 세 값 이상의 선택에는 쓰지 않는다. off 트랙은 누르는 컨트롤 어포던스이므로 자기가 앉는 면에 대해 비텍스트 대비 3:1(WCAG 1.4.11)을 만족해야 하고, Progress·Slider의 잔여 트랙과 같은 중립 soft를 쓰지 않는다." } },
 } as const
 
 export { Switch, switchVariants, switchVariantsConfig, componentContract }

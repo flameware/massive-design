@@ -5,6 +5,8 @@ import { cva } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const progressVariantsConfig = { variants: {}, defaultVariants: {} } as const
+/* 루트가 **잔여 트랙**이다 — 값이 아직 닿지 않은 바닥이고 의미는 Indicator가
+ * 나르므로 대비 요구가 없다. Slider 트랙과 같은 이름을 집는다(#109). */
 const progressVariants = cva("relative h-2 w-full overflow-hidden rounded-full bg-secondary", progressVariantsConfig)
 
 function Progress({ className, value, ...props }: React.ComponentProps<typeof ProgressPrimitive.Root>) {

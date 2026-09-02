@@ -312,7 +312,7 @@
   "drawnBy": {
     "value": "thumb의 개수가 그린다 — 조립이지 클래스가 아니다"
   },
-  "hash": "6b5083fe732a",
+  "hash": "e2a8080a65c8",
   "parts": {
     "SliderRange": {
       "axes": {
@@ -543,13 +543,13 @@
       },
       "cells": [
         {
-          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1",
+          "className": "relative grow overflow-hidden rounded-full bg-secondary data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1",
           "orientation": "horizontal",
           "properties": {
             "background-color": {
-              "from": "bg-muted",
+              "from": "bg-secondary",
               "tier": "token",
-              "token": "--ds-bg-subtle"
+              "token": "--ds-bg-neutral-soft"
             },
             "border-radius": {
               "from": "rounded-full",
@@ -589,13 +589,13 @@
           "state": null
         },
         {
-          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1",
+          "className": "relative grow overflow-hidden rounded-full bg-secondary data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1",
           "orientation": "vertical",
           "properties": {
             "background-color": {
-              "from": "bg-muted",
+              "from": "bg-secondary",
               "tier": "token",
-              "token": "--ds-bg-subtle"
+              "token": "--ds-bg-neutral-soft"
             },
             "border-radius": {
               "from": "rounded-full",
@@ -635,13 +635,13 @@
           "state": null
         },
         {
-          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5",
+          "className": "relative grow overflow-hidden rounded-full bg-secondary data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5",
           "orientation": "horizontal",
           "properties": {
             "background-color": {
-              "from": "bg-muted",
+              "from": "bg-secondary",
               "tier": "token",
-              "token": "--ds-bg-subtle"
+              "token": "--ds-bg-neutral-soft"
             },
             "border-radius": {
               "from": "rounded-full",
@@ -678,13 +678,13 @@
           "state": null
         },
         {
-          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5",
+          "className": "relative grow overflow-hidden rounded-full bg-secondary data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5",
           "orientation": "vertical",
           "properties": {
             "background-color": {
-              "from": "bg-muted",
+              "from": "bg-secondary",
               "tier": "token",
-              "token": "--ds-bg-subtle"
+              "token": "--ds-bg-neutral-soft"
             },
             "border-radius": {
               "from": "rounded-full",
@@ -721,13 +721,13 @@
           "state": null
         },
         {
-          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-2 data-[orientation=vertical]:w-2",
+          "className": "relative grow overflow-hidden rounded-full bg-secondary data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-2 data-[orientation=vertical]:w-2",
           "orientation": "horizontal",
           "properties": {
             "background-color": {
-              "from": "bg-muted",
+              "from": "bg-secondary",
               "tier": "token",
-              "token": "--ds-bg-subtle"
+              "token": "--ds-bg-neutral-soft"
             },
             "border-radius": {
               "from": "rounded-full",
@@ -767,13 +767,13 @@
           "state": null
         },
         {
-          "className": "relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-2 data-[orientation=vertical]:w-2",
+          "className": "relative grow overflow-hidden rounded-full bg-secondary data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=horizontal]:h-2 data-[orientation=vertical]:w-2",
           "orientation": "vertical",
           "properties": {
             "background-color": {
-              "from": "bg-muted",
+              "from": "bg-secondary",
               "tier": "token",
-              "token": "--ds-bg-subtle"
+              "token": "--ds-bg-neutral-soft"
             },
             "border-radius": {
               "from": "rounded-full",

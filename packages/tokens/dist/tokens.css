@@ -180,6 +180,7 @@
   --primary-text: var(--ds-fg-accent);
   --secondary: var(--ds-bg-neutral-soft);
   --secondary-foreground: var(--ds-fg-default);
+  --neutral-solid: var(--ds-bg-neutral-solid);
   --muted: var(--ds-bg-subtle);
   --muted-foreground: var(--ds-fg-muted);
   --accent: var(--ds-bg-subtle);
@@ -268,6 +269,7 @@
   --primary-text: var(--ds-fg-accent);
   --secondary: var(--ds-bg-neutral-soft);
   --secondary-foreground: var(--ds-fg-default);
+  --neutral-solid: var(--ds-bg-neutral-solid);
   --muted: var(--ds-bg-subtle);
   --muted-foreground: var(--ds-fg-muted);
   --accent: var(--ds-bg-subtle);
@@ -319,6 +321,7 @@
   --color-primary-text: var(--primary-text);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-neutral-solid: var(--neutral-solid);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);

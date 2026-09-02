@@ -27,9 +27,9 @@ import { resolveOverrides, resolveParams } from './ramp.mjs'
  * 이 목록이 "shadcn이 정한 것"이 아니라 **"컴포넌트가 집을 수 있는 이름의
  * 전량"**이기 때문이다 — 빠지면 `text-link` 같은 유틸리티가 조용히 무효가 된다.
  */
-const SHADCN_CANON = [
+export const SHADCN_CANON = [
   'background', 'foreground', 'card', 'card-foreground', 'popover', 'popover-foreground',
-  'primary', 'primary-foreground', 'secondary', 'secondary-foreground',
+  'primary', 'primary-foreground', 'secondary', 'secondary-foreground', 'neutral-solid',
   'muted', 'muted-foreground', 'accent', 'accent-foreground',
   'destructive', 'destructive-foreground', 'border', 'input', 'ring', 'focus-contrast',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',

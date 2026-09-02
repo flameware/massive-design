@@ -13,6 +13,7 @@
   "primary-text": "color.fg.accent",
   "secondary": "color.bg.neutral.soft",
   "secondary-foreground": "color.fg.default",
+  "neutral-solid": "color.bg.neutral.solid",
   "muted": "color.bg.subtle",
   "muted-foreground": "color.fg.muted",
   "accent": "color.bg.subtle",
