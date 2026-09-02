@@ -465,7 +465,7 @@ export const catalog = [
   {
     "component": "combobox",
     "displayName": "Combobox",
-    "hash": "720b6bb0e0de",
+    "hash": "378d48951e29",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -478,6 +478,7 @@ export const catalog = [
       "CommandList",
       "CommandGroup*",
       "CommandItem*",
+      "CommandSeparator?",
       "CommandEmpty?"
     ],
     "configurationStates": {
@@ -494,7 +495,7 @@ export const catalog = [
       "example": "combobox",
       "guidance": {
         "evidence": "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.",
-        "limits": "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다.",
+        "limits": "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다. 묶음을 가르는 선은 `CommandSeparator`이며 upstream의 `ComboboxSeparator`가 서던 자리를 그것이 그대로 진다 — #91의 규칙대로 합성은 원본을 **소비**하므로 별도 파트를 세우지 않는다(#169가 Command에 열었다). 목록 안쪽의 나머지 표면과 같이 소비처가 `@massive/ui`에서 `Command*`를 직접 import해 조립한다.",
         "use": "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다."
       }
     },
@@ -504,7 +505,7 @@ export const catalog = [
   {
     "component": "command",
     "displayName": "Command",
-    "hash": "759ec21cce8b",
+    "hash": "b5123b0d147e",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -514,6 +515,7 @@ export const catalog = [
       "CommandGroup*",
       "CommandGroupHeading?",
       "CommandItem*",
+      "CommandSeparator?",
       "CommandEmpty?"
     ],
     "configurationStates": {
@@ -534,7 +536,7 @@ export const catalog = [
       "example": "command",
       "guidance": {
         "evidence": "종목·거래·화면 이동이 한 자리에 섞여 있어 마우스로 메뉴를 파고들기보다 이름을 입력해 바로 실행하는 진입점이 필요하다.",
-        "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다. 항목 끝의 단축키 표기(upstream의 `CommandShortcut`)는 열지 않는다 — 소비처가 `Kbd`를 `ml-auto`와 함께 놓으면 되고 그 클래스가 우리 스타일 결정을 복제하지 않는다(#121 ⓑ, `InputGroupButton`의 variant·size와 같은 판정 2). upstream의 `CommandShortcut`도 키캡이 아니라 평평한 muted 텍스트라 Kbd가 채우던 자리가 아니다.",
+        "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다. 항목 끝의 단축키 표기(upstream의 `CommandShortcut`)는 열지 않는다 — 소비처가 `Kbd`를 `ml-auto`와 함께 놓으면 되고 그 클래스가 우리 스타일 결정을 복제하지 않는다(#121 ⓑ, `InputGroupButton`의 variant·size와 같은 판정 2). upstream의 `CommandShortcut`도 키캡이 아니라 평평한 muted 텍스트라 Kbd가 채우던 자리가 아니다. `CommandSeparator`는 43세대 동안 이름조차 없던 종류 ② 공백이었고 #169가 ADR-0006의 두 관문으로 판정해 **열었다**(#165) — upstream에 실재하는 노드이고(ⓐ), 소비처가 다시 그리려면 목록 안쪽 여백을 되쓰는 음수 여백을 우리 내부 수에서 추측해야 한다(ⓑ). **선은 `bg-*`가 아니라 `-mx-1 h-0 border-t border-border`로 긋는다** — upstream의 `.cn-command-separator`(`bg-border -mx-1 h-px`)는 #154가 `DropdownMenuSeparator`에서 잡은 `--ds-border-default`를 `background-color`에 올리는 계열 위반과 글자 그대로 같은 모양이라, 베끼면 43세대짜리 결함을 새로 만든다. 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. 색을 `border-border`로 **명시**한 것은 계열 게이트가 이 셀을 실제로 읽게 하기 위해서다 — `border-t`만 적으면 색은 `@layer base`에서 와 매니페스트의 컴포넌트 전역 `base`에만 남고, 그 항목은 이 파트가 있든 없든 있으므로 이 자리에 대한 증거가 아니다(없는 것은 통과가 아니라 침묵이다, ADR-0006 · #146). **음수 여백은 계약이 진다.** `-mx-1`이 되쓰는 값은 `CommandList`의 `p-1`이고 그건 소비처가 볼 수 없는 우리 내부 수라, 소비처에 맡기면 목록 패딩을 한 번 바꿀 때마다 모든 소비처에서 선이 어긋난다 — 두 수는 한 파일에서 함께 움직여야 하고, 파생 채널이 나르는 기하도 계약이 질 때만 참이다. 세로 여백은 두지 않는다: `CommandGroup`의 `py-1`이 위아래 4px를 이미 그려 upstream과 같은 간격이 나온다. **`CommandGroup` 사이 전용이 아니다.** 이 선이 가르는 것은 `CommandList`의 형제 구역이고, 묶음이 없는 목록에서 항목 무리를 가르는 쓰임도 같은 자리다 — 쓰임이 한 자리로 고정되지 않으므로 `anatomy`는 `CommandSeparator?`로 존재와 선택성만 말한다(anatomy 표기는 평평한 목록이라 중첩을 말하지 못한다). 고정된 것은 **가면 안 되는 자리**다: `CommandGroup` **안**에는 넣지 않는다 — 묶음은 `aria-labelledby`로 이름 하나를 갖는 한 구역이라 그 안을 선으로 가르면 이름이 가리키는 범위와 눈에 보이는 범위가 어긋난다. 접근성: 장식선이라 `aria-hidden=\"true\"`로 접근성 트리에서 뺀다. `CommandList`가 `role=\"listbox\"`이고 listbox가 소유할 수 있는 자식은 `option`과 `group`뿐이라, menu에서라면 옳았을 `role=\"separator\"`가 여기서는 목록 시맨틱을 깬다. 선이 나르는 경계는 `CommandGroupHeading`이 이미 이름으로 나르므로 트리에서 빼도 잃는 정보가 없다. 검색으로 한쪽 묶음이 비어도 선은 그대로 남는다 — `CommandGroup`이 자기 묶음의 일치 수를 세지 않기 때문이고, 오늘 빈 묶음의 `CommandGroupHeading`이 남는 것과 같은 자리다. 여는 티켓이 그 계산을 새로 들이지 않았다. 새 축도 새 구성 상태도 늘지 않는다 — 정적 파트 하나다.",
         "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
       }
     },
