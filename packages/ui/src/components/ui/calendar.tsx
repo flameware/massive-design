@@ -342,6 +342,7 @@ const componentContract = {
     CalendarCell: staticPart(CELL_CLASS),
     CalendarDay: { config: calendarDayVariantsConfig, className: (props: Record<string, string>) => cn(calendarDayVariants(props)) },
   },
+  behaviors: {},
   reference: { example: "calendar", guidance: { use: "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다.", evidence: "투자 이력의 거래일 입력은 하루를, 손익 조회 기간 필터는 구간을 고르며 미래 거래일처럼 고를 수 없는 날짜를 격자에서 미리 막아야 한다.", limits: "입력 필드·팝오버·확인 버튼을 묶는 Date Picker 조합과 연·월 드롭다운, 다중 월 표시, 흩어진 여러 날짜 선택(multiple)은 계약하지 않는다. 시간대 변환과 날짜 파싱·직렬화도 다루지 않고 지역 달력 날짜만 받는다. 월 이름·요일 이름은 locale prop이 정하고 주 시작 요일과 오늘 기준일은 소비처가 명시한다." } },
 } as const
 

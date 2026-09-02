@@ -23,6 +23,7 @@ const componentContract = {
   publicExports: ["Switch", "switchVariants", "switchVariantsConfig"],
   config: switchVariantsConfig, className: (props: Record<string, string>) => cn(switchVariants(props)),
   anatomy: ["Switch", "Thumb"], configurationStates: { checked: ["unchecked", "checked"] }, drawnBy: { checked: { attribute: "data-state", values: { checked: "checked" } } },
+  behaviors: {},
   reference: { example: "switch", guidance: { use: "즉시 적용되는 이진 설정을 켜거나 끈다.", evidence: "배당 재투자나 알림처럼 현재 활성 여부가 중요한 설정이 필요하다.", limits: "확인이 필요한 위험 동작이나 세 값 이상의 선택에는 쓰지 않는다." } },
 } as const
 

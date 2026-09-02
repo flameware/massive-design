@@ -27,6 +27,7 @@ const componentContract = {
   publicExports: ["RadioGroup", "RadioGroupItem", "radioGroupVariants", "radioGroupVariantsConfig"],
   config: radioGroupVariantsConfig, className: (props: Record<string, string>) => cn(radioGroupVariants(props)),
   anatomy: ["RadioGroup", "RadioGroupItem*", "Indicator"], configurationStates: { checked: ["unchecked", "checked"] }, drawnBy: { checked: "`RadioGroupItem`이 `data-[state=checked]`로 그리지만 그 파트가 아직 계약에 없다(#155)" },
+  behaviors: {},
   reference: { example: "radio-group", guidance: { use: "서로 배타적인 선택지에서 값 하나를 고른다.", evidence: "투자 계좌와 거래 유형처럼 한 번에 하나만 유효한 선택이 필요하다.", limits: "선택지 데이터와 제출 모델은 소비처가 소유한다." } },
 } as const
 

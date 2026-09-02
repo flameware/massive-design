@@ -5,7 +5,7 @@ import { publicBarrel, validateContracts } from "../scripts/component-contracts.
 
 const contract = (name, source = `src/components/ui/${name}.tsx`) => ({
   name, source, publicExports: ["Widget"], anatomy: ["Widget"],
-  config: { variants: {}, defaultVariants: {} }, className: () => "", configurationStates: {},
+  config: { variants: {}, defaultVariants: {} }, className: () => "", configurationStates: {}, behaviors: {},
   reference: { example: name, guidance: { use: "use", evidence: "evidence", limits: "limits" } },
 })
 
@@ -106,6 +106,44 @@ test("dismiss 제스처는 우리 표면 위에서만, 동등 경로와 실재�
   assert.throws(() => validateContracts(["a.tsx"], [empty]), /비어 있지 않은 객체/)
 
   assert.doesNotThrow(() => validateContracts(["a.tsx"], [withGesture()]))
+})
+
+test("파생 채널이 나르지 않는 동작을 계약이 선언한다", () => {
+  // 빈 객체라도 적게 하는 것이 이 필수의 값어치다 — 게이트는 upstream이 동작을 갖고
+  // 오는지 못 읽으므로, 필드가 없으면 빠뜨림이 침묵으로 통과한다(#149)
+  const silent = contract("a")
+  delete silent.behaviors
+  assert.throws(() => validateContracts(["a.tsx"], [silent]), /behaviors가 없다/)
+
+  const behavior = (over) => ({
+    kind: "open-cause", surface: "Widget", origin: "inherited", why: "why", ...over,
+  })
+  const withBehavior = (over) => {
+    const c = contract("a")
+    c.behaviors = { hoverOpen: behavior(over) }
+    return c
+  }
+
+  // 넷째 종류가 오면 열거를 늘린다 — 오타가 새 종류로 통과하지는 않는다
+  assert.throws(() => validateContracts(["a.tsx"], [withBehavior({ kind: "dismiss" })]), /종류가 열거 밖이다/)
+
+  // 제스처와 같은 자다 — 우리 이름으로 나가는 동작이므로 표면이 우리 것이어야 한다
+  assert.throws(() => validateContracts(["a.tsx"], [withBehavior({ surface: "TheirNode" })]), /표면이 anatomy에 없다/)
+
+  // origin이 확인표를 가른다: inherited면 사람이 upstream 기본값까지 본다
+  assert.throws(() => validateContracts(["a.tsx"], [withBehavior({ origin: "upstream" })]), /origin이 필요하다/)
+
+  // control은 선택이다. 없는 것과 적다 만 것은 다르다
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [withBehavior({})]))
+  assert.throws(() => validateContracts(["a.tsx"], [withBehavior({ control: "  " })]), /control이 비어 있다/)
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [withBehavior({ control: "openOn" })]))
+
+  assert.throws(() => validateContracts(["a.tsx"], [withBehavior({ why: "" })]), /동작에는 이유가 필요하다/)
+
+  // 빈 객체는 통과한다 — gestures와 다른 점이다. 갖고 오는 것이 없는 것이 사실일 수 있다
+  const none = contract("a")
+  none.behaviors = {}
+  assert.doesNotThrow(() => validateContracts(["a.tsx"], [none]))
 })
 
 test("구성 상태는 무엇이 그리는지를 함께 선언한다", () => {

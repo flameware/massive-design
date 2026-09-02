@@ -78,6 +78,7 @@ const componentContract = {
   parts: {
     NativeSelectIcon: staticPart(ICON),
   },
+  behaviors: {},
   reference: { example: "native-select", guidance: { use: "폼에 실려야 하는 짧은 값 하나를 고를 때 브라우저의 select를 그대로 쓰고, 필드 껍데기와 화살표만 디자인 시스템이 그린다.", evidence: "투자 이력 필터의 시장·계좌처럼 값이 문자열이고 모바일에서 시스템 피커가 더 빠른 자리가 있다.", limits: "옵션에 아이콘·설명·구분선을 넣거나 열린 목록을 디자인해야 하면 Radix 기반 Select를 쓴다 — 열림 상태는 OS 소유라 이 컴포넌트의 구성 상태에 없고, 라벨은 Field가 연결한다." } },
 } as const
 

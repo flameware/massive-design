@@ -67,6 +67,7 @@ const componentContract = {
     ButtonGroupText: staticPart("flex items-center gap-2 rounded-md border bg-muted px-4 text-sm font-medium text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"),
     ButtonGroupSeparator: staticPart("self-stretch"),
   },
+  behaviors: {},
   reference: { example: "button-group", guidance: { use: "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다.", evidence: "투자 이력의 행 도구 모음처럼 내보내기·인쇄·행 메뉴가 나란히 서야 하고, 그중 하나만 비활성이 되는 자리가 있다.", limits: "하나의 값을 고르는 선택 위젯에는 쓰지 않는다 — 그 자리는 화살표 키 이동과 선택 상태를 가진 Toggle Group이며, 이 컴포넌트는 Button의 공개 props를 주입하거나 대체하지 않는다." } },
 } as const
 

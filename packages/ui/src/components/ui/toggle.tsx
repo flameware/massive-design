@@ -31,6 +31,7 @@ const componentContract = {
   publicExports: ["Toggle", "toggleVariants", "toggleVariantsConfig"],
   config: toggleVariantsConfig, className: (props: Record<string, string>) => cn(toggleVariants(props)),
   anatomy: ["Toggle"], configurationStates: { pressed: ["unpressed", "pressed"] }, drawnBy: { pressed: { attribute: "data-state", values: { pressed: "on" } } },
+  behaviors: {},
   reference: { example: "toggle", guidance: { use: "한 항목의 켜짐 상태를 눌러 전환하며 현재 pressed 상태를 즉시 드러낸다.", evidence: "투자 차트의 비교선이나 표시 옵션처럼 독립적으로 켜고 끄는 도구가 필요하다.", limits: "즉시 적용되는 설정에는 Switch를, 제출할 복수 선택에는 Checkbox를 사용한다." } },
 } as const
 

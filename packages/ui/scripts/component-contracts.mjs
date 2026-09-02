@@ -151,6 +151,50 @@ function allClassNames(contract) {
  * 슬라이드 이동은 드래그가 컨트롤의 기능 자체이고 표면이 사라지지 않는다 — 각 컴포넌트가
  * 자기 축으로 소유하며 키보드 동등 경로는 이미 그 계약 안에 있다. */
 
+/* 동작(#149).
+ *
+ * `gestures`가 dismiss 제스처 하나를 담는 동안, **같은 이유로 밀려난 나머지 동작들이
+ * 아무 데도 없었다.** 컨트롤 제스처는 ADR-0005가 dismiss 계약 **밖**으로 판정했고, 열림
+ * 계기는 `CONTEXT.md`가 "동작이라 파생 채널이 나르지 않는다"고 판정했다 — 둘 다 참인
+ * 판정인데, "밖"이 "어디에도 없음"을 뜻하게 방치됐다. 그래서 세 번 샜다: #124·#125가
+ * Carousel·Resizable의 드래그를 지나쳤고, #126이 `openOn`을 만들며 손으로 쓴 runbook 절을
+ * 두자 #127이 곧바로 그 절 밖의 사례(`delayDuration`)를 냈다.
+ *
+ * 그래서 **한 필드에 종류를 값으로 둔다.** 셋을 가르는 것은 뜻이지 공백의 모양이 아니다 —
+ * 필드를 종류마다 나누면 넷째 종류가 올 때 또 샌다.
+ *
+ *   behaviors: {
+ *     hoverOpen: { kind: "open-cause", surface: "NavigationMenuContent", origin: "inherited",
+ *                  control: "delayDuration", why: "..." },
+ *   }
+ *
+ * `gestures`를 흡수하지 않는다. 갈리는 것은 **계약이 지는 무게**다 — `gestures`는 접근성
+ * 동등 경로를 **요건으로** 지고(표면이 사라지고 되돌릴 수단이 없으므로), `behaviors`는
+ * 존재만 선언한다. 컨트롤 제스처의 동등 경로는 이미 각 계약의 축과 키보드 계약 안에 있고,
+ * 여기 다시 적으면 `gestures`의 요건을 얕게 흉내 내 두 필드의 무게가 흐려진다.
+ *
+ * **값은 적지 않는다.** ADR-0005가 "방향·임계값까지 공개 계약"을 기각한 근거가 그대로
+ * 걸린다 — 물려받은 값을 계약에 박으면 upstream이 기본을 바꿔도 우리가 유지해야 하는
+ * 약속이 된다. 대신 `origin`이 확인표를 가른다: `inherited`면 사람이 "upstream 기본값이
+ * 그대로인가"까지 보고, `ours`면 "우리가 정한 값이 의도대로인가"만 본다.
+ *
+ * `control`은 선택이다. 소비처가 끄거나 바꾸는 자리가 있으면 적고(Embla `opts.watchDrag`),
+ * 없으면 비운다 — Popover의 hover 지연은 우리가 정하지만 공개 prop이 아니다.
+ *
+ * **빈 객체라도 적는다.** `configurationStates`와 같은 근거다 — 게이트는 "이 primitive가
+ * 동작을 갖고 오는지"를 판정할 수 없으므로(서드파티 소스를 읽어야 한다, ADR-0005) 빠뜨림은
+ * 침묵으로 통과한다. 빈 객체를 적게 하면 침묵이 선언이 되고, 새 컴포넌트를 계약하는 사람이
+ * 이 필드를 만나 "이 primitive가 뭘 갖고 오지"를 한 번은 묻는다(ADR-0006).
+ *
+ * 게이트가 지키는 것은 `gestures`와 **정확히 같은 층**이다 — 선언의 모양까지다. 동작이
+ * 옳은지는 사람이 본다(`bun run sync:checklist`가 확인 항목을 찍는다). */
+
+/** 동작의 종류. 넷째가 오면 여기에 값을 늘린다 — 필드를 늘리지 않는다. */
+const BEHAVIOR_KINDS = new Set(["control-gesture", "open-cause"])
+
+/** 값이 어디서 왔는가. 확인표가 무엇을 볼지를 이것이 가른다. */
+const BEHAVIOR_ORIGINS = new Set(["inherited", "ours"])
+
 export function validateContracts(files, contracts) {
   const errors = []
   const expectedSources = new Set(files.map((file) => `${COMPONENT_DIR}/${file}`))
@@ -237,6 +281,35 @@ export function validateContracts(files, contracts) {
         }
         if (typeof why !== "string" || !why.trim()) {
           errors.push(`제스처에는 이유가 필요하다: ${contract.name}.${gesture}`)
+        }
+      }
+    }
+
+    /* 빈 객체라도 적게 한다 — 빠뜨림은 게이트가 못 보므로 침묵을 선언으로 바꾸는 것이
+     * 이 필수의 값어치다(#149). */
+    const behaviors = contract.behaviors
+    if (typeof behaviors !== "object" || behaviors === null || Array.isArray(behaviors)) {
+      errors.push(`behaviors가 없다: ${contract.name} — 없으면 빈 객체로 적는다`)
+    } else {
+      const anatomy = new Set((contract.anatomy ?? []).map((entry) => entry.replace(/[?*]$/, "")))
+      for (const [behavior, declaration] of Object.entries(behaviors)) {
+        const { kind, surface, origin, control, why } = declaration ?? {}
+        if (!BEHAVIOR_KINDS.has(kind)) {
+          errors.push(`동작의 종류가 열거 밖이다: ${contract.name}.${behavior} (${kind})`)
+        }
+        // 제스처와 같은 자다 — 우리 이름으로 나가는 동작이므로 그 표면이 우리 것이어야 한다
+        if (!anatomy.has(surface)) {
+          errors.push(`동작이 실리는 표면이 anatomy에 없다: ${contract.name}.${behavior}`)
+        }
+        if (!BEHAVIOR_ORIGINS.has(origin)) {
+          errors.push(`동작에는 origin이 필요하다 — inherited이거나 ours다: ${contract.name}.${behavior}`)
+        }
+        // 선택이다. 없는 것과 빈 문자열은 다르다 — 뒤는 적다 만 것이다
+        if (control !== undefined && (typeof control !== "string" || !control.trim())) {
+          errors.push(`동작의 control이 비어 있다 — 없으면 적지 않는다: ${contract.name}.${behavior}`)
+        }
+        if (typeof why !== "string" || !why.trim()) {
+          errors.push(`동작에는 이유가 필요하다: ${contract.name}.${behavior}`)
         }
       }
     }

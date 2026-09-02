@@ -45,6 +45,7 @@ const componentContract = {
   config: sheetVariantsConfig, className: (props: Record<string, string>) => cn(sheetVariants(props)),
   anatomy: ["Sheet", "SheetTrigger", "SheetPortal", "SheetOverlay", "SheetContent", "SheetHeader?", "SheetTitle", "SheetDescription?", "SheetFooter?", "SheetClose?"],
   configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다" },
+  behaviors: {},
   reference: { example: "sheet", guidance: { use: "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 열리는 동안의 동작(포커스 트랩·Esc와 바깥 클릭으로 닫기·본문 스크롤 잠금·닫은 뒤 트리거로 초점 복귀)은 네 값이 모두 같다.", evidence: "투자 이력 화면에서 목록을 보면서 시장·기간·손익 필터를 조정하거나 한 거래의 상세를 확인해야 하고, 화면 중앙을 가리면 방금 본 행을 놓친다.", limits: "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다." } },
 } as const
 
