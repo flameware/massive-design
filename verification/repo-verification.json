@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "ef5294fc70e2faf96de21788678e45b2124bafa6",
+  "targetCommit": "9d8e38ef0f596bf3edda20d7ae9e23778c310899",
   "inputTree": {
-    "commit": "ef5294fc70e2faf96de21788678e45b2124bafa6",
+    "commit": "9d8e38ef0f596bf3edda20d7ae9e23778c310899",
     "clean": true
   },
-  "inputDigest": "b387162b18bfe9f34ded94faea341cca58a0589518052c8678cb129f60fafe15",
+  "inputDigest": "06f38f6e8ec1fb4cabc930c0b30be9c6c6f7468807f984e9fc663ab19c777cc6",
   "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6",
   "components": [
     {
@@ -47,7 +47,7 @@
     },
     {
       "component": "button-group",
-      "manifestHash": "ebd825e73f40",
+      "manifestHash": "21adffd42eb0",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -122,7 +122,7 @@
     },
     {
       "component": "input-otp",
-      "manifestHash": "78235e88ad40",
+      "manifestHash": "05e041a813e9",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -257,7 +257,7 @@
     },
     {
       "component": "toggle-group",
-      "manifestHash": "6cff2b86c2dd",
+      "manifestHash": "a2a397c6cac4",
       "tokenArtifactHash": "e96784b6c84162d1720f0e78e00800c676aed6eb1e0cee1018ea0a91bbbe26e6"
     },
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T00:33:23.800Z",
+      "checkedAt": "2026-09-02T01:06:34.165Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -300,7 +300,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T00:33:23.800Z",
+      "checkedAt": "2026-09-02T01:06:34.165Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -498,13 +498,13 @@
       },
       "visualReview": {
         "reviewer": "Seongki Sohn",
-        "checkedAt": "2026-09-02T00:39:59.321Z",
-        "scope": "sidebar·slider Light/Dark 확인 — 해시가 움직인 두 컴포넌트. 렌더 코드 무변경 세대다(slider.tsx의 변경은 계약 메타데이터뿐이고 브라우저는 이미 sidebar 테두리와 SliderTrack 두께를 그리고 있었다 — 눈이 먼 쪽은 매니페스트였다). 이전 세대와 렌더 동일. 동작 확인표 9자리 전부 출력 확인(carousel·resizable·slider·scroll-area 드래그, dropdown-menu contextOpen·longPressOpen, popover·navigation-menu·tooltip hover 열림) — 확인표는 좁히지 않았다. 열림 계기 4자리의 기본 모드 해시가 이번 세대 preflight 기록의 components[]와 일치"
+        "checkedAt": "2026-09-02T01:11:05.141Z",
+        "scope": "button-group·input-otp·toggle-group Light/Dark 확인 — 해시가 움직인 세 컴포넌트. 렌더 코드 무변경 세대다: className도 cva config도 움직이지 않았고 세 컴포넌트의 .tsx 변경은 계약 산문뿐이라, 브라우저는 이미 붙은 무리의 바깥 모서리를 그리고 있었다 — 눈이 먼 쪽은 매니페스트였다(무리 안 위치 26 keys/90 decls가 unresolved로 떨어져 있었다). 이전 세대와 렌더 동일. 동작 확인표 9자리 전부 출력 확인(carousel·resizable·slider·scroll-area 드래그, dropdown-menu contextOpen·longPressOpen, popover·navigation-menu·tooltip hover 열림) — 확인표는 좁히지 않았다. 세 컴포넌트에는 gestures·behaviors 선언이 없어 확인표에 자리를 갖지 않는다. 열림 계기 4자리의 기본 모드 해시가 이번 세대 preflight 기록의 components[]와 일치"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-09-02T00:39:59.321Z"
+  "completedAt": "2026-09-02T01:11:05.141Z"
 }

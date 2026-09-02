@@ -789,6 +789,6 @@
       "use": "같은 무게의 항목 여럿을 한 자리에서 몇 개씩만 보여주고 나머지는 이전·다음으로 넘겨 보게 한다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/carousel.tsx"
 }

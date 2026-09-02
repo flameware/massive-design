@@ -46,7 +46,25 @@ import { loadTheme } from "./theme.mjs"
  * `properties`에 접히거나(값이 같을 때) 사라진다(다를 때) — `configurations`가 아니다.
  * 셀이 이미 고른 것이라 고를 것이 남아 있지 않고, Figma 쪽에서도 component property가
  * 아니라 이미 존재하는 variant 축이다. */
-export const SCHEMA_VERSION = 8
+/** 9: 무리 안 위치를 그리는 수식자가 제4의 등급 `elsewhere:`로 판정돼 문서 단위
+ * `elsewhere`로 나간다(#180).
+ *
+ * 소비처가 새로 해야 하는 일은 **침묵과 구분하는 것**이다. `elsewhere`에 적힌 속성은
+ * 그 컴포넌트의 셀 어디에도 없지만 **누락이 아니다** — Figma에 실재하되 개별 컴포넌트
+ * 자산이 아니라 `declaredOn`이 지목한 자산을 **조립한 그룹**에 그려진다. 붙은 Toggle
+ * Group의 바깥 모서리가 그것이다. `externalSurfaces`와 같은 자리에 앉는 같은 종류의
+ * 필드이고(둘 다 "셀에 없는 이유"를 적는다), 다른 것은 이유다 — 그쪽은 소유자가
+ * 다르고 이쪽은 그려지는 자리가 다르다.
+ *
+ * `externalSurfaces`와 달리 **파생값이다.** 이유의 정본은 `MODIFIER_POLICY`의
+ * `elsewhere:` 값이고 자리는 조립이 실측하므로, 손으로 적을 것이 없고 낡을 자리도 없다
+ * (ADR-0009가 `carriedBy`에서, ADR-0011이 `inheritedAxes`에서 택한 것과 같은 판단).
+ *
+ * 해시의 입력이 **아니다** — `externalSurfaces`·`drawnBy`·`reference`와 같다. 이 필드가
+ * 말하는 것은 이 컴포넌트의 Figma 자산이 무엇을 그리는가가 아니라 무엇을 **그리지
+ * 않는가**라, 자산을 만드는 입력이 아니다. 이 세대에 해시가 움직이는 것은 90건이
+ * `properties`에서 빠지기 때문이고 그 폭은 세 컴포넌트다. */
+export const SCHEMA_VERSION = 9
 export const OUT_DIR = "dist/manifest"
 
 export function buildManifests(components, root) {
@@ -87,6 +105,7 @@ export function buildManifests(components, root) {
   const index = []
 
   for (const { component, cells, parts } of plans) {
+    const elsewhere = elsewhereCollector()
     const assembledParts = Object.fromEntries(Object.entries(parts).map(([name, part]) => [
       name,
       {
@@ -101,7 +120,7 @@ export function buildManifests(components, root) {
         },
         // 구성 상태는 컴포넌트가 선언하고 파트가 그린다 — tabs의 `selected`를 `TabsTrigger`가
         // 그리는 것이 그 예다. 그래서 파트 셀도 같은 이름표를 받는다
-        cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy })),
+        cells: part.cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy, elsewhere: elsewhere.on(name) })),
       },
     ]))
     const doc = {
@@ -117,8 +136,11 @@ export function buildManifests(components, root) {
       drawnBy: component.drawnBy ?? {},
       ...(component.externalSurfaces ? { externalSurfaces: { ...component.externalSurfaces } } : {}),
       reference: component.reference,
-      cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy })),
+      cells: cells.map(({ props, className }) => assembleCell({ props, className, tree, theme, drawnBy: component.drawnBy, elsewhere: elsewhere.on(component.name) })),
     }
+    // 셀을 다 조립한 뒤에야 수집이 끝난다 — 파트가 먼저 돌지만 루트 셀도 얹는다
+    const drawnElsewhere = elsewhere.value()
+    if (drawnElsewhere) doc.elsewhere = drawnElsewhere
     doc.hash = hashComponent(doc)
     const file = `${component.name}.gen.json`
     files.set(file, canonicalJson(doc))
@@ -133,4 +155,35 @@ export function buildManifests(components, root) {
   files.set("catalog-layout-check.gen.js", emitCatalogLayout(index, "check"))
   files.set("catalog-layout-sync.gen.js", emitCatalogLayout(index, "sync"))
   return files
+}
+
+/**
+ * 한 컴포넌트가 **다른 자리에** 그리는 것을 모은다(#180).
+ *
+ * `on(자산)`이 그 자산의 셀에 넘길 수집기를 낸다 — 자산 이름은 파트 이름이거나 루트
+ * 셀이면 컴포넌트 이름이고, 문서가 `parts`를 키로 쓰는 방식 그대로다.
+ *
+ * 담는 것은 **속성 이름뿐이고 값이 아니다.** 이 필드는 조립된 그룹의 명세가 아니라
+ * *"이 자산의 셀에서 이것을 찾지 마라"*는 부인이다 — 우리는 그 그룹을 자산으로 발행하지
+ * 않으므로 값을 적으면 아무도 지키지 않는 명세가 하나 생기고, 셀마다 다를 수 있는 값을
+ * 문서 단위로 접으면서 조용히 하나만 남긴다. 값이 필요하면 소스 클래스가 정본이다.
+ *
+ * 반대로 **속성 이름은 빠짐없이** 담는다 — 여기 오는 속성 집합은 이 등급이 없었다면
+ * `unresolved`로 떴을 것과 정확히 같다. 그 항등이 무리가 통째로 조용해지지 않았음을 보인다.
+ */
+function elsewhereCollector() {
+  const out = new Map()
+  return {
+    on: (asset) => (modifier, reason, prop) => {
+      const entry = out.get(modifier) ?? { reason, declaredOn: new Map() }
+      out.set(modifier, entry)
+      const props = entry.declaredOn.get(asset) ?? new Set()
+      entry.declaredOn.set(asset, props)
+      props.add(prop)
+    },
+    value: () => (out.size === 0 ? null : Object.fromEntries([...out].map(([modifier, e]) => [modifier, {
+      reason: e.reason,
+      declaredOn: Object.fromEntries([...e.declaredOn].map(([asset, props]) => [asset, [...props].sort()])),
+    }]))),
+  }
 }

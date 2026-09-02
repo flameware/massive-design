@@ -404,6 +404,6 @@
       "use": "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달하고, 그 자리에서 할 수 있는 동작 하나를 `AlertAction`에 얹는다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/alert.tsx"
 }

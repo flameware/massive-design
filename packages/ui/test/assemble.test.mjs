@@ -19,6 +19,8 @@ const CSS = `
   .data-\\[variant\\=sidebar\\]\\:border-r[data-variant="sidebar"] { border-right-style: var(--tw-border-style); border-right-width: 1px; }
   .data-\\[orientation\\=horizontal\\]\\:h-6[data-orientation="horizontal"] { height: calc(0.25rem * 6); }
   .data-\\[state\\=on\\]\\:underline[data-state="on"] { text-decoration-line: underline; }
+  .first\\:rounded-l-md:first-child { border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem; }
+  .\\[\\&\\>\\*\\:not\\(\\:first-child\\)\\]\\:rounded-l-none > *:not(:first-child) { border-top-left-radius: 0; border-bottom-left-radius: 0; }
   .data-\\[state\\=on\\]\\:\\[--ds-state-base\\:var\\(--primary\\)\\][data-state="on"] { --ds-state-base: var(--primary); }
   .state {
     --ds-state-alpha: 0%;
@@ -141,6 +143,45 @@ test("축이 아닌 이름을 읽는 data 수식자는 그대로 unresolved다",
   // 축 되읽기는 셀이 그 축을 가질 때만 걸린다 — 없는 것을 만들어 내지 않는다
   const c = cell("data-[variant=sidebar]:border-r", { size: "xs" })
   assert.equal(c.properties["data-[variant=sidebar]:border-right-width"].tier, "unresolved")
+})
+
+test("무리 안 위치는 셀에서 빠지되 문서 단위로 모인다", () => {
+  // `ignore:`처럼 셀에서 사라지지만 **뜻이 반대다** — 그려지되 이 자산이 아닌
+  // 조립된 그룹에 그려진다. 조용히 버리면 파생 채널이 침묵과 구분하지 못한다(#180)
+  const seen = []
+  const c = assembleCell({
+    props: { variant: "default", size: "xs" },
+    className: "h-6 first:rounded-l-md",
+    tree, theme,
+    elsewhere: (modifier, reason, prop) => seen.push([modifier, reason, prop]),
+  })
+  assert.equal(c.properties["first:border-top-left-radius"], undefined)
+  assert.equal(c.properties.height.px, 24)
+  assert.deepEqual(seen.map(([m, , p]) => [m, p]), [
+    ["first", "border-top-left-radius"],
+    ["first", "border-bottom-left-radius"],
+  ])
+  assert.match(seen[0][1], /조립된 그룹/)
+
+  // 수집기를 안 주면 그냥 버린다 — 셀 판정은 수집과 무관하다
+  assert.deepEqual(assembleCell({
+    props: {}, className: "first:rounded-l-md", tree, theme,
+  }).properties, {})
+})
+
+test("컨테이너가 자식을 고르는 형태도 같은 등급으로 온다", () => {
+  // Button Group은 자식의 props를 건드리지 않겠다는 경계 때문에 컨테이너에서 얹는다 —
+  // 형태는 반대지만 그려지는 자리는 같은 조립된 그룹이다(#180)
+  const seen = []
+  const c = assembleCell({
+    props: {}, className: "[&>*:not(:first-child)]:rounded-l-none", tree, theme,
+    elsewhere: (modifier, reason, prop) => seen.push([modifier, prop]),
+  })
+  assert.deepEqual(c.properties, {})
+  assert.deepEqual(seen, [
+    ["[&>*:not(:first-child)]", "border-top-left-radius"],
+    ["[&>*:not(:first-child)]", "border-bottom-left-radius"],
+  ])
 })
 
 test("파트는 지목한 root 축만 물려받고 값·기본값은 root의 것 그대로다", () => {

@@ -241,6 +241,6 @@
       "use": "즉시 적용되는 이진 설정을 켜거나 끈다."
     }
   },
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "source": "src/components/ui/switch.tsx"
 }

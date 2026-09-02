@@ -244,7 +244,7 @@ export const catalog = [
   {
     "component": "button-group",
     "displayName": "Button Group",
-    "hash": "ebd825e73f40",
+    "hash": "21adffd42eb0",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -268,7 +268,7 @@ export const catalog = [
       "example": "button-group",
       "guidance": {
         "evidence": "투자 이력의 행 도구 모음처럼 내보내기·인쇄·행 메뉴가 나란히 서야 하고, 그중 하나만 비활성이 되는 자리가 있다.",
-        "limits": "하나의 값을 고르는 선택 위젯에는 쓰지 않는다 — 그 자리는 화살표 키 이동과 선택 상태를 가진 Toggle Group이며, 이 컴포넌트는 Button의 공개 props를 주입하거나 대체하지 않는다.",
+        "limits": "하나의 값을 고르는 선택 위젯에는 쓰지 않는다 — 그 자리는 화살표 키 이동과 선택 상태를 가진 Toggle Group이며, 이 컴포넌트는 Button의 공개 props를 주입하거나 대체하지 않는다. 붙은 모서리와 겹친 테두리를 얹는 `[&>*:not(:first-child)]` 계열은 셀에 나타나지 않고 매니페스트의 `elsewhere`가 진다 — 그 모서리는 Figma에 실재하되 이 컨테이너 자산이 아니라 **조립된 그룹**에 그려진다(ADR-0012). Toggle Group은 같은 일을 항목의 셀에서 하는데, 그쪽으로 옮길 자리가 여기엔 없다 — 경계 ①이 자식의 props를 건드리지 않기로 했고 자식은 남의 컴포넌트다.",
         "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남긴다."
       }
     },
@@ -747,7 +747,7 @@ export const catalog = [
   {
     "component": "input-otp",
     "displayName": "Input Otp",
-    "hash": "78235e88ad40",
+    "hash": "05e041a813e9",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -775,7 +775,7 @@ export const catalog = [
       "example": "input-otp",
       "guidance": {
         "evidence": "투자 이력의 계좌 연동과 재로그인에서 문자로 받은 인증번호를 넣는 자리가 있고, 몇 자리를 넣었는지가 한눈에 보여야 한다.",
-        "limits": "일반 텍스트나 금액에는 Input을 쓴다. 값의 정본은 보이지 않는 입력 하나이므로 접근 가능한 이름은 소비처가 Field나 aria-label로 주고, 오류 표시는 컨트롤의 aria-invalid가 정본이며 슬롯은 같은 값을 받아 테두리를 붉힌다 — 라이브러리가 컨테이너에 속성을 주는 통로를 열어 두지 않아 CSS로 전파할 자리가 없다. 붙여넣기는 upstream이 소유한다(iOS와 pasteTransformer를 제외하면 네이티브 경로 그대로다). IME 조합은 upstream이 다루지 않으므로 조합 문자가 필요한 코드에는 쓰지 않는다. 모바일 문자 자동완성 경로인 autoComplete=\"one-time-code\"는 켠 채로 두고, 비밀번호 관리자 배지는 컨테이너 폭을 바꾸므로 껐다. 커서 깜박임은 기존 animate-pulse로 그린다 — 전용 키프레임을 새로 열지 않는다. 재전송 타이머, 자동 제출, 검증 규칙은 소비처가 소유한다.",
+        "limits": "일반 텍스트나 금액에는 Input을 쓴다. 값의 정본은 보이지 않는 입력 하나이므로 접근 가능한 이름은 소비처가 Field나 aria-label로 주고, 오류 표시는 컨트롤의 aria-invalid가 정본이며 슬롯은 같은 값을 받아 테두리를 붉힌다 — 라이브러리가 컨테이너에 속성을 주는 통로를 열어 두지 않아 CSS로 전파할 자리가 없다. 붙여넣기는 upstream이 소유한다(iOS와 pasteTransformer를 제외하면 네이티브 경로 그대로다). IME 조합은 upstream이 다루지 않으므로 조합 문자가 필요한 코드에는 쓰지 않는다. 모바일 문자 자동완성 경로인 autoComplete=\"one-time-code\"는 켠 채로 두고, 비밀번호 관리자 배지는 컨테이너 폭을 바꾸므로 껐다. 첫·마지막 칸의 바깥 모서리를 지목하는 `first:`·`last:` 수식자는 셀에 나타나지 않고 매니페스트의 `elsewhere`가 진다 — 그 모서리는 Figma에 실재하되 칸 자산이 아니라 **조립된 칸 무리**에 그려진다(ADR-0012). `ToggleGroupItem`의 붙은 형태가 이 관용구를 선례로 삼았다. 커서 깜박임은 기존 animate-pulse로 그린다 — 전용 키프레임을 새로 열지 않는다. 재전송 타이머, 자동 제출, 검증 규칙은 소비처가 소유한다.",
         "use": "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다."
       }
     },
@@ -1665,7 +1665,7 @@ export const catalog = [
   {
     "component": "toggle-group",
     "displayName": "Toggle Group",
-    "hash": "6cff2b86c2dd",
+    "hash": "a2a397c6cac4",
     "cells": 24,
     "axes": {
       "orientation": [
@@ -1704,7 +1704,7 @@ export const catalog = [
       "example": "toggle-group",
       "guidance": {
         "evidence": "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하고, 좁은 도구 막대에서는 그 묶음이 한 덩어리로 붙어야 한다.",
-        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태는 `spacing` 축이 진다 — `separate`(기본값)·`attached` 둘이고, 이름은 upstream을 따르되 값은 우리 어휘다(upstream의 `spacing={0}`은 숫자라 파생 채널이 그릴 이름이 되지 못한다). 기본값이 `separate`인 것은 `attached`를 기본으로 두면 발행된 모든 그룹이 `gap-0`과 테두리를 얻어 인스턴스가 재해석되기 때문이다(#144의 `placement: auto`와 같은 자리). **`TabsList`의 밑줄 축과 같은 개념이 아니다** — 여기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 저기서 갈리는 것은 활성 항목을 무엇이 표시하는가라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 붙은 형태에서 각 항목의 경계는 `border`가 진다 — `variant: default`에는 테두리가 없어 간격만 0으로 만들면 이웃과의 경계가 남지 않으므로, 이 축이 붙을 때만 테두리를 세우고 맞닿는 변은 한 번만 그린다. **이 선은 대비 기준을 지는 구분선이 아니다**: 색이 `--ds-border-default`라 canvas 위에서 약 1.4:1이고, 그 토큰은 `tokens:contrast`의 비텍스트 3:1 조합표에서 의도적으로 빠져 있다(`border.field`·`knockout`과 같은 자리). 이 선이 지는 것은 형태의 판독이며, `InputOTPSlot`과 `ButtonGroup`의 붙은 형태가 같은 색으로 같은 일을 하므로 여기만 다르게 그리지 않는다. 3:1을 지는 구분선은 `border.strong`의 자리인데 그 토큰에는 Tailwind 유틸리티가 없어 별칭을 새로 내야 하고 그건 `tokens.css`를 움직이는 일이라 맵 규칙 4가 금한다 — 필요하면 소비처가 `className`으로 덮는다. 바깥 모서리는 `Toggle`이 이미 쓰는 `rounded-md`를 그대로 남기므로 새 radius 단계를 요구하지 않는다. 첫·마지막 항목을 지목하는 `first:`·`last:` 수식자는 매니페스트에서 `unresolved`로 남는다 — `InputOTPSlot`이 붙은 칸을 그리는 것과 같은 관용구이고 그 더미는 #140이 소유한다. 붙은 형태에서도 이 컴포넌트는 여전히 선택 위젯이다: roving tabindex 한 칸과 화살표 키 이동은 Radix가 지며, 모양이 Button Group과 같아 보여도 자식마다 탭 정지가 남는 그쪽과 갈린다.",
+        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태는 `spacing` 축이 진다 — `separate`(기본값)·`attached` 둘이고, 이름은 upstream을 따르되 값은 우리 어휘다(upstream의 `spacing={0}`은 숫자라 파생 채널이 그릴 이름이 되지 못한다). 기본값이 `separate`인 것은 `attached`를 기본으로 두면 발행된 모든 그룹이 `gap-0`과 테두리를 얻어 인스턴스가 재해석되기 때문이다(#144의 `placement: auto`와 같은 자리). **`TabsList`의 밑줄 축과 같은 개념이 아니다** — 여기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 저기서 갈리는 것은 활성 항목을 무엇이 표시하는가라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 붙은 형태에서 각 항목의 경계는 `border`가 진다 — `variant: default`에는 테두리가 없어 간격만 0으로 만들면 이웃과의 경계가 남지 않으므로, 이 축이 붙을 때만 테두리를 세우고 맞닿는 변은 한 번만 그린다. **이 선은 대비 기준을 지는 구분선이 아니다**: 색이 `--ds-border-default`라 canvas 위에서 약 1.4:1이고, 그 토큰은 `tokens:contrast`의 비텍스트 3:1 조합표에서 의도적으로 빠져 있다(`border.field`·`knockout`과 같은 자리). 이 선이 지는 것은 형태의 판독이며, `InputOTPSlot`과 `ButtonGroup`의 붙은 형태가 같은 색으로 같은 일을 하므로 여기만 다르게 그리지 않는다. 3:1을 지는 구분선은 `border.strong`의 자리인데 그 토큰에는 Tailwind 유틸리티가 없어 별칭을 새로 내야 하고 그건 `tokens.css`를 움직이는 일이라 맵 규칙 4가 금한다 — 필요하면 소비처가 `className`으로 덮는다. 바깥 모서리는 `Toggle`이 이미 쓰는 `rounded-md`를 그대로 남기므로 새 radius 단계를 요구하지 않는다. 첫·마지막 항목을 지목하는 `first:`·`last:` 수식자는 셀에 나타나지 않고 매니페스트의 `elsewhere`가 진다 — `unresolved`(\"아직 못 다뤘다\")도 `ignore:`(\"영영 거기 없다\")도 아니고, 바깥 모서리는 Figma에 실재하되 항목 자산이 아니라 **조립된 그룹**에 그려진다(ADR-0012). `InputOTPSlot`이 붙은 칸을 그리는 것과 같은 관용구다. 붙은 형태에서도 이 컴포넌트는 여전히 선택 위젯이다: roving tabindex 한 칸과 화살표 키 이동은 Radix가 지며, 모양이 Button Group과 같아 보여도 자식마다 탭 정지가 남는 그쪽과 갈린다.",
         "use": "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동하며, 항목을 떨어뜨려 둘지 하나의 덩어리로 붙일지 `spacing`으로 고른다."
       }
     },
