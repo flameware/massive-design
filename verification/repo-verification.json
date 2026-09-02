@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "bce0a02f3a660bd01a17f2277cb48ae8372cc0ee",
   "inputTree": {
     "commit": "bce0a02f3a660bd01a17f2277cb48ae8372cc0ee",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-02T02:16:14.974Z",
       "automatedResult": "PASS",
       "checks": [
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-02T02:33:41.023Z",
+        "scope": "#181 D — 해시가 움직인 8개(breadcrumb button-group empty field item pagination sidebar table)의 시각 회귀. className과 cva config가 하나도 움직이지 않은 in-place safe 세대라 변화가 없어야 한다"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-02T02:33:41.023Z"
 }
