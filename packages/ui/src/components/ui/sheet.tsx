@@ -26,7 +26,7 @@ type SheetStyleProps = VariantProps<typeof sheetVariants>
 
 function Sheet(props: React.ComponentProps<typeof SheetPrimitive.Root>) { return <SheetPrimitive.Root {...props} /> }
 function SheetTrigger(props: React.ComponentProps<typeof SheetPrimitive.Trigger>) { return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} /> }
-function SheetPortal(props: React.ComponentProps<typeof SheetPrimitive.Portal>) { return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} /> }
+function SheetPortal(props: React.ComponentProps<typeof SheetPrimitive.Portal>) { return <SheetPrimitive.Portal {...props} /> }
 function SheetClose(props: React.ComponentProps<typeof SheetPrimitive.Close>) { return <SheetPrimitive.Close data-slot="sheet-close" {...props} /> }
 function SheetOverlay({ className, ...props }: React.ComponentProps<typeof SheetPrimitive.Overlay>) { return <SheetPrimitive.Overlay data-slot="sheet-overlay" className={cn("fixed inset-0 bg-black/50", className)} {...props} /> }
 
@@ -41,12 +41,12 @@ function SheetDescription({ className, ...props }: React.ComponentProps<typeof S
 
 const componentContract = {
   name: "sheet", source: "src/components/ui/sheet.tsx",
-  publicExports: ["Sheet", "SheetTrigger", "SheetPortal", "SheetClose", "SheetOverlay", "SheetContent", "SheetHeader", "SheetFooter", "SheetTitle", "SheetDescription", "sheetVariants", "sheetVariantsConfig"],
+  publicExports: ["Sheet", "SheetTrigger", "SheetClose", "SheetOverlay", "SheetContent", "SheetHeader", "SheetFooter", "SheetTitle", "SheetDescription", "sheetVariants", "sheetVariantsConfig"],
   config: sheetVariantsConfig, className: (props: Record<string, string>) => cn(sheetVariants(props)),
-  anatomy: ["Sheet", "SheetTrigger", "SheetPortal", "SheetOverlay", "SheetContent", "SheetHeader?", "SheetTitle", "SheetDescription?", "SheetFooter?", "SheetClose?"],
+  anatomy: ["Sheet", "SheetTrigger", "SheetOverlay", "SheetContent", "SheetHeader?", "SheetTitle", "SheetDescription?", "SheetFooter?", "SheetClose?"],
   configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다" },
   behaviors: {},
-  reference: { example: "sheet", guidance: { use: "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 열리는 동안의 동작(포커스 트랩·Esc와 바깥 클릭으로 닫기·본문 스크롤 잠금·닫은 뒤 트리거로 초점 복귀)은 네 값이 모두 같다.", evidence: "투자 이력 화면에서 목록을 보면서 시장·기간·손익 필터를 조정하거나 한 거래의 상세를 확인해야 하고, 화면 중앙을 가리면 방금 본 행을 놓친다.", limits: "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다." } },
+  reference: { example: "sheet", guidance: { use: "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 열리는 동안의 동작(포커스 트랩·Esc와 바깥 클릭으로 닫기·본문 스크롤 잠금·닫은 뒤 트리거로 초점 복귀)은 네 값이 모두 같다.", evidence: "투자 이력 화면에서 목록을 보면서 시장·기간·손익 필터를 조정하거나 한 거래의 상세를 확인해야 하고, 화면 중앙을 가리면 방금 본 행을 놓친다.", limits: "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다. `SheetPortal`은 공개하지 않는다 — `SheetContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `SheetContent`의 prop으로 온다." } },
 } as const
 
-export { Sheet, SheetTrigger, SheetPortal, SheetClose, SheetOverlay, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, sheetVariants, sheetVariantsConfig, componentContract }
+export { Sheet, SheetTrigger, SheetClose, SheetOverlay, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, sheetVariants, sheetVariantsConfig, componentContract }

@@ -67,13 +67,12 @@ export const catalog = [
   {
     "component": "alert-dialog",
     "displayName": "Alert Dialog",
-    "hash": "ff95c8d6a7c2",
+    "hash": "c9af7f17e33a",
     "cells": 1,
     "axes": {},
     "anatomy": [
       "AlertDialog",
       "AlertDialogTrigger",
-      "AlertDialogPortal",
       "AlertDialogOverlay",
       "AlertDialogContent",
       "AlertDialogHeader?",
@@ -93,7 +92,7 @@ export const catalog = [
       "example": "alert-dialog",
       "guidance": {
         "evidence": "투자 거래 삭제는 기록과 손익 계산에 영향을 주므로 실행과 취소의 의미를 분리해 확인해야 한다.",
-        "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다. `size` 축과 `AlertDialogMedia`는 열지 않는다 — size는 소비처가 유틸리티로 정할 수 있고, Media는 Dialog에는 없어 두 컴포넌트의 anatomy를 갈라놓는 upstream의 비대칭이라 승계할 근거가 없다(#121).",
+        "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다. `size` 축과 `AlertDialogMedia`는 열지 않는다 — size는 소비처가 유틸리티로 정할 수 있고, Media는 Dialog에는 없어 두 컴포넌트의 anatomy를 갈라놓는 upstream의 비대칭이라 승계할 근거가 없다(#121). `AlertDialogPortal`은 공개하지 않는다 — `AlertDialogContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `AlertDialogContent`의 prop으로 온다.",
         "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
       }
     },
@@ -545,13 +544,12 @@ export const catalog = [
   {
     "component": "dialog",
     "displayName": "Dialog",
-    "hash": "61dd1a514c92",
+    "hash": "8cbe1a36cc9e",
     "cells": 1,
     "axes": {},
     "anatomy": [
       "Dialog",
       "DialogTrigger",
-      "DialogPortal",
       "DialogOverlay",
       "DialogContent",
       "DialogHeader?",
@@ -570,7 +568,7 @@ export const catalog = [
       "example": "dialog",
       "guidance": {
         "evidence": "투자 거래를 추가하거나 편집하는 동안 제목·설명·행동을 한 모달 맥락에 유지해야 한다.",
-        "limits": "파괴적 행동 확인에는 Alert Dialog를 사용하고, 단순 보조 정보에는 Popover를 사용한다.",
+        "limits": "파괴적 행동 확인에는 Alert Dialog를 사용하고, 단순 보조 정보에는 Popover를 사용한다. `DialogPortal`은 공개하지 않는다 — `DialogContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `DialogContent`의 prop으로 온다.",
         "use": "현재 흐름을 잠시 멈추고 집중해서 완료할 작업을 연다."
       }
     },
@@ -612,7 +610,7 @@ export const catalog = [
       "example": "dropdown-menu",
       "guidance": {
         "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고르는 일이 행마다 일어난다.",
-        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). `CheckboxItem`·`RadioItem`·`Sub`는 43세대 동안 **확인된 공백**이었고 #142가 ADR-0006의 두 관문으로 판정해 **열었다**(#154). Menubar가 같은 표면에 이미 독립 셀을 내고 있었고(ⓐ), 소비처에는 재현할 우리 노드조차 없어 `radix-ui`를 직접 집고 표식 기하를 손으로 다시 정해야 했다(ⓑ). 여섯을 한 번에 열었다 — `RadioItem`은 `RadioGroup` 없이 뜻이 없고 `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않아, 셋만 열면 ⓑ가 그대로 다시 샌다. **Menubar와의 비대칭은 이 세대에서 해소됐고 #119의 판정은 그대로 선다**: 두 컴포넌트를 가르는 것은 루트 막대 + `MenubarMenu*` 다중 메뉴 + `value`이지 이 세 파트가 아니다. openOn=\"context\" 모드에도 상시 노출 막대가 없고 진입점이 하나이므로 여섯 파트를 줘도 Menubar가 되지 않는다. 표식(`ItemIndicator`)은 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리). 같은 이유로 `DropdownMenuCheckboxItem`과 `DropdownMenuRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. 체크·라디오 항목의 role과 `aria-checked`, 서브메뉴의 `aria-haspopup`·`aria-expanded`는 primitive가 내고 표식·화살표 `<svg>`는 `aria-hidden`이라 이름에 섞이지 않는다. `DropdownMenuSeparator`는 `border-t`로 그린다 — 43세대 동안 `h-px bg-border`였으나 `parts`가 없어 매니페스트에 나타나지 않았고, 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다(없는 것은 통과가 아니라 침묵이다, ADR-0006). 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. `DropdownMenuShortcut`은 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다.",
+        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). `CheckboxItem`·`RadioItem`·`Sub`는 43세대 동안 **확인된 공백**이었고 #142가 ADR-0006의 두 관문으로 판정해 **열었다**(#154). Menubar가 같은 표면에 이미 독립 셀을 내고 있었고(ⓐ), 소비처에는 재현할 우리 노드조차 없어 `radix-ui`를 직접 집고 표식 기하를 손으로 다시 정해야 했다(ⓑ). 여섯을 한 번에 열었다 — `RadioItem`은 `RadioGroup` 없이 뜻이 없고 `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않아, 셋만 열면 ⓑ가 그대로 다시 샌다. **Menubar와의 비대칭은 이 세대에서 해소됐고 #119의 판정은 그대로 선다**: 두 컴포넌트를 가르는 것은 루트 막대 + `MenubarMenu*` 다중 메뉴 + `value`이지 이 세 파트가 아니다. openOn=\"context\" 모드에도 상시 노출 막대가 없고 진입점이 하나이므로 여섯 파트를 줘도 Menubar가 되지 않는다. 표식(`ItemIndicator`)은 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리). 같은 이유로 `DropdownMenuCheckboxItem`과 `DropdownMenuRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. 체크·라디오 항목의 role과 `aria-checked`, 서브메뉴의 `aria-haspopup`·`aria-expanded`는 primitive가 내고 표식·화살표 `<svg>`는 `aria-hidden`이라 이름에 섞이지 않는다. `DropdownMenuSeparator`는 `border-t`로 그린다 — 43세대 동안 `h-px bg-border`였으나 `parts`가 없어 매니페스트에 나타나지 않았고, 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다(없는 것은 통과가 아니라 침묵이다, ADR-0006). 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. `DropdownMenuShortcut`은 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. `DropdownMenuPortal`은 공개하지 않는다 — `DropdownMenuContent`와 `DropdownMenuSubContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `DropdownMenuContent`의 prop으로 온다.",
         "use": "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다. 켜고 끄는 항목은 `DropdownMenuCheckboxItem`, 배타 선택은 `DropdownMenuRadioGroup`, 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다."
       }
     },
@@ -938,7 +936,7 @@ export const catalog = [
       "example": "menubar",
       "guidance": {
         "evidence": "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.",
-        "limits": "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않던 비대칭은 해소됐다 — #142가 두 관문으로 열기로 판정했고 #154가 여섯 파트를 두 `openOn` 모드 모두에 냈다. **#119가 두 컴포넌트를 갈라 세운 근거는 그대로 선다**: 서술이 불완전했을 뿐이고, 둘을 실제로 가르는 것은 이 루트 막대 + `MenubarMenu*` 다중 메뉴 + 어느 것이 열렸는지를 쥔 `value`이지 이 세 파트가 아니다. Dropdown Menu는 여섯 파트를 다 가져도 진입점이 하나이고 상시 노출 막대가 없다. 두 파일은 `INDICATOR_ITEM`·`SUB_TRIGGER`를 공유하지 않고 각자 갖는다 — 공유 상수는 두 계약의 해시를 한 줄에 묶고, 여기 `ITEM`의 `select-none`처럼 이미 갈라진 차이를 지운다(#154).",
+        "limits": "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않던 비대칭은 해소됐다 — #142가 두 관문으로 열기로 판정했고 #154가 여섯 파트를 두 `openOn` 모드 모두에 냈다. **#119가 두 컴포넌트를 갈라 세운 근거는 그대로 선다**: 서술이 불완전했을 뿐이고, 둘을 실제로 가르는 것은 이 루트 막대 + `MenubarMenu*` 다중 메뉴 + 어느 것이 열렸는지를 쥔 `value`이지 이 세 파트가 아니다. Dropdown Menu는 여섯 파트를 다 가져도 진입점이 하나이고 상시 노출 막대가 없다. 두 파일은 `INDICATOR_ITEM`·`SUB_TRIGGER`를 공유하지 않고 각자 갖는다 — 공유 상수는 두 계약의 해시를 한 줄에 묶고, 여기 `ITEM`의 `select-none`처럼 이미 갈라진 차이를 지운다(#154). `MenubarPortal`은 공개하지 않는다 — `MenubarContent`와 `MenubarSubContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `MenubarContent`의 prop으로 온다.",
         "use": "화면에 계속 떠 있는 가로 막대에 명령 메뉴 여러 개를 나란히 두고, 그 안에서 실행·전환·설정 항목을 묶는다. 켜고 끄는 항목은 `MenubarCheckboxItem`, 배타 선택은 `MenubarRadioGroup`, 더 깊은 묶음은 `MenubarSub`가 진다."
       }
     },
@@ -1073,7 +1071,7 @@ export const catalog = [
       "example": "popover",
       "guidance": {
         "evidence": "투자 기록의 필터 설명과 빠른 설정을 원래 화면 맥락을 떠나지 않고 보여줘야 하고, 종목 이름 위에 잠깐 머무르는 것만으로 그 종목의 요약을 미리 보는 경로도 같은 자산이어야 한다.",
-        "limits": "핵심 작업 흐름이나 긴 양식은 Dialog로 옮기고, 행동 없는 짧은 설명은 Tooltip을 사용한다. openOn=\"hover\"에서도 컨트롤의 의미를 보충하는 한 줄 설명은 여전히 Tooltip이다 — Tooltip은 트리거에 aria-describedby로 묶여 이름을 보조하는 설명이고, hover 모드의 Popover는 트리거가 가리키는 대상의 미리보기다. 미리보기 안의 정보와 행동은 hover 없이도 도달할 수 있는 다른 경로가 있어야 하며 이 모드는 필수 작업 흐름을 담지 않는다. 여는 지연과 닫는 지연은 우리가 정하지만 공개 prop이 아니다.",
+        "limits": "핵심 작업 흐름이나 긴 양식은 Dialog로 옮기고, 행동 없는 짧은 설명은 Tooltip을 사용한다. openOn=\"hover\"에서도 컨트롤의 의미를 보충하는 한 줄 설명은 여전히 Tooltip이다 — Tooltip은 트리거에 aria-describedby로 묶여 이름을 보조하는 설명이고, hover 모드의 Popover는 트리거가 가리키는 대상의 미리보기다. 미리보기 안의 정보와 행동은 hover 없이도 도달할 수 있는 다른 경로가 있어야 하며 이 모드는 필수 작업 흐름을 담지 않는다. 여는 지연과 닫는 지연은 우리가 정하지만 공개 prop이 아니다. `PopoverPortal`은 공개하지 않는다 — `PopoverContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `PopoverContent`의 prop으로 온다.",
         "use": "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공한다. 클릭으로 여는 기본 모드와, 포인터가 머무르면 지연 후 여는 openOn=\"hover\" 모드를 같은 계약으로 덮는다."
       }
     },
@@ -1236,7 +1234,7 @@ export const catalog = [
       "example": "select",
       "guidance": {
         "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
-        "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다. 열린 목록의 위치 계산(upstream의 `alignItemWithTrigger`)은 계약하지 않는다 — 동작이라 파생 채널에 실리지 않는다(#121).",
+        "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다. 열린 목록의 위치 계산(upstream의 `alignItemWithTrigger`)은 계약하지 않는다 — 동작이라 파생 채널에 실리지 않는다(#121). `SelectPortal`은 공개하지 않는다 — `SelectContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `SelectContent`의 prop으로 온다.",
         "use": "제한된 값 하나를 선택한다."
       }
     },
@@ -1272,7 +1270,7 @@ export const catalog = [
   {
     "component": "sheet",
     "displayName": "Sheet",
-    "hash": "dff903e3b672",
+    "hash": "c3e0784ff1ea",
     "cells": 4,
     "axes": {
       "side": [
@@ -1285,7 +1283,6 @@ export const catalog = [
     "anatomy": [
       "Sheet",
       "SheetTrigger",
-      "SheetPortal",
       "SheetOverlay",
       "SheetContent",
       "SheetHeader?",
@@ -1304,7 +1301,7 @@ export const catalog = [
       "example": "sheet",
       "guidance": {
         "evidence": "투자 이력 화면에서 목록을 보면서 시장·기간·손익 필터를 조정하거나 한 거래의 상세를 확인해야 하고, 화면 중앙을 가리면 방금 본 행을 놓친다.",
-        "limits": "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다.",
+        "limits": "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다. `SheetPortal`은 공개하지 않는다 — `SheetContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `SheetContent`의 prop으로 온다.",
         "use": "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 열리는 동안의 동작(포커스 트랩·Esc와 바깥 클릭으로 닫기·본문 스크롤 잠금·닫은 뒤 트리거로 초점 복귀)은 네 값이 모두 같다."
       }
     },
