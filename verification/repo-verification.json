@@ -1,16 +1,11 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
-  "targetCommit": "1b4a8c2231a5b8b1f86fa3883da1282cb3671e74",
+  "result": "PASS",
+  "targetCommit": "65bb4f45023a808205cab730787a088b2d4fe927",
   "inputTree": {
-    "commit": "1b4a8c2231a5b8b1f86fa3883da1282cb3671e74",
-    "clean": false,
-    "dirtyPaths": [
-      "apps/storybook/stories/CatalogReference.tsx",
-      "apps/storybook/stories/catalog.gen.ts",
-      "packages/ui/src/components/ui/field.tsx"
-    ]
+    "commit": "65bb4f45023a808205cab730787a088b2d4fe927",
+    "clean": true
   },
   "inputDigest": "5c4a8b3a37bb39bb54082b789373929634556a3e6b42e589c3f64c886536878a",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
@@ -274,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T03:44:28.187Z",
+      "checkedAt": "2026-09-02T03:45:51.224Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -304,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-09-02T03:44:28.187Z",
+      "result": "PASS",
+      "checkedAt": "2026-09-02T03:45:51.224Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -501,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-02T05:01:54.553Z",
+        "scope": "field Light/Dark — FieldLegend rank 두 값(legend·label) × orientation 3 × validity 2, 기본값 모양이 이전 세대와 같은지 포함"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "commit the input changes, then re-run sync:preflight"
+  "resumeAt": null,
+  "completedAt": "2026-09-02T05:01:54.553Z"
 }
