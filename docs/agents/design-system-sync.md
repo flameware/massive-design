@@ -12,7 +12,7 @@
 1. 변경을 공개 기준선과 비교해 `additive`·`in-place safe`·`breaking`으로 분류한다. `breaking`이거나 `in-place safe` 증거가 없으면 여기서 멈춘다.
 2. `bun run sync:preflight`를 실행한다.
 3. 자동 검사가 통과하면 `CODE_VERIFIED: PASS`, `STORYBOOK_VERIFIED: PENDING_HUMAN`이다. 프로젝트 소유자가 변경된 컴포넌트의 Light/Dark와 영향받는 주요 상태를 확인한다. semantic 토큰이나 base 계층 변경이면 전체 카탈로그를 확인한다.
-4. `bun run sync:checklist`를 실행한다. 계약의 `gestures`·`behaviors`에서 이번 세대의 확인 항목이 나온다 — `gestures`가 걸리면 **터치 확인**을, `behaviors`가 걸리면 **컨트롤 제스처 확인**·**열림 계기 확인**을 한다(아래). 확인표는 좁히지 않는다: 선언한 자리를 매 세대 전부 찍는다.
+4. `bun run sync:checklist`를 실행한다. 계약의 `gestures`·`behaviors`에서 이번 세대의 확인 항목이 나온다 — `gestures`가 걸리면 **터치 확인**을, `behaviors`가 걸리면 **컨트롤 제스처 확인**·**열림 계기 확인**·**우발 변경 확인**을 한다(아래). 확인표는 좁히지 않는다: 선언한 자리를 매 세대 전부 찍는다.
 5. 확인 결과를 `bun run sync:review-storybook -- --reviewer <이름> --scope "<확인 범위>"`로 기록한다. 오류면 `--result FAIL --reason "<이유>"`를 함께 주고 아래 분기에 따라 원인 계층을 고친 뒤 preflight부터 다시 실행한다.
 6. `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`가 모두 `PASS`인지 확인한다. 생성물과 검증 기록을 포함해 commit을 고정하고 Repo verification을 완료한다. Figma는 선택 가능한 다음 작업이지 이 작업의 재개 지점이 아니다.
 
@@ -57,7 +57,16 @@
 
 > 터치 대상 **크기** 규칙은 여기 없다. [#111](https://github.com/flameware/massive-design/issues/111)이 정한 뒤 들어온다 — 그쪽은 `size` 축 기본값을 건드리는 base 계층 변경이라 전 카탈로그 재검증을 요구하므로 도착 시점과 적용 범위가 다르다.
 
-> **`behaviors: {}`는 "갖고 오는 것이 없다"가 아니라 "아직 안 봤다"일 수 있다.** 지금 채워진 것은 아는 아홉 자리뿐이고 나머지 43개 계약은 비어 있다 — 전수 조사는 [#187](https://github.com/flameware/massive-design/issues/187)이 진다. 새 컴포넌트를 계약하면서 upstream이 갖고 오는 동작을 발견하면 그 자리에서 `behaviors`에 적는다: 끄거나 선언하거나 둘 중 하나이고 침묵은 선택지가 아니다.
+> **`behaviors: {}`는 이제 "갖고 오는 것이 없음을 확인했다"를 뜻한다.** [#187](https://github.com/flameware/massive-design/issues/187)이 24개 `radix-ui` primitive와 Embla·react-resizable-panels·input-otp·recharts를 고정된 버전의 소스로 전수 조사했다. 새 컴포넌트를 계약하면서 upstream이 갖고 오는 동작을 발견하면 그 자리에서 `behaviors`에 적는다: 끄거나 선언하거나 둘 중 하나이고 침묵은 선택지가 아니다. **판정하는 자도 그 티켓이 정했다** — 계기가 명시적 활성화가 아닌 것만 담고(hover·드래그·롱프레스·타이머·포커스 도착·닫힌 컨트롤에 타이핑), 역할이 이미 요구하는 것은 담지 않는다(열린 표면 안의 화살표 이동과 하이라이트, Escape·바깥 누름으로 닫기, 클릭 활성화). 사람이 계기가 아닌 변화도 담지 않는다(이미지 로드, 패스워드 매니저 감지, 컨테이너 리사이즈).
+
+### 우발 변경 확인 — 사람이 진다
+
+계약이 `behaviors`에 `kind: "implicit-change"`로 선언한 자리를 본다. 앞의 두 절과 갈리는 것은 **확인하는 방법**이다 — 끌어 보는 것도 계기를 주고 표면을 기다리는 것도 아니라, **아무것도 활성화하지 않은 채** 초점만 옮기거나 글자를 치거나 그냥 기다려 보고 값이 움직이는지 본다. 이 종류가 가장 늦게 발견되는 이유이기도 하다: 손이 하는 일이 없어서 확인 절차가 그것을 하러 가지 않는다.
+
+- [ ] **활성화 없이 바뀐다** — 확인표가 적은 계기(초점 도착, 닫힌 컨트롤에 타이핑, 시간 경과)만 주고 클릭·Enter·Space를 누르지 않았는데 값이나 위치가 바뀐다
+- [ ] **되돌릴 수 있다** — 그렇게 바뀐 값이 사용자가 의도하지 않은 것일 때 되돌아갈 경로가 있다. 시간이 계기인 항목은 **정지·연장 수단**이 있는지 본다(WCAG 2.2.1)
+- [ ] **끄는 자리** — 확인표가 `바꾸는 자리`를 적어 준 항목은 그것으로 실제로 꺼진다. 적히지 않은 항목은 끄는 수단이 없다는 뜻이고, 그것도 사실로 확인한다
+- [ ] **상속 항목의 upstream 기본값** — 확인표가 `상속`으로 적은 항목은 upstream이 그 기본값을 그대로 두고 있는지 함께 본다. 이 종류는 **기본값이 뒤집히면 조용히 사라지거나 조용히 생긴다** — 게이트는 서드파티 소스를 읽지 못한다([ADR-0005](../adr/0005-inherited-dismiss-gestures.md))
 
 Figma가 뒤처진 상태에는 시간 제한을 두지 않는다. 최신 Repo verification 세대와 마지막 `FIGMA_LIBRARY_CURRENT` 공개 기준선은 독립적으로 보존해 차이를 판독할 수 있게 한다. 새 Repo verification이 마지막 Figma 증거를 덮어쓰거나 실패로 바꾸지 않는다.
 

@@ -26,6 +26,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const SECTIONS = {
   "control-gesture": { title: "컨트롤 제스처 확인", anchor: "design-system-sync.md § 컨트롤 제스처 확인" },
   "open-cause": { title: "열림 계기 확인", anchor: "design-system-sync.md § 열림 계기 확인" },
+  "implicit-change": { title: "우발 변경 확인", anchor: "design-system-sync.md § 우발 변경 확인" },
 }
 
 /** 값은 계약하지 않으므로 origin이 "무엇을 볼지"를 가른다(ADR-0010). */

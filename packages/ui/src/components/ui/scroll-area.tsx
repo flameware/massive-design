@@ -73,6 +73,7 @@ const componentContract = {
     ScrollAreaThumb: { config: { variants: {}, defaultVariants: {} } as const, className: () => scrollAreaThumbClassName },
   },
   behaviors: {
+    hoverReveal: { kind: "open-cause", surface: "ScrollBar", origin: "inherited", control: "type", why: "`ScrollAreaPrimitive.Root`의 `type` 기본값이 `\"hover\"`이고 우리는 그것을 타이핑하지 않는다 — **스크롤바 자체가 포인터가 영역에 들어와야 나타나고 나가면 `scrollHideDelay` 기본값 600ms 뒤에 사라진다.** 계약이 anatomy에 `ScrollBar?`를 두고 매니페스트가 그 셀을 발행하지만 파생 채널은 그것이 hover에 걸려 있다는 사실을 나르지 않으므로, 정적 시안과 생성된 스토리는 늘 보이는 스크롤바를 그린다. 포인터가 없는 사용자에게는 나타날 계기 자체가 없고 뷰포트의 키보드 스크롤만 남는다 — 값은 계약하지 않는다(ADR-0005). 소비처가 `type=\"always\"`로 바꾼다(#187)." },
     thumbDrag: { kind: "control-gesture", surface: "ScrollAreaThumb", origin: "inherited", why: "radix-ui ScrollArea가 갖고 오는 상속 표면이다 — thumb을 끌면 뷰포트가 스크롤된다. 컨트롤 제스처라 표면이 사라지지 않고 동등 경로(뷰포트 자체의 키보드·휠 스크롤)가 이미 있으므로 `gestures`가 아니다(ADR-0005)." },
   },
   reference: { example: "scroll-area", guidance: { use: "높이나 너비가 고정된 영역 안에서 넘치는 콘텐츠를 한 축으로만 스크롤하게 하고, 브라우저 기본 스크롤바 대신 디자인 시스템 스크롤바를 그린다. 뷰포트가 초점을 받으므로 포인터 없이 키보드만으로도 스크롤할 수 있고, 콘텐츠가 넘치지 않으면 스크롤바는 나타나지 않는다.", evidence: "투자 이력의 긴 거래 목록이나 Sheet 안의 필터 묶음처럼, 바깥 화면은 그대로 두고 한 영역만 굴려야 하는 자리가 반복된다.", limits: "페이지 전체 스크롤을 대신하지 않으며, 축을 정하지 않은 자유 스크롤이나 가상 스크롤 목록에는 쓰지 않는다. 영역에 크기 제약이 없으면 아무것도 넘치지 않으므로 스크롤도 스크롤바도 생기지 않는다. 스크롤이 콘텐츠를 가리는 유일한 통로가 되어서는 안 되며, 초점을 받는 영역에는 aria-label로 이름을 준다. thumb은 잡아 끄는 컨트롤 어포던스이므로 자기가 앉는 면에 대해 비텍스트 대비 3:1(WCAG 1.4.11)을 만족해야 하고, 그 자리를 잔여 트랙과 같은 중립 soft로 낮추지 않는다." } },
