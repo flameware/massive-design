@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "f71d659b1355f4a29c6a3b5986a09fe17c9c19ee",
   "inputTree": {
     "commit": "f71d659b1355f4a29c6a3b5986a09fe17c9c19ee",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-02T10:54:54.009Z",
       "automatedResult": "PASS",
       "checks": [
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-02T10:59:49.898Z",
+        "scope": "표면 여섯 세대(#167·#168·#169·#170·#171·#172). 시각 확인 Light/Dark: input-group 한 줄 그룹이 min-h-9 전환 후에도 36px인지와 여러 줄 껍데기·부가물 정렬, button-group orientation 두 값의 구분선 방향과 교차축 채움, command 구분선의 목록 폭 도달과 py-1 단독 간격, field 칩의 bg-background가 0-높이 선을 가리는 세로 중심 정렬, progress 라벨·값의 ml-auto 배치와 text-sm/text-xs 한 단 차이, table 합계 행 border-t가 본문 마지막 행과 2px로 겹치지 않는지. 동작 확인표 22자리 전부(컨트롤 제스처 5 · 열림 계기 12 · 우발 변경 5) — 상속 항목의 upstream 기본값과 기본 모드 해시 대조 포함."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-02T10:59:49.898Z"
 }
