@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
-  "targetCommit": "0b7f7abe3d3e4a37b39cff5028c3700010c53a83",
+  "result": "PASS",
+  "targetCommit": "cc65ff43ba7ab54698a9d1e74459c99c906bd906",
   "inputTree": {
-    "commit": "0b7f7abe3d3e4a37b39cff5028c3700010c53a83",
+    "commit": "cc65ff43ba7ab54698a9d1e74459c99c906bd906",
     "clean": true
   },
   "inputDigest": "5d6a5a87d89e870d0f8941cdae6b5f15edc3aae1a833ad35442d2614088252e9",
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-02T07:15:28.333Z",
+      "checkedAt": "2026-09-02T07:35:07.106Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-09-02T07:15:28.333Z",
+      "result": "PASS",
+      "checkedAt": "2026-09-02T07:35:07.106Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-02T07:36:11.340Z",
+        "scope": "동작 확인표 22자리 / 14개 컴포넌트 — 컨트롤 제스처 5, 열림 계기 11, 우발 변경 6. 우발 변경 절이 처음 서는 세대라 여섯 자리(tabs 자동 활성화, radio-group 화살표 체크, 닫힌 select 트리거 typeahead, carousel watchFocus, toast 자동 닫힘)를 활성화 없이 계기만 주고 확인했고, scroll-area의 hover 스크롤바는 정적 시안과 다른 점을 함께 봤다. 시각 변화는 없다 — 해시 51/51 무이동"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-02T07:36:11.340Z"
 }
