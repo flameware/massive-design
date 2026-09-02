@@ -30,7 +30,7 @@ export { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarGroup, Men
 export { NativeSelect, NativeSelectIcon, NativeSelectOption, NativeSelectGroup, nativeSelectVariants, nativeSelectVariantsConfig } from "./components/ui/native-select.js"
 export { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, navigationMenuVariants, navigationMenuVariantsConfig, navigationMenuTriggerVariants, navigationMenuTriggerVariantsConfig } from "./components/ui/navigation-menu.js"
 export { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis, paginationVariants, paginationVariantsConfig } from "./components/ui/pagination.js"
-export { Popover, PopoverTrigger, PopoverAnchor, PopoverContent, popoverVariants, popoverVariantsConfig } from "./components/ui/popover.js"
+export { Popover, PopoverTrigger, PopoverAnchor, PopoverContent, PopoverHeader, PopoverTitle, PopoverDescription, popoverVariants, popoverVariantsConfig } from "./components/ui/popover.js"
 export { Progress, ProgressLabel, ProgressValue, progressVariants, progressVariantsConfig } from "./components/ui/progress.js"
 export { RadioGroup, RadioGroupItem, radioGroupVariants, radioGroupVariantsConfig } from "./components/ui/radio-group.js"
 export { ResizablePanelGroup, ResizablePanel, ResizableHandle, ResizableHandleGrip, resizableVariants, resizableVariantsConfig, resizableHandleVariants, resizableHandleVariantsConfig } from "./components/ui/resizable.js"
