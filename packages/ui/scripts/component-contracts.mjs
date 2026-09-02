@@ -188,10 +188,27 @@ function allClassNames(contract) {
  * 이 필드를 만나 "이 primitive가 뭘 갖고 오지"를 한 번은 묻는다(ADR-0006).
  *
  * 게이트가 지키는 것은 `gestures`와 **정확히 같은 층**이다 — 선언의 모양까지다. 동작이
- * 옳은지는 사람이 본다(`bun run sync:checklist`가 확인 항목을 찍는다). */
+ * 옳은지는 사람이 본다(`bun run sync:checklist`가 확인 항목을 찍는다).
+ *
+ * **무엇이 여기 오는지는 계기가 가른다(#187).** 담는 것은 계기가 **명시적 활성화가 아닌**
+ * 상호작용이다 — 포인터의 hover·드래그·롱프레스, 타이머, 포커스의 도착, 닫힌 컨트롤에
+ * 타이핑. 반대쪽 선이 함께 그어진다: 역할이 이미 요구하는 것은 오지 않는다 — 열린 표면
+ * 안의 화살표 이동과 항목 하이라이트, Escape·바깥 누름으로 닫기, 클릭 활성화, 그리고
+ * 그 셋에 딸린 기본값(`loop`·`modal`·포커스 트랩·스크롤 잠금)이다. 이 자를 대지 않으면
+ * 필드가 primitive 문서의 사본이 된다.
+ *
+ * **사람이 계기가 아닌 것도 오지 않는다.** `behaviors`가 담는 것은 상호작용이므로 환경이
+ * 계기인 변화는 자리가 없다 — Avatar의 이미지 로드, `input-otp`의 패스워드 매니저 감지,
+ * Embla의 컨테이너 리사이즈 관측. 앞의 둘은 이미 다른 자리가 답을 갖고 있다(구성 상태,
+ * 그리고 우리가 `pushPasswordManagerStrategy="none"`으로 끈 사실). */
 
-/** 동작의 종류. 넷째가 오면 여기에 값을 늘린다 — 필드를 늘리지 않는다. */
-const BEHAVIOR_KINDS = new Set(["control-gesture", "open-cause"])
+/** 동작의 종류. 다섯째가 오면 여기에 값을 늘린다 — 필드를 늘리지 않는다.
+ *
+ * `implicit-change`가 #187에서 셋째로 왔다. 활성화한 것이 없는데 값이나 위치가 바뀌는
+ * 자리이고, 앞의 둘과 갈리는 것은 **확인하는 방법**이다 — 끌어 보는 것도(control-gesture)
+ * 계기를 주고 표면을 기다리는 것도(open-cause) 아니라, 아무것도 활성화하지 않은 채
+ * 초점만 옮기거나 글자를 치거나 기다려 보고 값이 움직이는지 본다. */
+const BEHAVIOR_KINDS = new Set(["control-gesture", "open-cause", "implicit-change"])
 
 /** 값이 어디서 왔는가. 확인표가 무엇을 볼지를 이것이 가른다. */
 const BEHAVIOR_ORIGINS = new Set(["inherited", "ours"])

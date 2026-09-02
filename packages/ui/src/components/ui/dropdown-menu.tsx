@@ -246,6 +246,7 @@ const componentContract = {
     DropdownMenuSubContent: { config: dropdownMenuVariantsConfig, className: (props: Record<string, string>) => cn(dropdownMenuVariants(props)) },
   },
   behaviors: {
+    submenuHoverOpen: { kind: "open-cause", surface: "DropdownMenuSubContent", origin: "inherited", why: "radix-ui Menu가 갖고 오는 상속 표면이다 — **`DropdownMenuSubTrigger` 위에 포인터가 얹히면 100ms 뒤 서브메뉴가 열린다**(누르지 않아도 열리고, 대각선으로 빠져나가는 동안은 유예 영역이 닫힘을 미룬다). #154가 여섯 파트를 열면서 anatomy에는 들어왔지만 열림 계기는 어디에도 없었다. 키보드 경로(→ 또는 Enter)는 upstream에 있고 두 열림 모드(`press`·`context`) 모두에서 같다. **끄는 자리가 없다**(#187)." },
     contextOpen: { kind: "open-cause", surface: "DropdownMenuContent", origin: "ours", control: "openOn", why: "`openOn=\"context\"`는 우클릭·컨텍스트 메뉴 키로 연다 — 우리가 만든 열림 계기이고 기본값은 `press`다(#126). 열림 계기는 동작이라 `cva` 축도 구성 상태도 아니어서 생성된 카탈로그 스토리가 이 모드를 한 번도 렌더하지 않는다 — Storybook axe가 말해 주는 것이 없다." },
     longPressOpen: { kind: "open-cause", surface: "DropdownMenuContent", origin: "inherited", why: "`openOn=\"context\"`에서 터치의 롱프레스로 열리는 것은 radix-ui ContextMenu가 갖고 오는 상속 표면이다 — 우리가 타이핑한 적 없고 임계값도 우리가 정하지 않았다(#126). 여는 계기라 표면이 사라지지 않으므로 `gestures`가 담지 못한다." },
   },
