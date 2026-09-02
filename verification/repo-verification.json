@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
+  "result": "PASS",
   "targetCommit": "70743bc3b9353570a2fff140421875ac87d2d08d",
   "inputTree": {
     "commit": "70743bc3b9353570a2fff140421875ac87d2d08d",
@@ -299,7 +299,7 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
+      "result": "PASS",
       "checkedAt": "2026-09-02T12:04:24.119Z",
       "automatedResult": "PASS",
       "checks": [
@@ -496,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "Seongki Sohn",
+        "checkedAt": "2026-09-02T16:31:51.694Z",
+        "scope": "판정 세 티켓 세대(#173·#175·#176). 셋 다 코드 변경 0이고 51개 매니페스트 해시가 전부 불변이라 렌더가 바뀐 자리가 없다 — 시각 확인은 변경 없음 확인이다. 동작 확인표 22자리 전부(컨트롤 제스처 5 · 열림 계기 12 · 우발 변경 5)를 규약대로 좁히지 않고 돌았다 — 상속 항목의 upstream 기본값과 기본 모드 해시 대조 포함. 이슈 없음."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "Storybook visual review"
+  "resumeAt": null,
+  "completedAt": "2026-09-02T16:31:51.694Z"
 }
