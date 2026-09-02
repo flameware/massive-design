@@ -177,7 +177,7 @@ const componentContract = {
   publicExports: ["Combobox", "ComboboxTrigger", "ComboboxValue", "ComboboxIcon", "ComboboxContent", "comboboxVariants", "comboboxVariantsConfig"],
   config: comboboxVariantsConfig, className: (props: Record<string, string>) => cn(comboboxVariants(props)),
   /* 목록 안쪽은 Command의 표면을 그대로 쓴다 — 조립된 구조를 있는 그대로 적는다. */
-  anatomy: ["Combobox", "ComboboxTrigger", "ComboboxValue", "ComboboxIcon?", "ComboboxContent", "CommandInput", "CommandList", "CommandGroup*", "CommandItem*", "CommandEmpty?"],
+  anatomy: ["Combobox", "ComboboxTrigger", "ComboboxValue", "ComboboxIcon?", "ComboboxContent", "CommandInput", "CommandList", "CommandGroup*", "CommandItem*", "CommandSeparator?", "CommandEmpty?"],
   /* Command는 커서(highlighted)까지 세 축을 갖지만 Combobox는 두 축이다 — 커서는
    * 열린 목록 안에서만 뜻이 있고 그 조립은 Command의 참조 화면이 이미 나른다. */
   configurationStates: { open: ["closed", "open"], selected: ["unselected", "selected"] }, drawnBy: { open: "표면(`ComboboxContent`)의 존재가 곧 열림이다", selected: "`ComboboxValue`의 내용이 그린다 — `data-selected`가 DOM에 붙지만 우리 클래스는 그것을 읽지 않는다" },
@@ -187,7 +187,7 @@ const componentContract = {
     ComboboxContent: staticPart(comboboxContentClass),
   },
   behaviors: {},
-  reference: { example: "combobox", guidance: { use: "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다.", evidence: "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.", limits: "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다." } },
+  reference: { example: "combobox", guidance: { use: "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다.", evidence: "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.", limits: "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다. 묶음을 가르는 선은 `CommandSeparator`이며 upstream의 `ComboboxSeparator`가 서던 자리를 그것이 그대로 진다 — #91의 규칙대로 합성은 원본을 **소비**하므로 별도 파트를 세우지 않는다(#169가 Command에 열었다). 목록 안쪽의 나머지 표면과 같이 소비처가 `@massive/ui`에서 `Command*`를 직접 import해 조립한다." } },
 } as const
 
 export { Combobox, ComboboxTrigger, ComboboxValue, ComboboxIcon, ComboboxContent, comboboxVariants, comboboxVariantsConfig, componentContract }

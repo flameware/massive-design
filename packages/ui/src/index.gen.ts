@@ -14,7 +14,7 @@ export { ChartContainer, ChartTooltipContent, ChartLegendContent, chartVariants,
 export { Checkbox, checkboxVariants, checkboxVariantsConfig } from "./components/ui/checkbox.js"
 export { Collapsible, CollapsibleTrigger, CollapsibleContent, collapsibleVariants, collapsibleVariantsConfig } from "./components/ui/collapsible.js"
 export { Combobox, ComboboxTrigger, ComboboxValue, ComboboxIcon, ComboboxContent, comboboxVariants, comboboxVariantsConfig } from "./components/ui/combobox.js"
-export { Command, CommandInput, CommandList, CommandGroup, CommandGroupHeading, CommandItem, CommandEmpty, commandVariants, commandVariantsConfig } from "./components/ui/command.js"
+export { Command, CommandInput, CommandList, CommandGroup, CommandGroupHeading, CommandItem, CommandSeparator, CommandEmpty, commandVariants, commandVariantsConfig } from "./components/ui/command.js"
 export { Dialog, DialogTrigger, DialogPortal, DialogClose, DialogOverlay, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, dialogVariants, dialogVariantsConfig } from "./components/ui/dialog.js"
 export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, dropdownMenuVariants, dropdownMenuVariantsConfig } from "./components/ui/dropdown-menu.js"
 export { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent, emptyVariants, emptyVariantsConfig } from "./components/ui/empty.js"
