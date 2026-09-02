@@ -108,8 +108,12 @@ test("공개 루트의 anatomy와 구성 상태가 매니페스트에 남는다"
 test("합성 part의 스타일이 루트와 분리된 조합으로 남는다", () => {
   const table = read("table.gen.json")
   assert.deepEqual(Object.keys(table.parts), [
-    "TableBody", "TableCaption", "TableCell", "TableHead", "TableHeader", "TableRow",
+    "TableBody", "TableCaption", "TableCell", "TableFooter", "TableHead", "TableHeader", "TableRow",
   ])
+  // 합계 행의 면은 `--ds-bg-subtle`이고 알파가 없다(#170) — upstream의 `bg-muted/50`을
+  // 그대로 두면 여기에 같은 토큰이 서면서 50%가 조용히 버려진다
+  assert.equal(table.parts.TableFooter.cells[0].properties["background-color"].token, "--ds-bg-subtle")
+  assert.equal(table.parts.TableFooter.cells[0].properties["border-top-width"].px, 1)
   assert.equal(table.parts.TableHead.cells[0].properties.height.px, 40)
   assert.equal(table.parts.TableHead.cells[0].properties["padding-inline"].px, 8)
   assert.equal(table.parts.TableCell.cells[0].properties.padding.px, 8)

@@ -3,6 +3,7 @@
     "Table",
     "TableHeader",
     "TableBody",
+    "TableFooter?",
     "TableRow*",
     "TableHead*",
     "TableCell*",
@@ -69,6 +70,10 @@
         "TableBody": [
           "border-style",
           "border-width"
+        ],
+        "TableFooter": [
+          "border-style",
+          "border-width"
         ]
       },
       "reason": "무리 안 위치(끝 행) — 이 자산이 아니라 조립된 표가 그린다"
@@ -83,7 +88,7 @@
       "reason": "행의 테두리 — 이 자산이 아니라 TableRow 파트가 그린다"
     }
   },
-  "hash": "9baef1c66ff4",
+  "hash": "aaafe040c4a6",
   "parts": {
     "TableBody": {
       "axes": {},
@@ -149,6 +154,34 @@
               "from": "align-middle",
               "tier": "literal",
               "value": "middle"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "TableFooter": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "border-t bg-muted font-medium [&_tr:last-child]:border-0",
+          "properties": {
+            "background-color": {
+              "from": "bg-muted",
+              "tier": "token",
+              "token": "--ds-bg-subtle"
+            },
+            "border-top-width": {
+              "from": "border-t",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
             }
           },
           "state": null
@@ -260,7 +293,7 @@
     "example": "table",
     "guidance": {
       "evidence": "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.",
-      "limits": "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다.",
+      "limits": "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다. `TableFooter`는 `<tfoot>`이고 합계·소계처럼 **본문 행들을 요약하는 행**의 자리다 — 표 시맨틱은 브라우저가 지므로 `<tfoot>`은 DOM 어디에 쓰든 마지막에 그려지고 보조기술에는 rowgroup 하나로 읽힌다. 요약 행의 첫 칸을 이름으로 읽히게 할지는 소비처가 `TableHead scope=\"row\"`로 정한다 — 슬롯은 자기가 담은 것이 이름인지 값인지 알 수 없다(`ItemMedia`의 대체 텍스트와 같은 자리, #145). 면은 upstream의 반투명 `bg-muted/50`이 아니라 **`bg-muted`를 온전히** 그린다: 알파를 우리 매니페스트에 넣으면 `--ds-bg-subtle`로 해결되며 50%가 조용히 버려져 코드와 파생 채널이 갈리고, 그 어긋남을 보는 게이트가 없다(ADR-0006). 반투명 짝을 토큰으로 세우는 것은 새 토큰이라 선제 공개하지 않는다(#118). **머리글·바닥글의 고정(sticky)은 계약하지 않는다** — 스크롤 컨테이너를 소비처가 소유하고, `<tfoot>`에 건 sticky는 브라우저마다 갈려 실제로는 `<th>`·`<td>`마다 걸어야 하므로 우리 셀의 결정이 아니다.",
       "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
     }
   },

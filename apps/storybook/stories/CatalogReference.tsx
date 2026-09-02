@@ -11,7 +11,7 @@ import {
   Input, Label, ListRow, ListRowContent,
   ListRowDescription, ListRowMeta, ListRowTitle, ListRowTrailing, Select, SelectContent,
   SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead,
-  TableHeader, TableRow, Field, FieldDescription, FieldError, FieldGroup, FieldLabel,
+  TableFooter, TableHeader, TableRow, Field, FieldDescription, FieldError, FieldGroup, FieldLabel,
   FieldLegend, FieldSet, RadioGroup,
   RadioGroupItem, Switch, Textarea,
   Toggle, ToggleGroup, ToggleGroupItem,
@@ -33,7 +33,7 @@ import {
   ScrollArea, Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter,
   SheetHeader, SheetTitle, SheetTrigger,
   ButtonGroup, ButtonGroupSeparator, ButtonGroupText,
-  InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput,
+  InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea,
   NativeSelect, NativeSelectGroup, NativeSelectOption, Slider,
   Kbd, KbdGroup,
   InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot,
@@ -80,6 +80,14 @@ function InvestmentTable() {
           : undefined}
       >{value}</TableCell>)}
     </TableRow>)}</TableBody>
+    {/* 합계 행은 `<tfoot>`이다(#170). 첫 칸은 값이 아니라 이름이라 `TableHead scope="row"`로
+      * 서고, 나머지 두 칸이 앞의 두 열을 건너뛰도록 `colSpan`을 소비처가 준다 —
+      * 계약은 면·경계만 지고 열 얼개는 소비처의 데이터 모델이다. */}
+    <TableFooter><TableRow>
+      <TableHead scope="row" colSpan={2}>{tableFixture.footer.label}</TableHead>
+      <TableCell>{tableFixture.footer.cells[0]}</TableCell>
+      <TableCell className={tableFixture.footer.result === "positive" ? "text-success-text" : "text-destructive-text"}>{tableFixture.footer.cells[1]}</TableCell>
+    </TableRow></TableFooter>
   </Table>
 }
 
@@ -152,7 +160,13 @@ function Preview({ name, selection = {} }: { name: CatalogEntry["reference"]["ex
       <Empty variant={variant} className="max-w-lg"><EmptyHeader><EmptyMedia frame="none" aria-hidden="true">⌕</EmptyMedia><EmptyTitle>검색 결과가 없습니다</EmptyTitle><EmptyDescription>검색어를 바꾸거나 필터를 초기화해 보세요.</EmptyDescription></EmptyHeader><EmptyContent><Button variant="outline">필터 초기화</Button></EmptyContent></Empty>
     </div>,
     input: <div className="max-w-sm"><Label htmlFor="search">투자 이력 검색</Label><Input id="search" placeholder="종목명 또는 메모"/></div>,
-    "input-group": <Field className="max-w-sm" data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="input-group-search">투자 이력 검색</FieldLabel><InputGroup><InputGroupAddon placement="start" aria-hidden="true">⌕</InputGroupAddon><InputGroupInput id="input-group-search" placeholder="종목명 또는 메모" disabled={selection.disabled === "disabled"} aria-invalid={selection.validity === "invalid" || undefined}/><InputGroupAddon placement="end" aria-hidden="true">KRW</InputGroupAddon><InputGroupButton aria-label="검색어 지우기">×</InputGroupButton></InputGroup>{selection.validity === "invalid" && <FieldError>검색어를 입력하세요.</FieldError>}</Field>,
+    /* 컨트롤은 한 줄 또는 여러 줄 **하나**다(#170). 두 껍데기를 나란히 그려야 axe와
+     * 사람이 `min-h-9`가 두 경우를 한 선언으로 담는 것을 실제로 만난다 —
+     * `InputGroupText`는 부가물의 자식으로만 서므로 그 자리에서 함께 렌더한다. */
+    "input-group": <div className="flex max-w-sm flex-col gap-4">
+      <Field data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="input-group-search">투자 이력 검색</FieldLabel><InputGroup><InputGroupAddon placement="start" aria-hidden="true">⌕</InputGroupAddon><InputGroupInput id="input-group-search" placeholder="종목명 또는 메모" disabled={selection.disabled === "disabled"} aria-invalid={selection.validity === "invalid" || undefined}/><InputGroupAddon placement="end" aria-hidden="true"><InputGroupText>KRW</InputGroupText></InputGroupAddon><InputGroupButton aria-label="검색어 지우기">×</InputGroupButton></InputGroup>{selection.validity === "invalid" && <FieldError>검색어를 입력하세요.</FieldError>}</Field>
+      <Field data-invalid={selection.validity === "invalid" || undefined}><FieldLabel htmlFor="input-group-memo">거래 메모</FieldLabel><InputGroup><InputGroupTextarea id="input-group-memo" placeholder="매수 근거와 회고" disabled={selection.disabled === "disabled"} aria-invalid={selection.validity === "invalid" || undefined}/><InputGroupAddon placement="end" aria-hidden="true"><InputGroupText>0/200</InputGroupText></InputGroupAddon></InputGroup></Field>
+    </div>,
     item: <div className="flex flex-col gap-2">
       <Item variant={variant} size={size} data-state={selection.item === "selected" ? "selected" : undefined} className="max-w-lg"><ItemMedia aria-hidden="true">{itemFixture.media}</ItemMedia><ItemContent><ItemTitle>{itemFixture.title}</ItemTitle><ItemDescription>{itemFixture.description}</ItemDescription></ItemContent><ItemActions><Button size="sm" variant="outline">{itemFixture.action}</Button></ItemActions></Item>
       <Item variant={variant} size={size} data-state={selection.item === "selected" ? "selected" : undefined} className="max-w-lg"><ItemMedia frame="icon" aria-hidden="true">{itemFixture.media}</ItemMedia><ItemContent><ItemTitle>{itemFixture.title}</ItemTitle><ItemDescription>{itemFixture.description}</ItemDescription></ItemContent><ItemActions><Button size="sm" variant="outline">{itemFixture.action}</Button></ItemActions></Item>

@@ -11,5 +11,10 @@
       "result": "negative",
       "state": "default"
     }
-  ]
+  ],
+  "footer": {
+    "label": "합계",
+    "cells": ["₩16,680,000", "+₩705,000"],
+    "result": "positive"
+  }
 }
