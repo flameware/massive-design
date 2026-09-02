@@ -128,6 +128,6 @@
       "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/alert-dialog.tsx"
 }

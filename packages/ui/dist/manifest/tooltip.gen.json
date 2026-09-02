@@ -95,6 +95,6 @@
       "use": "아이콘이나 축약된 컨트롤의 의미를 짧은 텍스트로 보충한다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/tooltip.tsx"
 }

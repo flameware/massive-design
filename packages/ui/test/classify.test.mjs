@@ -2,7 +2,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { MODIFIER_POLICY, classifyDeclaration, classifyShadow, policyFor, resolveVarChain } from "../scripts/manifest/classify.mjs"
+import { IGNORED_CLASSES, MODIFIER_POLICY, classifyDeclaration, classifyShadow, policyFor, resolveVarChain } from "../scripts/manifest/classify.mjs"
 import { lengthToPx, loadTheme, normalizeShadow, parseVar } from "../scripts/manifest/theme.mjs"
 
 const TOKENS_CSS = `
@@ -156,11 +156,38 @@ test("값이 true가 아닌 data 속성은 값이 뜻을 가르므로 접지 않
 
 test("표에 없는 뜻은 만들어 내지 않는다 — 다른 무리는 그대로 unresolved다", () => {
   for (const mod of [
-    "[&_img]", "[&_tr]", "[&>span:last-child]",  // D — 자손 슬롯(#181)
-    "sm", "md", "@md/field-group",         // D — 반응형(#181)
+    "[&>span:last-child]",                 // 슬롯 지목 — 전역 표가 아니라 계약이 진다(#181)
     "data-[inset=true]", "data-[placeholder=true]", "placeholder",  // 맵 밖(#140 Out of scope)
     "[&[data-state=open]>svg]",            // 복합 선택자
+    "[&_[data-slot=switch-thumb]]",        // 등록되지 않은 파트를 지목한다 — #155의 몫
   ]) assert.equal(policyFor(mod), undefined, mod)
+})
+
+test("소비처가 넣는 내용을 틀에 맞추는 배관은 ignore다 — 담을 슬롯이 없다(#181)", () => {
+  // 셋 다 anatomy에도 parts에도 없는 노드를 가리키고, 담으려면 역할 어휘를 늘려야 하는데
+  // 그것은 **계약을 여는** 방향이라 이 맵의 destination과 반대다. 이유는 셋이 다르다
+  for (const mod of ["[&_img]", "[&_a]", "[&_*]"]) assert.match(policyFor(mod), /^ignore:/, mod)
+  // 자식 결합자 형태는 축약이 자손 형태로 모아 같은 자리에 도달한다
+  assert.equal(policyFor("[&>a]"), policyFor("[&_a]"))
+  assert.equal(policyFor("[&>*]"), policyFor("[&_*]"))
+  const reasons = new Set(["[&_img]", "[&_a]", "[&_*]"].map((m) => policyFor(m)))
+  assert.equal(reasons.size, 3, "셋의 이유가 서로 다르다")
+})
+
+test("폭에 걸린 것은 뜻 둘로 접힌다 — elsewhere가 아니라 ignore다(#181)", () => {
+  // 그려지기는 한다 — 넓은 뷰포트에서. 그런데 elsewhere:는 그려지는 자리가 **다른 자산**일
+  // 때의 등급이고 그 규약은 저기가 어디인지를 지목하는 것인데, 뷰포트는 자산이 아니다
+  for (const mod of ["sm", "md", "lg", "xl", "2xl"]) assert.equal(policyFor(mod), MODIFIER_POLICY.get("viewport"), mod)
+  for (const mod of ["@md/field-group", "@lg/sidebar", "@md"]) {
+    assert.equal(policyFor(mod), MODIFIER_POLICY.get("container-width"), mod)
+  }
+  for (const mod of ["viewport", "container-width"]) assert.match(MODIFIER_POLICY.get(mod), /^ignore:/, mod)
+  // 형태가 아니라 뜻이 표에 온다(#178) — 다섯 breakpoint에 이유가 다섯 벌 있지 않다
+  for (const form of ["sm", "md", "lg", "xl", "2xl", "@md/field-group"]) {
+    assert.equal(MODIFIER_POLICY.has(form), false, form)
+  }
+  // Tailwind 기본 이름만 접는다. 프로젝트가 자기 이름을 정의하면 unresolved로 떠서 알려 준다
+  assert.equal(policyFor("tablet"), undefined)
 })
 
 test("무리 안 위치는 elsewhere다 — ignore와 등급이 다르다", () => {
@@ -175,15 +202,38 @@ test("무리 안 위치는 elsewhere다 — ignore와 등급이 다르다", () =
     "[&>button:not(:first-child)]", "[&_*:not(:last-child)]",
   ]) assert.match(policyFor(mod), /^elsewhere:/, mod)
 
-  // 이유가 **저기가 어디인지**를 지목한다는 것이 이 등급의 규약이다(ADR-0012)
+  // 이유가 **저기가 어디인지**를 지목한다는 것이 이 등급의 규약이다(ADR-0012). 지목하는
+  // 자리는 조립된 그룹만이 아니다 — #181이 등록된 파트를 지목하는 것을 더했다
   for (const [, policy] of MODIFIER_POLICY) {
-    if (policy.startsWith("elsewhere:")) assert.match(policy, /조립된 그룹/)
+    if (policy.startsWith("elsewhere:")) assert.match(policy, /이 자산이 아니라 \S.*[이가] 그린다/)
   }
 })
 
-test("자손 슬롯의 last-child는 무리 안 위치가 아니다", () => {
-  // `[&>span:last-child]`(sidebar)·`[&_tr:last-child]`(table)는 무리의 끝 항목이 아니라
-  // **자손을 지목**한다. `last`로 접히면 #181의 무리가 통째로 조용해진다(#147 판정 규칙 4)
+test("자손 지목의 last-child는 `last`로 접히지 않는다 — 뜻이 갈린다(#181)", () => {
+  // 둘 다 무리의 끝 항목이 아니라 **자손을 지목**한다. `last`로 접혔다면 이 무리가 통째로
+  // 조용해졌을 것이다(#147 판정 규칙 4, #180이 남긴 ⚠️). 그래서 도착지가 서로 다르다
+  const last = MODIFIER_POLICY.get("last")
+  assert.notEqual(policyFor("[&_tr:last-child]"), last)
+  assert.notEqual(policyFor("[&>span:last-child]"), last)
+
+  // 지목한 파트가 그것을 실제로 그리면 참인 지목이다 — TableRow의 셀에 `border-b`가 있다
+  assert.match(policyFor("[&_tr]"), /TableRow/)
+  // 끝 행에 테두리가 **없다**는 사실은 TableRow의 셀에 없다(그 셀은 언제나 border-b다).
+  // TableRow를 지목하면 거짓 지목이므로 이쪽만 무리 안 위치로 간다 — 조립된 표가 그린다
+  assert.match(policyFor("[&_tr:last-child]"), /조립된 표/)
+  assert.doesNotMatch(policyFor("[&_tr:last-child]"), /TableRow/)
+
+  // 슬롯 지목은 전역 표에 오지 않는다 — 선택자가 역할을 스스로 말하지 않으므로
+  // 계약이 이름표를 진다(ADR-0013)
   assert.equal(policyFor("[&>span:last-child]"), undefined)
-  assert.equal(policyFor("[&_tr:last-child]"), undefined)
+})
+
+test("규칙을 내지 않는 것이 의도인 클래스는 셋째 표가 ②로 닫는다(#181)", () => {
+  // 표식 클래스는 속성도 수식자도 아니라 policyFor에 닿기 전에 걸린다
+  for (const cls of ["group/field", "group/item", "group/menu-item", "group/menu-sub-item"]) {
+    assert.match(IGNORED_CLASSES.get(cls), /이름표/, cls)
+    assert.equal(policyFor(cls), undefined, cls)
+  }
+  // 형태가 아니라 이름을 적는다 — 다른 뜻의 group/*가 와도 조용해지지 않는다
+  assert.equal(IGNORED_CLASSES.has("group/새로운것"), false)
 })

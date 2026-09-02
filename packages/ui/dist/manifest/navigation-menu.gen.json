@@ -424,6 +424,6 @@
       "use": "화면 상단에서 사이트의 주요 목적지를 가로로 늘어놓고, 하위 목적지가 여럿인 항목만 카드로 펼친다. 현재 화면을 가리키는 링크는 `active`로 표시하고, 하위가 없는 항목은 `NavigationMenuLink`에 `navigationMenuTriggerVariants()`를 입혀 막대에 직접 놓는다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/navigation-menu.tsx"
 }

@@ -4,6 +4,7 @@ import { join } from "node:path"
 
 import { cellsOf } from "./manifest/assemble.mjs"
 import { policyFor } from "./manifest/classify.mjs"
+import { splitModifiers } from "./manifest/css.mjs"
 
 export const COMPONENT_DIR = "src/components/ui"
 
@@ -237,6 +238,68 @@ function checkInheritedAxes(errors, contract, partName, part) {
   }
 }
 
+/** 파생 채널의 **노드 역할 어휘**(`figma-components.md` §7). `root`는 셀 자신이라 슬롯이 아니다. */
+const SLOT_ROLES = new Set(["label", "icon"])
+
+/* 자산이 자기 자손 슬롯을 지목한다(#181).
+ *
+ * 이 필드가 필요한 이유는 **선택자가 자기 역할을 말하지 않기** 때문이다. `[&_svg]`는
+ * *"svg는 어디서나 아이콘"*이라 전역 `MODIFIER_POLICY`가 이름을 줄 수 있지만
+ * `[&>span:last-child]`는 그럴 수 없다 — 마지막 자식인 span이 라벨인 것은 이 파트의
+ * 사실이지 카탈로그의 사실이 아니고, 그 표는 자기 주석에 "컴포넌트를 가리지 않는 뜻만
+ * 온다"고 적어 두었다. 그래서 **계약이 이름표를 진다**(ADR-0013).
+ *
+ * 게이트가 보는 것은 ADR-0009가 `carriedBy`에 세운 것과 같다 — **거짓 선언**이다.
+ * 선언은 손으로 적히고 className은 리팩터링으로 움직이므로, 지목한 선택자가 이 자산의
+ * className에서 사라져도 매니페스트는 조용히 슬롯 하나를 잃는다. 그것을 여기서 잡는다.
+ *
+ * 전역 표와의 겹침도 막는다. 조립은 계약을 먼저 보므로 겹치면 전역 정책이 조용히
+ * 가려지고, 두 자리가 같은 선택자에 서로 다른 뜻을 적어 두게 된다. */
+function checkSlots(errors, where, asset) {
+  const slots = asset.slots
+  if (slots === undefined) return
+  const entries = Object.entries(slots)
+  if (typeof slots !== "object" || slots === null || Array.isArray(slots) || entries.length === 0) {
+    errors.push(`slots는 비어 있지 않은 객체여야 한다: ${where}`)
+    return
+  }
+  let classNames = []
+  try {
+    classNames = cellsOf(asset.config).map((props) => String(asset.className(props)))
+  } catch {
+    return // config·className이 계약의 모양을 못 갖춘 것은 위에서 이미 잡는다
+  }
+  const declared = new Set(classNames.flatMap((cls) => cls.split(/\s+/).filter(Boolean)).flatMap((token) => {
+    const { modifiers } = splitModifiers(token)
+    return modifiers.length === 1 ? [modifiers[0]] : []
+  }))
+  const seen = new Map()
+  for (const [role, selector] of entries) {
+    if (!SLOT_ROLES.has(role)) {
+      errors.push(`파생 채널의 역할 어휘에 없는 슬롯 이름이다 — ${[...SLOT_ROLES].join("·")} 중 하나여야 한다: ${where}.${role}`)
+      continue
+    }
+    if (typeof selector !== "string" || !selector.trim()) {
+      errors.push(`슬롯 지목에는 수식자가 필요하다: ${where}.${role}`)
+      continue
+    }
+    // 한 선택자가 두 역할일 수는 없다 — 조회표가 뒤집힌 방향이라 하나가 조용히 진다
+    if (seen.has(selector)) {
+      errors.push(`한 선택자를 두 역할이 지목한다: ${where}.${role} (${selector}, 이미 ${seen.get(selector)})`)
+      continue
+    }
+    seen.set(selector, role)
+    const policy = policyFor(selector)
+    if (policy !== undefined) {
+      errors.push(`전역 정책이 이미 판정한 선택자를 계약이 지목한다 — 조립이 계약을 먼저 보므로 정책이 조용히 가려진다: ${where}.${role} (${selector} → ${policy})`)
+      continue
+    }
+    if (!declared.has(selector)) {
+      errors.push(`className에 없는 선택자를 슬롯으로 지목한다 — 매니페스트가 조용히 슬롯을 잃는다: ${where}.${role} (${selector})`)
+    }
+  }
+}
+
 /* 축 이름과 구성 상태의 DOM 속성 이름은 겹치면 안 된다(#179).
  *
  * 겹치면 한 수식자가 두 뜻을 갖는다 — 조립은 축 되읽기를 먼저 보므로 그 구성 상태가
@@ -292,8 +355,10 @@ export function validateContracts(files, contracts) {
         errors.push(`anatomy에 없는 part 계약: ${contract.name}.${partName}`)
       }
       checkInheritedAxes(errors, contract, partName, part)
+      checkSlots(errors, `${contract.name}.${partName}`, part)
     }
     checkAxisNameSpace(errors, contract)
+    checkSlots(errors, contract.name, contract)
     const external = contract.externalSurfaces
     if (external !== undefined) {
       const entries = Object.entries(external)

@@ -34,6 +34,8 @@ const CSS = `
   .\\[--ds-state-base\\:var\\(--primary\\)\\] { --ds-state-base: var(--primary); }
   .\\[\\&_svg\\:not\\(\\[class\\*\\=\\'size-\\'\\]\\)\\]\\:size-3 svg:not([class*='size-']) { width: calc(0.25rem * 3); height: calc(0.25rem * 3); }
   .\\[\\&_svg\\:not\\(\\[class\\*\\=\\'size-\\'\\]\\)\\]\\:size-4 svg:not([class*='size-']) { width: calc(0.25rem * 4); height: calc(0.25rem * 4); }
+  .\\[\\&\\>span\\:last-child\\]\\:truncate > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .md\\:p-12 { @media (width >= 48rem) { padding: calc(0.25rem * 12); } }
 }
 `
 const TOKENS_CSS = `
@@ -219,4 +221,34 @@ test("물려받지 않은 파트에서는 같은 수식자가 unresolved로 남�
   const [only] = partCellsOf(part, inheritedAxesOf(component, part))
   assert.deepEqual(only.props, {})
   assert.equal(assembleCell({ ...only, tree, theme }).properties["data-[orientation=horizontal]:height"].tier, "unresolved")
+})
+
+test("계약이 지목한 슬롯은 전역 표를 거치지 않고 그 역할에 담긴다(#181)", () => {
+  // `[&>span:last-child]`는 자기가 라벨을 가리킨다고 말하지 않는다. `[&_svg]`가 전역 표에
+  // 있는 것과 갈리는 자리이고, 그래서 이름표를 계약이 진다(ADR-0013)
+  const bare = cell("[&>span:last-child]:truncate")
+  assert.equal(bare.slots, undefined, "지목이 없으면 unresolved다 — 조용히 담기지 않는다")
+  assert.equal(bare.properties["[&>span:last-child]:overflow"].tier, "unresolved")
+
+  const c = assembleCell({
+    props: {}, className: "[&>span:last-child]:truncate", tree, theme,
+    declaredSlots: { label: "[&>span:last-child]" },
+  })
+  // 속성 이름은 CSS 그대로다 — slot-icon의 개명(height→size)은 정사각형이라는 사실을
+  // 담느라 필요했던 것이지 이 필드의 규약이 아니다
+  assert.equal(c.slots.label.overflow.value, "hidden")
+  assert.equal(c.slots.label["text-overflow"].value, "ellipsis")
+  // 무시 화이트리스트는 슬롯 안에서도 그대로 돈다
+  assert.equal(c.slots.label["white-space"], undefined)
+  assert.equal(Object.keys(c.properties).length, 0)
+})
+
+test("규칙을 하나도 내지 않는 표식 클래스는 셀에서 조용히 빠진다(#181)", () => {
+  // 컴파일 출력에 규칙이 없는 것이 **의도**인 클래스다. 표에 없는 것은 그대로 unresolved다
+  assert.equal(Object.keys(cell("group/item").properties).length, 0)
+  assert.equal(cell("group/아직-모르는-것").properties["group/아직-모르는-것"].tier, "unresolved")
+})
+
+test("뷰포트 폭에 걸린 선언은 ignore로 빠진다 — 다른 자산이 아니라 다른 뷰포트다(#181)", () => {
+  assert.equal(Object.keys(cell("md:p-12").properties).length, 0)
 })

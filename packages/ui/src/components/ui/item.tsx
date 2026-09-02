@@ -44,12 +44,12 @@ const staticPart = (className: string) => ({
  * `rounded-sm`에 `border`를 두르지만 그걸 따르면 **같은 축의 두 파트가 다른 틀을
  * 그린다.** 새 반지름·새 테두리 결정 0개다(맵 규칙 4).
  *
- * **`[&_img]` 두 유틸리티는 매니페스트 항목 셋으로 `unresolved`에 떨어진다.**
- * `MODIFIER_POLICY`가 아는 자손 선택자는 `[&_svg]` 계열뿐이라 `[&_img]`는 정책이
- * 없다. 그래도 축은 침묵하지 않는다 — 틀의 결정(지름·모서리·자르기)은 전부
- * 해결된 속성으로 떨어지고, 여기 걸리는 것은 **HTML에서 그림이 틀을 채우게 하는
- * 배관**뿐이다(Figma에서는 이미지 채우기가 기본으로 하는 일이라 대응물이 따로
- * 없다). #140이 이 모집단을 놓치지 않도록 `limits`에 사실을 남긴다. */
+ * **`[&_img]` 두 유틸리티는 `MODIFIER_POLICY`가 `ignore:`로 닫았다**(#181). 여기
+ * 걸리는 것은 **HTML에서 그림이 틀을 채우게 하는 배관**뿐이고, Figma는 자식 노드가
+ * 아니라 **틀 자신의 clip과 image fill**로 같은 일을 하므로 옮길 자식이 없다 —
+ * 그 틀(지름·모서리·자르기)은 이 셀이 이미 해결된 속성으로 담고 있다. 슬롯으로
+ * 담으려면 역할 어휘를 늘려야 하는데 소비처가 넣는 `<img>`에 역할을 주는 것은
+ * **계약을 여는** 방향이라 #140의 destination과 반대다(ADR-0013). */
 const itemMediaVariantsConfig = {
   variants: {
     frame: {
@@ -91,7 +91,7 @@ const componentContract = {
     ItemSeparator: staticPart("mx-4 border-t"),
   },
   behaviors: {},
-  reference: { example: "item", guidance: { use: "미디어, 주 정보, 보조 설명과 행동을 재배치 가능한 한 항목으로 조립하고, 미디어 자리가 그릴 틀은 `ItemMedia`의 `frame` 축이 정한다.", evidence: "검색 결과, 선택 목록, 설정 행처럼 같은 정보 위계를 공유하지만 제품 의미가 다른 반복 항목이 필요하고, 같은 목록 안에서 통화 기호 같은 글리프와 종목 로고 이미지가 같은 자리에 번갈아 선다.", limits: "탐색·선택·버튼 역할을 자동으로 부여하지 않으며 도메인 필드와 상호작용 의미는 소비처가 명시한다. `ItemMedia`가 그리는 틀은 `frame` 축이 진다 — `none`(틀 없음, 기본값)·`icon`(글리프용 `size-8` 면)·`image`(그림용 `size-10` 자르기 틀) 셋이다. 값 이름은 upstream을 그대로 쓰지만(#121) **축 이름은 `variant`가 아니다** — 우리 카탈로그에서 `variant`는 루트의 의미·강조 축이고 `Item` 자신이 이미 그 이름을 쓰므로, 한 파일 안에서 한 단계 떨어진 두 축이 같은 이름으로 다른 뜻이 된다(#144가 `align`을 버린 자리). 기본값이 `none`인 것은 오늘의 `ItemMedia`가 틀 없이 글리프만 놓기 때문이고, 그래서 이 축은 additive다. 틀의 모서리·면은 `EmptyMedia`가 이미 세운 `rounded-lg`·`bg-muted`를 그대로 쓴다 — 두 미디어 슬롯이 한 축을 공유하는데 틀이 갈리면 축을 공유한 뜻이 없다(upstream의 `rounded-sm`+`border`는 따르지 않는다). **아바타는 `frame`의 값이 아니다** — upstream에도 없고, 원형 틀·지름·겹침 링은 우리 `Avatar`가 이미 지는 결정이라 값으로 열면 그 결정을 복제한다(#91). `<ItemMedia frame=\"none\"><Avatar/></ItemMedia>`로 **소비한다**: `Avatar`가 자기 틀을 그리므로 `image` 안에 넣으면 틀이 겹친다. **`image`의 `[&_img]:size-full`·`[&_img]:object-cover` 두 유틸리티는 매니페스트 항목 셋으로 `unresolved`에 떨어진다** — `MODIFIER_POLICY`가 아는 자손 선택자는 `[&_svg]` 계열뿐이고, 이 둘은 HTML에서 그림이 틀을 채우게 하는 배관이라 Figma에 대응물이 없다(#140의 모집단). 틀 자체의 결정은 전부 해결된 속성으로 떨어지므로 축이 침묵하지는 않는다. 대체 텍스트는 계약이 지지 않는다 — 장식이면 `ItemMedia`에 `aria-hidden`을 걸고, 뜻이 있으면 소비처가 안쪽 `<img>`의 `alt`에 넣는다. 슬롯은 자기가 담은 것이 장식인지 알 수 없다." } },
+  reference: { example: "item", guidance: { use: "미디어, 주 정보, 보조 설명과 행동을 재배치 가능한 한 항목으로 조립하고, 미디어 자리가 그릴 틀은 `ItemMedia`의 `frame` 축이 정한다.", evidence: "검색 결과, 선택 목록, 설정 행처럼 같은 정보 위계를 공유하지만 제품 의미가 다른 반복 항목이 필요하고, 같은 목록 안에서 통화 기호 같은 글리프와 종목 로고 이미지가 같은 자리에 번갈아 선다.", limits: "탐색·선택·버튼 역할을 자동으로 부여하지 않으며 도메인 필드와 상호작용 의미는 소비처가 명시한다. `ItemMedia`가 그리는 틀은 `frame` 축이 진다 — `none`(틀 없음, 기본값)·`icon`(글리프용 `size-8` 면)·`image`(그림용 `size-10` 자르기 틀) 셋이다. 값 이름은 upstream을 그대로 쓰지만(#121) **축 이름은 `variant`가 아니다** — 우리 카탈로그에서 `variant`는 루트의 의미·강조 축이고 `Item` 자신이 이미 그 이름을 쓰므로, 한 파일 안에서 한 단계 떨어진 두 축이 같은 이름으로 다른 뜻이 된다(#144가 `align`을 버린 자리). 기본값이 `none`인 것은 오늘의 `ItemMedia`가 틀 없이 글리프만 놓기 때문이고, 그래서 이 축은 additive다. 틀의 모서리·면은 `EmptyMedia`가 이미 세운 `rounded-lg`·`bg-muted`를 그대로 쓴다 — 두 미디어 슬롯이 한 축을 공유하는데 틀이 갈리면 축을 공유한 뜻이 없다(upstream의 `rounded-sm`+`border`는 따르지 않는다). **아바타는 `frame`의 값이 아니다** — upstream에도 없고, 원형 틀·지름·겹침 링은 우리 `Avatar`가 이미 지는 결정이라 값으로 열면 그 결정을 복제한다(#91). `<ItemMedia frame=\"none\"><Avatar/></ItemMedia>`로 **소비한다**: `Avatar`가 자기 틀을 그리므로 `image` 안에 넣으면 틀이 겹친다. **`image`의 `[&_img]:size-full`·`[&_img]:object-cover` 두 유틸리티는 `ignore:`로 닫혀 있다**(#181) — HTML에서 그림이 틀을 채우게 하는 배관이고 Figma는 자식 노드가 아니라 틀 자신의 clip과 image fill로 같은 일을 하므로, 옮길 자식이 없다. 틀 자체의 결정은 전부 해결된 속성으로 떨어지므로 축이 침묵하지는 않는다. 대체 텍스트는 계약이 지지 않는다 — 장식이면 `ItemMedia`에 `aria-hidden`을 걸고, 뜻이 있으면 소비처가 안쪽 `<img>`의 `alt`에 넣는다. 슬롯은 자기가 담은 것이 장식인지 알 수 없다." } },
 } as const
 
 export { Item, ItemMedia, ItemContent, ItemTitle, ItemDescription, ItemActions, ItemHeader, ItemFooter, ItemGroup, ItemSeparator, itemVariants, itemVariantsConfig, componentContract }

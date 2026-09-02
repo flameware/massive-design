@@ -58,11 +58,6 @@
           "tier": "token",
           "token": "--spacing"
         },
-        "group/field": {
-          "from": "group/field",
-          "tier": "unresolved",
-          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
-        },
         "width": {
           "from": "w-full",
           "tier": "literal",
@@ -104,11 +99,6 @@
           "tier": "token",
           "token": "--spacing"
         },
-        "group/field": {
-          "from": "group/field",
-          "tier": "unresolved",
-          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
-        },
         "width": {
           "from": "w-full",
           "tier": "literal",
@@ -132,24 +122,6 @@
       },
       "orientation": "responsive",
       "properties": {
-        "@md/field-group:align-items": {
-          "from": "@md/field-group:items-center",
-          "tier": "unresolved",
-          "value": "center",
-          "why": "수식자 @md/field-group를 아직 다루지 않는다"
-        },
-        "@md/field-group:flex-direction": {
-          "from": "@md/field-group:flex-row",
-          "tier": "unresolved",
-          "value": "row",
-          "why": "수식자 @md/field-group를 아직 다루지 않는다"
-        },
-        "@md/field-group:gap": {
-          "from": "@md/field-group:gap-3",
-          "tier": "unresolved",
-          "value": "calc(0.25rem * 3)",
-          "why": "수식자 @md/field-group를 아직 다루지 않는다"
-        },
         "display": {
           "from": "flex",
           "tier": "literal",
@@ -167,11 +139,6 @@
           "scale": "space.2",
           "tier": "token",
           "token": "--spacing"
-        },
-        "group/field": {
-          "from": "group/field",
-          "tier": "unresolved",
-          "why": "컴파일 출력에 이 클래스의 규칙이 없다"
         },
         "width": {
           "from": "w-full",
@@ -200,7 +167,7 @@
       }
     }
   },
-  "hash": "b89f447e9468",
+  "hash": "726a3004ec0f",
   "reference": {
     "example": "field",
     "guidance": {
@@ -209,6 +176,6 @@
       "use": "라벨, 컨트롤, 도움말과 오류를 접근 가능한 한 필드로 조립한다."
     }
   },
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "source": "src/components/ui/field.tsx"
 }
