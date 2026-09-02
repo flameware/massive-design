@@ -6,7 +6,7 @@ export { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, AvatarGr
 export { Badge, badgeVariants, badgeVariantsConfig } from "./components/ui/badge.js"
 export { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis, breadcrumbVariants, breadcrumbVariantsConfig } from "./components/ui/breadcrumb.js"
 export { Button, buttonVariants, buttonVariantsConfig } from "./components/ui/button.js"
-export { ButtonGroup, ButtonGroupText, ButtonGroupSeparator, buttonGroupVariants, buttonGroupVariantsConfig } from "./components/ui/button-group.js"
+export { ButtonGroup, ButtonGroupText, ButtonGroupSeparator, buttonGroupVariants, buttonGroupVariantsConfig, buttonGroupSeparatorVariantsConfig } from "./components/ui/button-group.js"
 export { Calendar, CalendarHeader, CalendarNav, CalendarCaption, CalendarGrid, CalendarHeadCell, CalendarCell, CalendarDay, calendarVariants, calendarVariantsConfig, calendarDayVariants, calendarDayVariantsConfig } from "./components/ui/calendar.js"
 export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent, cardVariants, cardVariantsConfig } from "./components/ui/card.js"
 export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, carouselVariants, carouselVariantsConfig, carouselItemVariants, carouselItemVariantsConfig } from "./components/ui/carousel.js"
