@@ -716,13 +716,15 @@ export const catalog = [
   {
     "component": "input-group",
     "displayName": "Input Group",
-    "hash": "f51d02488886",
+    "hash": "b0c644a4b024",
     "cells": 1,
     "axes": {},
     "anatomy": [
       "InputGroup",
       "InputGroupAddon?",
-      "InputGroupInput",
+      "InputGroupText?",
+      "InputGroupInput?",
+      "InputGroupTextarea?",
       "InputGroupButton?"
     ],
     "configurationStates": {
@@ -739,8 +741,8 @@ export const catalog = [
       "example": "input-group",
       "guidance": {
         "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
-        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며, 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다. `InputGroupAddon`의 배치는 `placement` 축이 진다 — `auto`(DOM 순서가 정한다, 기본값)·`start`·`end` 셋이다. 이름이 `align`이 아닌 것은 우리 카탈로그에서 `align`이 이미 Radix의 prop 이름 공간에 속해 **떠 있는 표면이 트리거의 어느 모서리에 붙는가**를 뜻하기 때문이고, `placement`는 #125가 `ChartLegendContent`에 같은 이유로 세운 이름이다. 기본값이 `start`가 아닌 `auto`인 것은 `order-first`가 컨트롤 뒤에 쓴 기존 부가물을 앞으로 옮겨 발행된 인스턴스를 재해석하기 때문이다(#143의 `knockout: none`과 같은 자리). **upstream의 `block-start`·`block-end`는 계약하지 않는다** — 껍데기 위·아래에 한 줄을 통째로 두는 배치라 루트가 줄바꿈하는 auto 높이 컨테이너가 되어야 하고, 그건 `h-9` 한 줄과 `h-full` 컨트롤을 재해석하는 breaking이다. 조건부 클래스로 피하면 그 선언이 매니페스트에서 `unresolved`가 되어 파생 채널이 못 그린다(#144). 위·아래 줄이 필요하면 Field의 세로 축을 쓴다. 부가물 안의 버튼·`Kbd`를 필드 가장자리에 광학 정렬하는 음수 마진(upstream의 `has-[>button]:ml-*`)도 계약하지 않는다 — 부가물의 **자식**에 걸리는 조건부라 셀이 아니라 수식자가 되고, 필요하면 소비처가 그 자리에서 준다. `InputGroupButton`의 variant·size는 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면 되고 우리 스타일 결정을 복제하지 않는다(#121).",
-        "use": "한 줄 입력 컨트롤 하나와 아이콘·단위·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
+        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며 — 컨트롤은 `InputGroupInput` **또는** `InputGroupTextarea` 하나다. anatomy 표기에는 `?`(선택)와 `*`(반복)뿐이라 \"둘 중 정확히 하나\"를 적을 자리가 없어 둘 다 `?`로 서고 그 배타는 이 문장이 진다. **`InputGroupTextarea`는 `Textarea`를 소비한다** — 복제하지 않는다(#91). `InputGroupInput`이 `Input`을 벗겨 쓰는 자리와 같고, 그래서 `size` 축·placeholder·`aria-invalid`의 정본은 여전히 `Textarea` 계약이다. `MULTILINE_CONTROL`이 `CONTROL`과 갈리는 것은 **높이 하나**다: 무력화 여섯(`rounded-none border-0 bg-transparent px-0 shadow-none`과 포커스 링·오류 테두리 리셋)은 \"껍데기를 그룹이 소유한다\"의 결과라 줄 수와 무관하게 같고, 한 줄 컨트롤은 껍데기의 한 줄을 채우는 반면 여러 줄 컨트롤은 자기 `min-h`로 껍데기를 밀어 올린다. 그래서 루트가 `h-9`에서 **`min-h-9`**로 바뀌고 `CONTROL`에서 `h-full`이 빠졌다 — `Input`이 자기 `h-9`를 이미 갖고 있어 한 줄일 때의 렌더는 36px 그대로다(in-place safe). upstream의 `has-[>textarea]:h-auto` 조건부는 쓰지 않는다: 이 파일의 `has-[…]` 넷이 매니페스트 셀에 아예 나타나지 않는 것으로 확인되듯 조건부 높이는 파생 채널이 그리지 못하고, 아래 `block-start`·`block-end`를 닫은 근거와 같은 침묵이다(ADR-0006). 여러 줄 컨트롤은 `resize-none`이다 — 크기 조절 손잡이가 서는 모서리를 소유한 것이 컨트롤이 아니라 껍데기이고, native resize가 쓰는 인라인 `height`는 계약에도 매니페스트에도 앉을 자리가 없다. `Textarea` 단독은 `resize-y` 그대로다. **`InputGroupText`는 `InputGroupAddon`의 자식으로만 선다** — 부가물 안의 글자 자리이고, 어느 쪽에 서는가는 자기를 담은 부가물의 `placement`가 이미 정했으므로 자기 축을 갖지 않는다. 부가물과 갈리는 것은 글자 크기 한 단계(`text-sm` → `text-xs`)이고, 그 한 단계가 오늘 없어 소비처가 매번 네 유틸리티를 다시 쓴다. 중첩은 anatomy 표기가 담지 못해(순서로만 드러난다) 이 문장이 진다. 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다 — 여러 줄일 때도 같아서 `FieldLabel`의 `htmlFor`가 `InputGroupTextarea`의 `id`를 가리키고, `InputGroupText`는 라벨 경로에 서지 않는다(장식이면 담은 부가물에 `aria-hidden`, 뜻이 있으면 소비처가 `aria-describedby`로 묶는다). `InputGroupAddon`의 배치는 `placement` 축이 진다 — `auto`(DOM 순서가 정한다, 기본값)·`start`·`end` 셋이다. 이름이 `align`이 아닌 것은 우리 카탈로그에서 `align`이 이미 Radix의 prop 이름 공간에 속해 **떠 있는 표면이 트리거의 어느 모서리에 붙는가**를 뜻하기 때문이고, `placement`는 #125가 `ChartLegendContent`에 같은 이유로 세운 이름이다. 기본값이 `start`가 아닌 `auto`인 것은 `order-first`가 컨트롤 뒤에 쓴 기존 부가물을 앞으로 옮겨 발행된 인스턴스를 재해석하기 때문이다(#143의 `knockout: none`과 같은 자리). **upstream의 `block-start`·`block-end`는 계약하지 않는다** — 껍데기 위·아래에 한 줄을 통째로 두는 배치라 루트가 줄바꿈하는 auto 높이 컨테이너가 되어야 하고, 그건 `h-9` 한 줄과 `h-full` 컨트롤을 재해석하는 breaking이다. 조건부 클래스로 피하면 그 선언이 매니페스트에서 `unresolved`가 되어 파생 채널이 못 그린다(#144). 위·아래 줄이 필요하면 Field의 세로 축을 쓴다. 부가물 안의 버튼·`Kbd`를 필드 가장자리에 광학 정렬하는 음수 마진(upstream의 `has-[>button]:ml-*`)도 계약하지 않는다 — 부가물의 **자식**에 걸리는 조건부라 셀이 아니라 수식자가 되고, 필요하면 소비처가 그 자리에서 준다. `InputGroupButton`의 variant·size는 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면 되고 우리 스타일 결정을 복제하지 않는다(#121).",
+        "use": "한 줄 또는 여러 줄 입력 컨트롤 하나와 아이콘·단위·글자·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
       }
     },
     "stateSamples": false,
@@ -1500,13 +1502,14 @@ export const catalog = [
   {
     "component": "table",
     "displayName": "Table",
-    "hash": "9baef1c66ff4",
+    "hash": "aaafe040c4a6",
     "cells": 1,
     "axes": {},
     "anatomy": [
       "Table",
       "TableHeader",
       "TableBody",
+      "TableFooter?",
       "TableRow*",
       "TableHead*",
       "TableCell*",
@@ -1522,7 +1525,7 @@ export const catalog = [
       "example": "table",
       "guidance": {
         "evidence": "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.",
-        "limits": "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다.",
+        "limits": "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다. `TableFooter`는 `<tfoot>`이고 합계·소계처럼 **본문 행들을 요약하는 행**의 자리다 — 표 시맨틱은 브라우저가 지므로 `<tfoot>`은 DOM 어디에 쓰든 마지막에 그려지고 보조기술에는 rowgroup 하나로 읽힌다. 요약 행의 첫 칸을 이름으로 읽히게 할지는 소비처가 `TableHead scope=\"row\"`로 정한다 — 슬롯은 자기가 담은 것이 이름인지 값인지 알 수 없다(`ItemMedia`의 대체 텍스트와 같은 자리, #145). 면은 upstream의 반투명 `bg-muted/50`이 아니라 **`bg-muted`를 온전히** 그린다: 알파를 우리 매니페스트에 넣으면 `--ds-bg-subtle`로 해결되며 50%가 조용히 버려져 코드와 파생 채널이 갈리고, 그 어긋남을 보는 게이트가 없다(ADR-0006). 반투명 짝을 토큰으로 세우는 것은 새 토큰이라 선제 공개하지 않는다(#118). **머리글·바닥글의 고정(sticky)은 계약하지 않는다** — 스크롤 컨테이너를 소비처가 소유하고, `<tfoot>`에 건 sticky는 브라우저마다 갈려 실제로는 `<th>`·`<td>`마다 걸어야 하므로 우리 셀의 결정이 아니다.",
         "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
       }
     },
