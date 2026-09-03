@@ -117,4 +117,45 @@ self-test는 "재는 함수가 맞는가"다. 둘째 층은 "**모집단이 맞�
 
 **④ 이웃 간격은 재지 않는다.** 겹침(ADR-0020 결정 5)은 소비처의 레이아웃이 만드는 것이라 참조 스토리에서 잰 값이 소비처의 값이 아니다. 계기가 보는 것은 "이 노드가 받는가"이지 "이웃이 24 안에 있는가"가 아니다.
 
-**⑤ 게이트가 아니다.** 판정과 기준선 커밋은 [#232](https://github.com/flameware/massive-design/issues/232)가 계기가 안정된 뒤에 결정한다 — 계기를 믿을 수 있는지 알기 전에 기준선을 커밋하면 게이트가 스스로 침묵을 제조한다(ADR-0020 §고려한 대안).
+**⑤ 이 스크립트 자신은 게이트가 아니다.** 판정은 `scripts/pointer-target-gate.mjs`(§6)가 이 계기 위에서 진다 — 계기를 먼저 검사한 뒤에 읽었기 때문에(#176) 이제 그 판정을 믿을 수 있다.
+
+## 6. 게이트 — 하한 미달과 미신고 겹침을 문다 ([#232](https://github.com/flameware/massive-design/issues/232))
+
+이 계기가 낸 실측 위에 `scripts/pointer-target-gate.mjs`가 서서 두 가지를 문다. **정책표(`classify.mjs`)는 건드리지 않는다** — "Figma가 그리는가"와 "규칙이 지켜지는가"는 다른 질문이고, 하나로 섞은 것이 [#109](https://github.com/flameware/massive-design/issues/109)의 실패였다(ADR-0020 결정 6).
+
+1. **하한 미달** — `square24`가 거짓인 대상 중 예외 목록에 없는 것
+2. **미신고 겹침** — 히트 영역이 시각 상자를 넘는데(overage) 그 오버리지가 **커밋된 기준선에 없던 것**. ADR-0020 결정 5의 "선언은 계약 필드가 아니라 계산"을 그대로 따른다 — 계산이 사는 자리는 커밋된 기준선(`docs/research/pointer-targets-2026-09.md`의 TSV)이고, 실측을 다시 돌려 기준선을 갱신하는 행위 자체가 선언이다. `::after` 계산 스타일 유무 하나만으로 판정하지 않는다 — 참조 스토리의 구성(같은 행에 놓인 다른 대상, 겹치는 툴팁 등)이 `after:` 없이도 오버리지처럼 읽히는 잡음이 있고(§4.3의 "계기가 가림을 읽는다"와 같은 종류), 그 잡음도 기준선에 똑같이 찍혀 있어 기준선 대조가 잡음과 신규 오버리지를 갈라 준다.
+
+두 검사 다 **기준선과 diff**한다. 지금 main은 [#230](https://github.com/flameware/massive-design/issues/230)·[#249](https://github.com/flameware/massive-design/issues/249)가 아직 안 끝나 하한 미달이 남아 있으므로, 같은 미달이라도 **기준선 대비 새 미달(regression)**과 **기준선에도 있던 미달(known gap)**을 갈라 보고한다 — 예외 목록에 없으면 둘 다 게이트를 실패시킨다. 구분은 보고를 읽는 사람이 "내 변경이 악화시켰는가"를 바로 알기 위한 것이지 판정을 봐주는 것이 아니다.
+
+세 번째로, 코드 스캔이 낸 slot 중 **참조 스토리가 어느 셀에서도 그리지 않는 것**을 문다(예: `menubar-item`·`menubar-sub-trigger` — 연구 문서 §2.2). "재지 않음"이지 "통과"가 아니므로 예외 목록에 없으면 실패로 센다.
+
+### 예외 목록
+
+경로는 하드코딩하지 않는다 — `--exceptions <path>` 로 주거나 기본값 `docs/research/pointer-target-exceptions.json`을 읽는다. 파일이 없으면 빈 목록으로 돈다. [#231](https://github.com/flameware/massive-design/issues/231)이 `belowFloor`(24×24 하한이 닿지 못하는 자리)를 채운다. `unmeasuredSlots`는 이 티켓이 시드로 채웠다 — `menubar-item`·`menubar-sub-trigger`(참조 스토리가 안 엶)·`switch-thumb`(pointer-events:none, Switch의 겨냥 단위는 Root).
+
+```json
+{
+  "belowFloor": [{ "component": "scroll-area", "slot": "scroll-area-thumb", "reason": "..." }],
+  "unmeasuredSlots": [{ "component": "menubar", "slot": "menubar-item", "reason": "..." }]
+}
+```
+
+`component`·`slot`은 `pointer-targets.tsv`의 `story`·`slot` 열과 맞춘다. `belowFloor` 항목은 그 (component, slot)의 모든 셀·size를 면제한다 — 셀 단위로 더 좁히고 싶으면 이 게이트를 여는 다음 티켓의 일이다.
+
+### 실행
+
+```sh
+bun run pointer-gate                                    # Storybook 빌드 + 실측(self-test 포함) + 게이트, 약 7분
+node scripts/pointer-target-gate.mjs --skip-build --measured <tsv>   # 이미 실측한 TSV로 게이트만(빠르다)
+node scripts/pointer-target-gate.mjs --exceptions <path>             # 예외 목록 경로를 바꾼다
+node scripts/pointer-target-gate.mjs --baseline <tsv>                # 기준선을 바꾼다(기본은 §정본)
+```
+
+### CI로 승격하지 않는다 — 언제 손으로 돌리는가
+
+맵 #111 결정 6과 이 티켓의 out of scope다. `bun run check`·`bun run sync:preflight` 사슬에 **넣지 않는다** — Storybook 빌드 + Playwright 실측이 약 7분이라 preflight 예산을 넘는다. 지금은 **포인터 대상을 건드린 세대에 손으로 돈다**: 그 판정 기준(어떤 변경이 "포인터 대상을 건드렸다"로 세는가 — 예를 들어 §2.1 스캔 slot을 가진 파일이 diff에 있는가)은 [#233](https://github.com/flameware/massive-design/issues/233)이 검증 규약 개정으로 적는다.
+
+### 게이트 자신의 self-test
+
+`scripts/pointer-target-gate.test.mjs`(`bun run test`가 돈다)가 알려진 미달·겹침·미측정 slot 케이스를 fixture TSV로 만들어 게이트가 실제로 무는지 확인한다 — 침묵하는 게이트를 커밋하지 않는다는 원칙을 이 스크립트 자신에도 적용한 것이다.

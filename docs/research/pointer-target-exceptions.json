@@ -1,0 +1,21 @@
+{
+  "_comment": "포인터 대상 실측 게이트(#232)의 예외 목록. --exceptions 로 경로를 바꿀 수 있다(기본 이 파일). belowFloor는 24×24 하한 미달을 통과시키는 항목이고 #231이 채운다 — 지금은 비어 있다. unmeasuredSlots는 코드 스캔이 낸 slot 중 참조 스토리의 어느 셀에도 그려지지 않아 실측이 못 보는 자리다(ADR-0020 §7의 계기 한계, 연구 문서 §2.2·§3). 항목 형식: { component, slot, reason }. component·slot은 pointer-targets.tsv의 story·slot 열과 맞춘다.",
+  "belowFloor": [],
+  "unmeasuredSlots": [
+    {
+      "component": "menubar",
+      "slot": "menubar-item",
+      "reason": "참조 스토리가 여는 메뉴는 checkbox·radio 항목이 든 메뉴이고 '거래 추가' 메뉴는 닫혀 있다 — 재지 않은 것이지 통과한 것이 아니다(연구 문서 §2.2)"
+    },
+    {
+      "component": "menubar",
+      "slot": "menubar-sub-trigger",
+      "reason": "같은 이유 — 참조 스토리가 그 서브메뉴를 열지 않는다(연구 문서 §2.2)"
+    },
+    {
+      "component": "switch",
+      "slot": "switch-thumb",
+      "reason": "pointer-events:none — Switch의 겨냥 단위는 Root다, thumb 자체는 대상이 아니다(연구 문서 §3)"
+    }
+  ]
+}
