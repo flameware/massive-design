@@ -282,6 +282,11 @@ const componentContract = {
     // `[&>span:last-child]:truncate`가 지목하는 것은 **라벨**이다(#181). 선택자가 그것을
     // 스스로 말하지 않으므로 전역 `MODIFIER_POLICY`가 아니라 계약이 이름표를 진다(ADR-0013)
     SidebarMenuButton: { config: sidebarMenuButtonVariantsConfig, className: (props: Record<string, string>) => cn(sidebarMenuButtonVariants(props)), slots: { label: "[&>span:last-child]" } },
+    // upstream이 `size?: "sm" | "md"`를 `data-size`로 낸다. 여기서는 글자 한 단(`text-sm`→
+    // `text-xs`) 차이라 FieldTitle(#175)·Card(#121)·Item xs(#174)와 같은 근거로 축을
+    // 닫되, 형제 SidebarMenuButton이 이미 `size`를 발행해 소비처가 sub 버튼에서만
+    // 덮어써야 한다는 #174의 단서가 더 세게 걸린다. 조건부 닫기 — 실측 수요가 확인되면
+    // 여는 것이 기본값이다(#177 §3, #225).
     SidebarMenuSubButton: { ...staticPart(sidebarMenuSubButtonClassName), slots: { label: "[&>span:last-child]" } },
     SidebarHeader: staticPart("flex flex-col gap-2 p-2"),
     SidebarContent: staticPart("flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2"),
@@ -297,7 +302,7 @@ const componentContract = {
     SidebarInset: staticPart("relative flex w-full flex-1 flex-col bg-background"),
   },
   behaviors: {},
-  reference: { example: "sidebar", guidance: { use: "애플리케이션 셸의 왼쪽이나 오른쪽에 고정돼 본문과 함께 살며 접고 펴는 세로 탐색 표면에 쓴다. 좁은 폭에서는 `isMobile`에 따라 Sheet으로 갈아 끼운다.", evidence: "투자 이력·보유 현황·회고를 오가는 탐색이 화면 상단 탭으로는 다 들어가지 않고, 본문을 보면서 다른 구역으로 이동해야 한다.", limits: "breakpoint 판정·열림 영속화·단축키는 내장하지 않는다 — `isMobile`과 `open`·`onOpenChange`로 소비처가 배선한다. 검색 칸·스켈레톤은 Input·Skeleton으로 조립하고 접힌 메뉴 버튼의 레이블은 Tooltip으로 감싼다. `<main>`과 `aria-label`은 소비처가 준다." } },
+  reference: { example: "sidebar", guidance: { use: "애플리케이션 셸의 왼쪽이나 오른쪽에 고정돼 본문과 함께 살며 접고 펴는 세로 탐색 표면에 쓴다. 좁은 폭에서는 `isMobile`에 따라 Sheet으로 갈아 끼운다.", evidence: "투자 이력·보유 현황·회고를 오가는 탐색이 화면 상단 탭으로는 다 들어가지 않고, 본문을 보면서 다른 구역으로 이동해야 한다.", limits: "breakpoint·영속화·단축키는 `isMobile`·`open`·`onOpenChange`로 소비처가 배선한다. 검색·스켈레톤·접힌 레이블은 Input·Skeleton·Tooltip으로 조립한다. `<main>`·`aria-label`은 소비처가 준다. `SidebarMenuSubButton.size`는 닫는다 — 작은 글자는 `className`으로." } },
 } as const
 
 export { SidebarProvider, Sidebar, SidebarInset, SidebarTrigger, SidebarRail, SidebarHeader, SidebarContent, SidebarFooter, SidebarSeparator, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarGroupAction, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuAction, SidebarMenuBadge, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, useSidebar, sidebarVariants, sidebarVariantsConfig, sidebarMenuButtonVariants, sidebarMenuButtonVariantsConfig, componentContract }
