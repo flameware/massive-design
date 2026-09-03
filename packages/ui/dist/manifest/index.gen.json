@@ -45,7 +45,7 @@
     {
       "cells": 2,
       "component": "button-group",
-      "hash": "c31e2df5071e",
+      "hash": "5a1d4c7c81d6",
       "path": "button-group.gen.json"
     },
     {
@@ -57,7 +57,7 @@
     {
       "cells": 1,
       "component": "card",
-      "hash": "5c2b70656b1d",
+      "hash": "82d2063c2dba",
       "path": "card.gen.json"
     },
     {
@@ -93,7 +93,7 @@
     {
       "cells": 1,
       "component": "command",
-      "hash": "efd26d5beca5",
+      "hash": "b5123b0d147e",
       "path": "command.gen.json"
     },
     {
@@ -105,7 +105,7 @@
     {
       "cells": 1,
       "component": "dropdown-menu",
-      "hash": "3ccb17fb03d8",
+      "hash": "6fbac9bfcf45",
       "path": "dropdown-menu.gen.json"
     },
     {
@@ -117,7 +117,7 @@
     {
       "cells": 3,
       "component": "field",
-      "hash": "b3f1aa9d93f9",
+      "hash": "1a2e02b81836",
       "path": "field.gen.json"
     },
     {
@@ -141,7 +141,7 @@
     {
       "cells": 6,
       "component": "item",
-      "hash": "c87aa8a24695",
+      "hash": "a0042739cb1c",
       "path": "item.gen.json"
     },
     {
@@ -159,13 +159,13 @@
     {
       "cells": 1,
       "component": "list-row",
-      "hash": "13b2dd444ee2",
+      "hash": "318cb36fbbd1",
       "path": "list-row.gen.json"
     },
     {
       "cells": 1,
       "component": "menubar",
-      "hash": "0e30daf20e52",
+      "hash": "717e9b70857e",
       "path": "menubar.gen.json"
     },
     {
@@ -207,7 +207,7 @@
     {
       "cells": 2,
       "component": "resizable",
-      "hash": "c8562bec6241",
+      "hash": "889a182cd242",
       "path": "resizable.gen.json"
     },
     {
@@ -217,21 +217,21 @@
       "path": "scroll-area.gen.json"
     },
     {
-      "cells": 1,
+      "cells": 2,
       "component": "select",
-      "hash": "d2d830b54547",
+      "hash": "43ec66d2ad30",
       "path": "select.gen.json"
     },
     {
       "cells": 2,
       "component": "separator",
-      "hash": "e3aa7434689a",
+      "hash": "5397c850ef60",
       "path": "separator.gen.json"
     },
     {
       "cells": 4,
       "component": "sheet",
-      "hash": "736bd9484ffd",
+      "hash": "c3e0784ff1ea",
       "path": "sheet.gen.json"
     },
     {
@@ -267,13 +267,13 @@
     {
       "cells": 1,
       "component": "table",
-      "hash": "c0e881d471f4",
+      "hash": "aaafe040c4a6",
       "path": "table.gen.json"
     },
     {
       "cells": 2,
       "component": "tabs",
-      "hash": "8e8ffcfb8b6a",
+      "hash": "41af970533cb",
       "path": "tabs.gen.json"
     },
     {
