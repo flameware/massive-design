@@ -243,7 +243,7 @@ export const catalog = [
   {
     "component": "button-group",
     "displayName": "Button Group",
-    "hash": "5a1d4c7c81d6",
+    "hash": "c31e2df5071e",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -310,7 +310,7 @@ export const catalog = [
   {
     "component": "card",
     "displayName": "Card",
-    "hash": "82d2063c2dba",
+    "hash": "5c2b70656b1d",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -505,7 +505,7 @@ export const catalog = [
   {
     "component": "command",
     "displayName": "Command",
-    "hash": "b5123b0d147e",
+    "hash": "efd26d5beca5",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -580,7 +580,7 @@ export const catalog = [
   {
     "component": "dropdown-menu",
     "displayName": "Dropdown Menu",
-    "hash": "6bbd3f76234b",
+    "hash": "3ccb17fb03d8",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -653,7 +653,7 @@ export const catalog = [
   {
     "component": "field",
     "displayName": "Field",
-    "hash": "1a2e02b81836",
+    "hash": "b3f1aa9d93f9",
     "cells": 3,
     "axes": {
       "orientation": [
@@ -789,7 +789,7 @@ export const catalog = [
   {
     "component": "item",
     "displayName": "Item",
-    "hash": "a0042739cb1c",
+    "hash": "c87aa8a24695",
     "cells": 6,
     "axes": {
       "size": [
@@ -877,7 +877,7 @@ export const catalog = [
   {
     "component": "list-row",
     "displayName": "List Row",
-    "hash": "318cb36fbbd1",
+    "hash": "13b2dd444ee2",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -909,7 +909,7 @@ export const catalog = [
   {
     "component": "menubar",
     "displayName": "Menubar",
-    "hash": "717e9b70857e",
+    "hash": "0e30daf20e52",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1153,7 +1153,7 @@ export const catalog = [
   {
     "component": "resizable",
     "displayName": "Resizable",
-    "hash": "889a182cd242",
+    "hash": "c8562bec6241",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -1222,7 +1222,7 @@ export const catalog = [
   {
     "component": "select",
     "displayName": "Select",
-    "hash": "70f20a258e31",
+    "hash": "d2d830b54547",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1255,7 +1255,7 @@ export const catalog = [
   {
     "component": "separator",
     "displayName": "Separator",
-    "hash": "5397c850ef60",
+    "hash": "e3aa7434689a",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -1281,7 +1281,7 @@ export const catalog = [
   {
     "component": "sheet",
     "displayName": "Sheet",
-    "hash": "c3e0784ff1ea",
+    "hash": "736bd9484ffd",
     "cells": 4,
     "axes": {
       "side": [
@@ -1505,7 +1505,7 @@ export const catalog = [
   {
     "component": "table",
     "displayName": "Table",
-    "hash": "aaafe040c4a6",
+    "hash": "c0e881d471f4",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1538,7 +1538,7 @@ export const catalog = [
   {
     "component": "tabs",
     "displayName": "Tabs",
-    "hash": "41af970533cb",
+    "hash": "8e8ffcfb8b6a",
     "cells": 2,
     "axes": {
       "orientation": [

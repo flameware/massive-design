@@ -122,7 +122,7 @@
   "drawnBy": {
     "open": "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다"
   },
-  "hash": "70f20a258e31",
+  "hash": "d2d830b54547",
   "parts": {
     "SelectContent": {
       "axes": {},
@@ -359,6 +359,14 @@
               "from": "-mx-1",
               "tier": "literal",
               "value": "calc(0.25rem * -1)"
+            },
+            "padding-top": {
+              "from": "border-t",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
             }
           },
           "state": null

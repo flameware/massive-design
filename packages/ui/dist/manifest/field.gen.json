@@ -169,7 +169,7 @@
       }
     }
   },
-  "hash": "1a2e02b81836",
+  "hash": "b3f1aa9d93f9",
   "parts": {
     "FieldContent": {
       "axes": {},
@@ -444,6 +444,14 @@
               "multiple": 0,
               "px": 0,
               "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-top": {
+              "from": "border-t",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
               "tier": "token",
               "token": "--spacing"
             },

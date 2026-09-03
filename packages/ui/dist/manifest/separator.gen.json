@@ -34,6 +34,14 @@
           "tier": "token",
           "token": "--spacing"
         },
+        "padding-top": {
+          "from": "border-t",
+          "multiple": 6,
+          "px": 24,
+          "scale": "space.6",
+          "tier": "token",
+          "token": "--spacing"
+        },
         "width": {
           "from": "w-full",
           "tier": "literal",
@@ -80,7 +88,7 @@
     "orientation": "horizontal"
   },
   "drawnBy": {},
-  "hash": "5397c850ef60",
+  "hash": "e3aa7434689a",
   "reference": {
     "example": "separator",
     "guidance": {

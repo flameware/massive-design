@@ -112,7 +112,7 @@
       }
     }
   },
-  "hash": "717e9b70857e",
+  "hash": "0e30daf20e52",
   "parts": {
     "MenubarCheckboxItem": {
       "axes": {},
@@ -494,6 +494,14 @@
               "from": "-mx-1",
               "tier": "literal",
               "value": "calc(0.25rem * -1)"
+            },
+            "padding-top": {
+              "from": "border-t",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
             }
           },
           "state": null
