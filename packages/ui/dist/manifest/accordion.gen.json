@@ -40,9 +40,197 @@
   "defaults": {},
   "drawnBy": {
     "expansion": "`type` prop이 고르는 조립이 그린다 — 여러 항목이 동시에 열릴 수 있는지는 클래스가 아니라 primitive의 동작이다",
-    "open": "`AccordionTrigger`의 화살표 회전과 `AccordionContent`의 열림 애니메이션이 그리지만 두 파트가 아직 계약에 없다(#155)"
+    "open": {
+      "attribute": "data-state",
+      "values": {
+        "open": "open"
+      }
+    }
   },
-  "hash": "4f3463aca5d6",
+  "elsewhere": {
+    "last": {
+      "declaredOn": {
+        "AccordionItem": [
+          "border-bottom-style",
+          "border-bottom-width"
+        ]
+      },
+      "reason": "무리 안 위치(끝 항목) — 이 자산이 아니라 조립된 그룹이 그린다"
+    }
+  },
+  "hash": "d26a258fcc56",
+  "parts": {
+    "AccordionContent": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+          "properties": {
+            "data-[state=closed]:animate-accordion-up": {
+              "from": "data-[state=closed]:animate-accordion-up",
+              "tier": "unresolved",
+              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+            },
+            "data-[state=open]:animate-accordion-down": {
+              "from": "data-[state=open]:animate-accordion-down",
+              "tier": "unresolved",
+              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "AccordionItem": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "border-b last:border-b-0",
+          "properties": {
+            "border-bottom-width": {
+              "from": "border-b",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "padding-bottom": {
+              "from": "border-b",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "AccordionTrigger": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--background)] flex flex-1 items-center justify-between gap-4 rounded-md py-4 text-left text-sm font-medium outline-none transition-all hover:underline focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
+          "configurations": {
+            "open": {
+              "open": {
+                "slots": {
+                  "icon": {
+                    "rotate": {
+                      "from": "[&[data-state=open]>svg]:rotate-180",
+                      "tier": "literal",
+                      "value": "180deg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex": {
+              "from": "flex-1",
+              "tier": "literal",
+              "value": "1"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "gap": {
+              "from": "gap-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-between",
+              "tier": "literal",
+              "value": "space-between"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "padding-block": {
+              "from": "py-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-left",
+              "tier": "literal",
+              "value": "left"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-canvas",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "accordion",
     "guidance": {
