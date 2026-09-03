@@ -55,9 +55,11 @@ const resizableHandleVariantsConfig = {
  * 그려 토큰이 제 자리(`border-color`)에 가게 한다. 폭은 border가 만들므로 `w-px`가 `w-0`이 된다.
  *
  * 잡는 자리는 `after:`의 투명한 히트 영역이 넓히고, 그 수식자는 `MODIFIER_POLICY`에서
- * `ignore`다 — 그릴 것이 없는 영역이라 Figma에 영영 가지 않는다. 터치 히트 영역의
- * 크기(upstream 기본값은 coarse 20px·fine 10px)는 터치 대상 크기 규칙(#111)이 정한 뒤에
- * 다시 본다. */
+ * `ignore`다 — 그릴 것이 없는 영역이라 Figma에 영영 가지 않는다. 히트 영역 크기(upstream
+ * 기본값은 coarse 20px·fine 10px)는 우리 24×24 하한을 지지 않는다 — `react-resizable-panels`가
+ * `hitAreaMargins`로 자기 히트 영역을 이미 파라미터로 갖고 있어 외부 소유 표면이고
+ * (ADR-0020 §4, [#122](https://github.com/flameware/massive-design/issues/122)), 확정된
+ * 예외다(`docs/research/pointer-target-exceptions-2026-09.md` §2.2, #231). */
 const resizableHandleVariants = cva(
   "relative flex items-center justify-center outline-none after:absolute focus-visible:ring-[3px] focus-visible:ring-ring",
   resizableHandleVariantsConfig

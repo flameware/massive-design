@@ -86,8 +86,9 @@ const carouselItemVariantsConfig = {
  * 지점은 우리 계약에 나타나지 않는다. */
 const carouselItemVariants = cva("min-w-0 shrink-0 grow-0 basis-full", carouselItemVariantsConfig)
 
-/* 이전·다음 버튼의 터치 히트 영역(`size-8`) 크기는 터치 대상 크기 규칙(#111)이 정한 뒤에
- * 다시 본다. */
+/* 이전·다음 버튼의 히트 영역(`size-8` = 32px)은 24×24 하한(ADR-0020 결정 1)을 이미
+ * 만족한다 — `overflow-hidden` 래퍼 밖에 있어 잘리지도 않는다(실측 근거
+ * `docs/research/pointer-target-exceptions-2026-09.md` §3, #228/#231). 손댈 것이 없다. */
 const carouselNavVariantsConfig = {
   variants: {
     orientation: {
