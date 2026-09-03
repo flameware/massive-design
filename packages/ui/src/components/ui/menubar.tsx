@@ -189,7 +189,7 @@ const componentContract = {
    * 경우까지 그쪽이 덮는다(#126). Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는
    * 패널을 소유하지 않고 항목이 명령이다. 사이트 탐색은 Navigation Menu다 — 이 막대의
    * 항목은 명령이라 `aria-current`도 URL도 갖지 않는다. */
-  reference: { example: "menubar", guidance: { use: "상시 노출 가로 막대에 명령 메뉴 여러 개를 나란히 둘 때 쓴다. 체크·라디오·하위 묶음은 `MenubarCheckboxItem`·`MenubarRadioGroup`·`MenubarSub`다.", evidence: "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.", limits: "사이트 탐색은 Navigation Menu, 진입점 하나의 행·캔버스 메뉴(우클릭 포함)는 Dropdown Menu, 패널 전환은 Tabs다. 단축키는 `Kbd`를 `ml-auto`로 놓고 막대 이름은 `aria-label`로 준다. 포탈 대상은 `MenubarContent`의 prop으로 온다 — 근거: ADR-0018" } },
+  reference: { example: "menubar", guidance: { use: "상시 노출 가로 막대에 명령 메뉴 여러 개를 나란히 둘 때 쓴다. 체크·라디오·하위 묶음은 `MenubarCheckboxItem`·`MenubarRadioGroup`·`MenubarSub`다.", evidence: "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.", limits: "사이트 탐색은 Navigation Menu, 행·캔버스 메뉴는 Dropdown Menu, 패널 전환은 Tabs다. 단축키는 Kbd를 ml-auto로, 막대 이름은 aria-label로 준다. `MenubarItem`은 variant를 열지 않는다 — 파괴적 명령이 막대에 오면 DropdownMenuItem과 같은 축으로 연다." } },
 } as const
 
 export { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarGroup, MenubarLabel, MenubarItem, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarSub, MenubarSubTrigger, MenubarSubContent, menubarVariants, menubarVariantsConfig, componentContract }
