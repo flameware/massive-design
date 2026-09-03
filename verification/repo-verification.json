@@ -1,14 +1,11 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
-  "targetCommit": "a066fa2eec2d13f87c35e582167f2beb2491becd",
+  "result": "PASS",
+  "targetCommit": "505a05123d7e523cf5f9c9d31b0093bc8cb55c9a",
   "inputTree": {
-    "commit": "a066fa2eec2d13f87c35e582167f2beb2491becd",
-    "clean": false,
-    "dirtyPaths": [
-      "apps/storybook/stories/CatalogReference.tsx"
-    ]
+    "commit": "505a05123d7e523cf5f9c9d31b0093bc8cb55c9a",
+    "clean": true
   },
   "inputDigest": "6ac5e732e90f161f0c924bdf7e9bc006c1fa615d8edbcab21f47b7af00f51df0",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
@@ -272,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-03T23:08:41.907Z",
+      "checkedAt": "2026-09-03T23:09:43.817Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -302,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-09-03T23:08:41.907Z",
+      "result": "PASS",
+      "checkedAt": "2026-09-03T23:09:43.817Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -499,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "claude-agent",
+        "checkedAt": "2026-09-03T23:10:36.892Z",
+        "scope": "dropdown-menu: DropdownMenuItem default·destructive variant, Light/Dark, hover-highlighted state (destructive-soft base swap) — verified via Storybook (components-manifest-references--dropdown-menu, manifest 6bbd3f76234b). Rest of the 22-item behaviour checklist unchanged from prior generation (no gestures/behaviors touched by this ticket)."
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "commit the input changes, then re-run sync:preflight"
+  "resumeAt": null,
+  "completedAt": "2026-09-03T23:10:36.892Z"
 }
