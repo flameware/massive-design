@@ -5,6 +5,7 @@ import { cva } from "class-variance-authority"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
+/* `size` 축은 열지 않는다 — size는 소비처가 유틸리티로 정할 수 있다(#121). */
 const alertDialogVariantsConfig = { variants: {}, defaultVariants: {} } as const
 const alertDialogVariants = cva(
   "fixed top-1/2 left-1/2 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border bg-background p-6 text-foreground shadow-lg outline-none",
@@ -67,6 +68,10 @@ function AlertDialogCancel({ className, ...props }: React.ComponentProps<typeof 
 const componentContract = {
   name: "alert-dialog",
   source: "src/components/ui/alert-dialog.tsx",
+  /* `AlertDialogPortal`은 공개하지 않는다 — `AlertDialogContent`가 스스로 Portal을 감싸므로
+   * 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨
+   * `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가
+   * 아니라 `AlertDialogContent`의 prop으로 온다. */
   publicExports: [
     "AlertDialog", "AlertDialogTrigger", "AlertDialogOverlay",
     "AlertDialogContent", "AlertDialogHeader", "AlertDialogFooter", "AlertDialogTitle",
@@ -75,6 +80,8 @@ const componentContract = {
   ],
   config: alertDialogVariantsConfig,
   className: (props: Record<string, string>) => cn(alertDialogVariants(props)),
+  /* `AlertDialogMedia`는 열지 않는다 — Dialog에는 없어 두 컴포넌트의 anatomy를 갈라놓는
+   * upstream의 비대칭이라 승계할 근거가 없다(#121). */
   anatomy: [
     "AlertDialog", "AlertDialogTrigger", "AlertDialogOverlay",
     "AlertDialogContent", "AlertDialogHeader?", "AlertDialogTitle",
@@ -87,7 +94,7 @@ const componentContract = {
     guidance: {
       use: "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다.",
       evidence: "투자 거래 삭제는 기록과 손익 계산에 영향을 주므로 실행과 취소의 의미를 분리해 확인해야 한다.",
-      limits: "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다. `size` 축과 `AlertDialogMedia`는 열지 않는다 — size는 소비처가 유틸리티로 정할 수 있고, Media는 Dialog에는 없어 두 컴포넌트의 anatomy를 갈라놓는 upstream의 비대칭이라 승계할 근거가 없다(#121). `AlertDialogPortal`은 공개하지 않는다 — `AlertDialogContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `AlertDialogContent`의 prop으로 온다.",
+      limits: "일반 정보·양식·되돌리기 쉬운 행동은 Dialog로 가고 반복 확인 단계로 쓰지 않는다. `size` 축·`AlertDialogMedia`는 열지 않고 크기는 유틸리티로 정한다. `AlertDialogPortal`은 공개하지 않고 포탈 대상은 `AlertDialogContent`의 prop으로 온다 — 근거: ADR-0018",
     },
   },
 } as const

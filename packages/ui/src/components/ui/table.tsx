@@ -30,6 +30,11 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
 }
 /* 합계 행의 면과 경계다(#170).
  *
+ * `<tfoot>`은 합계·소계처럼 **본문 행들을 요약하는 행**의 자리다 — 표 시맨틱은 브라우저가
+ * 지므로 DOM 어디에 쓰든 마지막에 그려지고 보조기술에는 rowgroup 하나로 읽힌다. 요약
+ * 행의 첫 칸을 이름으로 읽히게 할지는 소비처가 `TableHead scope="row"`로 정한다 — 슬롯은
+ * 자기가 담은 것이 이름인지 값인지 알 수 없다(`ItemMedia`의 대체 텍스트와 같은 자리, #145).
+ *
  * **`bg-muted/50`을 그대로 가져오지 않는다.** upstream의 `.cn-table-footer`는 반투명
  * 면인데, 우리 매니페스트에 그대로 넣어 재어 보면 `background-color`가
  * `--ds-bg-subtle`로 **알파가 버려진 채** 해결된다 — 코드는 50%를 그리고 파생 채널은
@@ -74,6 +79,10 @@ const componentContract = {
   },
   configurationStates: { row: ["default", "selected"] }, drawnBy: { row: { attribute: "data-state", values: { selected: "selected" } } },
   behaviors: {},
-  reference: { example: "table", guidance: { use: "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다.", evidence: "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.", limits: "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다. `TableFooter`는 `<tfoot>`이고 합계·소계처럼 **본문 행들을 요약하는 행**의 자리다 — 표 시맨틱은 브라우저가 지므로 `<tfoot>`은 DOM 어디에 쓰든 마지막에 그려지고 보조기술에는 rowgroup 하나로 읽힌다. 요약 행의 첫 칸을 이름으로 읽히게 할지는 소비처가 `TableHead scope=\"row\"`로 정한다 — 슬롯은 자기가 담은 것이 이름인지 값인지 알 수 없다(`ItemMedia`의 대체 텍스트와 같은 자리, #145). 면은 upstream의 반투명 `bg-muted/50`이 아니라 **`bg-muted`를 온전히** 그린다: 알파를 우리 매니페스트에 넣으면 `--ds-bg-subtle`로 해결되며 50%가 조용히 버려져 코드와 파생 채널이 갈리고, 그 어긋남을 보는 게이트가 없다(ADR-0006). 반투명 짝을 토큰으로 세우는 것은 새 토큰이라 선제 공개하지 않는다(#118). **머리글·바닥글의 고정(sticky)은 계약하지 않는다** — 스크롤 컨테이너를 소비처가 소유하고, `<tfoot>`에 건 sticky는 브라우저마다 갈려 실제로는 `<th>`·`<td>`마다 걸어야 하므로 우리 셀의 결정이 아니다." } },
+  reference: { example: "table", guidance: {
+    use: "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다.",
+    evidence: "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.",
+    limits: "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다. `TableFooter`는 `<tfoot>`이라 본문을 요약하는 합계·소계 행의 자리이고, 첫 칸을 이름으로 읽힐지는 `TableHead scope=\"row\"`로 정한다. sticky는 소비처가 스크롤 컨테이너와 함께 `<th>`·`<td>`에 건다.",
+  } },
 } as const
 export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, tableVariants, tableVariantsConfig, componentContract }

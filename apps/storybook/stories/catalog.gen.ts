@@ -57,7 +57,7 @@ export const catalog = [
       "example": "alert",
       "guidance": {
         "evidence": "투자 데이터 동기화 결과와 가격 지연 경고를 성공·warning·danger 의미로 구별해야 하고, 동기화가 실패한 경고에는 다시 시도 버튼이 같은 카드 안에 있어야 한다.",
-        "limits": "잠깐 나타나는 작업 결과에는 Toast를 사용하고, 모든 안내를 role=alert로 반복해 쌓지 않는다. `AlertAction`은 **자리만 정하고 내용은 소비처가 넣는다** — 대개 `Button`이며, 우리가 variant·size 기본값을 먹이지 않는다(#91). `AlertAction`은 anatomy 순서대로 **DOM의 맨 뒤**에 둔다: `role=alert`은 삽입 시점에 내용을 통째로 읽고 그 순서는 DOM이 정하므로, 앞에 두면 버튼 이름부터 읽힌다. 위치 축은 계약하지 않는다 — upstream이 위치 prop 없이 오른쪽 위로 고정하고 실측 수요 없이 축을 열지 않는다(#123). **absolute라 제목·설명과 겹칠 수 있다**: 긴 제목은 소비처가 `pr-*`로 자리를 비운다. 열로 두면 겹치지 않지만 1열 그리드를 재해석하거나(breaking) 조건부 열이 되어 파생 채널이 못 그린다(#144). 아이콘 컬럼은 계약하지 않는다 — 이 Alert이 1열 그리드라 도입하면 기존 인스턴스의 격자를 재해석하는 breaking이다(#121).",
+        "limits": "잠깐 보이는 결과에는 Toast를 쓰고, 안내를 role=alert로 쌓지 않는다. `AlertAction`의 내용은 소비처가 넣고(대개 `Button`) anatomy 순서대로 DOM 맨 뒤에 둔다. 위치 축과 아이콘 컬럼은 열지 않는다 — 다른 자리는 className으로, 긴 제목은 `pr-*`로 겹침을 피한다.",
         "use": "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달하고, 그 자리에서 할 수 있는 동작 하나를 `AlertAction`에 얹는다."
       }
     },
@@ -92,7 +92,7 @@ export const catalog = [
       "example": "alert-dialog",
       "guidance": {
         "evidence": "투자 거래 삭제는 기록과 손익 계산에 영향을 주므로 실행과 취소의 의미를 분리해 확인해야 한다.",
-        "limits": "일반 정보, 양식 입력, 되돌리기 쉬운 행동에는 Dialog를 사용하고 Alert Dialog를 반복적인 확인 단계로 만들지 않는다. `size` 축과 `AlertDialogMedia`는 열지 않는다 — size는 소비처가 유틸리티로 정할 수 있고, Media는 Dialog에는 없어 두 컴포넌트의 anatomy를 갈라놓는 upstream의 비대칭이라 승계할 근거가 없다(#121). `AlertDialogPortal`은 공개하지 않는다 — `AlertDialogContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `AlertDialogContent`의 prop으로 온다.",
+        "limits": "일반 정보·양식·되돌리기 쉬운 행동은 Dialog로 가고 반복 확인 단계로 쓰지 않는다. `size` 축·`AlertDialogMedia`는 열지 않고 크기는 유틸리티로 정한다. `AlertDialogPortal`은 공개하지 않고 포탈 대상은 `AlertDialogContent`의 prop으로 온다 — 근거: ADR-0018",
         "use": "되돌리기 어렵거나 중요한 행동을 실행하기 직전에 결과를 설명하고 명시적인 확인을 받는다."
       }
     },
@@ -133,8 +133,8 @@ export const catalog = [
       "example": "avatar",
       "guidance": {
         "evidence": "투자 기록의 작성자나 연결된 증권 계정을 목록과 활동 내역에서 빠르게 구별해야 하고, 한 기록에 참여자가 여럿이면 얼굴을 겹쳐 보이고 나머지 수를 함께 낸다.",
-        "limits": "이미지만으로 이름을 전달하지 말고 주변 텍스트나 접근 가능한 이름을 제공하며, 장식 이미지에는 빈 대체 텍스트를 사용한다. `AvatarGroup`은 접근 가능한 이름을 `aria-label`로 요구한다 — 겹친 얼굴 더미는 그 자체로 무엇의 모임인지 말하지 않는다. 겹치지 않고 나란히 늘어놓는 경우에는 쓰지 않는다: 그건 소비처의 `flex gap-*`이고 이 컴포넌트가 계약하는 것은 겹침 간격과 가르는 링뿐이라 링이 필요 없으면 남는 결정이 없다. `AvatarBadge`와 `AvatarGroupCount`는 `role=\"img\"`를 달고 `aria-label`을 타입으로 요구한다 — 색점과 `+3`은 그 자체로 이름이 아니고, role 없이 `aria-label`만 얹으면 `aria-prohibited-attr`로 걸린다. `AvatarBadge`의 위치 축은 계약하지 않는다 — upstream이 위치 prop 없이 오른쪽 아래로 고정하고, 실측 수요 없이 축을 열지 않는다(#123). 다른 모서리는 소비처가 className으로 옮긴다. **겹침 링의 색은 canvas로 고정된다**(`--ds-border-knockout`) — 카드나 팝오버 면 위에 놓인 그룹에서는 링이 그 면과 어긋난다. upstream도 `ring-background`로 같은 한계를 갖고, 면마다 링 색을 가르려면 축이 하나 더 생겨 셀이 면 수만큼 늘어난다(ADR-0007). 소비처가 그 자리에서 `border-card` 같은 클래스로 덮는다. 넘침 수를 몇에서 접는지는 계약하지 않는다 — 소비처가 정해 `AvatarGroupCount`에 텍스트로 넣는다.",
-        "use": "사람이나 계정을 작은 원형 이미지로 식별하고 이미지가 없거나 실패하면 안정적인 fallback을 표시한다. 여럿을 겹쳐 보일 때는 `AvatarGroup`이 겹침 간격과 가르는 링을 지고, 넘치는 수는 `AvatarGroupCount`가 같은 지름으로 잇는다. 상태 점은 `AvatarBadge`가 오른쪽 아래에 얹는다."
+        "limits": "이름은 주변 텍스트로 주고 장식 이미지는 빈 alt다. `AvatarGroup`·`AvatarBadge`·`AvatarGroupCount`는 `aria-label`이 필수다. 겹치지 않는 나열은 소비처의 `flex gap-*`이다. 배지 위치와 카드 위 링 색은 className으로 덮고, 넘침 기준은 텍스트로 넣는다.",
+        "use": "사람이나 계정을 작은 원형 이미지로 식별하고 없으면 fallback을 낸다. 겹친 무리는 `AvatarGroup`·`AvatarGroupCount`가, 상태 점은 `AvatarBadge`가 진다."
       }
     },
     "stateSamples": false,
@@ -161,7 +161,7 @@ export const catalog = [
       "example": "badge",
       "guidance": {
         "evidence": "매수·매도, 시장, 손익 의미를 neutral·accent·success·danger에 소비처가 매핑한다.",
-        "limits": "도메인 값을 variant 이름으로 추가하지 않는다. **`variant`는 의미 계열만 채운다 — 이것은 upstream과의 어긋남이 아니다.** 이 축은 루트 자신이 어떤 표면으로 서는가를 이름하고 의미·강조·형태 세 차원 중 해당하는 것만 채우면 되며(ADR-0019), 의미만 채운 것은 `Alert`·`Toast`와 같다. upstream의 `outline`·`ghost`·`link`(채움 종류)를 더하지 않는 근거는 **성질이 다른 값이라서가 아니라 실측 수요가 없어서**다 — `Button`이 이미 한 축에 의미와 강조를 함께 담고 있어 섞는 것 자체는 금지되지 않는다(#123, #118 규칙 2, #173). **수요가 확인되면 여는 것이 기본값이고**, 같은 축에 올지 두 번째 축이 될지는 그때 정한다 — 파생 채널이 두 차원을 곱해야 하면 별도 축이고 실제로는 하나만 고르는 것이면 같은 축이다(ADR-0019).",
+        "limits": "도메인 값을 variant 이름으로 추가하지 않는다 — 매수·매도·손익 같은 의미는 소비처가 neutral·accent·success·danger에 매핑한다. `variant`는 의미 계열만 채우고, upstream의 `outline`·`ghost`·`link`는 실측 수요가 확인되면 연다 — 근거: ADR-0019",
         "use": "짧은 분류와 상태를 보조한다."
       }
     },
@@ -267,8 +267,8 @@ export const catalog = [
       "example": "button-group",
       "guidance": {
         "evidence": "투자 이력의 행 도구 모음처럼 내보내기·인쇄·행 메뉴가 나란히 서야 하고, 그중 하나만 비활성이 되는 자리가 있다.",
-        "limits": "하나의 값을 고르는 선택 위젯에는 쓰지 않는다 — 그 자리는 화살표 키 이동과 선택 상태를 가진 Toggle Group이며, 이 컴포넌트는 Button의 공개 props를 주입하거나 대체하지 않는다. 붙은 모서리와 겹친 테두리를 얹는 `[&>*:not(:first-child)]` 계열은 셀에 나타나지 않고 매니페스트의 `elsewhere`가 진다 — 그 모서리는 Figma에 실재하되 이 컨테이너 자산이 아니라 **조립된 그룹**에 그려진다(ADR-0012). Toggle Group은 같은 일을 항목의 셀에서 하는데, 그쪽으로 옮길 자리가 여기엔 없다 — 경계 ①이 자식의 props를 건드리지 않기로 했고 자식은 남의 컴포넌트다. `ButtonGroupSeparator`가 설 방향은 `orientation` 축이 진다 — `vertical`(가로 그룹 사이에 서는 세로 하이라인, 기본값)·`horizontal`(세로 그룹 사이에 서는 가로 하이라인) 둘이다. **기본값을 `vertical`로 둔 것은 오늘 이 파트가 그리는 모양이 그것이기 때문이다**: 발행된 인스턴스는 `h-full w-0 self-stretch border-l`을 달고 있고 `vertical`이 그 문자열을 한 글자도 바꾸지 않으므로 이 축은 additive다(#143의 `knockout: none`, #144의 `placement: auto`, #145의 `frame`과 같은 자리). upstream의 기본값도 `vertical`이지만 그것을 근거로 삼지 않았다 — 근거는 우리 코드이고, 두 값이 같은 것은 결과다. **루트의 `orientation`을 물려받지 않는다**: 물려받으면 축 값과 기본값이 root의 것(`horizontal`)으로 와 기본 인스턴스가 뒤집히고, 무엇보다 뜻이 반대다 — 가로 그룹에는 세로 선이 선다. 그래서 어긋난 짝(가로 그룹에 가로 선)을 계약이 막지 못하며, 짝을 맞추는 것은 소비처의 일이다(참조 스토리가 그 짝을 보인다). 축 이름이 `orientation`인 것은 카탈로그에서 이 이름이 이미 **같은 뜻**으로만 쓰이기 때문이다(`Separator`·`Carousel`·`Resizable`·`Field`·`Tabs`·`Slider`·`ScrollArea`, 그리고 이 컴포넌트의 루트) — `align`이 두 뜻으로 겹쳐 `placement`가 된 #144의 반대 결과다(ADR-0008 규칙 1). 선의 색은 `Separator`가 `border-t`/`border-l`로 그려 `--ds-border-default`가 `border-color`에 앉는다 — upstream이 `bg-*`로 그리는 것을 복사하면 #154가 `DropdownMenuSeparator`에서 잡은 계열 위반이 온다. upstream이 방향마다 더하는 `mx-px`/`my-px` 여백은 옮기지 않는다: 겹친 테두리를 이미 `border-l-0`으로 접었고, 새 여백은 발행된 인스턴스를 움직여 additive가 아니게 된다. 이 선은 언제나 decorative다 — `Separator`의 기본값이 `decorative`이므로 `role=\"none\"`이 되어 `role=\"group\"`인 그룹의 자식 목록에 의미 노드를 더하지 않는다. 그룹이 뜻으로 갈린다면 그것은 구분선이 아니라 두 개의 `ButtonGroup`이다.",
-        "use": "서로 무관한 동작 버튼을 같은 맥락에서 하나의 덩어리로 붙여 보여 주고, 자식마다 탭 정지와 각자의 disabled를 남기며, 명시적 구분선이 설 방향은 `ButtonGroupSeparator`의 `orientation` 축이 정한다."
+        "limits": "하나의 값을 고르는 선택 위젯에는 Toggle Group을 쓴다. `disabled`는 그룹이 아니라 각 Button에 준다. 구분선의 방향은 `ButtonGroupSeparator`의 `orientation`으로 그룹과 짝 맞춘다. 뜻으로 갈리는 묶음은 구분선이 아니라 두 `ButtonGroup`이다.",
+        "use": "서로 무관한 동작 버튼을 한 덩어리로 붙여 보이는 자리에 쓴다. 자식마다 탭 정지와 각자의 `disabled`가 남는다."
       }
     },
     "stateSamples": false,
@@ -327,7 +327,7 @@ export const catalog = [
       "example": "card",
       "guidance": {
         "evidence": "투자 이력의 요약 영역에서 기존 Card를 재사용한다.",
-        "limits": "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다. `size` 축(upstream의 default/sm)은 열지 않는다 — 축은 늘지만 간격은 소비처가 유틸리티로 정하면 되고 우리 스케일 결정을 복제하지 않는다(#121).",
+        "limits": "SummaryCard 같은 도메인 컴포넌트를 만들지 않고 기존 Card 파트로 조립한다. `size` 축(upstream의 default/sm)은 열지 않는다 — 간격은 소비처가 유틸리티로 정한다.",
         "use": "관련 콘텐츠를 하나의 표면으로 묶는다."
       }
     },
@@ -364,7 +364,7 @@ export const catalog = [
       "example": "carousel",
       "guidance": {
         "evidence": "투자 이력의 요약 화면은 보유 종목 카드와 월별 회고 카드를 좁은 폭에 나란히 놓아야 하고, 세로로 다 펼치면 그 아래의 거래 목록이 화면 밖으로 밀린다.",
-        "limits": "목록을 전부 봐야 하는 자리에는 쓰지 않는다 — 넘겨야만 보이는 항목은 훑기의 대상이 되지 못한다. 접근 가능한 이름은 소비처가 루트에 aria-label로 준다. 자동 재생은 없다: Embla autoplay 플러그인을 넣지 않았으므로 스스로 움직이는 것이 없고 정지 수단을 계약할 것도 없다. 드래그는 컨트롤 제스처라 표면이 사라지지 않고 키보드 동등 경로(가로 ←/→, 세로 ↑/↓)가 계약 안에 있으므로 gestures를 선언하지 않는다(ADR 0005) — 다만 Embla의 watchDrag·watchFocus 기본값이 켜진 채로 출하되는 상속 표면이라 여기 적는다. 끄려면 소비처가 opts로 끈다. 한 번에 몇 장을 보일지(basis-*)와 loop·align·slidesToScroll은 소비처가 소유한다 — 스냅 지점은 Embla가 실측으로 정하고 우리 계약에 나타나지 않는다. 슬라이드 위치 표시기(dots)는 열지 않았다: 현재 위치를 표식 있는 노드로 그리는 표면이라 열 근거는 있으나 upstream에 없고 리포에 수요가 0건이라, 지금 열면 우리가 정한 적 없는 표시기 스케일을 떠안는다(#123이 Kbd의 크기 축을 닫은 것과 같은 근거). 터치 히트 영역의 크기는 터치 대상 크기 규칙(#111)이 정한 뒤에 다시 본다. **`CarouselApi`는 `publicExports`에 올리지 않는다**(#162가 종류 ②로 찾았고 #175가 판정했다) — upstream이 export하는 그 이름을 이 파일도 같은 이름으로 이미 내보내고 있지만(`export type { CarouselApi }`), 타입은 노드도 축도 아니라 anatomy에 이름을 얻을 수도 파트 셀을 가질 수도 없고 매니페스트가 나를 것이 없다. Embla 인스턴스를 밖으로 꺼내는 통로는 `Carousel`의 `setApi` prop으로 이미 서 있으므로 여기 있던 것은 표면의 공백이 아니라 기록의 공백이었다.",
+        "limits": "목록을 전부 봐야 하는 자리에는 다 펼친 목록을 쓴다. 접근 가능한 이름은 소비처가 루트에 aria-label로 준다. 자동 재생은 없다. 드래그·포커스 스크롤은 opts로 끈다. 보일 장 수(basis-*)와 loop·align은 소비처가 정한다. 위치 표시기(dots)는 없다 — 필요하면 `setApi`로 받은 인스턴스로 그린다.",
         "use": "같은 무게의 항목 여럿을 한 자리에서 몇 개씩만 보여주고 나머지는 이전·다음으로 넘겨 보게 한다."
       }
     },
@@ -399,7 +399,7 @@ export const catalog = [
       "example": "chart",
       "guidance": {
         "evidence": "투자 이력은 월별 매수·매도 금액과 평가금액 추이를 같은 화면에서 보여주고, 그 위에 뜨는 툴팁과 범례가 카드·팝오버와 다른 면으로 보이면 같은 앱으로 읽히지 않는다.",
-        "limits": "차트 본체(축·격자·데이터 마크)는 계약하지 않는다 — Recharts 소유이고 우리 className이 닿는 노드가 없다. 자손 선택자로 그 노드를 칠하지도 않는다: 매니페스트에는 담기지만 Figma가 그리지 못해 자산의 공백이 아니라 거짓 자산이 되기 때문이며, 본체 스타일은 소비처가 stroke·tick·fill prop으로 준다. ChartTooltip·ChartLegend를 재수출하지 않는다 — Recharts의 Tooltip·Legend를 우리 이름으로 내보내면 우리 클래스가 하나도 없는 노드가 공개 anatomy에 들어가고, 그건 외부 소유 표면과 겹칠 수 없다는 규칙과 정면으로 부딪친다. 소비처가 recharts에서 직접 가져와 content에 우리 카드를 꽂는다. 데이터 계열 색은 우리 토큰이 아니라 소비처가 ChartConfig의 color로 주입하는 입력이고, 우리 cva는 견본의 모양만 소유한다 — --chart-1~5 alias는 무채색 플레이스홀더로 남으며(semantic-tokens.md §7.2) 시각화 팔레트 확정은 이 맵 밖이다. 다크 모드 분기는 컨테이너가 하지 않는다: theme 키를 받지 않고 --color-<key> 한 벌만 내며, 모드에 따라 갈려야 하는 색은 소비처가 이미 모드 전환이 끝난 변수를 값으로 준다 — 라이트/다크 전환은 오직 semantic 계층에서만 일어난다. ChartContainer는 공개하되 Figma 자산으로 내지 않는다: 테마 주입 통로라 자기 축도 구성 상태도 없고 그 자리에서 얻는 것은 빈 프레임 하나다. 데이터 표를 대신하지 않는다 — 값 자체를 읽어야 하는 자리에는 Table을 쓴다. upstream이 그 주입 통로에 붙인 이름은 `ChartStyle`이고 이 파일도 **같은 이름의 같은 노드**를 갖는다 — 다만 export하지 않는다(#162가 종류 ②로 찾았고 #175가 판정했다). `<style>` 한 덩이를 내는 노드라 클래스도 축도 구성 상태도 없어 anatomy에 이름을 얻을 수 없고(대문자 공개 export는 anatomy에 있어야 한다, ADR-0006), `ChartContainer`가 그것을 렌더하므로 `--color-<key>` 통로는 이미 이 계약 안에 있다. upstream의 `ChartStyle`이 `THEMES` 두 벌을 내고 우리 것이 한 벌인 차이는 바로 위의 다크 모드 문장이 이미 진다.",
+        "limits": "차트 본체는 Recharts prop(`stroke`·`tick`·`fill`)으로 소비처가 그린다. `Tooltip`·`Legend`는 recharts에서 가져와 `content`에 카드를 꽂는다. 계열 색은 `ChartConfig.color`로 모드 전환이 끝난 변수를 준다. 값을 읽는 자리는 Table이다.",
         "use": "시계열이나 범주 비교를 Recharts로 그리면서, 툴팁 카드와 범례만 카탈로그의 면·글자·모서리 규칙에 맞춰 통일한다."
       }
     },
@@ -495,7 +495,7 @@ export const catalog = [
       "example": "combobox",
       "guidance": {
         "evidence": "거래를 기록할 때 종목을 골라야 하는데 상장 종목이 수천 개라 고정 목록으로는 펼칠 수 없고, 고른 뒤에는 어떤 종목인지 계속 보여야 한다.",
-        "limits": "값이 적고 고정되어 있으면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 그대로 쓴다. 트리거는 `role=\"combobox\"`가 아니라 dialog를 여는 버튼이므로 접근 가능한 이름은 소비처가 `aria-label`이나 Field의 라벨로 준다. Escape는 검색어를 비우지 않고 한 번에 닫으며, 닫으면 검색어는 버려진다. 다중 선택과 값 생성(새 항목 추가)은 계약하지 않는다. 묶음을 가르는 선은 `CommandSeparator`이며 upstream의 `ComboboxSeparator`가 서던 자리를 그것이 그대로 진다 — #91의 규칙대로 합성은 원본을 **소비**하므로 별도 파트를 세우지 않는다(#169가 Command에 열었다). 목록 안쪽의 나머지 표면과 같이 소비처가 `@massive/ui`에서 `Command*`를 직접 import해 조립한다.",
+        "limits": "값이 적고 고정되면 Select, 폼 제출과 시스템 피커가 중요하면 Native Select, 고를 값이 아니라 실행할 동작이면 Command를 쓴다. 접근 가능한 이름은 소비처가 `aria-label`이나 Field 라벨로 준다. 다중 선택과 값 생성은 계약하지 않는다. 구분선을 포함해 목록 안쪽은 `Command*`로 직접 조립한다.",
         "use": "값이 많아 눈으로 훑기 어려운 목록에서 검색으로 좁혀 하나를 고르고, 닫힌 상태에서는 고른 값을 트리거에 보여준다."
       }
     },
@@ -536,7 +536,7 @@ export const catalog = [
       "example": "command",
       "guidance": {
         "evidence": "종목·거래·화면 이동이 한 자리에 섞여 있어 마우스로 메뉴를 파고들기보다 이름을 입력해 바로 실행하는 진입점이 필요하다.",
-        "limits": "값이 적고 고정된 선택에는 Select를, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣는 것과 닫기, 원격 검색과 정렬 순서는 소비처가 조립하며 검색 입력의 접근 가능한 이름도 소비처가 준다. 항목 끝의 단축키 표기(upstream의 `CommandShortcut`)는 열지 않는다 — 소비처가 `Kbd`를 `ml-auto`와 함께 놓으면 되고 그 클래스가 우리 스타일 결정을 복제하지 않는다(#121 ⓑ, `InputGroupButton`의 variant·size와 같은 판정 2). upstream의 `CommandShortcut`도 키캡이 아니라 평평한 muted 텍스트라 Kbd가 채우던 자리가 아니다. `CommandSeparator`는 43세대 동안 이름조차 없던 종류 ② 공백이었고 #169가 ADR-0006의 두 관문으로 판정해 **열었다**(#165) — upstream에 실재하는 노드이고(ⓐ), 소비처가 다시 그리려면 목록 안쪽 여백을 되쓰는 음수 여백을 우리 내부 수에서 추측해야 한다(ⓑ). **선은 `bg-*`가 아니라 `-mx-1 h-0 border-t border-border`로 긋는다** — upstream의 `.cn-command-separator`(`bg-border -mx-1 h-px`)는 #154가 `DropdownMenuSeparator`에서 잡은 `--ds-border-default`를 `background-color`에 올리는 계열 위반과 글자 그대로 같은 모양이라, 베끼면 43세대짜리 결함을 새로 만든다. 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. 색을 `border-border`로 **명시**한 것은 계열 게이트가 이 셀을 실제로 읽게 하기 위해서다 — `border-t`만 적으면 색은 `@layer base`에서 와 매니페스트의 컴포넌트 전역 `base`에만 남고, 그 항목은 이 파트가 있든 없든 있으므로 이 자리에 대한 증거가 아니다(없는 것은 통과가 아니라 침묵이다, ADR-0006 · #146). **음수 여백은 계약이 진다.** `-mx-1`이 되쓰는 값은 `CommandList`의 `p-1`이고 그건 소비처가 볼 수 없는 우리 내부 수라, 소비처에 맡기면 목록 패딩을 한 번 바꿀 때마다 모든 소비처에서 선이 어긋난다 — 두 수는 한 파일에서 함께 움직여야 하고, 파생 채널이 나르는 기하도 계약이 질 때만 참이다. 세로 여백은 두지 않는다: `CommandGroup`의 `py-1`이 위아래 4px를 이미 그려 upstream과 같은 간격이 나온다. **`CommandGroup` 사이 전용이 아니다.** 이 선이 가르는 것은 `CommandList`의 형제 구역이고, 묶음이 없는 목록에서 항목 무리를 가르는 쓰임도 같은 자리다 — 쓰임이 한 자리로 고정되지 않으므로 `anatomy`는 `CommandSeparator?`로 존재와 선택성만 말한다(anatomy 표기는 평평한 목록이라 중첩을 말하지 못한다). 고정된 것은 **가면 안 되는 자리**다: `CommandGroup` **안**에는 넣지 않는다 — 묶음은 `aria-labelledby`로 이름 하나를 갖는 한 구역이라 그 안을 선으로 가르면 이름이 가리키는 범위와 눈에 보이는 범위가 어긋난다. 접근성: 장식선이라 `aria-hidden=\"true\"`로 접근성 트리에서 뺀다. `CommandList`가 `role=\"listbox\"`이고 listbox가 소유할 수 있는 자식은 `option`과 `group`뿐이라, menu에서라면 옳았을 `role=\"separator\"`가 여기서는 목록 시맨틱을 깬다. 선이 나르는 경계는 `CommandGroupHeading`이 이미 이름으로 나르므로 트리에서 빼도 잃는 정보가 없다. 검색으로 한쪽 묶음이 비어도 선은 그대로 남는다 — `CommandGroup`이 자기 묶음의 일치 수를 세지 않기 때문이고, 오늘 빈 묶음의 `CommandGroupHeading`이 남는 것과 같은 자리다. 여는 티켓이 그 계산을 새로 들이지 않았다. 새 축도 새 구성 상태도 늘지 않는다 — 정적 파트 하나다.",
+        "limits": "값이 적고 고정된 선택에는 Select, 맥락 동작 묶음에는 Dropdown Menu를 쓴다. 팝오버·모달 안에 넣기와 닫기, 원격 검색과 정렬, 검색 입력의 접근 가능한 이름은 소비처가 준다. 단축키 표기는 `Kbd`를 `ml-auto`로 놓는다. `CommandSeparator`는 `CommandGroup` 안에 넣지 않는다.",
         "use": "검색어로 목록을 좁혀 명령이나 항목 하나를 고르고, 키보드 커서(highlighted)와 고른 값(selected)을 함께 보여준다."
       }
     },
@@ -570,7 +570,7 @@ export const catalog = [
       "example": "dialog",
       "guidance": {
         "evidence": "투자 거래를 추가하거나 편집하는 동안 제목·설명·행동을 한 모달 맥락에 유지해야 한다.",
-        "limits": "파괴적 행동 확인에는 Alert Dialog를 사용하고, 단순 보조 정보에는 Popover를 사용한다. `DialogPortal`은 공개하지 않는다 — `DialogContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `DialogContent`의 prop으로 온다.",
+        "limits": "파괴적 행동 확인에는 Alert Dialog를, 단순 보조 정보에는 Popover를 쓴다. `DialogPortal`은 공개하지 않는다 — 포탈 대상을 골라야 하면 노드가 아니라 `DialogContent`의 prop으로 온다 — 근거: ADR-0018",
         "use": "현재 흐름을 잠시 멈추고 집중해서 완료할 작업을 연다."
       }
     },
@@ -611,9 +611,9 @@ export const catalog = [
     "reference": {
       "example": "dropdown-menu",
       "guidance": {
-        "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고르는 일이 행마다 일어난다.",
-        "limits": "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). `CheckboxItem`·`RadioItem`·`Sub`는 43세대 동안 **확인된 공백**이었고 #142가 ADR-0006의 두 관문으로 판정해 **열었다**(#154). Menubar가 같은 표면에 이미 독립 셀을 내고 있었고(ⓐ), 소비처에는 재현할 우리 노드조차 없어 `radix-ui`를 직접 집고 표식 기하를 손으로 다시 정해야 했다(ⓑ). 여섯을 한 번에 열었다 — `RadioItem`은 `RadioGroup` 없이 뜻이 없고 `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않아, 셋만 열면 ⓑ가 그대로 다시 샌다. **Menubar와의 비대칭은 이 세대에서 해소됐고 #119의 판정은 그대로 선다**: 두 컴포넌트를 가르는 것은 루트 막대 + `MenubarMenu*` 다중 메뉴 + `value`이지 이 세 파트가 아니다. openOn=\"context\" 모드에도 상시 노출 막대가 없고 진입점이 하나이므로 여섯 파트를 줘도 Menubar가 되지 않는다. 표식(`ItemIndicator`)은 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리). 같은 이유로 `DropdownMenuCheckboxItem`과 `DropdownMenuRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. 체크·라디오 항목의 role과 `aria-checked`, 서브메뉴의 `aria-haspopup`·`aria-expanded`는 primitive가 내고 표식·화살표 `<svg>`는 `aria-hidden`이라 이름에 섞이지 않는다. `DropdownMenuSeparator`는 `border-t`로 그린다 — 43세대 동안 `h-px bg-border`였으나 `parts`가 없어 매니페스트에 나타나지 않았고, 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다(없는 것은 통과가 아니라 침묵이다, ADR-0006). 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. `DropdownMenuShortcut`은 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. `DropdownMenuPortal`은 공개하지 않는다 — `DropdownMenuContent`와 `DropdownMenuSubContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `DropdownMenuContent`의 prop으로 온다.",
-        "use": "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다. 켜고 끄는 항목은 `DropdownMenuCheckboxItem`, 배타 선택은 `DropdownMenuRadioGroup`, 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다."
+        "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점이 필요하고, 표의 행을 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고른다.",
+        "limits": "삭제 확인과 동작 로직은 소비처가 둔다. openOn=\"context\"는 영역 자체가 대상인 행·캔버스에만 쓰고 트리거는 포커스 가능한 요소를 asChild로 준다. defaultOpen·sideOffset은 press에서만 듣는다. 상시 노출 명령 막대는 Menubar, 사이트 탐색은 Navigation Menu다.",
+        "use": "현재 맥락의 보조 동작을 묶는다. 보이는 컨트롤에서 여는 press 모드와 대상 영역을 우클릭·롱프레스해 여는 openOn=\"context\" 모드가 같은 계약이고, 체크·라디오·서브메뉴는 두 모드에서 같다."
       }
     },
     "stateSamples": false,
@@ -643,7 +643,7 @@ export const catalog = [
       "example": "empty",
       "guidance": {
         "evidence": "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 하고, 같은 자리에 면을 두른 글리프 칩과 면 없는 글리프가 화면 밀도에 따라 갈린다.",
-        "limits": "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다. `EmptyMedia`가 그리는 틀은 `frame` 축이 지고 **`ItemMedia`와 같은 축 이름·같은 값 이름을 쓴다**(#145) — `icon`(면을 두른 `size-10` 칩, 기본값)·`none`(면 없음) 둘이다. 기본값이 `icon`인 것은 **오늘의 `EmptyMedia`가 이미 upstream의 `icon` 값이기 때문**이다: 기본값은 발행된 인스턴스를 지키는 값이고(#143·#144), `ItemMedia`의 기본값이 `none`인 것과 방향이 반대로 보이는 것은 두 슬롯이 오늘 서 있는 자리가 다르기 때문이지 어휘가 갈린 것이 아니다. **`image`는 계약하지 않는다** — upstream에도 없고, 이 슬롯이 제목 위 가운데 `size-10`이라 40px 틀은 빈 상태 일러스트가 아니라 글리프 칩이다. 일러스트를 원하는 소비처는 지름부터 덮으므로 그 값이 질 우리 결정이 남지 않고(ADR-0006 ⓑ), 실측 수요도 없다(#123). 큰 그림이 필요하면 소비처가 `EmptyHeader` 안에 자기 노드를 둔다. 대체 텍스트는 계약이 지지 않는다 — 장식이면 `EmptyMedia`에 `aria-hidden`을 걸고, 뜻이 있으면 소비처가 안쪽 요소의 `alt`에 넣는다. **`EmptyDescription`의 `[&>a]` 계열 세 선언은 `ignore:`로 닫혀 있다**(#181) — 파트를 계약에 등록하면서 드러난 것이고, 등록하지 않았을 때는 매니페스트에 아예 없어 **침묵**이었다(#122). 자손 링크의 밑줄은 노드가 아니라 소비처가 문장 안에 넣는 **텍스트 범위**의 장식이라 담을 슬롯이 없고, `underline-offset`은 `IGNORED_PROPERTIES`가 이미 같은 이유로 거른다.",
+        "limits": "오류·권한·온보딩 의미와 문구·일러스트·행동은 소비처가 정한다. `frame`은 `icon`(기본)·`none` 둘이고 `image`는 없다 — 큰 그림은 소비처가 `EmptyHeader` 안에 자기 노드로 둔다. 대체 텍스트는 장식이면 `EmptyMedia`에 `aria-hidden`, 뜻이 있으면 안쪽 요소의 `alt`로 준다.",
         "use": "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립하고, 미디어 자리가 그릴 틀은 `EmptyMedia`의 `frame` 축이 정한다."
       }
     },
@@ -684,9 +684,9 @@ export const catalog = [
     "reference": {
       "example": "field",
       "guidance": {
-        "evidence": "투자 입력 화면의 라벨·메모·검증 메시지를 일관된 구조로 묶어야 하고, 같은 `<legend>`가 섹션 캡션인 화면과 필드 라벨 한 줄로 앉는 화면이 갈린다. 매수와 매도처럼 서로 배타적인 입력 묶음 사이에는 \"또는\"을 얹은 구분선이 필요하다.",
-        "limits": "폼 상태 관리, 검증 규칙, 제출 동작은 소비처가 소유한다. `FieldLegend`가 서는 층위는 `rank` 축이 지고(#164) 값은 `legend`(`text-base font-semibold`, 기본값)·`label`(`text-sm font-medium`) 둘이다. **기본값이 upstream의 `legend`와 다른 모양인 것은 의도다** — 기본값은 발행된 인스턴스를 지키는 값이고(#143·#144·#145) 오늘의 `FieldLegend`는 upstream의 두 값 어디에도 없는 `text-base font-semibold`였다. upstream의 `legend`/`label`은 절대 타입 값이 아니라 **역할**을 이름하고 실제 선언은 스타일 갈래 여덟마다 다르므로(`style-lyra.css`의 `.cn-field-legend`는 `sm`/`xs` **한 단** 차이만 낸다), 우리는 같은 한 단 차이를 우리 스케일에서 낸다. 축 이름이 `variant`가 아닌 것은 그 이름이 카탈로그 전역에서 루트의 의미/강조 축이기 때문이다(ADR-0008). **`label` 값은 `FieldLabel`을 복제하지 않는다** — `<legend>`는 `<fieldset>`을 암묵적으로 이름하고 `Label`은 `for`로 컨트롤을 이름하는 `<label>`이라 소비가 성립하지 않고(#91), 겹치는 것은 `text-sm font-medium` 두 유틸리티뿐이며 `Label`이 지는 `leading-none`·`select-none`과 disabled 수식자는 `<legend>`에 와서는 안 되는 결정이라 상수로 공유하지 않는다(#154). `rank`는 타이포그래피만 바꾸고 접근성 계약은 바꾸지 않는다 — `rank=\"label\"`인 `<legend>`도 여전히 `<fieldset>`의 접근 가능한 이름이다. 새 토큰 0개. `FieldSeparator`는 필드 묶음 사이를 가르는 장식선이고 `children`을 주면 그 선 위에 가운데 칩(`FieldSeparatorContent`)이 얹힌다(#168). **선은 `h-0 border-t`로 그린다** — upstream이 소비하는 `Separator`는 `bg-border`라 #154가 `DropdownMenuSeparator`에서 잡은 `--ds-border-default`를 `background-color`에 올리는 계열 위반을 그대로 갖고 오므로 복사하지 않고 Menubar·Resizable·Dropdown Menu가 이미 낸 답에 맞췄다. 렌더는 같은 1px 선이고, 색이 맨 `border-color`로 가야 계열 게이트가 이 자리를 실제로 본다. **`Separator` 컴포넌트를 소비하지 않는다** — #91이 지키는 것은 원본이 지고 있는 계약인데 1px 선에는 그런 계약이 없고, 소비하면 이 표면을 정의하는 선언이 `field` 매니페스트 밖에 남아 파생 채널이 선 없는 빈 띠를 그린다. **가운데 내용의 유무는 축이 아니라 파트다** — upstream의 `data-content`는 여덟 스타일 갈래 어디에서도 선언을 고르지 않고 우리 껍데기도 내용과 무관하게 같은 `h-0 border-t`라, 축으로 열면 두 값이 선언에서 갈리지 않는 축이 된다(ADR-0008). 갈리는 것은 노드의 존재이므로 `FieldSeparatorContent`를 파트로 등록하되 `children`으로만 들어오므로 export하지 않는다. **장식선이라 역할을 주지 않는다** — `role=\"separator\"`를 주면 `<fieldset>`·`role=\"group\"` 사이에 우리가 만들지 않은 경계가 접근성 트리에 생기고, 테두리는 애초에 트리에 나타나지 않으므로 역할 없는 `<div>`가 정확한 선언이다. 칩의 글자는 그대로 읽히므로 `aria-hidden`도 주지 않는다. 칩은 `bg-background`로 선을 가리므로 캔버스가 아닌 면 위에 놓는 소비처는 배경을 스스로 맞춘다. 칩의 글자 크기는 upstream의 `text-xs`가 아니라 이 계약의 본문 단인 `text-sm`이다 — 축이 아니라 값을 옮기는 자리이고, 실측 수요 없이 세 번째 단을 들이지 않는다(#164가 `rank`에서 한 것과 같다). 새 토큰 0개다. 호환성은 **additive** — 기존 여덟 표면의 클래스와 접근성 계약은 한 줄도 움직이지 않았고, 새 파트는 소비처가 쓰기 전에는 렌더되지 않는다. **`FieldTitle`은 열지 않는다**(#162가 종류 ②로 찾았고 #175가 판정했다) — upstream의 그 노드는 `data-slot`이 `field-label`로 우리 `FieldLabel`과 **같은 값**이라 파생 채널이 둘을 가를 이름을 얻지 못하고(ⓐ), 선언도 `flex w-fit items-center` + `.cn-field-title`의 `gap-2 text-xs/relaxed group-data-[disabled=true]/field:opacity-50`인데 그 중 배치·간격·disabled 흐림은 우리 `FieldLabel`(`labelVariants()` + `w-fit`)이 이미 지고 있어 소비처가 복제할 결정으로 남는 것은 **글자 한 단**(`text-xs`)뿐이다(ⓑ). 한 단 차이로 표면을 늘리지 않는 것은 `Card`의 `size`와 `Item`의 `size: xs`를 닫은 것과 같은 자리다(#121·#174). upstream이 이것을 `<label>`이 아니라 `<div>`로 두어 아무것도 이름 배선하지 않는다는 점도 같은 방향이다 — 이름을 잇는 것은 우리 `FieldLabel`이 지는 계약이고, 여기에는 그 계약이 없다.",
-        "use": "라벨, 컨트롤, 도움말과 오류를 접근 가능한 한 필드로 조립하고, `FieldSet`의 캡션이 어느 층위로 말할지는 `FieldLegend`의 `rank` 축이 정한다. 필드 묶음 사이를 가르는 장식선은 `FieldSeparator`가 지고, `children`을 주면 선 위에 \"또는\" 같은 가운데 칩이 얹힌다."
+        "evidence": "투자 입력 화면의 라벨·메모·검증 메시지를 한 구조로 묶어야 하고, 같은 `<legend>`가 섹션 캡션인 화면과 필드 라벨로 앉는 화면이 갈리며, 매수·매도처럼 배타적인 묶음 사이에 \"또는\" 구분선이 필요하다.",
+        "limits": "폼 상태·검증 규칙·제출은 소비처가 소유한다. `FieldTitle`은 열지 않는다 — 한 단 작은 라벨은 `FieldLabel`에 `text-xs`를 준다. `rank`는 글자만 바꾼다. \"또는\" 칩은 `FieldSeparator`의 `children`으로 주고, 캔버스가 아닌 면 위에서는 칩 배경을 소비처가 맞춘다.",
+        "use": "라벨·컨트롤·도움말·오류를 접근 가능한 한 필드로 조립한다. `FieldSet` 캡션의 층위는 `FieldLegend`의 `rank` 축이, 묶음 사이 장식선은 `FieldSeparator`가 진다."
       }
     },
     "stateSamples": false,
@@ -741,7 +741,7 @@ export const catalog = [
       "example": "input-group",
       "guidance": {
         "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
-        "limits": "값을 가진 컨트롤을 둘 이상 담지 않으며 — 컨트롤은 `InputGroupInput` **또는** `InputGroupTextarea` 하나다. anatomy 표기에는 `?`(선택)와 `*`(반복)뿐이라 \"둘 중 정확히 하나\"를 적을 자리가 없어 둘 다 `?`로 서고 그 배타는 이 문장이 진다. **`InputGroupTextarea`는 `Textarea`를 소비한다** — 복제하지 않는다(#91). `InputGroupInput`이 `Input`을 벗겨 쓰는 자리와 같고, 그래서 `size` 축·placeholder·`aria-invalid`의 정본은 여전히 `Textarea` 계약이다. `MULTILINE_CONTROL`이 `CONTROL`과 갈리는 것은 **높이 하나**다: 무력화 여섯(`rounded-none border-0 bg-transparent px-0 shadow-none`과 포커스 링·오류 테두리 리셋)은 \"껍데기를 그룹이 소유한다\"의 결과라 줄 수와 무관하게 같고, 한 줄 컨트롤은 껍데기의 한 줄을 채우는 반면 여러 줄 컨트롤은 자기 `min-h`로 껍데기를 밀어 올린다. 그래서 루트가 `h-9`에서 **`min-h-9`**로 바뀌고 `CONTROL`에서 `h-full`이 빠졌다 — `Input`이 자기 `h-9`를 이미 갖고 있어 한 줄일 때의 렌더는 36px 그대로다(in-place safe). upstream의 `has-[>textarea]:h-auto` 조건부는 쓰지 않는다: 이 파일의 `has-[…]` 넷이 매니페스트 셀에 아예 나타나지 않는 것으로 확인되듯 조건부 높이는 파생 채널이 그리지 못하고, 아래 `block-start`·`block-end`를 닫은 근거와 같은 침묵이다(ADR-0006). 여러 줄 컨트롤은 `resize-none`이다 — 크기 조절 손잡이가 서는 모서리를 소유한 것이 컨트롤이 아니라 껍데기이고, native resize가 쓰는 인라인 `height`는 계약에도 매니페스트에도 앉을 자리가 없다. `Textarea` 단독은 `resize-y` 그대로다. **`InputGroupText`는 `InputGroupAddon`의 자식으로만 선다** — 부가물 안의 글자 자리이고, 어느 쪽에 서는가는 자기를 담은 부가물의 `placement`가 이미 정했으므로 자기 축을 갖지 않는다. 부가물과 갈리는 것은 글자 크기 한 단계(`text-sm` → `text-xs`)이고, 그 한 단계가 오늘 없어 소비처가 매번 네 유틸리티를 다시 쓴다. 중첩은 anatomy 표기가 담지 못해(순서로만 드러난다) 이 문장이 진다. 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다 — 여러 줄일 때도 같아서 `FieldLabel`의 `htmlFor`가 `InputGroupTextarea`의 `id`를 가리키고, `InputGroupText`는 라벨 경로에 서지 않는다(장식이면 담은 부가물에 `aria-hidden`, 뜻이 있으면 소비처가 `aria-describedby`로 묶는다). `InputGroupAddon`의 배치는 `placement` 축이 진다 — `auto`(DOM 순서가 정한다, 기본값)·`start`·`end` 셋이다. 이름이 `align`이 아닌 것은 우리 카탈로그에서 `align`이 이미 Radix의 prop 이름 공간에 속해 **떠 있는 표면이 트리거의 어느 모서리에 붙는가**를 뜻하기 때문이고, `placement`는 #125가 `ChartLegendContent`에 같은 이유로 세운 이름이다. 기본값이 `start`가 아닌 `auto`인 것은 `order-first`가 컨트롤 뒤에 쓴 기존 부가물을 앞으로 옮겨 발행된 인스턴스를 재해석하기 때문이다(#143의 `knockout: none`과 같은 자리). **upstream의 `block-start`·`block-end`는 계약하지 않는다** — 껍데기 위·아래에 한 줄을 통째로 두는 배치라 루트가 줄바꿈하는 auto 높이 컨테이너가 되어야 하고, 그건 `h-9` 한 줄과 `h-full` 컨트롤을 재해석하는 breaking이다. 조건부 클래스로 피하면 그 선언이 매니페스트에서 `unresolved`가 되어 파생 채널이 못 그린다(#144). 위·아래 줄이 필요하면 Field의 세로 축을 쓴다. 부가물 안의 버튼·`Kbd`를 필드 가장자리에 광학 정렬하는 음수 마진(upstream의 `has-[>button]:ml-*`)도 계약하지 않는다 — 부가물의 **자식**에 걸리는 조건부라 셀이 아니라 수식자가 되고, 필요하면 소비처가 그 자리에서 준다. `InputGroupButton`의 variant·size는 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면 되고 우리 스타일 결정을 복제하지 않는다(#121).",
+        "limits": "컨트롤은 `InputGroupInput` 또는 `InputGroupTextarea` 하나다. 라벨·설명·오류와 위·아래 줄은 Field가 진다. `InputGroupText`는 `InputGroupAddon` 안에만 선다. 버튼의 광학 정렬은 className으로, 버튼 모양은 `Button`의 축으로 준다.",
         "use": "한 줄 또는 여러 줄 입력 컨트롤 하나와 아이콘·단위·글자·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
       }
     },
@@ -779,7 +779,7 @@ export const catalog = [
       "example": "input-otp",
       "guidance": {
         "evidence": "투자 이력의 계좌 연동과 재로그인에서 문자로 받은 인증번호를 넣는 자리가 있고, 몇 자리를 넣었는지가 한눈에 보여야 한다.",
-        "limits": "일반 텍스트나 금액에는 Input을 쓴다. 값의 정본은 보이지 않는 입력 하나이므로 접근 가능한 이름은 소비처가 Field나 aria-label로 주고, 오류 표시는 컨트롤의 aria-invalid가 정본이며 슬롯은 같은 값을 받아 테두리를 붉힌다 — 라이브러리가 컨테이너에 속성을 주는 통로를 열어 두지 않아 CSS로 전파할 자리가 없다. 붙여넣기는 upstream이 소유한다(iOS와 pasteTransformer를 제외하면 네이티브 경로 그대로다). IME 조합은 upstream이 다루지 않으므로 조합 문자가 필요한 코드에는 쓰지 않는다. 모바일 문자 자동완성 경로인 autoComplete=\"one-time-code\"는 켠 채로 두고, 비밀번호 관리자 배지는 컨테이너 폭을 바꾸므로 껐다. 첫·마지막 칸의 바깥 모서리를 지목하는 `first:`·`last:` 수식자는 셀에 나타나지 않고 매니페스트의 `elsewhere`가 진다 — 그 모서리는 Figma에 실재하되 칸 자산이 아니라 **조립된 칸 무리**에 그려진다(ADR-0012). `ToggleGroupItem`의 붙은 형태가 이 관용구를 선례로 삼았다. 커서 깜박임은 기존 animate-pulse로 그린다 — 전용 키프레임을 새로 열지 않는다. 재전송 타이머, 자동 제출, 검증 규칙은 소비처가 소유한다.",
+        "limits": "일반 텍스트나 금액에는 Input을 쓴다. 접근 가능한 이름은 소비처가 Field나 aria-label로 주고, 오류는 컨트롤의 aria-invalid가 정본이며 슬롯도 같은 값을 받는다. IME 조합 문자가 필요한 코드에는 쓰지 않는다. 재전송 타이머·자동 제출·검증 규칙은 소비처가 소유한다.",
         "use": "여섯 자리 안팎의 일회용 코드를 칸으로 나눠 보여주면서, 값과 폼 제출은 입력 하나가 그대로 지게 한다."
       }
     },
@@ -824,8 +824,8 @@ export const catalog = [
       "example": "item",
       "guidance": {
         "evidence": "검색 결과, 선택 목록, 설정 행처럼 같은 정보 위계를 공유하지만 제품 의미가 다른 반복 항목이 필요하고, 같은 목록 안에서 통화 기호 같은 글리프와 종목 로고 이미지가 같은 자리에 번갈아 선다.",
-        "limits": "탐색·선택·버튼 역할을 자동으로 부여하지 않으며 도메인 필드와 상호작용 의미는 소비처가 명시한다. `ItemMedia`가 그리는 틀은 `frame` 축이 진다 — `none`(틀 없음, 기본값)·`icon`(글리프용 `size-8` 면)·`image`(그림용 `size-10` 자르기 틀) 셋이다. 값 이름은 upstream을 그대로 쓰지만(#121) **축 이름은 `variant`가 아니다** — 우리 카탈로그에서 `variant`는 루트의 의미·강조 축이고 `Item` 자신이 이미 그 이름을 쓰므로, 한 파일 안에서 한 단계 떨어진 두 축이 같은 이름으로 다른 뜻이 된다(#144가 `align`을 버린 자리). 기본값이 `none`인 것은 오늘의 `ItemMedia`가 틀 없이 글리프만 놓기 때문이고, 그래서 이 축은 additive다. 틀의 모서리·면은 `EmptyMedia`가 이미 세운 `rounded-lg`·`bg-muted`를 그대로 쓴다 — 두 미디어 슬롯이 한 축을 공유하는데 틀이 갈리면 축을 공유한 뜻이 없다(upstream의 `rounded-sm`+`border`는 따르지 않는다). **아바타는 `frame`의 값이 아니다** — upstream에도 없고, 원형 틀·지름·겹침 링은 우리 `Avatar`가 이미 지는 결정이라 값으로 열면 그 결정을 복제한다(#91). `<ItemMedia frame=\"none\"><Avatar/></ItemMedia>`로 **소비한다**: `Avatar`가 자기 틀을 그리므로 `image` 안에 넣으면 틀이 겹친다. **`image`의 `[&_img]:size-full`·`[&_img]:object-cover` 두 유틸리티는 `ignore:`로 닫혀 있다**(#181) — HTML에서 그림이 틀을 채우게 하는 배관이고 Figma는 자식 노드가 아니라 틀 자신의 clip과 image fill로 같은 일을 하므로, 옮길 자식이 없다. 틀 자체의 결정은 전부 해결된 속성으로 떨어지므로 축이 침묵하지는 않는다. 대체 텍스트는 계약이 지지 않는다 — 장식이면 `ItemMedia`에 `aria-hidden`을 걸고, 뜻이 있으면 소비처가 안쪽 `<img>`의 `alt`에 넣는다. 슬롯은 자기가 담은 것이 장식인지 알 수 없다. **`size`의 `xs` 값은 열지 않는다 — 실측 수요가 없기 때문이고(#123), `Card`의 근거로 닫는 것이 아니다.** `Card`·`AlertDialog`가 `size`를 닫은 문장(*축은 늘지만 간격은 소비처가 유틸리티로 정하면 된다*)은 둘 다 **축이 아예 없는** 자리라 성립했다. 여기는 축이 이미 있고 우리가 `default`·`sm` 두 단의 간격을 정해 발행했으므로, 소비처는 유틸리티를 **더하는** 것이 아니라 계약이 낸 `gap-4 px-4 py-3`을 **덮어써야** 하고 그렇게 덮어쓴 값은 매니페스트에 닿지 않는다 — 파생 채널에 없는 크기가 코드에 돌아다니는 모양이라 침묵보다 한 걸음 나쁘다(ADR-0006). **그래서 이 자리는 수요가 확인되면 여는 것이 기본값이다**(#174). 그때 비용은 축 신설이 아니라 루트 셀 6 → 9이고 파트 아홉은 `size`를 상속하지 않아 늘지 않는다. 값 이름은 upstream 그대로 `xs`이며 `Button`이 이미 쓰고 있어 어휘가 갈리지 않는다 — 값 이름은 축 지역이므로 충돌 자체가 물을 것이 아니다(ADR-0008).",
-        "use": "미디어, 주 정보, 보조 설명과 행동을 재배치 가능한 한 항목으로 조립하고, 미디어 자리가 그릴 틀은 `ItemMedia`의 `frame` 축이 정한다."
+        "limits": "탐색·선택·버튼 역할은 주지 않는다 — 상호작용 의미는 소비처가 명시한다. 아바타는 `frame=\"none\"` 안에 `Avatar`를 넣는다(`image`는 틀이 겹친다). 대체 텍스트는 장식이면 `ItemMedia`에 `aria-hidden`, 뜻이 있으면 `<img>`의 `alt`로 소비처가 준다.",
+        "use": "미디어·주 정보·보조 설명·행동을 재배치 가능한 한 항목으로 조립할 때 쓴다. 미디어 자리의 틀은 `ItemMedia`의 `frame`으로 고른다."
       }
     },
     "stateSamples": true,
@@ -846,7 +846,7 @@ export const catalog = [
       "example": "kbd",
       "guidance": {
         "evidence": "투자 기록 검색과 거래 추가처럼 자주 쓰는 명령에 단축키를 함께 알려야 하고, 그 표기는 주변 문장과 눈으로 구분돼야 한다.",
-        "limits": "크기 축을 두지 않는다 — 고정 20px `text-xs` 캡 하나가 Button의 네 크기와 Tooltip·Input Group의 줄 안에 모두 들어가고, 실측할 소비처가 아직 없는 상태에서 스케일을 정하면 우리가 정한 적 없는 결정을 떠안는다(#121 ⓑ). 나중에 여는 것은 additive이고 닫는 것은 breaking이라 지금은 닫는다. 조합의 구분자(`+`)도 파트로 열지 않는다 — 클래스도 노드도 없는 문자열이라 파생 채널이 그릴 것이 없다(#119·#121). `KbdGroup`을 `<kbd>`로 렌더해 중첩되는 것은 의도이며, `<kbd>`는 HTML-AAM에서 대응 역할이 없어 이 요소에 접근 가능한 이름을 붙이지 않는다 — `⌘`·`⇧` 같은 기호의 이름은 소비처가 주고, 이름이 실제로 필요한 자리는 동작을 수행하는 컨트롤의 `aria-keyshortcuts`다. Command 항목 끝의 배치도 소비처가 소유한다(`ml-auto`). Tooltip의 반전 면 위에 놓일 때 필요한 반전 subtle 채움은 우리에게 없다 — upstream의 불투명도·`dark:` 분기가 우리 규약 밖이라 가져오지 않았고, 이 수요는 열지 않은 채 확인된 공백으로 남긴다(#109·ADR-0003과 같은 모양). 그때 색은 소비처가 `className`으로 바꾼다.",
+        "limits": "크기 축은 없다 — `text-xs` 캡 하나가 Button·Tooltip·Input Group에 다 들어간다. 구분자 `+`는 소비처가 텍스트로 넣고, 기호 이름과 `aria-keyshortcuts`는 동작 컨트롤에 준다. Tooltip 반전 면 위의 색과 Command 항목 끝 배치는 className으로 준다.",
         "use": "키보드 키와 단축키 조합을 본문·툴팁·버튼 안에서 본문 글자와 구분되는 키캡으로 표기한다."
       }
     },
@@ -942,8 +942,8 @@ export const catalog = [
       "example": "menubar",
       "guidance": {
         "evidence": "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.",
-        "limits": "화면을 이동하는 사이트 탐색에는 쓰지 않는다 — 이 막대의 항목은 명령이라 `aria-current`도 URL도 갖지 않으며, 그 자리는 Navigation Menu다. 진입점이 하나뿐인 행·캔버스 메뉴에도 쓰지 않는다: 그건 Dropdown Menu이고 우클릭으로 여는 경우까지 그쪽이 덮는다(#126). Tabs와도 갈린다 — Tabs는 같은 화면 안에서 패널을 갈아 끼우지만 이 막대는 패널을 소유하지 않고 항목이 명령이다. 어느 메뉴가 열려 있는지는 계약하지 않는다: 루트의 `value`는 소비처가 지은 이름이라 값 집합이 소비처마다 달라 파생 채널이 고를 열거가 되지 않으며, 동시에 하나만 열린다는 것은 축이 아니라 루트가 보증하는 불변식이다. `MenubarShortcut`을 파트로 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. 막대의 접근 가능한 이름은 소비처가 `aria-label`로 준다. 체크·라디오 표식(`ItemIndicator`)도 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리다). 같은 이유로 `MenubarCheckboxItem`과 `MenubarRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. Dropdown Menu가 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않던 비대칭은 해소됐다 — #142가 두 관문으로 열기로 판정했고 #154가 여섯 파트를 두 `openOn` 모드 모두에 냈다. **#119가 두 컴포넌트를 갈라 세운 근거는 그대로 선다**: 서술이 불완전했을 뿐이고, 둘을 실제로 가르는 것은 이 루트 막대 + `MenubarMenu*` 다중 메뉴 + 어느 것이 열렸는지를 쥔 `value`이지 이 세 파트가 아니다. Dropdown Menu는 여섯 파트를 다 가져도 진입점이 하나이고 상시 노출 막대가 없다. 두 파일은 `INDICATOR_ITEM`·`SUB_TRIGGER`를 공유하지 않고 각자 갖는다 — 공유 상수는 두 계약의 해시를 한 줄에 묶고, 여기 `ITEM`의 `select-none`처럼 이미 갈라진 차이를 지운다(#154). `MenubarPortal`은 공개하지 않는다 — `MenubarContent`와 `MenubarSubContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `MenubarContent`의 prop으로 온다.",
-        "use": "화면에 계속 떠 있는 가로 막대에 명령 메뉴 여러 개를 나란히 두고, 그 안에서 실행·전환·설정 항목을 묶는다. 켜고 끄는 항목은 `MenubarCheckboxItem`, 배타 선택은 `MenubarRadioGroup`, 더 깊은 묶음은 `MenubarSub`가 진다."
+        "limits": "사이트 탐색은 Navigation Menu, 진입점 하나의 행·캔버스 메뉴(우클릭 포함)는 Dropdown Menu, 패널 전환은 Tabs다. 단축키는 `Kbd`를 `ml-auto`로 놓고 막대 이름은 `aria-label`로 준다. 포탈 대상은 `MenubarContent`의 prop으로 온다 — 근거: ADR-0018",
+        "use": "상시 노출 가로 막대에 명령 메뉴 여러 개를 나란히 둘 때 쓴다. 체크·라디오·하위 묶음은 `MenubarCheckboxItem`·`MenubarRadioGroup`·`MenubarSub`다."
       }
     },
     "stateSamples": false,
@@ -981,7 +981,7 @@ export const catalog = [
       "example": "native-select",
       "guidance": {
         "evidence": "투자 이력 필터의 시장·계좌처럼 값이 문자열이고 모바일에서 시스템 피커가 더 빠른 자리가 있다.",
-        "limits": "옵션에 아이콘·설명·구분선을 넣거나 열린 목록을 디자인해야 하면 Radix 기반 Select를 쓴다 — 열림 상태는 OS 소유라 이 컴포넌트의 구성 상태에 없고, 라벨은 Field가 연결한다. **`NativeSelectGroup`은 upstream의 `NativeSelectOptGroup`과 이름이 다르고, 그대로 둔다 — 바꿀 수 없어서가 아니라 바꾸지 않는 것이 옳아서다.** 카탈로그의 그룹 노드는 스무 개가 전부 `*Group`이고(`SelectGroup`·`CommandGroup`·`FieldGroup`·`AvatarGroup`…), upstream의 `OptGroup`은 HTML 요소 이름 `<optgroup>`을 따른 것이다. 하나만 HTML 이름을 따르게 하면 노드 이름의 전역 일관성이 깨진다(ADR-0008 규칙 1의 정신). **`breaking`이라 못 바꾼다는 것은 근거가 아니다** — ADR-0018이 미발행·소비처 부재 동안 `breaking` 실행이 열려 있음을 정했고 리포 안 사용처도 참조 시안 하나뿐이다(#173).",
+        "limits": "옵션에 아이콘·설명·구분선을 넣거나 열린 목록을 디자인해야 하면 Radix 기반 Select를 쓴다 — 열림 상태는 OS 소유라 이 컴포넌트의 구성 상태에 없다. 라벨은 Field가 연결하고, 옵션 묶음은 `NativeSelectGroup`(`<optgroup>`)이다.",
         "use": "폼에 실려야 하는 짧은 값 하나를 고를 때 브라우저의 select를 그대로 쓰고, 필드 껍데기와 화살표만 디자인 시스템이 그린다."
       }
     },
@@ -1016,8 +1016,8 @@ export const catalog = [
       "example": "navigation-menu",
       "guidance": {
         "evidence": "투자 기록은 포트폴리오·거래·회고가 각각 URL로 직접 열려야 하는 별개 화면이고, 포트폴리오 아래에는 보유 현황·비중 같은 하위 목적지가 더 있어 막대에서 한 겹 펼쳐 보여야 한다.",
-        "limits": "Tabs가 *\"URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다\"*고 가리킨 자리가 여기다 — 같은 화면 안에서 패널만 갈아 끼우는 전환은 Tabs이고, 주소가 바뀌는 이동은 이쪽이다. Menubar와도 갈린다: 저기 항목은 실행하는 명령이라 `Link`도 `aria-current`도 없고 `CheckboxItem`·`RadioItem`·`Sub`를 갖는 반면, 여기 항목은 목적지라 그 셋을 갖지 않는다. 진입점 하나에 달린 보조 동작 묶음은 Dropdown Menu다. `NavigationMenuViewport`와 `NavigationMenuIndicator`는 공개하지 않는다 — 둘 다 실행 중 측정으로 자기 위치와 치수를 얻는 파생 노드이고, Viewport를 열면 열린 카드를 그리는 노드가 `Content`와 둘이 되어 파생 채널이 가르지 못하며(#97·#119) Indicator는 이미 열림 면을 가진 트리거를 한 번 더 가리키는 표식이다. 나중에 여는 것은 additive다. 열린 카드의 위치·치수도 계약하지 않는다: 자리는 항목이 잡고 폭은 내용이 정한다. 라우터 링크는 `NavigationMenuLink`의 `asChild`로 끼운다 — upstream이 `render`로 부르는 확장점과 같은 자리이며, 우리는 카탈로그가 이미 쓰는 `asChild` 어휘를 쓴다(Base UI 이행은 #118의 미확정 항목이라 그 어휘를 선취하지 않는다). 활성 판정 자체와 라우팅은 소비처가 소유한다. 탐색 랜드마크의 접근 가능한 이름은 소비처가 `aria-label`로 준다. **위 `NavigationMenuViewport` 판정은 Radix 이름으로 적혀 있다** — upstream은 Base UI 갈래로 옮겨 가면서 같은 자리를 `NavigationMenuPositioner`라는 이름으로 공개하고, 그 하나가 `Portal` › `Positioner` › `Popup` › `Viewport` 넷을 묶어 치수를 `--positioner-height`·`--positioner-width`로 **실행 중 측정**해서 받는다. 노드가 늘어난 것이 아니라 이름이 갈린 것이고 측정으로 자기 치수를 얻는 성질도 그대로라 판정은 같다 — 이름이 달라 다음 재조회가 이것을 새 표면으로 잡지 않도록 여기 적는다(#162가 찾았고 #175가 판정했다). primitive 갈래 자체는 ADR-0016이 `radix-ui`로 고정했으므로 이 이름을 선취하지 않는다.",
-        "use": "화면 상단에서 사이트의 주요 목적지를 가로로 늘어놓고, 하위 목적지가 여럿인 항목만 카드로 펼친다. 현재 화면을 가리키는 링크는 `active`로 표시하고, 하위가 없는 항목은 `NavigationMenuLink`에 `navigationMenuTriggerVariants()`를 입혀 막대에 직접 놓는다."
+        "limits": "패널 전환은 Tabs, 명령 메뉴는 Menubar, 보조 동작은 Dropdown Menu다. 하위 없는 항목은 `NavigationMenuLink`에 `navigationMenuTriggerVariants()`를 입혀 막대에 놓고 라우터 링크는 `asChild`로 끼운다. `aria-label`과 라우팅은 소비처가 준다.",
+        "use": "화면 상단에서 사이트의 주요 목적지를 가로로 늘어놓는 자리에 쓴다. 하위 목적지가 여럿인 항목만 카드로 펼치고, 현재 화면 링크는 `active`로 표시한다."
       }
     },
     "stateSamples": false,
@@ -1048,7 +1048,7 @@ export const catalog = [
       "example": "pagination",
       "guidance": {
         "evidence": "투자 이력처럼 전체 결과를 한 번에 표시하기 어려운 목록에서 URL로 복원 가능한 페이지 이동이 필요하다.",
-        "limits": "데이터 양이 적거나 연속 스크롤이 핵심인 흐름에는 사용하지 않으며, 축약 뒤에도 현재 페이지·이전·다음 링크의 접근 가능한 이름과 기본 키보드 동작을 보존한다. 이전·다음의 문구는 children으로 소비처가 정한다 — upstream의 `text` prop에 해당하는 자리이며, 문자열이라 파생 채널이 구분하지 않는다(#121).",
+        "limits": "데이터가 적으면 한 페이지에 다 보이고, 연속 스크롤이 핵심인 흐름은 소비처가 자기 목록으로 푼다. 축약 뒤에도 현재 페이지·이전·다음 링크의 접근 가능한 이름과 기본 키보드 동작을 보존한다. 이전·다음의 문구는 children으로 소비처가 정한다.",
         "use": "긴 결과 집합을 여러 페이지로 나누고 현재 페이지와 인접 이동을 링크로 제공한다."
       }
     },
@@ -1079,9 +1079,9 @@ export const catalog = [
     "reference": {
       "example": "popover",
       "guidance": {
-        "evidence": "투자 기록의 필터 설명과 빠른 설정을 원래 화면 맥락을 떠나지 않고 보여줘야 하고, 종목 이름 위에 잠깐 머무르는 것만으로 그 종목의 요약을 미리 보는 경로도 같은 자산이어야 한다. 그 표면들은 대개 \"무엇에 대한 설정인가\" 한 줄과 그 아래 설명 한 줄로 시작한다.",
-        "limits": "핵심 작업 흐름이나 긴 양식은 Dialog로 옮기고, 행동 없는 짧은 설명은 Tooltip을 사용한다. openOn=\"hover\"에서도 컨트롤의 의미를 보충하는 한 줄 설명은 여전히 Tooltip이다 — Tooltip은 트리거에 aria-describedby로 묶여 이름을 보조하는 설명이고, hover 모드의 Popover는 트리거가 가리키는 대상의 미리보기다. 미리보기 안의 정보와 행동은 hover 없이도 도달할 수 있는 다른 경로가 있어야 하며 이 모드는 필수 작업 흐름을 담지 않는다. 여는 지연과 닫는 지연은 우리가 정하지만 공개 prop이 아니다. `PopoverPortal`은 공개하지 않는다 — `PopoverContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `PopoverContent`의 prop으로 온다.\n\n**머리말 셋은 소비처가 조립하므로 anatomy다**(#166, ADR-0018). `PopoverPortal`과 갈리는 자리가 여기다 — Portal은 `PopoverContent`가 자동으로 감싸 소비처가 쓸 자리가 없지만, 셋은 소비처가 `PopoverContent` 안에 직접 넣어야만 존재한다. 셋 다 선택적이고 서로를 요구하지 않는다: `PopoverHeader`는 제목과 설명을 세로로 묶는 그릇일 뿐이라 한 조각만 쓰는 표면은 그릇 없이 그 조각만 쓴다. 그래서 anatomy 표기는 셋 다 `?`이고, 필수로 올리면 오늘 발행된 인스턴스가 계약 위반이 된다.\n\n**Dialog의 클래스를 공유하지 않고 복제한다.** #91의 소비가 성립하려면 원본을 실제로 렌더할 수 있어야 하는데(`InputGroupTextarea`가 `Textarea`를 렌더하는 자리, #170) `DialogTitle`은 `DialogPrimitive.Title`이라 Popover 안에서 렌더하면 Radix가 자기 스코프 컨텍스트를 찾지 못한다 — Radix `Popover`에는 `Title`도 `Description`도 없다. 그리고 #168이 보탠 두 번째 질문에도 걸린다: 원본이 지고 있는 계약이 없는 표면을 소비하면 이 표면을 정의하는 유일한 선언이 `popover` 매니페스트 밖에 남는다. **갈림선은 조합이냐 같은 역할이냐가 아니라 ⓐ 원본을 그대로 렌더할 수 있는가와 ⓑ 원본이 질 계약이 있는가다** — 여기는 둘 다 아니라 복제가 남는 유일한 길이고, 맨 클래스 문자열을 공유하는 선례가 카탈로그에 하나도 없는 것과도 같다(#154). Dialog·Sheet·AlertDialog 셋이 이미 서로 복제한 자리다.\n\n**값은 제목만 Dialog와 갈린다.** 제목은 upstream `.cn-popover-title`의 `text-sm font-medium`을 그대로 집는다 — `w-72 p-4` 표면에 Dialog의 `text-lg font-semibold`는 과하고, 그 단은 `ProgressLabel`·`ListRowTitle`·Calendar 캡션이 이미 서 있는 카탈로그의 단이라 새 값이 아니다. 설명은 upstream의 `text-muted-foreground text-xs/relaxed`가 아니라 카탈로그의 유일한 설명 단인 `text-sm text-muted-foreground`다(Dialog·Sheet·AlertDialog·Card가 같은 선언이고, 이 컴포넌트의 참조 시안이 이미 손으로 그 클래스를 적고 있었다) — `/relaxed`는 어느 계약도 쓰지 않는 새 행간이라 실측 수요 없이 들이지 않는다(#168·#164가 값이 아니라 차이를 옮긴 것과 같다). 머리말은 `flex flex-col gap-1`이고 Dialog의 `text-center sm:text-left`를 가져오지 않는다 — 그 정렬은 작은 화면에서 폭을 다 쓰는 모달의 결정이고 앵커에 붙는 288px 표면은 그런 상태가 없다. upstream 머리말의 `text-xs`도 가져오지 않는다: 두 자식이 각자 자기 단을 선언하므로 그것이 고르는 것은 소비처가 머리말에 더 넣은 노드뿐이다.\n\n**표면의 접근 가능한 이름은 `PopoverTitle`이 지고 배선은 계약이 진다.** Radix `Popover.Content`는 `role=\"dialog\"`를 내면서 `aria-labelledby`·`aria-describedby`를 배선하지 않는다(1.1.23 소스가 내는 aria는 트리거의 `aria-controls`·`aria-expanded`·`aria-haspopup`뿐이다) — 즉 이 표면은 지금까지 **이름 없는 dialog**였다. `Dialog.Content`가 `titlePresent`/`descriptionPresent`로 하는 조건부 배선을 같은 모양으로 여기서 낸다: `PopoverTitle`·`PopoverDescription`이 마운트된 동안에만 속성이 붙고, 없으면 붙지 않는다(무조건 id를 거는 `CommandGroup` 쪽 답은 제목이 선택적인 이 표면에서 존재하지 않는 id를 가리키는 참조가 되고 axe가 그것을 본다). 소비처가 `aria-label`을 직접 주면 우리 `aria-labelledby`는 서지 않고, `aria-labelledby`를 직접 주면 뒤의 전개가 이긴다 — **이름의 정본은 언제나 하나다.** 제목이 `<div>`이고 heading이 아닌 것도 결정이다: 앵커에 붙는 인라인 표면이 페이지의 제목 개요에 자기 층위를 밀어 넣을 근거가 없고 어느 층위인지는 소비처의 문서 구조가 안다. 이름은 heading 시맨틱이 아니라 `aria-labelledby`가 지므로 잃는 것이 없고, heading으로 읽혀야 하는 소비처는 `children`으로 자기 heading을 넣는다.\n\n**`parts`를 이 세대가 신설했다**(#166, #155 모집단 9 → 8). 새로 등록된 셋의 클래스에서 #154가 `DropdownMenuSeparator`에서 잡은 계열 위반(`--ds-border-default`가 `background-color`에 오는 자리)은 나오지 않았다 — 셋 다 타이포그래피와 레이아웃이고 색은 `text-muted-foreground` 하나뿐이라 전경 이름이 전경 속성에 온다. 루트의 클래스는 `parts` 없이도 이미 매니페스트에 닿아 있었으므로(`config`·`className`이 루트 셀을 낸다) 이 신설로 처음 드러난 기존 셀은 없다. **그리고 여기서 새 비대칭이 하나 열린 채로 남는다**: `dialog`·`sheet`·`alert-dialog` 셋은 오늘도 `parts`가 없어 같은 역할의 Header·Title·Description이 어느 매니페스트에도 닿은 적이 없다. 이제 popover의 셋만 파생 채널에 실리고 Dialog 쪽 셋은 실리지 않는다 — 사실로 여기 남기되 이 계약이 고칠 자리가 아니고 그 셋의 `parts`는 #155의 몫이다(#165 규칙 1: 로스터를 손으로 넓히지 않는다). 새 토큰 0개이고 호환성은 **additive** — 기존 네 표면의 클래스·축·구성 상태가 한 줄도 움직이지 않았고, 새 파트도 새 aria 속성도 소비처가 셋을 렌더하기 전에는 나타나지 않는다.",
-        "use": "트리거와 가까운 곳에서 짧은 보조 정보나 설정을 제공하고, 그 표면의 제목과 한 줄 설명은 `PopoverHeader`·`PopoverTitle`·`PopoverDescription`이 진다. 클릭으로 여는 기본 모드와, 포인터가 머무르면 지연 후 여는 openOn=\"hover\" 모드를 같은 계약으로 덮는다."
+        "evidence": "투자 기록의 필터 설명과 빠른 설정을 화면 맥락을 떠나지 않고 보여줘야 하고, 종목 이름 위에 머무르면 요약을 미리 보는 경로도 같은 자산이어야 한다. 그 표면은 대개 제목 한 줄과 설명 한 줄로 시작한다.",
+        "limits": "핵심 흐름·긴 양식은 Dialog, 행동 없는 짧은 설명은 Tooltip을 쓴다. hover Popover는 대상의 미리보기라 hover 없는 경로도 두고 필수 흐름을 담지 않는다. `PopoverPortal`은 공개하지 않고 포탈 대상은 `PopoverContent`의 prop으로 온다 — 근거: ADR-0018",
+        "use": "트리거 가까이에 짧은 보조 정보·설정을 연다. `PopoverTitle`·`PopoverDescription`이 제목·설명을 지고, 클릭(기본)과 openOn=\"hover\"를 한 계약으로 덮는다."
       }
     },
     "stateSamples": false,
@@ -1110,8 +1110,8 @@ export const catalog = [
       "example": "progress",
       "guidance": {
         "evidence": "투자 내역 가져오기처럼 처리할 전체 항목 수를 아는 작업에 진행률 피드백이 필요하고, 그 화면은 대개 \"무엇을\"과 \"몇 퍼센트\"를 트랙과 함께 읽는다.",
-        "limits": "완료량을 모르는 대기에는 Spinner를 사용하고 value의 계산이나 진행 상태 문구는 소비처가 제공한다 — `ProgressValue`는 자기 수를 만들지 않고 children으로 받는다(루트에 값 context가 없고, 그것을 여는 것은 새 표면이라 #165의 로스터 밖이다).\n\n**`ProgressTrack`은 루트다**(#167). upstream은 컨테이너 루트 밑에 `ProgressTrack`을 따로 두지만 우리 `Progress` 루트가 트랙 자체다 — `h-2 w-full overflow-hidden rounded-full bg-secondary`가 트랙의 선언이고 `ProgressIndicator`가 그 안에 산다. 노드를 갈라 upstream과 이름을 맞추면 발행된 모든 인스턴스의 루트가 다른 것을 뜻하게 되므로 `breaking`이고, 이 세대는 **이름만 정한다**: 트랙의 이름은 `Progress`이며 `parts`에 `ProgressTrack` 항목은 서지 않는다 — 없는 노드에 이름을 주면 매니페스트가 거짓을 말한다. 잔여 트랙이라 대비 요구가 없는 것은 그대로다(#109). `ProgressIndicator`는 오늘도 그리던 노드에 이름이 붙은 것이라 렌더가 한 픽셀도 움직이지 않는다(`in-place safe`).\n\n**`ProgressLabel`·`ProgressValue`는 트랙의 형제이지 자손이 아니다.** 루트가 `h-2 overflow-hidden`이라 텍스트가 그 안에 들어가면 잘리고, 텍스트가 들어가도록 루트의 격자를 바꾸는 것은 발행된 인스턴스의 재해석이다(`breaking`). 그래서 둘을 담는 한 줄(`flex items-center gap-2` 정도)은 소비처가 주고 계약은 **두 조각의 타이포그래피와 접근성만** 진다. `ProgressValue`의 `ml-auto`는 upstream에서 그대로 가져온 것으로 그 행이 flex·grid일 때 값을 오른쪽 끝으로 민다 — 그런 행이 아니면 아무 일도 하지 않는다. `ProgressLabel`은 `<span>`이라 자기 힘으로 이름을 붙이지 못한다: 소비처가 `id`를 주고 `Progress`에 `aria-labelledby`로 물린다(`aria-label`을 루트에 직접 주는 길도 그대로 열려 있다).\n\n**값의 이중 통지를 막는다.** Radix `Progress.Root`가 이미 `role=\"progressbar\"`·`aria-valuenow`·`aria-valuetext`를 내므로 `ProgressValue`가 같은 수를 노출하면 보조기술이 두 번 읽는다. 그래서 `ProgressValue`는 기본으로 `aria-hidden=\"true\"`다 — 보이는 수는 이 파트가, 통지하는 수는 루트가 진다. 소비처가 필요하면 `aria-hidden={undefined}`로 뒤집을 수 있다.\n\n새 토큰 0개다. `tabular-nums`는 Tailwind의 `font-variant-numeric` 유틸리티이지 토큰 수요가 아니고 Calendar가 이미 같은 자리에서 쓴다 — 숫자 폭을 토큰으로 올리려면 타이포 스케일 전체의 결정이 먼저다(#165 규칙 5). 그 유틸리티가 매니페스트에서 `--tw-*` 합성 사슬을 그대로 흘리는 것은 이 계약의 결함이 아니라 #140이 남긴 열린 안개와 같은 자리다 — Avatar의 카운트 셀이 이미 글자 하나 다르지 않은 값을 낸다. 이 세대의 호환성 분류는 **`additive`** 이고(파트 셋과 공개 export 둘이 늘 뿐 기존 셀은 그대로), `ProgressIndicator` 등록만 따로 보면 `in-place safe`다. `parts`를 처음 세우면서 `ProgressIndicator`의 클래스가 매니페스트에 처음 닿았고, #154가 `DropdownMenuSeparator`에서 잡은 계열 위반(`--ds-border-default`를 `background-color`에) 같은 것은 나오지 않았다 — `bg-primary`는 배경 계열 이름이 배경 속성에 온 자리다.",
-        "use": "완료량을 알 수 있는 작업의 진행 정도를 0에서 100 사이 값으로 보여주고, 무엇의 진행인지와 지금 몇 퍼센트인지는 `ProgressLabel`·`ProgressValue`가 트랙 위 한 줄로 말한다."
+        "limits": "완료량을 모르는 대기에는 Spinner를 쓴다. value 계산과 문구는 소비처가 주고 `ProgressValue`는 children으로 받는다. 라벨·값의 한 줄은 소비처가 `flex items-center gap-2`로 짜고, 이름은 `ProgressLabel`의 `id`를 루트 `aria-labelledby`에 물린다.",
+        "use": "완료량을 아는 작업의 진행 정도를 0에서 100 사이 값으로 보여주고, 무엇의 진행인지와 몇 퍼센트인지는 `ProgressLabel`·`ProgressValue`가 트랙 위 한 줄로 말한다."
       }
     },
     "stateSamples": false,
@@ -1177,7 +1177,7 @@ export const catalog = [
       "example": "resizable",
       "guidance": {
         "evidence": "투자 이력은 목록과 상세를 나란히 보는 자리가 있고, 종목 이름이 긴 사용자와 숫자를 넓게 보려는 사용자가 원하는 경계가 서로 다르다.",
-        "limits": "고정 비율 레이아웃에는 쓰지 않으며 패널 크기는 계약하지 않는다 — 크기는 연속값이라 조합으로 나오지 않고 defaultSize·minSize·maxSize는 소비처의 값이다. 핸들은 초점을 받는 컨트롤이므로 접근 가능한 이름은 소비처가 aria-label로 준다. 키보드는 upstream이 준다 — 화살표로 ±5, Home/End로 끝까지, collapsible 패널에서 Enter로 접기·펴기, F6로 핸들 순회. 핸들을 끄는 것은 컨트롤 제스처라 표면이 사라지지 않고 위 키보드 경로가 이미 동등 경로이며, 터치 히트 영역의 크기(upstream 기본값은 coarse 20px·fine 10px)는 터치 대상 크기 규칙(#111)이 정한 뒤에 다시 본다. 레이아웃 저장(useDefaultLayout)과 명령형 API는 소비처가 소유한다.",
+        "limits": "고정 비율 레이아웃은 grid·flex 유틸리티로 나눈다. 패널 크기(defaultSize·minSize·maxSize)·레이아웃 저장·명령형 API는 소비처의 것이고, 핸들 이름은 소비처가 aria-label로 준다. 키보드(화살표 ±5, Home/End, Enter 접기, F6 순회)는 upstream이 준다.",
         "use": "한 화면 안에서 두 영역의 넓이를 사용자가 직접 나눠 갖게 하고, 그 경계를 포인터와 키보드 양쪽으로 옮길 수 있게 한다."
       }
     },
@@ -1212,8 +1212,8 @@ export const catalog = [
       "example": "scroll-area",
       "guidance": {
         "evidence": "투자 이력의 긴 거래 목록이나 Sheet 안의 필터 묶음처럼, 바깥 화면은 그대로 두고 한 영역만 굴려야 하는 자리가 반복된다.",
-        "limits": "페이지 전체 스크롤을 대신하지 않으며, 축을 정하지 않은 자유 스크롤이나 가상 스크롤 목록에는 쓰지 않는다. 영역에 크기 제약이 없으면 아무것도 넘치지 않으므로 스크롤도 스크롤바도 생기지 않는다. 스크롤이 콘텐츠를 가리는 유일한 통로가 되어서는 안 되며, 초점을 받는 영역에는 aria-label로 이름을 준다. thumb은 잡아 끄는 컨트롤 어포던스이므로 자기가 앉는 면에 대해 비텍스트 대비 3:1(WCAG 1.4.11)을 만족해야 하고, 그 자리를 잔여 트랙과 같은 중립 soft로 낮추지 않는다.",
-        "use": "높이나 너비가 고정된 영역 안에서 넘치는 콘텐츠를 한 축으로만 스크롤하게 하고, 브라우저 기본 스크롤바 대신 디자인 시스템 스크롤바를 그린다. 뷰포트가 초점을 받으므로 포인터 없이 키보드만으로도 스크롤할 수 있고, 콘텐츠가 넘치지 않으면 스크롤바는 나타나지 않는다."
+        "limits": "페이지 전체 스크롤을 대신하지 않고, 축 없는 자유 스크롤이나 가상 스크롤 목록은 소비처가 자기 뷰포트로 푼다. 영역에 크기 제약이 없으면 스크롤바도 생기지 않는다. 스크롤이 콘텐츠에 닿는 유일한 통로가 되지 않게 하고, 초점을 받는 영역에는 aria-label로 이름을 준다.",
+        "use": "크기가 고정된 영역 안에서 넘치는 콘텐츠를 한 축으로만 스크롤하게 하고, 브라우저 기본 대신 디자인 시스템 스크롤바를 그린다. 뷰포트가 초점을 받아 키보드만으로도 굴러간다."
       }
     },
     "stateSamples": false,
@@ -1245,7 +1245,7 @@ export const catalog = [
       "example": "select",
       "guidance": {
         "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
-        "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다. 열린 목록의 위치 계산(upstream의 `alignItemWithTrigger`)은 계약하지 않는다 — 동작이라 파생 채널에 실리지 않는다(#121). `SelectPortal`은 공개하지 않는다 — `SelectContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `SelectContent`의 prop으로 온다. **`SelectScrollUpButton`·`SelectScrollDownButton`도 열지 않는다**(#162가 종류 ②로 찾았고 #175가 판정했다) — primitive에는 있으나(`@radix-ui/react-select` 2.3.7의 `ScrollUpButton`·`ScrollDownButton`) 그 둘은 `Viewport`의 `scrollTop`을 읽어 넘칠 때만 자기를 렌더하는데, 이 계약은 넘침을 `SelectContent`에 `max-h-60 overflow-auto`로 두어 **스크롤 컨테이너가 `Viewport`가 아니라 `Content`**다. 그래서 지금 붙여도 `canScroll`이 서지 않아 렌더되는 일이 없고, 서게 하려면 먼저 그 두 유틸리티를 `Viewport`로 옮겨야 하는데 그건 발행된 인스턴스의 클래스를 바꾸는 일이라 additive가 아니다. ScrollArea가 갖는 `overflow: fits|overflowing` 같은 구성 상태를 Select에 두지 않은 것도 같은 결정이라 정적 시안이 그릴 것이 없고, 그리지 않는 노드에 파트 항목을 주면 매니페스트가 존재하지 않는 셀을 그리라고 말한다(#167이 `ProgressTrack`에서 낸 답, ADR-0006의 거울상). 목록이 길어 화살표 어포던스가 필요해지면 넘침을 `Viewport`로 옮기는 breaking 세대에서 함께 연다.",
+        "limits": "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다 — 긴 목록은 `SelectContent`가 `max-h-60 overflow-auto`로 스크롤한다. — 근거: ADR-0018",
         "use": "제한된 값 하나를 선택한다."
       }
     },
@@ -1312,8 +1312,8 @@ export const catalog = [
       "example": "sheet",
       "guidance": {
         "evidence": "투자 이력 화면에서 목록을 보면서 시장·기간·손익 필터를 조정하거나 한 거래의 상세를 확인해야 하고, 화면 중앙을 가리면 방금 본 행을 놓친다.",
-        "limits": "화면 중앙에서 흐름을 멈추고 끝내야 하는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경과 상호작용이 이어져야 하는 보조 정보는 Popover를 쓴다. Sheet은 항상 모달이므로 비모달 패널이나 접근 가능한 이름 없는 표면으로 쓰지 않으며, SheetTitle은 생략할 수 없다. `SheetPortal`은 공개하지 않는다 — `SheetContent`가 스스로 Portal을 감싸므로 소비처가 조립할 자리가 아니다. 공개돼 있던 동안에도 쓰면 Portal이 이중으로 생겨 `container`가 무시됐다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `SheetContent`의 prop으로 온다.",
-        "use": "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 열리는 동안의 동작(포커스 트랩·Esc와 바깥 클릭으로 닫기·본문 스크롤 잠금·닫은 뒤 트리거로 초점 복귀)은 네 값이 모두 같다."
+        "limits": "중앙에서 흐름을 멈추는 작업은 Dialog, 파괴적 확인은 Alert Dialog, 배경 상호작용이 이어지는 보조 정보는 Popover다. 항상 모달이라 비모달 패널로 쓰지 않고 SheetTitle은 필수다. `SheetPortal`은 공개하지 않고 포탈 대상은 `SheetContent`의 prop으로 온다 — 근거: ADR-0018",
+        "use": "본문을 덮지 않고 화면 가장자리에서 열리는 모달 표면으로, 원래 맥락을 유지한 채 필터·상세·보조 편집을 옆에서 처리한다. side는 붙는 변만 정하고 모달 동작은 네 값이 같다."
       }
     },
     "stateSamples": false,
@@ -1376,8 +1376,8 @@ export const catalog = [
       "example": "sidebar",
       "guidance": {
         "evidence": "투자 이력·보유 현황·회고를 오가는 탐색이 화면 상단 탭으로는 다 들어가지 않고, 본문을 보면서 다른 구역으로 이동해야 한다.",
-        "limits": "breakpoint 판정을 내장하지 않는다 — `list-row`가 이미 \"투자 도메인과 breakpoint 전환을 내장하지 않는다\"고 그은 선과 같은 자리이며, 소비처가 `isMobile`을 준다. 쿠키 열림 상태 영속화와 `Cmd/Ctrl+B` 단축키는 동작이라 파생 채널이 나르지 못하므로 계약 밖이고(#97), 저절로 따라오는 상속 표면도 아니라 소비처가 `defaultOpen`·`open`·`onOpenChange`로 배선한다. off-canvas 열고 닫기는 트리거·rail·키보드로만 하며 스와이프 제스처는 갖지 않는다 — 나중에 붙인다면 표면이 사라지는 dismiss 제스처이므로 ADR 0005의 존재·시각 피드백·접근성 동등 경로를 함께 계약해야 한다. upstream의 `collapsible: \"none\"`은 열지 않는다: 렌더 결과가 `offcanvas`의 펼친 상태와 구분되지 않아 파생 채널이 가르지 못하며(#97), 트리거와 rail을 렌더하지 않으면 같은 결과가 된다. `SidebarMenuButton`의 `outline` variant도 열지 않는다 — 컨트롤 테두리를 `--sidebar-border`(`border.default`)로 그리는데 그것은 구분선이라 3:1 게이트에서 빠져 있고 다크에서 1.31이며, 게이트를 통과하는 `border.strong`에는 alias 이름이 없어 여는 데 토큰 변경이 선행된다. `SidebarInput`과 `SidebarMenuSkeleton`은 파트로 열지 않는다: 앞은 Input에 유틸리티 두 줄을 얹은 것이라 파생 채널이 구분하지 못하고, 뒤는 폭이 난수라 참조 스토리가 결정적이지 않다 — 소비처가 Input·Skeleton을 직접 조립한다. 접힌 상태의 메뉴 버튼에 레이블을 보충해야 하면 Tooltip을 소비처가 감싼다. 페이지 랜드마크도 소유하지 않는다 — `SidebarInset`은 `<div>`이고 `<main>`은 소비처의 페이지 구조다(upstream과 다른 지점이며, 셸이 이미 `<main>`을 가진 문서에 놓이면 랜드마크가 둘이 된다). sidebar 안쪽의 탐색 랜드마크는 우리가 주되 그 접근 가능한 이름은 소비처가 준다 — 한 화면에 사이드바가 둘일 수 있다.",
-        "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정되는 세로 탐색 표면으로, 본문과 함께 살면서 접고 펼 수 있다. `variant`는 패널의 형태만, `collapsible`은 접혔을 때의 폭만 정하고 열림 상태는 소비처가 소유한다. 좁은 폭에서는 소비처가 알려준 `isMobile`에 따라 Sheet으로 갈아 끼운다."
+        "limits": "breakpoint 판정·열림 영속화·단축키는 내장하지 않는다 — `isMobile`과 `open`·`onOpenChange`로 소비처가 배선한다. 검색 칸·스켈레톤은 Input·Skeleton으로 조립하고 접힌 메뉴 버튼의 레이블은 Tooltip으로 감싼다. `<main>`과 `aria-label`은 소비처가 준다.",
+        "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정돼 본문과 함께 살며 접고 펴는 세로 탐색 표면에 쓴다. 좁은 폭에서는 `isMobile`에 따라 Sheet으로 갈아 끼운다."
       }
     },
     "stateSamples": false,
@@ -1528,7 +1528,7 @@ export const catalog = [
       "example": "table",
       "guidance": {
         "evidence": "한국어 종목명·날짜·금액·양/음수 손익과 선택 가능한 투자 이력 행을 비교한다.",
-        "limits": "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다. `TableFooter`는 `<tfoot>`이고 합계·소계처럼 **본문 행들을 요약하는 행**의 자리다 — 표 시맨틱은 브라우저가 지므로 `<tfoot>`은 DOM 어디에 쓰든 마지막에 그려지고 보조기술에는 rowgroup 하나로 읽힌다. 요약 행의 첫 칸을 이름으로 읽히게 할지는 소비처가 `TableHead scope=\"row\"`로 정한다 — 슬롯은 자기가 담은 것이 이름인지 값인지 알 수 없다(`ItemMedia`의 대체 텍스트와 같은 자리, #145). 면은 upstream의 반투명 `bg-muted/50`이 아니라 **`bg-muted`를 온전히** 그린다: 알파를 우리 매니페스트에 넣으면 `--ds-bg-subtle`로 해결되며 50%가 조용히 버려져 코드와 파생 채널이 갈리고, 그 어긋남을 보는 게이트가 없다(ADR-0006). 반투명 짝을 토큰으로 세우는 것은 새 토큰이라 선제 공개하지 않는다(#118). **머리글·바닥글의 고정(sticky)은 계약하지 않는다** — 스크롤 컨테이너를 소비처가 소유하고, `<tfoot>`에 건 sticky는 브라우저마다 갈려 실제로는 `<th>`·`<td>`마다 걸어야 하므로 우리 셀의 결정이 아니다.",
+        "limits": "정렬·필터·페이지네이션·가상화와 데이터 모델은 소비처 책임이다. `TableFooter`는 `<tfoot>`이라 본문을 요약하는 합계·소계 행의 자리이고, 첫 칸을 이름으로 읽힐지는 `TableHead scope=\"row\"`로 정한다. sticky는 소비처가 스크롤 컨테이너와 함께 `<th>`·`<td>`에 건다.",
         "use": "열 의미가 있고 비교가 중요한 데스크톱 데이터를 표현한다."
       }
     },
@@ -1562,8 +1562,8 @@ export const catalog = [
       "example": "tabs",
       "guidance": {
         "evidence": "투자 상세에서 보유 현황과 거래 내역처럼 동일 대상의 병렬 보기를 화면 이동 없이 전환해야 하고, 본문 위에 얹히는 탭 막대는 트랙 없이 기준선 하나로 서야 한다.",
-        "limits": "서로 독립된 작업 흐름이나 URL로 직접 접근해야 하는 화면 탐색에는 링크나 내비게이션을 사용한다 — 그 내비게이션이 Navigation Menu다(#127). 이 문장이 가리키던 자리가 카탈로그에 실제로 생겼으므로 경계가 닫혔다: 주소가 바뀌면 Navigation Menu, 같은 화면 안에서 패널만 갈아 끼우면 Tabs다. 활성 표식은 `indicator` 축이 진다 — `pill`(기본값)·`line` 둘이며 축은 `TabsList`에 앉고 `TabsTrigger`가 context로 받아 그린다(#125의 `ChartTooltipIndicator`가 선 자리와 같다). 이름이 upstream의 `variant`가 아닌 것은 우리 카탈로그에서 `variant`가 Button·Badge·Alert·Toggle의 **면의 계열** 이름이라 한 이름이 두 뜻을 갖기 때문이다(#144가 `align`을 버린 것과 같은 판정). 기본값이 `pill`인 것은 `line`을 기본으로 두면 발행된 탭이 트랙을 잃어 인스턴스가 재해석되기 때문이다. **Toggle Group의 `spacing`과 같은 개념이 아니다** — 저기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 여기서 갈리는 것은 활성 표식의 정체라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 밑줄은 색만으로 활성을 말하지 않는다: 갈리는 것은 색조가 아니라 아래 변의 **폭**(`0` → `2px`)이라 쉬는 트리거에는 획이 아예 없고, 여기에 `text-foreground`의 대비 상승과 Radix의 `aria-selected`가 겹친다. 색이 아니라 폭이 상태를 지는 두 번째 이유는 포커스다 — `focus-visible:border-focus-contrast`가 색만 바꾸므로, 색을 상태에 매달았다면 초점만 받은 비활성 탭이 `activationMode=\"manual\"`에서 활성 탭과 같은 밑줄을 그렸을 것이다. 선 색은 `--ds-border-focus-contrast`이고 `InputOTPSlot`이 활성 칸의 테두리에 쓰는 것과 같은 토큰이다 — 새 토큰은 세우지 않았다(맵 규칙 4). 색을 수식자 없는 `border-color`에 둔 덕에 그 토큰 선택은 `manifest/lint.mjs`의 계열 규칙이 실제로 보지만, **폭 쪽은 게이트가 보지 못한다** — `data-[state=active]`가 `MODIFIER_POLICY`에 없어 `unresolved`로 떨어지므로 활성일 때 획이 실제로 서는지는 사람이 Storybook에서 판정하며, 그 더미는 #140이 소유한다. 밑줄 형태의 트리거는 상태 면(`--ds-state-base`)을 갖지 않는다 — 깔 트랙이 없는 형태에 `--background`를 주면 트리거마다 `--ds-bg-canvas` 사각형이 깔려 이 축이 없애려는 트랙을 되그리고 Card·Dialog·Sidebar 면 위에서 면색이 어긋난다. 밑줄 형태에서도 목록은 가로로 늘어선다 — `orientation: vertical`이 옮기는 것은 목록과 패널의 관계이지 목록 안의 방향이 아니므로 기준선은 두 축 모두에서 목록의 아래 변이다. 목록의 폭은 계약하지 않는다(`w-fit`이 두 형태에 같다) — 기준선을 본문 폭까지 늘리는 것은 소비처가 `className`으로 정한다.",
-        "use": "같은 맥락의 콘텐츠 패널을 한 번에 하나씩 전환하며 가로 또는 세로로 조립하고, 활성 탭을 알약으로 표시할지 밑줄로 표시할지 `TabsList`의 `indicator`로 고른다."
+        "limits": "주소가 바뀌는 화면 탐색은 Navigation Menu다 — 여기는 같은 화면 안에서 패널만 갈아 끼운다. 밑줄 형태에서도 목록은 가로로 늘어선다(`orientation: vertical`은 목록과 패널의 관계만 옮긴다). 목록의 폭은 계약하지 않는다 — 기준선을 본문 폭까지 늘리는 것은 소비처가 `className`으로 정한다.",
+        "use": "같은 화면 안에서 콘텐츠 패널을 하나씩 갈아 끼울 때 쓴다. 활성 탭을 알약으로 표시할지 밑줄로 할지 `TabsList`의 `indicator`로 고른다."
       }
     },
     "stateSamples": false,
@@ -1713,8 +1713,8 @@ export const catalog = [
       "example": "toggle-group",
       "guidance": {
         "evidence": "차트 기간은 하나만, 비교 지표는 여러 개를 고르는 조밀한 도구 모음이 필요하고, 좁은 도구 막대에서는 그 묶음이 한 덩어리로 붙어야 한다.",
-        "limits": "서로 무관한 동작을 시각적으로 붙이는 Button Group이나 제출형 선택 필드를 대신하지 않는다. 붙은 형태는 `spacing` 축이 진다 — `separate`(기본값)·`attached` 둘이고, 이름은 upstream을 따르되 값은 우리 어휘다(upstream의 `spacing={0}`은 숫자라 파생 채널이 그릴 이름이 되지 못한다). 기본값이 `separate`인 것은 `attached`를 기본으로 두면 발행된 모든 그룹이 `gap-0`과 테두리를 얻어 인스턴스가 재해석되기 때문이다(#144의 `placement: auto`와 같은 자리). **`TabsList`의 밑줄 축과 같은 개념이 아니다** — 여기서 갈리는 것은 항목끼리의 간격과 모서리 연속성이고 저기서 갈리는 것은 활성 항목을 무엇이 표시하는가라, 파생 채널이 집는 속성 집합부터 겹치지 않는다(#146). 붙은 형태에서 각 항목의 경계는 `border`가 진다 — `variant: default`에는 테두리가 없어 간격만 0으로 만들면 이웃과의 경계가 남지 않으므로, 이 축이 붙을 때만 테두리를 세우고 맞닿는 변은 한 번만 그린다. **이 선은 대비 기준을 지는 구분선이 아니다**: 색이 `--ds-border-default`라 canvas 위에서 약 1.4:1이고, 그 토큰은 `tokens:contrast`의 비텍스트 3:1 조합표에서 의도적으로 빠져 있다(`border.field`·`knockout`과 같은 자리). 이 선이 지는 것은 형태의 판독이며, `InputOTPSlot`과 `ButtonGroup`의 붙은 형태가 같은 색으로 같은 일을 하므로 여기만 다르게 그리지 않는다. 3:1을 지는 구분선은 `border.strong`의 자리인데 그 토큰에는 Tailwind 유틸리티가 없어 별칭을 새로 내야 하고 그건 `tokens.css`를 움직이는 일이라 맵 규칙 4가 금한다 — 필요하면 소비처가 `className`으로 덮는다. 바깥 모서리는 `Toggle`이 이미 쓰는 `rounded-md`를 그대로 남기므로 새 radius 단계를 요구하지 않는다. 첫·마지막 항목을 지목하는 `first:`·`last:` 수식자는 셀에 나타나지 않고 매니페스트의 `elsewhere`가 진다 — `unresolved`(\"아직 못 다뤘다\")도 `ignore:`(\"영영 거기 없다\")도 아니고, 바깥 모서리는 Figma에 실재하되 항목 자산이 아니라 **조립된 그룹**에 그려진다(ADR-0012). `InputOTPSlot`이 붙은 칸을 그리는 것과 같은 관용구다. 붙은 형태에서도 이 컴포넌트는 여전히 선택 위젯이다: roving tabindex 한 칸과 화살표 키 이동은 Radix가 지며, 모양이 Button Group과 같아 보여도 자식마다 탭 정지가 남는 그쪽과 갈린다.",
-        "use": "관련된 토글을 묶어 하나 또는 여러 값을 선택하고 화살표 키로 항목 사이를 이동하며, 항목을 떨어뜨려 둘지 하나의 덩어리로 붙일지 `spacing`으로 고른다."
+        "limits": "서로 무관한 동작을 시각적으로만 붙이는 자리는 Button Group, 제출형 선택 필드는 Radio Group·Select다. 붙은 형태의 경계선은 대비 기준을 지지 않는다 — 3:1 구분선이 필요하면 소비처가 `className`으로 덮는다. `attached`에서도 탭 정지 하나를 공유하는 선택 위젯이다.",
+        "use": "관련된 토글을 묶어 하나 또는 여러 값을 고르는 자리에 쓴다. 화살표 키로 항목 사이를 옮기고, 항목을 붙일지 떨어뜨릴지 `spacing`으로 고른다."
       }
     },
     "stateSamples": false,

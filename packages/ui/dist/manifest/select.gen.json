@@ -127,7 +127,7 @@
     "example": "select",
     "guidance": {
       "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
-      "limits": "필터 모델과 화면 전용 라벨을 내장하지 않는다. 열린 목록의 위치 계산(upstream의 `alignItemWithTrigger`)은 계약하지 않는다 — 동작이라 파생 채널에 실리지 않는다(#121). `SelectPortal`은 공개하지 않는다 — `SelectContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `SelectContent`의 prop으로 온다. **`SelectScrollUpButton`·`SelectScrollDownButton`도 열지 않는다**(#162가 종류 ②로 찾았고 #175가 판정했다) — primitive에는 있으나(`@radix-ui/react-select` 2.3.7의 `ScrollUpButton`·`ScrollDownButton`) 그 둘은 `Viewport`의 `scrollTop`을 읽어 넘칠 때만 자기를 렌더하는데, 이 계약은 넘침을 `SelectContent`에 `max-h-60 overflow-auto`로 두어 **스크롤 컨테이너가 `Viewport`가 아니라 `Content`**다. 그래서 지금 붙여도 `canScroll`이 서지 않아 렌더되는 일이 없고, 서게 하려면 먼저 그 두 유틸리티를 `Viewport`로 옮겨야 하는데 그건 발행된 인스턴스의 클래스를 바꾸는 일이라 additive가 아니다. ScrollArea가 갖는 `overflow: fits|overflowing` 같은 구성 상태를 Select에 두지 않은 것도 같은 결정이라 정적 시안이 그릴 것이 없고, 그리지 않는 노드에 파트 항목을 주면 매니페스트가 존재하지 않는 셀을 그리라고 말한다(#167이 `ProgressTrack`에서 낸 답, ADR-0006의 거울상). 목록이 길어 화살표 어포던스가 필요해지면 넘침을 `Viewport`로 옮기는 breaking 세대에서 함께 연다.",
+      "limits": "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다 — 긴 목록은 `SelectContent`가 `max-h-60 overflow-auto`로 스크롤한다. — 근거: ADR-0018",
       "use": "제한된 값 하나를 선택한다."
     }
   },

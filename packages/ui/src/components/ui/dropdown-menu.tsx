@@ -29,8 +29,9 @@ import { cn } from "@/lib/utils"
  * 표면이다.** 그 필드는 **닫는** 제스처의 모양이라 `surface`가 사라지는 표면을
  * 가리키고 `feedback`이 `className()` 안에 실제로 있어야 하는데, 여는 제스처에는
  * 닫히는 표면이 없고 피드백 클래스를 넣는 순간 셀이 바뀌어 매니페스트 해시가 깨진다.
- * 지킬 수 없는 것을 지킨다고 적지 않고 `limits`의 문장으로 남긴다 — 침묵은 선택지가
- * 아니다. */
+ * 지킬 수 없는 것을 지킨다고 적지 않고 `behaviors.longPressOpen`의 문장으로 남긴다 —
+ * 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다.
+ * 침묵은 선택지가 아니다. */
 /* 체크·라디오·서브메뉴 여섯 파트를 두 모드 모두에 낸다(#154, 판정은 #142).
  *
  * 43세대 동안 이 계약은 upstream의 `CheckboxItem`·`RadioItem`·`Sub`를 공개하지 않았고,
@@ -43,6 +44,11 @@ import { cn } from "@/lib/utils"
  * **여섯을 한 번에 연다.** `RadioItem`은 `value`를 소유하는 `RadioGroup` 없이 뜻이 없고
  * `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않는다 — 셋만 열면 나머지 셋을
  * 소비처가 `radix-ui`에서 직접 가져와야 해서 ⓑ가 그대로 다시 샌다.
+ *
+ * **Menubar와의 비대칭은 이 세대에서 해소됐고 #119의 판정은 그대로 선다**: 두 컴포넌트를
+ * 가르는 것은 루트 막대 + `MenubarMenu*` 다중 메뉴 + `value`이지 이 세 파트가 아니다.
+ * `openOn="context"` 모드에도 상시 노출 막대가 없고 진입점이 하나이므로 여섯 파트를 줘도
+ * Menubar가 되지 않는다.
  *
  * **두 모드 모두에 낸다.** `openOn`이 `cva` 축도 구성 상태도 아닌 근거가 "두 모드가 같은
  * 공개 anatomy를 갖는다"이므로(#126), 한쪽에만 열면 그 전제가 깨져 `openOn`이 축이 되어야
@@ -62,7 +68,9 @@ import { cn } from "@/lib/utils"
  * **`ItemIndicator`는 파트로 열지 않는다.** Menubar가 닫은 근거 그대로 — 켜졌을 때만
  * 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니고,
  * 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이
- * 가르지 못한다. 대신 `configurationStates`에 `checked`가 선다.
+ * 가르지 못한다(Select의 `ItemIndicator`와 같은 자리). 대신 `configurationStates`에 `checked`가
+ * 선다. 같은 이유로 `DropdownMenuCheckboxItem`과 `DropdownMenuRadioItem`의 조합 스타일은 서로
+ * 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다.
  *
  * **`SubContent`는 `dropdownMenuVariants`를 그대로 쓴다.** 서브 표면은 떠 있는 같은 면이고
  * 여기에는 다시 정할 결정이 없다 — 복제하면 한쪽만 조정되는 두 번째 진실이 생긴다.
@@ -165,7 +173,9 @@ function DropdownMenuGroup(props: React.ComponentProps<typeof DropdownMenuPrimit
 
 /* 아래 여섯도 같은 관용구다 — 두 primitive가 같은 `@radix-ui/react-menu` 파트로 내려가
  * prop 타입이 동일하므로 컴포넌트만 고른다. 체크·라디오는 `ItemIndicator`까지 같은 모드에서
- * 골라야 한다: 다른 scope의 indicator는 켜짐 상태를 읽지 못해 표식이 영영 나타나지 않는다. */
+ * 골라야 한다: 다른 scope의 indicator는 켜짐 상태를 읽지 못해 표식이 영영 나타나지 않는다.
+ * 체크·라디오 항목의 role과 `aria-checked`, 서브메뉴의 `aria-haspopup`·`aria-expanded`는
+ * primitive가 내고 표식·화살표 `<svg>`는 `aria-hidden`이라 이름에 섞이지 않는다. */
 function DropdownMenuCheckboxItem({ className, children, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {
   const isContext = React.useContext(DropdownMenuOpenOnContext) === "context"
   const CheckboxItem = isContext ? ContextMenuPrimitive.CheckboxItem : DropdownMenuPrimitive.CheckboxItem
@@ -224,8 +234,15 @@ const staticPart = (className: string) => ({
   className: () => className,
 })
 
+/* 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고,
+ * 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). */
 const componentContract = {
   name: "dropdown-menu", source: "src/components/ui/dropdown-menu.tsx",
+  /* `DropdownMenuShortcut`은 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고,
+   * 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. `DropdownMenuPortal`은 공개하지 않는다 —
+   * `DropdownMenuContent`와 `DropdownMenuSubContent`가 각자 Portal을 감싸므로 소비처가 조립할
+   * 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라
+   * `DropdownMenuContent`의 prop으로 온다. */
   publicExports: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuItem", "DropdownMenuLabel", "DropdownMenuSeparator", "DropdownMenuGroup", "DropdownMenuCheckboxItem", "DropdownMenuRadioGroup", "DropdownMenuRadioItem", "DropdownMenuSub", "DropdownMenuSubTrigger", "DropdownMenuSubContent", "dropdownMenuVariants", "dropdownMenuVariantsConfig"],
   config: dropdownMenuVariantsConfig, className: (props: Record<string, string>) => cn(dropdownMenuVariants(props)),
   anatomy: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuGroup*", "DropdownMenuLabel?", "DropdownMenuItem*", "DropdownMenuCheckboxItem*", "DropdownMenuRadioGroup?", "DropdownMenuRadioItem*", "DropdownMenuSeparator?", "DropdownMenuSub?", "DropdownMenuSubTrigger", "DropdownMenuSubContent"],
@@ -250,7 +267,11 @@ const componentContract = {
     contextOpen: { kind: "open-cause", surface: "DropdownMenuContent", origin: "ours", control: "openOn", why: "`openOn=\"context\"`는 우클릭·컨텍스트 메뉴 키로 연다 — 우리가 만든 열림 계기이고 기본값은 `press`다(#126). 열림 계기는 동작이라 `cva` 축도 구성 상태도 아니어서 생성된 카탈로그 스토리가 이 모드를 한 번도 렌더하지 않는다 — Storybook axe가 말해 주는 것이 없다." },
     longPressOpen: { kind: "open-cause", surface: "DropdownMenuContent", origin: "inherited", why: "`openOn=\"context\"`에서 터치의 롱프레스로 열리는 것은 radix-ui ContextMenu가 갖고 오는 상속 표면이다 — 우리가 타이핑한 적 없고 임계값도 우리가 정하지 않았다(#126). 여는 계기라 표면이 사라지지 않으므로 `gestures`가 담지 못한다." },
   },
-  reference: { example: "dropdown-menu", guidance: { use: "현재 맥락에 속하는 보조 동작을 묶는다. 화면에 보이는 컨트롤에서 여는 기본 모드와, 대상 영역을 우클릭·롱프레스해서 여는 openOn=\"context\" 모드를 같은 계약으로 덮는다. 켜고 끄는 항목은 `DropdownMenuCheckboxItem`, 배타 선택은 `DropdownMenuRadioGroup`, 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점에 필요하고, 표의 행 자체를 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고르는 일이 행마다 일어난다.", limits: "삭제 확인과 실제 동작 로직은 포함하지 않는다. openOn=\"context\"는 배경 영역 자체가 대상인 행·캔버스에만 쓰고, 화면에 보이는 버튼에서 여는 메뉴는 기본값 press를 쓴다. 이 모드에서 DropdownMenuTrigger는 버튼이 아니라 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 asChild로 주어 Shift+F10·컨텍스트 메뉴 키로도 열리게 해야 한다. 터치에서는 upstream이 갖고 오는 롱프레스로 열리며 그 임계값은 계약하지 않는다 — 여는 제스처라 gestures 필드가 담지 못하는 첫 상속 표면이다. defaultOpen과 sideOffset은 press 모드에서만 유효하다. 여러 메뉴가 한 막대에 상시 노출되는 명령 막대에는 쓰지 않는다 — 그 자리는 Menubar이고, 화면을 이동하는 사이트 탐색은 Navigation Menu다(#127). `CheckboxItem`·`RadioItem`·`Sub`는 43세대 동안 **확인된 공백**이었고 #142가 ADR-0006의 두 관문으로 판정해 **열었다**(#154). Menubar가 같은 표면에 이미 독립 셀을 내고 있었고(ⓐ), 소비처에는 재현할 우리 노드조차 없어 `radix-ui`를 직접 집고 표식 기하를 손으로 다시 정해야 했다(ⓑ). 여섯을 한 번에 열었다 — `RadioItem`은 `RadioGroup` 없이 뜻이 없고 `Sub`는 `SubTrigger`·`SubContent` 없이 아무것도 그리지 않아, 셋만 열면 ⓑ가 그대로 다시 샌다. **Menubar와의 비대칭은 이 세대에서 해소됐고 #119의 판정은 그대로 선다**: 두 컴포넌트를 가르는 것은 루트 막대 + `MenubarMenu*` 다중 메뉴 + `value`이지 이 세 파트가 아니다. openOn=\"context\" 모드에도 상시 노출 막대가 없고 진입점이 하나이므로 여섯 파트를 줘도 Menubar가 되지 않는다. 표식(`ItemIndicator`)은 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이 그리는 것은 `checked` 구성 상태이지 별도 노드가 아니며, 껍데기를 노드로 세우면 체크·라디오 두 항목이 같은 클래스를 갖게 되어 파생 채널이 가르지 못한다(Select의 `ItemIndicator`와 같은 자리). 같은 이유로 `DropdownMenuCheckboxItem`과 `DropdownMenuRadioItem`의 조합 스타일은 서로 같다 — 둘을 가르는 것은 역할과 표식이지 면이 아니다. 체크·라디오 항목의 role과 `aria-checked`, 서브메뉴의 `aria-haspopup`·`aria-expanded`는 primitive가 내고 표식·화살표 `<svg>`는 `aria-hidden`이라 이름에 섞이지 않는다. `DropdownMenuSeparator`는 `border-t`로 그린다 — 43세대 동안 `h-px bg-border`였으나 `parts`가 없어 매니페스트에 나타나지 않았고, 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다(없는 것은 통과가 아니라 침묵이다, ADR-0006). 렌더는 같은 1px 선이고 Menubar·Resizable이 이미 낸 답이다. `DropdownMenuShortcut`은 열지 않는다 — #123이 `CommandShortcut` 자리를 닫은 것과 같은 근거이고, 소비처가 `Kbd`를 `ml-auto`로 놓으면 같은 결과다. `DropdownMenuPortal`은 공개하지 않는다 — `DropdownMenuContent`와 `DropdownMenuSubContent`가 각자 Portal을 감싸므로 소비처가 조립할 자리가 아니다(#172, ADR-0018). 포탈 대상을 고르는 경로가 필요해지면 노드가 아니라 `DropdownMenuContent`의 prop으로 온다." } },
+  /* 켜고 끄는 항목은 `DropdownMenuCheckboxItem`, 배타 선택은 `DropdownMenuRadioGroup`·`DropdownMenuRadioItem`,
+   * 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다. context 모드의 트리거는 버튼이 아니라
+   * 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 `asChild`로 주어야
+   * Shift+F10·컨텍스트 메뉴 키로도 열린다. */
+  reference: { example: "dropdown-menu", guidance: { use: "현재 맥락의 보조 동작을 묶는다. 보이는 컨트롤에서 여는 press 모드와 대상 영역을 우클릭·롱프레스해 여는 openOn=\"context\" 모드가 같은 계약이고, 체크·라디오·서브메뉴는 두 모드에서 같다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점이 필요하고, 표의 행을 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고른다.", limits: "삭제 확인과 동작 로직은 소비처가 둔다. openOn=\"context\"는 영역 자체가 대상인 행·캔버스에만 쓰고 트리거는 포커스 가능한 요소를 asChild로 준다. defaultOpen·sideOffset은 press에서만 듣는다. 상시 노출 명령 막대는 Menubar, 사이트 탐색은 Navigation Menu다." } },
 } as const
 
 export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, dropdownMenuVariants, dropdownMenuVariantsConfig, componentContract }

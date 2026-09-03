@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils"
  *   라이브러리가 계산해 붙이고 타입이 우리 재정의를 막는다. 키보드도 upstream이
  *   준다 — 화살표 ±5, Home/End로 끝까지, collapsible 패널에서 Enter로 접기·펴기,
  *   F6로 핸들 순회. 남는 하나가 **접근 가능한 이름**이고 그건 소비처가 준다.
+ *   레이아웃 저장(useDefaultLayout)과 명령형 API도 소비처가 소유한다.
  *
  * 제스처  핸들을 끄는 것은 **컨트롤 제스처**다. 값(패널 크기)만 바뀌고 표면은
  *   그대로 남으며, 키보드 동등 경로가 이미 위에 있다. dismiss 제스처가 아니므로
@@ -54,7 +55,9 @@ const resizableHandleVariantsConfig = {
  * 그려 토큰이 제 자리(`border-color`)에 가게 한다. 폭은 border가 만들므로 `w-px`가 `w-0`이 된다.
  *
  * 잡는 자리는 `after:`의 투명한 히트 영역이 넓히고, 그 수식자는 `MODIFIER_POLICY`에서
- * `ignore`다 — 그릴 것이 없는 영역이라 Figma에 영영 가지 않는다. */
+ * `ignore`다 — 그릴 것이 없는 영역이라 Figma에 영영 가지 않는다. 터치 히트 영역의
+ * 크기(upstream 기본값은 coarse 20px·fine 10px)는 터치 대상 크기 규칙(#111)이 정한 뒤에
+ * 다시 본다. */
 const resizableHandleVariants = cva(
   "relative flex items-center justify-center outline-none after:absolute focus-visible:ring-[3px] focus-visible:ring-ring",
   resizableHandleVariantsConfig
@@ -150,7 +153,7 @@ const componentContract = {
     doubleClickReset: { kind: "control-gesture", surface: "ResizableHandle", origin: "inherited", control: "disableDoubleClick", why: "react-resizable-panels가 핸들에 `dblclick`을 걸어 갖고 오는 상속 표면이다 — **핸들을 두 번 누르면 `defaultSize`를 가진 패널이 그 크기로 돌아간다.** 소비처가 `defaultSize`를 준 적이 없으면 아무 일도 일어나지 않으므로, 같은 컴포넌트가 소비처에 따라 반응하기도 하지 않기도 한다. 드래그와 같은 컨트롤 제스처라 표면이 사라지지 않고 키보드 동등 경로(핸들 포커스 후 화살표로 같은 크기에 도달)가 upstream에 있으므로 `gestures`가 아니다(ADR-0005). `disableDoubleClick`으로 끈다(#187)." },
     handleDrag: { kind: "control-gesture", surface: "ResizableHandle", origin: "inherited", why: "react-resizable-panels가 갖고 오는 상속 표면이다 — 핸들을 끌면 패널 크기가 바뀐다. 컨트롤 제스처라 표면이 사라지지 않고 키보드 동등 경로(핸들에 포커스 후 화살표)가 upstream에 있으므로 `gestures`가 아니다. 끄는 자리는 없다 — 끄면 이 컴포넌트가 할 일이 없어진다." },
   },
-  reference: { example: "resizable", guidance: { use: "한 화면 안에서 두 영역의 넓이를 사용자가 직접 나눠 갖게 하고, 그 경계를 포인터와 키보드 양쪽으로 옮길 수 있게 한다.", evidence: "투자 이력은 목록과 상세를 나란히 보는 자리가 있고, 종목 이름이 긴 사용자와 숫자를 넓게 보려는 사용자가 원하는 경계가 서로 다르다.", limits: "고정 비율 레이아웃에는 쓰지 않으며 패널 크기는 계약하지 않는다 — 크기는 연속값이라 조합으로 나오지 않고 defaultSize·minSize·maxSize는 소비처의 값이다. 핸들은 초점을 받는 컨트롤이므로 접근 가능한 이름은 소비처가 aria-label로 준다. 키보드는 upstream이 준다 — 화살표로 ±5, Home/End로 끝까지, collapsible 패널에서 Enter로 접기·펴기, F6로 핸들 순회. 핸들을 끄는 것은 컨트롤 제스처라 표면이 사라지지 않고 위 키보드 경로가 이미 동등 경로이며, 터치 히트 영역의 크기(upstream 기본값은 coarse 20px·fine 10px)는 터치 대상 크기 규칙(#111)이 정한 뒤에 다시 본다. 레이아웃 저장(useDefaultLayout)과 명령형 API는 소비처가 소유한다." } },
+  reference: { example: "resizable", guidance: { use: "한 화면 안에서 두 영역의 넓이를 사용자가 직접 나눠 갖게 하고, 그 경계를 포인터와 키보드 양쪽으로 옮길 수 있게 한다.", evidence: "투자 이력은 목록과 상세를 나란히 보는 자리가 있고, 종목 이름이 긴 사용자와 숫자를 넓게 보려는 사용자가 원하는 경계가 서로 다르다.", limits: "고정 비율 레이아웃은 grid·flex 유틸리티로 나눈다. 패널 크기(defaultSize·minSize·maxSize)·레이아웃 저장·명령형 API는 소비처의 것이고, 핸들 이름은 소비처가 aria-label로 준다. 키보드(화살표 ±5, Home/End, Enter 접기, F6 순회)는 upstream이 준다." } },
 } as const
 
 export { ResizablePanelGroup, ResizablePanel, ResizableHandle, ResizableHandleGrip, resizableVariants, resizableVariantsConfig, resizableHandleVariants, resizableHandleVariantsConfig, componentContract }

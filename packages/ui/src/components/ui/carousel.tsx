@@ -51,7 +51,9 @@ import { Button, buttonVariants } from "@/components/ui/button"
  *   **우리가 켜지 않아도 우리 이름으로 출하되는** 상속 표면이다 — 끄거나
  *   선언하거나 둘 중 하나이고, 여기서는 **켠 채로 선언한다**. 컨트롤 제스처는
  *   이 컴포넌트의 기능 그 자체이고 끄면 터치에서 캐러셀이 캐러셀이 아니게 된다.
- *   같은 이유로 `watchFocus` 기본값도 켠 채로 둔다 — 그쪽은 접근성에 이롭다. */
+ *   같은 이유로 `watchFocus` 기본값도 켠 채로 둔다 — 그쪽은 접근성에 이롭다. 둘 다
+ *   우리가 켜지 않은 채 출하되는 상속 표면이라 `behaviors`에 적고, 끄려면 소비처가
+ *   `opts`로 끈다. */
 const carouselVariantsConfig = {
   variants: {
     orientation: { horizontal: "", vertical: "" },
@@ -80,9 +82,12 @@ const carouselItemVariantsConfig = {
 } as const
 /* `basis-full`은 한 번에 한 장이라는 **기본값**이지 계약이 아니다 — 실제 스냅
  * 지점은 Embla가 뷰포트와 슬라이드를 실측해 정하고, 소비처가 `basis-1/3`으로
- * 덮으면 그 측정이 이긴다. */
+ * 덮으면 그 측정이 이긴다. loop·align·slidesToScroll도 소비처가 소유한다 — 스냅
+ * 지점은 우리 계약에 나타나지 않는다. */
 const carouselItemVariants = cva("min-w-0 shrink-0 grow-0 basis-full", carouselItemVariantsConfig)
 
+/* 이전·다음 버튼의 터치 히트 영역(`size-8`) 크기는 터치 대상 크기 규칙(#111)이 정한 뒤에
+ * 다시 본다. */
 const carouselNavVariantsConfig = {
   variants: {
     orientation: {
@@ -259,8 +264,16 @@ const navPart = (edge: Record<CarouselOrientation, string>) => ({
 
 const componentContract = {
   name: "carousel", source: "src/components/ui/carousel.tsx",
+  /* `CarouselApi`는 `publicExports`에 올리지 않는다(#162가 종류 ②로 찾았고 #175가 판정했다) —
+   * upstream이 export하는 그 이름을 이 파일도 같은 이름으로 이미 내보내고 있지만(`export type
+   * { CarouselApi }`), 타입은 노드도 축도 아니라 anatomy에 이름을 얻을 수도 파트 셀을 가질 수도
+   * 없고 매니페스트가 나를 것이 없다. Embla 인스턴스를 밖으로 꺼내는 통로는 `Carousel`의 `setApi`
+   * prop으로 이미 서 있으므로 여기 있던 것은 표면의 공백이 아니라 기록의 공백이었다. */
   publicExports: ["Carousel", "CarouselContent", "CarouselItem", "CarouselPrevious", "CarouselNext", "carouselVariants", "carouselVariantsConfig", "carouselItemVariants", "carouselItemVariantsConfig"],
   config: carouselVariantsConfig, className: (props: Record<string, string>) => cn(carouselVariants(props)),
+  /* 슬라이드 위치 표시기(dots)는 열지 않았다: 현재 위치를 표식 있는 노드로 그리는 표면이라 열
+   * 근거는 있으나 upstream에 없고 리포에 수요가 0건이라, 지금 열면 우리가 정한 적 없는 표시기
+   * 스케일을 떠안는다(#123이 Kbd의 크기 축을 닫은 것과 같은 근거). */
   anatomy: ["Carousel", "CarouselContent", "CarouselTrack", "CarouselItem*", "CarouselPrevious?", "CarouselNext?"],
   configurationStates: { currentSlide: ["first", "middle", "last"] }, drawnBy: { currentSlide: "Embla가 트랙에 인라인 `transform`을 쓴다 — `externalSurfaces`가 이미 그 자리를 남의 것으로 적었다" },
   parts: {
@@ -280,7 +293,7 @@ const componentContract = {
     focusScroll: { kind: "implicit-change", surface: "CarouselContent", origin: "inherited", control: "opts.watchFocus", why: "Embla가 `watchFocus` 기본값 `true`로 갖고 오는 상속 표면이다 — **슬라이드 안의 요소가 초점을 받으면 캐러셀이 그 슬라이드로 스크롤한다.** ADR-0010이 셋째 종류가 필요할 것으로 예고한 자리이고, 끌지도 열지도 않으므로 앞의 두 종류가 담지 못한다. Tab으로 훑는 사용자에게는 이것이 유일한 이동 수단이기도 하고 동시에 의도하지 않은 이동이기도 하다 — 되돌림은 이전·다음 버튼이다. `limits` 산문에만 적혀 있던 사실을 계약으로 옮긴다. 소비처가 `opts`로 끈다(#187)." },
     slideDrag: { kind: "control-gesture", surface: "CarouselContent", origin: "inherited", control: "opts.watchDrag", why: "Embla가 `watchDrag` 기본값 `true`로 갖고 오는 상속 표면이다 — 포인터로 끌면 슬라이드가 넘어간다. 드래그가 컨트롤의 기능 자체라 표면이 사라지지 않고 키보드 동등 경로(가로 ←/→, 세로 ↑/↓)가 이미 계약 안에 있으므로 `gestures`가 아니다(ADR-0005). 임계값과 관성은 Embla가 실측으로 정하므로 계약하지 않는다." },
   },
-  reference: { example: "carousel", guidance: { use: "같은 무게의 항목 여럿을 한 자리에서 몇 개씩만 보여주고 나머지는 이전·다음으로 넘겨 보게 한다.", evidence: "투자 이력의 요약 화면은 보유 종목 카드와 월별 회고 카드를 좁은 폭에 나란히 놓아야 하고, 세로로 다 펼치면 그 아래의 거래 목록이 화면 밖으로 밀린다.", limits: "목록을 전부 봐야 하는 자리에는 쓰지 않는다 — 넘겨야만 보이는 항목은 훑기의 대상이 되지 못한다. 접근 가능한 이름은 소비처가 루트에 aria-label로 준다. 자동 재생은 없다: Embla autoplay 플러그인을 넣지 않았으므로 스스로 움직이는 것이 없고 정지 수단을 계약할 것도 없다. 드래그는 컨트롤 제스처라 표면이 사라지지 않고 키보드 동등 경로(가로 ←/→, 세로 ↑/↓)가 계약 안에 있으므로 gestures를 선언하지 않는다(ADR 0005) — 다만 Embla의 watchDrag·watchFocus 기본값이 켜진 채로 출하되는 상속 표면이라 여기 적는다. 끄려면 소비처가 opts로 끈다. 한 번에 몇 장을 보일지(basis-*)와 loop·align·slidesToScroll은 소비처가 소유한다 — 스냅 지점은 Embla가 실측으로 정하고 우리 계약에 나타나지 않는다. 슬라이드 위치 표시기(dots)는 열지 않았다: 현재 위치를 표식 있는 노드로 그리는 표면이라 열 근거는 있으나 upstream에 없고 리포에 수요가 0건이라, 지금 열면 우리가 정한 적 없는 표시기 스케일을 떠안는다(#123이 Kbd의 크기 축을 닫은 것과 같은 근거). 터치 히트 영역의 크기는 터치 대상 크기 규칙(#111)이 정한 뒤에 다시 본다. **`CarouselApi`는 `publicExports`에 올리지 않는다**(#162가 종류 ②로 찾았고 #175가 판정했다) — upstream이 export하는 그 이름을 이 파일도 같은 이름으로 이미 내보내고 있지만(`export type { CarouselApi }`), 타입은 노드도 축도 아니라 anatomy에 이름을 얻을 수도 파트 셀을 가질 수도 없고 매니페스트가 나를 것이 없다. Embla 인스턴스를 밖으로 꺼내는 통로는 `Carousel`의 `setApi` prop으로 이미 서 있으므로 여기 있던 것은 표면의 공백이 아니라 기록의 공백이었다." } },
+  reference: { example: "carousel", guidance: { use: "같은 무게의 항목 여럿을 한 자리에서 몇 개씩만 보여주고 나머지는 이전·다음으로 넘겨 보게 한다.", evidence: "투자 이력의 요약 화면은 보유 종목 카드와 월별 회고 카드를 좁은 폭에 나란히 놓아야 하고, 세로로 다 펼치면 그 아래의 거래 목록이 화면 밖으로 밀린다.", limits: "목록을 전부 봐야 하는 자리에는 다 펼친 목록을 쓴다. 접근 가능한 이름은 소비처가 루트에 aria-label로 준다. 자동 재생은 없다. 드래그·포커스 스크롤은 opts로 끈다. 보일 장 수(basis-*)와 loop·align은 소비처가 정한다. 위치 표시기(dots)는 없다 — 필요하면 `setApi`로 받은 인스턴스로 그린다." } },
 } as const
 
 export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, carouselVariants, carouselVariantsConfig, carouselItemVariants, carouselItemVariantsConfig, componentContract }

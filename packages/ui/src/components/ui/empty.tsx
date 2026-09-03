@@ -14,6 +14,10 @@ function Empty({ className, variant = "default", ...props }: React.ComponentProp
 }
 const HEADER = "flex max-w-sm flex-col items-center gap-2 text-center"
 const TITLE = "text-lg font-medium"
+/* `EmptyDescription`의 `[&>a]` 계열 세 선언은 `ignore:`로 닫혀 있다(#181) — 파트를 계약에
+ * 등록하면서 드러난 것이고, 등록하지 않았을 때는 매니페스트에 아예 없어 **침묵**이었다(#122).
+ * 자손 링크의 밑줄은 노드가 아니라 소비처가 문장 안에 넣는 **텍스트 범위**의 장식이라 담을
+ * 슬롯이 없고, `underline-offset`은 `IGNORED_PROPERTIES`가 이미 같은 이유로 거른다. */
 const DESCRIPTION = "text-sm text-muted-foreground [&>a:hover]:text-foreground [&>a]:underline [&>a]:underline-offset-4"
 const CONTENT = "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm"
 
@@ -34,7 +38,7 @@ const CONTENT = "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-s
  * **`image`는 열지 않는다.** upstream에도 없고, 우리 쪽 근거가 따로 있다:
  * 이 슬롯은 제목 위 가운데 `size-10`이다. 40px 틀은 빈 상태 일러스트가 아니라
  * 글리프 칩이고, 일러스트를 원하는 소비처는 지름부터 덮으므로 그 값이 지는
- * 우리 결정이 남지 않는다 — ⓑ가 안 선다. 실측 수요도 없다(#123). 큰 그림이
+ * 우리 결정이 남지 않는다 — ⓑ가 안 선다(ADR-0006 ⓑ). 실측 수요도 없다(#123). 큰 그림이
  * 필요하면 소비처가 `EmptyHeader` 안에 자기 노드를 둔다. `ItemMedia`에만 `image`가
  * 있는 것은 두 어휘가 갈라진 것이 아니라 **40px 틀이 목록 행에서는 썸네일이고
  * 빈 상태 가운데서는 아니라는** 차이다. */
@@ -74,7 +78,7 @@ const componentContract = {
     EmptyContent: staticPart(CONTENT),
   },
   behaviors: {},
-  reference: { example: "empty", guidance: { use: "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립하고, 미디어 자리가 그릴 틀은 `EmptyMedia`의 `frame` 축이 정한다.", evidence: "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 하고, 같은 자리에 면을 두른 글리프 칩과 면 없는 글리프가 화면 밀도에 따라 갈린다.", limits: "오류·권한·온보딩 의미를 자체 판단하지 않으며 문구, 일러스트, 행동의 제품 의미는 소비처가 제공한다. `EmptyMedia`가 그리는 틀은 `frame` 축이 지고 **`ItemMedia`와 같은 축 이름·같은 값 이름을 쓴다**(#145) — `icon`(면을 두른 `size-10` 칩, 기본값)·`none`(면 없음) 둘이다. 기본값이 `icon`인 것은 **오늘의 `EmptyMedia`가 이미 upstream의 `icon` 값이기 때문**이다: 기본값은 발행된 인스턴스를 지키는 값이고(#143·#144), `ItemMedia`의 기본값이 `none`인 것과 방향이 반대로 보이는 것은 두 슬롯이 오늘 서 있는 자리가 다르기 때문이지 어휘가 갈린 것이 아니다. **`image`는 계약하지 않는다** — upstream에도 없고, 이 슬롯이 제목 위 가운데 `size-10`이라 40px 틀은 빈 상태 일러스트가 아니라 글리프 칩이다. 일러스트를 원하는 소비처는 지름부터 덮으므로 그 값이 질 우리 결정이 남지 않고(ADR-0006 ⓑ), 실측 수요도 없다(#123). 큰 그림이 필요하면 소비처가 `EmptyHeader` 안에 자기 노드를 둔다. 대체 텍스트는 계약이 지지 않는다 — 장식이면 `EmptyMedia`에 `aria-hidden`을 걸고, 뜻이 있으면 소비처가 안쪽 요소의 `alt`에 넣는다. **`EmptyDescription`의 `[&>a]` 계열 세 선언은 `ignore:`로 닫혀 있다**(#181) — 파트를 계약에 등록하면서 드러난 것이고, 등록하지 않았을 때는 매니페스트에 아예 없어 **침묵**이었다(#122). 자손 링크의 밑줄은 노드가 아니라 소비처가 문장 안에 넣는 **텍스트 범위**의 장식이라 담을 슬롯이 없고, `underline-offset`은 `IGNORED_PROPERTIES`가 이미 같은 이유로 거른다." } },
+  reference: { example: "empty", guidance: { use: "표시할 내용이 없는 영역에 상태 설명과 선택적인 다음 행동을 조립하고, 미디어 자리가 그릴 틀은 `EmptyMedia`의 `frame` 축이 정한다.", evidence: "검색 결과나 아직 생성되지 않은 목록에서 빈 영역의 이유와 회복 경로를 함께 보여줘야 하고, 같은 자리에 면을 두른 글리프 칩과 면 없는 글리프가 화면 밀도에 따라 갈린다.", limits: "오류·권한·온보딩 의미와 문구·일러스트·행동은 소비처가 정한다. `frame`은 `icon`(기본)·`none` 둘이고 `image`는 없다 — 큰 그림은 소비처가 `EmptyHeader` 안에 자기 노드로 둔다. 대체 텍스트는 장식이면 `EmptyMedia`에 `aria-hidden`, 뜻이 있으면 안쪽 요소의 `alt`로 준다." } },
 } as const
 
 export { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, EmptyContent, emptyVariants, emptyVariantsConfig, componentContract }
