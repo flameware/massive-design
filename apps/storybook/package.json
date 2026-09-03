@@ -14,7 +14,9 @@
     "catalog": "node scripts/catalog.mjs",
     "check": "node scripts/catalog.mjs --verify && tsc -p tsconfig.json",
     "build-storybook": "storybook build",
-    "test:a11y": "node scripts/a11y.mjs"
+    "test:a11y": "node scripts/a11y.mjs",
+    "pointer-targets": "node scripts/pointer-targets.mjs",
+    "pointer-targets:self-test": "node scripts/pointer-targets.mjs --self-test"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^10.5.10",
