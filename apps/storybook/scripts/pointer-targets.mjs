@@ -99,9 +99,19 @@ export function measureInPage({ slots, floor, reach }) {
     const up = span(el, ax, ay, 0, -1, ay, limitY), down = span(el, ax, ay, 0, 1, ay, limitY)
     row.hitW = left + right + 1
     row.hitH = up + down + 1
-    // 히트 구간의 중심에 놓은 floor 정사각형 — 네 귀와 중심
-    const hx = (ax - left + ax + right) / 2, hy = (ay - up + ay + down) / 2, h = (floor - 1) / 2
-    row.square24 = [[0, 0], [-h, -h], [h, -h], [-h, h], [h, h]].every(([dx, dy]) => hit(el, Math.round(hx + dx), Math.round(hy + dy)))
+    /* floor×floor 정사각형이 히트 영역 안에 **어디든** 들어가는가 — WCAG 2.5.8 의 물음 그대로다.
+     * 히트 영역은 직사각형이 아닐 수 있다(손잡이 자식이 중심선만 두껍게 만들거나 모서리가 둥글다).
+     * 먼저 히트 구간의 중심에 놓아 보고(대부분 여기서 끝난다), 안 되면 상자 ± reach 를 4px 걸음으로
+     * 훑는다. 한 정사각형은 네 귀·네 변 중점·중심 아홉 점으로 판정한다. */
+    const h = (floor - 1) / 2
+    const squareAt = (x, y) => [[0, 0], [-h, -h], [h, -h], [-h, h], [h, h], [0, -h], [0, h], [-h, 0], [h, 0]].every(([dx, dy]) => hit(el, Math.round(x + dx), Math.round(y + dy)))
+    const hx = (ax - left + ax + right) / 2, hy = (ay - up + ay + down) / 2
+    row.square24 = squareAt(hx, hy)
+    if (!row.square24) { // 중심선이 둘 다 미달이어도 다른 자리에 들어갈 수 있다(L 꼴) — 거르지 않고 훑는다
+
+      search: for (let y = Math.floor(r.top) - reach + h; y <= r.bottom + reach - h; y += 4)
+        for (let x = Math.floor(r.left) - reach + h; x <= r.right + reach - h; x += 4) if (squareAt(x, y)) { row.square24 = true; row.note.push("square24-off-center"); break search }
+    }
     if (right === limitX || left === limitX || up === limitY || down === limitY) row.note.push("reach-limit")
 
     // overflow 조상 — 확장에 남은 여유
@@ -156,7 +166,8 @@ const argsParam = (cell) => Object.entries(cell).map(([k, v]) => `${k}:${v}`).jo
 /* ---------- 계기 자체 검증 ---------- */
 const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   body{margin:0;padding:100px;font:14px sans-serif}
-  .row{display:flex;gap:40px;align-items:flex-start;margin-bottom:60px}
+  .row{display:flex;flex-wrap:wrap;gap:60px;align-items:flex-start;margin-bottom:60px}
+  .row>*{flex:none}
   #plain{width:16px;height:16px;background:#888}
   #after{position:relative;width:16px;height:16px;background:#888}
   #after::after{content:"";position:absolute;left:50%;top:50%;width:32px;height:32px;transform:translate(-50%,-50%)}
@@ -169,6 +180,11 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   #under{position:absolute;inset:0;background:#888}
   #over{position:absolute;left:0;top:0;width:40px;height:20px;background:#f00}
   #wide{width:60px;height:12px;background:#888}
+  #grip{position:relative;width:200px;height:0;border-top:1px solid #000}
+  #grip::after{content:"";position:absolute;left:0;right:0;top:50%;height:4px;transform:translateY(-50%)}
+  #grip>i{position:absolute;left:50%;top:50%;width:16px;height:12px;transform:translate(-50%,-50%);background:#444}
+  #lshape{position:relative;width:20px;height:20px;background:#888}
+  #lshape::after{content:"";position:absolute;left:10px;top:10px;width:30px;height:30px}
   #hidden{display:none}
 </style>
 <div class="row">
@@ -178,6 +194,8 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   <div id="zero" data-slot="t-zero"></div>
   <div id="stack"><div id="under" data-slot="t-under"></div><div id="over"></div></div>
   <button id="wide" data-slot="t-wide"></button>
+  <div id="grip" data-slot="t-grip"><i></i></div>
+  <button id="lshape" data-slot="t-lshape"></button>
   <button id="hidden" data-slot="t-hidden"></button>
 </div>`
 
@@ -189,11 +207,13 @@ const SELF_TEST_EXPECT = {
   "t-zero":    { hitW: 4,  hitH: 40, square24: false, note: "0폭 상자 + 4px ::after (resizable 식) — 중심이 빗나가도 찾는가" },
   "t-under":   { hitW: 40, hitH: 20, square24: false, note: "위를 20px 덮은 형제 — 가려진 절반을 빼고 읽는가 (자손은 가림이 아니다)" },
   "t-wide":    { hitW: 60, hitH: 12, square24: false, note: "60×12 — 한 축만 미달을 미달로 읽는가" },
+  "t-grip":    { hitW: 200, hitH: 12, square24: false, after: "200px×4px", note: "0높이 선 + 4px ::after + 가운데 16×12 손잡이 자식 — 중심선은 손잡이(12)를 읽고 after 열이 4px 띠를 따로 적는가" },
+  "t-lshape":  { hitW: 20, hitH: 20, square24: true, noteHas: "square24-off-center", note: "20px 상자 + 오른쪽 아래로 뻗은 30×30 ::after — 중심을 벗어난 자리에 24 정사각형이 들어가는 것을 찾는가" },
   "t-hidden":  { hitW: null, hitH: null, square24: null, noteHas: "not-rendered", note: "display:none — 재지 않고 표시하는가" },
 }
 
 async function selfTest(browser) {
-  const page = await browser.newPage({ viewport: { width: 800, height: 600 } })
+  const page = await browser.newPage({ viewport: { width: 1200, height: 800 } })
   await page.setContent(SELF_TEST_HTML)
   const rows = await page.evaluate(measureInPage, { slots: Object.keys(SELF_TEST_EXPECT), floor: FLOOR, reach: REACH })
   let failed = 0
@@ -202,10 +222,10 @@ async function selfTest(browser) {
     const problems = []
     if (!row) problems.push("행이 없다")
     else {
-      for (const key of ["hitW", "hitH", "square24", "clipAncestor"]) if (key in expect && row[key] !== expect[key]) problems.push(`${key}: 기대 ${expect[key]} 실측 ${row[key]}`)
+      for (const key of ["hitW", "hitH", "square24", "clipAncestor", "after"]) if (key in expect && row[key] !== expect[key]) problems.push(`${key}: 기대 ${expect[key]} 실측 ${row[key]}`)
       if (expect.noteHas && !row.note.includes(expect.noteHas)) problems.push(`note 에 ${expect.noteHas} 없음 (${row.note.join(",")})`)
     }
-    console.log(`${problems.length ? "FAIL" : "ok  "}  ${slot.padEnd(10)} ${expect.note}${problems.length ? `\n      ${problems.join("; ")}` : ""}`)
+    console.log(`${problems.length ? "FAIL" : "ok  "}  ${slot.padEnd(10)} ${expect.note}${problems.length ? `\n      ${problems.join("; ")}\n      ${JSON.stringify(row)}` : ""}`)
     if (problems.length) failed++
   }
   await page.close()
