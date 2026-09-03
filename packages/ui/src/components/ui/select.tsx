@@ -1,13 +1,38 @@
 import * as React from "react"
 import { Select as SelectPrimitive } from "radix-ui"
-import { cva } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
-const selectVariantsConfig = { variants: {}, defaultVariants: {} } as const
-const selectVariants = cva("flex h-9 w-full items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50", selectVariantsConfig)
+/* `size`(#223, 맵 #221) — 형제 `NativeSelect`가 이미 크기를 계약하는데(`sm·default·lg`)
+ * Radix 기반 `Select`만 침묵하던 비대칭을 닫는다. 루트(`Select`)는 context provider라
+ * 클래스를 내지 않으므로, 오늘도 이 컴포넌트의 `config`/`className`(componentContract
+ * 최상위)이 곧 `SelectTrigger`의 클래스 함수다 — `SidebarMenuButton`·`SliderThumb`처럼
+ * 루트가 자기 클래스를 따로 갖는 계약과 달리 여기서는 "루트가 진다"와 "SelectTrigger가
+ * 진다"가 같은 자리를 가리킨다. 그래서 파트를 새로 열지 않고 이 config를 그대로 확장한다.
+ *
+ * 값은 upstream(`base-nova`, `apps/v4/registry/bases/base/ui/select.tsx` 및
+ * `style-nova.css`의 `.cn-select-trigger`, #196)을 그대로 베낀다: 여덟 스타일 갈래
+ * 전부 `sm`이 `default`보다 정확히 한 단(`0.25rem`) 낮다는 간격만 불변이고 절대값은
+ * 갈래마다 다르므로, 맵 #221 규칙 3(새 축의 기본값은 발행된 인스턴스를 지키는 값)에 따라
+ * **오늘 렌더되는 `h-9`를 `default`로 두고 그 한 단 아래인 `h-8`을 `sm`에 얹는다** —
+ * nova의 `h-8`/`h-7`을 그대로 베끼면 발행된 트리거 높이가 바뀌어 additive가 아니게 된다.
+ * 모서리(`rounded-…`)를 `size`에 함께 거는 것은 nova·lyra 두 갈래뿐이라 갈래 취향으로
+ * 판정해 인용하지 않는다(#196 §7.2). `lg`는 upstream에도 없고 실측 수요가 없어 열지 않는다
+ * (#123) — 필요해지면 `NativeSelect`처럼 소비처가 `NativeSelect`를 쓴다. 새 토큰은 0개다
+ * (`h-8`은 Tailwind 스케일). 오늘의 클래스 문자열이 한 글자도 바뀌지 않으므로 `additive`다. */
+const selectVariantsConfig = {
+  variants: {
+    size: {
+      default: "h-9",
+      sm: "h-8",
+    },
+  },
+  defaultVariants: { size: "default" },
+} as const
+const selectVariants = cva("flex w-full items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50", selectVariantsConfig)
 function Select(props: React.ComponentProps<typeof SelectPrimitive.Root>) { return <SelectPrimitive.Root {...props} /> }
 function SelectValue(props: React.ComponentProps<typeof SelectPrimitive.Value>) { return <SelectPrimitive.Value data-slot="select-value" {...props} /> }
-function SelectTrigger({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Trigger>) { return <SelectPrimitive.Trigger data-slot="select" className={cn(selectVariants({ className }))} {...props}>{children}<SelectPrimitive.Icon aria-hidden="true">⌄</SelectPrimitive.Icon></SelectPrimitive.Trigger> }
+function SelectTrigger({ className, size = "default", children, ...props }: React.ComponentProps<typeof SelectPrimitive.Trigger> & VariantProps<typeof selectVariants>) { return <SelectPrimitive.Trigger data-slot="select" data-size={size} className={cn(selectVariants({ size, className }))} {...props}>{children}<SelectPrimitive.Icon aria-hidden="true">⌄</SelectPrimitive.Icon></SelectPrimitive.Trigger> }
 /* 열린 목록의 위치 계산(upstream의 `alignItemWithTrigger`)은 계약하지 않는다 — 동작이라
  * 파생 채널에 실리지 않는다(#121).
  *
@@ -71,6 +96,6 @@ const componentContract = {
   behaviors: {
     closedTypeahead: { kind: "implicit-change", surface: "SelectTrigger", origin: "inherited", why: "radix-ui Select가 트리거에 typeahead를 걸어 갖고 오는 상속 표면이다 — **닫힌 트리거에 초점이 있을 때 글자를 치면 목록이 열리지 않은 채 값이 그 글자로 시작하는 항목으로 바뀐다**(트리거의 typeahead가 `onValueChange`를 직접 부른다. 열린 콘텐츠 안의 typeahead는 초점만 옮기므로 이쪽이 아니다). 표면이 열리지 않으므로 사용자가 무엇이 바뀌었는지 보는 것은 `SelectValue`뿐이고, 생성된 스토리는 값을 고정해 렌더하므로 이 경로를 한 번도 밟지 않는다. **끄는 자리가 없다**(#187)." },
   },
-  reference: { example: "select", guidance: { use: "제한된 값 하나를 선택한다.", evidence: "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.", limits: "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다 — 긴 목록은 `SelectContent`가 `max-h-60 overflow-auto`로 스크롤한다. — 근거: ADR-0018" } },
+  reference: { example: "select", guidance: { use: "제한된 값 하나를 선택한다.", evidence: "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.", limits: "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다. size는 default·sm 둘이다 — lg가 필요하면 NativeSelect를 쓴다. — 근거: ADR-0018 · ADR-0008" } },
 } as const
 export { Select, SelectValue, SelectTrigger, SelectContent, SelectItem, SelectLabel, SelectSeparator, SelectGroup, selectVariants, selectVariantsConfig, componentContract }

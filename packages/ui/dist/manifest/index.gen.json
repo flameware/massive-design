@@ -217,9 +217,9 @@
       "path": "scroll-area.gen.json"
     },
     {
-      "cells": 1,
+      "cells": 2,
       "component": "select",
-      "hash": "d2d830b54547",
+      "hash": "1b0344daeff5",
       "path": "select.gen.json"
     },
     {

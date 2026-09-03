@@ -1222,9 +1222,14 @@ export const catalog = [
   {
     "component": "select",
     "displayName": "Select",
-    "hash": "d2d830b54547",
-    "cells": 1,
-    "axes": {},
+    "hash": "1b0344daeff5",
+    "cells": 2,
+    "axes": {
+      "size": [
+        "default",
+        "sm"
+      ]
+    },
     "anatomy": [
       "Select",
       "SelectTrigger",
@@ -1245,7 +1250,7 @@ export const catalog = [
       "example": "select",
       "guidance": {
         "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
-        "limits": "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다 — 긴 목록은 `SelectContent`가 `max-h-60 overflow-auto`로 스크롤한다. — 근거: ADR-0018",
+        "limits": "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다. size는 default·sm 둘이다 — lg가 필요하면 NativeSelect를 쓴다. — 근거: ADR-0018 · ADR-0008",
         "use": "제한된 값 하나를 선택한다."
       }
     },

@@ -9,7 +9,12 @@
     "SelectItem*",
     "SelectSeparator?"
   ],
-  "axes": {},
+  "axes": {
+    "size": [
+      "default",
+      "sm"
+    ]
+  },
   "base": {
     "border-color": {
       "from": "@layer base",
@@ -19,7 +24,7 @@
   },
   "cells": [
     {
-      "className": "flex h-9 w-full items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+      "className": "flex w-full items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9",
       "properties": {
         "align-items": {
           "from": "items-center",
@@ -108,6 +113,103 @@
           "value": "100%"
         }
       },
+      "size": "default",
+      "state": null
+    },
+    {
+      "className": "flex w-full items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8",
+      "properties": {
+        "align-items": {
+          "from": "items-center",
+          "tier": "literal",
+          "value": "center"
+        },
+        "background-color": {
+          "from": "bg-background",
+          "tier": "token",
+          "token": "--ds-bg-canvas"
+        },
+        "border-radius": {
+          "from": "rounded-md",
+          "px": 8,
+          "scale": "radius.md",
+          "tier": "token",
+          "token": "--radius-md"
+        },
+        "border-width": {
+          "from": "border",
+          "px": 1,
+          "scale": "borderWidth.1",
+          "tier": "token"
+        },
+        "box-shadow": {
+          "from": "shadow-xs",
+          "scale": "shadow.xs",
+          "tier": "token",
+          "token": "--shadow-xs"
+        },
+        "display": {
+          "from": "flex",
+          "tier": "literal",
+          "value": "flex"
+        },
+        "font-size": {
+          "from": "text-sm",
+          "px": 14,
+          "scale": "type.size.sm",
+          "tier": "token",
+          "token": "--text-sm"
+        },
+        "gap": {
+          "from": "gap-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "height": {
+          "from": "h-8",
+          "multiple": 8,
+          "px": 32,
+          "scale": "space.8",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "justify-content": {
+          "from": "justify-between",
+          "tier": "literal",
+          "value": "space-between"
+        },
+        "line-height": {
+          "from": "text-sm",
+          "tier": "token",
+          "token": "--text-sm--line-height",
+          "value": "1.6"
+        },
+        "padding-block": {
+          "from": "py-2",
+          "multiple": 2,
+          "px": 8,
+          "scale": "space.2",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "padding-inline": {
+          "from": "px-3",
+          "multiple": 3,
+          "px": 12,
+          "scale": "space.3",
+          "tier": "token",
+          "token": "--spacing"
+        },
+        "width": {
+          "from": "w-full",
+          "tier": "literal",
+          "value": "100%"
+        }
+      },
+      "size": "sm",
       "state": null
     }
   ],
@@ -118,11 +220,13 @@
       "open"
     ]
   },
-  "defaults": {},
+  "defaults": {
+    "size": "default"
+  },
   "drawnBy": {
     "open": "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다"
   },
-  "hash": "d2d830b54547",
+  "hash": "1b0344daeff5",
   "parts": {
     "SelectContent": {
       "axes": {},
@@ -379,7 +483,7 @@
     "example": "select",
     "guidance": {
       "evidence": "계좌·시장 등 투자 이력 필터의 closed·open 구성 상태가 필요하다.",
-      "limits": "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다 — 긴 목록은 `SelectContent`가 `max-h-60 overflow-auto`로 스크롤한다. — 근거: ADR-0018",
+      "limits": "필터 모델과 화면 전용 라벨은 소비처가 둔다. `SelectPortal`은 공개하지 않는다 — 포탈 대상은 `SelectContent`의 prop으로 온다. 스크롤 화살표 버튼은 열지 않는다. size는 default·sm 둘이다 — lg가 필요하면 NativeSelect를 쓴다. — 근거: ADR-0018 · ADR-0008",
       "use": "제한된 값 하나를 선택한다."
     }
   },
