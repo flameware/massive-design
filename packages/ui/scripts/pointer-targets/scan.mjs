@@ -98,12 +98,17 @@ export function scanFile(file, text) {
       for (const sp of stmt.specifiers) if (sp.type === "ImportSpecifier" && /^[A-Z]/.test(sp.local.name)) ours.add(sp.local.name)
     if (stmt.type === "FunctionDeclaration" && stmt.id) locals.add(stmt.id.name)
   }
-  /* `const Comp = asChild ? Slot.Root : "button"` — 태그가 변수인 자리. 문자열 쪽이 기본 렌더다. */
+  /* 태그가 변수인 자리 둘. `const Comp = asChild ? Slot.Root : "button"` 은 문자열 쪽이 기본 렌더이고,
+   * `const Item = isContext ? ContextMenuPrimitive.Item : DropdownMenuPrimitive.Item` 은 뒤쪽(기본 모드)을
+   * 따라간다. 첫 실측의 DOM 대조가 dropdown-menu-item 넷을 "스캔에 없음"으로 잡아 이 둘째 갈래가 생겼다. */
   const aliases = new Map()
+  const exprText = (n) => n.type === "Identifier" ? n.name : n.type === "MemberExpression" ? `${exprText(n.object)}.${n.property.name}` : null
   for (const [node] of walk(ast.program))
     if (node.type === "VariableDeclarator" && node.id.type === "Identifier" && node.init?.type === "ConditionalExpression") {
       const lit = [node.init.consequent, node.init.alternate].find((b) => b.type === "StringLiteral")
+      const fallback = exprText(node.init.alternate)
       if (lit) aliases.set(node.id.name, lit.value)
+      else if (fallback) aliases.set(node.id.name, fallback)
     }
   const rows = []
   for (const [node, ancestors] of walk(ast.program)) {

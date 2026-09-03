@@ -26,7 +26,7 @@
  *
  * 사용:
  *   bun run --filter @massive/storybook build-storybook
- *   node scripts/pointer-targets.mjs [--out DIR] [--only slug,slug]
+ *   node scripts/pointer-targets.mjs [--out DIR] [--only slug,slug] [--settle ms]
  *   node scripts/pointer-targets.mjs --self-test      # 계기 자체를 알려진 기하로 검증
  *
  * a11y.mjs 와 같은 정적 서버·Playwright 경로를 쓴다. 게이트가 아니다 — 판정은 사람이 한다. */
@@ -43,6 +43,7 @@ const argv = process.argv.slice(2)
 const flag = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined }
 const outDir = flag("--out") ?? output
 const only = flag("--only")?.split(",")
+const settle = Number(flag("--settle") ?? 400) // 렌더 뒤 기다리는 ms — Sidebar 의 width 전환(200ms)이 끝나야 값이 앉는다
 const FLOOR = 24
 const REACH = 48 // 시각 상자 밖으로 이만큼까지만 더듬는다 — 그 밖은 "이 노드가 아니다"로 본다
 
@@ -259,7 +260,7 @@ async function run(browser) {
       for (const cell of cellsOf(manifest)) {
         const url = `http://127.0.0.1:${port}/iframe.html?id=${encodeURIComponent(story.id)}&viewMode=story&args=${encodeURIComponent(argsParam(cell))}`
         await page.goto(url, { waitUntil: "networkidle" })
-        await page.waitForTimeout(150) // Radix 의 presence/positioning 이 한 프레임 뒤에 앉는다
+        await page.waitForTimeout(settle) // Radix 의 presence/positioning 과 CSS 전환이 끝난 뒤에 잰다
         const measured = await page.evaluate(measureInPage, { slots, floor: FLOOR, reach: REACH })
         cellsRun++
         for (const r of measured) rows.push({ story: manifest.component, cell: argsParam(cell) || "-", owner: slotOwner.get(r.slot) ?? "-", ...r })
