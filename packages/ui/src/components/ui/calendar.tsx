@@ -101,6 +101,11 @@ function CalendarCell({ className, ...props }: React.ComponentProps<"td">) {
   return <td role="gridcell" data-slot="calendar-cell" className={cn(CELL_CLASS, className)} {...props} />
 }
 
+// upstream react-day-picker의 `DayButton` 슬롯과 같은 노드이고 upstream 이름은
+// `CalendarDayButton`이다. 이름은 바꾸지 않는다 — `CalendarCell`·`CalendarHeadCell`과
+// 한 이름 계열이고, `Button` 접미사는 카탈로그에서 `Button`이 뜻하는 것과 충돌한다.
+// `NativeSelectGroup`이 upstream `NativeSelectOptGroup`을 그대로 두지 않은 것과 같은
+// 판정이다(#173). 공백이 아니라 미기록 이름 어긋남이었다(#177 §4, #225).
 function CalendarDay({ className, day, ...props }: React.ComponentProps<"button"> & CalendarDayStyleProps) {
   return <button type="button" data-slot="calendar-day" data-day={day ?? "default"} className={cn(calendarDayVariants({ day, className }))} {...props} />
 }
@@ -343,7 +348,7 @@ const componentContract = {
     CalendarDay: { config: calendarDayVariantsConfig, className: (props: Record<string, string>) => cn(calendarDayVariants(props)) },
   },
   behaviors: {},
-  reference: { example: "calendar", guidance: { use: "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다.", evidence: "투자 이력의 거래일 입력은 하루를, 손익 조회 기간 필터는 구간을 고르며 미래 거래일처럼 고를 수 없는 날짜를 격자에서 미리 막아야 한다.", limits: "입력 필드·팝오버·확인 버튼을 묶는 Date Picker 조합과 연·월 드롭다운, 다중 월 표시, 흩어진 여러 날짜 선택(multiple)은 계약하지 않는다. 시간대 변환과 날짜 파싱·직렬화도 다루지 않고 지역 달력 날짜만 받는다. 월 이름·요일 이름은 locale prop이 정하고 주 시작 요일과 오늘 기준일은 소비처가 명시한다." } },
+  reference: { example: "calendar", guidance: { use: "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다.", evidence: "투자 이력의 거래일 입력은 하루를, 손익 조회 기간 필터는 구간을 고르며 미래 거래일처럼 고를 수 없는 날짜를 격자에서 미리 막아야 한다.", limits: "Date Picker 조합·연월 드롭다운·다중 월·다중 선택(multiple)은 계약하지 않는다. 시간대·파싱·직렬화도 다루지 않고 지역 날짜만 받는다. 월·요일 이름은 locale prop이 정하고 주 시작·오늘 기준일은 소비처가 준다. `CalendarDay`는 upstream `CalendarDayButton`과 같은 노드이나 이름은 유지한다." } },
 } as const
 
 export { Calendar, CalendarHeader, CalendarNav, CalendarCaption, CalendarGrid, CalendarHeadCell, CalendarCell, CalendarDay, calendarVariants, calendarVariantsConfig, calendarDayVariants, calendarDayVariantsConfig, type CalendarProps, type CalendarDateRange, componentContract }
