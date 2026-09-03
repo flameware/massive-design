@@ -580,7 +580,7 @@ export const catalog = [
   {
     "component": "dropdown-menu",
     "displayName": "Dropdown Menu",
-    "hash": "fdb6f66013ef",
+    "hash": "3ccb17fb03d8",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -612,7 +612,7 @@ export const catalog = [
       "example": "dropdown-menu",
       "guidance": {
         "evidence": "각 투자 행의 수정·삭제 같은 행 메뉴 진입점이 필요하고, 표의 행을 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고른다.",
-        "limits": "삭제 확인과 동작 로직은 소비처가 둔다. openOn=\"context\"는 영역 자체가 대상인 행·캔버스에만 쓰고 트리거는 포커스 가능한 요소를 asChild로 준다. defaultOpen·sideOffset은 press에서만 듣는다. 상시 노출 명령 막대는 Menubar, 사이트 탐색은 Navigation Menu다.",
+        "limits": "variant=\"destructive\"는 강조만 바꾼다 — 확인·실행은 소비처가 둔다. openOn=\"context\"는 대상 영역에만 쓰고 트리거는 포커스 가능한 요소를 asChild로 준다. defaultOpen·sideOffset은 press에서만 듣는다. 상시 노출 명령 막대는 Menubar, 사이트 탐색은 Navigation Menu다.",
         "use": "현재 맥락의 보조 동작을 묶는다. 보이는 컨트롤에서 여는 press 모드와 대상 영역을 우클릭·롱프레스해 여는 openOn=\"context\" 모드가 같은 계약이고, 체크·라디오·서브메뉴는 두 모드에서 같다."
       }
     },
@@ -942,7 +942,7 @@ export const catalog = [
       "example": "menubar",
       "guidance": {
         "evidence": "투자 기록 화면은 거래 추가·가져오기·내보내기 같은 실행 명령과 열 표시·정렬 같은 보기 설정을 항상 같은 자리에서 꺼내야 하고, 그 진입점이 행마다 따라다니는 메뉴와 달리 화면 상단에 고정돼 있어야 한다.",
-        "limits": "사이트 탐색은 Navigation Menu, 진입점 하나의 행·캔버스 메뉴(우클릭 포함)는 Dropdown Menu, 패널 전환은 Tabs다. 단축키는 `Kbd`를 `ml-auto`로 놓고 막대 이름은 `aria-label`로 준다. 포탈 대상은 `MenubarContent`의 prop으로 온다 — 근거: ADR-0018",
+        "limits": "사이트 탐색은 Navigation Menu, 행·캔버스 메뉴는 Dropdown Menu, 패널 전환은 Tabs다. 단축키는 Kbd를 ml-auto로, 막대 이름은 aria-label로 준다. `MenubarItem`은 variant를 열지 않는다 — 파괴적 명령이 막대에 오면 DropdownMenuItem과 같은 축으로 연다.",
         "use": "상시 노출 가로 막대에 명령 메뉴 여러 개를 나란히 둘 때 쓴다. 체크·라디오·하위 묶음은 `MenubarCheckboxItem`·`MenubarRadioGroup`·`MenubarSub`다."
       }
     },
@@ -1222,7 +1222,7 @@ export const catalog = [
   {
     "component": "select",
     "displayName": "Select",
-    "hash": "70f20a258e31",
+    "hash": "d2d830b54547",
     "cells": 1,
     "axes": {},
     "anatomy": [
