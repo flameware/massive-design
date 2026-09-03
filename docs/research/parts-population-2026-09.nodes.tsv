@@ -1,0 +1,291 @@
+component	line	slot	tag	kind	anatomy	part	carried	missingTokens	unresolvedIdents
+accordion	11	accordion	AccordionPrimitive.Root	call:cn	Accordion	(root)	yes	-	-
+accordion	15	accordion-item	AccordionPrimitive.Item	call:cn	AccordionItem	-	NO	border-b last:border-b-0	-
+accordion	19	-	AccordionPrimitive.Header	literal	-	-	NO	flex	-
+accordion	19	accordion-trigger	AccordionPrimitive.Trigger	call:cn	AccordionTrigger	-	NO	state [--ds-state-base:var(--background)] flex flex-1 items-center justify-between gap-4 rounded-md py-4 text-left text-sm font-medium outline-none transition-all hover:underline focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180	-
+accordion	19	-	svg	literal	-	-	NO	size-4 shrink-0 transition-transform	-
+accordion	23	accordion-content	AccordionPrimitive.Content	literal	AccordionContent	-	NO	overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down	-
+accordion	23	-	div	call:cn	-	-	NO	pb-4 pt-0	-
+alert	49	alert	div	call:cn	Alert	(root)	yes	-	-
+alert	52	alert-title	div	call:cn	AlertTitle	AlertTitle	yes	-	-
+alert	55	alert-description	div	call:cn	AlertDescription	AlertDescription	yes	-	-
+alert	58	alert-action	div	call:cn	AlertAction	AlertAction	yes	-	-
+alert-dialog	27	alert-dialog-overlay	AlertDialogPrimitive.Overlay	call:cn	AlertDialogOverlay	-	NO	inset-0 bg-black/50	-
+alert-dialog	34	alert-dialog-content	AlertDialogPrimitive.Content	call:cn	AlertDialogContent	-	yes	-	-
+alert-dialog	44	alert-dialog-header	div	call:cn	AlertDialogHeader	-	NO	flex flex-col gap-2 text-center sm:text-left	-
+alert-dialog	48	alert-dialog-footer	div	call:cn	AlertDialogFooter	-	NO	flex flex-col-reverse gap-2 sm:flex-row sm:justify-end	-
+alert-dialog	52	alert-dialog-title	AlertDialogPrimitive.Title	call:cn	AlertDialogTitle	-	NO	text-lg font-semibold	-
+alert-dialog	56	alert-dialog-description	AlertDialogPrimitive.Description	call:cn	AlertDialogDescription	-	NO	text-sm text-muted-foreground	-
+alert-dialog	60	alert-dialog-action	AlertDialogPrimitive.Action	call:cn	AlertDialogAction	-	NO	inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--primary)] text-primary-foreground h-9 px-4 py-2 has-[>svg]:px-3	-
+alert-dialog	64	alert-dialog-cancel	AlertDialogPrimitive.Cancel	call:cn	AlertDialogCancel	-	NO	inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] shadow-xs h-9 px-4 py-2 has-[>svg]:px-3	-
+avatar	50	avatar	AvatarPrimitive.Root	call:cn	Avatar	(root)	yes	-	-
+avatar	54	avatar-image	AvatarPrimitive.Image	call:cn	AvatarImage	AvatarImage	yes	-	-
+avatar	58	avatar-fallback	AvatarPrimitive.Fallback	call:cn	AvatarFallback	AvatarFallback	yes	-	-
+avatar	86	avatar-badge	span	call:cn	AvatarBadge	AvatarBadge	yes	-	-
+avatar	106	avatar-group	div	call:cn	AvatarGroup	AvatarGroup	yes	-	-
+avatar	131	avatar-group-count	span	call:cn	AvatarGroupCount	AvatarGroupCount	yes	-	-
+badge	16	badge	span	call:cn	Badge	(root)	yes	-	-
+breadcrumb	15	breadcrumb	nav	call:cn	Breadcrumb	(root)	yes	-	-
+breadcrumb	19	breadcrumb-list	ol	call:cn	BreadcrumbList	BreadcrumbList	yes	-	-
+breadcrumb	23	breadcrumb-item	li	call:cn	BreadcrumbItem	BreadcrumbItem	yes	-	-
+breadcrumb	28	breadcrumb-link	Comp	call:cn	BreadcrumbLink	BreadcrumbLink	yes	-	-
+breadcrumb	32	breadcrumb-page	span	call:cn	BreadcrumbPage	BreadcrumbPage	yes	-	-
+breadcrumb	36	breadcrumb-separator	li	call:cn	BreadcrumbSeparator	BreadcrumbSeparator	yes	-	-
+breadcrumb	40	breadcrumb-ellipsis	span	call:cn	BreadcrumbEllipsis	BreadcrumbEllipsis	yes	-	-
+breadcrumb	40	-	svg	literal	-	-	NO	size-4	-
+breadcrumb	40	-	span	literal	-	-	NO	sr-only	-
+button	92	button	Comp	call:cn	Button	(root)	yes	-	-
+button-group	47	button-group	div	call:cn	ButtonGroup	(root)	yes	-	-
+button-group	52	button-group-text	div	call:cn	ButtonGroupText	ButtonGroupText	yes	-	-
+button-group	96	button-group-separator	Separator	call:cn	ButtonGroupSeparator	ButtonGroupSeparator	yes	-	-
+calendar	81	calendar-header	div	call:cn	CalendarHeader	CalendarHeader	yes	-	-
+calendar	85	calendar-nav	button	call:cn	CalendarNav	CalendarNav	yes	-	-
+calendar	85	-	svg	literal	-	-	NO	size-4	-
+calendar	89	calendar-caption	div	call:cn	CalendarCaption	CalendarCaption	yes	-	-
+calendar	93	calendar-grid	table	call:cn	CalendarGrid	CalendarGrid	yes	-	-
+calendar	97	calendar-head-cell	th	call:cn	CalendarHeadCell	CalendarHeadCell	yes	-	-
+calendar	101	calendar-cell	td	call:cn	CalendarCell	CalendarCell	yes	-	-
+calendar	105	calendar-day	button	call:cn	CalendarDay	CalendarDay	yes	-	-
+calendar	295	calendar	div	call:cn	Calendar	(root)	yes	-	-
+calendar	303	-	span	literal	-	-	NO	sr-only	-
+card	25	card	div	call:cn	Card	(root)	yes	-	-
+card	36	card-header	div	call:cn	CardHeader	-	NO	@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6	-
+card	49	card-title	div	call:cn	CardTitle	-	NO	leading-none font-semibold	-
+card	59	card-description	div	call:cn	CardDescription	-	NO	text-sm text-muted-foreground	-
+card	69	card-action	div	call:cn	CardAction	-	NO	col-start-2 row-span-2 row-start-1 self-start justify-self-end	-
+card	82	card-content	div	call:cn	CardContent	-	NO	px-6	-
+card	92	card-footer	div	call:cn	CardFooter	-	NO	items-center px-6 [.border-t]:pt-6	-
+carousel	170	carousel	div	call:cn	Carousel	(root)	yes	-	-
+carousel	189	carousel-content	div	call:cn	CarouselContent	CarouselContent	yes	-	-
+carousel	190	carousel-track	div	call:cn	CarouselTrack	CarouselTrack	yes	-	-
+carousel	201	carousel-item	div	call:cn	CarouselItem	CarouselItem	yes	-	-
+carousel	214	carousel-previous	Button	call:cn	CarouselPrevious	CarouselPrevious	yes	-	-
+carousel	223	-	svg	literal	-	-	NO	size-4	-
+carousel	224	-	span	literal	-	-	NO	sr-only	-
+carousel	232	carousel-next	Button	call:cn	CarouselNext	CarouselNext	yes	-	-
+carousel	241	-	svg	literal	-	-	NO	size-4	-
+carousel	242	-	span	literal	-	-	NO	sr-only	-
+chart	152	chart	div	call:cn	-	(root)	yes	-	-
+chart	189	chart-tooltip-content	div	call:cn	ChartTooltipContent	ChartTooltipContent	yes	-	-
+chart	191	chart-tooltip-label	div	ident:TOOLTIP_LABEL	ChartTooltipLabel	ChartTooltipLabel	yes	-	-
+chart	196	chart-tooltip-item	div	ident:TOOLTIP_ITEM	ChartTooltipItem	ChartTooltipItem	yes	-	-
+chart	198	chart-tooltip-indicator	span	call:cn	ChartTooltipIndicator	ChartTooltipIndicator	yes	-	-
+chart	207	chart-tooltip-value	span	ident:TOOLTIP_VALUE	ChartTooltipValue	ChartTooltipValue	yes	-	-
+chart	235	chart-legend-content	div	call:cn	ChartLegendContent	ChartLegendContent	yes	-	-
+chart	239	chart-legend-item	div	ident:LEGEND_ITEM	ChartLegendItem	ChartLegendItem	yes	-	-
+chart	241	chart-legend-swatch	span	ident:LEGEND_SWATCH	ChartLegendSwatch	ChartLegendSwatch	yes	-	-
+checkbox	9	checkbox	CheckboxPrimitive.Root	call:cn	Checkbox	(root)	yes	-	-
+checkbox	9	checkbox-indicator	CheckboxPrimitive.Indicator	literal	Indicator	-	NO	flex items-center justify-center text-current	-
+collapsible	11	collapsible	CollapsiblePrimitive.Root	call:cn	Collapsible	(root)	yes	-	-
+collapsible	19	collapsible-content	CollapsiblePrimitive.Content	call:cn	CollapsibleContent	-	NO	overflow-hidden text-sm data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down	-
+combobox	113	combobox-trigger	PopoverTrigger	call:cn	ComboboxTrigger	-	yes	-	-
+combobox	127	combobox-value	span	call:cn	ComboboxValue	ComboboxValue	yes	-	-
+combobox	135	combobox-icon	svg	call:cn	ComboboxIcon	ComboboxIcon	yes	-	-
+combobox	157	combobox-content	PopoverContent	call:cn	ComboboxContent	ComboboxContent	yes	-	-
+combobox	158	-	Command	literal	-	-	NO	border-0 shadow-none	-
+command	219	command	div	call:cn	Command	(root)	yes	-	-
+command	228	command-input	input	call:cn	CommandInput	CommandInput	yes	-	-
+command	263	command-list	div	call:cn	CommandList	CommandList	yes	-	-
+command	279	command-group	div	call:cn	CommandGroup	CommandGroup	yes	-	-
+command	286	command-group-heading	div	call:cn	CommandGroupHeading	CommandGroupHeading	yes	-	-
+command	310	command-item	div	call:cn	CommandItem	CommandItem	yes	-	-
+command	332	-	span	literal	-	-	NO	absolute right-2	-
+command	342	command-separator	div	call:cn	CommandSeparator	CommandSeparator	yes	-	-
+command	348	command-empty	div	call:cn	CommandEmpty	CommandEmpty	yes	-	-
+dialog	13	dialog-overlay	DialogPrimitive.Overlay	call:cn	DialogOverlay	-	NO	inset-0 bg-black/50	-
+dialog	15	dialog-content	DialogPrimitive.Content	call:cn	DialogContent	-	yes	-	-
+dialog	17	dialog-header	div	call:cn	DialogHeader	-	NO	flex flex-col gap-2 text-center sm:text-left	-
+dialog	18	dialog-footer	div	call:cn	DialogFooter	-	NO	flex flex-col-reverse gap-2 sm:flex-row sm:justify-end	-
+dialog	19	dialog-title	DialogPrimitive.Title	call:cn	DialogTitle	-	NO	text-lg font-semibold	-
+dialog	20	dialog-description	DialogPrimitive.Description	call:cn	DialogDescription	-	NO	text-sm text-muted-foreground	-
+dropdown-menu	152	dropdown-menu	DropdownMenuPrimitive.Content	ident:contentClassName	DropdownMenu	(root)	yes	-	-
+dropdown-menu	156	dropdown-menu	ContextMenuPrimitive.Content	ident:contentClassName	DropdownMenu	(root)	yes	-	-
+dropdown-menu	161	dropdown-menu-item	Item	call:cn	DropdownMenuItem	DropdownMenuItem	yes	-	-
+dropdown-menu	162	dropdown-menu-label	Label	call:cn	DropdownMenuLabel	DropdownMenuLabel	yes	-	-
+dropdown-menu	163	dropdown-menu-separator	Separator	call:cn	DropdownMenuSeparator	DropdownMenuSeparator	yes	-	-
+dropdown-menu	173	dropdown-menu-checkbox-item	CheckboxItem	call:cn	DropdownMenuCheckboxItem	DropdownMenuCheckboxItem	yes	-	-
+dropdown-menu	174	-	ItemIndicator	literal	-	-	NO	absolute left-2 size-4 justify-center	-
+dropdown-menu	175	-	svg	literal	-	-	NO	size-4	-
+dropdown-menu	191	dropdown-menu-radio-item	RadioItem	call:cn	DropdownMenuRadioItem	DropdownMenuRadioItem	yes	-	-
+dropdown-menu	192	-	ItemIndicator	literal	-	-	NO	absolute left-2 size-4 justify-center	-
+dropdown-menu	193	-	svg	literal	-	-	NO	size-2	-
+dropdown-menu	207	dropdown-menu-sub-trigger	SubTrigger	call:cn	DropdownMenuSubTrigger	DropdownMenuSubTrigger	yes	-	-
+dropdown-menu	209	-	svg	literal	-	-	NO	size-4 shrink-0	-
+dropdown-menu	219	dropdown-menu-sub-content	SubContent	call:cn	DropdownMenuSubContent	DropdownMenuSubContent	yes	-	-
+empty	13	empty	div	call:cn	Empty	(root)	yes	-	-
+empty	53	empty-header	div	call:cn	EmptyHeader	EmptyHeader	yes	-	-
+empty	54	empty-media	div	call:cn	EmptyMedia	EmptyMedia	yes	-	-
+empty	55	empty-title	h3	call:cn	EmptyTitle	EmptyTitle	yes	-	-
+empty	56	empty-description	p	call:cn	EmptyDescription	EmptyDescription	yes	-	-
+empty	57	empty-content	div	call:cn	EmptyContent	EmptyContent	yes	-	-
+field	19	field	div	call:cn	Field	(root)	yes	-	-
+field	104	field-label	Label	call:cn	FieldLabel	FieldLabel	yes	-	-
+field	105	field-content	div	call:cn	FieldContent	FieldContent	yes	-	-
+field	106	field-description	p	call:cn	FieldDescription	FieldDescription	yes	-	-
+field	107	field-error	p	call:cn	FieldError	FieldError	yes	-	-
+field	108	field-group	div	call:cn	FieldGroup	FieldGroup	yes	-	-
+field	109	field-separator	div	call:cn	FieldSeparator	FieldSeparator	yes	-	-
+field	109	field-separator-content	span	ident:SEPARATOR_CONTENT	FieldSeparatorContent	FieldSeparatorContent	yes	-	-
+field	110	field-set	fieldset	call:cn	FieldSet	FieldSet	yes	-	-
+field	111	field-legend	legend	call:cn	FieldLegend	FieldLegend	yes	-	-
+input	7	input	input	call:cn	Input	(root)	yes	-	-
+input-group	125	input-group	div	call:cn	InputGroup	(root)	yes	-	-
+input-group	130	input-group-addon	div	call:cn	InputGroupAddon	InputGroupAddon	yes	-	-
+input-group	135	input-group-input	Input	call:cn	InputGroupInput	InputGroupInput	yes	-	-
+input-group	140	input-group-textarea	Textarea	call:cn	InputGroupTextarea	InputGroupTextarea	yes	-	-
+input-group	145	input-group-text	span	call:cn	InputGroupText	InputGroupText	yes	-	-
+input-group	150	input-group-button	Button	call:cn	InputGroupButton	InputGroupButton	yes	-	-
+input-otp	59	input-otp-control	OTPInput	call:cn	-	-	yes	-	-
+input-otp	71	input-otp-group	div	call:cn	-	-	yes	-	-
+input-otp	88	input-otp-slot	div	call:cn	-	-	yes	-	-
+input-otp	90	-	div	ident:CARET	-	-	NO	pointer-events-none absolute inset-0	-
+input-otp	90	-	div	literal	-	-	NO	h-4 w-px animate-pulse bg-foreground	-
+input-otp	97	input-otp-separator	div	call:cn	-	-	yes	-	-
+item	66	item	div	call:cn	Item	(root)	yes	-	-
+item	67	item-media	div	call:cn	ItemMedia	ItemMedia	yes	-	-
+item	68	item-content	div	call:cn	ItemContent	ItemContent	yes	-	-
+item	69	item-title	div	call:cn	ItemTitle	ItemTitle	yes	-	-
+item	70	item-description	p	call:cn	ItemDescription	ItemDescription	yes	-	-
+item	71	item-actions	div	call:cn	ItemActions	ItemActions	yes	-	-
+item	72	item-header	div	call:cn	ItemHeader	ItemHeader	yes	-	-
+item	73	item-footer	div	call:cn	ItemFooter	ItemFooter	yes	-	-
+item	74	item-group	div	call:cn	ItemGroup	ItemGroup	yes	-	-
+item	75	item-separator	div	call:cn	ItemSeparator	ItemSeparator	yes	-	-
+kbd	41	kbd	kbd	call:cn	Kbd	(root)	yes	-	-
+kbd	46	kbd-group	kbd	call:cn	KbdGroup	KbdGroup	yes	-	-
+label	24	label	LabelPrimitive.Root	call:cn	Label	(root)	yes	-	-
+list-row	7	list-row	div	call:listRowVariants	ListRow	(root)	yes	-	-
+list-row	8	list-row-leading	div	call:cn	ListRowLeading	-	NO	shrink-0	-
+list-row	9	list-row-content	div	call:cn	ListRowContent	-	NO	flex-1	-
+list-row	10	list-row-title	div	call:cn	ListRowTitle	-	NO	truncate text-sm font-medium	-
+list-row	11	list-row-description	div	call:cn	ListRowDescription	-	NO	truncate text-sm text-muted-foreground	-
+list-row	12	list-row-meta	div	call:cn	ListRowMeta	-	NO	ml-auto shrink-0 text-sm text-muted-foreground	-
+list-row	13	list-row-trailing	div	call:cn	ListRowTrailing	-	NO	shrink-0	-
+menubar	85	menubar	MenubarPrimitive.Root	call:cn	Menubar	(root)	yes	-	-
+menubar	94	menubar-trigger	MenubarPrimitive.Trigger	call:cn	MenubarTrigger	MenubarTrigger	yes	-	-
+menubar	98	menubar-content	MenubarPrimitive.Content	call:cn	MenubarContent	MenubarContent	yes	-	-
+menubar	106	menubar-label	MenubarPrimitive.Label	call:cn	MenubarLabel	MenubarLabel	yes	-	-
+menubar	110	menubar-item	MenubarPrimitive.Item	call:cn	MenubarItem	MenubarItem	yes	-	-
+menubar	114	menubar-checkbox-item	MenubarPrimitive.CheckboxItem	call:cn	MenubarCheckboxItem	MenubarCheckboxItem	yes	-	-
+menubar	115	-	MenubarPrimitive.ItemIndicator	literal	-	-	NO	absolute left-2 size-4 justify-center	-
+menubar	116	-	svg	literal	-	-	NO	size-4	-
+menubar	127	menubar-radio-item	MenubarPrimitive.RadioItem	call:cn	MenubarRadioItem	MenubarRadioItem	yes	-	-
+menubar	128	-	MenubarPrimitive.ItemIndicator	literal	-	-	NO	absolute left-2 size-4 justify-center	-
+menubar	129	-	svg	literal	-	-	NO	size-2	-
+menubar	136	menubar-separator	MenubarPrimitive.Separator	call:cn	MenubarSeparator	MenubarSeparator	yes	-	-
+menubar	145	menubar-sub-trigger	MenubarPrimitive.SubTrigger	call:cn	MenubarSubTrigger	MenubarSubTrigger	yes	-	-
+menubar	147	-	svg	literal	-	-	NO	size-4 shrink-0	-
+menubar	152	menubar-sub-content	MenubarPrimitive.SubContent	call:cn	MenubarSubContent	MenubarSubContent	yes	-	-
+native-select	50	native-select-root	span	literal	-	-	NO	relative inline-flex items-center	-
+native-select	51	native-select	select	call:cn	NativeSelect	(root)	yes	-	-
+native-select	59	native-select-icon	svg	call:cn	NativeSelectIcon	NativeSelectIcon	yes	-	-
+navigation-menu	87	navigation-menu	NavigationMenuPrimitive.Root	call:cn	NavigationMenu	(root)	yes	-	-
+navigation-menu	91	navigation-menu-list	NavigationMenuPrimitive.List	call:cn	NavigationMenuList	NavigationMenuList	yes	-	-
+navigation-menu	95	navigation-menu-item	NavigationMenuPrimitive.Item	call:cn	NavigationMenuItem	NavigationMenuItem	yes	-	-
+navigation-menu	99	navigation-menu-trigger	NavigationMenuPrimitive.Trigger	call:cn	NavigationMenuTrigger	NavigationMenuTrigger	yes	-	-
+navigation-menu	101	-	svg	literal	-	-	NO	size-4 shrink-0 transition-transform	-
+navigation-menu	106	navigation-menu-content	NavigationMenuPrimitive.Content	call:cn	NavigationMenuContent	NavigationMenuContent	yes	-	-
+navigation-menu	111	navigation-menu-link	NavigationMenuPrimitive.Link	call:cn	NavigationMenuLink	NavigationMenuLink	yes	-	-
+pagination	15	pagination	nav	call:cn	Pagination	(root)	yes	-	-
+pagination	19	pagination-content	ul	call:cn	PaginationContent	PaginationContent	yes	-	-
+pagination	29	pagination-link	a	call:cn	PaginationLink	PaginationLink	NO	[--ds-state-base:var(--primary)] text-primary-foreground [--ds-state-base:var(--destructive)] text-destructive-foreground focus-visible:ring-destructive [--ds-state-base:var(--background)] border shadow-xs [--ds-state-base:var(--secondary)] text-secondary-foreground text-link underline-offset-4 hover:underline px-4 h-6 px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3 h-8 gap-1.5 px-3 has-[>svg]:px-2.5 h-10 px-6 has-[>svg]:px-4 size-6 size-8 size-10	-
+pagination	33	-	PaginationLink	call:cn	-	-	yes	-	-
+pagination	33	-	svg	literal	-	-	NO	size-4	-
+pagination	33	-	span	literal	-	-	NO	hidden sm:block	-
+pagination	37	-	PaginationLink	call:cn	-	-	yes	-	-
+pagination	37	-	span	literal	-	-	NO	hidden sm:block	-
+pagination	37	-	svg	literal	-	-	NO	size-4	-
+pagination	41	pagination-ellipsis	span	call:cn	PaginationEllipsis	PaginationEllipsis	yes	-	-
+pagination	41	-	svg	literal	-	-	NO	size-4	-
+pagination	41	-	span	literal	-	-	NO	sr-only	-
+popover	146	popover-content	PopoverPrimitive.Content	ident:contentClassName	PopoverContent	-	yes	-	-
+popover	150	popover-content	PopoverPrimitive.Content	ident:contentClassName	PopoverContent	-	yes	-	-
+popover	170	popover-header	div	call:cn	PopoverHeader	PopoverHeader	yes	-	-
+popover	180	popover-title	div	call:cn	PopoverTitle	PopoverTitle	yes	-	-
+popover	186	popover-description	p	call:cn	PopoverDescription	PopoverDescription	yes	-	-
+progress	33	progress	ProgressPrimitive.Root	call:cn	Progress	(root)	yes	-	-
+progress	34	progress-indicator	ProgressPrimitive.Indicator	call:cn	ProgressIndicator	ProgressIndicator	yes	-	-
+progress	39	progress-label	span	call:cn	ProgressLabel	ProgressLabel	yes	-	-
+progress	48	progress-value	span	call:cn	ProgressValue	ProgressValue	yes	-	-
+radio-group	18	radio-group	RadioGroupPrimitive.Root	call:cn	RadioGroup	(root)	yes	-	-
+radio-group	22	radio-group-item	RadioGroupPrimitive.Item	call:cn	RadioGroupItem	-	NO	state [--ds-state-base:var(--background)] size-4 shrink-0 rounded-full border shadow-xs focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground	-
+radio-group	22	radio-group-indicator	RadioGroupPrimitive.Indicator	literal	Indicator	-	NO	justify-center text-[8px] leading-none	-
+resizable	90	resizable-panel-group	ResizablePrimitive.Group	call:cn	ResizablePanelGroup	-	yes	-	-
+resizable	101	resizable-panel	ResizablePrimitive.Panel	call:cn	ResizablePanel	ResizablePanel	yes	-	-
+resizable	107	resizable-handle-grip	div	call:cn	ResizableHandleGrip	ResizableHandleGrip	yes	-	-
+resizable	120	resizable-handle	ResizablePrimitive.Separator	call:cn	ResizableHandle	ResizableHandle	yes	-	-
+scroll-area	44	scroll-area-viewport	ScrollAreaPrimitive.Viewport	call:cn	ScrollAreaViewport	-	NO	size-full rounded-[inherit] outline-none focus-visible:ring-[3px] focus-visible:ring-ring	-
+scroll-area	48	scroll-area-thumb	ScrollAreaPrimitive.Thumb	call:cn	ScrollAreaThumb	ScrollAreaThumb	yes	-	-
+scroll-area	52	scroll-area-scrollbar	ScrollAreaPrimitive.Scrollbar	call:cn	-	-	yes	-	-
+scroll-area	58	scroll-area	ScrollAreaPrimitive.Root	call:cn	ScrollArea	(root)	yes	-	-
+select	10	select	SelectPrimitive.Trigger	call:cn	Select	(root)	yes	-	-
+select	11	select-content	SelectPrimitive.Content	call:cn	SelectContent	-	NO	z-50 max-h-60 min-w-32 overflow-auto bg-popover p-1 text-popover-foreground shadow-md	-
+select	12	select-item	SelectPrimitive.Item	call:cn	SelectItem	-	NO	state [--ds-state-base:var(--popover)] relative cursor-default rounded-sm py-1.5 pr-8 pl-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50	-
+select	12	-	SelectPrimitive.ItemIndicator	literal	-	-	NO	absolute right-2	-
+select	13	select-label	SelectPrimitive.Label	call:cn	SelectLabel	-	NO	px-2 py-1.5 text-xs font-medium text-muted-foreground	-
+select	14	select-separator	SelectPrimitive.Separator	call:cn	SelectSeparator	-	NO	-mx-1 my-1 h-px bg-border	-
+separator	20	separator	SeparatorPrimitive.Root	call:cn	Separator	(root)	yes	-	-
+sheet	31	sheet-overlay	SheetPrimitive.Overlay	call:cn	SheetOverlay	-	NO	inset-0 bg-black/50	-
+sheet	34	sheet-content	SheetPrimitive.Content	call:cn	SheetContent	-	yes	-	-
+sheet	37	sheet-header	div	call:cn	SheetHeader	-	NO	gap-2 text-left	-
+sheet	38	sheet-footer	div	call:cn	SheetFooter	-	NO	mt-auto flex-col-reverse gap-2 sm:flex-row sm:justify-end	-
+sheet	39	sheet-title	SheetPrimitive.Title	call:cn	SheetTitle	-	NO	text-lg font-semibold	-
+sheet	40	sheet-description	SheetPrimitive.Description	call:cn	SheetDescription	-	NO	text-sm text-muted-foreground	-
+sidebar	115	sidebar-wrapper	div	call:cn	-	-	NO	min-h-svh	-
+sidebar	153	sidebar-inner	nav	ident:sidebarInnerClassName	-	-	NO	h-full bg-sidebar data-[variant=floating]:rounded-lg data-[variant=floating]:border data-[variant=floating]:border-sidebar-border data-[variant=floating]:shadow-sm	-
+sidebar	159	sidebar	SheetContent	call:cn	Sidebar	(root)	NO	bg-sidebar p-0	-
+sidebar	160	-	SheetHeader	literal	-	-	NO	sr-only	-
+sidebar	166	sidebar	div	literal	Sidebar	(root)	NO	block bg-transparent transition-[width] data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)	-
+sidebar	170	sidebar-container	div	call:cn	-	-	yes	-	-
+sidebar	186	sidebar-trigger	button	call:cn	SidebarTrigger	-	NO	inline-flex size-8	-
+sidebar	195	-	svg	literal	-	-	NO	size-4	-
+sidebar	196	-	span	literal	-	-	NO	sr-only	-
+sidebar	204	sidebar-rail	button	call:cn	SidebarRail	-	NO	z-20 w-4 -translate-x-1/2 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border	-
+sidebar	219	sidebar-inset	div	call:cn	SidebarInset	SidebarInset	yes	-	-
+sidebar	222	sidebar-header	div	call:cn	SidebarHeader	SidebarHeader	yes	-	-
+sidebar	223	sidebar-content	div	call:cn	SidebarContent	SidebarContent	yes	-	-
+sidebar	224	sidebar-footer	div	call:cn	SidebarFooter	SidebarFooter	yes	-	-
+sidebar	226	sidebar-separator	Separator	call:cn	SidebarSeparator	-	NO	mx-2 w-auto	-
+sidebar	228	sidebar-group	div	call:cn	SidebarGroup	SidebarGroup	yes	-	-
+sidebar	229	sidebar-group-label	div	call:cn	SidebarGroupLabel	SidebarGroupLabel	yes	-	-
+sidebar	230	sidebar-group-content	div	call:cn	SidebarGroupContent	SidebarGroupContent	yes	-	-
+sidebar	231	sidebar-group-action	button	call:cn	SidebarGroupAction	-	NO	right-3 top-3.5 aspect-square w-5	-
+sidebar	233	sidebar-menu	ul	call:cn	SidebarMenu	SidebarMenu	yes	-	-
+sidebar	234	sidebar-menu-item	li	call:cn	SidebarMenuItem	SidebarMenuItem	yes	-	-
+sidebar	252	sidebar-menu-button	button	call:cn	SidebarMenuButton	SidebarMenuButton	yes	-	-
+sidebar	255	sidebar-menu-action	button	call:cn	SidebarMenuAction	-	NO	aspect-square w-5	-
+sidebar	256	sidebar-menu-badge	div	call:cn	SidebarMenuBadge	SidebarMenuBadge	yes	-	-
+sidebar	257	sidebar-menu-sub	ul	call:cn	SidebarMenuSub	SidebarMenuSub	yes	-	-
+sidebar	258	sidebar-menu-sub-item	li	call:cn	SidebarMenuSubItem	SidebarMenuSubItem	yes	-	-
+sidebar	260	sidebar-menu-sub-button	a	call:cn	SidebarMenuSubButton	SidebarMenuSubButton	yes	-	-
+skeleton	8	skeleton	div	call:cn	Skeleton	(root)	yes	-	-
+slider	84	slider-track	SliderPrimitive.Track	call:cn	SliderTrack	SliderTrack	yes	-	-
+slider	88	slider-range	SliderPrimitive.Range	call:cn	SliderRange	SliderRange	yes	-	-
+slider	92	slider-thumb	SliderPrimitive.Thumb	call:cn	SliderThumb	SliderThumb	yes	-	-
+slider	114	slider	SliderPrimitive.Root	call:cn	Slider	(root)	yes	-	-
+spinner	12	spinner	svg	call:cn	Spinner	(root)	yes	-	-
+switch	20	switch	SwitchPrimitive.Root	call:cn	Switch	(root)	yes	-	-
+switch	20	switch-thumb	SwitchPrimitive.Thumb	literal	Thumb	-	NO	pointer-events-none block translate-x-0 bg-background ring-0 transition-transform	-
+table	14	table	table	call:tableVariants	Table	(root)	yes	-	-
+table	17	table-header	thead	call:cn	TableHeader	TableHeader	yes	-	-
+table	20	table-body	tbody	call:cn	TableBody	TableBody	yes	-	-
+table	23	table-row	tr	call:cn	TableRow	TableRow	yes	-	-
+table	26	table-head	th	call:cn	TableHead	TableHead	yes	-	-
+table	29	table-cell	td	call:cn	TableCell	TableCell	yes	-	-
+table	55	table-footer	tfoot	call:cn	TableFooter	TableFooter	yes	-	-
+table	58	table-caption	caption	call:cn	TableCaption	TableCaption	yes	-	-
+tabs	126	tabs	TabsPrimitive.Root	call:cn	Tabs	(root)	yes	-	-
+tabs	130	tabs-list	TabsPrimitive.List	call:cn	TabsList	TabsList	yes	-	-
+tabs	135	tabs-trigger	TabsPrimitive.Trigger	call:cn	TabsTrigger	TabsTrigger	yes	-	-
+tabs	139	tabs-content	TabsPrimitive.Content	call:cn	TabsContent	TabsContent	yes	-	-
+textarea	22	textarea	textarea	call:cn	Textarea	(root)	yes	-	-
+toast	33	toast-viewport	ToastPrimitive.Viewport	call:cn	ToastViewport	-	NO	fixed right-0 bottom-0 z-50 max-h-screen max-w-sm flex-col gap-2	-
+toast	38	toast	ToastPrimitive.Root	call:cn	Toast	(root)	yes	-	-
+toast	42	toast-title	ToastPrimitive.Title	call:cn	ToastTitle	-	NO	font-medium	-
+toast	43	toast-description	ToastPrimitive.Description	call:cn	ToastDescription	-	NO	text-sm	-
+toast	44	toast-action	ToastPrimitive.Action	call:cn	ToastAction	-	NO	text-sm font-medium underline underline-offset-4	-
+toast	45	toast-close	ToastPrimitive.Close	call:cn	ToastClose	-	NO	shrink-0 text-sm	-
+toggle	26	toggle	TogglePrimitive.Root	call:cn	Toggle	(root)	yes	-	-
+toggle-group	125	toggle-group	ToggleGroupPrimitive.Root	call:cn	ToggleGroup	(root)	yes	-	-
+toggle-group	131	toggle-group-item	ToggleGroupPrimitive.Item	call:cn	ToggleGroupItem	ToggleGroupItem	NO	min-w-8 px-1.5 min-w-9 px-2 min-w-10 px-2.5	-
+tooltip	13	tooltip-content	TooltipPrimitive.Content	call:cn	TooltipContent	-	yes	-	-
