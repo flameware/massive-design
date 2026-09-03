@@ -300,7 +300,7 @@ export const catalog = [
       "example": "calendar",
       "guidance": {
         "evidence": "투자 이력의 거래일 입력은 하루를, 손익 조회 기간 필터는 구간을 고르며 미래 거래일처럼 고를 수 없는 날짜를 격자에서 미리 막아야 한다.",
-        "limits": "입력 필드·팝오버·확인 버튼을 묶는 Date Picker 조합과 연·월 드롭다운, 다중 월 표시, 흩어진 여러 날짜 선택(multiple)은 계약하지 않는다. 시간대 변환과 날짜 파싱·직렬화도 다루지 않고 지역 달력 날짜만 받는다. 월 이름·요일 이름은 locale prop이 정하고 주 시작 요일과 오늘 기준일은 소비처가 명시한다.",
+        "limits": "Date Picker 조합·연월 드롭다운·다중 월·다중 선택(multiple)은 계약하지 않는다. 시간대·파싱·직렬화도 다루지 않고 지역 날짜만 받는다. 월·요일 이름은 locale prop이 정하고 주 시작·오늘 기준일은 소비처가 준다. `CalendarDay`는 upstream `CalendarDayButton`과 같은 노드이나 이름은 유지한다.",
         "use": "한 달 격자에서 날짜 하나(single) 또는 시작·끝이 있는 기간(range)을 고르고, 오늘·이번 달 밖·선택 불가 날짜를 격자 안에서 구분한다."
       }
     },
@@ -1376,7 +1376,7 @@ export const catalog = [
       "example": "sidebar",
       "guidance": {
         "evidence": "투자 이력·보유 현황·회고를 오가는 탐색이 화면 상단 탭으로는 다 들어가지 않고, 본문을 보면서 다른 구역으로 이동해야 한다.",
-        "limits": "breakpoint 판정·열림 영속화·단축키는 내장하지 않는다 — `isMobile`과 `open`·`onOpenChange`로 소비처가 배선한다. 검색 칸·스켈레톤은 Input·Skeleton으로 조립하고 접힌 메뉴 버튼의 레이블은 Tooltip으로 감싼다. `<main>`과 `aria-label`은 소비처가 준다.",
+        "limits": "breakpoint·영속화·단축키는 `isMobile`·`open`·`onOpenChange`로 소비처가 배선한다. 검색·스켈레톤·접힌 레이블은 Input·Skeleton·Tooltip으로 조립한다. `<main>`·`aria-label`은 소비처가 준다. `SidebarMenuSubButton.size`는 닫는다 — 작은 글자는 `className`으로.",
         "use": "애플리케이션 셸의 왼쪽이나 오른쪽에 고정돼 본문과 함께 살며 접고 펴는 세로 탐색 표면에 쓴다. 좁은 폭에서는 `isMobile`에 따라 Sheet으로 갈아 끼운다."
       }
     },
