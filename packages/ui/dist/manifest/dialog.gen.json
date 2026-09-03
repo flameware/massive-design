@@ -117,7 +117,161 @@
   "drawnBy": {
     "open": "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다"
   },
-  "hash": "8cbe1a36cc9e",
+  "hash": "f8e7ca31ab67",
+  "parts": {
+    "DialogDescription": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-sm text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "DialogFooter": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col-reverse",
+              "tier": "literal",
+              "value": "column-reverse"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "DialogHeader": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex flex-col gap-2 text-center sm:text-left",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-center",
+              "tier": "literal",
+              "value": "center"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "DialogOverlay": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "fixed inset-0 bg-black/50",
+          "properties": {
+            "background-color": {
+              "from": "bg-black/50",
+              "tier": "literal",
+              "value": "color-mix(in srgb, #000 50%, transparent)"
+            },
+            "inset": {
+              "from": "inset-0",
+              "px": 0,
+              "tier": "literal"
+            },
+            "position": {
+              "from": "fixed",
+              "tier": "literal",
+              "value": "fixed"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "DialogTitle": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-lg font-semibold",
+          "properties": {
+            "font-size": {
+              "from": "text-lg",
+              "px": 18,
+              "scale": "type.size.lg",
+              "tier": "token",
+              "token": "--text-lg"
+            },
+            "font-weight": {
+              "from": "font-semibold",
+              "tier": "literal",
+              "value": "600"
+            },
+            "line-height": {
+              "from": "text-lg",
+              "tier": "token",
+              "token": "--text-lg--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "dialog",
     "guidance": {

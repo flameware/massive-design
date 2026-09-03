@@ -118,7 +118,418 @@
   "drawnBy": {
     "open": "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다"
   },
-  "hash": "c9af7f17e33a",
+  "hash": "a0d460a178ce",
+  "parts": {
+    "AlertDialogAction": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--primary)] text-primary-foreground h-9 px-4 py-2 has-[>svg]:px-3",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-accent-solid"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-primary-foreground",
+              "tier": "token",
+              "token": "--ds-fg-on-solid"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "h-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "padding-block": {
+              "from": "py-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-inline": {
+              "from": "px-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "paddingInline": {
+                "from": "has-[>svg]:px-3",
+                "multiple": 3,
+                "px": 12,
+                "scale": "space.3",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&_svg:not([class*='size-'])]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": {
+            "base": "--ds-bg-accent-solid",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    },
+    "AlertDialogCancel": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 state [--ds-state-base:var(--background)] border shadow-xs h-9 px-4 py-2 has-[>svg]:px-3",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "box-shadow": {
+              "from": "shadow-xs",
+              "scale": "shadow.xs",
+              "tier": "token",
+              "token": "--shadow-xs"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "font-weight": {
+              "from": "font-medium",
+              "tier": "literal",
+              "value": "500"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "height": {
+              "from": "h-9",
+              "px": 36,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "padding-block": {
+              "from": "py-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-inline": {
+              "from": "px-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "slots": {
+            "icon": {
+              "gap": {
+                "from": "gap-2",
+                "multiple": 2,
+                "px": 8,
+                "scale": "space.2",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "paddingInline": {
+                "from": "has-[>svg]:px-3",
+                "multiple": 3,
+                "px": 12,
+                "scale": "space.3",
+                "tier": "token",
+                "token": "--spacing"
+              },
+              "size": {
+                "from": "[&_svg:not([class*='size-'])]:size-4",
+                "multiple": 4,
+                "px": 16,
+                "scale": "space.4",
+                "tier": "token",
+                "token": "--spacing"
+              }
+            }
+          },
+          "state": {
+            "base": "--ds-bg-canvas",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    },
+    "AlertDialogDescription": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-sm text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "AlertDialogFooter": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col-reverse",
+              "tier": "literal",
+              "value": "column-reverse"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "AlertDialogHeader": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex flex-col gap-2 text-center sm:text-left",
+          "properties": {
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "flex-direction": {
+              "from": "flex-col",
+              "tier": "literal",
+              "value": "column"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "text-align": {
+              "from": "text-center",
+              "tier": "literal",
+              "value": "center"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "AlertDialogOverlay": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "fixed inset-0 bg-black/50",
+          "properties": {
+            "background-color": {
+              "from": "bg-black/50",
+              "tier": "literal",
+              "value": "color-mix(in srgb, #000 50%, transparent)"
+            },
+            "inset": {
+              "from": "inset-0",
+              "px": 0,
+              "tier": "literal"
+            },
+            "position": {
+              "from": "fixed",
+              "tier": "literal",
+              "value": "fixed"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "AlertDialogTitle": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-lg font-semibold",
+          "properties": {
+            "font-size": {
+              "from": "text-lg",
+              "px": 18,
+              "scale": "type.size.lg",
+              "tier": "token",
+              "token": "--text-lg"
+            },
+            "font-weight": {
+              "from": "font-semibold",
+              "tier": "literal",
+              "value": "600"
+            },
+            "line-height": {
+              "from": "text-lg",
+              "tier": "token",
+              "token": "--text-lg--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "alert-dialog",
     "guidance": {

@@ -12,6 +12,14 @@ const alertDialogVariants = cva(
   alertDialogVariantsConfig,
 )
 
+const OVERLAY = "fixed inset-0 bg-black/50"
+const HEADER = "flex flex-col gap-2 text-center sm:text-left"
+const FOOTER = "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end"
+const TITLE = "text-lg font-semibold"
+const DESCRIPTION = "text-sm text-muted-foreground"
+const ACTION = buttonVariants()
+const CANCEL = buttonVariants({ variant: "outline" })
+
 function AlertDialog(props: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {
   return <AlertDialogPrimitive.Root {...props} />
 }
@@ -25,7 +33,7 @@ function AlertDialogPortal(props: React.ComponentProps<typeof AlertDialogPrimiti
 }
 
 function AlertDialogOverlay({ className, ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Overlay>) {
-  return <AlertDialogPrimitive.Overlay data-slot="alert-dialog-overlay" className={cn("fixed inset-0 bg-black/50", className)} {...props} />
+  return <AlertDialogPrimitive.Overlay data-slot="alert-dialog-overlay" className={cn(OVERLAY, className)} {...props} />
 }
 
 function AlertDialogContent({ className, ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Content>) {
@@ -42,28 +50,33 @@ function AlertDialogContent({ className, ...props }: React.ComponentProps<typeof
 }
 
 function AlertDialogHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="alert-dialog-header" className={cn("flex flex-col gap-2 text-center sm:text-left", className)} {...props} />
+  return <div data-slot="alert-dialog-header" className={cn(HEADER, className)} {...props} />
 }
 
 function AlertDialogFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="alert-dialog-footer" className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)} {...props} />
+  return <div data-slot="alert-dialog-footer" className={cn(FOOTER, className)} {...props} />
 }
 
 function AlertDialogTitle({ className, ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Title>) {
-  return <AlertDialogPrimitive.Title data-slot="alert-dialog-title" className={cn("text-lg font-semibold", className)} {...props} />
+  return <AlertDialogPrimitive.Title data-slot="alert-dialog-title" className={cn(TITLE, className)} {...props} />
 }
 
 function AlertDialogDescription({ className, ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Description>) {
-  return <AlertDialogPrimitive.Description data-slot="alert-dialog-description" className={cn("text-sm text-muted-foreground", className)} {...props} />
+  return <AlertDialogPrimitive.Description data-slot="alert-dialog-description" className={cn(DESCRIPTION, className)} {...props} />
 }
 
 function AlertDialogAction({ className, ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Action>) {
-  return <AlertDialogPrimitive.Action data-slot="alert-dialog-action" className={cn(buttonVariants(), className)} {...props} />
+  return <AlertDialogPrimitive.Action data-slot="alert-dialog-action" className={cn(ACTION, className)} {...props} />
 }
 
 function AlertDialogCancel({ className, ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Cancel>) {
-  return <AlertDialogPrimitive.Cancel data-slot="alert-dialog-cancel" className={cn(buttonVariants({ variant: "outline" }), className)} {...props} />
+  return <AlertDialogPrimitive.Cancel data-slot="alert-dialog-cancel" className={cn(CANCEL, className)} {...props} />
 }
+
+const staticPart = (className: string) => ({
+  config: { variants: {}, defaultVariants: {} } as const,
+  className: () => className,
+})
 
 const componentContract = {
   name: "alert-dialog",
@@ -88,6 +101,15 @@ const componentContract = {
     "AlertDialogDescription", "AlertDialogFooter", "AlertDialogCancel", "AlertDialogAction",
   ],
   configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다" },
+  parts: {
+    AlertDialogOverlay: staticPart(OVERLAY),
+    AlertDialogHeader: staticPart(HEADER),
+    AlertDialogFooter: staticPart(FOOTER),
+    AlertDialogTitle: staticPart(TITLE),
+    AlertDialogDescription: staticPart(DESCRIPTION),
+    AlertDialogAction: staticPart(ACTION),
+    AlertDialogCancel: staticPart(CANCEL),
+  },
   behaviors: {},
   reference: {
     example: "alert-dialog",

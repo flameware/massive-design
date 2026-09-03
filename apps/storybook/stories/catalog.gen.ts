@@ -67,7 +67,7 @@ export const catalog = [
   {
     "component": "alert-dialog",
     "displayName": "Alert Dialog",
-    "hash": "c9af7f17e33a",
+    "hash": "a0d460a178ce",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -546,7 +546,7 @@ export const catalog = [
   {
     "component": "dialog",
     "displayName": "Dialog",
-    "hash": "8cbe1a36cc9e",
+    "hash": "f8e7ca31ab67",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1286,7 +1286,7 @@ export const catalog = [
   {
     "component": "sheet",
     "displayName": "Sheet",
-    "hash": "736bd9484ffd",
+    "hash": "a3cda7f26dd4",
     "cells": 4,
     "axes": {
       "side": [
