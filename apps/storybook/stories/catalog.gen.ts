@@ -409,7 +409,7 @@ export const catalog = [
   {
     "component": "checkbox",
     "displayName": "Checkbox",
-    "hash": "49611f71f120",
+    "hash": "3600723819e8",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1478,7 +1478,7 @@ export const catalog = [
   {
     "component": "switch",
     "displayName": "Switch",
-    "hash": "c33616592c82",
+    "hash": "cfbb7e0a8b9b",
     "cells": 2,
     "axes": {
       "size": [

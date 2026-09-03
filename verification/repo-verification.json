@@ -1,13 +1,16 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "6310c183378f7d0b7d0db6253749f8fe998506cf",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "224a4089de2859e177eb8932167f79714b5382a5",
   "inputTree": {
-    "commit": "6310c183378f7d0b7d0db6253749f8fe998506cf",
-    "clean": true
+    "commit": "224a4089de2859e177eb8932167f79714b5382a5",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts"
+    ]
   },
-  "inputDigest": "b03d611e7918b1c62c39ee0cbd140c82d42825e035611cd8323b8924770702c2",
+  "inputDigest": "57393f9cc07f0716bc3e559abbe79818ec0a0645003de1a0f1c948dd8f4a1427",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -72,7 +75,7 @@
     },
     {
       "component": "checkbox",
-      "manifestHash": "49611f71f120",
+      "manifestHash": "3600723819e8",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -227,7 +230,7 @@
     },
     {
       "component": "switch",
-      "manifestHash": "c33616592c82",
+      "manifestHash": "cfbb7e0a8b9b",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +272,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-03T23:32:08.509Z",
+      "checkedAt": "2026-09-03T23:44:18.163Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +302,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-03T23:32:08.509Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-03T23:44:18.163Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +499,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "claude-agent",
-        "checkedAt": "2026-09-03T23:33:01.488Z",
-        "scope": "behaviors 불변, 22자리 확인표 재실행 안 함(dialog·sheet·alert-dialog는 gestures/behaviors 항목 없음); dialog·sheet·alert-dialog의 열림 상태(open) Light·Dark를 헤드리스 Playwright 스크린샷으로 확인 — Overlay·Header·Footer·Title·Description(및 alert-dialog Action·Cancel) 렌더 정상"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-03T23:33:01.488Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }
