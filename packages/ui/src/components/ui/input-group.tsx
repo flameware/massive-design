@@ -124,10 +124,14 @@ const MULTILINE_CONTROL = "flex-1 resize-none rounded-none border-0 bg-transpare
  * 않는다 — 그래서 배치 축(`placement`)도 갖지 않는다: 어느 쪽에 서는가는 자기를 담은
  * 부가물이 이미 정했다.
  *
- * 부가물과 갈리는 것은 **글자 크기 한 단계**다(`text-sm` → `text-xs`). 부가물은
- * 컨트롤과 같은 줄에 서는 그릇이라 컨트롤의 `text-sm`을 따르고, 그 안의 설명 글자는
- * 값보다 한 단계 낮다. 오늘 이 자리가 없어 소비처가 매번 이 넷을 다시 쓴다 — ADR-0006의
- * 관문 ⓑ가 걸리는 자리다.
+ * PR #212의 기록은 이 자리를 "부가물과 갈리는 것은 글자 크기 한 단계"라는 위계 판단으로
+ * 적었지만 재판정 결과는 **판단이 아니라 인용이었다**(#227). 발행 문서의 정본 갈래는
+ * lyra가 아니라 base-nova인데(#196), `TEXT`의 `text-xs`는 §5.1이 lyra의
+ * `.cn-input-group-text`를 축자로 인용해 연 자리다. base-nova의 값은 `text-sm`이라
+ * 부가물 자체와 같은 크기로 선다 — "한 단계 낮다"는 근거는 성립하지 않는다. 그래도 지금
+ * 고치면 이미 발행된 인스턴스의 렌더가 바뀌므로 `breaking`이다 — 맵 #221 규칙 3(발행된
+ * 인스턴스를 지키는 값이 기본값이다)을 새 축의 기본값이 아니라 파트 고정 클래스에도
+ * 같은 논리로 적용해 오늘은 유지한다. 바꾸려면 별도 breaking 세대가 필요하다.
  *
  * 접근성 — 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽
  * 컨트롤의 disabled·aria-invalid다. 여러 줄일 때도 같아서 `FieldLabel`의 `htmlFor`가
@@ -187,7 +191,7 @@ const componentContract = {
   reference: { example: "input-group", guidance: {
     use: "한 줄 또는 여러 줄 입력 컨트롤 하나와 아이콘·단위·글자·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다.",
     evidence: "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
-    limits: "컨트롤은 `InputGroupInput` 또는 `InputGroupTextarea` 하나다. 라벨·설명·오류와 위·아래 줄은 Field가 진다. `InputGroupText`는 `InputGroupAddon` 안에만 선다. 버튼의 광학 정렬은 className으로, 버튼 모양은 `Button`의 축으로 준다.",
+    limits: "컨트롤은 `InputGroupInput`·`InputGroupTextarea` 하나다. 라벨·설명·오류는 Field가 진다. `InputGroupText`는 `InputGroupAddon` 안에만 선다. 버튼 정렬은 className, 모양은 `Button` 축. `text-xs`는 nova(`text-sm`)와 다르지만 발행 인스턴스를 지켜 유지한다.",
   } },
 } as const
 

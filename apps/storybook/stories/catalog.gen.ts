@@ -741,7 +741,7 @@ export const catalog = [
       "example": "input-group",
       "guidance": {
         "evidence": "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
-        "limits": "컨트롤은 `InputGroupInput` 또는 `InputGroupTextarea` 하나다. 라벨·설명·오류와 위·아래 줄은 Field가 진다. `InputGroupText`는 `InputGroupAddon` 안에만 선다. 버튼의 광학 정렬은 className으로, 버튼 모양은 `Button`의 축으로 준다.",
+        "limits": "컨트롤은 `InputGroupInput`·`InputGroupTextarea` 하나다. 라벨·설명·오류는 Field가 진다. `InputGroupText`는 `InputGroupAddon` 안에만 선다. 버튼 정렬은 className, 모양은 `Button` 축. `text-xs`는 nova(`text-sm`)와 다르지만 발행 인스턴스를 지켜 유지한다.",
         "use": "한 줄 또는 여러 줄 입력 컨트롤 하나와 아이콘·단위·글자·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다."
       }
     },
@@ -1110,7 +1110,7 @@ export const catalog = [
       "example": "progress",
       "guidance": {
         "evidence": "투자 내역 가져오기처럼 처리할 전체 항목 수를 아는 작업에 진행률 피드백이 필요하고, 그 화면은 대개 \"무엇을\"과 \"몇 퍼센트\"를 트랙과 함께 읽는다.",
-        "limits": "완료량을 모르는 대기에는 Spinner를 쓴다. value 계산과 문구는 소비처가 주고 `ProgressValue`는 children으로 받는다. 라벨·값의 한 줄은 소비처가 `flex items-center gap-2`로 짜고, 이름은 `ProgressLabel`의 `id`를 루트 `aria-labelledby`에 물린다.",
+        "limits": "완료량을 모르는 대기는 Spinner. value 계산·문구는 소비처, `ProgressValue`는 children으로 받는다. 한 줄은 소비처가 `flex items-center gap-2`로 짜고 라벨 id를 `aria-labelledby`로 문다. `text-xs`는 정본(nova) `text-sm`과 다르지만 발행 인스턴스를 지켜 유지한다.",
         "use": "완료량을 아는 작업의 진행 정도를 0에서 100 사이 값으로 보여주고, 무엇의 진행인지와 몇 퍼센트인지는 `ProgressLabel`·`ProgressValue`가 트랙 위 한 줄로 말한다."
       }
     },
