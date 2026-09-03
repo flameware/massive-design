@@ -132,7 +132,7 @@ self-test는 "재는 함수가 맞는가"다. 둘째 층은 "**모집단이 맞�
 
 ### 예외 목록
 
-경로는 하드코딩하지 않는다 — `--exceptions <path>` 로 주거나 기본값 `docs/research/pointer-target-exceptions.json`을 읽는다. 파일이 없으면 빈 목록으로 돈다. [#231](https://github.com/flameware/massive-design/issues/231)이 `belowFloor`(24×24 하한이 닿지 못하는 자리)를 채운다. `unmeasuredSlots`는 이 티켓이 시드로 채웠다 — `menubar-item`·`menubar-sub-trigger`(참조 스토리가 안 엶)·`switch-thumb`(pointer-events:none, Switch의 겨냥 단위는 Root).
+경로는 하드코딩하지 않는다 — `--exceptions <path>` 로 주거나 기본값 `docs/research/pointer-target-exceptions.json`을 읽는다. 파일이 없으면 빈 목록으로 돈다. `belowFloor`는 [`pointer-target-exceptions-2026-09.md`](../research/pointer-target-exceptions-2026-09.md)(#231)의 §6 전체 계정표에서 예외로 확정된 5행(구조 2·외부 소유 1·WCAG Equivalent 조건부 2, slot 기준 14항목 — 라벨류는 컴포넌트마다 행이 갈린다)을 옮긴 것이다. **정본은 그 마크다운 문서다** — 이 JSON이 갱신되지 않으면 게이트가 낡은 예외로 돈다. `unmeasuredSlots`는 이 티켓(#232)이 시드로 채웠다 — `menubar-item`·`menubar-sub-trigger`(참조 스토리가 안 엶)·`switch-thumb`(pointer-events:none, Switch의 겨냥 단위는 Root). 라벨·Slider track의 두 예외는 **조건부**다(#230 착지가 전제) — #230이 닫히면 이 JSON과 함께 #231 문서 §8의 재확인을 따른다.
 
 ```json
 {
