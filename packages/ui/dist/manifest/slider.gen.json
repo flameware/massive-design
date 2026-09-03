@@ -381,7 +381,7 @@
       },
       "cells": [
         {
-          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-3.5",
+          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-3.5 after:absolute after:-inset-[6px]",
           "properties": {
             "background-color": {
               "from": "bg-background",
@@ -425,7 +425,7 @@
           "state": null
         },
         {
-          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-4",
+          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-4 after:absolute after:-inset-[5px]",
           "properties": {
             "background-color": {
               "from": "bg-background",
@@ -475,7 +475,7 @@
           "state": null
         },
         {
-          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-5",
+          "className": "block shrink-0 rounded-full border bg-background shadow-sm transition-[color,box-shadow] outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none size-5 after:absolute after:-inset-[3px]",
           "properties": {
             "background-color": {
               "from": "bg-background",

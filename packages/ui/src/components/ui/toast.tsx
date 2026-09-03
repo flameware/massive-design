@@ -42,7 +42,12 @@ Toast.displayName = "Toast"
 function ToastTitle({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Title>) { return <ToastPrimitive.Title data-slot="toast-title" className={cn("font-medium", className)} {...props} /> }
 function ToastDescription({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Description>) { return <ToastPrimitive.Description data-slot="toast-description" className={cn("text-sm", className)} {...props} /> }
 function ToastAction({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Action>) { return <ToastPrimitive.Action data-slot="toast-action" className={cn("text-sm font-medium underline underline-offset-4", className)} {...props} /> }
-function ToastClose({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Close>) { return <ToastPrimitive.Close data-slot="toast-close" aria-label="알림 닫기" className={cn("shrink-0 text-sm", className)} {...props}>닫기</ToastPrimitive.Close> }
+/* 히트 영역  가로(24.2px)는 이미 하한을 만족하고 세로(22.4px, `text-sm`의 줄높이)만
+ * 1.6px 모자란다 — `after:`로 세로만 중심 대칭 ±0.8px 넓힌다(#111 결정 2·5, #230).
+ * 같은 22.4px 계열인 Toast action·Breadcrumb link·Sidebar menu-action(세로)은
+ * 줄높이·패딩이 원인이라 기제가 다를 수 있어 #249로 갈렸다 — ToastClose는 버튼
+ * 하나뿐이라 `after:` 확장으로 충분해 여기 남았다(#111 범위 갱신 댓글). */
+function ToastClose({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Close>) { return <ToastPrimitive.Close data-slot="toast-close" aria-label="알림 닫기" className={cn("relative shrink-0 text-sm after:absolute after:inset-x-0 after:-inset-y-[0.8px]", className)} {...props}>닫기</ToastPrimitive.Close> }
 
 const componentContract = {
   name: "toast", source: "src/components/ui/toast.tsx",
