@@ -3,7 +3,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { lintManifest, lintVarMapCoverage } from "../scripts/manifest/lint.mjs"
+import { lintGuidance, lintManifest, lintVarMapCoverage } from "../scripts/manifest/lint.mjs"
 
 const token = (t) => ({ tier: "token", token: t })
 
@@ -219,4 +219,49 @@ test("구성 상태별 차이도 같은 게이트를 지난다", () => {
     []
   )
   assert.match(lintVarMapCoverage(doc, {})[0], /checked=checked\/color — --ds-bg-accent-solid가 번역표/)
+})
+
+/* ── 참조 화면 guidance 상한(ADR-0022) ─────────────────────────────────────── */
+
+const guidanceDoc = (guidance) => ({ component: "x", reference: { guidance } })
+
+test("길이가 상한 안이면 통과한다", () => {
+  assert.deepEqual(
+    lintGuidance(guidanceDoc({ use: "짧다", evidence: "짧다", limits: "짧다" })),
+    []
+  )
+})
+
+test("limits가 상한을 넘으면 잡는다", () => {
+  const errors = lintGuidance(guidanceDoc({ limits: "가".repeat(201) }))
+  assert.equal(errors.length, 1)
+  assert.match(errors[0], /x reference\.guidance\.limits — 201자, 상한 200자/)
+})
+
+test("use·evidence도 각자의 상한으로 잡는다", () => {
+  const errors = lintGuidance(guidanceDoc({ use: "가".repeat(121), evidence: "나".repeat(151) }))
+  assert.equal(errors.length, 2)
+  assert.match(errors[0], /\.use — 121자, 상한 120자/)
+  assert.match(errors[1], /\.evidence — 151자, 상한 150자/)
+})
+
+test("limits의 이슈 번호는 판정 기록이지 경계가 아니다", () => {
+  const errors = lintGuidance(guidanceDoc({ limits: "이 자리는 #154가 판정했다." }))
+  assert.equal(errors.length, 1)
+  assert.match(errors[0], /이슈 번호를 담고 있다/)
+})
+
+test("limits의 ADR 산문 인용을 잡되, 포인터 한 줄은 통과한다", () => {
+  const prose = lintGuidance(guidanceDoc({ limits: "ADR-0006이 정한 두 관문을 이 자리가 그대로 따른다는 판정이다." }))
+  assert.equal(prose.length, 1)
+  assert.match(prose[0], /ADR을 산문으로 인용한다/)
+
+  assert.deepEqual(
+    lintGuidance(guidanceDoc({ limits: "값이 적고 고정된 선택에는 Select를 쓴다 — 근거: ADR-0006." })),
+    []
+  )
+})
+
+test("guidance가 없는 문서는 대상 밖이다", () => {
+  assert.deepEqual(lintGuidance({ component: "x" }), [])
 })

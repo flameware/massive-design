@@ -152,3 +152,46 @@ export function lintVarMapCoverage(doc, varMap) {
 
   return errors
 }
+
+/**
+ * 참조 화면의 `reference.guidance` 세 문장이 소비처를 향해 짧게 서 있는지
+ * 본다(ADR-0022). 판정 기록(왜 이렇게 만들었는가)은 계약 밖 — 그 선언 옆
+ * 소스 주석이나 ADR 포인터 한 줄 — 에 살아야 하고, 여기 남으면 상한이나
+ * 금칙 패턴에 걸려 존재를 알린다. 그 목록이 `limits`를 분해하는 작업의
+ * 대상 목록이지, 이 게이트가 대신 나눠 주지는 않는다.
+ *
+ * 상한은 지금 분포에서 정했다: `use` 중앙 51자·`evidence` 중앙 59자는
+ * 거의 다 통과하고, `limits`만 중앙 431자라 대다수가 여기 걸린다.
+ *
+ * @param {object} doc 매니페스트 문서 하나
+ * @returns {string[]} 위반 메시지
+ */
+const GUIDANCE_LIMITS = { use: 120, evidence: 150, limits: 200 }
+const ISSUE_REF = /#\d+/
+const ADR_PROSE = /ADR-\d+[^)]*(?:\([^)]*\))?[^,.·]{20,}/
+
+export function lintGuidance(doc) {
+  const errors = []
+  const guidance = doc.reference?.guidance
+  if (!guidance) return errors
+  const name = doc.component
+
+  for (const [field, cap] of Object.entries(GUIDANCE_LIMITS)) {
+    const text = guidance[field]
+    if (typeof text !== "string") continue
+    if (text.length > cap) {
+      errors.push(`${name} reference.guidance.${field} — ${text.length}자, 상한 ${cap}자를 넘는다: 판정 기록은 계약 밖(선언 옆 주석 또는 ADR 포인터)으로`)
+    }
+  }
+
+  if (typeof guidance.limits === "string") {
+    if (ISSUE_REF.test(guidance.limits)) {
+      errors.push(`${name} reference.guidance.limits — 이슈 번호를 담고 있다: 판정 기록이지 소비처의 경계가 아니다`)
+    }
+    if (ADR_PROSE.test(guidance.limits)) {
+      errors.push(`${name} reference.guidance.limits — ADR을 산문으로 인용한다: 포인터 한 줄(예: "— 근거: ADR-0006")만 허용된다`)
+    }
+  }
+
+  return errors
+}

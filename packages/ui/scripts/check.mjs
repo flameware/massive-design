@@ -21,11 +21,12 @@ import { join, relative } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { OUT_DIR } from "./manifest/build.mjs"
-import { lintManifest, lintVarMapCoverage } from "./manifest/lint.mjs"
+import { lintGuidance, lintManifest, lintVarMapCoverage } from "./manifest/lint.mjs"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
 const src = join(root, "src")
 const errors = []
+const guidanceErrors = []
 
 function walk(dir) {
   return readdirSync(dir).flatMap((name) => {
@@ -116,11 +117,22 @@ for (const name of manifests) {
   const doc = JSON.parse(readFileSync(join(manifestDir, name), "utf8"))
   for (const e of lintManifest(doc)) errors.push(`${OUT_DIR}/${name} — ${e}`)
   for (const e of lintVarMapCoverage(doc, varMap)) errors.push(`${OUT_DIR}/${name} — ${e}`)
+  for (const e of lintGuidance(doc)) guidanceErrors.push(`${OUT_DIR}/${name} — ${e}`)
 }
 
 if (errors.length) {
   console.error("@massive/ui check 실패:")
   for (const e of errors) console.error("  " + e)
+  process.exit(1)
+}
+
+// 5. 참조 화면 guidance — 판정 기록이 계약 안에 남아 있는지(ADR-0022)
+//
+// 51개 중 다수가 이미 상한을 넘겨 있다 — 이 목록이 그 분해 작업의 대상
+// 목록이고, 손으로 훑어 만들지 않는다(#165의 "모집단은 눈으로 읽지 않는다").
+if (guidanceErrors.length) {
+  console.error(`@massive/ui check 실패 — reference.guidance가 ADR-0022 상한을 넘는다 (${guidanceErrors.length}건):`)
+  for (const e of guidanceErrors) console.error("  " + e)
   process.exit(1)
 }
 const ladderText = expected.map(([s, v]) => `${s}=${v}`).join(" ")

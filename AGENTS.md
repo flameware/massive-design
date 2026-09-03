@@ -35,6 +35,8 @@ Two maps are live:
 
 Outside both maps: **Figma Sync 51개 세대** ([#138](https://github.com/flameware/massive-design/issues/138)) — the published baseline is 43 component sets (`verification/figma-baseline.json`) against 51 in code. Figma Sync runs only on an explicit request, in its own issue.
 
+Not yet filed as a map: **`reference.guidance` rationale decomposition** ([ADR-0022](docs/adr/0022-guidance-is-for-the-consumer.md)) — `bun run check` now enforces the length caps and prints the population (30 components, 74 violations as of this writing); `@massive/ui check` is red until each `limits` is split into a consumer-facing boundary plus a source comment or ADR pointer for the rationale.
+
 Closed maps, with their records:
 
 | Map | Record |

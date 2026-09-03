@@ -80,6 +80,17 @@ Figma 파일을 고치는 주체가 둘이고, **로드할 수 있는 폰트가 
 - **누적 검증 상태(cumulative verification state)** — `CODE_VERIFIED` → `STORYBOOK_VERIFIED` → `FIGMA_DOCUMENT_SYNCED` → `FIGMA_LIBRARY_CURRENT` 순서로 증거가 쌓이는 상태. 마지막 상태까지 충족해야 같은 세대 검증 완료다.
 - **검증 결과(verification result)** — 각 누적 검증 상태의 증거를 `PASS`·`FAIL`·`PENDING_HUMAN`·`UNKNOWN` 중 하나로 표현한 값. 사람 작업 대기, 확인된 위반, 없거나 낡은 증거를 서로 구분한다.
 
+## 참조 화면
+
+Storybook이 내는 화면의 낱말을 적을 말. 두 페이지의 독자가 다르고, 그래서 같은 것을 부르는 층이 다르다([ADR-0021](docs/adr/0021-reference-screen-words-are-two-layers.md)).
+
+- **참조 화면(reference screen)** — Storybook의 `Components` 페이지가 컴포넌트마다 내는 한 장. 독자는 **소비처 개발자**이고, 그가 내리는 결정은 "이 자리에 이것을 쓸까"다. `System` 페이지 셋은 독자가 유지보수자라 같은 화면이 아니다.
+- **실재 문자열(real string)** — 코드·매니페스트·검증 기록·Figma에 그 철자로 실재해서 번역하면 찾을 수 없게 되는 문구. anatomy 이름·축 이름과 값·`CODE_VERIFIED`·파일 경로·해시·명령·스토리 ID가 여기 속한다. **스토리 `title`이 여기 앉는 것이 놀라운 자리다** — 화면에는 라벨로 보이지만 스토리 ID가 그것에서 파생되고 그 ID가 검증 기록에 박혀 있다.
+- **화면 이름(screen name)** — 실재하지 않고 화면에서만 태어난 이름. 한국어로 옮기는 것은 이쪽뿐이며, **글로서리에 이미 이름이 있는 것을 화면에서만 다르게 부르지 않는다.**
+- **경계(boundary)** — 계약의 `limits`가 지는 것. *언제 쓰지 않는가*와 *그럼 대신 무엇을*이며 대안 지목이 요건이다. 판정 기록과 구분한다 — 가르는 것은 독자가 아니라 **문장이 무엇에 답하는가**이고, "이 자리에 쓸까?"에 답하면 경계다([ADR-0022](docs/adr/0022-guidance-is-for-the-consumer.md)).
+- **소비처 근거(consumer evidence)** — 계약의 `evidence`가 지는 것. 소비처의 어떤 필요가 이 컴포넌트를 열게 했는가. 유지보수자의 정보라 참조 화면에서 주인공이 아니다. 화면이 이것을 `Invest Diary evidence`로 부르던 것이 화면 이름 규칙의 위반이었다.
+- **판정 기록(rationale)** — *왜 이렇게 만들었는가*에 답하는 글. 계약 밖에 살고, 기본 자리는 판정이 걸린 **그 선언 옆 소스 주석**이며 ADR이 있으면 계약에는 포인터 한 줄만 남는다. 계약 안에 두면 경계와 섞여 소비처가 읽을 것을 덮는다.
+
 ## 경계
 
 - **소비처(consumer)** — 이 디자인 시스템을 가져다 쓰는 앱. 현재는 invest diary 하나이고 **리포 밖**이다. `packages/ui`는 소비처가 아니라 시스템의 일부다.
