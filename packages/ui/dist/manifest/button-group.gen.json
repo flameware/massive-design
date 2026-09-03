@@ -113,7 +113,7 @@
       "reason": "무리 안 위치(끝 항목이 아닌 것) — 이 자산이 아니라 조립된 그룹이 그린다"
     }
   },
-  "hash": "5a1d4c7c81d6",
+  "hash": "c31e2df5071e",
   "parts": {
     "ButtonGroupSeparator": {
       "axes": {
@@ -143,6 +143,14 @@
               "multiple": 0,
               "px": 0,
               "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-top": {
+              "from": "border-t",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
               "tier": "token",
               "token": "--spacing"
             },

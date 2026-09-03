@@ -73,7 +73,7 @@
     "패널 크기의 인라인 flex 값": "레이아웃이 flex-grow·flex-basis 인라인 값으로 쓰여 우리 클래스가 닿지 않는다 — 노드는 우리 것이지만 그 자리의 크기는 라이브러리 것이다",
     "핸들의 role·tabIndex·ARIA": "react-resizable-panels가 role=separator와 tabIndex, aria-valuenow·valuemin·valuemax·aria-controls·aria-orientation을 스스로 계산해 붙이고 타입이 우리 재정의를 막는다"
   },
-  "hash": "889a182cd242",
+  "hash": "c8562bec6241",
   "parts": {
     "ResizableHandle": {
       "axes": {
@@ -161,6 +161,14 @@
               "from": "justify-center",
               "tier": "literal",
               "value": "center"
+            },
+            "padding-top": {
+              "from": "border-t",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
             },
             "position": {
               "from": "relative",

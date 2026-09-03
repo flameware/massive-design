@@ -83,7 +83,224 @@
   "configurationStates": {},
   "defaults": {},
   "drawnBy": {},
-  "hash": "82d2063c2dba",
+  "hash": "5c2b70656b1d",
+  "parts": {
+    "CardAction": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
+          "properties": {
+            "align-self": {
+              "from": "self-start",
+              "tier": "literal",
+              "value": "flex-start"
+            },
+            "grid-column-start": {
+              "from": "col-start-2",
+              "tier": "literal",
+              "value": "2"
+            },
+            "grid-row": {
+              "from": "row-span-2",
+              "tier": "literal",
+              "value": "span 2 / span 2"
+            },
+            "grid-row-start": {
+              "from": "row-start-1",
+              "tier": "literal",
+              "value": "1"
+            },
+            "justify-self": {
+              "from": "justify-self-end",
+              "tier": "literal",
+              "value": "flex-end"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CardContent": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "px-6",
+          "properties": {
+            "padding-inline": {
+              "from": "px-6",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CardDescription": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "text-sm text-muted-foreground",
+          "properties": {
+            "color": {
+              "from": "text-muted-foreground",
+              "tier": "token",
+              "token": "--ds-fg-muted"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CardFooter": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex items-center px-6 [.border-t]:pt-6",
+          "properties": {
+            "[.border-t]:padding-top": {
+              "from": "[.border-t]:pt-6",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 6)",
+              "why": "수식자 [.border-t]를 아직 다루지 않는다"
+            },
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "padding-inline": {
+              "from": "px-6",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CardHeader": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
+          "properties": {
+            "[.border-b]:padding-bottom": {
+              "from": "[.border-b]:pb-6",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 6)",
+              "why": "수식자 [.border-b]를 아직 다루지 않는다"
+            },
+            "align-items": {
+              "from": "items-start",
+              "tier": "literal",
+              "value": "flex-start"
+            },
+            "container-name": {
+              "from": "@container/card-header",
+              "tier": "literal",
+              "value": "card-header"
+            },
+            "container-type": {
+              "from": "@container/card-header",
+              "tier": "literal",
+              "value": "inline-size"
+            },
+            "display": {
+              "from": "grid",
+              "tier": "literal",
+              "value": "grid"
+            },
+            "gap": {
+              "from": "gap-2",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "grid-auto-rows": {
+              "from": "auto-rows-min",
+              "tier": "literal",
+              "value": "min-content"
+            },
+            "grid-template-rows": {
+              "from": "grid-rows-[auto_auto]",
+              "tier": "literal",
+              "value": "auto auto"
+            },
+            "has-data-[slot=card-action]:grid-template-columns": {
+              "from": "has-data-[slot=card-action]:grid-cols-[1fr_auto]",
+              "tier": "unresolved",
+              "value": "1fr auto",
+              "why": "수식자 has-data-[slot=card-action]를 아직 다루지 않는다"
+            },
+            "padding-inline": {
+              "from": "px-6",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "CardTitle": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "leading-none font-semibold",
+          "properties": {
+            "font-weight": {
+              "from": "font-semibold",
+              "tier": "literal",
+              "value": "600"
+            },
+            "line-height": {
+              "from": "leading-none",
+              "tier": "literal",
+              "value": "1"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "card",
     "guidance": {

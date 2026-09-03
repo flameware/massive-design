@@ -98,7 +98,7 @@
       }
     }
   },
-  "hash": "41af970533cb",
+  "hash": "8e8ffcfb8b6a",
   "parts": {
     "TabsContent": {
       "axes": {},
@@ -221,6 +221,14 @@
               "from": "justify-center",
               "tier": "literal",
               "value": "center"
+            },
+            "padding-bottom": {
+              "from": "border-b",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
             },
             "width": {
               "from": "w-fit",

@@ -95,7 +95,7 @@
     "results": "`CommandEmpty`의 존재가 그린다 — 결과가 없을 때만 그 파트가 렌더된다",
     "selected": "선택된 행에만 붙는 `✓` 글리프가 그린다 — 자기 클래스가 없는 노드다"
   },
-  "hash": "b5123b0d147e",
+  "hash": "efd26d5beca5",
   "parts": {
     "CommandEmpty": {
       "axes": {},
@@ -261,6 +261,14 @@
               "multiple": 2,
               "px": 8,
               "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "padding-bottom": {
+              "from": "border-b",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
               "tier": "token",
               "token": "--spacing"
             },
@@ -451,6 +459,14 @@
               "from": "-mx-1",
               "tier": "literal",
               "value": "calc(0.25rem * -1)"
+            },
+            "padding-top": {
+              "from": "border-t",
+              "multiple": 6,
+              "px": 24,
+              "scale": "space.6",
+              "tier": "token",
+              "token": "--spacing"
             }
           },
           "state": null
