@@ -3,7 +3,7 @@ export const catalog = [
   {
     "component": "accordion",
     "displayName": "Accordion",
-    "hash": "4f3463aca5d6",
+    "hash": "d26a258fcc56",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -437,7 +437,7 @@ export const catalog = [
   {
     "component": "collapsible",
     "displayName": "Collapsible",
-    "hash": "4b115285961c",
+    "hash": "3572efa3a251",
     "cells": 1,
     "axes": {},
     "anatomy": [

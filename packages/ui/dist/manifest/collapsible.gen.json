@@ -34,9 +34,56 @@
   },
   "defaults": {},
   "drawnBy": {
-    "open": "`CollapsibleContent`의 열림 애니메이션이 그리지만 그 파트가 아직 계약에 없다(#155)"
+    "open": {
+      "attribute": "data-state",
+      "values": {
+        "open": "open"
+      }
+    }
   },
-  "hash": "4b115285961c",
+  "hash": "3572efa3a251",
+  "parts": {
+    "CollapsibleContent": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "overflow-hidden text-sm data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down",
+          "properties": {
+            "data-[state=closed]:animate-collapsible-up": {
+              "from": "data-[state=closed]:animate-collapsible-up",
+              "tier": "unresolved",
+              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+            },
+            "data-[state=open]:animate-collapsible-down": {
+              "from": "data-[state=open]:animate-collapsible-down",
+              "tier": "unresolved",
+              "why": "컴파일 출력에 이 클래스의 규칙이 없다"
+            },
+            "font-size": {
+              "from": "text-sm",
+              "px": 14,
+              "scale": "type.size.sm",
+              "tier": "token",
+              "token": "--text-sm"
+            },
+            "line-height": {
+              "from": "text-sm",
+              "tier": "token",
+              "token": "--text-sm--line-height",
+              "value": "1.6"
+            },
+            "overflow": {
+              "from": "overflow-hidden",
+              "tier": "literal",
+              "value": "hidden"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "collapsible",
     "guidance": {
