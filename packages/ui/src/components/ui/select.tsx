@@ -22,11 +22,33 @@ function SelectTrigger({ className, children, ...props }: React.ComponentProps<t
  * 않는 노드에 파트 항목을 주면 매니페스트가 존재하지 않는 셀을 그리라고 말한다(#167이
  * `ProgressTrack`에서 낸 답, ADR-0006의 거울상). 목록이 길어 화살표 어포던스가 필요해지면
  * 넘침을 `Viewport`로 옮기는 breaking 세대에서 함께 연다. */
-function SelectContent({ className, children, position = "popper", ...props }: React.ComponentProps<typeof SelectPrimitive.Content>) { return <SelectPrimitive.Portal><SelectPrimitive.Content data-slot="select-content" position={position} className={cn("z-50 max-h-60 min-w-32 overflow-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md", className)} {...props}><SelectPrimitive.Viewport>{children}</SelectPrimitive.Viewport></SelectPrimitive.Content></SelectPrimitive.Portal> }
-function SelectItem({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Item>) { return <SelectPrimitive.Item data-slot="select-item" className={cn("state [--ds-state-base:var(--popover)] relative flex w-full cursor-default items-center rounded-sm py-1.5 pr-8 pl-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50", className)} {...props}><SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText><SelectPrimitive.ItemIndicator className="absolute right-2">✓</SelectPrimitive.ItemIndicator></SelectPrimitive.Item> }
-function SelectLabel({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Label>) { return <SelectPrimitive.Label data-slot="select-label" className={cn("px-2 py-1.5 text-xs font-medium text-muted-foreground", className)} {...props} /> }
-function SelectSeparator({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Separator>) { return <SelectPrimitive.Separator data-slot="select-separator" className={cn("-mx-1 my-1 h-px bg-border", className)} {...props} /> }
+const CONTENT = "z-50 max-h-60 min-w-32 overflow-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md"
+function SelectContent({ className, children, position = "popper", ...props }: React.ComponentProps<typeof SelectPrimitive.Content>) { return <SelectPrimitive.Portal><SelectPrimitive.Content data-slot="select-content" position={position} className={cn(CONTENT, className)} {...props}><SelectPrimitive.Viewport>{children}</SelectPrimitive.Viewport></SelectPrimitive.Content></SelectPrimitive.Portal> }
+const ITEM = "state [--ds-state-base:var(--popover)] relative flex w-full cursor-default items-center rounded-sm py-1.5 pr-8 pl-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+/* 표식(`ItemIndicator`)은 파트로 열지 않는다 — 켜졌을 때만 나타나는 글리프라 정적 시안이
+ * 그리는 것은 선택 여부이지 별도 노드가 아니고, 껍데기를 노드로 세우면 파생 채널이 아무것도
+ * 구분하지 못하는 빈 셀이 된다(Dropdown Menu·Menubar의 `ItemIndicator`와 같은 자리, #142). */
+function SelectItem({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Item>) { return <SelectPrimitive.Item data-slot="select-item" className={cn(ITEM, className)} {...props}><SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText><SelectPrimitive.ItemIndicator className="absolute right-2">✓</SelectPrimitive.ItemIndicator></SelectPrimitive.Item> }
+const LABEL = "px-2 py-1.5 text-xs font-medium text-muted-foreground"
+function SelectLabel({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Label>) { return <SelectPrimitive.Label data-slot="select-label" className={cn(LABEL, className)} {...props} /> }
+/* 구분선을 `bg-border`가 아니라 `border-t`로 그린다. 43세대 동안 이 노드는 `h-px bg-border`
+ * 였고 게이트에 걸린 적이 없다 — `parts`가 없어 매니페스트에 아예 나타나지 않았기 때문이다.
+ * 등록하는 순간 `--ds-border-default`가 `background-color`에 온 것을 게이트가 물었다:
+ * **없는 것은 통과가 아니라 침묵이다**(ADR-0006). 렌더는 같은 1px 선이고 Dropdown Menu·
+ * Menubar·Resizable·Command·Field가 이미 낸 답이다.
+ *
+ * 색은 `border-border`로 **수식자 없는 `border-color`**에 앉는다. `border-t`만 적으면 색은
+ * tokens.css의 `@layer base { * { border-color: var(--border) } }`에서 오고 매니페스트에는
+ * 컴포넌트 전역 `base`로만 남는다 — 이 셀에 대한 증거가 아니다. 명시하면 파트 셀의
+ * `properties`에 `border-color: --ds-border-default`가 실제로 들어가 `manifest/lint.mjs`의
+ * 계열 규칙(`checkCells`)이 이 자리를 직접 읽는다(Command가 낸 답, #146). */
+const SEPARATOR = "-mx-1 my-1 h-0 border-t border-border"
+function SelectSeparator({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Separator>) { return <SelectPrimitive.Separator data-slot="select-separator" className={cn(SEPARATOR, className)} {...props} /> }
 function SelectGroup(props: React.ComponentProps<typeof SelectPrimitive.Group>) { return <SelectPrimitive.Group data-slot="select-group" {...props} /> }
+const staticPart = (className: string) => ({
+  config: { variants: {}, defaultVariants: {} } as const,
+  className: () => className,
+})
 const componentContract = {
   name: "select", source: "src/components/ui/select.tsx",
   /* `SelectPortal`은 공개하지 않는다 — `SelectContent`가 각자 Portal을 감싸므로 소비처가 조립할
@@ -36,6 +58,16 @@ const componentContract = {
   config: selectVariantsConfig, className: (props: Record<string, string>) => cn(selectVariants(props)),
   anatomy: ["Select", "SelectTrigger", "SelectValue", "SelectContent", "SelectGroup*", "SelectLabel?", "SelectItem*", "SelectSeparator?"],
   configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — 닫힌 상태에는 그릴 노드가 없다" },
+  /* `parts`가 아예 없었다 — `SelectContent`·`SelectItem`·`SelectLabel`·`SelectSeparator` 네
+   * 노드가 클래스를 내면서 43세대 동안 등록되지 않은, ADR-0006이 `Card`에서 잡아낸 것과 같은
+   * 모양의 침묵이다(#177 §3.3, `docs/research/parts-population-2026-09.md`). `SelectGroup`은
+   * 클래스를 내지 않으므로 파트가 아니다(anatomy에만 선다). */
+  parts: {
+    SelectContent: staticPart(CONTENT),
+    SelectItem: staticPart(ITEM),
+    SelectLabel: staticPart(LABEL),
+    SelectSeparator: staticPart(SEPARATOR),
+  },
   behaviors: {
     closedTypeahead: { kind: "implicit-change", surface: "SelectTrigger", origin: "inherited", why: "radix-ui Select가 트리거에 typeahead를 걸어 갖고 오는 상속 표면이다 — **닫힌 트리거에 초점이 있을 때 글자를 치면 목록이 열리지 않은 채 값이 그 글자로 시작하는 항목으로 바뀐다**(트리거의 typeahead가 `onValueChange`를 직접 부른다. 열린 콘텐츠 안의 typeahead는 초점만 옮기므로 이쪽이 아니다). 표면이 열리지 않으므로 사용자가 무엇이 바뀌었는지 보는 것은 `SelectValue`뿐이고, 생성된 스토리는 값을 고정해 렌더하므로 이 경로를 한 번도 밟지 않는다. **끄는 자리가 없다**(#187)." },
   },

@@ -1222,7 +1222,7 @@ export const catalog = [
   {
     "component": "select",
     "displayName": "Select",
-    "hash": "306160b2cb63",
+    "hash": "70f20a258e31",
     "cells": 1,
     "axes": {},
     "anatomy": [

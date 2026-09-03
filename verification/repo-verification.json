@@ -1,13 +1,17 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "89cacf213479555a67839981224262d45e9521bb",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "ce82ecaec2c82d86e614d8d4c56b8ce3b45ffd74",
   "inputTree": {
-    "commit": "89cacf213479555a67839981224262d45e9521bb",
-    "clean": true
+    "commit": "ce82ecaec2c82d86e614d8d4c56b8ce3b45ffd74",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/src/components/ui/select.tsx"
+    ]
   },
-  "inputDigest": "2e8c8d311e84ae816894aa6dd4e001a7ac7a278a01aeacfa5ac127c0f6644f32",
+  "inputDigest": "0228867c0bb3428c93737067befe9aec98e3f791557fe3f989e84b9be07c6551",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -192,7 +196,7 @@
     },
     {
       "component": "select",
-      "manifestHash": "306160b2cb63",
+      "manifestHash": "70f20a258e31",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +273,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-03T22:44:30.636Z",
+      "checkedAt": "2026-09-03T22:58:13.473Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +303,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-03T22:44:30.636Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-03T22:58:13.473Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +500,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "claude-agent",
-        "checkedAt": "2026-09-03T22:45:56.843Z",
-        "scope": "guidance 텍스트만 변경, 시각 변경 없음(#236, ADR-0022). 32개 계약의 reference.guidance 문자열과 소스 주석만 바뀌어 클래스·축·구성 상태·behaviors는 불변이다. 참조 화면 Popover(Light)·Badge(Dark)를 브라우저로 열어 새 use·limits·evidence가 정상 렌더되는지 확인했다. 동작 확인표 22자리는 이번 세대에 동작 선언이 움직이지 않아 다시 돌리지 않았다 — 마지막 PASS 세대의 확인이 그대로 선다."
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-03T22:45:56.843Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }
