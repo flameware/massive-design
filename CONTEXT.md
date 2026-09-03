@@ -62,6 +62,8 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 확정된 예외 목록(규칙이 24×24에 닿지 못하는 자리와 그 이유)은 [`docs/research/pointer-target-exceptions-2026-09.md`](docs/research/pointer-target-exceptions-2026-09.md)에 있다([#231](https://github.com/flameware/massive-design/issues/231)).
 
+**계약이 지는 하한은 WCAG 2.5.8 (AA) 24×24뿐이다.** 2.5.5 (AAA) 44×44는 소비처가 스스로 판단해 적용하는 **권고**이지 라이브러리가 지는 계약이 아니다 — spacing 예외(24px 지름 원이 이웃과 겹치지 않으면 통과)는 소비처의 레이아웃이 만드는 조건이라 라이브러리 혼자 주장할 수 없고, 44를 계약으로 걸면 발행된 43개 Figma 세트가 전부 재해석된다(ADR-0020 결정 1). 44가 필요한 소비처는 히트 영역을 스스로 더 넓히거나 이웃 간격을 벌린다.
+
 ## 런타임
 
 Figma 파일을 고치는 주체가 둘이고, **로드할 수 있는 폰트가 서로 다르다.** 이 축이 없으면 폰트 규약을 적을 말이 없다.

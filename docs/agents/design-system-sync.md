@@ -12,7 +12,9 @@
 1. 변경을 공개 기준선과 비교해 `additive`·`in-place safe`·`breaking`으로 분류한다. `breaking`이거나 `in-place safe` 증거가 없으면 여기서 멈춘다.
 2. `bun run sync:preflight`를 실행한다.
 3. 자동 검사가 통과하면 `CODE_VERIFIED: PASS`, `STORYBOOK_VERIFIED: PENDING_HUMAN`이다. 프로젝트 소유자가 변경된 컴포넌트의 Light/Dark와 영향받는 주요 상태를 확인한다. semantic 토큰이나 base 계층 변경이면 전체 카탈로그를 확인한다.
-4. `bun run sync:checklist`를 실행한다. 계약의 `gestures`·`behaviors`에서 이번 세대의 확인 항목이 나온다 — `gestures`가 걸리면 **터치 확인**을, `behaviors`가 걸리면 **컨트롤 제스처 확인**·**열림 계기 확인**·**우발 변경 확인**을 한다(아래). 확인표는 좁히지 않는다: 선언한 자리를 매 세대 전부 찍는다.
+4. `bun run sync:checklist`를 실행한다. 계약의 `gestures`·`behaviors`에서 이번 세대의 확인 항목이 나온다 — `gestures`가 걸리면 **터치 확인**을, `behaviors`가 걸리면 **컨트롤 제스처 확인**·**열림 계기 확인**·**우발 변경 확인**을 한다(아래). 포인터 대상 slot을 가진 파일이 이번 세대의 diff에 있으면 **뷰포트 확인 — 포인터 대상 크기**(아래)도 한다. 확인표는 좁히지 않는다: 선언한 자리를 매 세대 전부 찍는다 — 이 원칙에는 명시적 예외가 둘 있다.
+   - **뷰포트 확인은 포인터 대상을 건드린 세대에만 든다.** 51개 컴포넌트에 영구적인 반복 비용을 지우지 않기 위한 판단이다([ADR-0020](../adr/0020-pointer-target-size-is-borne-by-the-hit-area.md) §파급, [#233](https://github.com/flameware/massive-design/issues/233)). "건드렸다"의 판정은 스캔 slot 집합이다 — 그 slot을 가진 파일이 diff에 있으면 그 세대가 대상이다([`pointer-target-measure.md`](pointer-target-measure.md) §2.1의 slot 정의, [#228](https://github.com/flameware/massive-design/issues/228)·[#231](https://github.com/flameware/massive-design/issues/231)이 넘긴 사실).
+   - **`gestures`·`behaviors` 선언과 그것을 가진 컴포넌트를 이번 세대가 건드리지 않았으면 동작 확인표를 재실행하지 않는다.** 건드린 컴포넌트·선언에 한해서만 확인하고, `--scope`에 "behaviors 불변, 확인표 재실행 안 함; <실제 확인한 컴포넌트·상태·테마>"를 적는다(#236·#240 선례). 이것도 원칙의 예외이지 원칙을 대체하는 규칙이 아니다 — 선언을 하나라도 건드렸으면 그 세대는 다시 전부 찍는다.
 5. 확인 결과를 `bun run sync:review-storybook -- --reviewer <이름> --scope "<확인 범위>"`로 기록한다. 오류면 `--result FAIL --reason "<이유>"`를 함께 주고 아래 분기에 따라 원인 계층을 고친 뒤 preflight부터 다시 실행한다.
 6. `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`가 모두 `PASS`인지 확인한다. 생성물과 검증 기록을 포함해 commit을 고정하고 Repo verification을 완료한다. Figma는 선택 가능한 다음 작업이지 이 작업의 재개 지점이 아니다.
 
@@ -55,7 +57,7 @@
 
 > 메뉴의 **체크·라디오·서브메뉴 여섯 파트**는 두 모드 모두에서 표식·화살표가 나오고 서브메뉴가 열리는지 함께 본다([#154](https://github.com/flameware/massive-design/issues/154)). **켜고 끄는 동작은 카탈로그가 보여 주지 못한다** — 생성된 스토리는 `checked`를 구성 상태로 **고정해** 렌더하므로(`onCheckedChange` 없는 controlled) 클릭해도 표식이 바뀌지 않는 것이 정상이고, 그것을 실패로 읽지 않는다.
 
-> 터치 대상 **크기** 규칙은 여기 없다. [#111](https://github.com/flameware/massive-design/issues/111)이 정한 뒤 들어온다 — 그쪽은 `size` 축 기본값을 건드리는 base 계층 변경이라 전 카탈로그 재검증을 요구하므로 도착 시점과 적용 범위가 다르다.
+> 터치 대상 **크기** 규칙은 여기 없다 — 열림 계기는 상태 전환만 보고, 크기 하한은 **뷰포트 확인 — 포인터 대상 크기**(아래)가 별도 절로 진다. `size` 축 기본값을 건드리는 base 계층 변경이라 대상 판정 기준(도착 시점·적용 범위)이 달라 이 절에 합치지 않는다.
 
 > **`behaviors: {}`는 이제 "갖고 오는 것이 없음을 확인했다"를 뜻한다.** [#187](https://github.com/flameware/massive-design/issues/187)이 24개 `radix-ui` primitive와 Embla·react-resizable-panels·input-otp·recharts를 고정된 버전의 소스로 전수 조사했다. 새 컴포넌트를 계약하면서 upstream이 갖고 오는 동작을 발견하면 그 자리에서 `behaviors`에 적는다: 끄거나 선언하거나 둘 중 하나이고 침묵은 선택지가 아니다. **판정하는 자도 그 티켓이 정했다** — 계기가 명시적 활성화가 아닌 것만 담고(hover·드래그·롱프레스·타이머·포커스 도착·닫힌 컨트롤에 타이핑), 역할이 이미 요구하는 것은 담지 않는다(열린 표면 안의 화살표 이동과 하이라이트, Escape·바깥 누름으로 닫기, 클릭 활성화). 사람이 계기가 아닌 변화도 담지 않는다(이미지 로드, 패스워드 매니저 감지, 컨테이너 리사이즈).
 
@@ -67,6 +69,24 @@
 - [ ] **되돌릴 수 있다** — 그렇게 바뀐 값이 사용자가 의도하지 않은 것일 때 되돌아갈 경로가 있다. 시간이 계기인 항목은 **정지·연장 수단**이 있는지 본다(WCAG 2.2.1)
 - [ ] **끄는 자리** — 확인표가 `바꾸는 자리`를 적어 준 항목은 그것으로 실제로 꺼진다. 적히지 않은 항목은 끄는 수단이 없다는 뜻이고, 그것도 사실로 확인한다
 - [ ] **상속 항목의 upstream 기본값** — 확인표가 `상속`으로 적은 항목은 upstream이 그 기본값을 그대로 두고 있는지 함께 본다. 이 종류는 **기본값이 뒤집히면 조용히 사라지거나 조용히 생긴다** — 게이트는 서드파티 소스를 읽지 못한다([ADR-0005](../adr/0005-inherited-dismiss-gestures.md))
+
+### 뷰포트 확인 — 포인터 대상 크기
+
+**언제 돈다.** 포인터 대상 slot을 가진 파일이 이번 세대의 diff에 있을 때만 돈다 — 나머지 세대에는 들지 않는다. 이것은 위 "확인표는 좁히지 않는다" 원칙의 **명시적 예외**다: 51개 컴포넌트 전체에 영구적인 반복 비용을 지우지 않기 위한 판단이고([ADR-0020](../adr/0020-pointer-target-size-is-borne-by-the-hit-area.md) §파급), 이 절이 그 사실을 적지 않으면 다음 세대가 이것을 원칙 위반으로 읽는다. "건드렸다"의 판정 기준은 **스캔 slot 집합**이다 — [`pointer-target-measure.md`](pointer-target-measure.md) §2.1의 규칙으로 낸 slot을 가진 파일이 diff에 있으면 그 세대가 대상이다.
+
+**무엇을 돈다.** **실측 게이트**를 돈다 — 스캔([`pointer-target-measure.md`](pointer-target-measure.md) §2.1)과 렌더 실측(§2.2)을 잇는 계기이고, 정확한 실행 스크립트 이름과 커맨드는 [#232](https://github.com/flameware/massive-design/issues/232)(CI 승격은 보류, `bun run check`와 분리된 별도 경로)가 정한다. 그때까지는 런북의 절차를 손으로 따른다. 게이트가 재는 것은 인상이 아니라 항목이다: 스캔 slot 각각이 24×24 하한([ADR-0020](../adr/0020-pointer-target-size-is-borne-by-the-hit-area.md) 결정 1)을 만족하는가, 만족 못 하면 예외 목록([`pointer-target-exceptions-2026-09.md`](../research/pointer-target-exceptions-2026-09.md))에 이름과 이유로 올라 있는가, 확장한 대상의 초과분(중심 대칭, 결정 5)이 문서화돼 있는가.
+
+**무엇을 사람이 본다.** 게이트는 참조 스토리를 렌더해 겨냥하므로 **이웃 요소가 우연히 덮은 자리**를 대상 자체의 결함처럼 낮게 잰다 — Kbd 스토리의 `Tooltip defaultOpen` 내용이 위 Button의 아래 15px를 덮어 114×21로 읽힌 사례([`pointer-targets-2026-09.md`](../research/pointer-targets-2026-09.md) §한계 ④)가 그 모양이다. 낮은 값이 나오면 **대상 자체의 히트 영역 부족인지, 참조 스토리 조립의 우연한 가림인지**를 사람이 가른다 — 가림이면 스토리 조립을 고쳐 재실행하고, 대상 자체이면 규칙 적용([#230](https://github.com/flameware/massive-design/issues/230)류) 또는 예외 목록 판정을 따른다. 겹침(결정 5)의 소비처 판정도 게이트가 못 보므로 사람이 문서화된 초과분을 근거로 확인한다.
+
+- [ ] **하한** — 이번 세대가 건드린 포인터 대상 slot 각각이 24×24를 만족하거나, 예외 목록에 이름과 이유로 올라 있다
+- [ ] **가림** — 미달로 읽힌 값이 대상 자체의 히트 영역인지 참조 스토리의 우연한 가림인지 가려졌다
+- [ ] **초과분** — 확장한 대상은 중심 대칭 폭이 문서화돼 있고, 이웃과 겹치면 그 사실이 적혀 있다(겹침 판정은 소비처, ADR-0020 결정 5)
+
+**어디에 기록한다.** `bun run sync:review-storybook -- --reviewer <이름> --scope "뷰포트 확인 <건드린 slot 수>종; 미달 <n>·예외 확인 <n>·가림 재확인 <n>"`처럼, 터치 확인과 같은 방식으로 **어느 항목이 통과했는지**를 적는다.
+
+> **예외 목록의 다섯 자리**([`pointer-target-exceptions-2026-09.md`](../research/pointer-target-exceptions-2026-09.md))는 확인표에서 "예외로 통과"가 아니라 **"예외임을 확인(이유 링크)"**으로 찍는다 — 예외가 판정을 면제한다는 뜻이 아니라, 그 판정(구조·외부 소유·WCAG Equivalent)이 이번 세대에도 여전히 성립하는지 되짚는다는 뜻이다. Checkbox·Radio·Switch·Slider thumb가 [#230](https://github.com/flameware/massive-design/issues/230)으로 24×24에 닿기 전까지는 라벨·Slider track 두 자리의 전제가 미완성이므로, 그 둘을 확인할 때는 "전제 미완성"이라고 함께 적는다.
+>
+> 이 절은 `gestures`·`behaviors`처럼 계약 필드에서 기계로 뽑히지 않는다 — 히트 영역은 계약의 필드가 아니라 계산이라(ADR-0020 결정 5) `bun run sync:checklist`가 항목을 찍지 못한다(터치 확인과 같은 모양). 확인 대상 slot 목록은 스캔 산출물이 정본이다.
 
 Figma가 뒤처진 상태에는 시간 제한을 두지 않는다. 최신 Repo verification 세대와 마지막 `FIGMA_LIBRARY_CURRENT` 공개 기준선은 독립적으로 보존해 차이를 판독할 수 있게 한다. 새 Repo verification이 마지막 Figma 증거를 덮어쓰거나 실패로 바꾸지 않는다.
 
