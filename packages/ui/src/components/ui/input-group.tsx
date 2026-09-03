@@ -70,7 +70,11 @@ const ADDON = "flex shrink-0 items-center gap-2 text-sm text-muted-foreground [&
  * 하나가 세로로 자라는 길이지 부가물이 자기 줄을 갖는 길이 아니다 — `items-center`
  * 한 줄 배치는 그대로다(#170). `has-[[data-placement^=block]]`
  * 조건부로 피하면 그 선언이 `unresolved`가 되어 파생 채널이 못 그린다 — 같은
- * 침묵이다. 근거는 `limits`에 남는다(ADR-0006). */
+ * 침묵이다(#144, ADR-0006). 위·아래 줄이 필요하면 Field의 세로 축을 쓴다.
+ *
+ * 부가물 안의 버튼·`Kbd`를 필드 가장자리에 광학 정렬하는 음수 마진(upstream의
+ * `has-[>button]:ml-*`)도 계약하지 않는다 — 부가물의 **자식**에 걸리는 조건부라 셀이
+ * 아니라 수식자가 되고, 필요하면 소비처가 그 자리에서 준다. */
 const inputGroupAddonVariantsConfig = {
   variants: {
     placement: { auto: "", start: "order-first", end: "order-last" },
@@ -105,6 +109,11 @@ const CONTROL = "flex-1 rounded-none border-0 bg-transparent px-0 shadow-none fo
 
 /* 여러 줄 컨트롤. 무력화 여섯은 `CONTROL`과 같은 문자열이고 높이만 다르다.
  *
+ * `InputGroupTextarea`는 `Textarea`를 **소비한다** — 복제하지 않는다(#91). `InputGroupInput`이
+ * `Input`을 벗겨 쓰는 자리와 같고, 그래서 `size` 축·placeholder·`aria-invalid`의 정본은
+ * 여전히 `Textarea` 계약이다. 루트가 `h-9`에서 `min-h-9`로 바뀌어도 `Input`이 자기 `h-9`를
+ * 갖고 있어 한 줄일 때의 렌더는 36px 그대로다(in-place safe).
+ *
  * `resize-none`인 것은 크기 조절 손잡이가 컨트롤의 모서리에 그려지는데 그 모서리를
  * 소유한 것이 컨트롤이 아니라 껍데기이기 때문이다 — 손잡이가 테두리 안쪽에 떠서
  * 잡을 것이 무엇인지 거짓말을 한다. 그리고 native resize가 쓰는 것은 인라인 `height`라
@@ -118,7 +127,12 @@ const MULTILINE_CONTROL = "flex-1 resize-none rounded-none border-0 bg-transpare
  * 부가물과 갈리는 것은 **글자 크기 한 단계**다(`text-sm` → `text-xs`). 부가물은
  * 컨트롤과 같은 줄에 서는 그릇이라 컨트롤의 `text-sm`을 따르고, 그 안의 설명 글자는
  * 값보다 한 단계 낮다. 오늘 이 자리가 없어 소비처가 매번 이 넷을 다시 쓴다 — ADR-0006의
- * 관문 ⓑ가 걸리는 자리다. */
+ * 관문 ⓑ가 걸리는 자리다.
+ *
+ * 접근성 — 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽
+ * 컨트롤의 disabled·aria-invalid다. 여러 줄일 때도 같아서 `FieldLabel`의 `htmlFor`가
+ * `InputGroupTextarea`의 `id`를 가리키고, `InputGroupText`는 라벨 경로에 서지 않는다 —
+ * 장식이면 담은 부가물에 `aria-hidden`, 뜻이 있으면 소비처가 `aria-describedby`로 묶는다. */
 const TEXT = "flex items-center gap-2 text-xs text-muted-foreground [&_svg:not([class*='size-'])]:size-4"
 
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
@@ -145,7 +159,9 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
   return <span data-slot="input-group-text" className={cn(TEXT, className)} {...props} />
 }
 
-/** 부가물 자리의 버튼. 기존 Button을 기본 variant/size만 바꿔 쓴다. */
+/** 부가물 자리의 버튼. 기존 Button을 기본 variant/size만 바꿔 쓴다.
+ * variant·size 축을 이 계약에서 다시 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면
+ * 되고 우리 스타일 결정을 복제하지 않는다(#121). */
 function InputGroupButton({ className, variant = "ghost", size = "icon-xs", ...props }: React.ComponentProps<typeof Button>) {
   return <Button data-slot="input-group-button" variant={variant} size={size} className={cn("shrink-0", className)} {...props} />
 }
@@ -154,6 +170,10 @@ const componentContract = {
   name: "input-group", source: "src/components/ui/input-group.tsx",
   publicExports: ["InputGroup", "InputGroupAddon", "InputGroupText", "InputGroupInput", "InputGroupTextarea", "InputGroupButton", "inputGroupVariants", "inputGroupVariantsConfig"],
   config: inputGroupVariantsConfig, className: (props: Record<string, string>) => cn(inputGroupVariants(props)),
+  /* anatomy 표기에는 `?`(선택)와 `*`(반복)뿐이라 "둘 중 정확히 하나"를 적을 자리가 없어
+   * `InputGroupInput`·`InputGroupTextarea`가 둘 다 `?`로 서고, 그 배타는 `limits`의 첫 문장이
+   * 진다. `InputGroupText`가 `InputGroupAddon`의 자식이라는 중첩도 이 표기가 담지 못해
+   * (순서로만 드러난다) `limits`가 진다(#170). */
   anatomy: ["InputGroup", "InputGroupAddon?", "InputGroupText?", "InputGroupInput?", "InputGroupTextarea?", "InputGroupButton?"],
   configurationStates: { validity: ["valid", "invalid"], disabled: ["enabled", "disabled"] }, drawnBy: { validity: { modifiers: ["has-[[aria-invalid=true]]", "aria-invalid"], carriedBy: "none" }, disabled: "루트의 `has-[:disabled]`가 그리는데 조립이 담을 자리가 없다 — 그 셀에 상태 사다리가 없어 불투명도가 버려진다. `InputGroupButton`의 `state.disabled`는 Button base가 낸 별개 값이다(#184)" },
   parts: {
@@ -164,7 +184,11 @@ const componentContract = {
     InputGroupButton: staticPart(cn(buttonVariants({ variant: "ghost", size: "icon-xs" }), "shrink-0")),
   },
   behaviors: {},
-  reference: { example: "input-group", guidance: { use: "한 줄 또는 여러 줄 입력 컨트롤 하나와 아이콘·단위·글자·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다.", evidence: "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.", limits: "값을 가진 컨트롤을 둘 이상 담지 않으며 — 컨트롤은 `InputGroupInput` **또는** `InputGroupTextarea` 하나다. anatomy 표기에는 `?`(선택)와 `*`(반복)뿐이라 \"둘 중 정확히 하나\"를 적을 자리가 없어 둘 다 `?`로 서고 그 배타는 이 문장이 진다. **`InputGroupTextarea`는 `Textarea`를 소비한다** — 복제하지 않는다(#91). `InputGroupInput`이 `Input`을 벗겨 쓰는 자리와 같고, 그래서 `size` 축·placeholder·`aria-invalid`의 정본은 여전히 `Textarea` 계약이다. `MULTILINE_CONTROL`이 `CONTROL`과 갈리는 것은 **높이 하나**다: 무력화 여섯(`rounded-none border-0 bg-transparent px-0 shadow-none`과 포커스 링·오류 테두리 리셋)은 \"껍데기를 그룹이 소유한다\"의 결과라 줄 수와 무관하게 같고, 한 줄 컨트롤은 껍데기의 한 줄을 채우는 반면 여러 줄 컨트롤은 자기 `min-h`로 껍데기를 밀어 올린다. 그래서 루트가 `h-9`에서 **`min-h-9`**로 바뀌고 `CONTROL`에서 `h-full`이 빠졌다 — `Input`이 자기 `h-9`를 이미 갖고 있어 한 줄일 때의 렌더는 36px 그대로다(in-place safe). upstream의 `has-[>textarea]:h-auto` 조건부는 쓰지 않는다: 이 파일의 `has-[…]` 넷이 매니페스트 셀에 아예 나타나지 않는 것으로 확인되듯 조건부 높이는 파생 채널이 그리지 못하고, 아래 `block-start`·`block-end`를 닫은 근거와 같은 침묵이다(ADR-0006). 여러 줄 컨트롤은 `resize-none`이다 — 크기 조절 손잡이가 서는 모서리를 소유한 것이 컨트롤이 아니라 껍데기이고, native resize가 쓰는 인라인 `height`는 계약에도 매니페스트에도 앉을 자리가 없다. `Textarea` 단독은 `resize-y` 그대로다. **`InputGroupText`는 `InputGroupAddon`의 자식으로만 선다** — 부가물 안의 글자 자리이고, 어느 쪽에 서는가는 자기를 담은 부가물의 `placement`가 이미 정했으므로 자기 축을 갖지 않는다. 부가물과 갈리는 것은 글자 크기 한 단계(`text-sm` → `text-xs`)이고, 그 한 단계가 오늘 없어 소비처가 매번 네 유틸리티를 다시 쓴다. 중첩은 anatomy 표기가 담지 못해(순서로만 드러난다) 이 문장이 진다. 라벨·설명·오류 문구는 여전히 Field가 소유하고 접근성 상태의 정본은 안쪽 컨트롤의 disabled·aria-invalid다 — 여러 줄일 때도 같아서 `FieldLabel`의 `htmlFor`가 `InputGroupTextarea`의 `id`를 가리키고, `InputGroupText`는 라벨 경로에 서지 않는다(장식이면 담은 부가물에 `aria-hidden`, 뜻이 있으면 소비처가 `aria-describedby`로 묶는다). `InputGroupAddon`의 배치는 `placement` 축이 진다 — `auto`(DOM 순서가 정한다, 기본값)·`start`·`end` 셋이다. 이름이 `align`이 아닌 것은 우리 카탈로그에서 `align`이 이미 Radix의 prop 이름 공간에 속해 **떠 있는 표면이 트리거의 어느 모서리에 붙는가**를 뜻하기 때문이고, `placement`는 #125가 `ChartLegendContent`에 같은 이유로 세운 이름이다. 기본값이 `start`가 아닌 `auto`인 것은 `order-first`가 컨트롤 뒤에 쓴 기존 부가물을 앞으로 옮겨 발행된 인스턴스를 재해석하기 때문이다(#143의 `knockout: none`과 같은 자리). **upstream의 `block-start`·`block-end`는 계약하지 않는다** — 껍데기 위·아래에 한 줄을 통째로 두는 배치라 루트가 줄바꿈하는 auto 높이 컨테이너가 되어야 하고, 그건 `h-9` 한 줄과 `h-full` 컨트롤을 재해석하는 breaking이다. 조건부 클래스로 피하면 그 선언이 매니페스트에서 `unresolved`가 되어 파생 채널이 못 그린다(#144). 위·아래 줄이 필요하면 Field의 세로 축을 쓴다. 부가물 안의 버튼·`Kbd`를 필드 가장자리에 광학 정렬하는 음수 마진(upstream의 `has-[>button]:ml-*`)도 계약하지 않는다 — 부가물의 **자식**에 걸리는 조건부라 셀이 아니라 수식자가 되고, 필요하면 소비처가 그 자리에서 준다. `InputGroupButton`의 variant·size는 열지 않는다 — 소비처가 `Button`의 축을 그대로 쓰면 되고 우리 스타일 결정을 복제하지 않는다(#121)." } },
+  reference: { example: "input-group", guidance: {
+    use: "한 줄 또는 여러 줄 입력 컨트롤 하나와 아이콘·단위·글자·버튼 같은 부가물을 하나의 필드 껍데기 안에 붙이고, 포커스·비활성·오류 표시를 껍데기가 대신 그린다.",
+    evidence: "투자 이력 검색은 앞에 검색 아이콘이, 금액 입력은 뒤에 통화 단위와 초기화 버튼이 필드 안에 붙어야 한다.",
+    limits: "컨트롤은 `InputGroupInput` 또는 `InputGroupTextarea` 하나다. 라벨·설명·오류와 위·아래 줄은 Field가 진다. `InputGroupText`는 `InputGroupAddon` 안에만 선다. 버튼의 광학 정렬은 className으로, 버튼 모양은 `Button`의 축으로 준다.",
+  } },
 } as const
 
 export { InputGroup, InputGroupAddon, InputGroupText, InputGroupInput, InputGroupTextarea, InputGroupButton, inputGroupVariants, inputGroupVariantsConfig, componentContract }

@@ -19,9 +19,11 @@ import { cn } from "@/lib/utils"
  * 3개에서 6개로 늘고 Figma가 variant로 그린다. `AvatarGroup`이 context로 값을
  * 넣어 주는 모양은 `ToggleGroup`→`ToggleGroupItem`과 같다(#91의 소비 관계).
  *
- * **면색이 canvas로 고정된다는 한계는 계약이 진다.** 카드(`--card`) 위에 놓인
- * 그룹에서 링이 어긋난다. upstream도 `ring-background`로 같은 한계를 갖지만
- * 우리는 그것을 `limits`에 적는다 — 침묵은 선택지가 아니다. */
+ * **면색이 canvas로 고정된다는 한계는 계약이 진다.** 카드(`--card`)나 팝오버 면 위에
+ * 놓인 그룹에서 링(`--ds-border-knockout`)이 그 면과 어긋난다. upstream도
+ * `ring-background`로 같은 한계를 갖지만 우리는 그것을 `limits`에 적는다 — 침묵은
+ * 선택지가 아니다. 면마다 링 색을 가르려면 축이 하나 더 생겨 셀이 면 수만큼 늘어난다
+ * (ADR-0007). 소비처가 그 자리에서 `border-card` 같은 클래스로 덮는다. */
 
 const avatarVariantsConfig = {
   variants: {
@@ -88,7 +90,11 @@ function AvatarBadge({ className, size = "default", ...props }: React.ComponentP
 
 /* 그룹은 아바타를 겹쳐 늘어놓고 자식에 크기·겹침 링을 먹인다. `aria-label`을
  * 타입으로 요구한다 — 겹친 얼굴 더미는 그 자체로 무엇의 모임인지 말하지 않는다
- * (Menubar가 막의 이름을 요구한 것과 같은 자리). */
+ * (Menubar가 막의 이름을 요구한 것과 같은 자리).
+ *
+ * 겹치지 않고 나란히 늘어놓는 경우에는 쓰지 않는다 — 그건 소비처의 `flex gap-*`이고,
+ * 이 컴포넌트가 계약하는 것은 겹침 간격과 가르는 링뿐이라 링이 필요 없으면 남는
+ * 결정이 없다. */
 const avatarGroupVariantsConfig = {
   variants: {
     size: {
@@ -112,7 +118,8 @@ function AvatarGroup({ className, size = "default", children, ...props }: React.
  * 그리지 못한다. 아바타와 같은 자리에 서므로 지름·링·겹침을 그대로 따른다.
  *
  * 배지와 같은 이유로 `role="img"`+`aria-label`을 요구한다. 여기서는 이름이
- * "+3"이라는 축약을 대신 읽어 주는 값도 한다 — "외 3명". */
+ * "+3"이라는 축약을 대신 읽어 주는 값도 한다 — "외 3명". 넘침 수를 몇에서 접는지는
+ * 계약하지 않는다 — 소비처가 정해 텍스트로 넣는다. */
 const avatarGroupCountVariantsConfig = {
   variants: {
     size: {
@@ -150,7 +157,11 @@ const componentContract = {
     AvatarGroupCount: { config: avatarGroupCountVariantsConfig, className: (props: Record<string, string>) => cn(avatarGroupCountVariants(props)) },
   },
   behaviors: {},
-  reference: { example: "avatar", guidance: { use: "사람이나 계정을 작은 원형 이미지로 식별하고 이미지가 없거나 실패하면 안정적인 fallback을 표시한다. 여럿을 겹쳐 보일 때는 `AvatarGroup`이 겹침 간격과 가르는 링을 지고, 넘치는 수는 `AvatarGroupCount`가 같은 지름으로 잇는다. 상태 점은 `AvatarBadge`가 오른쪽 아래에 얹는다.", evidence: "투자 기록의 작성자나 연결된 증권 계정을 목록과 활동 내역에서 빠르게 구별해야 하고, 한 기록에 참여자가 여럿이면 얼굴을 겹쳐 보이고 나머지 수를 함께 낸다.", limits: "이미지만으로 이름을 전달하지 말고 주변 텍스트나 접근 가능한 이름을 제공하며, 장식 이미지에는 빈 대체 텍스트를 사용한다. `AvatarGroup`은 접근 가능한 이름을 `aria-label`로 요구한다 — 겹친 얼굴 더미는 그 자체로 무엇의 모임인지 말하지 않는다. 겹치지 않고 나란히 늘어놓는 경우에는 쓰지 않는다: 그건 소비처의 `flex gap-*`이고 이 컴포넌트가 계약하는 것은 겹침 간격과 가르는 링뿐이라 링이 필요 없으면 남는 결정이 없다. `AvatarBadge`와 `AvatarGroupCount`는 `role=\"img\"`를 달고 `aria-label`을 타입으로 요구한다 — 색점과 `+3`은 그 자체로 이름이 아니고, role 없이 `aria-label`만 얹으면 `aria-prohibited-attr`로 걸린다. `AvatarBadge`의 위치 축은 계약하지 않는다 — upstream이 위치 prop 없이 오른쪽 아래로 고정하고, 실측 수요 없이 축을 열지 않는다(#123). 다른 모서리는 소비처가 className으로 옮긴다. **겹침 링의 색은 canvas로 고정된다**(`--ds-border-knockout`) — 카드나 팝오버 면 위에 놓인 그룹에서는 링이 그 면과 어긋난다. upstream도 `ring-background`로 같은 한계를 갖고, 면마다 링 색을 가르려면 축이 하나 더 생겨 셀이 면 수만큼 늘어난다(ADR-0007). 소비처가 그 자리에서 `border-card` 같은 클래스로 덮는다. 넘침 수를 몇에서 접는지는 계약하지 않는다 — 소비처가 정해 `AvatarGroupCount`에 텍스트로 넣는다." } },
+  reference: { example: "avatar", guidance: {
+    use: "사람이나 계정을 작은 원형 이미지로 식별하고 없으면 fallback을 낸다. 겹친 무리는 `AvatarGroup`·`AvatarGroupCount`가, 상태 점은 `AvatarBadge`가 진다.",
+    evidence: "투자 기록의 작성자나 연결된 증권 계정을 목록과 활동 내역에서 빠르게 구별해야 하고, 한 기록에 참여자가 여럿이면 얼굴을 겹쳐 보이고 나머지 수를 함께 낸다.",
+    limits: "이름은 주변 텍스트로 주고 장식 이미지는 빈 alt다. `AvatarGroup`·`AvatarBadge`·`AvatarGroupCount`는 `aria-label`이 필수다. 겹치지 않는 나열은 소비처의 `flex gap-*`이다. 배지 위치와 카드 위 링 색은 className으로 덮고, 넘침 기준은 텍스트로 넣는다.",
+  } },
 } as const
 
 export { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, AvatarGroupCount, avatarVariants, avatarVariantsConfig, componentContract }

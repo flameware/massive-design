@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils"
 // 조립이 목적이라 축을 늘리지 않는다. config를 그래도 내보내는 것은 매니페스트
 // 생성기가 손으로 적은 축 사본 없이 컴포넌트의 cva config를 그대로 읽기
 // 때문이다(#22 §7, button.tsx 상단 주석과 동일한 이유).
+// upstream의 `size` 축(default/sm)도 열지 않는다 — 축은 늘지만 간격은 소비처가
+// 유틸리티로 정하면 되고 우리 스케일 결정을 복제하지 않는다(#121).
 const cardVariantsConfig = {
   variants: {},
   defaultVariants: {},
@@ -104,7 +106,7 @@ const componentContract = {
   anatomy: ["Card", "CardHeader?", "CardTitle?", "CardDescription?", "CardAction?", "CardContent?", "CardFooter?"],
   configurationStates: {},
   behaviors: {},
-  reference: { example: "card", guidance: { use: "관련 콘텐츠를 하나의 표면으로 묶는다.", evidence: "투자 이력의 요약 영역에서 기존 Card를 재사용한다.", limits: "SummaryCard 같은 도메인 컴포넌트를 만들지 않는다. `size` 축(upstream의 default/sm)은 열지 않는다 — 축은 늘지만 간격은 소비처가 유틸리티로 정하면 되고 우리 스케일 결정을 복제하지 않는다(#121)." } },
+  reference: { example: "card", guidance: { use: "관련 콘텐츠를 하나의 표면으로 묶는다.", evidence: "투자 이력의 요약 영역에서 기존 Card를 재사용한다.", limits: "SummaryCard 같은 도메인 컴포넌트를 만들지 않고 기존 Card 파트로 조립한다. `size` 축(upstream의 default/sm)은 열지 않는다 — 간격은 소비처가 유틸리티로 정한다." } },
 } as const
 
 export {

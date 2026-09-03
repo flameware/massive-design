@@ -42,7 +42,11 @@ const DESCRIPTION = "text-sm"
  *
  * DOM에서는 **맨 뒤**에 선다. `role="alert"`은 라이브 영역이라 삽입 시점에 내용을
  * 통째로 읽고 그 순서를 정하는 것은 시각 배치가 아니라 DOM이다 — 제목·설명보다
- * 앞에 두면 버튼 이름부터 읽힌다. anatomy 순서가 그 규약이다. */
+ * 앞에 두면 버튼 이름부터 읽힌다. anatomy 순서가 그 규약이다.
+ *
+ * absolute라 제목·설명과 **겹칠 수 있다** — 긴 제목은 소비처가 `pr-*`로 자리를 비운다.
+ * 열로 두면 겹치지 않지만 1열 그리드를 재해석하거나(breaking) 조건부 열이 되어 파생
+ * 채널이 못 그린다(#144). */
 const ACTION = "absolute top-4 right-4"
 
 function Alert({ className, variant = "default", ...props }: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
@@ -67,6 +71,8 @@ const componentContract = {
   name: "alert", source: "src/components/ui/alert.tsx",
   publicExports: ["Alert", "AlertTitle", "AlertDescription", "AlertAction", "alertVariants", "alertVariantsConfig"],
   config: alertVariantsConfig, className: (props: Record<string, string>) => cn(alertVariants(props)),
+  /* 아이콘 컬럼은 계약하지 않는다 — 이 Alert이 1열 그리드라 도입하면 기존 인스턴스의
+   * 격자를 재해석하는 breaking이다(#121). */
   anatomy: ["Alert", "AlertTitle?", "AlertDescription", "AlertAction?"], configurationStates: {},
   parts: {
     AlertTitle: staticPart(TITLE),
@@ -74,7 +80,11 @@ const componentContract = {
     AlertAction: staticPart(ACTION),
   },
   behaviors: {},
-  reference: { example: "alert", guidance: { use: "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달하고, 그 자리에서 할 수 있는 동작 하나를 `AlertAction`에 얹는다.", evidence: "투자 데이터 동기화 결과와 가격 지연 경고를 성공·warning·danger 의미로 구별해야 하고, 동기화가 실패한 경고에는 다시 시도 버튼이 같은 카드 안에 있어야 한다.", limits: "잠깐 나타나는 작업 결과에는 Toast를 사용하고, 모든 안내를 role=alert로 반복해 쌓지 않는다. `AlertAction`은 **자리만 정하고 내용은 소비처가 넣는다** — 대개 `Button`이며, 우리가 variant·size 기본값을 먹이지 않는다(#91). `AlertAction`은 anatomy 순서대로 **DOM의 맨 뒤**에 둔다: `role=alert`은 삽입 시점에 내용을 통째로 읽고 그 순서는 DOM이 정하므로, 앞에 두면 버튼 이름부터 읽힌다. 위치 축은 계약하지 않는다 — upstream이 위치 prop 없이 오른쪽 위로 고정하고 실측 수요 없이 축을 열지 않는다(#123). **absolute라 제목·설명과 겹칠 수 있다**: 긴 제목은 소비처가 `pr-*`로 자리를 비운다. 열로 두면 겹치지 않지만 1열 그리드를 재해석하거나(breaking) 조건부 열이 되어 파생 채널이 못 그린다(#144). 아이콘 컬럼은 계약하지 않는다 — 이 Alert이 1열 그리드라 도입하면 기존 인스턴스의 격자를 재해석하는 breaking이다(#121)." } },
+  reference: { example: "alert", guidance: {
+    use: "화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 의미별로 전달하고, 그 자리에서 할 수 있는 동작 하나를 `AlertAction`에 얹는다.",
+    evidence: "투자 데이터 동기화 결과와 가격 지연 경고를 성공·warning·danger 의미로 구별해야 하고, 동기화가 실패한 경고에는 다시 시도 버튼이 같은 카드 안에 있어야 한다.",
+    limits: "잠깐 보이는 결과에는 Toast를 쓰고, 안내를 role=alert로 쌓지 않는다. `AlertAction`의 내용은 소비처가 넣고(대개 `Button`) anatomy 순서대로 DOM 맨 뒤에 둔다. 위치 축과 아이콘 컬럼은 열지 않는다 — 다른 자리는 className으로, 긴 제목은 `pr-*`로 겹침을 피한다.",
+  } },
 } as const
 
 export { Alert, AlertTitle, AlertDescription, AlertAction, alertVariants, alertVariantsConfig, componentContract }
