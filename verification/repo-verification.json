@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "596abce17318499e9b5d6399a8503928ff3d35de",
+  "targetCommit": "6310c183378f7d0b7d0db6253749f8fe998506cf",
   "inputTree": {
-    "commit": "596abce17318499e9b5d6399a8503928ff3d35de",
+    "commit": "6310c183378f7d0b7d0db6253749f8fe998506cf",
     "clean": true
   },
-  "inputDigest": "afe9fffad79737548bf6df6f5d7b7f8b014cda0499eeb573a678c93cdcc6de72",
+  "inputDigest": "b03d611e7918b1c62c39ee0cbd140c82d42825e035611cd8323b8924770702c2",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "component": "alert-dialog",
-      "manifestHash": "c9af7f17e33a",
+      "manifestHash": "a0d460a178ce",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -92,7 +92,7 @@
     },
     {
       "component": "dialog",
-      "manifestHash": "8cbe1a36cc9e",
+      "manifestHash": "f8e7ca31ab67",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -202,7 +202,7 @@
     },
     {
       "component": "sheet",
-      "manifestHash": "736bd9484ffd",
+      "manifestHash": "a3cda7f26dd4",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-03T23:27:45.821Z",
+      "checkedAt": "2026-09-03T23:32:08.509Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -300,7 +300,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-03T23:27:45.821Z",
+      "checkedAt": "2026-09-03T23:32:08.509Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -498,13 +498,13 @@
       },
       "visualReview": {
         "reviewer": "claude-agent",
-        "checkedAt": "2026-09-03T23:28:39.189Z",
-        "scope": "behaviors 불변, 확인표 재실행 안 함; accordion(Item·Trigger·Content)·collapsible(Content) parts 등록 후 open/closed × Light/Dark 헤드리스 Playwright 스크린샷 확인 — 화살표 회전·펼침 애니메이션·데이터 상태 반영 정상"
+        "checkedAt": "2026-09-03T23:33:01.488Z",
+        "scope": "behaviors 불변, 22자리 확인표 재실행 안 함(dialog·sheet·alert-dialog는 gestures/behaviors 항목 없음); dialog·sheet·alert-dialog의 열림 상태(open) Light·Dark를 헤드리스 Playwright 스크린샷으로 확인 — Overlay·Header·Footer·Title·Description(및 alert-dialog Action·Cancel) 렌더 정상"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-09-03T23:28:39.189Z"
+  "completedAt": "2026-09-03T23:33:01.488Z"
 }
