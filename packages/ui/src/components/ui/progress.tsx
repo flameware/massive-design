@@ -35,6 +35,14 @@ const progressVariants = cva("relative h-2 w-full overflow-hidden rounded-full b
  * 자리다 — Avatar의 카운트 셀이 이미 글자 하나 다르지 않은 값을 낸다. */
 const INDICATOR = "h-full w-full bg-primary transition-transform"
 const LABEL = "text-sm font-medium"
+
+/* `text-xs`는 판단이 아니라 인용이다 — 발행 문서의 정본 갈래는 lyra가 아니라
+ * base-nova인데(#196), VALUE는 §5.1이 lyra의 `.cn-progress-value`를 축자로 인용해
+ * 열었다. base-nova의 값은 `text-sm`이라 라벨과 값이 같은 크기로 선다. 어긋남을
+ * 여기서 처음 확인했지만 지금 고치면 이미 발행된 인스턴스의 렌더가 바뀌므로
+ * `breaking`이다 — 맵 #221 규칙 3(발행된 인스턴스를 지키는 값이 기본값이다)을 새 축의
+ * 기본값이 아니라 파트 고정 클래스에도 같은 논리로 적용해 오늘은 유지한다. 바꾸려면
+ * `ProgressLabel`·`ProgressValue`의 위계를 다시 여는 별도 breaking 세대가 필요하다. */
 const VALUE = "ml-auto text-xs tabular-nums"
 
 function Progress({ className, value, ...props }: React.ComponentProps<typeof ProgressPrimitive.Root>) {
@@ -80,7 +88,7 @@ const componentContract = {
     ProgressValue: staticPart(VALUE),
   },
   behaviors: {},
-  reference: { example: "progress", guidance: { use: "완료량을 아는 작업의 진행 정도를 0에서 100 사이 값으로 보여주고, 무엇의 진행인지와 몇 퍼센트인지는 `ProgressLabel`·`ProgressValue`가 트랙 위 한 줄로 말한다.", evidence: "투자 내역 가져오기처럼 처리할 전체 항목 수를 아는 작업에 진행률 피드백이 필요하고, 그 화면은 대개 \"무엇을\"과 \"몇 퍼센트\"를 트랙과 함께 읽는다.", limits: "완료량을 모르는 대기에는 Spinner를 쓴다. value 계산과 문구는 소비처가 주고 `ProgressValue`는 children으로 받는다. 라벨·값의 한 줄은 소비처가 `flex items-center gap-2`로 짜고, 이름은 `ProgressLabel`의 `id`를 루트 `aria-labelledby`에 물린다." } },
+  reference: { example: "progress", guidance: { use: "완료량을 아는 작업의 진행 정도를 0에서 100 사이 값으로 보여주고, 무엇의 진행인지와 몇 퍼센트인지는 `ProgressLabel`·`ProgressValue`가 트랙 위 한 줄로 말한다.", evidence: "투자 내역 가져오기처럼 처리할 전체 항목 수를 아는 작업에 진행률 피드백이 필요하고, 그 화면은 대개 \"무엇을\"과 \"몇 퍼센트\"를 트랙과 함께 읽는다.", limits: "완료량을 모르는 대기는 Spinner. value 계산·문구는 소비처, `ProgressValue`는 children으로 받는다. 한 줄은 소비처가 `flex items-center gap-2`로 짜고 라벨 id를 `aria-labelledby`로 문다. `text-xs`는 정본(nova) `text-sm`과 다르지만 발행 인스턴스를 지켜 유지한다." } },
 } as const
 
 export { Progress, ProgressLabel, ProgressValue, progressVariants, progressVariantsConfig, componentContract }
