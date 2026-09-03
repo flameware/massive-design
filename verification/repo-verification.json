@@ -1,13 +1,18 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "614e05d0ce525b25b68a6019f7759bdf22477132",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "ce82ecaec2c82d86e614d8d4c56b8ce3b45ffd74",
   "inputTree": {
-    "commit": "614e05d0ce525b25b68a6019f7759bdf22477132",
-    "clean": true
+    "commit": "ce82ecaec2c82d86e614d8d4c56b8ce3b45ffd74",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/src/components/ui/dropdown-menu.tsx",
+      "packages/ui/src/components/ui/menubar.tsx"
+    ]
   },
-  "inputDigest": "4a365736e3112ae51d0bbb086289bc4923371b0a10cac00581b42d9c069dc4fd",
+  "inputDigest": "8efd11b173f1a80607081c584cafbc45ca0754775f80abeea76d12f6e963b520",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -97,7 +102,7 @@
     },
     {
       "component": "dropdown-menu",
-      "manifestHash": "6fbac9bfcf45",
+      "manifestHash": "6bbd3f76234b",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -192,7 +197,7 @@
     },
     {
       "component": "select",
-      "manifestHash": "70f20a258e31",
+      "manifestHash": "306160b2cb63",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +274,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-03T23:08:04.762Z",
+      "checkedAt": "2026-09-03T22:59:37.939Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +304,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-03T23:08:04.762Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-03T22:59:37.939Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +501,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "claude-agent",
-        "checkedAt": "2026-09-03T23:09:51.555Z",
-        "scope": "rebase 재검증(#225, origin/main e3b2a2a #248 select parts 병합 뒤). sidebar·calendar 소스 충돌 없이 재적용됐고 select parts 변경과 겹치지 않는다. bun run manifest·catalog 재생성 결과 diff 0 — guidance 텍스트만 이전 세대 그대로다. 참조 화면 Sidebar·Calendar Light·Dark 네 조합을 브라우저로 다시 열어 limits 문장과 실행 예시 시각이 rebase 전과 동일함을 확인했다. 동작 확인표는 이번 세대에 gestures·behaviors 선언이 움직이지 않아 다시 돌리지 않았다. 이슈 없음."
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-03T23:09:51.555Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }

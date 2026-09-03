@@ -19,7 +19,9 @@
 
 ## 결정
 
-### 1. `variant`는 **루트 자신이 어떤 표면으로 서는가**를 이름한다
+### 1. `variant`는 **그 축을 소유한 노드 자신이 어떤 표면으로 서는가**를 이름한다
+
+> **[#224](https://github.com/flameware/massive-design/issues/224)·[#237](https://github.com/flameware/massive-design/issues/237)이 개정했다.** 원문의 주어는 "루트"였다 — 아래 두 문단이 그 원문이고, 판정 근거로는 여전히 선다. 개정은 **주어**만 고친다: 소유자는 보통 루트이고, 루트에 `variant`가 없을 때에 한해 파트가 소유할 수 있다 — `DropdownMenuItem`의 `default`·`destructive`(#224)가 그 첫 자리다. 한 계약 안에서 `variant`는 한 뜻이어야 하므로, 루트가 `variant`를 가지면 파트는 그것을 상속하거나([ADR-0011](0011-axis-readback-and-part-axis-inheritance.md), `ToggleGroupItem`) 자기가 지는 것의 이름을 쓴다([#145](https://github.com/flameware/massive-design/issues/145)의 `frame`). 파트가 지는 것이 자기 표면의 의미·강조·형태가 아니면 애초에 `variant`가 아니다.
 
 파트가 아니라 **루트**의 축이다 — 그것이 이 이름을 카탈로그 전역에서 한 뜻으로 묶는 것이고, [#145](https://github.com/flameware/massive-design/issues/145)가 `ItemMedia`의 축을 `frame`으로 돌린 것도 그래서다(파트가 `variant`를 쓰면 한 파일에서 한 단계 떨어진 두 축이 같은 이름으로 다른 뜻이 된다).
 

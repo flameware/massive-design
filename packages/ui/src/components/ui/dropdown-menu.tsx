@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ContextMenu as ContextMenuPrimitive, DropdownMenu as DropdownMenuPrimitive } from "radix-ui"
-import { cva } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 /* 트리거 모드(`openOn`)는 계약에 담되 매니페스트에는 담지 않는다(#126, #119).
@@ -78,7 +78,24 @@ import { cn } from "@/lib/utils"
 const dropdownMenuVariantsConfig = { variants: {}, defaultVariants: {} } as const
 const dropdownMenuVariants = cva("min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md", dropdownMenuVariantsConfig)
 
-const ITEM = "state [--ds-state-base:var(--popover)] relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset=true]:pl-8"
+/* `variant`는 이 파트가 첫 사례다(#224, #237) — 루트 `variants: {}`에 축이 없어
+ * 상속할 것이 없고, 파트가 자기 표면의 **의미**를 직접 진다. ADR-0019 개정 결정 1:
+ * 소유자는 보통 루트이고, 루트에 `variant`가 없을 때에 한해 파트가 소유할 수 있다.
+ * 값 이름은 upstream 그대로(`default`·`destructive`), 기본값 `default`는 이 셀을
+ * 바이트 동일하게 남긴다(additive, 맵 규칙 3). 강조 면은 upstream의 `bg-destructive/10`
+ * (알파 — 파생 채널이 버리는 자리, #221 Out of scope)을 복사하지 않고 이 파일의
+ * `SUB_TRIGGER`가 이미 쓰는 base 교체 관용구를 쓴다 — `data-highlighted`는 Radix가
+ * 포인터·키보드 하이라이트에 실제로 내는 속성이다(`@radix-ui/react-menu`). */
+const itemVariantsConfig = {
+  variants: {
+    variant: {
+      default: "",
+      destructive: "text-destructive-text data-[highlighted]:[--ds-state-base:var(--destructive-soft)] *:[svg]:text-destructive-text",
+    },
+  },
+  defaultVariants: { variant: "default" },
+} as const
+const itemVariants = cva("state [--ds-state-base:var(--popover)] relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset=true]:pl-8", itemVariantsConfig)
 const LABEL = "px-2 py-1.5 text-xs font-medium data-[inset=true]:pl-8"
 /* 구분선을 `bg-border`가 아니라 `border-t`로 그린다. 43세대 동안 이 노드는 `h-px bg-border`
  * 였고 게이트에 걸린 적이 없다 — `parts`가 없어 매니페스트에 아예 나타나지 않았기 때문이다.
@@ -166,7 +183,7 @@ function DropdownMenuContent({ className, sideOffset = 4, ...props }: React.Comp
 
 /* Item·Label·Separator·Group은 두 primitive가 같은 `@radix-ui/react-menu` 파트로
  * 내려가 prop 타입이 동일하다. 다른 것은 scope뿐이라 컴포넌트만 고른다 */
-function DropdownMenuItem({ className, inset, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Item> & { inset?: boolean }) { const Item = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Item : DropdownMenuPrimitive.Item; return <Item data-slot="dropdown-menu-item" data-inset={inset} className={cn(ITEM, className)} {...props} /> }
+function DropdownMenuItem({ className, inset, variant = "default", ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Item> & { inset?: boolean } & VariantProps<typeof itemVariants>) { const Item = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Item : DropdownMenuPrimitive.Item; return <Item data-slot="dropdown-menu-item" data-inset={inset} data-variant={variant} className={cn(itemVariants({ variant, className }))} {...props} /> }
 function DropdownMenuLabel({ className, inset, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Label> & { inset?: boolean }) { const Label = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Label : DropdownMenuPrimitive.Label; return <Label data-slot="dropdown-menu-label" data-inset={inset} className={cn(LABEL, className)} {...props} /> }
 function DropdownMenuSeparator({ className, ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Separator>) { const Separator = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Separator : DropdownMenuPrimitive.Separator; return <Separator data-slot="dropdown-menu-separator" className={cn(SEPARATOR, className)} {...props} /> }
 function DropdownMenuGroup(props: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) { const Group = React.useContext(DropdownMenuOpenOnContext) === "context" ? ContextMenuPrimitive.Group : DropdownMenuPrimitive.Group; return <Group data-slot="dropdown-menu-group" {...props} /> }
@@ -254,7 +271,7 @@ const componentContract = {
    * 재조회가 같은 파일을 또 판다. #155의 모집단이 14 → 13이 된다.
    * `Group`·`RadioGroup`·`Sub`는 클래스를 내지 않으므로 파트가 아니다(anatomy에만 선다). */
   parts: {
-    DropdownMenuItem: staticPart(ITEM),
+    DropdownMenuItem: { config: itemVariantsConfig, className: (props: Record<string, string>) => cn(itemVariants(props)) },
     DropdownMenuLabel: staticPart(LABEL),
     DropdownMenuSeparator: staticPart(SEPARATOR),
     DropdownMenuCheckboxItem: staticPart(INDICATOR_ITEM),
@@ -271,7 +288,7 @@ const componentContract = {
    * 더 깊은 묶음은 `DropdownMenuSub`가 지며 셋 다 두 모드에서 같다. context 모드의 트리거는 버튼이 아니라
    * 우클릭을 받는 영역이라 스스로 포커스를 받지 못하므로, 소비처가 포커스 가능한 요소를 `asChild`로 주어야
    * Shift+F10·컨텍스트 메뉴 키로도 열린다. */
-  reference: { example: "dropdown-menu", guidance: { use: "현재 맥락의 보조 동작을 묶는다. 보이는 컨트롤에서 여는 press 모드와 대상 영역을 우클릭·롱프레스해 여는 openOn=\"context\" 모드가 같은 계약이고, 체크·라디오·서브메뉴는 두 모드에서 같다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점이 필요하고, 표의 행을 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고른다.", limits: "삭제 확인과 동작 로직은 소비처가 둔다. openOn=\"context\"는 영역 자체가 대상인 행·캔버스에만 쓰고 트리거는 포커스 가능한 요소를 asChild로 준다. defaultOpen·sideOffset은 press에서만 듣는다. 상시 노출 명령 막대는 Menubar, 사이트 탐색은 Navigation Menu다." } },
+  reference: { example: "dropdown-menu", guidance: { use: "현재 맥락의 보조 동작을 묶는다. 보이는 컨트롤에서 여는 press 모드와 대상 영역을 우클릭·롱프레스해 여는 openOn=\"context\" 모드가 같은 계약이고, 체크·라디오·서브메뉴는 두 모드에서 같다.", evidence: "각 투자 행의 수정·삭제 같은 행 메뉴 진입점이 필요하고, 표의 행을 우클릭해 같은 메뉴를 여는 경로도 같은 자산이어야 한다. 같은 메뉴에서 즐겨찾기를 켜고 끄고, 통화를 하나만 고르고, 내보내기 형식을 한 겹 더 들어가 고른다.", limits: "variant=\"destructive\"는 강조만 바꾼다 — 확인·실행은 소비처가 둔다. openOn=\"context\"는 대상 영역에만 쓰고 트리거는 포커스 가능한 요소를 asChild로 준다. defaultOpen·sideOffset은 press에서만 듣는다. 상시 노출 명령 막대는 Menubar, 사이트 탐색은 Navigation Menu다." } },
 } as const
 
 export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, dropdownMenuVariants, dropdownMenuVariantsConfig, componentContract }
