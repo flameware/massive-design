@@ -23,9 +23,13 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   return <li data-slot="breadcrumb-item" className={cn("inline-flex items-center gap-1.5", className)} {...props} />
 }
 
+/* 히트 영역  시각 51.9~60.5×22.4 — 가로는 이미 하한을 넘고 세로(`text-sm` 한 줄
+ * 높이 22.4px)만 1.6px 모자라다. Toast close와 같은 22.4px 계열이지만 텍스트
+ * 하나뿐인 인라인 링크라 판정도 같다 — `after:`로 세로만 중심 대칭 ±0.8px
+ * 넓힌다(#111 결정 2·4·5, #249). 원래 포지셔닝이 없어 `relative`를 더한다. */
 function BreadcrumbLink({ asChild = false, className, ...props }: React.ComponentProps<"a"> & { asChild?: boolean }) {
   const Comp = asChild ? Slot.Root : "a"
-  return <Comp data-slot="breadcrumb-link" className={cn("rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring", className)} {...props} />
+  return <Comp data-slot="breadcrumb-link" className={cn("relative rounded-sm transition-colors hover:text-foreground after:absolute after:inset-x-0 after:-inset-y-[0.8px] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring", className)} {...props} />
 }
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
@@ -48,7 +52,7 @@ const componentContract = {
   parts: {
     BreadcrumbList: staticPart("flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground sm:gap-2.5"),
     BreadcrumbItem: staticPart("inline-flex items-center gap-1.5"),
-    BreadcrumbLink: staticPart("rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring"),
+    BreadcrumbLink: staticPart("relative rounded-sm transition-colors hover:text-foreground after:absolute after:inset-x-0 after:-inset-y-[0.8px] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring"),
     BreadcrumbPage: staticPart("font-normal text-foreground"),
     BreadcrumbSeparator: staticPart("[&>svg]:size-3.5"),
     BreadcrumbEllipsis: staticPart("flex size-9 items-center justify-center"),

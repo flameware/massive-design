@@ -171,7 +171,7 @@ export const catalog = [
   {
     "component": "breadcrumb",
     "displayName": "Breadcrumb",
-    "hash": "28e34b93c508",
+    "hash": "766df46f34d4",
     "cells": 1,
     "axes": {},
     "anatomy": [

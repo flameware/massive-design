@@ -1,5 +1,5 @@
 {
-  "_comment": "포인터 대상 실측 게이트(#232)의 예외 목록. --exceptions 로 경로를 바꿀 수 있다(기본 이 파일). belowFloor는 24×24 하한 미달을 통과시키는 항목이다 — 정본은 docs/research/pointer-target-exceptions-2026-09.md(#231)이고, 이 JSON은 그 문서의 §6 전체 계정표에서 '예외로 확정되는' 5행(구조 2·외부 소유 1·WCAG Equivalent 조건부 2)을 게이트가 읽을 수 있게 옮긴 것이다. unmeasuredSlots는 코드 스캔이 낸 slot 중 참조 스토리의 어느 셀에도 그려지지 않아 실측이 못 보는 자리다(ADR-0020 §7의 계기 한계, 연구 문서 §2.2·§3). 항목 형식: { component, slot, reason }. component·slot은 pointer-targets.tsv의 story·slot 열과 맞춘다.",
+  "_comment": "포인터 대상 실측 게이트(#232)의 예외 목록. --exceptions 로 경로를 바꿀 수 있다(기본 이 파일). belowFloor는 24×24 하한 미달을 통과시키는 항목이다 — 정본은 docs/research/pointer-target-exceptions-2026-09.md(#231)이고, 이 JSON은 그 문서의 §6 전체 계정표에서 '예외로 확정되는' 5행(구조 2·외부 소유 1·WCAG Equivalent 2)을 게이트가 읽을 수 있게 옮긴 것이다. WCAG Equivalent 둘(라벨류·Slider track)은 #230 착지가 조건이었고 #249가 재실측으로 확정했다(§4.1·§4.2). unmeasuredSlots는 코드 스캔이 낸 slot 중 참조 스토리의 어느 셀에도 그려지지 않아 실측이 못 보는 자리다(ADR-0020 §7의 계기 한계, 연구 문서 §2.2·§3). 항목 형식: { component, slot, reason }. component·slot은 pointer-targets.tsv의 story·slot 열과 맞춘다.",
   "belowFloor": [
     {
       "component": "scroll-area",
@@ -19,17 +19,17 @@
     {
       "component": "checkbox",
       "slot": "label",
-      "reason": "WCAG Equivalent, 조건부 — 라벨의 기능(토글)은 짝 컨트롤(checkbox)을 눌러도 얻는다. #230이 Checkbox를 24×24로 올리기 전까지 전제 미완성(예외 목록 §4.1)"
+      "reason": "WCAG Equivalent — 라벨의 기능(토글)은 짝 컨트롤(checkbox)을 눌러도 얻는다. #230이 Checkbox를 24×24로 올려 전제 확정(#249 재확인, 예외 목록 §4.1)"
     },
     {
       "component": "radio-group",
       "slot": "label",
-      "reason": "같은 이유, 짝 컨트롤은 radio-group-item — #230 착지가 전제(예외 목록 §4.1)"
+      "reason": "같은 이유, 짝 컨트롤은 radio-group-item — #230 착지로 전제 확정(#249 재확인, 예외 목록 §4.1)"
     },
     {
       "component": "switch",
       "slot": "label",
-      "reason": "같은 이유, 짝 컨트롤은 switch — #230 착지가 전제(예외 목록 §4.1)"
+      "reason": "같은 이유, 짝 컨트롤은 switch — #230 착지로 전제 확정(#249 재확인, 예외 목록 §4.1)"
     },
     {
       "component": "label",
@@ -69,7 +69,7 @@
     {
       "component": "slider",
       "slot": "slider-track",
-      "reason": "WCAG Equivalent, 조건부 — 값 설정 기능은 thumb 드래그·키보드로 이미 동등 제공된다. thumb가 24×24에 닿는 것(#230)이 그 전제 중 하나(예외 목록 §4.2)"
+      "reason": "WCAG Equivalent — 값 설정 기능은 thumb 드래그·키보드로 이미 동등 제공된다. thumb가 24×24에 닿아(#230) 전제 확정(#249 재확인, 예외 목록 §4.2)"
     }
   ],
   "unmeasuredSlots": [

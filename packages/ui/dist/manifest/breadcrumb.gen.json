@@ -34,7 +34,7 @@
   "drawnBy": {
     "currentLocation": "값마다 파트가 다르다 — `BreadcrumbPage`가 현재이고 `BreadcrumbLink`가 조상이다"
   },
-  "hash": "28e34b93c508",
+  "hash": "766df46f34d4",
   "parts": {
     "BreadcrumbEllipsis": {
       "axes": {},
@@ -104,7 +104,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "rounded-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring",
+          "className": "relative rounded-sm transition-colors hover:text-foreground after:absolute after:inset-x-0 after:-inset-y-[0.8px] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring",
           "properties": {
             "border-radius": {
               "from": "rounded-sm",
@@ -112,6 +112,11 @@
               "scale": "radius.sm",
               "tier": "token",
               "token": "--radius-sm"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
             }
           },
           "state": null

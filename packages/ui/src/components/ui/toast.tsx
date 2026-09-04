@@ -31,12 +31,17 @@ const toastVariants = cva(
 const VIEWPORT = "fixed right-0 bottom-0 z-50 flex max-h-screen w-full max-w-sm flex-col gap-2 p-4"
 const TITLE = "font-medium"
 const DESCRIPTION = "text-sm"
-const ACTION = "text-sm font-medium underline underline-offset-4"
+/* 히트 영역  시각 23.3×44.8 — 세로는 이미 하한을 넘고 가로(줄 안 텍스트 너비)만
+ * 0.7px 모자라다. #249가 22.4px 계열 전체(Toast close 포함)를 재확인한 결과 —
+ * 줄높이·패딩이 원인이어도 `after:` 확장 기제 자체는 그대로 통한다(ADR-0020 결정
+ * 4는 원인이 아니라 기제를 정한다). `after:`로 가로만 중심 대칭 ±0.35px 넓힌다
+ * (#111 결정 2·4·5, #249). 원래 포지셔닝이 없어 `relative`를 더한다. */
+const ACTION = "relative text-sm font-medium underline underline-offset-4 after:absolute after:inset-y-0 after:-inset-x-[0.35px]"
 /* 히트 영역  가로(24.2px)는 이미 하한을 만족하고 세로(22.4px, `text-sm`의 줄높이)만
- * 1.6px 모자란다 — `after:`로 세로만 중심 대칭 ±0.8px 넓힌다(#111 결정 2·5, #230).
- * 같은 22.4px 계열인 Toast action·Breadcrumb link·Sidebar menu-action(세로)은
- * 줄높이·패딩이 원인이라 기제가 다를 수 있어 #249로 갈렸다 — ToastClose는 버튼
- * 하나뿐이라 `after:` 확장으로 충분해 여기 남았다(#111 범위 갱신 댓글). */
+ * 1.6px 모자란다 — `after:`로 세로만 중심 대칭 ±0.8px 넓힌다(#111 결정 2·4·5, #230).
+ * 같은 22.4px 계열인 Toast action·Breadcrumb link·Sidebar menu-action(세로)도
+ * 같은 기제(`after:`)로 충분함을 #249가 확인했다 — 원인은 줄높이·패딩으로 갈려도
+ * 기제는 갈리지 않는다. */
 const CLOSE = "relative shrink-0 text-sm after:absolute after:inset-x-0 after:-inset-y-[0.8px]"
 
 const ToastProvider = ToastPrimitive.Provider

@@ -280,13 +280,12 @@ function SidebarMenuButton({ className, size = "default", isActive = false, ...p
   return <button type="button" data-slot="sidebar-menu-button" data-size={size} data-active={isActive} className={cn(sidebarMenuButtonVariants({ size, className }))} {...props} />
 }
 
-/* 히트 영역  가로 20px만 이 티켓의 몫이다(±2px, #230) — 세로 22.4px은 한 줄
- * 텍스트 계열이라 기제가 다를 수 있어 #249로 갈렸다(#111 범위 갱신 댓글).
- * `after:inset-y-0`은 세로를 안 늘려도 명시해야 한다 — SidebarGroupAction 주석 참고
- * (재실측이 잡아낸 버그: top/bottom을 비우면 의사 요소 높이가 0으로 접힌다).
- * `absolute`가 이미 걸려 있어 `relative`를 더하지 않는다. `sidebar-content`의
- * 여유가 20px라 잘리지 않는다. */
-function SidebarMenuAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-menu-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
+/* 히트 영역  가로 20px는 #230이 ±2px 넓혔다. 세로(시각 22.4px, `aspect-square`인데도
+ * 실측이 20이 아니라 22.4를 준다 — 재실측으로 확인한 실제 값)는 #249 몫: 같은
+ * 22.4px 계열(Toast close·action·Breadcrumb link)과 같은 기제로 ±0.8px 더 넓힌다
+ * (#111 결정 2·4·5). `absolute`가 이미 걸려 있어 `relative`를 더하지 않는다.
+ * `sidebar-content`의 여유가 20px라 두 방향 다 잘리지 않는다. */
+function SidebarMenuAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-menu-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
 function SidebarMenuBadge({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-menu-badge" className={cn("pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground", className)} {...props} /> }
 function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) { return <ul data-slot="sidebar-menu-sub" className={cn("mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5", className)} {...props} /> }
 function SidebarMenuSubItem({ className, ...props }: React.ComponentProps<"li">) { return <li data-slot="sidebar-menu-sub-item" className={cn("group/menu-sub-item relative", className)} {...props} /> }
@@ -332,7 +331,7 @@ const componentContract = {
     SidebarRail: staticPart("absolute inset-y-0 z-20 w-4 -translate-x-1/2 transition-all ease-linear before:absolute before:inset-y-0 before:-inset-x-1 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border"),
     SidebarSeparator: staticPart("mx-2 w-auto border-sidebar-border"),
     SidebarGroupAction: staticPart("state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
-    SidebarMenuAction: staticPart("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
+    SidebarMenuAction: staticPart("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
     // `[&>span:last-child]:truncate`가 지목하는 것은 **라벨**이다(#181). 선택자가 그것을
     // 스스로 말하지 않으므로 전역 `MODIFIER_POLICY`가 아니라 계약이 이름표를 진다(ADR-0013)
     SidebarMenuButton: { config: sidebarMenuButtonVariantsConfig, className: (props: Record<string, string>) => cn(sidebarMenuButtonVariants(props)), slots: { label: "[&>span:last-child]" } },
