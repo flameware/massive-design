@@ -29,8 +29,8 @@ assignees: ""
 ## 발행
 
 - [ ] 사람이 Figma 발행을 완료했다
-- [ ] 에이전트가 모든 대상 component set의 `PUBLISHED`를 재확인했다
-- [ ] `verification/figma-baseline.json`을 새 세대로 갱신했다
+- [ ] 에이전트가 모든 대상 component set의 `CURRENT`를 재확인했다
+- [ ] `verification/figma-baseline.json`을 새 세대로 갱신했다 (`tokenArtifactHash`는 `bun run figma:digest`)
 
 ## 기록
 

@@ -1,91 +1,29 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "figma-baseline",
-  "targetCommit": "9403155b3dceb399d3ce5fb080c60277cf08f90e",
-  "inputDigest": "990bacfc9a0e6b355a63f76ecd0f64873aa4c5555c68cb5ecb11c6254a005281",
-  "tokenArtifactHash": "1eeee6d3ae4e5a86cdc8521f02e6c08a61569cfec4cea6ceff4dc6c1a4b3062d",
-  "stages": {
-    "FIGMA_DOCUMENT_SYNCED": {
-      "result": "PASS",
-      "checkedAt": "2026-08-31T14:22:25Z",
-      "scope": "Injected 11 new component sets (breadcrumb, pagination, input-group, native-select, button-group, scroll-area, slider, command, combobox, sheet, calendar); re-ran Foundations 01-07 idempotently; normalized the Components page catalog layout. Font shaping checkpoint completed: the human ran scripts/figma-font-bind in the shaping runtime, binding every Components text node to type/family/sans.",
-      "secondRunStructuralDiff": 0,
-      "secondRunCatalogMoved": 0,
-      "catalogTopLevelNodes": 43,
-      "registryComponents": 43,
-      "generationTailsMatched": 43,
-      "foundationsIdempotent": true,
-      "deviations": [
-        "flex-wrap: wrap mapped to layoutWrap='WRAP' — a mapping not present in figma-components.md section 7.",
-        "State samples (hover/pressed/disabled/focus) per figma-injection.md section 2.8 were not created, matching existing assets but diverging from that section.",
-        "The plugin reported 208 nodes as already bound where an agent read taken shortly before had counted 204. The four-node difference was not explained; the end state is verified at 443/443."
-      ],
-      "fontFamilyBound": "443/443",
-      "fontBinding": {
-        "page": "Components",
-        "textNodes": 443,
-        "boundToTypeFamilySans": 443,
-        "variableId": "VariableID:12:59",
-        "runBy": "seongki",
-        "runtime": "Figma desktop client (shaping runtime)",
-        "tool": "scripts/figma-font-bind",
-        "pluginReport": {
-          "total": 443,
-          "newlyBound": 235,
-          "alreadyBound": 208
-        },
-        "agentReverify": "All 443 text nodes resolve fontFamily to type/family/sans; 0 unbound, 0 pointing elsewhere."
-      }
-    },
-    "FIGMA_LIBRARY_CURRENT": {
-      "result": "PASS",
-      "checkedAt": "2026-08-31T14:22:25Z",
-      "reviewer": "seongki",
-      "componentPublishStatus": {
-        "CURRENT": 43
-      },
-      "publishedComponents": [
-        "alert",
-        "avatar",
-        "breadcrumb",
-        "button",
-        "button-group",
-        "calendar",
-        "collapsible",
-        "combobox",
-        "command",
-        "empty",
-        "field",
-        "input-group",
-        "native-select",
-        "pagination",
-        "radio-group",
-        "scroll-area",
-        "sheet",
-        "tabs",
-        "textarea",
-        "toast"
-      ],
-      "humanConfirmation": "Figma publish completed after the font shaping checkpoint; the 20 component sets whose text nodes gained the type/family/sans binding were republished. Agent re-read all 43 component sets as CURRENT."
-    }
-  },
-  "completedAt": "2026-08-31T14:22:25Z",
+  "$record": "마지막 Figma 스냅숏의 기록이다 — 어느 commit의 매니페스트 해시가 Figma에 있는가. 다음 스냅숏의 diff 기준이고 그 외에는 아무것도 이 파일을 읽지 않는다(ADR-0002 개정). 증거와 편차는 이 파일이 아니라 issue에 있다. tokenArtifactHash는 scripts/figma-baseline-digest.mjs가 낸다.",
+  "targetCommit": "2379ce15a3cd9e468fb05e25a3f69fb2722f1070",
+  "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
+  "issue": "https://github.com/flameware/massive-design/issues/273",
+  "confirmedBy": "seongki",
+  "completedAt": "2026-09-04T06:10:09Z",
+  "componentSets": 51,
   "components": [
     {
       "component": "accordion",
-      "manifestHash": "4f3463aca5d6"
+      "manifestHash": "d26a258fcc56"
     },
     {
       "component": "alert",
-      "manifestHash": "084e3cca70c4"
+      "manifestHash": "6b88a734dc1b"
     },
     {
       "component": "alert-dialog",
-      "manifestHash": "ff95c8d6a7c2"
+      "manifestHash": "a0d460a178ce"
     },
     {
       "component": "avatar",
-      "manifestHash": "a03c4ba9bb2a"
+      "manifestHash": "756a033048b3"
     },
     {
       "component": "badge",
@@ -93,55 +31,63 @@
     },
     {
       "component": "breadcrumb",
-      "manifestHash": "ca48b1d9992c"
+      "manifestHash": "766df46f34d4"
     },
     {
       "component": "button",
-      "manifestHash": "8472d5d50576"
+      "manifestHash": "6ec13ce8b0c2"
     },
     {
       "component": "button-group",
-      "manifestHash": "adcce550fd2b"
+      "manifestHash": "c31e2df5071e"
     },
     {
       "component": "calendar",
-      "manifestHash": "cd1751acdc6f"
+      "manifestHash": "391ec5e6e100"
     },
     {
       "component": "card",
-      "manifestHash": "50895e9c5fea"
+      "manifestHash": "5c2b70656b1d"
+    },
+    {
+      "component": "carousel",
+      "manifestHash": "c2666ff27501"
+    },
+    {
+      "component": "chart",
+      "manifestHash": "1e10e7cac154"
     },
     {
       "component": "checkbox",
-      "manifestHash": "b952b37163b6"
+      "manifestHash": "103951efaf4b"
     },
     {
       "component": "collapsible",
-      "manifestHash": "4b115285961c"
+      "manifestHash": "3572efa3a251"
     },
     {
       "component": "combobox",
-      "manifestHash": "720b6bb0e0de"
+      "manifestHash": "378d48951e29"
     },
     {
       "component": "command",
-      "manifestHash": "c7f9281f045a"
+      "manifestHash": "efd26d5beca5"
     },
     {
       "component": "dialog",
-      "manifestHash": "61dd1a514c92"
+      "manifestHash": "f8e7ca31ab67"
     },
     {
       "component": "dropdown-menu",
-      "manifestHash": "e3617c6fd13c"
+      "manifestHash": "3ccb17fb03d8"
     },
     {
       "component": "empty",
-      "manifestHash": "b7ac43840fbd"
+      "manifestHash": "4dc424478a50"
     },
     {
       "component": "field",
-      "manifestHash": "2c6116855f68"
+      "manifestHash": "b3f1aa9d93f9"
     },
     {
       "component": "input",
@@ -149,55 +95,79 @@
     },
     {
       "component": "input-group",
-      "manifestHash": "e3e72b6225f6"
+      "manifestHash": "b0c644a4b024"
+    },
+    {
+      "component": "input-otp",
+      "manifestHash": "05e041a813e9"
     },
     {
       "component": "item",
-      "manifestHash": "008b33625ebc"
+      "manifestHash": "c87aa8a24695"
+    },
+    {
+      "component": "kbd",
+      "manifestHash": "5842eb5fef55"
     },
     {
       "component": "label",
-      "manifestHash": "f13a318e70a1"
+      "manifestHash": "12a012388cca"
     },
     {
       "component": "list-row",
-      "manifestHash": "109497324ece"
+      "manifestHash": "13b2dd444ee2"
+    },
+    {
+      "component": "menubar",
+      "manifestHash": "0e30daf20e52"
     },
     {
       "component": "native-select",
       "manifestHash": "d6531f02868f"
     },
     {
+      "component": "navigation-menu",
+      "manifestHash": "af3c3587734c"
+    },
+    {
       "component": "pagination",
-      "manifestHash": "2a3133a0cc0e"
+      "manifestHash": "d4c46e1ca5f0"
     },
     {
       "component": "popover",
-      "manifestHash": "2535c4105bf4"
+      "manifestHash": "dce574a7ca7d"
     },
     {
       "component": "progress",
-      "manifestHash": "1861483a3c36"
+      "manifestHash": "9a2746f492c7"
     },
     {
       "component": "radio-group",
-      "manifestHash": "acaf77f3dfa2"
+      "manifestHash": "bff46803d4c1"
+    },
+    {
+      "component": "resizable",
+      "manifestHash": "c8562bec6241"
     },
     {
       "component": "scroll-area",
-      "manifestHash": "5ec1920502d7"
+      "manifestHash": "80a0cd851bd6"
     },
     {
       "component": "select",
-      "manifestHash": "306160b2cb63"
+      "manifestHash": "1b0344daeff5"
     },
     {
       "component": "separator",
-      "manifestHash": "5397c850ef60"
+      "manifestHash": "e3aa7434689a"
     },
     {
       "component": "sheet",
-      "manifestHash": "dff903e3b672"
+      "manifestHash": "a3cda7f26dd4"
+    },
+    {
+      "component": "sidebar",
+      "manifestHash": "388ef04c1402"
     },
     {
       "component": "skeleton",
@@ -205,7 +175,7 @@
     },
     {
       "component": "slider",
-      "manifestHash": "f7f90ee58411"
+      "manifestHash": "e2a8080a65c8"
     },
     {
       "component": "spinner",
@@ -213,15 +183,15 @@
     },
     {
       "component": "switch",
-      "manifestHash": "73605238388e"
+      "manifestHash": "275b71ab4ca7"
     },
     {
       "component": "table",
-      "manifestHash": "5503b18695d6"
+      "manifestHash": "c0e881d471f4"
     },
     {
       "component": "tabs",
-      "manifestHash": "d6fdc43dd30e"
+      "manifestHash": "8e8ffcfb8b6a"
     },
     {
       "component": "textarea",
@@ -229,15 +199,15 @@
     },
     {
       "component": "toast",
-      "manifestHash": "15536a1ef2f6"
+      "manifestHash": "3fcd9f67d1ba"
     },
     {
       "component": "toggle",
-      "manifestHash": "bf3647e14670"
+      "manifestHash": "4aaf46275096"
     },
     {
       "component": "toggle-group",
-      "manifestHash": "d0b9e9cc0cb2"
+      "manifestHash": "a2a397c6cac4"
     },
     {
       "component": "tooltip",
