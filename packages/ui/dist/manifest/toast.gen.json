@@ -346,13 +346,13 @@
   "drawnBy": {
     "open": "표면의 존재가 곧 열림이다 — viewport에 붙고 떨어지는 것이 전부다"
   },
-  "hash": "a3b81daa6ec8",
+  "hash": "3fcd9f67d1ba",
   "parts": {
     "ToastAction": {
       "axes": {},
       "cells": [
         {
-          "className": "text-sm font-medium underline underline-offset-4",
+          "className": "relative text-sm font-medium underline underline-offset-4 after:absolute after:inset-y-0 after:-inset-x-[0.35px]",
           "properties": {
             "font-size": {
               "from": "text-sm",
@@ -371,6 +371,11 @@
               "tier": "token",
               "token": "--text-sm--line-height",
               "value": "1.6"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
             },
             "text-decoration-line": {
               "from": "underline",
