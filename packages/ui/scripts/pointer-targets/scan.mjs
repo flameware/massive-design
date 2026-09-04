@@ -25,7 +25,8 @@
  *        node scripts/pointer-targets/scan.mjs --json */
 import { readdirSync, readFileSync } from "node:fs"
 import path from "node:path"
-import { parse } from "@babel/parser"
+
+import { jsxAttrName, jsxName, parseTsx, walk } from "../tsx-ast.mjs"
 
 const root = path.resolve(import.meta.dirname, "../..")
 const dir = path.join(root, "src/components/ui")
@@ -55,28 +56,15 @@ export const INTERACTIVE_ROLES = new Set([
 /* 외부 라이브러리 컴포넌트 중 그 자체가 포인터 대상인 것 */
 const EXTERNAL_INTERACTIVE = new Set(["ResizablePrimitive.Separator", "OTPInput"])
 
-/* typescript@7 은 컴파일러 JS API(createSourceFile)를 싣지 않으므로 @babel/parser 로 읽는다. */
-const tagText = (n) => n.type === "JSXIdentifier" ? n.name
-  : n.type === "JSXMemberExpression" ? `${tagText(n.object)}.${n.property.name}`
-  : n.type === "JSXNamespacedName" ? `${n.namespace.name}:${n.name.name}` : "?"
-const attrName = (a) => a.type === "JSXAttribute" ? (a.name.type === "JSXNamespacedName" ? `${a.name.namespace.name}:${a.name.name.name}` : a.name.name) : null
+/* 파서는 ../tsx-ast.mjs 가 쥔다 — typescript@7 은 컴파일러 JS API 를 싣지 않아 @babel/parser 로 읽고,
+ * parts 게이트(manifest/parts-coverage.mjs)와 같은 AST 를 본다(#246). */
+const tagText = jsxName
+const attrName = jsxAttrName
 const literal = (a) => {
   if (a.type !== "JSXAttribute" || !a.value) return null
   if (a.value.type === "StringLiteral") return a.value.value
   if (a.value.type === "JSXExpressionContainer" && a.value.expression.type === "StringLiteral") return a.value.expression.value
   return null
-}
-
-function* walk(node, ancestors = []) {
-  if (!node || typeof node.type !== "string") return
-  yield [node, ancestors]
-  const next = [...ancestors, node]
-  for (const key of Object.keys(node)) {
-    if (key === "loc" || key === "range" || key === "extra" || key === "leadingComments" || key === "trailingComments") continue
-    const v = node[key]
-    if (Array.isArray(v)) { for (const c of v) if (c && typeof c.type === "string") yield* walk(c, next) }
-    else if (v && typeof v.type === "string") yield* walk(v, next)
-  }
 }
 
 function enclosingFunction(ancestors) {
@@ -90,7 +78,7 @@ function enclosingFunction(ancestors) {
 
 export function scanFile(file, text) {
   const component = path.basename(file, ".tsx")
-  const ast = parse(text, { sourceType: "module", plugins: ["jsx", "typescript"] })
+  const ast = parseTsx(text)
   const ours = new Set()
   const locals = new Set()
   for (const stmt of ast.program.body) {
