@@ -1,15 +1,11 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
-  "targetCommit": "76b38b4020488b456c876720629ef12b3cacacaf",
+  "result": "PASS",
+  "targetCommit": "02a6bcc745ac71c91b727eae37c76e8c87a103ca",
   "inputTree": {
-    "commit": "76b38b4020488b456c876720629ef12b3cacacaf",
-    "clean": false,
-    "dirtyPaths": [
-      "apps/storybook/stories/catalog.gen.ts",
-      "packages/ui/src/components/ui/toast.tsx"
-    ]
+    "commit": "02a6bcc745ac71c91b727eae37c76e8c87a103ca",
+    "clean": true
   },
   "inputDigest": "b93d0cedfb222b4566b1ca2cbd8f0c344f1857e94ea0433aa3476f2e81f3f049",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
@@ -273,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-04T00:55:53.881Z",
+      "checkedAt": "2026-09-04T00:57:02.030Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -303,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-09-04T00:55:53.881Z",
+      "result": "PASS",
+      "checkedAt": "2026-09-04T00:57:02.030Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -500,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "claude-agent",
+        "checkedAt": "2026-09-04T00:58:02.499Z",
+        "scope": "toast parts 5(ToastViewport·Title·Description·Action·Close) Light/Dark 헤드리스 Playwright 스크린샷 확인(스토리 components-manifest-references--toast, args open:open); gestures.swipe-dismiss 터치 확인 대행 — 존재: uncontrolled 인스턴스에서 임계값(50px) 초과 오른쪽 드래그로 실제 unmount 확인(count 1→0); 시각 피드백: data-swipe=move 동안 CSS translate 속성이 --radix-toast-swipe-move-x(60px)를 그대로 따라오고 임계값 미만(15px)에서는 data-swipe=cancel로 남아 있음을 확인; 접근성 동등 경로: ToastClose 클릭으로 제스처 없이 닫힘(count 1→0), Tab 순회로 toast-close에 포커스 도달 확인. behaviors.autoDismiss는 이번 세대가 건드리지 않아 재실행하지 않음"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "commit the input changes, then re-run sync:preflight"
+  "resumeAt": null,
+  "completedAt": "2026-09-04T00:58:02.499Z"
 }
