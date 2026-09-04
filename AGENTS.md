@@ -30,7 +30,7 @@ Any claim about how many upstream surfaces we are missing is produced by a mecha
 
 **No map is live.** The catalog (51 components), tokens and Storybook are complete; open issues are individual bugs and packaging, not maps. Before opening a new map, read [`docs/handoff/repo-review-2026-09.md`](docs/handoff/repo-review-2026-09.md) — it names what kind of issue earns a ticket here.
 
-**Figma is an on-request snapshot** ([ADR-0002, amended](docs/adr/0002-separate-repo-verification-from-figma-sync.md)). The last snapshot holds 43 component sets (`verification/figma-baseline.json`) against 51 in code; that gap is the normal state, not a defect. Take a new snapshot only when the owner asks, following `docs/agents/design-system-sync.md` §2.
+**Figma is an on-request snapshot** ([ADR-0002, amended](docs/adr/0002-separate-repo-verification-from-figma-sync.md)). The last snapshot ([#273](https://github.com/flameware/massive-design/issues/273)) holds all 51 component sets (`verification/figma-baseline.json`), published and current — but their *root cells* only. The `parts` that the #221 map populated on 24 of them are in the manifest and **not** in Figma. Figma falling behind is the normal state, not a defect. Take a new snapshot only when the owner asks, following `docs/agents/design-system-sync.md` §2.
 
 Closed maps, with their records:
 

@@ -105,7 +105,7 @@ Figma 쓰기 전에 `figma-use` skill을 읽고, 토큰은 [`figma-injection.md`
 ### 발행
 
 1. 사람이 Figma 발행 대화상자에서 변경된 컴포넌트·Variables·Text Style·Effect Style을 발행하고, 미발행 변경이 없음을 확인한다.
-2. 에이전트가 각 component set의 `getPublishStatusAsync()`로 모두 `PUBLISHED`인지 재확인한다.
-3. `verification/figma-baseline.json`을 새 세대(`targetCommit`·컴포넌트별 `manifestHash`·`tokenArtifactHash`·확인자·시각)로 갱신하고 issue에 증거를 적어 닫는다.
+2. 에이전트가 각 component set의 `getPublishStatusAsync()`로 모두 `CURRENT`인지 재확인한다(발행되어 최신인 상태의 이름이다 — `PUBLISHED`가 아니다, [figma-components.md §5](figma-components.md#5-발행-낡음은-판정하되-고치지-않는다)).
+3. `verification/figma-baseline.json`을 새 세대(`targetCommit`·컴포넌트별 `manifestHash`·`tokenArtifactHash`·확인자·시각)로 갱신하고 issue에 증거를 적어 닫는다. `tokenArtifactHash`는 `bun run figma:digest`가 낸다 — 손으로 짓지 않는다. 편차·미도달·폰트/발행 수치는 **파일이 아니라 issue**에 적는다(ADR-0002 개정이 이 파일을 스냅숏 기록 하나로 좁혔다).
 
 리포 밖 소비 파일(invest diary)의 라이브러리 갱신은 소비처의 일이고 이 issue의 완료 조건이 아니다.
