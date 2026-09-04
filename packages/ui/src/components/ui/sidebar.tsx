@@ -307,6 +307,32 @@ const componentContract = {
   anatomy: ["SidebarProvider", "Sidebar", "SidebarHeader?", "SidebarContent", "SidebarGroup*", "SidebarGroupLabel?", "SidebarGroupAction?", "SidebarGroupContent", "SidebarMenu", "SidebarMenuItem*", "SidebarMenuButton", "SidebarMenuAction?", "SidebarMenuBadge?", "SidebarMenuSub?", "SidebarMenuSubItem*", "SidebarMenuSubButton", "SidebarSeparator?", "SidebarFooter?", "SidebarRail?", "SidebarTrigger", "SidebarInset?"],
   configurationStates: { state: ["expanded", "collapsed"], item: ["default", "active"] }, drawnBy: { state: { attribute: "data-state", values: { collapsed: "collapsed" } }, item: { attribute: "data-active", values: { active: "true" } } },
   parts: {
+    /* `Sidebar` 자신이 두 노드로 갈린다(#245) — 데스크톱은 흐름에 자리를 남기는
+     * spacer(`data-slot="sidebar"`)가 `fixed` 패널(`sidebar-container`, 계약의 root가
+     * 이미 여기 있다)을 감싸고, 모바일은 그 자리를 `Sheet`가 대신해 `SheetContent`가
+     * `data-slot="sidebar"`를 받는다. 계약 root를 옮기지 않는다 — `sidebar-container`는
+     * `side`·`variant`·`collapsible` 세 축을 실제로 그리는 자리이고 anatomy 이름이 없는
+     * 내부 노드([ADR-0018] "소비처가 조립하지 않는 노드는 anatomy가 아니다")라 root를
+     * 옮기면 그 세 축이 어디에도 못 닿는 자리로 빠진다 — 있던 침묵을 다른 자리로
+     * 옮기는 것일 뿐 닫는 게 아니다. 대신 anatomy가 이미 갖고 있는 `Sidebar` 이름으로
+     * **파트를 하나 더** 세워, 소비처가 `<Sidebar>` 하나를 쓸 때 실제로 받는 **바깥
+     * 노드**(spacer 또는 SheetContent)의 클래스를 그대로 담는다. 갈래를 고르는 것은
+     * `Sidebar` 자신의 prop이 아니라 `SidebarProvider`의 `isMobile`(소비처가 주는 값,
+     * 기본 `false`)이라 축 이름을 그대로 `mobile`로 쓴다 — DOM의 `data-mobile="true"`와
+     * 한 이름이라 다음 재조회가 바로 대응을 찾는다. 기본값 `"false"`는 `isMobile`의
+     * 기본값과 같아 발행된 인스턴스(데스크톱 참조 스토리)를 그대로 지킨다(맵 규칙 3의
+     * 논리, #227 선례). 렌더는 바뀌지 않는다 — 두 문자열 다 소스에 이미 있는 그대로다. */
+    Sidebar: {
+      config: { variants: { mobile: { false: "desktop", true: "mobile" } }, defaultVariants: { mobile: "false" } } as const,
+      className: (props: Record<string, string>) => props.mobile === "true"
+        ? "w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground"
+        : "relative block w-(--sidebar-width) shrink-0 bg-transparent transition-[width] duration-200 ease-linear data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)",
+    },
+    SidebarTrigger: staticPart("state [--ds-state-base:var(--sidebar)] inline-flex size-8 shrink-0 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
+    SidebarRail: staticPart("absolute inset-y-0 z-20 w-4 -translate-x-1/2 transition-all ease-linear before:absolute before:inset-y-0 before:-inset-x-1 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border"),
+    SidebarSeparator: staticPart("mx-2 w-auto border-sidebar-border"),
+    SidebarGroupAction: staticPart("state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
+    SidebarMenuAction: staticPart("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
     // `[&>span:last-child]:truncate`가 지목하는 것은 **라벨**이다(#181). 선택자가 그것을
     // 스스로 말하지 않으므로 전역 `MODIFIER_POLICY`가 아니라 계약이 이름표를 진다(ADR-0013)
     SidebarMenuButton: { config: sidebarMenuButtonVariantsConfig, className: (props: Record<string, string>) => cn(sidebarMenuButtonVariants(props)), slots: { label: "[&>span:last-child]" } },

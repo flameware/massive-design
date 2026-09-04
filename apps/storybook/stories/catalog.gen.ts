@@ -1187,7 +1187,7 @@ export const catalog = [
   {
     "component": "scroll-area",
     "displayName": "Scroll Area",
-    "hash": "b913c1235a75",
+    "hash": "80a0cd851bd6",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -1327,7 +1327,7 @@ export const catalog = [
   {
     "component": "sidebar",
     "displayName": "Sidebar",
-    "hash": "f8b696d95ea6",
+    "hash": "8c4dcde8bae2",
     "cells": 12,
     "axes": {
       "collapsible": [

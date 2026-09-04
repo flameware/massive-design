@@ -72,6 +72,9 @@ const componentContract = {
   parts: {
     ScrollBar: { config: scrollBarVariantsConfig, className: (props: Record<string, string>) => cn(scrollBarVariants(props)) },
     ScrollAreaThumb: { config: { variants: {}, defaultVariants: {} } as const, className: () => scrollAreaThumbClassName },
+    // 뷰포트는 초점을 받는 노드라 포커스 링 자체가 셀에 실려야 한다(#245) — 킨 이래
+    // `parts`에 둘만 있었고 뷰포트가 빠져 있었다.
+    ScrollAreaViewport: { config: { variants: {}, defaultVariants: {} } as const, className: () => "size-full rounded-[inherit] outline-none focus-visible:ring-[3px] focus-visible:ring-ring" },
   },
   behaviors: {
     hoverReveal: { kind: "open-cause", surface: "ScrollBar", origin: "inherited", control: "type", why: "`ScrollAreaPrimitive.Root`의 `type` 기본값이 `\"hover\"`이고 우리는 그것을 타이핑하지 않는다 — **스크롤바 자체가 포인터가 영역에 들어와야 나타나고 나가면 `scrollHideDelay` 기본값 600ms 뒤에 사라진다.** 계약이 anatomy에 `ScrollBar?`를 두고 매니페스트가 그 셀을 발행하지만 파생 채널은 그것이 hover에 걸려 있다는 사실을 나르지 않으므로, 정적 시안과 생성된 스토리는 늘 보이는 스크롤바를 그린다. 포인터가 없는 사용자에게는 나타날 계기 자체가 없고 뷰포트의 키보드 스크롤만 남는다 — 값은 계약하지 않는다(ADR-0005). 소비처가 `type=\"always\"`로 바꾼다(#187)." },

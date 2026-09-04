@@ -902,8 +902,92 @@
       }
     }
   },
-  "hash": "f8b696d95ea6",
+  "hash": "8c4dcde8bae2",
   "parts": {
+    "Sidebar": {
+      "axes": {
+        "mobile": [
+          "false",
+          "true"
+        ]
+      },
+      "cells": [
+        {
+          "className": "relative block w-(--sidebar-width) shrink-0 bg-transparent transition-[width] duration-200 ease-linear data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)",
+          "mobile": "false",
+          "properties": {
+            "background-color": {
+              "from": "bg-transparent",
+              "tier": "literal",
+              "value": "transparent"
+            },
+            "data-[state=collapsed]:data-[collapsible=icon]:width": {
+              "from": "data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)",
+              "tier": "unresolved",
+              "value": "var(--sidebar-width-icon)",
+              "why": "수식자 data-[state=collapsed]:data-[collapsible=icon]를 아직 다루지 않는다"
+            },
+            "data-[state=collapsed]:data-[collapsible=offcanvas]:width": {
+              "from": "data-[state=collapsed]:data-[collapsible=offcanvas]:w-0",
+              "tier": "unresolved",
+              "value": "0px",
+              "why": "수식자 data-[state=collapsed]:data-[collapsible=offcanvas]를 아직 다루지 않는다"
+            },
+            "display": {
+              "from": "block",
+              "tier": "literal",
+              "value": "block"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "w-(--sidebar-width)",
+              "tier": "unresolved",
+              "value": "var(--sidebar-width)",
+              "why": "변수 --sidebar-width의 값을 찾지 못했다"
+            }
+          },
+          "state": null
+        },
+        {
+          "className": "w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground",
+          "mobile": "true",
+          "properties": {
+            "background-color": {
+              "from": "bg-sidebar",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "padding": {
+              "from": "p-0",
+              "multiple": 0,
+              "px": 0,
+              "scale": "space.0",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "width": {
+              "from": "w-(--sidebar-width)",
+              "tier": "unresolved",
+              "value": "var(--sidebar-width)",
+              "why": "변수 --sidebar-width의 값을 찾지 못했다"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {
+        "mobile": "false"
+      }
+    },
     "SidebarContent": {
       "axes": {},
       "cells": [
@@ -1042,6 +1126,84 @@
             }
           },
           "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarGroupAction": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aspect-ratio": {
+              "from": "aspect-square",
+              "tier": "literal",
+              "value": "1 / 1"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "position": {
+              "from": "absolute",
+              "tier": "literal",
+              "value": "absolute"
+            },
+            "right": {
+              "from": "right-3",
+              "px": 12,
+              "tier": "literal"
+            },
+            "top": {
+              "from": "top-3.5",
+              "px": 14,
+              "tier": "literal"
+            },
+            "width": {
+              "from": "w-5",
+              "multiple": 5,
+              "px": 20,
+              "scale": "space.5",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-surface",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
         }
       ],
       "defaults": {}
@@ -1263,6 +1425,84 @@
             }
           },
           "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarMenuAction": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "aspect-ratio": {
+              "from": "aspect-square",
+              "tier": "literal",
+              "value": "1 / 1"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "position": {
+              "from": "absolute",
+              "tier": "literal",
+              "value": "absolute"
+            },
+            "right": {
+              "from": "right-1",
+              "px": 4,
+              "tier": "literal"
+            },
+            "top": {
+              "from": "top-1.5",
+              "px": 6,
+              "tier": "literal"
+            },
+            "width": {
+              "from": "w-5",
+              "multiple": 5,
+              "px": 20,
+              "scale": "space.5",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-surface",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
         }
       ],
       "defaults": {}
@@ -2058,6 +2298,139 @@
             }
           },
           "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarRail": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "absolute inset-y-0 z-20 w-4 -translate-x-1/2 transition-all ease-linear before:absolute before:inset-y-0 before:-inset-x-1 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border",
+          "properties": {
+            "inset-block": {
+              "from": "inset-y-0",
+              "px": 0,
+              "tier": "literal"
+            },
+            "position": {
+              "from": "absolute",
+              "tier": "literal",
+              "value": "absolute"
+            },
+            "translate": {
+              "from": "-translate-x-1/2",
+              "tier": "literal",
+              "value": "var(--tw-translate-x) var(--tw-translate-y)"
+            },
+            "width": {
+              "from": "w-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "z-index": {
+              "from": "z-20",
+              "tier": "literal",
+              "value": "20"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarSeparator": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "mx-2 w-auto border-sidebar-border",
+          "properties": {
+            "border-color": {
+              "from": "border-sidebar-border",
+              "tier": "token",
+              "token": "--ds-border-default"
+            },
+            "margin-inline": {
+              "from": "mx-2",
+              "px": 8,
+              "tier": "literal"
+            },
+            "width": {
+              "from": "w-auto",
+              "tier": "literal",
+              "value": "auto"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "SidebarTrigger": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--sidebar)] inline-flex size-8 shrink-0 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-surface"
+            },
+            "border-radius": {
+              "from": "rounded-md",
+              "px": 8,
+              "scale": "radius.md",
+              "tier": "token",
+              "token": "--radius-md"
+            },
+            "color": {
+              "from": "text-sidebar-foreground",
+              "tier": "token",
+              "token": "--ds-fg-default"
+            },
+            "display": {
+              "from": "inline-flex",
+              "tier": "literal",
+              "value": "inline-flex"
+            },
+            "height": {
+              "from": "size-8",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "width": {
+              "from": "size-8",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-surface",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
         }
       ],
       "defaults": {}
