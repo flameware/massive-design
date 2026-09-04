@@ -1604,7 +1604,7 @@ export const catalog = [
   {
     "component": "toast",
     "displayName": "Toast",
-    "hash": "15536a1ef2f6",
+    "hash": "a3b81daa6ec8",
     "cells": 4,
     "axes": {
       "variant": [

@@ -1,13 +1,17 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PASS",
-  "targetCommit": "45efb9bcd7e1e8b5fd41abef286015093a8fa6ea",
+  "result": "PENDING_HUMAN",
+  "targetCommit": "76b38b4020488b456c876720629ef12b3cacacaf",
   "inputTree": {
-    "commit": "45efb9bcd7e1e8b5fd41abef286015093a8fa6ea",
-    "clean": true
+    "commit": "76b38b4020488b456c876720629ef12b3cacacaf",
+    "clean": false,
+    "dirtyPaths": [
+      "apps/storybook/stories/catalog.gen.ts",
+      "packages/ui/src/components/ui/toast.tsx"
+    ]
   },
-  "inputDigest": "2e8440e7739f154c4d6424300d9d3797556da7f1b817679ebff20fd7e72ac63d",
+  "inputDigest": "b93d0cedfb222b4566b1ca2cbd8f0c344f1857e94ea0433aa3476f2e81f3f049",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -72,7 +76,7 @@
     },
     {
       "component": "checkbox",
-      "manifestHash": "103951efaf4b",
+      "manifestHash": "3600723819e8",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -177,7 +181,7 @@
     },
     {
       "component": "radio-group",
-      "manifestHash": "bff46803d4c1",
+      "manifestHash": "acaf77f3dfa2",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -227,7 +231,7 @@
     },
     {
       "component": "switch",
-      "manifestHash": "275b71ab4ca7",
+      "manifestHash": "cfbb7e0a8b9b",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -247,7 +251,7 @@
     },
     {
       "component": "toast",
-      "manifestHash": "15536a1ef2f6",
+      "manifestHash": "a3b81daa6ec8",
       "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753"
     },
     {
@@ -269,7 +273,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-04T00:52:58.777Z",
+      "checkedAt": "2026-09-04T00:55:53.881Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -299,8 +303,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PASS",
-      "checkedAt": "2026-09-04T00:52:58.777Z",
+      "result": "PENDING_HUMAN",
+      "checkedAt": "2026-09-04T00:55:53.881Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -496,15 +500,10 @@
           }
         ]
       },
-      "visualReview": {
-        "reviewer": "claude-agent",
-        "checkedAt": "2026-09-04T00:56:58.618Z",
-        "scope": "checkbox·switch·radio-group에 parts 등록(#243); checked/unchecked × Light/Dark 헤드리스 스크린샷 확인, radio-group.focusChecks(behaviors, 유일하게 건드린 컴포넌트의 선언) 화살표 포커스만으로 checked 이동 실측 확인; 나머지 21개 항목은 behaviors·gestures 선언 불변이라 재실행 안 함(#236·#240 선례)"
-      }
+      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
     }
   },
-  "lastCompletedStage": "STORYBOOK_VERIFIED",
+  "lastCompletedStage": "CODE_VERIFIED",
   "failure": null,
-  "resumeAt": null,
-  "completedAt": "2026-09-04T00:56:58.618Z"
+  "resumeAt": "commit the input changes, then re-run sync:preflight"
 }
