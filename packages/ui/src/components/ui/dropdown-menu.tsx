@@ -268,7 +268,8 @@ const componentContract = {
    * 이 계약에는 `parts`가 아예 없었다 — 세 노드가 클래스를 내면서 등록되지 않은,
    * ADR-0006이 `Card`에서 잡아낸 것과 같은 모양의 침묵이다. 새 넷만 넣으면 매니페스트가
    * "CheckboxItem은 클래스가 있고 Item은 없다"고 말하는데 그건 거짓이고, 반쯤 메우면 다음
-   * 재조회가 같은 파일을 또 판다. #155의 모집단이 14 → 13이 된다.
+   * 재조회가 같은 파일을 또 판다. 모집단의 정본은 docs/research/parts-population-2026-09.md이고
+   * 이 계약은 거기서 이미 닿은 쪽이다 — #246의 parts 게이트가 그 상태를 지킨다.
    * `Group`·`RadioGroup`·`Sub`는 클래스를 내지 않으므로 파트가 아니다(anatomy에만 선다). */
   parts: {
     DropdownMenuItem: { config: itemVariantsConfig, className: (props: Record<string, string>) => cn(itemVariants(props)) },

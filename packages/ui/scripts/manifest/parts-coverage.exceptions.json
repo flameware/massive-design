@@ -1,0 +1,17 @@
+{
+  "_comment": "parts 게이트(scripts/manifest/parts-coverage.mjs, #246)의 예외 목록. 정본은 docs/research/parts-population-2026-09.md §3.2의 등급표다 — 거기서 '기록된 결정'·'측정 한계'로 제외된 두 노드를 게이트가 읽을 수 있게 옮긴 것이다. 항목 형식: { component, node, reason, elsewhere | overriddenBy }. component는 매니페스트의 component, node는 anatomy 이름. 이유는 사람이 읽고, 게이트는 주장(elsewhere: 빠진 토큰이 전부 그 계약의 셀에 있다 / overriddenBy: 빠진 토큰이 전부 tailwind-merge로 그 클래스에 덮인다)이 거짓인지만 본다. 노드가 닿게 되면 항목을 지운다 — 남으면 게이트가 낡았다고 알린다.",
+  "nodes": [
+    {
+      "component": "pagination",
+      "node": "PaginationLink",
+      "elsewhere": "button",
+      "reason": "기록된 결정 — `PaginationLink`의 `variant`(현재 페이지 outline)·`size`(default·icon)는 Button 계약의 축이 그린다. drawnBy.currentPage와 limits가 적었다(ADR-0012 elsewhere 등급, 연구 문서 §3.2)"
+    },
+    {
+      "component": "toggle-group",
+      "node": "ToggleGroupItem",
+      "overriddenBy": "min-w-0 px-3",
+      "reason": "측정 한계 — `toggleVariants`의 size 토큰을 `toggleGroupItemVariants`의 base `min-w-0 px-3`이 tailwind-merge로 덮는다. 렌더에도 셀에도 없는 토큰이라 침묵이 아니다(연구 문서 §3.2)"
+    }
+  ]
+}

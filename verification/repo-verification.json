@@ -2,12 +2,12 @@
   "schemaVersion": 2,
   "kind": "repo-verification",
   "result": "PASS",
-  "targetCommit": "16dff49bbe1f56294f2ab06ddc2688fc4a9697c6",
+  "targetCommit": "b762bdb2d192d345c9e0d23eaf612e490ba466d6",
   "inputTree": {
-    "commit": "16dff49bbe1f56294f2ab06ddc2688fc4a9697c6",
+    "commit": "b762bdb2d192d345c9e0d23eaf612e490ba466d6",
     "clean": true
   },
-  "inputDigest": "9288de8d5c6e5a9b63e3c85a00f7d9b121daeccef9d9ad187b910eeec5e9cf87",
+  "inputDigest": "ce70ff2a24ac88f33a0cd8067f10536941aa26afc89562ab4739926f083bcc99",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
   "components": [
     {
@@ -269,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-04T01:06:35.848Z",
+      "checkedAt": "2026-09-04T03:52:04.306Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -300,7 +300,7 @@
     },
     "STORYBOOK_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-04T01:06:35.848Z",
+      "checkedAt": "2026-09-04T03:52:04.306Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -498,13 +498,13 @@
       },
       "visualReview": {
         "reviewer": "claude-agent",
-        "checkedAt": "2026-09-04T01:07:28.541Z",
-        "scope": "sidebar 열림/접힘(offcanvas 기본값) × Light/Dark 헤드리스 스크린샷 확인, scroll-area Viewport 포커스 링 렌더 Light/Dark 확인(rebase 뒤 재확인 — 렌더 불변); behaviors 불변(scroll-area.thumbDrag·hoverReveal은 기존 선언 그대로); sidebar는 behaviors: {} 선언"
+        "checkedAt": "2026-09-04T03:54:12.541Z",
+        "scope": "behaviors·gestures 불변, 동작 확인표 재실행 안 함; 컴포넌트 클래스 불변(렌더 바이트 동일) — pagination 참조 스토리 Light/Dark를 헤드리스 Playwright 스크린샷으로 확인(guidance limits 텍스트만 변경, 실행 예시 렌더 동일)"
       }
     }
   },
   "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
   "resumeAt": null,
-  "completedAt": "2026-09-04T01:07:28.541Z"
+  "completedAt": "2026-09-04T03:54:12.541Z"
 }

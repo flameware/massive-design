@@ -4,6 +4,8 @@
 
 **"upstream에 있는데 우리 계약에 없는 표면"의 모집단을 만드는 절차다.** [#120](https://github.com/flameware/massive-design/issues/120)·[#162](https://github.com/flameware/massive-design/issues/162)류의 재조회가 시작하는 자리이고, 재조회 티켓 없이 혼자 돌 일은 없다.
 
+**자매 절차 — parts 층위는 게이트가 지킨다.** *우리에게 이름은 있는데 매니페스트에 닿지 않는 클래스*(parts 층위)는 upstream을 읽을 필요가 없어 CI가 지킬 수 있고, `bun run check`(규칙 6, `packages/ui/scripts/manifest/parts-coverage.mjs`)가 매 세대 센다. 기준·예외·재실행은 [`docs/research/parts-population-2026-09.md`](../research/parts-population-2026-09.md) §2([#246](https://github.com/flameware/massive-design/issues/246)). 아래 절차는 upstream 층위만 잰다.
+
 **이 문서는 결정하지 않는다.** [ADR-0006](../adr/0006-uncontracted-surfaces.md)이 이미 판정 기준(관문 ⓐ·ⓑ)과 기록 위치(`limits`)를 정했고, [ADR-0018](../adr/0018-anatomy-is-the-consumer-assembly.md)이 판정 대상(`anatomy`는 소비처가 조립하는 것)을 정했다. 여기 있는 것은 **그 판정을 걸 대상을 무엇으로 만드는가** 하나뿐이다.
 
 ## 0. 이 절차가 서는 이유 — 모집단은 사람이 만들지 않는다

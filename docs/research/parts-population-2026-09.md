@@ -19,18 +19,21 @@
 
 ## 2. 절차 — 재현 명령
 
-리포 루트에서, 매니페스트는 커밋된 것을 읽는다(`bun scripts/manifest-verify.mjs` 통과를 먼저 확인했다 — *"커밋된 매니페스트가 소스와 일치한다"*).
+**정본은 게이트다** ([#246](https://github.com/flameware/massive-design/issues/246)). 이 문서의 첫 판을 낸 계수기(`parts-population-2026-09.count.mjs`)는 `packages/ui/scripts/manifest/parts-coverage.mjs`가 같은 기준·같은 알고리즘으로 대체했고 `bun run check`(check.mjs 규칙 6)가 매 세대 돌린다. 프로토타입 파일은 지웠다 — 두 자리에 같은 계수가 있으면 갈린다.
 
 ```sh
-WORK=$(mktemp -d); (cd "$WORK" && bun add @babel/parser@7)     # 리포의 typescript@7 은 JS 파서 API 를 내지 않는다
-cp docs/research/parts-population-2026-09.count.mjs "$WORK/count.mjs"
-(cd packages/ui && bun "$WORK/count.mjs" "$PWD")               # 요약 + 다섯 기준
-(cd packages/ui && bun "$WORK/count.mjs" "$PWD" --nodes)       # 노드 한 줄씩 → parts-population-2026-09.nodes.tsv
+bun run check                                              # 규칙 6 — 모집단이 0이 아니면 빨갛다
+(cd packages/ui && node scripts/manifest/parts-coverage.mjs)          # 요약 한 줄: 모집단·예외·anatomy 밖 미도달
+(cd packages/ui && node scripts/manifest/parts-coverage.mjs --nodes)  # 노드 한 줄씩 → parts-population-2026-09.nodes.tsv 와 같은 열
 ```
 
-스크립트가 하는 일은 셋이다. ① `loadComponentContracts`로 51개 계약을 로드하고 각 `dist/manifest/<name>.gen.json`에서 닿은 토큰 합집합을 만든다. ② 각 계약의 `source`를 파싱해 `className` 속성을 가진 JSX 노드마다 **클래스 자리**의 문자열을 토큰으로 모은다(`cn()` 인자, `cva` base 와 `variants.*.*`, 같은 파일·`@/components/ui/*`의 선언, 리터럴 인자로 고른 변형만 — 비교식·삼항 조건·`defaultVariants`·변형 선택 인자는 클래스가 아니므로 내려가지 않는다). ③ 둘을 대조해 노드별 `carried`와 빠진 토큰을 낸다. 노드는 `data-slot`으로 anatomy 이름에 대응한다(`checkbox-indicator` → `Indicator`처럼 컴포넌트 접두를 뗀 이름도 본다).
+매니페스트는 커밋된 것을 읽는다(같은 `check` 사슬의 `manifest:verify`가 소스와의 일치를 보증한다). 계약 모듈을 import하지 않으므로 node에서 돌고 1초 안에 끝난다.
 
-**한계 하나:** tailwind-merge를 적용하지 않는다. `cn(toggleVariants({ size }), toggleGroupItemVariants(…))`처럼 뒤 인자가 앞을 덮어쓰면 덮인 토큰이 "닿지 않음"으로 나온다. 그런 행은 §3.2에서 사람이 등급을 매겼고, 그 등급은 노드 TSV의 `missingTokens`로 누구나 확인할 수 있다.
+게이트가 하는 일은 셋이다. ① 각 `dist/manifest/<name>.gen.json`에서 닿은 토큰 합집합(루트 셀 ∪ `parts.*` 셀)을 만든다. ② 매니페스트의 `source`를 `@babel/parser`(`scripts/tsx-ast.mjs`, #228의 포인터 대상 스캔과 공유)로 파싱해 `className` 속성을 가진 JSX 노드마다 **클래스 자리**의 문자열을 토큰으로 모은다(`cn()` 인자, `cva` base 와 `variants.*.*`, 같은 파일·`@/components/ui/*`의 선언, 리터럴 인자로 고른 변형만 — 비교식·삼항 조건·`defaultVariants`·변형 선택 인자는 클래스가 아니므로 내려가지 않는다). ③ 둘을 대조해 노드별 `carried`와 빠진 토큰을 낸다. 노드는 `data-slot`으로 anatomy 이름에 대응한다(`checkbox-indicator` → `Indicator`처럼 컴포넌트 접두를 뗀 이름도 본다 — #243의 규칙).
+
+**묻는 것과 세는 것을 가른다.** anatomy 이름이 있는 미도달 노드는 게이트를 실패시키고, anatomy 밖 노드(§4)는 요약에 수로만 나온다. 해석 못 한 식별자도 실패다 — 게이트가 못 보는 클래스는 침묵이므로, 같은 파일·`@/components/ui/*`의 선언으로 풀리게 쓴다.
+
+**기록된 제외는 예외 파일에 산다** — `packages/ui/scripts/manifest/parts-coverage.exceptions.json`. §3.2의 등급표에서 "기록된 결정"·"측정 한계"로 제외한 둘이 항목이고, 항목마다 이유와 함께 **검사 가능한 주장**을 하나 얹는다: `elsewhere: "button"`(빠진 토큰 전부가 그 계약의 셀에 있다 — [ADR-0012](../adr/0012-drawn-elsewhere.md)의 `elsewhere:` 등급)·`overriddenBy: "min-w-0 px-3"`(빠진 토큰 각각이 tailwind-merge로 덮인다 — §2의 한계였던 것을 게이트가 직접 확인한다). 게이트는 이유를 믿지 않고 주장이 거짓인지만 본다(rules.md — *the gate only ever checks the declaration for falsehood*). 노드가 닿게 되면 항목이 낡았다고 알리므로 목록이 게이트보다 오래 살지 못한다. #232의 포인터 게이트 예외 JSON과 모양은 같고, 다른 것은 이유 옆의 주장 하나다.
 
 ## 3. 결과
 
@@ -86,7 +89,7 @@ cp docs/research/parts-population-2026-09.count.mjs "$WORK/count.mjs"
 | `sidebar` | 14 | 7 | Sidebar(바깥 `div`·모바일 `SheetContent`) · SidebarTrigger · SidebarRail · SidebarSeparator · SidebarGroupAction · SidebarMenuAction |
 | `scroll-area` | 2 | 1 | ScrollAreaViewport |
 
-노드별 행(파일·줄·표기·빠진 토큰)은 [`parts-population-2026-09.nodes.tsv`](parts-population-2026-09.nodes.tsv)에 290줄 전부 있다 — `carried` 열이 `NO`이고 `anatomy` 열이 `-`가 아닌 행이 위 54개다.
+노드별 행(파일·줄·표기·빠진 토큰)은 [`parts-population-2026-09.nodes.tsv`](parts-population-2026-09.nodes.tsv)에 290줄 전부 있다 — `carried` 열이 `NO`이고 `anatomy` 열이 `-`가 아닌 행이 위 54개다. 이 TSV는 **2026-09-04 기준선의 기록**이고 갱신하지 않는다 — 현재 값은 §2의 `--nodes`가 낸다.
 
 ## 4. anatomy 밖의 39 — 이 맵 밖이다
 
@@ -100,7 +103,17 @@ cp docs/research/parts-population-2026-09.count.mjs "$WORK/count.mjs"
 - 계약 51 · `className` 노드 290 · 닿지 않은 노드 95(anatomy 56 / 밖 39)
 - **모집단(채택 기준 [D], 등급 뒤): 14 계약 · 54 노드** — 맵 #221의 destination은 이 수가 0이 되는 것이다
 - 기록된 결정으로 제외: `pagination.PaginationLink`(drawnBy) · 측정 한계로 제외: `toggle-group.ToggleGroupItem`(tw-merge)
-- 판정 보류: 없음. `PaginationLink`의 `size: default`에 `limits` 한 줄이 빠져 있다(§3.2)
+- 판정 보류: 없음. `PaginationLink`의 `size: default`에 `limits` 한 줄이 빠져 있다(§3.2) — [#246](https://github.com/flameware/massive-design/issues/246)이 채웠다
+
+### 5.1 맵을 닫는 계수 — 2026-09-04, main `887e4cb` + #246
+
+여섯 배치(#240·#241·#242·#243·#244·#245)와 #222가 병합된 뒤 게이트가 낸 값이다(`bun run check` 규칙 6의 요약 그대로):
+
+> parts 모집단 0 (노드 290, 예외로 통과 2: pagination.PaginationLink toggle-group.ToggleGroupItem, anatomy 밖 미도달 38)
+
+- **모집단(채택 기준 [D]): 0** — 맵 [#221](https://github.com/flameware/massive-design/issues/221)의 destination 도달. 기록된 제외 둘은 예외 파일의 검사 가능한 주장으로 통과한다.
+- anatomy 밖 미도달: 39 → **38** — `accordion`의 `AccordionPrimitive.Header`(`flex`)가 #242가 `AccordionTrigger`를 등록하며 셀에 들어왔다. 나머지 38은 §4 그대로이고 여전히 이 층 밖이다.
+- 이 수는 이 문서가 아니라 게이트가 유지한다 — 다음 재조회는 `bun run check`에서 시작한다.
 
 ## 부록 — 계약별 요약 (스크립트 요약 출력 그대로)
 
