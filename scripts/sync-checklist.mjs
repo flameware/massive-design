@@ -9,12 +9,11 @@
  * 보는가뿐이고, 그것을 손으로 유지하자 세 번 샜다(#124·#125가 지나치고, #126의 손으로 쓴
  * 절 밖으로 #127이 곧바로 나갔다).
  *
- * **좁히지 않는다.** 선언한 자리를 매 세대 전부 찍는다. 리포에는 "직전 repo 세대"
- * 기준선이 없고(`repo-verification.json`은 매 실행 덮어쓴다, `figma-baseline.json`은 Figma
- * 세대다), 무엇보다 이 자리의 실패 양식은 피로가 아니라 **빠짐**이다.
+ * **좁히지 않는다.** 선언한 자리를 매 세대 전부 찍는다 — 이 자리의 실패 양식은 피로가
+ * 아니라 **빠짐**이다. 명시적 예외 둘은 runbook §1이 적는다.
  *
- * preflight **뒤**에 선다 — 열림 계기의 "기본 모드 불변" 항목이 이번 세대의 manifestHash를
- * 요구하고, 그 값의 정본은 `verification/repo-verification.json`이다. */
+ * 열림 계기의 "기본 모드 불변" 항목이 요구하는 이번 세대의 해시는 매니페스트 인덱스
+ * (`packages/ui/dist/manifest/index.gen.json`)에서 읽는다 — `bun run manifest` 뒤에 선다. */
 
 import { readFile } from "node:fs/promises"
 import path from "node:path"
@@ -35,21 +34,21 @@ const ORIGIN_NOTE = {
   ours: "우리 값 — 의도대로인지만 본다",
 }
 
-export function checklistFor(contracts, record) {
+/**
+ * @param contracts 계약 배열
+ * @param index `index.gen.json`의 내용(`{ components: [{ component, hash }] }`) 또는 null
+ */
+export function checklistFor(contracts, index) {
   const lines = []
   const declared = contracts
     .flatMap((contract) => Object.entries(contract.behaviors ?? {}).map(([behavior, declaration]) => ({ contract, behavior, ...declaration })))
     .sort((a, b) => a.contract.name.localeCompare(b.contract.name) || a.behavior.localeCompare(b.behavior))
 
-  const hashes = new Map((record?.components ?? []).map(({ component, manifestHash }) => [component, manifestHash]))
+  const hashes = new Map((index?.components ?? []).map(({ component, hash }) => [component, hash]))
   const kinds = Object.keys(SECTIONS).filter((kind) => declared.some((entry) => entry.kind === kind))
 
   lines.push(`동작 확인표 — ${declared.length}자리 / ${new Set(declared.map((entry) => entry.contract.name)).size}개 컴포넌트`)
-  lines.push(`세대: ${record?.targetCommit?.slice(0, 12) ?? "(기록 없음)"}${record?.inputTree?.clean === false ? " (작업 트리가 dirty하다 — 기록이 존재하지 않는 세대를 가리킨다)" : ""}`)
-  /* 기록이 없거나 아직 자동 검사를 통과하지 못했으면 확인표를 내되 그 사실을 먼저 적는다.
-   * 사람이 통과하지 않은 세대를 확인해 봐야 그 판정이 어느 세대의 것인지 알 수 없다. */
-  if (!record) lines.push("경고: verification/repo-verification.json이 없다 — bun run sync:preflight를 먼저 실행한다")
-  else if (record.result === "FAIL") lines.push(`경고: 이 세대는 CODE/STORYBOOK 자동 검사가 FAIL이다 — 재개 지점: ${record.resumeAt}`)
+  if (!index) lines.push("경고: packages/ui/dist/manifest/index.gen.json이 없다 — bun run manifest를 먼저 실행한다")
   if (!declared.length) {
     lines.push("", "선언된 동작이 없다.")
     return `${lines.join("\n")}\n`
@@ -60,13 +59,13 @@ export function checklistFor(contracts, record) {
     for (const entry of declared.filter((item) => item.kind === kind)) {
       const bits = [entry.surface, ORIGIN_NOTE[entry.origin]]
       if (entry.control) bits.push(`바꾸는 자리: ${entry.control}`)
-      if (kind === "open-cause") bits.push(`기본 모드 해시: ${hashes.get(entry.contract.name) ?? "(기록에 없다)"}`)
+      if (kind === "open-cause") bits.push(`기본 모드 해시: ${hashes.get(entry.contract.name) ?? "(인덱스에 없다)"}`)
       lines.push(`- [ ] ${entry.contract.name}.${entry.behavior} — ${bits.join(" · ")}`)
       lines.push(`      ${entry.why}`)
     }
   }
 
-  lines.push("", `확인 결과는 bun run sync:review-storybook -- --reviewer <이름> --scope "동작 확인표 ${declared.length}자리 …"로 기록한다.`)
+  lines.push("", "확인 결과는 PR 설명에 어느 항목이 통과했는지로 적는다.")
   return `${lines.join("\n")}\n`
 }
 
@@ -75,13 +74,13 @@ async function main() {
    * scripts/*.test.mjs가 이 파일을 불러오는 것만으로 깨진다. */
   const { loadComponentContracts } = await import("../packages/ui/scripts/component-contracts.mjs")
   const contracts = await loadComponentContracts(path.join(root, "packages/ui"))
-  let record = null
+  let index = null
   try {
-    record = JSON.parse(await readFile(path.join(root, "verification/repo-verification.json"), "utf8"))
+    index = JSON.parse(await readFile(path.join(root, "packages/ui/dist/manifest/index.gen.json"), "utf8"))
   } catch {
-    // 기록이 없는 것도 확인표가 말해야 하는 사실이다 — 여기서 던지면 그 문장이 안 나온다
+    // 인덱스가 없는 것도 확인표가 말해야 하는 사실이다 — 여기서 던지면 그 문장이 안 나온다
   }
-  process.stdout.write(checklistFor(contracts, record))
+  process.stdout.write(checklistFor(contracts, index))
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) await main()

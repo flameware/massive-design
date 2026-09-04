@@ -5,9 +5,7 @@
   "storybookStatic": ".design-sync/sb-reference",
   "pkg": "@massive/ui",
   "entry": "packages/ui/src/index.ts",
-  "titleMap": {
-    "Trustandworkflow": null
-  },
+  "titleMap": {},
   "readmeHeader": ".design-sync/conventions.md",
   "libOverrides": {
     "source-storybook.mjs": "shared title 'Components/Manifest references' holds every component's story - map by story name, not title (see file header)",

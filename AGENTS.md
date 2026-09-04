@@ -30,7 +30,7 @@ Any claim about how many upstream surfaces we are missing is produced by a mecha
 
 **No map is live.** The catalog (51 components), tokens and Storybook are complete; open issues are individual bugs and packaging, not maps. Before opening a new map, read [`docs/handoff/repo-review-2026-09.md`](docs/handoff/repo-review-2026-09.md) — it names what kind of issue earns a ticket here.
 
-**Figma Sync 51개 세대** ([#138](https://github.com/flameware/massive-design/issues/138)) — the published baseline is 43 component sets (`verification/figma-baseline.json`) against 51 in code. Figma Sync runs only on an explicit request, in its own issue.
+**Figma is an on-request snapshot** ([ADR-0002, amended](docs/adr/0002-separate-repo-verification-from-figma-sync.md)). The last snapshot holds 43 component sets (`verification/figma-baseline.json`) against 51 in code; that gap is the normal state, not a defect. Take a new snapshot only when the owner asks, following `docs/agents/design-system-sync.md` §2.
 
 Closed maps, with their records:
 
@@ -48,7 +48,7 @@ Closed maps, with their records:
 
 ## Syncing derived channels
 
-When updating code-derived Storybook or Figma channels, start with `bun run sync:preflight`, then `bun run sync:checklist` for the human behaviour checks the contracts declare, then follow `docs/agents/design-system-sync.md` for Figma and human checkpoints.
+A code change is done when `bun run check` and `bun run test` pass (CI) and the PR is reviewed. If the change touches a contract's `behaviors`·`gestures` or a pointer-target slot, run `bun run sync:checklist` and do the human checks in `docs/agents/design-system-sync.md` §1, recording the result in the PR. Figma snapshots are §2 of that runbook and happen only on request.
 
 ## Keeping this file
 

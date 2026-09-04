@@ -126,15 +126,17 @@ for (const name of manifests) {
   for (const e of lintGuidance(doc)) guidanceErrors.push(`${OUT_DIR}/${name} — ${e}`)
 }
 
-// 6. 클래스를 내는 anatomy 노드 ↔ parts 셀 (#246)
+// 6. 클래스를 내는 anatomy 노드 ↔ parts 셀 (#246) — **경고**다, 실패가 아니다.
 //
-// 맵 #221의 destination은 이 모집단이 0인 것이고, 0을 유지하는 자리가 여기다. 예외 둘
-// (pagination.PaginationLink·toggle-group.ToggleGroupItem)은 이유가 아니라 검사 가능한
-// 주장으로 통과한다 — 낡거나 거짓이면 같은 자리에서 빨개진다.
+// 이 모집단은 Figma 채널이 그리는 정밀도의 문제다. Figma가 요청 시 스냅숏으로 격하된
+// 뒤(ADR-0002 개정, 2026-09-04) 이 수를 0으로 유지하는 것은 CI가 막을 일이 아니라
+// 다음 스냅숏을 뜨는 사람이 읽을 사실이다. 예외 둘(pagination.PaginationLink·
+// toggle-group.ToggleGroupItem)은 여전히 검사 가능한 주장으로 통과한다.
 let partsSummary = "parts 게이트 건너뜀"
+const partsWarnings = []
 if (manifests.length) {
   const result = runPartsCoverage(root)
-  for (const e of formatFailures(result)) errors.push(e)
+  for (const e of formatFailures(result)) partsWarnings.push(e)
   partsSummary = formatSummary(result)
 }
 
@@ -152,6 +154,10 @@ if (guidanceErrors.length) {
   console.error(`@massive/ui check 실패 — reference.guidance가 ADR-0022 상한을 넘는다 (${guidanceErrors.length}건):`)
   for (const e of guidanceErrors) console.error("  " + e)
   process.exit(1)
+}
+if (partsWarnings.length) {
+  console.warn(`@massive/ui check 경고 — parts 모집단 ${partsWarnings.length}건 (Figma 스냅숏 전에 읽는다, CI는 막지 않는다):`)
+  for (const e of partsWarnings) console.warn("  " + e)
 }
 const ladderText = expected.map(([s, v]) => `${s}=${v}`).join(" ")
 const varMapSize = Object.keys(varMap).filter((k) => !k.startsWith("$")).length

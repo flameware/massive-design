@@ -11,7 +11,6 @@ const uiSrc = fileURLToPath(new URL("../../../packages/ui/src", import.meta.url)
 
 const config: StorybookConfig = {
   stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  staticDirs: [{ from: "../../../verification", to: "/verification" }],
   addons: [getAbsolutePath("@storybook/addon-a11y"), getAbsolutePath("@storybook/addon-docs")],
   framework: getAbsolutePath("@storybook/react-vite"),
   // @massive/ui는 dist가 아니라 src를 그대로 내보낸다(package.json exports).
