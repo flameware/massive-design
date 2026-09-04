@@ -147,6 +147,7 @@ const sidebarVariantsConfig = {
 const sidebarVariants = cva("fixed inset-y-0 z-10 flex h-svh w-(--sidebar-width) border-sidebar-border transition-[left,right,width] duration-200 ease-linear", sidebarVariantsConfig)
 type SidebarStyleProps = VariantProps<typeof sidebarVariants>
 
+const sidebarSpacerClassName = "group/sidebar relative block w-(--sidebar-width) shrink-0 bg-transparent transition-[width] duration-200 ease-linear data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)"
 const sidebarInnerClassName = "flex h-full w-full flex-col bg-sidebar text-sidebar-foreground data-[variant=floating]:rounded-lg data-[variant=floating]:border data-[variant=floating]:border-sidebar-border data-[variant=floating]:shadow-sm"
 
 function Sidebar({ className, children, side = "left", variant = "sidebar", collapsible = "offcanvas", ...props }: React.ComponentProps<"div"> & SidebarStyleProps & { "aria-label": string }) {
@@ -169,7 +170,12 @@ function Sidebar({ className, children, side = "left", variant = "sidebar", coll
     </Sheet>
   }
 
-  return <div data-slot="sidebar" data-state={state} data-side={side} data-variant={variant} data-collapsible={collapsible} className="relative block w-(--sidebar-width) shrink-0 bg-transparent transition-[width] duration-200 ease-linear data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)">
+  /* 아이콘 접힘 모드(#250). 접힌 뒤 안쪽이 어떻게 그려지는지는 자손이 `group-data-[collapsible=icon]/sidebar:`
+   * 로 이 spacer를 지목해 정한다 — upstream과 같은 배선이고, upstream처럼 `data-collapsible`은
+   * **접혀 있을 때만** 값을 갖는다. 펼친 상태에서도 값이 있으면 자손 규칙이 펼친 사이드바에도
+   * 걸리므로 빈 문자열이 "접힘 모드가 발효되지 않았다"는 뜻이다. 이름표 `group/sidebar`는
+   * 소비처가 이 안에 넣는 다른 `group`과 섞이지 않게 붙인다. */
+  return <div data-slot="sidebar" data-state={state} data-side={side} data-variant={variant} data-collapsible={state === "collapsed" ? collapsible : ""} className={sidebarSpacerClassName}>
     {/* 접혀서 화면 밖으로 나간 off-canvas 하위 트리는 DOM에 남아 **탭 순서에 계속
       * 잡힌다** — upstream의 실제 결함이다. inert로 걷어낸다. icon 모드는 여전히
       * 보이므로 걷어내지 않는다. */}
@@ -239,14 +245,26 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"div">) {
   return <div data-slot="sidebar-inset" className={cn("relative flex w-full flex-1 flex-col bg-background", className)} {...props} />
 }
 
+/* 아이콘 접힘 모드에서 각 파트가 어떻게 되는지(#250). upstream sidebar.tsx의
+ * `group-data-[collapsible=icon]:` 규칙을 그대로 가져왔다 — 라벨은 위로 접히며 사라지고,
+ * 액션·배지·하위 메뉴는 숨고, 메뉴 버튼은 `size-8` 정사각형으로 줄어 아이콘만 남는다.
+ * upstream의 `!`(important)는 쓰지 않는다 — 조상 속성 선택자가 이미 `.w-full`·`.h-12`보다
+ * 구체적이라 그것 없이도 이긴다. 렌더와 `parts`가 같은 문자열을 공유한다(#240 형식). */
+const sidebarContentClassName = "flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2 group-data-[collapsible=icon]/sidebar:overflow-hidden"
+const sidebarGroupLabelClassName = "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground transition-[margin,opacity] duration-200 ease-linear group-data-[collapsible=icon]/sidebar:-mt-8 group-data-[collapsible=icon]/sidebar:opacity-0"
+const sidebarGroupActionClassName = "state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 group-data-[collapsible=icon]/sidebar:hidden"
+const sidebarMenuActionClassName = "state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 group-data-[collapsible=icon]/sidebar:hidden"
+const sidebarMenuBadgeClassName = "pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground group-data-[collapsible=icon]/sidebar:hidden"
+const sidebarMenuSubClassName = "mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]/sidebar:hidden"
+
 function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-header" className={cn("flex flex-col gap-2 p-2", className)} {...props} /> }
-function SidebarContent({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-content" className={cn("flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2", className)} {...props} /> }
+function SidebarContent({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-content" className={cn(sidebarContentClassName, className)} {...props} /> }
 function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-footer" className={cn("flex flex-col gap-2 p-2", className)} {...props} /> }
 /* 원본을 소비한다(#91) — 구분선을 다시 그리면 Separator의 role·decorative 계약이 두 벌이 된다. */
 function SidebarSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) { return <Separator data-slot="sidebar-separator" className={cn("mx-2 w-auto border-sidebar-border", className)} {...props} /> }
 
 function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-group" className={cn("relative flex w-full min-w-0 flex-col p-2", className)} {...props} /> }
-function SidebarGroupLabel({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-group-label" className={cn("flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground", className)} {...props} /> }
+function SidebarGroupLabel({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-group-label" className={cn(sidebarGroupLabelClassName, className)} {...props} /> }
 function SidebarGroupContent({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-group-content" className={cn("w-full text-sm", className)} {...props} /> }
 /* 히트 영역  가로만 20px로 미달이고 세로(24px)는 이미 하한을 만족한다 — `after:`로
  * 가로만 중심 대칭 ±2px 넓혀 24까지 채운다(#111 결정 2·5, #230). `after:inset-y-0`을
@@ -256,7 +274,7 @@ function SidebarGroupContent({ className, ...props }: React.ComponentProps<"div"
  * 더하지 않는다. `sidebar-content`의 `overflow-auto`까지 여유가 20px 있어 잘리지
  * 않는다(실측 `docs/research/pointer-targets-2026-09.md` §4.2). Group의 다른
  * 인터랙티브 표면과 가로로 겹칠 자리는 없지만, 확장분은 여기 선언해 둔다. */
-function SidebarGroupAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-group-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
+function SidebarGroupAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-group-action" className={cn(sidebarGroupActionClassName, className)} {...props} /> }
 
 function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) { return <ul data-slot="sidebar-menu" className={cn("flex w-full min-w-0 flex-col gap-1", className)} {...props} /> }
 function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) { return <li data-slot="sidebar-menu-item" className={cn("group/menu-item relative", className)} {...props} /> }
@@ -270,11 +288,11 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) { 
  * 열지 않기로 한 근거를 여기에 남긴다(ADR 0006). */
 const sidebarMenuButtonVariantsConfig = {
   variants: {
-    size: { default: "h-8 text-sm", sm: "h-7 text-xs", lg: "h-12 text-sm" },
+    size: { default: "h-8 text-sm", sm: "h-7 text-xs", lg: "h-12 text-sm group-data-[collapsible=icon]/sidebar:p-0" },
   },
   defaultVariants: { size: "default" },
 } as const
-const sidebarMenuButtonVariants = cva("state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0", sidebarMenuButtonVariantsConfig)
+const sidebarMenuButtonVariants = cva("state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]/sidebar:size-8 group-data-[collapsible=icon]/sidebar:p-2", sidebarMenuButtonVariantsConfig)
 
 function SidebarMenuButton({ className, size = "default", isActive = false, ...props }: React.ComponentProps<"button"> & VariantProps<typeof sidebarMenuButtonVariants> & { isActive?: boolean }) {
   return <button type="button" data-slot="sidebar-menu-button" data-size={size} data-active={isActive} className={cn(sidebarMenuButtonVariants({ size, className }))} {...props} />
@@ -285,9 +303,9 @@ function SidebarMenuButton({ className, size = "default", isActive = false, ...p
  * 22.4px 계열(Toast close·action·Breadcrumb link)과 같은 기제로 ±0.8px 더 넓힌다
  * (#111 결정 2·4·5). `absolute`가 이미 걸려 있어 `relative`를 더하지 않는다.
  * `sidebar-content`의 여유가 20px라 두 방향 다 잘리지 않는다. */
-function SidebarMenuAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-menu-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
-function SidebarMenuBadge({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-menu-badge" className={cn("pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground", className)} {...props} /> }
-function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) { return <ul data-slot="sidebar-menu-sub" className={cn("mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5", className)} {...props} /> }
+function SidebarMenuAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-menu-action" className={cn(sidebarMenuActionClassName, className)} {...props} /> }
+function SidebarMenuBadge({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-menu-badge" className={cn(sidebarMenuBadgeClassName, className)} {...props} /> }
+function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) { return <ul data-slot="sidebar-menu-sub" className={cn(sidebarMenuSubClassName, className)} {...props} /> }
 function SidebarMenuSubItem({ className, ...props }: React.ComponentProps<"li">) { return <li data-slot="sidebar-menu-sub-item" className={cn("group/menu-sub-item relative", className)} {...props} /> }
 function SidebarMenuSubButton({ className, isActive = false, ...props }: React.ComponentProps<"a"> & { isActive?: boolean }) {
   return <a data-slot="sidebar-menu-sub-button" data-active={isActive} className={cn(sidebarMenuSubButtonClassName, className)} {...props} />
@@ -325,13 +343,13 @@ const componentContract = {
       config: { variants: { mobile: { false: "desktop", true: "mobile" } }, defaultVariants: { mobile: "false" } } as const,
       className: (props: Record<string, string>) => props.mobile === "true"
         ? "w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground"
-        : "relative block w-(--sidebar-width) shrink-0 bg-transparent transition-[width] duration-200 ease-linear data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)",
+        : sidebarSpacerClassName,
     },
     SidebarTrigger: staticPart("state [--ds-state-base:var(--sidebar)] inline-flex size-8 shrink-0 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
     SidebarRail: staticPart("absolute inset-y-0 z-20 w-4 -translate-x-1/2 transition-all ease-linear before:absolute before:inset-y-0 before:-inset-x-1 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border"),
     SidebarSeparator: staticPart("mx-2 w-auto border-sidebar-border"),
-    SidebarGroupAction: staticPart("state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
-    SidebarMenuAction: staticPart("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50"),
+    SidebarGroupAction: staticPart(sidebarGroupActionClassName),
+    SidebarMenuAction: staticPart(sidebarMenuActionClassName),
     // `[&>span:last-child]:truncate`가 지목하는 것은 **라벨**이다(#181). 선택자가 그것을
     // 스스로 말하지 않으므로 전역 `MODIFIER_POLICY`가 아니라 계약이 이름표를 진다(ADR-0013)
     SidebarMenuButton: { config: sidebarMenuButtonVariantsConfig, className: (props: Record<string, string>) => cn(sidebarMenuButtonVariants(props)), slots: { label: "[&>span:last-child]" } },
@@ -342,15 +360,15 @@ const componentContract = {
     // 여는 것이 기본값이다(#177 §3, #225).
     SidebarMenuSubButton: { ...staticPart(sidebarMenuSubButtonClassName), slots: { label: "[&>span:last-child]" } },
     SidebarHeader: staticPart("flex flex-col gap-2 p-2"),
-    SidebarContent: staticPart("flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2"),
+    SidebarContent: staticPart(sidebarContentClassName),
     SidebarFooter: staticPart("flex flex-col gap-2 p-2"),
     SidebarGroup: staticPart("relative flex w-full min-w-0 flex-col p-2"),
-    SidebarGroupLabel: staticPart("flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground"),
+    SidebarGroupLabel: staticPart(sidebarGroupLabelClassName),
     SidebarGroupContent: staticPart("w-full text-sm"),
     SidebarMenu: staticPart("flex w-full min-w-0 flex-col gap-1"),
     SidebarMenuItem: staticPart("group/menu-item relative"),
-    SidebarMenuBadge: staticPart("pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground"),
-    SidebarMenuSub: staticPart("mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5"),
+    SidebarMenuBadge: staticPart(sidebarMenuBadgeClassName),
+    SidebarMenuSub: staticPart(sidebarMenuSubClassName),
     SidebarMenuSubItem: staticPart("group/menu-sub-item relative"),
     SidebarInset: staticPart("relative flex w-full flex-1 flex-col bg-background"),
   },

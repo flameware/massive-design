@@ -1,3 +1,5 @@
+> **역사 문서.** 2026-08 착수 전에 쓴 단계별 프롬프트다. 아래 "확정된 결정사항"의 기술 선택(DTCG JSON·Style Dictionary·CSS Modules·Base UI·자체 Figma 플러그인)은 대부분 착수 뒤 뒤집혔다 — 현재 결정은 `CONTEXT.md`와 `docs/adr/`이 정본이고, 이 파일은 왜 그렇게 출발했는지를 보려는 때에만 읽는다.
+
 # 디자인 시스템 구축 — Claude Code 프롬프트 세트
 
 개인 프로젝트용 디자인 시스템을 토큰부터 컴포넌트, Storybook까지 구축하기 위한

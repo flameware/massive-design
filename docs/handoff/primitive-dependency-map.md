@@ -4,7 +4,7 @@
 
 ## What the map reached
 
-The **primitive·의존성 기반 확정** map ([#141](https://github.com/flameware/massive-design/issues/141)) is complete — four tickets, two ADRs, and **no code change at all**, which is what it set out to be: the owner made it planning-only, so its deliverable is a decision and the ground later compatibility arguments stand on. Two rules come out of it:
+The **primitive·의존성 기반 확정** map ([#141](https://github.com/flameware/massive-design/issues/141)) is complete — four tickets, two ADRs, and **no code change at all**, which is what it set out to be: the owner made it planning-only, so its deliverable is a decision and the ground later compatibility arguments stand on. Two rules come out of it; they live under "의존성과 base" in [`../agents/rules.md`](../agents/rules.md).
 
 ## Two things that outlive the map
 

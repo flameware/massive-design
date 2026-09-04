@@ -902,7 +902,7 @@
       }
     }
   },
-  "hash": "8c4dcde8bae2",
+  "hash": "388ef04c1402",
   "parts": {
     "Sidebar": {
       "axes": {
@@ -913,7 +913,7 @@
       },
       "cells": [
         {
-          "className": "relative block w-(--sidebar-width) shrink-0 bg-transparent transition-[width] duration-200 ease-linear data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)",
+          "className": "group/sidebar relative block w-(--sidebar-width) shrink-0 bg-transparent transition-[width] duration-200 ease-linear data-[state=collapsed]:data-[collapsible=offcanvas]:w-0 data-[state=collapsed]:data-[collapsible=icon]:w-(--sidebar-width-icon)",
           "mobile": "false",
           "properties": {
             "background-color": {
@@ -937,6 +937,37 @@
               "from": "block",
               "tier": "literal",
               "value": "block"
+            },
+            "height": {
+              "from": "group/sidebar",
+              "multiple": 8,
+              "px": 32,
+              "scale": "space.8",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "margin-top": {
+              "from": "group/sidebar",
+              "tier": "literal",
+              "value": "calc(0.25rem * -8)"
+            },
+            "opacity": {
+              "from": "group/sidebar",
+              "tier": "literal",
+              "value": "0%"
+            },
+            "overflow": {
+              "from": "group/sidebar",
+              "tier": "literal",
+              "value": "hidden"
+            },
+            "padding": {
+              "from": "group/sidebar",
+              "multiple": 2,
+              "px": 8,
+              "scale": "space.2",
+              "tier": "token",
+              "token": "--spacing"
             },
             "position": {
               "from": "relative",
@@ -992,7 +1023,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2",
+          "className": "flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2 group-data-[collapsible=icon]/sidebar:overflow-hidden",
           "properties": {
             "display": {
               "from": "flex",
@@ -1016,6 +1047,12 @@
               "scale": "space.2",
               "tier": "token",
               "token": "--spacing"
+            },
+            "group-data-[collapsible=icon]/sidebar:overflow": {
+              "from": "group-data-[collapsible=icon]/sidebar:overflow-hidden",
+              "tier": "unresolved",
+              "value": "hidden",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "min-height": {
               "from": "min-h-0",
@@ -1134,7 +1171,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50",
+          "className": "state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 group-data-[collapsible=icon]/sidebar:hidden",
           "properties": {
             "align-items": {
               "from": "items-center",
@@ -1167,6 +1204,12 @@
               "from": "flex",
               "tier": "literal",
               "value": "flex"
+            },
+            "group-data-[collapsible=icon]/sidebar:display": {
+              "from": "group-data-[collapsible=icon]/sidebar:hidden",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "justify-content": {
               "from": "justify-center",
@@ -1242,7 +1285,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground",
+          "className": "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground transition-[margin,opacity] duration-200 ease-linear group-data-[collapsible=icon]/sidebar:-mt-8 group-data-[collapsible=icon]/sidebar:opacity-0",
           "properties": {
             "align-items": {
               "from": "items-center",
@@ -1277,6 +1320,18 @@
               "from": "font-medium",
               "tier": "literal",
               "value": "500"
+            },
+            "group-data-[collapsible=icon]/sidebar:margin-top": {
+              "from": "group-data-[collapsible=icon]/sidebar:-mt-8",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * -8)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
+            },
+            "group-data-[collapsible=icon]/sidebar:opacity": {
+              "from": "group-data-[collapsible=icon]/sidebar:opacity-0",
+              "tier": "unresolved",
+              "value": "0%",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "height": {
               "from": "h-8",
@@ -1433,7 +1488,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50",
+          "className": "state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 group-data-[collapsible=icon]/sidebar:hidden",
           "properties": {
             "align-items": {
               "from": "items-center",
@@ -1466,6 +1521,12 @@
               "from": "flex",
               "tier": "literal",
               "value": "flex"
+            },
+            "group-data-[collapsible=icon]/sidebar:display": {
+              "from": "group-data-[collapsible=icon]/sidebar:hidden",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "justify-content": {
               "from": "justify-center",
@@ -1511,7 +1572,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground",
+          "className": "pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground group-data-[collapsible=icon]/sidebar:hidden",
           "properties": {
             "-webkit-user-select": {
               "from": "select-none",
@@ -1556,6 +1617,12 @@
               "from": "font-medium",
               "tier": "literal",
               "value": "500"
+            },
+            "group-data-[collapsible=icon]/sidebar:display": {
+              "from": "group-data-[collapsible=icon]/sidebar:hidden",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "height": {
               "from": "h-5",
@@ -1623,7 +1690,7 @@
       },
       "cells": [
         {
-          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 h-8 text-sm",
+          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]/sidebar:size-8 group-data-[collapsible=icon]/sidebar:p-2 h-8 text-sm",
           "configurations": {
             "item": {
               "active": {
@@ -1687,6 +1754,24 @@
               "scale": "space.2",
               "tier": "token",
               "token": "--spacing"
+            },
+            "group-data-[collapsible=icon]/sidebar:height": {
+              "from": "group-data-[collapsible=icon]/sidebar:size-8",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 8)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
+            },
+            "group-data-[collapsible=icon]/sidebar:padding": {
+              "from": "group-data-[collapsible=icon]/sidebar:p-2",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 2)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
+            },
+            "group-data-[collapsible=icon]/sidebar:width": {
+              "from": "group-data-[collapsible=icon]/sidebar:size-8",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 8)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "height": {
               "from": "h-8",
@@ -1768,7 +1853,7 @@
           }
         },
         {
-          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 h-7 text-xs",
+          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]/sidebar:size-8 group-data-[collapsible=icon]/sidebar:p-2 h-7 text-xs",
           "configurations": {
             "item": {
               "active": {
@@ -1832,6 +1917,24 @@
               "scale": "space.2",
               "tier": "token",
               "token": "--spacing"
+            },
+            "group-data-[collapsible=icon]/sidebar:height": {
+              "from": "group-data-[collapsible=icon]/sidebar:size-8",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 8)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
+            },
+            "group-data-[collapsible=icon]/sidebar:padding": {
+              "from": "group-data-[collapsible=icon]/sidebar:p-2",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 2)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
+            },
+            "group-data-[collapsible=icon]/sidebar:width": {
+              "from": "group-data-[collapsible=icon]/sidebar:size-8",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 8)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "height": {
               "from": "h-7",
@@ -1910,7 +2013,7 @@
           }
         },
         {
-          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 h-12 text-sm",
+          "className": "state [--ds-state-base:var(--sidebar)] data-[active=true]:[--ds-state-base:var(--sidebar-accent)] flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]/sidebar:size-8 h-12 text-sm group-data-[collapsible=icon]/sidebar:p-0",
           "configurations": {
             "item": {
               "active": {
@@ -1974,6 +2077,24 @@
               "scale": "space.2",
               "tier": "token",
               "token": "--spacing"
+            },
+            "group-data-[collapsible=icon]/sidebar:height": {
+              "from": "group-data-[collapsible=icon]/sidebar:size-8",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 8)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
+            },
+            "group-data-[collapsible=icon]/sidebar:padding": {
+              "from": "group-data-[collapsible=icon]/sidebar:p-0",
+              "tier": "unresolved",
+              "value": "0px",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
+            },
+            "group-data-[collapsible=icon]/sidebar:width": {
+              "from": "group-data-[collapsible=icon]/sidebar:size-8",
+              "tier": "unresolved",
+              "value": "calc(0.25rem * 8)",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "height": {
               "from": "h-12",
@@ -2080,7 +2201,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5",
+          "className": "mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]/sidebar:hidden",
           "properties": {
             "border-color": {
               "from": "border-sidebar-border",
@@ -2110,6 +2231,12 @@
               "scale": "space.1",
               "tier": "token",
               "token": "--spacing"
+            },
+            "group-data-[collapsible=icon]/sidebar:display": {
+              "from": "group-data-[collapsible=icon]/sidebar:hidden",
+              "tier": "unresolved",
+              "value": "none",
+              "why": "수식자 group-data-[collapsible=icon]/sidebar를 아직 다루지 않는다"
             },
             "margin-inline": {
               "from": "mx-3.5",

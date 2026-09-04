@@ -190,6 +190,12 @@ test("폭에 걸린 것은 뜻 둘로 접힌다 — elsewhere가 아니라 ignor
   assert.equal(policyFor("tablet"), undefined)
 })
 
+test("이름 붙은 group 수식자는 이름을 벗고 이름 없는 형태와 같은 자리에 도달한다(#250)", () => {
+  assert.equal(policyFor("group-data-[disabled=true]/sidebar"), policyFor("group-data-[disabled=true]"))
+  assert.equal(policyFor("group-hover/menu-item"), policyFor("group-hover"))
+  assert.equal(policyFor("peer-disabled/field"), policyFor("peer-disabled"))
+})
+
 test("무리 안 위치는 elsewhere다 — ignore와 등급이 다르다", () => {
   // 그려지되 이 자산이 아닌 자리에 그려진다. `ignore:`("영영 거기 없다")를 쓰면
   // 이 맵이 고치려던 병을 `ignore:`로 옮긴다(#180)
@@ -230,7 +236,7 @@ test("자손 지목의 last-child는 `last`로 접히지 않는다 — 뜻이 �
 
 test("규칙을 내지 않는 것이 의도인 클래스는 셋째 표가 ②로 닫는다(#181)", () => {
   // 표식 클래스는 속성도 수식자도 아니라 policyFor에 닿기 전에 걸린다
-  for (const cls of ["group/field", "group/item", "group/menu-item", "group/menu-sub-item"]) {
+  for (const cls of ["group/field", "group/item", "group/menu-item", "group/menu-sub-item", "group/sidebar"]) {
     assert.match(IGNORED_CLASSES.get(cls), /이름표/, cls)
     assert.equal(policyFor(cls), undefined, cls)
   }

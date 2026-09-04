@@ -72,6 +72,7 @@ export const IGNORED_CLASSES = new Map([
   ["group/item", "Tailwind group 이름표 — 규칙을 내지 않는다. 자손 수식자가 조상을 지목하는 배선이라 Figma에 대응물이 없다"],
   ["group/menu-item", "Tailwind group 이름표 — 규칙을 내지 않는다. 자손 수식자가 조상을 지목하는 배선이라 Figma에 대응물이 없다"],
   ["group/menu-sub-item", "Tailwind group 이름표 — 규칙을 내지 않는다. 자손 수식자가 조상을 지목하는 배선이라 Figma에 대응물이 없다"],
+  ["group/sidebar", "Tailwind group 이름표 — 규칙을 내지 않는다. 자손 수식자가 조상을 지목하는 배선이라 Figma에 대응물이 없다"],
 ])
 
 /** 수식자별 처리. 여기 없는 수식자는 unresolved로 뜬다.
@@ -162,8 +163,10 @@ export const MODIFIER_POLICY = new Map([
 const REDUCTIONS = [
   // has-[SEL] — 자손이 그 상태다
   [/^has-\[(.+)\]$/, (m) => m[1]],
-  // group-* 는 조상이, peer-* 는 형제가 그 상태다
-  [/^(?:group|peer)-(.+)$/, (m) => m[1]],
+  // group-* 는 조상이, peer-* 는 형제가 그 상태다. 뒤에 붙는 `/<이름>`은 어느 조상인지를
+  // 고르는 표기라 함께 벗긴다 — `group-data-[collapsible=icon]/sidebar`가 그리는 것은
+  // 이름 없는 형태와 같다(#250)
+  [/^(?:group|peer)-(.+?)(?:\/[\w-]+)?$/, (m) => m[1]],
   // 임의 변형 [&...] — & 를 걷어내고 안쪽 선택자를 줄인다
   [/^\[&(.+)\]$/, (m) => reduceSelector(m[1])],
   // :disabled 같은 의사 클래스는 이름이 곧 변형 이름이다

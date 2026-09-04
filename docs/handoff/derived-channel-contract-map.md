@@ -4,7 +4,7 @@
 
 ## What the map reached
 
-The **파생 채널이 담지 못하는 계약** map ([#140](https://github.com/flameware/massive-design/issues/140)) is complete — nine tickets, `schemaVersion` 5 → 11, and modifier `unresolved` down from 145 `(component, property)` pairs to **10 keys / 17 cells, every one of them owned** (6 keys/9 cells are the map's own Out of scope, 4 keys/8 cells wait on [#155](https://github.com/flameware/massive-design/issues/155)). Four rules from it bind later work:
+The **파생 채널이 담지 못하는 계약** map ([#140](https://github.com/flameware/massive-design/issues/140)) is complete — nine tickets, `schemaVersion` 5 → 11, and modifier `unresolved` down from 145 `(component, property)` pairs to **10 keys / 17 cells, every one of them owned** (6 keys/9 cells are the map's own Out of scope, 4 keys/8 cells wait on [#155](https://github.com/flameware/massive-design/issues/155)). Four rules from it bind later work; they live under "계약이 무엇을 담고, 게이트가 무엇을 보는가" in [`../agents/rules.md`](../agents/rules.md).
 
 ## Two facts that outlive the survey
 
