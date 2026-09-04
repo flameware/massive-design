@@ -78,7 +78,7 @@
   "drawnBy": {
     "overflow": "Radix가 넘칠 때만 스크롤바 노드를 붙인다 — 존재가 그린다"
   },
-  "hash": "b913c1235a75",
+  "hash": "80a0cd851bd6",
   "parts": {
     "ScrollAreaThumb": {
       "axes": {},
@@ -105,6 +105,33 @@
               "from": "relative",
               "tier": "literal",
               "value": "relative"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "ScrollAreaViewport": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "size-full rounded-[inherit] outline-none focus-visible:ring-[3px] focus-visible:ring-ring",
+          "properties": {
+            "border-radius": {
+              "from": "rounded-[inherit]",
+              "tier": "literal",
+              "value": "inherit"
+            },
+            "height": {
+              "from": "size-full",
+              "tier": "literal",
+              "value": "100%"
+            },
+            "width": {
+              "from": "size-full",
+              "tier": "literal",
+              "value": "100%"
             }
           },
           "state": null
