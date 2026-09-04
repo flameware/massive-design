@@ -67,9 +67,16 @@ const sliderRangeVariants = cva(
   sliderRangeVariantsConfig
 )
 
+/* 히트 영역  세 지름(14/16/20) 모두 24 미만이라 `after:`로 중심 대칭 확장한다
+ * (#111 결정 2·5, #230). thumb에도 `border`가 있어 padding box를 먹으므로 목표
+ * 24에서 그 몫을 더한다 — sm은 ±6px, default는 ±5px, lg는 ±3px, 전부 24까지
+ * (재실측이 잡아낸 값). Radix가 Thumb에 이미 `position: absolute`를 인라인으로
+ * 걸어 두므로(값이 트랙 위 좌표를 정한다) `relative`를 따로 얹지 않는다. range에서
+ * 두 thumb이 min-steps 없이 가까이 붙으면 24px 히트 영역이 겹칠 수 있다 — 해소하지
+ * 않고 여기 선언한다. */
 const sliderThumbVariantsConfig = {
   variants: {
-    size: { sm: "size-3.5", default: "size-4", lg: "size-5" },
+    size: { sm: "size-3.5 after:absolute after:-inset-[6px]", default: "size-4 after:absolute after:-inset-[5px]", lg: "size-5 after:absolute after:-inset-[3px]" },
   },
   defaultVariants: { size: "default" },
 } as const

@@ -13,7 +13,7 @@
   },
   "cells": [
     {
-      "className": "state [--ds-state-base:var(--background)] size-4 shrink-0 rounded border shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground data-[state=indeterminate]:[--ds-state-base:var(--primary)] data-[state=indeterminate]:text-primary-foreground",
+      "className": "state [--ds-state-base:var(--background)] relative size-4 shrink-0 rounded border shadow-xs outline-none after:absolute after:-inset-[5px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground data-[state=indeterminate]:[--ds-state-base:var(--primary)] data-[state=indeterminate]:text-primary-foreground",
       "configurations": {
         "checked": {
           "checked": {
@@ -73,6 +73,11 @@
           "tier": "token",
           "token": "--spacing"
         },
+        "position": {
+          "from": "relative",
+          "tier": "literal",
+          "value": "relative"
+        },
         "width": {
           "from": "size-4",
           "multiple": 4,
@@ -109,7 +114,7 @@
       }
     }
   },
-  "hash": "49611f71f120",
+  "hash": "3600723819e8",
   "reference": {
     "example": "checkbox",
     "guidance": {

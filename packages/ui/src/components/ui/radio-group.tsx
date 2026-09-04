@@ -18,8 +18,12 @@ function RadioGroup({ className, orientation = "vertical", ...props }: React.Com
   return <RadioGroupPrimitive.Root data-slot="radio-group" orientation={orientation} className={cn(radioGroupVariants({ orientation, className }))} {...props} />
 }
 
+/* 히트 영역  Checkbox와 같은 근거·같은 확장(#111 결정 2·5, #230) — 시각 16px는
+ * 그대로 두고 `after:`로 중심 대칭 5px씩 넓혀 24까지 채운다(`border`가 padding box를
+ * 먹으므로 4px가 아니라 5px, 재실측이 잡아낸 값). 촘촘한 세로 목록에서 이웃
+ * RadioGroupItem과 겹칠 수 있다 — 해소하지 않고 여기 선언한다. */
 function RadioGroupItem({ className, ...props }: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {
-  return <RadioGroupPrimitive.Item data-slot="radio-group-item" className={cn("state [--ds-state-base:var(--background)] size-4 shrink-0 rounded-full border shadow-xs outline-none focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground", className)} {...props}><RadioGroupPrimitive.Indicator data-slot="radio-group-indicator" className="flex items-center justify-center text-[8px] leading-none">●</RadioGroupPrimitive.Indicator></RadioGroupPrimitive.Item>
+  return <RadioGroupPrimitive.Item data-slot="radio-group-item" className={cn("state [--ds-state-base:var(--background)] relative size-4 shrink-0 rounded-full border shadow-xs outline-none after:absolute after:-inset-[5px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground", className)} {...props}><RadioGroupPrimitive.Indicator data-slot="radio-group-indicator" className="flex items-center justify-center text-[8px] leading-none">●</RadioGroupPrimitive.Indicator></RadioGroupPrimitive.Item>
 }
 
 const componentContract = {

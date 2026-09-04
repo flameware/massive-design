@@ -204,10 +204,24 @@ function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<"
 }
 
 /* rail은 포인터 전용 확대 타겟이다(tabIndex -1). 키보드 동등 경로는 SidebarTrigger이고,
- * 둘 다 같은 toggleSidebar를 부르므로 rail이 키보드에서 빠져도 기능이 사라지지 않는다. */
+ * 둘 다 같은 toggleSidebar를 부르므로 rail이 키보드에서 빠져도 기능이 사라지지 않는다.
+ *
+ * 히트 영역  가로 16px(`w-4`)만 미달이고 세로는 사이드바 전체 높이라 이미 24를
+ * 넘는다 — `after:`가 이미 hover 강조선(`w-[2px]`)을 그리고 있어 확장을 얹으면
+ * 강조선이 24px로 넓어져 시각이 움직이므로, 대신 `before:`로 가로만 중심 대칭
+ * ±4px 넓힌다(#111 결정 2·4·5, #230, [#231] 예외 목록의 "예외 아님" 판정). 이미
+ * `absolute`가 걸려 있어 `relative`를 더하지 않는다.
+ *
+ * `before:`의 계산된 크기는 24px다(`getComputedStyle`로 확인). 그런데 참조 스토리의
+ * `side:left` 변형에서는 실측 히트 폭이 12~21px로 덜 나온다 — `side:right`에서는
+ * 24px로 정확히 읽힌다. 원인은 CSS가 아니라 **`SidebarInset`(본문)이 확장된 히트
+ * 영역과 같은 좌표에서 옆에 붙어 있는 것**이다 — Kbd 스토리의 툴팁이 이웃 Button을
+ * 가린 것과 같은 종류의 참조 스토리 겹침(`docs/research/pointer-targets-2026-09.md`
+ * §4.3)이라 여기서 풀지 않고 선언한다(#111 결정 5). 소비처의 실제 레이아웃에서
+ * `SidebarInset`에 무엇을 넣는지에 따라 겹침 여부가 갈린다. */
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar()
-  return <button type="button" data-slot="sidebar-rail" tabIndex={-1} aria-hidden="true" onClick={toggleSidebar} className={cn("absolute inset-y-0 z-20 w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border", className)} {...props} />
+  return <button type="button" data-slot="sidebar-rail" tabIndex={-1} aria-hidden="true" onClick={toggleSidebar} className={cn("absolute inset-y-0 z-20 w-4 -translate-x-1/2 transition-all ease-linear before:absolute before:inset-y-0 before:-inset-x-1 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border", className)} {...props} />
 }
 
 /* upstream은 `<main>`으로 렌더한다. 우리는 `<div>`다.
@@ -234,7 +248,15 @@ function SidebarSeparator({ className, ...props }: React.ComponentProps<typeof S
 function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-group" className={cn("relative flex w-full min-w-0 flex-col p-2", className)} {...props} /> }
 function SidebarGroupLabel({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-group-label" className={cn("flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground", className)} {...props} /> }
 function SidebarGroupContent({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-group-content" className={cn("w-full text-sm", className)} {...props} /> }
-function SidebarGroupAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-group-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
+/* 히트 영역  가로만 20px로 미달이고 세로(24px)는 이미 하한을 만족한다 — `after:`로
+ * 가로만 중심 대칭 ±2px 넓혀 24까지 채운다(#111 결정 2·5, #230). `after:inset-y-0`을
+ * 같이 주는 이유는 세로를 안 늘려도 **명시해야** 하기 때문이다 — top/bottom을 비워
+ * auto로 두면 의사 요소의 높이가 0으로 접혀(내용이 없으므로) 가로 확장분마저 클릭
+ * 면적을 갖지 못한다(재실측이 잡아낸 버그). `absolute`가 이미 걸려 있어 `relative`를
+ * 더하지 않는다. `sidebar-content`의 `overflow-auto`까지 여유가 20px 있어 잘리지
+ * 않는다(실측 `docs/research/pointer-targets-2026-09.md` §4.2). Group의 다른
+ * 인터랙티브 표면과 가로로 겹칠 자리는 없지만, 확장분은 여기 선언해 둔다. */
+function SidebarGroupAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-group-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
 
 function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) { return <ul data-slot="sidebar-menu" className={cn("flex w-full min-w-0 flex-col gap-1", className)} {...props} /> }
 function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) { return <li data-slot="sidebar-menu-item" className={cn("group/menu-item relative", className)} {...props} /> }
@@ -258,7 +280,13 @@ function SidebarMenuButton({ className, size = "default", isActive = false, ...p
   return <button type="button" data-slot="sidebar-menu-button" data-size={size} data-active={isActive} className={cn(sidebarMenuButtonVariants({ size, className }))} {...props} />
 }
 
-function SidebarMenuAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-menu-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
+/* 히트 영역  가로 20px만 이 티켓의 몫이다(±2px, #230) — 세로 22.4px은 한 줄
+ * 텍스트 계열이라 기제가 다를 수 있어 #249로 갈렸다(#111 범위 갱신 댓글).
+ * `after:inset-y-0`은 세로를 안 늘려도 명시해야 한다 — SidebarGroupAction 주석 참고
+ * (재실측이 잡아낸 버그: top/bottom을 비우면 의사 요소 높이가 0으로 접힌다).
+ * `absolute`가 이미 걸려 있어 `relative`를 더하지 않는다. `sidebar-content`의
+ * 여유가 20px라 잘리지 않는다. */
+function SidebarMenuAction({ className, ...props }: React.ComponentProps<"button">) { return <button type="button" data-slot="sidebar-menu-action" className={cn("state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50", className)} {...props} /> }
 function SidebarMenuBadge({ className, ...props }: React.ComponentProps<"div">) { return <div data-slot="sidebar-menu-badge" className={cn("pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground", className)} {...props} /> }
 function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) { return <ul data-slot="sidebar-menu-sub" className={cn("mx-3.5 flex min-w-0 flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5", className)} {...props} /> }
 function SidebarMenuSubItem({ className, ...props }: React.ComponentProps<"li">) { return <li data-slot="sidebar-menu-sub-item" className={cn("group/menu-sub-item relative", className)} {...props} /> }
