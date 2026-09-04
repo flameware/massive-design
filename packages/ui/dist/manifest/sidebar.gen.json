@@ -1433,7 +1433,7 @@
       "axes": {},
       "cells": [
         {
-          "className": "state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:inset-y-0 after:-inset-x-0.5 focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50",
+          "className": "state [--ds-state-base:var(--sidebar)] absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md text-sidebar-foreground outline-none transition-all after:absolute after:-inset-x-0.5 after:-inset-y-[0.8px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-sidebar-ring disabled:pointer-events-none disabled:opacity-50",
           "properties": {
             "align-items": {
               "from": "items-center",

@@ -6,6 +6,8 @@
 - 원자료: [`pointer-targets-2026-09.tsv`](pointer-targets-2026-09.tsv) — 렌더된 스캔 대상 행 전부(셀 × 노드)
 - **이 문서가 기준선이다.** 다음 실측은 같은 절차를 돌려 이 표와 diff를 낸다.
 
+> **기준선 갱신 (2026-09-04, [#249](https://github.com/flameware/massive-design/issues/249)).** [#230](https://github.com/flameware/massive-design/issues/230)·#249가 히트 영역 규칙 적용을 마쳐, 커밋된 [`pointer-targets-2026-09.tsv`](pointer-targets-2026-09.tsv)를 두 티켓이 끝난 소스로 재실측해 덮어썼다 — `bun run pointer-gate`의 "미신고 겹침"이 두 PR이 추가한 `after:`/`before:` 확장 자체를 잡음으로 우는 것을 없애기 위해서다(ADR-0020 결정 5 "선언은 계산"). **아래 §4의 표는 갱신하지 않는다** — #228 측정일(이 문서 작성 시점)의 미달 목록으로 남기고, 각 항목의 이후 처분은 §6과 [`pointer-target-exceptions-2026-09.md`](pointer-target-exceptions-2026-09.md)·#230·#249가 진다. 커밋된 TSV는 이제 §4의 표가 아니라 **현재 상태**를 반영한다 — 표를 읽을 때는 처분(§6·예외 목록·#230 PR·#249 PR)과 함께 읽는다.
+
 **이 문서는 결정하지 않는다.** [ADR-0020](../adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)이 하한(24×24)과 기제(`after:`)를 정했고, 여기 있는 것은 **모집단과 값**, 그리고 그것을 낸 **계기가 믿을 만한가**다. 적용은 [#230](https://github.com/flameware/massive-design/issues/230), 예외 목록은 [#231](https://github.com/flameware/massive-design/issues/231), 게이트는 [#232](https://github.com/flameware/massive-design/issues/232)가 진다.
 
 ---
