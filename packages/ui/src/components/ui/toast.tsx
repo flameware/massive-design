@@ -28,9 +28,20 @@ const toastVariants = cva(
   toastVariantsConfig,
 )
 
+const VIEWPORT = "fixed right-0 bottom-0 z-50 flex max-h-screen w-full max-w-sm flex-col gap-2 p-4"
+const TITLE = "font-medium"
+const DESCRIPTION = "text-sm"
+const ACTION = "text-sm font-medium underline underline-offset-4"
+/* 히트 영역  가로(24.2px)는 이미 하한을 만족하고 세로(22.4px, `text-sm`의 줄높이)만
+ * 1.6px 모자란다 — `after:`로 세로만 중심 대칭 ±0.8px 넓힌다(#111 결정 2·5, #230).
+ * 같은 22.4px 계열인 Toast action·Breadcrumb link·Sidebar menu-action(세로)은
+ * 줄높이·패딩이 원인이라 기제가 다를 수 있어 #249로 갈렸다 — ToastClose는 버튼
+ * 하나뿐이라 `after:` 확장으로 충분해 여기 남았다(#111 범위 갱신 댓글). */
+const CLOSE = "relative shrink-0 text-sm after:absolute after:inset-x-0 after:-inset-y-[0.8px]"
+
 const ToastProvider = ToastPrimitive.Provider
 const ToastViewport = React.forwardRef<React.ElementRef<typeof ToastPrimitive.Viewport>, React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport>>(
-  ({ className, ...props }, ref) => <ToastPrimitive.Viewport ref={ref} data-slot="toast-viewport" className={cn("fixed right-0 bottom-0 z-50 flex max-h-screen w-full max-w-sm flex-col gap-2 p-4", className)} {...props} />,
+  ({ className, ...props }, ref) => <ToastPrimitive.Viewport ref={ref} data-slot="toast-viewport" className={cn(VIEWPORT, className)} {...props} />,
 )
 ToastViewport.displayName = "ToastViewport"
 
@@ -39,21 +50,28 @@ const Toast = React.forwardRef<React.ElementRef<typeof ToastPrimitive.Root>, Rea
 )
 Toast.displayName = "Toast"
 
-function ToastTitle({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Title>) { return <ToastPrimitive.Title data-slot="toast-title" className={cn("font-medium", className)} {...props} /> }
-function ToastDescription({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Description>) { return <ToastPrimitive.Description data-slot="toast-description" className={cn("text-sm", className)} {...props} /> }
-function ToastAction({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Action>) { return <ToastPrimitive.Action data-slot="toast-action" className={cn("text-sm font-medium underline underline-offset-4", className)} {...props} /> }
-/* 히트 영역  가로(24.2px)는 이미 하한을 만족하고 세로(22.4px, `text-sm`의 줄높이)만
- * 1.6px 모자란다 — `after:`로 세로만 중심 대칭 ±0.8px 넓힌다(#111 결정 2·5, #230).
- * 같은 22.4px 계열인 Toast action·Breadcrumb link·Sidebar menu-action(세로)은
- * 줄높이·패딩이 원인이라 기제가 다를 수 있어 #249로 갈렸다 — ToastClose는 버튼
- * 하나뿐이라 `after:` 확장으로 충분해 여기 남았다(#111 범위 갱신 댓글). */
-function ToastClose({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Close>) { return <ToastPrimitive.Close data-slot="toast-close" aria-label="알림 닫기" className={cn("relative shrink-0 text-sm after:absolute after:inset-x-0 after:-inset-y-[0.8px]", className)} {...props}>닫기</ToastPrimitive.Close> }
+function ToastTitle({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Title>) { return <ToastPrimitive.Title data-slot="toast-title" className={cn(TITLE, className)} {...props} /> }
+function ToastDescription({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Description>) { return <ToastPrimitive.Description data-slot="toast-description" className={cn(DESCRIPTION, className)} {...props} /> }
+function ToastAction({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Action>) { return <ToastPrimitive.Action data-slot="toast-action" className={cn(ACTION, className)} {...props} /> }
+function ToastClose({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Close>) { return <ToastPrimitive.Close data-slot="toast-close" aria-label="알림 닫기" className={cn(CLOSE, className)} {...props}>닫기</ToastPrimitive.Close> }
+
+const staticPart = (className: string) => ({
+  config: { variants: {}, defaultVariants: {} } as const,
+  className: () => className,
+})
 
 const componentContract = {
   name: "toast", source: "src/components/ui/toast.tsx",
   publicExports: ["ToastProvider", "ToastViewport", "Toast", "ToastTitle", "ToastDescription", "ToastAction", "ToastClose", "toastVariants", "toastVariantsConfig"],
   config: toastVariantsConfig, className: (props: Record<string, string>) => cn(toastVariants(props)),
   anatomy: ["ToastProvider", "ToastViewport", "Toast", "ToastTitle?", "ToastDescription", "ToastAction?", "ToastClose?"], configurationStates: { open: ["closed", "open"] }, drawnBy: { open: "표면의 존재가 곧 열림이다 — viewport에 붙고 떨어지는 것이 전부다" },
+  parts: {
+    ToastViewport: staticPart(VIEWPORT),
+    ToastTitle: staticPart(TITLE),
+    ToastDescription: staticPart(DESCRIPTION),
+    ToastAction: staticPart(ACTION),
+    ToastClose: staticPart(CLOSE),
+  },
   gestures: {
     "swipe-dismiss": {
       surface: "Toast",
