@@ -73,16 +73,12 @@ Figma 파일을 고치는 주체가 둘이고, **로드할 수 있는 폰트가 
 - **구워진 셰이핑(baked shaping)** — 텍스트 노드가 저작 시점 런타임에서 얻은 셰이핑이 파일에 남아 복제와 열람을 따라 이동하는 성질. 보는 런타임은 결과를 바꾸지 못하므로 **어느 런타임이 만들었는지**가 렌더 결과를 정한다. 폰트가 없는 런타임에서도 남의 셰이핑을 물려받은 노드는 정상 렌더되고, 폰트가 있는 런타임에서도 셰이핑 없이 만들어진 노드는 비어 보인다.
 - **폰트 미완 상태(font-pending)** — 텍스트 노드가 `type/family/sans` 바인딩을 갖지 않은 상태. 저작 런타임이 남길 수 있는 유일한 상태이며 결함이 아니라 **정상 중간 상태**다. 셰이핑 런타임의 사람 단계가 해소한다. `fontName`이 무엇인지와 무관하게 바인딩 유무만으로 판정한다 — 두 축을 섞으면 폰트 이름만 맞고 토큰을 따르지 않는 상태를 놓친다.
 
-## 세대와 검증
+## 세대와 Figma 스냅숏
 
-- **Repo verification** — 구현 정본에서 토큰·매니페스트·Storybook 생성물을 만들고 코드 검사·테스트·Storybook build·axe·사람 시각 확인까지 통과시켜 `CODE_VERIFIED`와 `STORYBOOK_VERIFIED`를 획득하는 독립 작업. 여기서 완료되며 Figma Sync를 자동으로 이어서 수행하지 않는다.
-- **Figma Sync** — 사용자가 명시적으로 요청해 시작하고, 선택한 Repo verification 세대를 Figma 문서에 주입·검증한 뒤 라이브러리 발행과 재확인까지 수행하는 독립 작업. 실행 전용 GitHub issue가 범위와 증거를 소유한다.
-- **디자인 의도(design intent)** — 컴포넌트가 사용자에게 보여야 하고 동작해야 하는 프로젝트 소유자가 승인한 목표. 자동 정합성 검증 뒤의 시각 판단으로 확정하며, 현재 코드 렌더링과 다르면 구현 정본을 고치는 판정 기준이다.
+- **디자인 의도(design intent)** — 컴포넌트가 사용자에게 보여야 하고 동작해야 하는 프로젝트 소유자가 승인한 목표. 현재 코드 렌더링과 다르면 구현 정본을 고치는 판정 기준이다.
 - **구현 정본(implementation source of truth)** — 디자인 의도를 구현하고 Storybook과 Figma 파생 채널로 변경을 전파하는 단일 출발점인 코드. 현재 렌더링을 무조건 올바른 디자인 의도로 간주한다는 뜻은 아니다.
-- **세대(generation)** — 한 컴포넌트의 Figma 대응 구조 해시와 그 구조가 참조하는 토큰 산출물 해시의 쌍. 디자인 시스템 전체 세대는 검증 대상 컴포넌트 세대의 집계다.
-- **같은 세대(same generation)** — 코드, Storybook, Figma 문서, 발행된 Figma 라이브러리가 대상 컴포넌트별로 같은 세대를 가리키는 상태. 어느 한 채널만 앞선 정상적인 중간 상태와 구분한다.
-- **누적 검증 상태(cumulative verification state)** — `CODE_VERIFIED` → `STORYBOOK_VERIFIED` → `FIGMA_DOCUMENT_SYNCED` → `FIGMA_LIBRARY_CURRENT` 순서로 증거가 쌓이는 상태. 마지막 상태까지 충족해야 같은 세대 검증 완료다.
-- **검증 결과(verification result)** — 각 누적 검증 상태의 증거를 `PASS`·`FAIL`·`PENDING_HUMAN`·`UNKNOWN` 중 하나로 표현한 값. 사람 작업 대기, 확인된 위반, 없거나 낡은 증거를 서로 구분한다.
+- **세대(generation)** — 한 컴포넌트의 Figma 대응 구조 해시(매니페스트 `hash`)와 그 구조가 참조하는 토큰 산출물 해시의 쌍. `packages/ui/dist/manifest/index.gen.json`이 현재 세대다.
+- **Figma 스냅숏(Figma snapshot)** — 사용자가 명시적으로 요청할 때만, 현재 세대를 Figma 문서에 주입하고 발행하는 작업([ADR-0002 개정](docs/adr/0002-separate-repo-verification-from-figma-sync.md)). 마지막 스냅숏의 기록이 `verification/figma-baseline.json`이고, Figma가 코드보다 뒤처진 상태는 결함이 아니라 기본 상태다.
 
 ## 참조 화면
 
@@ -106,7 +102,7 @@ Storybook이 내는 화면의 낱말을 적을 말. 두 페이지의 독자가 �
 ## 호환성
 
 - **호환성 계약(compatibility contract)** — 코드 소비처의 기존 호출, 매니페스트 계약, 발행된 Figma 라이브러리의 기존 원격 인스턴스·override·property 값을 함께 보호하는 채널 횡단 계약. 한 채널이라도 깨지면 가장 엄격한 변경 분류를 적용한다.
-- **공개 기준선(public baseline)** — 마지막 `FIGMA_LIBRARY_CURRENT` 세대. 외부 호환성은 이 세대를 기준으로 판정하며, 아직 발행되지 않은 문서 변경은 외부 호환성 대상이 아니다.
+- **공개 기준선(public baseline)** — 마지막 Figma 스냅숏이 발행한 세대(`verification/figma-baseline.json`). 외부 호환성은 이 세대를 기준으로 판정하며, 아직 발행되지 않은 문서 변경은 외부 호환성 대상이 아니다.
 - **additive 변경** — 공개 기준선의 기본값·조합·호출·Figma 인스턴스를 재해석하지 않고 선택적 표면을 추가하는 변경. 새 컴포넌트·토큰, 선택적 prop, 기본값이 정해진 새 variant 축·값이 여기에 속한다.
 - **in-place safe 변경** — 공개 이름과 의미를 유지하면서 기존 인스턴스의 연결·property·override·토큰 바인딩·접근성·상호작용 계약이 실증적으로 보존되는 제자리 변경. 구조 해시나 토큰 값의 변화만으로 breaking이 되지는 않는다.
 - **breaking 변경** — 호환성 계약의 어느 한 채널이라도 깨거나 보존 여부를 입증하지 못한 변경. 공개 이름의 변경·제거와 semantic 역할·모드 의미·값 타입 변경이 여기에 속한다.

@@ -6,9 +6,7 @@
   "scripts": {
     "check": "bun run --filter '*' check",
     "test": "node --test scripts/*.test.mjs && bun run --filter '*' test",
-    "sync:preflight": "node scripts/sync-preflight.mjs",
     "sync:checklist": "cd packages/ui && bun ../../scripts/sync-checklist.mjs",
-    "sync:review-storybook": "node scripts/review-storybook.mjs",
     "pointer-gate": "node scripts/pointer-target-gate.mjs"
   },
   "workspaces": [

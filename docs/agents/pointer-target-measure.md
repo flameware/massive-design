@@ -154,7 +154,7 @@ node scripts/pointer-target-gate.mjs --baseline <tsv>                # 기준선
 
 ### CI로 승격하지 않는다 — 언제 손으로 돌리는가
 
-맵 #111 결정 6과 이 티켓의 out of scope다. `bun run check`·`bun run sync:preflight` 사슬에 **넣지 않는다** — Storybook 빌드 + Playwright 실측이 약 7분이라 preflight 예산을 넘는다. 지금은 **포인터 대상을 건드린 세대에 손으로 돈다**: 그 판정 기준(어떤 변경이 "포인터 대상을 건드렸다"로 세는가 — 예를 들어 §2.1 스캔 slot을 가진 파일이 diff에 있는가)은 [#233](https://github.com/flameware/massive-design/issues/233)이 검증 규약 개정으로 적는다.
+맵 #111 결정 6과 이 티켓의 out of scope다. `bun run check`에 **넣지 않는다** — Storybook 빌드 + Playwright 실측이 약 7분이라 CI 예산을 넘는다. 지금은 **포인터 대상을 건드린 세대에 손으로 돈다**: 그 판정 기준(어떤 변경이 "포인터 대상을 건드렸다"로 세는가 — 예를 들어 §2.1 스캔 slot을 가진 파일이 diff에 있는가)은 [#233](https://github.com/flameware/massive-design/issues/233)이 검증 규약 개정으로 적는다.
 
 ### 게이트 자신의 self-test
 

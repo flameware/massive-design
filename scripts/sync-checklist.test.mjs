@@ -4,7 +4,7 @@ import test from "node:test"
 import { checklistFor } from "./sync-checklist.mjs"
 
 const contract = (name, behaviors) => ({ name, behaviors })
-const record = { targetCommit: "abcdef0123456789", inputTree: { clean: true }, result: "PENDING_HUMAN", components: [{ component: "popover", manifestHash: "2535c4105bf4" }] }
+const record = { components: [{ component: "popover", hash: "2535c4105bf4" }] }
 
 const drag = { kind: "control-gesture", surface: "SliderThumb", origin: "inherited", why: "upstream이 갖고 온다" }
 const hover = { kind: "open-cause", surface: "PopoverContent", origin: "ours", control: "openOn", why: "우리가 만든 계기다" }
@@ -33,16 +33,13 @@ test("origin이 무엇을 볼지를 가른다", () => {
 })
 
 test("열림 계기에는 이번 세대의 기본 모드 해시가 붙는다", () => {
-  // runbook에 손으로 박혀 있던 해시를 대신한다 — 그래서 이 스크립트가 preflight 뒤에 선다
+  // runbook에 손으로 박혀 있던 해시를 대신한다 — 정본은 매니페스트 인덱스다
   assert.match(checklistFor([contract("popover", { hoverOpen: hover })], record), /기본 모드 해시: 2535c4105bf4/)
-  assert.match(checklistFor([contract("popover", { hoverOpen: hover })], { ...record, components: [] }), /기본 모드 해시: \(기록에 없다\)/)
+  assert.match(checklistFor([contract("popover", { hoverOpen: hover })], { components: [] }), /기본 모드 해시: \(인덱스에 없다\)/)
 })
 
-test("기록이 없거나 고정 불가능한 세대면 확인표가 먼저 그 사실을 적는다", () => {
-  // 통과하지 않은 세대를 사람이 확인해 봐야 그 판정이 어느 세대의 것인지 알 수 없다(#106)
-  assert.match(checklistFor([contract("popover", { hoverOpen: hover })], null), /경고: verification\/repo-verification\.json이 없다/)
-  assert.match(checklistFor([contract("popover", { hoverOpen: hover })], { ...record, result: "FAIL", resumeAt: "tsc" }), /경고: 이 세대는 .*FAIL이다 — 재개 지점: tsc/)
-  assert.match(checklistFor([contract("popover", { hoverOpen: hover })], { ...record, inputTree: { clean: false } }), /dirty하다/)
+test("인덱스가 없으면 확인표가 먼저 그 사실을 적는다", () => {
+  assert.match(checklistFor([contract("popover", { hoverOpen: hover })], null), /경고: packages\/ui\/dist\/manifest\/index\.gen\.json이 없다/)
 })
 
 test("선언이 하나도 없으면 없다고 적는다", () => {
