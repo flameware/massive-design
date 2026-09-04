@@ -409,7 +409,7 @@ export const catalog = [
   {
     "component": "checkbox",
     "displayName": "Checkbox",
-    "hash": "3600723819e8",
+    "hash": "103951efaf4b",
     "cells": 1,
     "axes": {},
     "anatomy": [
@@ -1120,7 +1120,7 @@ export const catalog = [
   {
     "component": "radio-group",
     "displayName": "Radio Group",
-    "hash": "acaf77f3dfa2",
+    "hash": "bff46803d4c1",
     "cells": 2,
     "axes": {
       "orientation": [
@@ -1478,7 +1478,7 @@ export const catalog = [
   {
     "component": "switch",
     "displayName": "Switch",
-    "hash": "cfbb7e0a8b9b",
+    "hash": "275b71ab4ca7",
     "cells": 2,
     "axes": {
       "size": [

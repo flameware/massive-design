@@ -12,15 +12,23 @@ const checkboxVariantsConfig = { variants: {}, defaultVariants: {} } as const
  * 갖고 있다(`classify.mjs`, 선례 `resizable.tsx`). 촘촘한 목록에서 이웃 Checkbox와
  * 24px 히트 영역이 겹칠 수 있다 — 해소하지 않고 여기 선언한다(#111 결정 5). */
 const checkboxVariants = cva("state [--ds-state-base:var(--background)] relative size-4 shrink-0 rounded border shadow-xs outline-none after:absolute after:-inset-[5px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground data-[state=indeterminate]:[--ds-state-base:var(--primary)] data-[state=indeterminate]:text-primary-foreground", checkboxVariantsConfig)
+const INDICATOR = "flex items-center justify-center text-current"
 function Checkbox({ className, ...props }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
-  return <CheckboxPrimitive.Root data-slot="checkbox" className={cn(checkboxVariants({ className }))} {...props}><CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className="flex items-center justify-center text-current">●</CheckboxPrimitive.Indicator></CheckboxPrimitive.Root>
+  return <CheckboxPrimitive.Root data-slot="checkbox" className={cn(checkboxVariants({ className }))} {...props}><CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className={INDICATOR}>●</CheckboxPrimitive.Indicator></CheckboxPrimitive.Root>
 }
+const staticPart = (className: string) => ({
+  config: { variants: {}, defaultVariants: {} } as const,
+  className: () => className,
+})
 const componentContract = {
   name: "checkbox", source: "src/components/ui/checkbox.tsx",
   publicExports: ["Checkbox", "checkboxVariants", "checkboxVariantsConfig"],
   config: checkboxVariantsConfig, className: (props: Record<string, string>) => cn(checkboxVariants(props)),
   anatomy: ["Checkbox", "Indicator"],
   configurationStates: { checked: ["unchecked", "checked", "indeterminate"] }, drawnBy: { checked: { attribute: "data-state", values: { checked: "checked", indeterminate: "indeterminate" } } },
+  parts: {
+    Indicator: staticPart(INDICATOR),
+  },
   behaviors: {},
   reference: { example: "checkbox", guidance: { use: "복수 행 선택과 불확정 전체 선택을 표현한다.", evidence: "투자 이력 Table의 checked·unchecked·indeterminate 구성 상태가 필요하다.", limits: "선택 모델과 일괄 동작은 소비처 책임이다." } },
 } as const

@@ -114,7 +114,41 @@
       }
     }
   },
-  "hash": "3600723819e8",
+  "hash": "103951efaf4b",
+  "parts": {
+    "Indicator": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex items-center justify-center text-current",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "color": {
+              "from": "text-current",
+              "tier": "literal",
+              "value": "currentcolor"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "checkbox",
     "guidance": {

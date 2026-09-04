@@ -75,7 +75,7 @@
     {
       "cells": 1,
       "component": "checkbox",
-      "hash": "3600723819e8",
+      "hash": "103951efaf4b",
       "path": "checkbox.gen.json"
     },
     {
@@ -201,7 +201,7 @@
     {
       "cells": 2,
       "component": "radio-group",
-      "hash": "acaf77f3dfa2",
+      "hash": "bff46803d4c1",
       "path": "radio-group.gen.json"
     },
     {
@@ -261,7 +261,7 @@
     {
       "cells": 2,
       "component": "switch",
-      "hash": "cfbb7e0a8b9b",
+      "hash": "275b71ab4ca7",
       "path": "switch.gen.json"
     },
     {
