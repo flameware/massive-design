@@ -80,9 +80,130 @@
     "orientation": "vertical"
   },
   "drawnBy": {
-    "checked": "`RadioGroupItem`이 `data-[state=checked]`로 그리지만 그 파트가 아직 계약에 없다(#155)"
+    "checked": {
+      "attribute": "data-state",
+      "values": {
+        "checked": "checked"
+      }
+    }
   },
-  "hash": "acaf77f3dfa2",
+  "hash": "bff46803d4c1",
+  "parts": {
+    "Indicator": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "flex items-center justify-center text-[8px] leading-none",
+          "properties": {
+            "align-items": {
+              "from": "items-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "display": {
+              "from": "flex",
+              "tier": "literal",
+              "value": "flex"
+            },
+            "font-size": {
+              "from": "text-[8px]",
+              "px": 8,
+              "tier": "literal"
+            },
+            "justify-content": {
+              "from": "justify-center",
+              "tier": "literal",
+              "value": "center"
+            },
+            "line-height": {
+              "from": "leading-none",
+              "tier": "literal",
+              "value": "1"
+            }
+          },
+          "state": null
+        }
+      ],
+      "defaults": {}
+    },
+    "RadioGroupItem": {
+      "axes": {},
+      "cells": [
+        {
+          "className": "state [--ds-state-base:var(--background)] relative size-4 shrink-0 rounded-full border shadow-xs outline-none after:absolute after:-inset-[5px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground",
+          "configurations": {
+            "checked": {
+              "checked": {
+                "background-color": {
+                  "from": "data-[state=checked]:[--ds-state-base:var(--primary)]",
+                  "tier": "token",
+                  "token": "--ds-bg-accent-solid"
+                },
+                "color": {
+                  "from": "data-[state=checked]:text-primary-foreground",
+                  "tier": "token",
+                  "token": "--ds-fg-on-solid"
+                }
+              }
+            }
+          },
+          "properties": {
+            "background-color": {
+              "from": "state",
+              "tier": "token",
+              "token": "--ds-bg-canvas"
+            },
+            "border-radius": {
+              "from": "rounded-full",
+              "tier": "literal",
+              "value": "calc(infinity * 1px)"
+            },
+            "border-width": {
+              "from": "border",
+              "px": 1,
+              "scale": "borderWidth.1",
+              "tier": "token"
+            },
+            "box-shadow": {
+              "from": "shadow-xs",
+              "scale": "shadow.xs",
+              "tier": "token",
+              "token": "--shadow-xs"
+            },
+            "height": {
+              "from": "size-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            },
+            "position": {
+              "from": "relative",
+              "tier": "literal",
+              "value": "relative"
+            },
+            "width": {
+              "from": "size-4",
+              "multiple": 4,
+              "px": 16,
+              "scale": "space.4",
+              "tier": "token",
+              "token": "--spacing"
+            }
+          },
+          "state": {
+            "base": "--ds-bg-canvas",
+            "disabled": 0.5,
+            "hover": 0.08,
+            "layer": "--ds-state-layer",
+            "pressed": 0.12
+          }
+        }
+      ],
+      "defaults": {}
+    }
+  },
   "reference": {
     "example": "radio-group",
     "guidance": {

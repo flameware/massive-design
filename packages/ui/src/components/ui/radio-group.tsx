@@ -22,15 +22,27 @@ function RadioGroup({ className, orientation = "vertical", ...props }: React.Com
  * 그대로 두고 `after:`로 중심 대칭 5px씩 넓혀 24까지 채운다(`border`가 padding box를
  * 먹으므로 4px가 아니라 5px, 재실측이 잡아낸 값). 촘촘한 세로 목록에서 이웃
  * RadioGroupItem과 겹칠 수 있다 — 해소하지 않고 여기 선언한다. */
+const ITEM = "state [--ds-state-base:var(--background)] relative size-4 shrink-0 rounded-full border shadow-xs outline-none after:absolute after:-inset-[5px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground"
+const INDICATOR = "flex items-center justify-center text-[8px] leading-none"
+
 function RadioGroupItem({ className, ...props }: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {
-  return <RadioGroupPrimitive.Item data-slot="radio-group-item" className={cn("state [--ds-state-base:var(--background)] relative size-4 shrink-0 rounded-full border shadow-xs outline-none after:absolute after:-inset-[5px] focus-visible:border-focus-contrast focus-visible:ring-[3px] focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=checked]:[--ds-state-base:var(--primary)] data-[state=checked]:text-primary-foreground", className)} {...props}><RadioGroupPrimitive.Indicator data-slot="radio-group-indicator" className="flex items-center justify-center text-[8px] leading-none">●</RadioGroupPrimitive.Indicator></RadioGroupPrimitive.Item>
+  return <RadioGroupPrimitive.Item data-slot="radio-group-item" className={cn(ITEM, className)} {...props}><RadioGroupPrimitive.Indicator data-slot="radio-group-indicator" className={INDICATOR}>●</RadioGroupPrimitive.Indicator></RadioGroupPrimitive.Item>
 }
+
+const staticPart = (className: string) => ({
+  config: { variants: {}, defaultVariants: {} } as const,
+  className: () => className,
+})
 
 const componentContract = {
   name: "radio-group", source: "src/components/ui/radio-group.tsx",
   publicExports: ["RadioGroup", "RadioGroupItem", "radioGroupVariants", "radioGroupVariantsConfig"],
   config: radioGroupVariantsConfig, className: (props: Record<string, string>) => cn(radioGroupVariants(props)),
-  anatomy: ["RadioGroup", "RadioGroupItem*", "Indicator"], configurationStates: { checked: ["unchecked", "checked"] }, drawnBy: { checked: "`RadioGroupItem`이 `data-[state=checked]`로 그리지만 그 파트가 아직 계약에 없다(#155)" },
+  anatomy: ["RadioGroup", "RadioGroupItem*", "Indicator"], configurationStates: { checked: ["unchecked", "checked"] }, drawnBy: { checked: { attribute: "data-state", values: { checked: "checked" } } },
+  parts: {
+    RadioGroupItem: staticPart(ITEM),
+    Indicator: staticPart(INDICATOR),
+  },
   behaviors: {
     focusChecks: { kind: "implicit-change", surface: "RadioGroupItem", origin: "inherited", why: "radix-ui RadioGroup이 갖고 오는 상속 표면이다 — **화살표로 초점이 도착하는 것만으로 그 항목이 선택된다**(초점 핸들러가 스스로 `click()`을 부른다). APG가 라디오 그룹에 요구하는 동작이지만 계기가 명시적 활성화가 아니라 초점 도착이고, `checked` 구성 상태가 그 자리에서 움직이므로 사람이 확인해야 한다. **끄는 자리가 없다** — upstream에 스위치가 없으므로 목록을 훑기만 하려는 사용자도 값을 바꾸게 되고, 그 되돌림 경로는 반대 방향 화살표뿐이다(#187)." },
   },
