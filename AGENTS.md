@@ -28,11 +28,9 @@ Any claim about how many upstream surfaces we are missing is produced by a mecha
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-One map is live:
+**No map is live.** The catalog (51 components), tokens and Storybook are complete; open issues are individual bugs and packaging, not maps. Before opening a new map, read [`docs/handoff/repo-review-2026-09.md`](docs/handoff/repo-review-2026-09.md) — it names what kind of issue earns a ticket here.
 
-- **터치 대상 크기 규칙과 검증 규약 개정** ([#111](https://github.com/flameware/massive-design/issues/111)) — the catalog never set a minimum pointer target size. [ADR-0020](docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md) put the floor at WCAG 2.5.8's 24×24 CSS px and on the **hit area**, so no published visual dimension moves. Tickets [#228](https://github.com/flameware/massive-design/issues/228)–[#233](https://github.com/flameware/massive-design/issues/233).
-
-Outside that map: **Figma Sync 51개 세대** ([#138](https://github.com/flameware/massive-design/issues/138)) — the published baseline is 43 component sets (`verification/figma-baseline.json`) against 51 in code. Figma Sync runs only on an explicit request, in its own issue.
+**Figma Sync 51개 세대** ([#138](https://github.com/flameware/massive-design/issues/138)) — the published baseline is 43 component sets (`verification/figma-baseline.json`) against 51 in code. Figma Sync runs only on an explicit request, in its own issue.
 
 Closed maps, with their records:
 
@@ -42,6 +40,7 @@ Closed maps, with their records:
 | 표면 층위 공백 닫기 (#139) | [`docs/handoff/surface-gap-map.md`](docs/handoff/surface-gap-map.md) |
 | 종류 ② 표면 닫기 (#165) | [`docs/handoff/kind-2-surface-map.md`](docs/handoff/kind-2-surface-map.md) |
 | parts 공백 닫기 (#221) | [`docs/handoff/parts-gap-map.md`](docs/handoff/parts-gap-map.md) |
+| 터치 대상 크기 규칙과 검증 규약 개정 (#111) | [`docs/handoff/pointer-target-map.md`](docs/handoff/pointer-target-map.md) |
 | 파생 채널이 담지 못하는 계약 (#140) | [`docs/handoff/derived-channel-contract-map.md`](docs/handoff/derived-channel-contract-map.md) |
 | primitive·의존성 기반 확정 (#141) | [`docs/handoff/primitive-dependency-map.md`](docs/handoff/primitive-dependency-map.md) |
 
