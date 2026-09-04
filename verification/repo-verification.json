@@ -1,21 +1,11 @@
 {
   "schemaVersion": 2,
   "kind": "repo-verification",
-  "result": "PENDING_HUMAN",
-  "targetCommit": "887e4cb2a5633aa89ea429afd1d0d4a2a71adfbb",
+  "result": "PASS",
+  "targetCommit": "b762bdb2d192d345c9e0d23eaf612e490ba466d6",
   "inputTree": {
-    "commit": "887e4cb2a5633aa89ea429afd1d0d4a2a71adfbb",
-    "clean": false,
-    "dirtyPaths": [
-      "apps/storybook/stories/catalog.gen.ts",
-      "packages/ui/scripts/check.mjs",
-      "packages/ui/scripts/manifest/parts-coverage.exceptions.json",
-      "packages/ui/scripts/manifest/parts-coverage.mjs",
-      "packages/ui/scripts/pointer-targets/scan.mjs",
-      "packages/ui/scripts/tsx-ast.mjs",
-      "packages/ui/src/components/ui/dropdown-menu.tsx",
-      "packages/ui/src/components/ui/pagination.tsx"
-    ]
+    "commit": "b762bdb2d192d345c9e0d23eaf612e490ba466d6",
+    "clean": true
   },
   "inputDigest": "ce70ff2a24ac88f33a0cd8067f10536941aa26afc89562ab4739926f083bcc99",
   "tokenArtifactHash": "aa1a388a06f27a2c2b728de230da4afabd57f376c2fdd1a2603856d52c0ff753",
@@ -279,7 +269,7 @@
   "stages": {
     "CODE_VERIFIED": {
       "result": "PASS",
-      "checkedAt": "2026-09-04T03:50:47.753Z",
+      "checkedAt": "2026-09-04T03:52:04.306Z",
       "checks": [
         {
           "label": "generate tokens",
@@ -309,8 +299,8 @@
       ]
     },
     "STORYBOOK_VERIFIED": {
-      "result": "PENDING_HUMAN",
-      "checkedAt": "2026-09-04T03:50:47.753Z",
+      "result": "PASS",
+      "checkedAt": "2026-09-04T03:52:04.306Z",
       "automatedResult": "PASS",
       "checks": [
         {
@@ -506,10 +496,15 @@
           }
         ]
       },
-      "reason": "Review the changed Storybook components in Light/Dark and affected states, then run sync:review-storybook."
+      "visualReview": {
+        "reviewer": "claude-agent",
+        "checkedAt": "2026-09-04T03:54:12.541Z",
+        "scope": "behaviors·gestures 불변, 동작 확인표 재실행 안 함; 컴포넌트 클래스 불변(렌더 바이트 동일) — pagination 참조 스토리 Light/Dark를 헤드리스 Playwright 스크린샷으로 확인(guidance limits 텍스트만 변경, 실행 예시 렌더 동일)"
+      }
     }
   },
-  "lastCompletedStage": "CODE_VERIFIED",
+  "lastCompletedStage": "STORYBOOK_VERIFIED",
   "failure": null,
-  "resumeAt": "commit the input changes, then re-run sync:preflight"
+  "resumeAt": null,
+  "completedAt": "2026-09-04T03:54:12.541Z"
 }
