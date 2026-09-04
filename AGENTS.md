@@ -4,7 +4,7 @@ Standing instructions. Everything that happened lives behind a pointer, not here
 
 ## Rules that bind later work
 
-The sixteen rules the catalog maps left, grouped by subject: what earns its own component, what a contract carries and what a gate may claim, axis and value name spaces, contrast by role, the dependency base, and how a population is measured. **Read before opening a surface, adding an axis, registering `parts`, or changing a contract** — most of these exist because a generation did one of those without them. See [`docs/agents/rules.md`](docs/agents/rules.md).
+The twenty rules the catalog maps left, grouped by subject: what earns its own component, what a contract carries and what a gate may claim, axis and value name spaces, contrast by role, the dependency base, and how a population is measured. **Read before opening a surface, adding an axis, registering `parts`, or changing a contract** — most of these exist because a generation did one of those without them. See [`docs/agents/rules.md`](docs/agents/rules.md).
 
 ## Agent skills
 
@@ -28,14 +28,11 @@ Any claim about how many upstream surfaces we are missing is produced by a mecha
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-Two maps are live:
+One map is live:
 
 - **터치 대상 크기 규칙과 검증 규약 개정** ([#111](https://github.com/flameware/massive-design/issues/111)) — the catalog never set a minimum pointer target size. [ADR-0020](docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md) put the floor at WCAG 2.5.8's 24×24 CSS px and on the **hit area**, so no published visual dimension moves. Tickets [#228](https://github.com/flameware/massive-design/issues/228)–[#233](https://github.com/flameware/massive-design/issues/233).
-- **parts 공백 닫기** ([#221](https://github.com/flameware/massive-design/issues/221)) — the six surfaces [#177](https://github.com/flameware/massive-design/issues/177) measured as still open, plus the contracts standing without `parts`; population machine-produced per the recount runbook. Tickets [#222](https://github.com/flameware/massive-design/issues/222)–[#227](https://github.com/flameware/massive-design/issues/227), grilling [#195](https://github.com/flameware/massive-design/issues/195). It absorbs [#130](https://github.com/flameware/massive-design/issues/130) and [#155](https://github.com/flameware/massive-design/issues/155), still filed separately as `needs-triage`.
 
-Outside both maps: **Figma Sync 51개 세대** ([#138](https://github.com/flameware/massive-design/issues/138)) — the published baseline is 43 component sets (`verification/figma-baseline.json`) against 51 in code. Figma Sync runs only on an explicit request, in its own issue.
-
-Not a map, a single ticket: **`reference.guidance` rationale decomposition** ([#236](https://github.com/flameware/massive-design/issues/236), [ADR-0022](docs/adr/0022-guidance-is-for-the-consumer.md)) — `bun run check` enforces the length caps and prints the population (32 components, 74 violations as of this writing); `@massive/ui check` is red until each `limits` is split into a consumer-facing boundary plus a source comment or ADR pointer for the rationale.
+Outside that map: **Figma Sync 51개 세대** ([#138](https://github.com/flameware/massive-design/issues/138)) — the published baseline is 43 component sets (`verification/figma-baseline.json`) against 51 in code. Figma Sync runs only on an explicit request, in its own issue.
 
 Closed maps, with their records:
 
@@ -44,6 +41,7 @@ Closed maps, with their records:
 | 토큰 파운데이션 · 컴포넌트 맵 · P0 · P1 · P2 | [`docs/handoff/catalog-maps.md`](docs/handoff/catalog-maps.md) |
 | 표면 층위 공백 닫기 (#139) | [`docs/handoff/surface-gap-map.md`](docs/handoff/surface-gap-map.md) |
 | 종류 ② 표면 닫기 (#165) | [`docs/handoff/kind-2-surface-map.md`](docs/handoff/kind-2-surface-map.md) |
+| parts 공백 닫기 (#221) | [`docs/handoff/parts-gap-map.md`](docs/handoff/parts-gap-map.md) |
 | 파생 채널이 담지 못하는 계약 (#140) | [`docs/handoff/derived-channel-contract-map.md`](docs/handoff/derived-channel-contract-map.md) |
 | primitive·의존성 기반 확정 (#141) | [`docs/handoff/primitive-dependency-map.md`](docs/handoff/primitive-dependency-map.md) |
 
