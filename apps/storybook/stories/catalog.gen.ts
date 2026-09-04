@@ -1327,7 +1327,7 @@ export const catalog = [
   {
     "component": "sidebar",
     "displayName": "Sidebar",
-    "hash": "8c4dcde8bae2",
+    "hash": "388ef04c1402",
     "cells": 12,
     "axes": {
       "collapsible": [
