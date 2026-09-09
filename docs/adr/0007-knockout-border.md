@@ -1,5 +1,7 @@
 # 겹침 링은 `background`가 아니라 `border.knockout`이다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09). 1세대의 결정이며 2세대 코드를 구속하지 않는다.
+
 겹친 아바타를 가르는 링은 **뒤에 있는 면을 되그려 파내는 것**이다. 값은 `bg.canvas`와 같다. 그래서 upstream은 `ring-background`로 쓰고, 우리도 그렇게 쓰고 싶었다.
 
 그런데 그 한 줄이 우리 파생 채널에서는 통과하지 못한다. [#143](https://github.com/flameware/massive-design/issues/143)이 `AvatarGroup`을 열면서 다섯 후보를 전부 재 봤고, **네 개가 서로 다른 방식으로 걸렸다.**

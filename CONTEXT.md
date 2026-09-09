@@ -2,12 +2,31 @@
 
 massive-design의 어휘. 다른 말로 부르지 말 것.
 
+2세대([ADR-0023](docs/adr/0023-second-generation-base-ui.md))부터 쓰는 어휘가 먼저 오고, 1세대 어휘는 아래에 **1세대 용어**로 표시한 절에 남는다. 1세대 절의 낱말은 `docs/handoff/`와 옛 ADR을 읽을 때 쓰고, 새 코드·이슈·문서에는 쓰지 않는다.
+
+## 구조
+
+- **층위(layer)** — 컴포넌트의 **의존 순서**. Foundations → Primitives → Composites → Patterns 넷이며, Phase를 자르는 축이다.
+  _Avoid_: 계층(토큰 계층과 혼동), tier
+- **Foundations** — 토큰·아이콘·라이트/다크·타이포그래피. 컴포넌트가 아닌 것.
+- **Primitives** — Base UI 하나를 감싼 단일 목적 컴포넌트(Button, Dialog …), 또는 Base UI 없이 스타일만 있는 단일 목적 컴포넌트(Card, Badge …).
+- **Composites** — Primitives를 조립한 것(Combobox, Menu, Form). 프리셋이 사는 층이다.
+- **Patterns** — 페이지 수준 조립(Page shell, Empty state).
+- **분류(category)** — 문서 사이드바의 묶음. Foundations · Actions · Forms · Navigation · Overlays · Feedback · Data display · Layout · Typography · Patterns. 층위와 다른 축이다 — Dialog는 층위로 Primitive이고 분류로 Overlay다.
+- **상태(status)** — 한 컴포넌트의 성숙도. `planned → preview → stable → deprecated`. meta에 적고 문서가 보여준다.
+- **meta** — 컴포넌트가 자기에 대해 선언하는 유일한 것. `category`·`status`·`since` 정도이며 사이드바 순서와 상태 표만 읽는다. 1세대의 계약을 대체한다.
+  _Avoid_: 계약(contract), 매니페스트
+- **프리셋(preset)** — 소비처에서 반복이 **확인된** 조립을 Composites 층에 올린 것(ConfirmDialog 등). 확인 전에는 만들지 않는다.
+- **네임스페이스형 API** — `Dialog.Root`·`Dialog.Trigger`처럼 한 컴포넌트의 파트를 하나의 이름 아래 두는 공개 형태. Base UI와 1:1이다.
+  _Avoid_: 평면형(`DialogTrigger`)
+- **Phase** — 층위 순서로 채워 나가는 작업 단위. 완료 조건은 개수가 아니라 **소비처가 돌아가는 것**이다.
+
 ## 토큰 계층
 
 - **primitive** — 값을 직접 갖는 토큰. 컬러 램프 12단계와 비색상 스케일. 소비처에 노출되지 않는다(Tailwind `@theme`에 등록하지 않는다).
 - **semantic** — primitive를 참조하는, 용도로 이름 붙인 토큰. 현재 목록과 총계의 정본은 `packages/tokens/tokens/semantic/color.json`이며 `tokens:lint`가 상한을 감시한다. 라이트/다크 모드 전환은 **오직 이 계층에서만** 일어난다.
 - **component** — semantic만 참조하는 계층. **규칙만 존재하고 토큰은 0개다.**
-- **alias** — shadcn이 정한 이름을 우리 semantic에 이어 붙인 호환 레이어. 우리가 발명한 어휘가 아니므로 어휘 상한 계산에 넣지 않는다. 상한 밖인 근거는 정확히는 "**소비처가 이미 아는 이름, 그리고 그와 같은 모양으로 파생된 이름**"이다 — `success`·`link`처럼 정본에 없는 항목도 여기 산다. 컴포넌트 색은 원칙적으로 alias를 통해 소비한다. 단, `state.layer`는 완성된 색 유틸리티가 아니라 상태 합성 전용 입력이므로 `packages/ui/src/state.css`가 `--ds-state-layer`를 직접 읽는 **명시적 예외**다.
+- **alias** *(1세대 용어 — ADR-0023이 이 층을 삭제한다)* — shadcn이 정한 이름을 우리 semantic에 이어 붙인 호환 레이어. 우리가 발명한 어휘가 아니므로 어휘 상한 계산에 넣지 않는다. 상한 밖인 근거는 정확히는 "**소비처가 이미 아는 이름, 그리고 그와 같은 모양으로 파생된 이름**"이다 — `success`·`link`처럼 정본에 없는 항목도 여기 산다. 컴포넌트 색은 원칙적으로 alias를 통해 소비한다. 단, `state.layer`는 완성된 색 유틸리티가 아니라 상태 합성 전용 입력이므로 `packages/ui/src/state.css`가 `--ds-state-layer`를 직접 읽는 **명시적 예외**다.
 - **계열** — 토큰 이름의 `--ds-<bg|fg|border>-` 앞자리. 색 **패밀리**(brand/neutral/…)와 다른 축이다 — 패밀리는 어느 램프에서 왔는지를, 계열은 어느 자리에 쓰이는지를 말한다. **값이 아니라 역할을 가른다** — 두 계열이 같은 primitive를 가리키는 것은 정상이며(`border.strong`과 `bg.neutral.solid`는 둘 다 neutral 9다), 그때도 소비는 값이 아니라 역할을 따른다. 이것이 매니페스트 lint 규칙 3의 전제다: 시각적으로 같아 보이는 것이 곧 옳은 소비가 되지 않는다.
 - **컨트롤 어포던스(control affordance)** — 채움 자체가 조작 가능한 대상을 나타내는 자리. Scroll Area의 thumb, Switch의 off 트랙이 여기다. 사용자가 잡는 것이므로 앉는 면에 대해 **비텍스트 대비 3:1**(WCAG 1.4.11)을 만족해야 하고, 그래서 solid 계열 중립 배경(`bg.neutral.solid`, alias `neutral-solid` — [ADR-0003](docs/adr/0003-neutral-solid-alias-name.md))을 집는다. `tokens:contrast`의 비텍스트 게이트가 이 쌍을 5면 × 2모드로 잰다.
 - **잔여 트랙(track remainder)** — 값이 아직 닿지 않은 바닥. Progress·Slider의 트랙이 여기다. 의미는 채워진 부분이 나르므로 대비 요구가 없고 바닥으로 남는다 — 컨트롤 어포던스와 요구가 정반대라 같은 토큰을 쓰지 않는다. 두 자리가 **한 이름**(`bg.neutral.soft`, alias `secondary`)을 집는다.
@@ -16,11 +35,11 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 - **램프(ramp)** — 한 패밀리의 12단계 색 배열. 패밀리·모드마다 한 벌(`brand/light`, `brand/dark`, …).
 - **키 컬러(key color)** — 램프를 생성하는 입력 색. **step 9에 앉는다** — light/dark가 동일한 유일한 단계이기 때문.
-- **패밀리(family)** — brand / neutral / danger / success. warning·info는 아직 없다.
+- **패밀리(family)** — brand / neutral / danger / success. warning·info는 Phase 2에서 더한다. 손익 같은 도메인 색은 패밀리가 되지 않는다 — 소비처가 램프 생성기로 자기 것을 만든다.
 - **cusp** — 주어진 hue에서 sRGB 안에 담기는 chroma가 최대가 되는 밝기. 램프의 채도 상한을 정한다.
 - **override** — 생성된 램프를 손으로 덮는 것. ①패밀리 파라미터(구현됨) / ②단계별 L·C·H(자리만 있고 미검증).
 
-## 상태 표현
+## 상태 표현 *(1세대 용어 — `state layer`만 2세대에 살아남는다)*
 
 - **Figma 컴포넌트 자산** — 정적 화면 조립에 쓰이는 공개 재사용 자산. 여러 variant를 가진 component set뿐 아니라 variant가 하나인 단일 component도 포함하며, 상태 견본·데모 프레임과 구분한다.
 - **구성 상태(configuration state)** — 정적 화면을 조립할 때 선택해야 하는 의미 상태. `checked / unchecked / indeterminate`, 행의 `selected`, Select·메뉴의 `open / closed`가 여기에 속한다. 코드에서는 네이티브·Radix 상태이고 Figma에서는 component property 또는 별도의 공개 조립 표면으로 표현한다. hover·pressed·focus·disabled 같은 상호작용 상태와 구분하며, 새 토큰 계층을 만들지 않는다.
@@ -29,7 +48,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 - **상태 견본(state sample)** — 상태를 Figma에 보여주는 단위. **컴포넌트 세트의 축이 아니다** — 축으로 두면 조합 수에 곱해지고, 정적 시안을 조립하는 데는 쓰이지 않는다. 컴포넌트마다 한 장씩 매니페스트에서 생성되는 프레임이다.
 - **열림 계기(open cause)** — 표면을 여는 상호작용. press(클릭·탭), hover(포인터 머무름), context(우클릭·롱프레스)로 가른다. 구성 상태가 아니라 **동작**이므로 파생 채널이 나르지 않는다 — `cva` 축에도 `configurationStates`에도 두지 않으며, 코드에서는 기본값이 정해진 선택적 prop(`openOn`)으로만 존재하고, 계약에서는 `behaviors`가 **동작**으로 담는다 — 우리가 만든 계기든 upstream이 갖고 온 것이든(터치 롱프레스, hover 지연) 같은 자리에 앉는다. hover·pressed 같은 상호작용 상태가 "지금 어떤 상태인가"라면 열림 계기는 "무엇이 열었는가"이고, 둘을 같은 말로 부르면 상태 견본이 그려야 할 것과 그리지 말아야 할 것이 섞인다.
 
-## 출력과 주입
+## 출력과 주입 *(1세대 용어)*
 
 - **주입(injection)** — 빌드가 낸 JS를 MCP `use_figma`로 실행해 Figma에 Variables·Style·Component를 만드는 것. 파일을 밀어 넣는 push가 아니라 **에이전트가 수행하는 절차**다.
 - **카탈로그 배치(catalog layout)** — `Components` page에서 최상위 **Figma 컴포넌트 자산**의 순서와 좌표를 결정하는 파생 배치. 매니페스트 registry 순서의 단일 세로 열이며 컴포넌트 내부 variant 배열과 구분한다. 이 page는 정식 자산 전용이고 실험물은 별도 page에 둔다.
@@ -47,7 +66,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 - **번역표(translation table)** — 매니페스트의 코드 어휘를 Figma 어휘로 옮기는 표. **둘이고 사는 곳이 다르다.** ①CSS 속성 → (노드 역할, Figma 속성)은 손으로 적는 규약이라 절차 문서([`figma-components.md`](docs/agents/figma-components.md) §7)가 갖는다 — 오른쪽이 속성이 아니라 **쌍**이다(셀 하나가 Figma에선 노드 여럿). ②CSS 변수 → Figma 변수 경로는 **생성물**이다(`@massive/tokens`의 `dist/figma/var-map.gen.json`) — 빌드가 이미 양쪽 이름을 알고, 문자열 규칙으로 복원되지 않으며(`--ds-fg-on-solid` → `fg/on-solid`), **값을 복사하면 틀리기** 때문이다(`--text-sm--line-height`는 비율 `1.6`, `type/line-height/sm`은 px `22.4`). ②의 칸은 변수만이 아니다 — 그림자는 Figma에서 **Effect Style**이라 컬렉션이 없고, 그래서 칸마다 `kind`가 붙는다.
 - **생성물(generated artifact)** — 원본에서 파생돼 **커밋되는** 파일. `.gen.json` 접미사나 `dist/` 위치로 표시한다. 손편집 금지이고 `verify`가 감시한다.
 
-## 동작
+## 동작 *(1세대 용어)*
 
 - **동작(behavior)** — 파생 채널이 나르지 않고 **사람만 판정하는** 상호작용. dismiss 제스처·컨트롤 제스처·열림 계기·우발 변경 넷이 여기 속한다. 파생 채널이 나르는 것은 anatomy와 구성 상태뿐이라 동작은 매니페스트에도 상태 견본에도 자리가 없고, 생성된 Storybook 스토리는 `axes ∪ configurationStates`에서만 나오므로 axe도 동작을 한 번도 렌더하지 않는다 — **자동 검증이 0인 것이 이 낱말의 정의다.** 계약은 넷을 두 필드에 나눠 담는데 가르는 것은 **계약이 지는 무게**다: `gestures`는 dismiss 제스처만 담고 접근성 동등 경로를 **요건으로** 지며(표면이 사라지고 되돌릴 수단이 없다), `behaviors`는 나머지 종류를 담고 존재만 선언한다. 어느 쪽이든 확인은 사람이 하고 그 항목은 `bun run sync:checklist`가 찍는다([ADR-0010](docs/adr/0010-behaviors-are-declared-and-human-verified.md)).
 - **dismiss 제스처(dismiss gesture)** — 포인터 이동만으로 표면을 닫는 상호작용. 표면이 사라지고 되돌릴 수단이 없으므로 **접근성 동등 경로가 필수 요건**이다. 계약이 지는 것은 존재·시각 피드백·동등 경로 셋이며, 방향이나 임계값 같은 물리 파라미터는 계약하지 않는다.
@@ -73,14 +92,14 @@ Figma 파일을 고치는 주체가 둘이고, **로드할 수 있는 폰트가 
 - **구워진 셰이핑(baked shaping)** — 텍스트 노드가 저작 시점 런타임에서 얻은 셰이핑이 파일에 남아 복제와 열람을 따라 이동하는 성질. 보는 런타임은 결과를 바꾸지 못하므로 **어느 런타임이 만들었는지**가 렌더 결과를 정한다. 폰트가 없는 런타임에서도 남의 셰이핑을 물려받은 노드는 정상 렌더되고, 폰트가 있는 런타임에서도 셰이핑 없이 만들어진 노드는 비어 보인다.
 - **폰트 미완 상태(font-pending)** — 텍스트 노드가 `type/family/sans` 바인딩을 갖지 않은 상태. 저작 런타임이 남길 수 있는 유일한 상태이며 결함이 아니라 **정상 중간 상태**다. 셰이핑 런타임의 사람 단계가 해소한다. `fontName`이 무엇인지와 무관하게 바인딩 유무만으로 판정한다 — 두 축을 섞으면 폰트 이름만 맞고 토큰을 따르지 않는 상태를 놓친다.
 
-## 세대와 Figma 스냅숏
+## 세대와 Figma 스냅숏 *(1세대 용어)*
 
 - **디자인 의도(design intent)** — 컴포넌트가 사용자에게 보여야 하고 동작해야 하는 프로젝트 소유자가 승인한 목표. 현재 코드 렌더링과 다르면 구현 정본을 고치는 판정 기준이다.
 - **구현 정본(implementation source of truth)** — 디자인 의도를 구현하고 Storybook과 Figma 파생 채널로 변경을 전파하는 단일 출발점인 코드. 현재 렌더링을 무조건 올바른 디자인 의도로 간주한다는 뜻은 아니다.
 - **세대(generation)** — 한 컴포넌트의 Figma 대응 구조 해시(매니페스트 `hash`)와 그 구조가 참조하는 토큰 산출물 해시의 쌍. `packages/ui/dist/manifest/index.gen.json`이 현재 세대다.
 - **Figma 스냅숏(Figma snapshot)** — 사용자가 명시적으로 요청할 때만, 현재 세대를 Figma 문서에 주입하고 발행하는 작업([ADR-0002 개정](docs/adr/0002-separate-repo-verification-from-figma-sync.md)). 마지막 스냅숏의 기록이 `verification/figma-baseline.json`이고, Figma가 코드보다 뒤처진 상태는 결함이 아니라 기본 상태다.
 
-## 참조 화면
+## 참조 화면 *(1세대 용어)*
 
 Storybook이 내는 화면의 낱말을 적을 말. 두 페이지의 독자가 다르고, 그래서 같은 것을 부르는 층이 다르다([ADR-0021](docs/adr/0021-reference-screen-words-are-two-layers.md)).
 
@@ -93,13 +112,13 @@ Storybook이 내는 화면의 낱말을 적을 말. 두 페이지의 독자가 �
 
 ## 경계
 
-- **소비처(consumer)** — 이 디자인 시스템을 가져다 쓰는 앱. 현재는 invest diary 하나이고 **리포 밖**이다. `packages/ui`는 소비처가 아니라 시스템의 일부다.
-- **primitive 기반(primitive base)** — 우리가 접근성 동작·키보드 계약·포커스 관리를 맡기는 서드파티 primitive 라이브러리. **하나여야 한다** — 둘이면 그 계약들이 컴포넌트마다 갈리고, 그 갈라짐은 판단을 거쳐 일어나지 않고 사고로 일어난다. 현재는 `radix-ui`이며 24개 컴포넌트가 여기 기댄다([ADR-0016](docs/adr/0016-primitive-base-stays-radix.md)). 다른 기반을 들이는 것은 의존성 하나를 더하는 일이 아니라 그 ADR의 재판정을 여는 일이다.
+- **소비처(consumer)** — 이 디자인 시스템을 가져다 쓰는 앱. 현재는 invest diary 하나이고 **리포 밖**이다. `packages/ui`는 소비처가 아니라 시스템의 일부다. 소비처는 **필요의 잣대**다 — 어떤 컴포넌트가 어느 Phase에 들어가는지를 소비처의 화면이 정한다.
+- **primitive 기반(primitive base)** — 우리가 접근성 동작·키보드 계약·포커스 관리를 맡기는 서드파티 primitive 라이브러리. **하나여야 한다** — 둘이면 그 계약들이 컴포넌트마다 갈리고, 그 갈라짐은 판단을 거쳐 일어나지 않고 사고로 일어난다. 2세대는 Base UI(`@base-ui/react`)다([ADR-0023](docs/adr/0023-second-generation-base-ui.md)). 1세대는 `radix-ui`였다.
 - **바닥값(floor cost)** — 소비처가 `@massive/ui`에서 컴포넌트를 **하나도 쓰지 않을 때** 무는 바이트. 서드파티 의존성의 무게를 재는 단위이며, 라이브러리가 아니라 우리 패키지의 성질이다 — 같은 `recharts`가 쓰는 표면에 따라 8,371 B이기도 407,702 B이기도 해서 **라이브러리에 붙일 하나의 수는 존재하지 않는다.** 설치 수와도 거의 무관하다: 딸린 것이 0개인 의존성이 오염의 원인이고 37개인 의존성이 0바이트를 얹는다. 바닥값을 올리는 것은 의존성 선택이 아니라 **패키징**이라(`sideEffects` 미선언) 처방도 그쪽이다 — 걷어내기가 아니라 선언과 진입점. 소비처가 스스로 import해서 무는 것은 정의상 여기 들어오지 않는다([ADR-0017](docs/adr/0017-dependency-weight-is-a-floor-cost.md)).
 
 - **미계약 표면(uncontracted surface)** — upstream에는 있고 우리 계약에는 없는 표면. 두 등급이 있고 성격이 다르다: `limits`가 **닫는다고 적어 둔** 것은 판단을 거친 자리이고, `limits`가 **언급한 적조차 없는** 것은 고려된 적 없는 자리다. 후자가 한 겹 더 깊다 — 앞은 근거를 재검토하는 일이고 뒤는 **근거가 있었는지부터** 확인하는 일이다. 여는 근거는 두 관문으로 판정한다: 파생 채널이 구분하는가, 그리고 소비처가 스스로 하면 우리 스타일 결정을 복제하게 되는가. **열지 않기로 한 것도 `limits`에 남긴다** — 기록이 없으면 다음 재조회가 같은 자리를 다시 발견한다. 외부 소유 표면·상속 표면과 나란한 세 번째 공백이며, 그 둘과 달리 **언젠가 우리 것이 될 수 있다.**
 
-## 호환성
+## 호환성 *(1세대 용어)*
 
 - **호환성 계약(compatibility contract)** — 코드 소비처의 기존 호출, 매니페스트 계약, 발행된 Figma 라이브러리의 기존 원격 인스턴스·override·property 값을 함께 보호하는 채널 횡단 계약. 한 채널이라도 깨지면 가장 엄격한 변경 분류를 적용한다.
 - **공개 기준선(public baseline)** — 마지막 Figma 스냅숏이 발행한 세대(`verification/figma-baseline.json`). 외부 호환성은 이 세대를 기준으로 판정하며, 아직 발행되지 않은 문서 변경은 외부 호환성 대상이 아니다.
