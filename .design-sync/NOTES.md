@@ -1,6 +1,8 @@
 # Design-sync notes
 
 > **1세대 기준 설정.** 아래 노트와 `overrides/*.mjs`는 매니페스트에서 생성되던 `Components.stories.tsx`와 계약 스크립트를 전제한다 — 둘 다 #277에서 삭제됐다(태그 `v1-shadcn`). 2세대 스토리(#279)가 생기기 전에는 재동기화하지 않는다.
+>
+> 아래 본문의 `@massive/*`는 **그때의 이름**이다. 패키지는 #278에서 `@flameware/*`로 바뀌었고([ADR-0024](../docs/adr/0024-package-scope-follows-the-registry-owner.md)), 기록은 기록대로 둔다. 같은 티켓에서 뒤집힌 사실이 하나 더 있다 — 패키지가 이제 `dist/`를 빌드하고 서브패스마다 `.d.ts`를 낸다. 그래서 첫 두 항목(source-distributed·No `.d.ts` anywhere)이 말하는 상태는 더 이상 없고, `overrides/dts.mjs`의 폴백은 이 패키지에서 더 이상 타지 않는다. 설정을 실제로 고치는 것은 재동기화하는 #279다. 살아 있는 값은 `config.json`이 갖는다.
 
 ## Repo-specific quirks
 

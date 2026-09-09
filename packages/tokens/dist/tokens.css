@@ -207,7 +207,16 @@
 }
 
 @theme inline {
-  /* 색 — 아직 없다. semantic 이름의 @theme 등록은 #280. --ds-* 는 여기 절대 들어가지 않는다 (#7) */
+  /* 색 — semantic 이름만. 역할이 이름 공간이다. 값은 semantic 변수를 가리키고
+   * 팔레트는 여기 절대 들어가지 않는다 (#7). 열거는 THEME_COLORS — 지금은 Button 몫뿐 (#278) */
+  --background-color-surface: var(--ds-bg-surface);
+  --background-color-neutral-soft: var(--ds-bg-neutral-soft);
+  --background-color-accent-solid: var(--ds-bg-accent-solid);
+  --background-color-danger-solid: var(--ds-bg-danger-solid);
+  --text-color-default: var(--ds-fg-default);
+  --text-color-accent: var(--ds-fg-accent);
+  --text-color-on-solid: var(--ds-fg-on-solid);
+  --border-color-default: var(--ds-border-default);
 
   /* 타이포 — 사이즈 사다리는 Tailwind 기본과 같아 덮지 않는다 */
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;

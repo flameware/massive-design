@@ -1,6 +1,6 @@
 import * as React from "react"
 import type { Preview } from "@storybook/react-vite"
-import "@massive/ui/styles.css"
+import "@flameware/ui/styles.css"
 
 const preview: Preview = {
   globalTypes: {

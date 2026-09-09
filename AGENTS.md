@@ -30,9 +30,11 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-**2세대가 결정됐고, 1세대 코드는 지워졌다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2026-09-09 그릴링의 결정 전부를 담는다 — Base UI 기반으로 `packages/ui`를 새로 쓰고, Phase 1의 완료 조건은 리포 밖 소비처 invest diary가 `@massive/ui`로 돌아가는 것이다. Phase 1 스펙은 [#275](https://github.com/flameware/massive-design/issues/275)이고, 그 sub-issue 19개(#277–#295)가 수직 슬라이스 티켓이다 — 막힘은 GitHub 네이티브 의존으로 걸려 있고, 프런티어는 막힘이 없는 티켓이다. [#277](https://github.com/flameware/massive-design/issues/277)(1세대 삭제)이 끝났으므로 다음은 [#278](https://github.com/flameware/massive-design/issues/278) 패키지 빌드·게시다. 그 밖의 이슈는 열지 않는다 — 소비 앱에서 난 결함만 예외다.
+**2세대가 결정됐고, 1세대 코드는 지워졌다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2026-09-09 그릴링의 결정 전부를 담는다 — Base UI 기반으로 `packages/ui`를 새로 쓰고, Phase 1의 완료 조건은 리포 밖 소비처 invest diary가 `@flameware/ui`로 돌아가는 것이다. Phase 1 스펙은 [#275](https://github.com/flameware/massive-design/issues/275)이고, 그 sub-issue 19개(#277–#295)가 수직 슬라이스 티켓이다 — 막힘은 GitHub 네이티브 의존으로 걸려 있고, 프런티어는 막힘이 없는 티켓이다. [#277](https://github.com/flameware/massive-design/issues/277)(1세대 삭제)과 [#278](https://github.com/flameware/massive-design/issues/278)의 리포 안쪽(빌드·패키징·Button·게시 워크플로)이 끝났으므로 다음은 [#279](https://github.com/flameware/massive-design/issues/279) Storybook 문서 계층이다. #278에 남은 것은 리포 밖이다 — **실제 게시와 invest diary 컷오버**. 그 밖의 이슈는 열지 않는다 — 소비 앱에서 난 결함만 예외다.
 
-**지금 리포에 있는 것**: `@massive/tokens`(램프 생성기·`lint`·`contrast`·`verify`), `@massive/ui`의 `cn`·`styles.css`·`state.css`(상태 사다리는 #280이 Base UI `data-*` 셀렉터로 다시 쓴다), 빈 Storybook 뼈대. 1세대 51개 컴포넌트·매니페스트·계약·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다. semantic 색의 `@theme` 등록은 #280 전까지 비어 있다.
+**지금 리포에 있는 것**: `@flameware/tokens`(램프 생성기·`lint`·`contrast`·`verify`), `@flameware/ui`의 `cn`·`Button`·`styles.css`·`state.css`(상태 사다리는 #280이 Base UI `data-*` 셀렉터로 다시 쓴다)·`hit-area.css`, 빈 Storybook 뼈대. 1세대 51개 컴포넌트·매니페스트·계약·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다. semantic 색의 `@theme` 등록은 Button이 쓰는 8개만 열려 있다 — 나머지와 Foundations 챕터는 #280이다.
+
+**패키지 스코프는 `@flameware`다**([ADR-0024](docs/adr/0024-package-scope-follows-the-registry-owner.md)) — GitHub Packages가 리포 소유자와 같은 스코프만 받는다. 1세대를 서술하는 문서의 `@massive/*`는 기록이므로 고치지 않는다.
 
 **Figma는 보류다** (ADR-0023 §9). 마지막 스냅숏 [#273](https://github.com/flameware/massive-design/issues/273)의 `verification/figma-baseline.json`은 1세대의 기록으로만 남는다. 스냅숏 툴링이 삭제됐으므로 요청이 와도 만들 수 없다.
 
@@ -52,7 +54,7 @@ Closed maps, with their records:
 
 ## Definition of done
 
-A code change is done when `bun run check` and `bun run test` pass (CI) and the PR is reviewed. `check` runs the tokens gates (`lint` → `contrast` → `verify`), the `@massive/ui` primitive-leak and state-ladder gate (the grep test ADR-0023 §12 keeps) plus `tsc` on `ui` and `storybook`; `test` runs `node --test` in `tokens` and `ui` (`ui` has no tests until #278). Storybook's axe run (`bun run --filter @massive/storybook test:a11y` after `build-storybook`) is on request until #279 makes it a CI test. There is no derived channel to sync.
+A code change is done when `bun run check` and `bun run test` pass (CI) and the PR is reviewed. `check` runs the tokens gates (`lint` → `contrast` → `verify`), the `@flameware/ui` primitive-leak and state-ladder gate (the grep test ADR-0023 §12 keeps), the `ui` build (`tsc` emitting `dist`, which is where the `.d.ts` for every subpath comes from) and `tsc` on `storybook`; `test` runs `node --test` in `tokens` and `ui`. The `ui` tests are the package smoke (subpath resolution, types, `"use client"` boundary, floor-cost cap) plus the Tailwind emission test — the one that catches a class name that silently produces no CSS. Storybook's axe run (`bun run --filter @flameware/storybook test:a11y` after `build-storybook`) is on request until #279 makes it a CI test. There is no derived channel to sync.
 
 ## Keeping this file
 

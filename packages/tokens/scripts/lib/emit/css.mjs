@@ -2,9 +2,17 @@
  * tokens/** → dist/tokens.css
  *
  * 블록 순서가 곧 참조 체인이다: palette → semantic(:root 라이트 · .dark 다크) →
- * @theme inline(비색상). 2세대는 alias 층이 없다 — 1세대의 shadcn 이름 층은
- * #277에서 삭제됐다(ADR-0023 §3). semantic 색을 Tailwind `@theme`에 등록하는
- * 일은 #280의 몫이다 — 그때까지 `@theme inline`에는 비색상만 산다.
+ * @theme inline. 2세대는 alias 층이 없다 — 1세대의 shadcn 이름 층은
+ * #277에서 삭제됐다(ADR-0023 §3).
+ *
+ * semantic 색의 `@theme` 등록은 **역할별 이름 공간**으로 한다 — `bg.*`는
+ * `--background-color-*`, `fg.*`는 `--text-color-*`, `border.*`는
+ * `--border-color-*`. 하나의 `--color-*`에 다 넣으면 `fg.default`와
+ * `border.default`가, `fg.accent`와 `border.accent`가, `fg.danger`와
+ * `border.danger`가 같은 이름이 된다(36개 중 3쌍). Tailwind v4는 이 세
+ * 이름 공간을 `--color-*`보다 먼저 해석하므로 역할이 곧 유틸리티 접두사다.
+ * 등록된 이름은 아래 THEME_COLORS가 명시 열거하고, 지금은 **Button이 쓰는
+ * 것만** 산다(#278). 나머지와 Foundations 챕터는 #280의 몫이다.
  *
  * 비색상은 이 파일이 **카테고리별로 명시 열거**한다. scale.json을 통째로 훑지
  * 않는 이유: CSS로 나가는 집합이 "Tailwind 기본과 다른 것"이라는 판정을 이미
@@ -14,6 +22,25 @@
  */
 
 import { flatten } from '../resolve.mjs'
+
+/** semantic 경로 → Tailwind 테마 이름 공간. 역할 세그먼트가 접두사가 되고
+ *  나머지가 유틸리티 이름이 된다: `bg.accent.solid` → `bg-accent-solid`.
+ *
+ *  훑기가 아니라 열거인 이유는 비색상 표와 같다 — "무엇을 유틸리티로 내보내는가"는
+ *  토큰 파일이 아니라 이 표가 쥐는 판정이고, 지금 그 판정을 거친 것은 Button이
+ *  쓰는 8개뿐이다(#278). 열거를 늘리는 것이 #280의 일이다. */
+const ROLE_NAMESPACE = { bg: '--background-color', fg: '--text-color', border: '--border-color' }
+
+const THEME_COLORS = [
+  'bg.surface',        // outline 버튼의 면
+  'bg.neutral.soft',   // secondary 버튼의 면
+  'bg.accent.solid',   // 기본 버튼의 면
+  'bg.danger.solid',   // destructive 버튼의 면
+  'fg.default',
+  'fg.accent',
+  'fg.on-solid',       // solid 면 위의 글자
+  'border.default',
+]
 
 /** DTCG 경로 → CSS 변수명. `color.` 세그먼트는 탈락한다(semantic-tokens.md §1). */
 export const dsVar = (path) => `--ds-${path.replace(/^color\./, '').replace(/\./g, '-')}`
@@ -60,7 +87,14 @@ export function emitCss({ gen, literal, semantic, scale }) {
   out.push('}', '')
 
   out.push('@theme inline {')
-  out.push('  /* 색 — 아직 없다. semantic 이름의 @theme 등록은 #280. --ds-* 는 여기 절대 들어가지 않는다 (#7) */')
+  out.push('  /* 색 — semantic 이름만. 역할이 이름 공간이다. 값은 semantic 변수를 가리키고')
+  out.push('   * 팔레트는 여기 절대 들어가지 않는다 (#7). 열거는 THEME_COLORS — 지금은 Button 몫뿐 (#278) */')
+  const semanticByPath = new Map(semanticEntries.map(([path]) => [path.replace(/^color\./, ''), true]))
+  for (const path of THEME_COLORS) {
+    if (!semanticByPath.has(path)) throw new Error(`THEME_COLORS의 ${path}가 semantic에 없다`)
+    const [role, ...rest] = path.split('.')
+    out.push(line(`${ROLE_NAMESPACE[role]}-${rest.join('-')}`, `var(${dsVar(path)})`))
+  }
 
   out.push('', '  /* 타이포 — 사이즈 사다리는 Tailwind 기본과 같아 덮지 않는다 */')
   out.push(line('--font-sans', scale.type.family.sans.$value))

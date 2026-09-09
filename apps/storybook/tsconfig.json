@@ -1,8 +1,5 @@
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "paths": { "@/*": ["./../../packages/ui/src/*"] }
-  },
   "files": [],
   "include": ["stories/**/*"]
 }

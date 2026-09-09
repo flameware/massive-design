@@ -1,4 +1,4 @@
-/* @massive/ui의 게이트. packages/tokens의 check와 같은 자리에 선다.
+/* @flameware/ui의 게이트. packages/tokens의 check와 같은 자리에 선다.
  *
  * 두 가지를 지킨다(ADR-0023 §12 — 새 게이트는 소비 앱에서 결함이 난 뒤에만 더한다):
  *   1. primitive를 직접 집는 곳이 없다 — 노출하지 않기로 한 계층이 컴포넌트로
@@ -70,10 +70,10 @@ for (const [state, want] of expected) {
 }
 
 if (errors.length) {
-  console.error("@massive/ui check 실패:")
+  console.error("@flameware/ui check 실패:")
   for (const e of errors) console.error("  " + e)
   process.exit(1)
 }
 
 const ladderText = expected.map(([s, v]) => `${s}=${v}`).join(" ")
-console.log(`@massive/ui check 통과 — 파일 ${files.length}개, state 사다리 ${ladderText}`)
+console.log(`@flameware/ui check 통과 — 파일 ${files.length}개, state 사다리 ${ladderText}`)

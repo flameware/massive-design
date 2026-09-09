@@ -14,14 +14,14 @@ const config: StorybookConfig = {
   stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)", "../stories/**/*.mdx"],
   addons: [getAbsolutePath("@storybook/addon-a11y"), getAbsolutePath("@storybook/addon-docs")],
   framework: getAbsolutePath("@storybook/react-vite"),
-  // @massive/ui는 dist가 아니라 src를 그대로 내보낸다(package.json exports).
-  // 그 소스가 쓰는 tsconfig 경로 별칭(@/* → ./src/*)은 Vite가 모른다 —
-  // tsconfig를 읽는 건 tsc/타입체커뿐이라 번들러에 따로 alias를 줘야 한다.
+  // @flameware/ui의 exports는 dist(빌드 산출물)를 가리킨다(#278). 워크벤치까지
+  // 그것을 보면 ui 소스를 고칠 때마다 빌드를 돌려야 HMR이 붙으므로, 여기서만
+  // 소스로 되돌린다 — 스토리를 쓰는 동안 보는 것은 언제나 지금의 소스여야 한다.
   viteFinal: async (viteConfig) => {
     viteConfig.resolve ??= {}
     viteConfig.resolve.alias = {
       ...viteConfig.resolve.alias,
-      "@": uiSrc,
+      "@flameware/ui": uiSrc,
     }
     viteConfig.plugins ??= []
     viteConfig.plugins.push(tailwindcss())
