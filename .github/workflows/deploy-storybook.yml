@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 22
       - run: bun install --frozen-lockfile
-      - run: bun run --filter '@massive/storybook' build-storybook
+      - run: bun run --filter '@flameware/storybook' build-storybook
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

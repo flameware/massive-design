@@ -1,11 +1,33 @@
 {
-  "name": "@massive/tokens",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@flameware/tokens",
+  "version": "0.1.0",
   "type": "module",
+  "description": "massive-design 토큰 — OKLCH 램프에서 생성한 CSS 한 장과 semantic 토큰 타입",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flameware/massive-design.git",
+    "directory": "packages/tokens"
+  },
+  "license": "UNLICENSED",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
+    ".": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
   },
   "scripts": {
     "tokens:ramp": "node scripts/ramp.mjs",
@@ -16,7 +38,7 @@
     "check": "node scripts/lint.mjs && node scripts/contrast.mjs && node scripts/verify.mjs",
     "test": "node --test"
   },
-  "dependencies": {
+  "devDependencies": {
     "apca-w3": "^0.1.9",
     "culori": "^4.0.1"
   },

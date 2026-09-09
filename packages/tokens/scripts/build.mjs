@@ -1,7 +1,7 @@
 /**
  * tokens/** → dist/**
  *
- * 출력물: `dist/tokens.css` · `dist/tokens.d.ts`. `dist/**`는 커밋한다 —
+ * 출력물: `dist/tokens.css` · `dist/tokens.js` · `dist/tokens.d.ts`. `dist/**`는 커밋한다 —
  * 아직 npm 게시 전이라 **커밋이 곧 배포 채널**이다(build-pipeline.md §2).
  * 어긋남은 `tokens:verify`가 잡는다.
  *
@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url'
 
 import { flatten } from './lib/resolve.mjs'
 import { emitCss } from './lib/emit/css.mjs'
-import { emitTypes } from './lib/emit/types.mjs'
+import { emitTypes, emitValues } from './lib/emit/types.mjs'
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -35,6 +35,7 @@ export function loadSources(root = ROOT) {
 export function buildAll(sources = loadSources()) {
   const out = new Map()
   out.set('tokens.css', emitCss(sources))
+  out.set('tokens.js', emitValues(sources))
   out.set('tokens.d.ts', emitTypes(sources))
   return out
 }

@@ -1,0 +1,49 @@
+# 두 패키지를 GitHub Packages에 올린다 (#278, ADR-0023 §4).
+#
+# 태그(`v*`)이거나 손으로 부를 때만 돈다 — main에 붙는 모든 커밋이 게시가 되면
+# 소비처가 어느 커밋을 받았는지 말할 수 없다.
+#
+# 게시 전에 check와 test를 다시 돈다. PR에서 이미 돌았지만, 태그가 가리키는
+# 커밋이 PR이 검사한 커밋과 같다는 보장은 태그에 없다.
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "실제로 올리지 않고 올릴 것만 보여준다"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          scope: "@flameware"
+
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run test
+
+      # npm으로 올린다 — bun publish는 GitHub Packages의 인증 헤더를 다르게 쓴다.
+      # 순서가 있다: ui가 tokens를 ^0.1.0으로 물고 있으므로 tokens가 먼저다.
+      - name: publish
+        run: |
+          DRY=""
+          if [ "${{ inputs.dry-run }}" = "true" ]; then DRY="--dry-run"; fi
+          npm publish --workspace @flameware/tokens $DRY
+          npm publish --workspace @flameware/ui $DRY
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

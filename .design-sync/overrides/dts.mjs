@@ -7,10 +7,14 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { Project, Node, ts } from 'ts-morph';
 
-// massive-design fork: @massive/ui ships NO .d.ts at all (its package.json
-// has no "types"/"typings" - `exports["."]` points straight at the TS
-// SOURCE, "./src/index.ts", and consumers get types from that file
-// directly). The upstream heuristics here only ever look for a built .d.ts
+// massive-design fork, written when @flameware/ui shipped NO .d.ts at all -
+// `exports["."]` pointed straight at the TS SOURCE, "./src/index.ts". That
+// stopped being true in #278: the package now builds `dist/` and every
+// subpath declares a "types" condition, so resolveSourceEntry() returns null
+// and the upstream heuristics take over. The fallback stays because it is
+// generic, not because this package still needs it.
+//
+// The upstream heuristics here only ever look for a built .d.ts
 // tree, so on this package they all miss and exportedNames()/loadDts() see
 // zero source files. This is the modern source-distributed-package pattern
 // (shadcn-style), not this repo's quirk alone, so the fallback is generic:

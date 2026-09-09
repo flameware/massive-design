@@ -1,13 +1,15 @@
-/* @massive/ui의 스타일 진입점. 소비처는 이 파일 하나만 import 한다.
+/* @flameware/ui의 스타일 진입점. 소비처는 이 파일 하나만 import 한다.
  *
  * 순서가 규약이다 — tailwind가 먼저, 우리 토큰이 나중(docs/tokens/build-pipeline.md).
  * dist/tokens.css가 semantic 변수와 base 규칙을 내므로 별도 globals.css는 없다. */
 @import "tailwindcss";
-@import "@massive/tokens/dist/tokens.css";
+@import "@flameware/tokens/dist/tokens.css";
 /* state layer 유틸리티. 사다리는 #280이 Base UI `data-*` 상태 셀렉터로 다시 쓴다
  * (ADR-0023 §13). scripts/check.mjs가 scale.json과의 일치를 지킨다. */
 @import "./state.css";
+/* 포인터 하한 24px의 재사용 클래스. 하한 자체는 #279의 스토리 테스트가 잰다 */
+@import "./hit-area.css";
 
-/* @massive/ui가 심링크로 얹히면 Tailwind의 자동 스캔이 여기까지 닿지 않는다.
+/* @flameware/ui가 심링크로 얹히면 Tailwind의 자동 스캔이 여기까지 닿지 않는다.
  * bun이 루트 호이스팅 대신 의존 패키지 밑에 심링크를 놓기 때문(#15). */
 @source "../src";

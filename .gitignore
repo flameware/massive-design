@@ -3,7 +3,11 @@ node_modules/
 *.log
 
 # dist/ 는 일부러 제외하지 않는다 — 생성물을 커밋하는 것이 곧 배포 채널이다
-# (docs/tokens/build-pipeline.md §2)
+# (docs/tokens/build-pipeline.md §2). 그것은 @flameware/tokens의 이야기다:
+# 거기서 dist는 원본에서 결정론적으로 나오고 verify가 커밋본과 원본의 일치를
+# 문다. @flameware/ui의 dist는 tsc 산출물이라 게시 때 다시 나고 검사할 원본
+# 대응이 없다 — 커밋하면 리뷰가 못 읽는 diff만 는다 (#278)
+packages/ui/dist/
 
 *storybook.log
 storybook-static

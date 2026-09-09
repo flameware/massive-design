@@ -1,10 +1,10 @@
 {
-  "name": "@massive/storybook",
+  "name": "@flameware/storybook",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@massive/ui": "*"
+    "@flameware/ui": "*"
   },
   "engines": {
     "node": ">=22"

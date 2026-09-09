@@ -19,8 +19,18 @@ const errorsFor = (text) => {
 
 // ── 출력물 모양 ─────────────────────────────────────────────────────────────
 
-test('빌드는 두 파일만 낸다 — Figma 산출물은 #277에서 사라졌다', () => {
-  assert.deepEqual([...files.keys()], ['tokens.css', 'tokens.d.ts'])
+test('빌드는 세 파일만 낸다 — Figma 산출물은 #277에서 사라졌다', () => {
+  assert.deepEqual([...files.keys()], ['tokens.css', 'tokens.js', 'tokens.d.ts'])
+})
+
+test('tokens.d.ts가 선언한 값에는 tokens.js의 구현이 있다', () => {
+  // 예전에는 `declare const`만 있고 짝이 되는 .js가 없었다. 게시 전에는 아무도
+  // 부르지 않아 드러나지 않는 종류의 거짓말이다 — 소비처에서는 타입 검사를
+  // 통과하고 런타임에서 터진다 (#278)
+  const declared = [...files.get('tokens.d.ts').matchAll(/^export declare const (\w+)/gm)].map((m) => m[1])
+  const implemented = [...files.get('tokens.js').matchAll(/^export const (\w+)/gm)].map((m) => m[1])
+  assert.ok(declared.length > 0)
+  assert.deepEqual(declared.sort(), implemented.sort())
 })
 
 test('블록 순서가 참조 체인 순서다 — palette → semantic → .dark → @theme', () => {
@@ -49,6 +59,32 @@ test('alias 층이 없다 — :root와 .dark는 --ds-*만 선언한다 (ADR-0023
     assert.deepEqual(foreign, [], selector)
   }
   assert.ok(!css.includes('shadcn'))
+})
+
+test('@theme의 semantic 색은 역할별 이름 공간에 산다 — 이름이 겹치지 않는다', () => {
+  const theme = css.match(/@theme inline \{([\s\S]*?)\n\}/)[1]
+  const colors = [...theme.matchAll(/^\s*--((?:background|text|border)-color)-([\w-]+): var\((--ds-[\w-]+)\);/gm)]
+  assert.ok(colors.length > 0)
+
+  // 역할이 접두사다. 하나의 --color-*에 담았다면 fg.default/border.default처럼
+  // 세 쌍이 같은 이름이 됐을 것이고, 그 충돌은 조용하다
+  const roleOf = { '--ds-bg-': 'background-color', '--ds-fg-': 'text-color', '--ds-border-': 'border-color' }
+  for (const [, namespace, , dsVar] of colors) {
+    const prefix = Object.keys(roleOf).find((p) => dsVar.startsWith(p))
+    assert.equal(namespace, roleOf[prefix], dsVar)
+  }
+
+  // 팔레트는 @theme에 절대 오지 않는다 (#7) — lint C10과 같은 규칙을 출력물에서 다시 잰다
+  assert.ok(!theme.includes('--ds-palette-'))
+})
+
+test('THEME_COLORS에 없는 이름은 유틸리티가 되지 않는다 — 열거는 명시다', () => {
+  const theme = css.match(/@theme inline \{([\s\S]*?)\n\}/)[1]
+  // #278은 Button이 쓰는 것만 연다. success·warning·inverse는 그것을 쓰는 컴포넌트가
+  // 생길 때(#280 이후) 열린다 — 열려 있으면 "쓸 수 있는데 왜 안 쓰나"가 된다
+  for (const name of ['success-solid', 'warning-solid', 'inverse', 'scrim']) {
+    assert.ok(!theme.includes(`-color-${name}:`), name)
+  }
 })
 
 test('타이포는 사이즈를 덮지 않고 서브키만 낸다', () => {

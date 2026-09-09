@@ -3,12 +3,12 @@
   "shape": "storybook",
   "storybookConfigDir": "apps/storybook",
   "storybookStatic": ".design-sync/sb-reference",
-  "pkg": "@massive/ui",
+  "pkg": "@flameware/ui",
   "entry": "packages/ui/src/index.ts",
   "titleMap": {},
   "readmeHeader": ".design-sync/conventions.md",
   "libOverrides": {
     "source-storybook.mjs": "shared title 'Components/Manifest references' holds every component's story - map by story name, not title (see file header)",
-    "dts.mjs": "@massive/ui ships no .d.ts at all - exports['.'] points at TS source directly; fall back to parsing the .ts/.tsx tree for export/prop discovery (see file header)"
+    "dts.mjs": "generic fallback for source-distributed packages: when exports['.'] resolves to a .ts/.tsx file, parse that tree for export/prop discovery. @flameware/ui no longer needs it - it ships .d.ts since #278 (see file header)"
   }
 }

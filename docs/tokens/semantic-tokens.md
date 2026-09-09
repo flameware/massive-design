@@ -1,6 +1,6 @@
 # semantic 토큰 어휘·네이밍과 shadcn alias 매핑
 
-> **일부 1세대 서술.** shadcn alias 층(`tokens/alias/shadcn.json`)과 Figma 산출물(`dist/figma/*`)은 #277에서 삭제됐다([ADR-0023](../adr/0023-second-generation-base-ui.md) §3·§9). 그것을 말하는 절은 역사이고, semantic 이름의 `@theme` 등록은 #280이 정한다.
+> **일부 1세대 서술.** shadcn alias 층(`tokens/alias/shadcn.json`)과 Figma 산출물(`dist/figma/*`)은 #277에서 삭제됐다([ADR-0023](../adr/0023-second-generation-base-ui.md) §3·§9). 그것을 말하는 절은 역사다. semantic 이름의 `@theme` 등록은 #278이 **Button이 쓰는 8개만** 열었고 — 역할이 이름 공간이다(`bg.*`→`--background-color-*`, `fg.*`→`--text-color-*`, `border.*`→`--border-color-*`) — 나머지는 #280이 연다. 여기 적힌 “`@theme`에 등록되는 건 shadcn이 정한 이름뿐”은 그 alias 층과 함께 사라졌다. 살아 있는 규칙은 **선언 이름**에 대한 것이다: `--ds-*`는 `@theme` 안에서 선언되지 않는다. 값으로 참조되는 것은 그 규칙이 아니고, 오히려 그것이 `.dark`가 덮을 자리를 남긴다.
 
 확정: 2026-08-19 · 근거 티켓 [#7](https://github.com/flameware/massive-design/issues/7) · 맵 [#1](https://github.com/flameware/massive-design/issues/1)
 
