@@ -3,37 +3,26 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "sideEffects": ["**/*.css"],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": "./src/index.ts",
-    "./dist/*": "./dist/*",
     "./package.json": "./package.json",
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "contracts": "bun scripts/generate-component-contracts.mjs",
-    "manifest": "bun scripts/manifest.mjs",
-    "manifest:verify": "bun scripts/manifest-verify.mjs",
-    "check": "node scripts/check.mjs && tsc --noEmit && bun scripts/manifest-verify.mjs",
+    "check": "node scripts/check.mjs && tsc --noEmit",
     "test": "node --test"
   },
   "dependencies": {
     "@massive/tokens": "*",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "embla-carousel-react": "8.6.0",
-    "input-otp": "1.5.0",
-    "radix-ui": "^1.6.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-is": "^19.2.0",
-    "react-resizable-panels": "4.12.3",
-    "recharts": "3.10.1",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@babel/parser": "7.29.8",
-    "@tailwindcss/cli": "^4.3.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "tailwindcss": "^4.3.3",

@@ -1,5 +1,7 @@
 # 비색상 스케일 토큰
 
+> **일부 1세대 서술.** shadcn alias 층(`tokens/alias/shadcn.json`)과 Figma 산출물(`dist/figma/*`)은 #277에서 삭제됐다([ADR-0023](../adr/0023-second-generation-base-ui.md) §3·§9). 그것을 말하는 절은 역사이고, semantic 이름의 `@theme` 등록은 #280이 정한다.
+
 확정: 2026-08-19 · 근거 티켓 [#8](https://github.com/flameware/massive-design/issues/8) · 맵 [#1](https://github.com/flameware/massive-design/issues/1)
 
 입력: [#5](https://github.com/flameware/massive-design/issues/5) Tailwind v4 · shadcn 정본 · [#4](https://github.com/flameware/massive-design/issues/4) Figma API 실측 · [#13](https://github.com/flameware/massive-design/issues/13) 알파·state 전략 · [#9](https://github.com/flameware/massive-design/issues/9) Pretendard
@@ -10,7 +12,7 @@
 
 색 토큰과 달리 **개수 상한을 두지 않는다.** 색은 어휘를 발명하므로 상한이 규율이었지만, 비색상은 대부분 Tailwind 정본 이름을 그대로 쓰므로 발명이 없다. 대신 다른 규율이 적용된다 — **Tailwind 기본값과 다른 값만 토큰이다.**
 
-현재 총계는 `packages/tokens/tokens/primitive/scale.json`에서 파생된 `dist/tokens.css`, `dist/tokens.d.ts`, `dist/figma/03-palette-scale.js`, `dist/figma/var-map.gen.json`을 정본으로 삼고 `tokens:verify`와 `test/build.test.mjs`가 일치를 감시한다. 이 문서는 값과 의도를 설명하며 쉽게 낡는 전체 합계를 복제하지 않는다. **신규 어휘는 만들지 않는다.**
+현재 총계는 `packages/tokens/tokens/primitive/scale.json`에서 파생된 `dist/tokens.css`, `dist/tokens.d.ts`를 정본으로 삼고 `tokens:verify`와 `test/build.test.mjs`가 일치를 감시한다. 이 문서는 값과 의도를 설명하며 쉽게 낡는 전체 합계를 복제하지 않는다. **신규 어휘는 만들지 않는다.**
 
 ---
 

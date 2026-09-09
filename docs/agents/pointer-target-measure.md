@@ -1,5 +1,7 @@
 # 포인터 대상 재계수·실측 절차
 
+> **1세대 문서.** 이 절차가 부르는 도구(`pointer-targets.mjs`·`scan.mjs`·`pointer-gate`)는 #277에서 삭제됐다(태그 `v1-shadcn`, [ADR-0023](../adr/0023-second-generation-base-ui.md)). 기록으로만 남는다 — 실행하지 않는다.
+
 확정: 2026-09-04 · 근거 티켓 [#228](https://github.com/flameware/massive-design/issues/228) · 맵 [#111](https://github.com/flameware/massive-design/issues/111) · 결정 [ADR-0020](../adr/0020-pointer-target-size-is-borne-by-the-hit-area.md) 결정 7 · 정본 [`docs/research/pointer-targets-2026-09.md`](https://github.com/flameware/massive-design/blob/research/pointer-target-instrument-228/docs/research/pointer-targets-2026-09.md)
 
 **"카탈로그의 포인터 대상이 무엇이고 각각의 실효 히트 영역이 몇 px인가"의 모집단과 값을 만드는 절차다.** 24×24 하한([ADR-0020](../adr/0020-pointer-target-size-is-borne-by-the-hit-area.md) 결정 1)에 대한 판정을 걸 대상이 여기서 나오고, 이후 모든 포인터 대상 재계수([#230](https://github.com/flameware/massive-design/issues/230)·[#231](https://github.com/flameware/massive-design/issues/231)·[#232](https://github.com/flameware/massive-design/issues/232))가 여기서 시작한다.

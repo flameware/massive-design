@@ -165,58 +165,6 @@
   --ds-border-focus: var(--ds-palette-brand-light-9);
   --ds-border-focus-contrast: var(--ds-palette-neutral-light-12);
   --ds-state-layer: var(--ds-palette-base-black);
-
-  /* shadcn raw — 반드시 실제 선언. color-mix 경로가 직접 읽는다 (#5).
-     .dark가 한 벌 더 선언한다 — 여기서 치환이 끝나기 때문 (#35) */
-  --background: var(--ds-bg-canvas);
-  --foreground: var(--ds-fg-default);
-  --card: var(--ds-bg-surface);
-  --card-foreground: var(--ds-fg-default);
-  --popover: var(--ds-bg-overlay);
-  --popover-foreground: var(--ds-fg-default);
-  --primary: var(--ds-bg-accent-solid);
-  --primary-foreground: var(--ds-fg-on-solid);
-  --primary-soft: var(--ds-bg-accent-soft);
-  --primary-text: var(--ds-fg-accent);
-  --secondary: var(--ds-bg-neutral-soft);
-  --secondary-foreground: var(--ds-fg-default);
-  --neutral-solid: var(--ds-bg-neutral-solid);
-  --muted: var(--ds-bg-subtle);
-  --muted-foreground: var(--ds-fg-muted);
-  --accent: var(--ds-bg-subtle);
-  --accent-foreground: var(--ds-fg-default);
-  --destructive: var(--ds-bg-danger-solid);
-  --destructive-foreground: var(--ds-fg-on-solid);
-  --destructive-soft: var(--ds-bg-danger-soft);
-  --destructive-text: var(--ds-fg-danger);
-  --border: var(--ds-border-default);
-  --input: var(--ds-border-field);
-  --knockout: var(--ds-border-knockout);
-  --ring: var(--ds-border-focus);
-  --focus-contrast: var(--ds-border-focus-contrast);
-  --chart-1: var(--ds-palette-neutral-light-12);
-  --chart-2: var(--ds-palette-neutral-light-10);
-  --chart-3: var(--ds-palette-neutral-light-8);
-  --chart-4: var(--ds-palette-neutral-light-6);
-  --chart-5: var(--ds-palette-neutral-light-4);
-  --sidebar: var(--ds-bg-surface);
-  --sidebar-foreground: var(--ds-fg-default);
-  --sidebar-primary: var(--ds-bg-accent-solid);
-  --sidebar-primary-foreground: var(--ds-fg-on-solid);
-  --sidebar-accent: var(--ds-bg-subtle);
-  --sidebar-accent-foreground: var(--ds-fg-default);
-  --sidebar-border: var(--ds-border-default);
-  --sidebar-ring: var(--ds-border-focus);
-  --success: var(--ds-bg-success-solid);
-  --success-foreground: var(--ds-fg-on-solid);
-  --success-soft: var(--ds-bg-success-soft);
-  --success-text: var(--ds-fg-success);
-  --warning: var(--ds-bg-warning-solid);
-  --warning-foreground: var(--ds-fg-on-warning);
-  --warning-soft: var(--ds-bg-warning-soft);
-  --warning-text: var(--ds-fg-warning);
-  --link: var(--ds-fg-link);
-  --radius: 0.625rem;
 }
 
 .dark {
@@ -256,107 +204,10 @@
   --ds-border-focus: var(--ds-palette-brand-dark-9);
   --ds-border-focus-contrast: var(--ds-palette-neutral-dark-12);
   --ds-state-layer: var(--ds-palette-base-white);
-
-  --background: var(--ds-bg-canvas);
-  --foreground: var(--ds-fg-default);
-  --card: var(--ds-bg-surface);
-  --card-foreground: var(--ds-fg-default);
-  --popover: var(--ds-bg-overlay);
-  --popover-foreground: var(--ds-fg-default);
-  --primary: var(--ds-bg-accent-solid);
-  --primary-foreground: var(--ds-fg-on-solid);
-  --primary-soft: var(--ds-bg-accent-soft);
-  --primary-text: var(--ds-fg-accent);
-  --secondary: var(--ds-bg-neutral-soft);
-  --secondary-foreground: var(--ds-fg-default);
-  --neutral-solid: var(--ds-bg-neutral-solid);
-  --muted: var(--ds-bg-subtle);
-  --muted-foreground: var(--ds-fg-muted);
-  --accent: var(--ds-bg-subtle);
-  --accent-foreground: var(--ds-fg-default);
-  --destructive: var(--ds-bg-danger-solid);
-  --destructive-foreground: var(--ds-fg-on-solid);
-  --destructive-soft: var(--ds-bg-danger-soft);
-  --destructive-text: var(--ds-fg-danger);
-  --border: var(--ds-border-default);
-  --input: var(--ds-border-field);
-  --knockout: var(--ds-border-knockout);
-  --ring: var(--ds-border-focus);
-  --focus-contrast: var(--ds-border-focus-contrast);
-  --chart-1: var(--ds-palette-neutral-dark-12);
-  --chart-2: var(--ds-palette-neutral-dark-10);
-  --chart-3: var(--ds-palette-neutral-dark-8);
-  --chart-4: var(--ds-palette-neutral-dark-6);
-  --chart-5: var(--ds-palette-neutral-dark-4);
-  --sidebar: var(--ds-bg-surface);
-  --sidebar-foreground: var(--ds-fg-default);
-  --sidebar-primary: var(--ds-bg-accent-solid);
-  --sidebar-primary-foreground: var(--ds-fg-on-solid);
-  --sidebar-accent: var(--ds-bg-subtle);
-  --sidebar-accent-foreground: var(--ds-fg-default);
-  --sidebar-border: var(--ds-border-default);
-  --sidebar-ring: var(--ds-border-focus);
-  --success: var(--ds-bg-success-solid);
-  --success-foreground: var(--ds-fg-on-solid);
-  --success-soft: var(--ds-bg-success-soft);
-  --success-text: var(--ds-fg-success);
-  --warning: var(--ds-bg-warning-solid);
-  --warning-foreground: var(--ds-fg-on-warning);
-  --warning-soft: var(--ds-bg-warning-soft);
-  --warning-text: var(--ds-fg-warning);
-  --link: var(--ds-fg-link);
 }
 
 @theme inline {
-  /* 색 — shadcn 이름만. --ds-* 는 여기 절대 들어가지 않는다 (#7) */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary-soft: var(--primary-soft);
-  --color-primary-text: var(--primary-text);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-neutral-solid: var(--neutral-solid);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-destructive-soft: var(--destructive-soft);
-  --color-destructive-text: var(--destructive-text);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-knockout: var(--knockout);
-  --color-ring: var(--ring);
-  --color-focus-contrast: var(--focus-contrast);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-success: var(--success);
-  --color-success-foreground: var(--success-foreground);
-  --color-success-soft: var(--success-soft);
-  --color-success-text: var(--success-text);
-  --color-warning: var(--warning);
-  --color-warning-foreground: var(--warning-foreground);
-  --color-warning-soft: var(--warning-soft);
-  --color-warning-text: var(--warning-text);
-  --color-link: var(--link);
+  /* 색 — 아직 없다. semantic 이름의 @theme 등록은 #280. --ds-* 는 여기 절대 들어가지 않는다 (#7) */
 
   /* 타이포 — 사이즈 사다리는 Tailwind 기본과 같아 덮지 않는다 */
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
@@ -378,7 +229,7 @@
   /* space — 이름 붙은 단계는 0개. 배수 하나가 전부 동적 생성한다 */
   --spacing: 0.25rem;
 
-  /* radius — shadcn CLI의 곱셈 7단, 빌드 시점 선계산 */
+  /* radius — base × 배수 7단, 빌드 시점 선계산 */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.625rem;
@@ -395,15 +246,15 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .16), 0 8px 10px -6px rgb(0 0 0 / .16);
 }
 
-/* shadcn 정본의 base 규칙. 변수가 아니라 규칙이라 #17이 놓쳤다 (#36) */
+/* base 규칙. 변수가 아니라 규칙이라 #17이 놓쳤다 (#36) */
 @layer base {
   * {
-    border-color: var(--border);
-    outline-color: var(--ring);
+    border-color: var(--ds-border-default);
+    outline-color: var(--ds-border-focus);
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: var(--ds-bg-canvas);
+    color: var(--ds-fg-default);
   }
 }

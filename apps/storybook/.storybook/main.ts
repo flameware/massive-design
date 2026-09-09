@@ -10,7 +10,8 @@ function getAbsolutePath(value: string) {
 const uiSrc = fileURLToPath(new URL("../../../packages/ui/src", import.meta.url))
 
 const config: StorybookConfig = {
-  stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  // 2세대 스토리는 #279부터 채운다 — 1세대 카탈로그는 #277에서 지웠다(태그 v1-shadcn).
+  stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)", "../stories/**/*.mdx"],
   addons: [getAbsolutePath("@storybook/addon-a11y"), getAbsolutePath("@storybook/addon-docs")],
   framework: getAbsolutePath("@storybook/react-vite"),
   // @massive/ui는 dist가 아니라 src를 그대로 내보낸다(package.json exports).

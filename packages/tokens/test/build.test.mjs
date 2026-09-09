@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 
-import { buildAll, checkLimits, loadSources } from '../scripts/build.mjs'
+import { buildAll, loadSources } from '../scripts/build.mjs'
 import { lintCss } from '../scripts/lint.mjs'
 import { report, wcag } from '../scripts/contrast.mjs'
 import { flatten } from '../scripts/lib/resolve.mjs'
@@ -19,27 +19,45 @@ const errorsFor = (text) => {
 
 // ── 출력물 모양 ─────────────────────────────────────────────────────────────
 
-test('블록 순서가 alias 체인 순서다 — palette → semantic → shadcn → @theme', () => {
+test('빌드는 두 파일만 낸다 — Figma 산출물은 #277에서 사라졌다', () => {
+  assert.deepEqual([...files.keys()], ['tokens.css', 'tokens.d.ts'])
+})
+
+test('블록 순서가 참조 체인 순서다 — palette → semantic → .dark → @theme', () => {
   const at = (needle) => css.indexOf(needle)
   assert.ok(at('@custom-variant dark') < at('--ds-palette-brand-light-1'))
   assert.ok(at('--ds-palette-brand-light-1') < at('--ds-bg-canvas'))
-  assert.ok(at('--ds-bg-canvas') < at('--background:'))
-  assert.ok(at('--background:') < at('.dark {'))
+  assert.ok(at('--ds-bg-canvas') < at('.dark {'))
   assert.ok(at('.dark {') < at('@theme inline {'))
 })
 
-test('.dark는 semantic과 alias 원본을 빠짐없이 재선언한다', () => {
+test('.dark는 semantic 전부를 빠짐없이 재선언하고 그것만 재선언한다', () => {
   const dark = css.match(/\n\.dark \{([\s\S]*?)\n\}/)[1]
   const decls = [...dark.matchAll(/^\s*(--[\w-]+):/gm)].map((m) => m[1])
   const semanticCount = flatten(sources.semantic).size
-  const aliasCount = Object.keys(sources.shadcn)
-    .filter((name) => !name.startsWith('$') && name !== 'radius').length
-  assert.equal(decls.length, semanticCount + aliasCount)
-  assert.equal(decls.filter((d) => d.startsWith('--ds-')).length, semanticCount)
-  // alias는 :root에서 이미 치환이 끝나 자손이 상속만 한다 — 한 벌 더 선언하지
-  // 않으면 중첩 .dark에서 라이트에 남는다 (#35). 뒤집히는지 자체는 cascade.test
-  assert.equal(decls.filter((d) => !d.startsWith('--ds-')).length, aliasCount)
-  assert.ok(!decls.includes('--radius'))
+  assert.equal(decls.length, semanticCount)
+  assert.ok(decls.every((d) => d.startsWith('--ds-')))
+})
+
+test('shadcn alias 이름이 출력 어디에도 없다 — ADR-0023 §3, #277', () => {
+  // 1세대 alias 표(`tokens/alias/shadcn.json`, 태그 v1-shadcn)의 이름 전부.
+  // 하나라도 살아 있으면 alias 층이 되살아난 것이다
+  const ALIAS = [
+    'background', 'foreground', 'card', 'card-foreground', 'popover', 'popover-foreground',
+    'primary', 'primary-foreground', 'primary-soft', 'primary-text',
+    'secondary', 'secondary-foreground', 'neutral-solid', 'muted', 'muted-foreground',
+    'accent', 'accent-foreground', 'destructive', 'destructive-foreground',
+    'destructive-soft', 'destructive-text', 'border', 'input', 'knockout', 'ring', 'focus-contrast',
+    'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
+    'sidebar', 'sidebar-foreground', 'sidebar-primary', 'sidebar-primary-foreground',
+    'sidebar-accent', 'sidebar-accent-foreground', 'sidebar-border', 'sidebar-ring',
+    'success', 'success-foreground', 'success-soft', 'success-text',
+    'warning', 'warning-foreground', 'warning-soft', 'warning-text', 'link', 'radius',
+  ]
+  const declared = new Set([...css.matchAll(/^\s*--([\w-]+)\s*:/gm)].map((m) => m[1]))
+  const alive = ALIAS.filter((n) => declared.has(n) || declared.has(`color-${n}`))
+  assert.deepEqual(alive, [])
+  assert.ok(!css.includes('shadcn'))
 })
 
 test('타이포는 사이즈를 덮지 않고 서브키만 낸다', () => {
@@ -53,6 +71,12 @@ test('CSS 출력이 없는 카테고리는 정말로 없다', () => {
   for (const name of ['--border-width', '--duration', '--opacity', '--ease-']) {
     assert.ok(!css.includes(name), name)
   }
+})
+
+test('base 규칙이 semantic 변수를 직접 칠한다 — 페이지 배경·글자·테두리·outline', () => {
+  const base = css.slice(css.indexOf('@layer base'))
+  assert.match(base, /\*\s*\{\s*border-color: var\(--ds-border-default\);\s*outline-color: var\(--ds-border-focus\);/)
+  assert.match(base, /body\s*\{\s*background-color: var\(--ds-bg-canvas\);\s*color: var\(--ds-fg-default\);/)
 })
 
 // ── lint 규칙군 C가 실제로 무는가 ───────────────────────────────────────────
@@ -70,52 +94,17 @@ test('C12 — --color-X 와 --text-X 충돌을 잡는다', () => {
   assert.ok(errors.some((e) => e.startsWith('C12')), errors.join('\n'))
 })
 
-test('C13 — shadcn 정본이 빠지면 잡는다', () => {
-  assert.ok(errorsFor(css.replace('  --primary: ', '  --primary-x: ')).some((e) =>
-    e === 'C13 :root에 --primary이 없다'))
-})
-
 test('C14 — @custom-variant dark의 형태를 잡는다', () => {
   assert.ok(errorsFor('@custom-variant dark (&:is(.dark *));').some((e) => e.startsWith('C14')))
 })
 
+test('C15 — base 규칙이 빠지거나 다른 변수를 읽으면 잡는다', () => {
+  assert.ok(errorsFor(css.replace('background-color: var(--ds-bg-canvas)', 'background-color: var(--background)'))
+    .some((e) => e.startsWith('C15')))
+})
+
 test('빌드한 CSS는 규칙군 C를 통과한다', () => {
   assert.deepEqual(errorsFor(css), [])
-})
-
-// ── Figma 산출물 ────────────────────────────────────────────────────────────
-
-// 주입 스크립트만. dist/figma의 *.gen.json 표는 code로 안 간다
-const figma = [...files].filter(([name]) => name.includes('figma') && name.endsWith('.js'))
-const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
-
-test('주입 스크립트 7개가 50,000자 상한 안에 있다', () => {
-  assert.equal(figma.length, 7)
-  assert.deepEqual(checkLimits(files), [])
-})
-
-test('주입 스크립트가 문법적으로 성립한다 — 최상위 await·return 포함', () => {
-  for (const [name, code] of figma) {
-    assert.doesNotThrow(() => new AsyncFunction('figma', code), name)
-  }
-})
-
-test('line-height는 비율이 아니라 px로 나간다 — 바인딩이 PERCENT를 못 쓴다', () => {
-  const code = files.get('figma/03-palette-scale.js')
-  assert.match(code, /\[\s*"type\/line-height\/sm",\s*"FLOAT",\s*22\.4,/)
-  assert.match(code, /\[\s*"type\/line-height\/5xl",\s*"FLOAT",\s*60,/)
-})
-
-test('primitive 색은 숨기고 스케일은 노출한다 — #7의 대응물은 색뿐이다 (#41)', () => {
-  assert.match(files.get('figma/02-palette-color.js'), /hiddenFromPublishing = true/)
-  // 지우는 게 아니라 false다 — 지우면 이미 숨겨진 채 주입된 파일이 영영 안 돌아온다
-  assert.match(files.get('figma/03-palette-scale.js'), /hiddenFromPublishing = false/)
-})
-
-test('semantic은 두 모드가 서로 다른 palette 단계를 가리킨다', () => {
-  const code = files.get('figma/04-semantic.js')
-  assert.match(code, /\[\s*"bg\/canvas",\s*"neutral\/light\/2",\s*"neutral\/dark\/1"/)
-  assert.match(code, /\[\s*"bg\/surface",\s*"neutral\/light\/1",\s*"neutral\/dark\/2"/)
 })
 
 // ── 타입 ────────────────────────────────────────────────────────────────────

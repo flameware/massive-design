@@ -1,6 +1,6 @@
 ---
 name: 버그
-about: 코드·Storybook·Figma 문서·발행 라이브러리 중 한 채널이 의도대로 동작하지 않는다
+about: 코드·Storybook·소비처 중 한 채널이 의도대로 동작하지 않는다
 title: ""
 labels: "bug, needs-triage"
 assignees: ""
@@ -12,8 +12,6 @@ assignees: ""
 
 - [ ] 코드 (`packages/tokens`, `packages/ui`)
 - [ ] Storybook (`apps/storybook`)
-- [ ] Figma 문서
-- [ ] 발행된 Figma 라이브러리
 - [ ] 소비처 (리포 밖)
 
 대상 컴포넌트·토큰:
@@ -43,6 +41,4 @@ assignees: ""
 
 ## 호환성
 
-고치면 공개 기준선의 기존 호출·인스턴스·override가 재해석되는가. 아는 만큼만 적는다.
-
-- 예상 분류: `additive` / `in-place safe` / `breaking` / 모름
+고치면 소비처의 기존 호출이 재해석되는가. 아는 만큼만 적는다.

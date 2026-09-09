@@ -1,5 +1,7 @@
 # semantic 토큰 어휘·네이밍과 shadcn alias 매핑
 
+> **일부 1세대 서술.** shadcn alias 층(`tokens/alias/shadcn.json`)과 Figma 산출물(`dist/figma/*`)은 #277에서 삭제됐다([ADR-0023](../adr/0023-second-generation-base-ui.md) §3·§9). 그것을 말하는 절은 역사이고, semantic 이름의 `@theme` 등록은 #280이 정한다.
+
 확정: 2026-08-19 · 근거 티켓 [#7](https://github.com/flameware/massive-design/issues/7) · 맵 [#1](https://github.com/flameware/massive-design/issues/1)
 
 입력: [#2](https://github.com/flameware/massive-design/issues/2) 후보 30개 · [#5](https://github.com/flameware/massive-design/issues/5) shadcn 정본 · [#13](https://github.com/flameware/massive-design/issues/13) 알파 전략 · [#6](https://github.com/flameware/massive-design/issues/6) 램프 4종 확정값
@@ -120,7 +122,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 |---|---|---|---|---|
 | 36 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
 
-현재 총계는 `dist/tokens.d.ts`의 `SemanticColorToken`과 `dist/figma/04-semantic.js`의 생성 로그에서 확인한다. 두 생성물의 개수 일치는 `test/build.test.mjs`가 검증한다.
+현재 총계는 `dist/tokens.d.ts`의 `SemanticColorToken` union에서 확인한다. 개수는 `test/build.test.mjs`가 검증한다.
 
 비색상 (상한 밖, #13에서 확정): `state.hover.opacity` 0.08 · `state.pressed.opacity` 0.12 · `state.disabled.opacity` 0.5
 

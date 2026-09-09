@@ -1,20 +1,21 @@
 /**
  * 중첩 서브트리에서 `.dark`가 실제로 뒤집는가 — #35의 회귀 게이트.
  *
- * 나머지 게이트가 전부 **문자열 diff**라 이 결함을 통째로 놓쳤다. 출력은 내내
- * 정상으로 보였다: `.dark`가 `--ds-*` 30개를 덮고 있었으니 diff에 이상이 없다.
- * 틀린 것은 문자열이 아니라 **치환이 일어나는 요소**였다 — 그래서 여기서는
- * CSS 커스텀 속성의 계산 규칙을 아주 작게 흉내 내어 값을 실제로 풀어 본다.
+ * 나머지 게이트가 전부 **문자열 diff**라 이 결함을 통째로 놓쳤다. 틀린 것은
+ * 문자열이 아니라 **치환이 일어나는 요소**였다 — 그래서 여기서는 CSS 커스텀
+ * 속성의 계산 규칙을 아주 작게 흉내 내어 값을 실제로 풀어 본다.
  *
  * 규칙 하나가 전부다: `var()`는 **그 선언이 붙은 요소에서** 풀리고, 자손은 이미
- * 확정된 값을 상속한다. `:root`의 `--background: var(--ds-bg-canvas)`가 :root에서
- * 라이트로 확정되므로, 자손 `.dark`가 `--ds-bg-canvas`만 덮어서는 `--background`가
- * 바뀌지 않는다. `.dark`가 `<html>`에 붙으면 `:root`와 같은 요소라 우연히 맞는다.
+ * 확정된 값을 상속한다. 그래서 `.dark`는 semantic을 **통째로** 재선언해야 한다 —
+ * 일부만 덮으면 나머지는 `:root`에서 라이트로 확정된 값을 상속한다.
+ * 1세대에는 alias 층이 하나 더 있어 같은 규칙이 두 번 걸렸다(#277에서 삭제).
  */
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 
 import { buildAll, loadSources } from '../scripts/build.mjs'
+import { resolve } from '../scripts/lib/resolve.mjs'
+import { dsVar } from '../scripts/lib/emit/css.mjs'
 
 const sources = loadSources()
 const css = buildAll(sources).get('tokens.css')
@@ -38,16 +39,16 @@ function computed(decls, inherited = new Map()) {
   const out = new Map(inherited)
   const seen = new Set()
 
-  const resolve = (name) => {
+  const resolveVar = (name) => {
     if (!decls.has(name)) return inherited.get(name)
     assert.ok(!seen.has(name), `${name}: 순환 참조`)
     seen.add(name)
-    const value = decls.get(name).replace(/var\((--[\w-]+)\)/g, (_, ref) => resolve(ref) ?? '')
+    const value = decls.get(name).replace(/var\((--[\w-]+)\)/g, (_, ref) => resolveVar(ref) ?? '')
     seen.delete(name)
     return value
   }
 
-  for (const name of decls.keys()) out.set(name, resolve(name))
+  for (const name of decls.keys()) out.set(name, resolveVar(name))
   return out
 }
 
@@ -58,6 +59,8 @@ const light = computed(root)                    // <html>
 const rootDark = computed(dark, computed(root)) // <html class="dark"> — :root와 같은 요소
 const nestedDark = computed(dark, light)        // <html> > <div class="dark">
 
+const semanticPaths = [...sources.tokens.keys()].filter((p) => p.startsWith('color.'))
+
 // ── ──────────────────────────────────────────────────────────────────────────
 
 test('.dark는 어디에 붙어도 같은 값을 낸다 — 루트든 중첩 서브트리든', () => {
@@ -65,36 +68,35 @@ test('.dark는 어디에 붙어도 같은 값을 낸다 — 루트든 중첩 서
   assert.deepEqual(drifted, [])
 })
 
-test('중첩 .dark에서 alias 원본 전부가 루트 다크와 같은 값이 된다', () => {
-  const alias = [...root.keys()].filter((n) => !n.startsWith('--ds-') && n !== '--radius')
-  const expected = Object.keys(sources.shadcn)
-    .filter((name) => !name.startsWith('$') && name !== 'radius').length
-  assert.equal(alias.length, expected)
-  for (const name of alias) assert.equal(nestedDark.get(name), rootDark.get(name), name)
+test('계산된 값이 원본 해석과 같다 — 두 모드 전부, semantic 전량', () => {
+  for (const path of semanticPaths) {
+    const name = dsVar(path)
+    assert.equal(light.get(name), resolve(sources.tokens, path, 'light').value, `${name} light`)
+    assert.equal(nestedDark.get(name), resolve(sources.tokens, path, 'dark').value, `${name} dark`)
+  }
+})
 
-  // 모드별 alias 값이 갈리는 전량을 감시한다. #82의 warning은 solid와 전용 검정
-  // 전경이 모드 공통이고, soft/text가 모드별로 갈린다. #143의 knockout은 bg.canvas를
-  // 그대로 따라가므로 canvas와 같이 갈린다 — 그것이 이 토큰의 정의다.
-  const flips = alias.filter((n) => rootDark.get(n) !== light.get(n))
-  assert.equal(flips.length, 35)
-  for (const name of flips) assert.notEqual(nestedDark.get(name), light.get(name), name)
+test('모드가 갈리는 토큰은 중첩 .dark에서도 전부 뒤집힌다', () => {
+  // 갈리는 전량을 원본에서 센다 — 수를 문서에 얼리지 않는다
+  const flips = semanticPaths.filter((p) =>
+    resolve(sources.tokens, p, 'light').value !== resolve(sources.tokens, p, 'dark').value)
+  assert.ok(flips.length > 0)
+  for (const path of flips) {
+    const name = dsVar(path)
+    assert.notEqual(nestedDark.get(name), light.get(name), name)
+  }
 })
 
 test('엇갈림이 없다 — state layer와 그것이 얹히는 면이 같은 모드다', () => {
   // 결함의 최악 증상: 층은 뒤집히고 배경은 안 뒤집혀 밝은 면 위에 흰 층이 얹혔다
   assert.equal(nestedDark.get('--ds-state-layer'), rootDark.get('--ds-state-layer'))
-  assert.equal(nestedDark.get('--secondary'), rootDark.get('--secondary'))
+  assert.equal(nestedDark.get('--ds-bg-neutral-soft'), rootDark.get('--ds-bg-neutral-soft'))
 })
 
-test('계산기가 진짜로 무는가 — alias 재선언을 걷어내면 실패한다', () => {
-  // 이 테스트가 없으면 위 셋은 "계산기가 아무것도 안 해도 통과"할 수 있다
-  const broken = new Map([...dark].filter(([name]) => name.startsWith('--ds-')))
+test('계산기가 진짜로 무는가 — 재선언 하나를 걷어내면 그 값은 라이트에 남는다', () => {
+  // 이 테스트가 없으면 위 넷은 "계산기가 아무것도 안 해도 통과"할 수 있다
+  const broken = new Map([...dark].filter(([name]) => name !== '--ds-bg-canvas'))
   const brokenNested = computed(broken, light)
-  assert.equal(brokenNested.get('--ds-bg-canvas'), rootDark.get('--ds-bg-canvas'))
-  assert.equal(brokenNested.get('--background'), light.get('--background'))
-})
-
-test('모드 무관인 것은 .dark에 없다 — --radius', () => {
-  assert.ok(root.has('--radius'))
-  assert.ok(!dark.has('--radius'))
+  assert.equal(brokenNested.get('--ds-bg-canvas'), light.get('--ds-bg-canvas'))
+  assert.notEqual(brokenNested.get('--ds-bg-canvas'), rootDark.get('--ds-bg-canvas'))
 })

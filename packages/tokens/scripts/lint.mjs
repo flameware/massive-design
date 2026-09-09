@@ -3,8 +3,9 @@
  * 규칙 번호는 docs/tokens/build-pipeline.md §4.3과 1:1로 대응한다.
  *
  * 별도 도구를 쓰지 않는다. A·B는 JSON을 읽는 평범한 JS, C는 dist/tokens.css에
- * 대한 정규식·괄호 스캔이다. 규칙 10·11·13은 **Stylelint가 원래 모르는 도메인
- * 규칙**이라 어차피 직접 써야 한다.
+ * 대한 정규식·괄호 스캔이다. 규칙 10·11은 **Stylelint가 원래 모르는 도메인
+ * 규칙**이라 어차피 직접 써야 한다. 규칙 13(alias 표 존재)은 alias 층과 함께
+ * #277에서 사라졌다.
  *
  * 규칙 10·12는 현재 구조상 위반이 불가능하다. 그래도 남긴다 — 이 lint의 값은
  * 위반을 잡는 게 아니라 **구조가 무너졌을 때 알려주는 것**이다.
@@ -17,28 +18,6 @@ import { ROOT, loadSources } from './build.mjs'
 import { deltaEOK, oklchToHex, toOklch } from './lib/oklch.mjs'
 import { flatten, isRef, refPath, valueFor } from './lib/resolve.mjs'
 import { resolveOverrides, resolveParams } from './ramp.mjs'
-
-/**
- * alias 표가 반드시 내야 하는 이름. alias 파일에서 파생하지 않는다 —
- * 그러면 자기 자신을 검사한다.
- *
- * ⚠️ 이름이 "정본"이지만 전부 정본은 아니다: success·warning·link 묶음은
- * shadcn에 없는 우리 추가분이다(#37, #82). 그래도 여기 있는 이유는
- * 이 목록이 "shadcn이 정한 것"이 아니라 **"컴포넌트가 집을 수 있는 이름의
- * 전량"**이기 때문이다 — 빠지면 `text-link` 같은 유틸리티가 조용히 무효가 된다.
- */
-export const SHADCN_CANON = [
-  'background', 'foreground', 'card', 'card-foreground', 'popover', 'popover-foreground',
-  'primary', 'primary-foreground', 'secondary', 'secondary-foreground', 'neutral-solid',
-  'muted', 'muted-foreground', 'accent', 'accent-foreground',
-  'destructive', 'destructive-foreground', 'border', 'input', 'ring', 'focus-contrast',
-  'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
-  'sidebar', 'sidebar-foreground', 'sidebar-primary', 'sidebar-primary-foreground',
-  'sidebar-accent', 'sidebar-accent-foreground', 'sidebar-border', 'sidebar-ring',
-  'success', 'success-foreground',
-  'warning', 'warning-foreground',
-  'link',
-]
 
 const MODES = ['light', 'dark']
 
@@ -112,9 +91,8 @@ export function lintLayers({ gen, literal, semantic }, err) {
 
   // 8. #82가 feedback용 warning soft/solid/text/on-warning 역할을 추가했다.
   //    #143이 border.knockout을 더했다 — 겹친 요소를 가르려고 뒤 면을 되그리는
-  //    테두리다. 값은 bg.canvas와 같지만 계열이 달라야 했다: 매니페스트 게이트가
-  //    border-color에 --ds-bg-*가 오는 것을 문다(packages/ui lint 규칙 3).
-  //    근거와 고려한 대안은 ADR-0007에 있다.
+  //    테두리다. 값은 bg.canvas와 같지만 계열이 달라야 했다(1세대 매니페스트
+  //    게이트가 border-color에 --ds-bg-*가 오는 것을 물었다). 근거는 ADR-0007.
   if (semanticTokens.size !== 36) {
     err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 36이어야 한다`)
   }
@@ -161,18 +139,12 @@ export function lintCss(source, err) {
     if (named('text').has(name)) err(`C12 --color-${name} 과 --text-${name} 이 충돌한다`)
   }
 
-  // 13. alias 표의 이름이 :root에 전부 존재
-  const root = css.match(/:root\s*\{([\s\S]*?)\n\}/)?.[1] ?? ''
-  for (const name of SHADCN_CANON) {
-    if (!new RegExp(`^\\s*--${name}\\s*:`, 'm').test(root)) err(`C13 :root에 --${name}이 없다`)
-  }
-
-  // 14. @custom-variant dark의 형태. shadcn CLI의 &:is(.dark *)는 토글 자신을 놓친다
+  // 14. @custom-variant dark의 형태. &:is(.dark *)는 토글 자신을 놓친다
   if (!/@custom-variant\s+dark\s*\(&:where\(\.dark,\s*\.dark \*\)\);/.test(css)) {
     err('C14 @custom-variant dark가 &:where(.dark, .dark *) 형태가 아니다')
   }
 
-  // 15. shadcn 정본의 base 규칙 (#36). 없으면 preflight의 `border: 0 solid`가 남아
+  // 15. base 규칙 (#36). 없으면 preflight의 `border: 0 solid`가 남아
   //     `border` 유틸리티가 currentColor로 그려진다 — 다크에서 거의 흰 테두리다.
   //     #35의 "규칙군 C는 전부 문자열 스캔이라 결함이 통과했다"가 여기엔 안 걸린다:
   //     그때는 선언이 멀쩡했고 치환이 틀렸지만, 여기서는 규칙 자체가 없는 것이
@@ -180,8 +152,8 @@ export function lintCss(source, err) {
   //     정본은 두 규칙이다. body 줄이 없으면 --foreground가 정상 해석되는데 아무도
   //     칠하지 않아 다크에서 UA 기본 검정 글자가 된다.
   for (const [selector, expected] of [
-    ['\\*', [['border-color', '--border'], ['outline-color', '--ring']]],
-    ['body', [['background-color', '--background'], ['color', '--foreground']]],
+    ['\\*', [['border-color', '--ds-border-default'], ['outline-color', '--ds-border-focus']]],
+    ['body', [['background-color', '--ds-bg-canvas'], ['color', '--ds-fg-default']]],
   ]) {
     const body = css.match(new RegExp(`@layer\\s+base\\s*\\{[\\s\\S]*?(?:^|\\n)\\s*${selector}\\s*\\{([\\s\\S]*?)\\}`))?.[1]
     if (body === undefined) { err(`C15 @layer base의 ${selector.replace('\\', '')} 규칙이 없다`); continue }

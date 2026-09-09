@@ -6,7 +6,7 @@ Standing instructions. Everything that happened lives behind a pointer, not here
 
 ## Rules that bind later work
 
-The twenty rules the catalog maps left, grouped by subject: what earns its own component, what a contract carries and what a gate may claim, axis and value name spaces, contrast by role, the dependency base, and how a population is measured. **Read before opening a surface, adding an axis, registering `parts`, or changing a contract** — most of these exist because a generation did one of those without them. See [`docs/agents/rules.md`](docs/agents/rules.md).
+The rules the first generation left, grouped by subject. **Read the 축·이름 공간, 토큰과 대비, 포인터 기하, 의존성과 base, 방법론 subjects before opening a component, adding an axis, or touching a token** — those survived ADR-0023. Sections marked 1세대 (계약·`parts`·파생 채널·radix) are history and do not bind new code. See [`docs/agents/rules.md`](docs/agents/rules.md).
 
 ## Agent skills
 
@@ -22,19 +22,19 @@ The five canonical triage roles, used verbatim as label strings. See `docs/agent
 
 Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
 
-### Re-measuring against upstream
+### First-generation runbooks
 
-Any claim about how many upstream surfaces we are missing is produced by a mechanical set difference, never read off a table by eye. See [`docs/agents/upstream-surface-recount.md`](docs/agents/upstream-surface-recount.md).
+`design-system-sync.md` · `figma-injection.md` · `figma-components.md` · `pointer-target-measure.md` · `upstream-surface-recount.md` under `docs/agents/` describe tools that no longer exist. Each carries a banner; read them as history, never as instructions. The code they drove is at tag `v1-shadcn`.
 
 ## Where the work stands
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-**2세대가 결정됐고, 아직 코드는 1세대다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2026-09-09 그릴링의 결정 전부를 담는다 — Base UI 기반으로 `packages/ui`를 새로 쓰고, 계약·매니페스트·Figma 파생 툴링을 삭제하며, Phase 1의 완료 조건은 리포 밖 소비처 invest diary가 `@massive/ui`로 돌아가는 것이다. Phase 1 스펙은 [#275](https://github.com/flameware/massive-design/issues/275)이고, 그 sub-issue 19개(#277–#295)가 수직 슬라이스 티켓이다 — 막힘은 GitHub 네이티브 의존으로 걸려 있고, 프런티어는 막힘이 없는 티켓이다(시작점 [#277](https://github.com/flameware/massive-design/issues/277) 1세대 삭제). 그 밖의 이슈는 1세대 코드에 열지 않는다 — 소비 앱에서 난 결함만 예외다.
+**2세대가 결정됐고, 1세대 코드는 지워졌다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2026-09-09 그릴링의 결정 전부를 담는다 — Base UI 기반으로 `packages/ui`를 새로 쓰고, Phase 1의 완료 조건은 리포 밖 소비처 invest diary가 `@massive/ui`로 돌아가는 것이다. Phase 1 스펙은 [#275](https://github.com/flameware/massive-design/issues/275)이고, 그 sub-issue 19개(#277–#295)가 수직 슬라이스 티켓이다 — 막힘은 GitHub 네이티브 의존으로 걸려 있고, 프런티어는 막힘이 없는 티켓이다. [#277](https://github.com/flameware/massive-design/issues/277)(1세대 삭제)이 끝났으므로 다음은 [#278](https://github.com/flameware/massive-design/issues/278) 패키지 빌드·게시다. 그 밖의 이슈는 열지 않는다 — 소비 앱에서 난 결함만 예외다.
 
-**규칙 원장과 아래 표준 지시 중 계약·`parts`·`sync:checklist`·매니페스트를 말하는 것은 1세대의 것이다.** Phase 1이 그 툴링을 지우는 PR에서 함께 고친다. 그때까지는 읽되 새 코드에 적용하지 않는다.
+**지금 리포에 있는 것**: `@massive/tokens`(램프 생성기·`lint`·`contrast`·`verify`), `@massive/ui`의 `cn`·`styles.css`·`state.css`(상태 사다리는 #280이 Base UI `data-*` 셀렉터로 다시 쓴다), 빈 Storybook 뼈대. 1세대 51개 컴포넌트·매니페스트·계약·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다. semantic 색의 `@theme` 등록은 #280 전까지 비어 있다.
 
-**Figma는 보류다** (ADR-0023 §9). 마지막 스냅숏 [#273](https://github.com/flameware/massive-design/issues/273)의 `verification/figma-baseline.json`은 1세대의 기록으로만 남는다. 스냅숏 툴링이 삭제되므로 요청이 와도 만들 수 없다.
+**Figma는 보류다** (ADR-0023 §9). 마지막 스냅숏 [#273](https://github.com/flameware/massive-design/issues/273)의 `verification/figma-baseline.json`은 1세대의 기록으로만 남는다. 스냅숏 툴링이 삭제됐으므로 요청이 와도 만들 수 없다.
 
 Closed maps, with their records:
 
@@ -50,9 +50,9 @@ Closed maps, with their records:
 
 [`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff *into* the completed component map, not a completion record.
 
-## Syncing derived channels
+## Definition of done
 
-A code change is done when `bun run check` and `bun run test` pass (CI) and the PR is reviewed. If the change touches a contract's `behaviors`·`gestures` or a pointer-target slot, run `bun run sync:checklist` and do the human checks in `docs/agents/design-system-sync.md` §1, recording the result in the PR. Figma snapshots are §2 of that runbook and happen only on request.
+A code change is done when `bun run check` and `bun run test` pass (CI) and the PR is reviewed. `check` runs the tokens gates (`lint` → `contrast` → `verify`), the `@massive/ui` primitive-leak and state-ladder gate, and `tsc` per package; `test` runs each package's `node --test`. Storybook's axe run (`bun run --filter @massive/storybook test:a11y` after `build-storybook`) is on request until #279 makes it a CI test. There is no derived channel to sync.
 
 ## Keeping this file
 
