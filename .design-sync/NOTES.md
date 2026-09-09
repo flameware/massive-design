@@ -1,5 +1,7 @@
 # Design-sync notes
 
+> **1세대 기준 설정.** 아래 노트와 `overrides/*.mjs`는 매니페스트에서 생성되던 `Components.stories.tsx`와 계약 스크립트를 전제한다 — 둘 다 #277에서 삭제됐다(태그 `v1-shadcn`). 2세대 스토리(#279)가 생기기 전에는 재동기화하지 않는다.
+
 ## Repo-specific quirks
 
 - **Package is source-distributed, no `dist/` JS build.** `@massive/ui`'s `package.json` has no `"build"` script; `exports["."]` points straight at `./src/index.ts` (TS source), and `dist/` only holds a generated component manifest (`dist/manifest/`), not compiled JS. `cfg.entry` is set to `packages/ui/src/index.ts` and the converter bundles directly from TS source via esbuild.

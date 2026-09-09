@@ -52,7 +52,7 @@ Closed maps, with their records:
 
 ## Definition of done
 
-A code change is done when `bun run check` and `bun run test` pass (CI) and the PR is reviewed. `check` runs the tokens gates (`lint` → `contrast` → `verify`), the `@massive/ui` primitive-leak and state-ladder gate, and `tsc` per package; `test` runs each package's `node --test`. Storybook's axe run (`bun run --filter @massive/storybook test:a11y` after `build-storybook`) is on request until #279 makes it a CI test. There is no derived channel to sync.
+A code change is done when `bun run check` and `bun run test` pass (CI) and the PR is reviewed. `check` runs the tokens gates (`lint` → `contrast` → `verify`), the `@massive/ui` primitive-leak and state-ladder gate (the grep test ADR-0023 §12 keeps) plus `tsc` on `ui` and `storybook`; `test` runs `node --test` in `tokens` and `ui` (`ui` has no tests until #278). Storybook's axe run (`bun run --filter @massive/storybook test:a11y` after `build-storybook`) is on request until #279 makes it a CI test. There is no derived channel to sync.
 
 ## Keeping this file
 

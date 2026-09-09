@@ -10,7 +10,7 @@ assignees: ""
 
 ## 무엇을
 
-제안하는 표면을 한 문단으로. 새 컴포넌트인지, 기존 컴포넌트의 새 축·값인지, 새 semantic 토큰인지 밝힌다. 층위(Primitives·Composites·Patterns)와 분류를 적는다.
+제안하는 표면을 한 문단으로. 새 컴포넌트인지, 기존 컴포넌트의 새 축·값인지, 새 semantic 토큰인지 밝힌다. 층위(Foundations·Primitives·Composites·Patterns)와 분류를 적는다.
 
 ## 왜
 

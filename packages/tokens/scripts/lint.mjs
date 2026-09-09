@@ -149,7 +149,7 @@ export function lintCss(source, err) {
   //     #35의 "규칙군 C는 전부 문자열 스캔이라 결함이 통과했다"가 여기엔 안 걸린다:
   //     그때는 선언이 멀쩡했고 치환이 틀렸지만, 여기서는 규칙 자체가 없는 것이
   //     결함이다. 없는 문자열을 찾는 데는 문자열 스캔이 정확히 맞는 도구다.
-  //     정본은 두 규칙이다. body 줄이 없으면 --foreground가 정상 해석되는데 아무도
+  //     두 규칙이다. body 줄이 없으면 --ds-fg-default가 정상 해석되는데 아무도
   //     칠하지 않아 다크에서 UA 기본 검정 글자가 된다.
   for (const [selector, expected] of [
     ['\\*', [['border-color', '--ds-border-default'], ['outline-color', '--ds-border-focus']]],

@@ -39,24 +39,15 @@ test('.dark는 semantic 전부를 빠짐없이 재선언하고 그것만 재선�
   assert.ok(decls.every((d) => d.startsWith('--ds-')))
 })
 
-test('shadcn alias 이름이 출력 어디에도 없다 — ADR-0023 §3, #277', () => {
-  // 1세대 alias 표(`tokens/alias/shadcn.json`, 태그 v1-shadcn)의 이름 전부.
-  // 하나라도 살아 있으면 alias 층이 되살아난 것이다
-  const ALIAS = [
-    'background', 'foreground', 'card', 'card-foreground', 'popover', 'popover-foreground',
-    'primary', 'primary-foreground', 'primary-soft', 'primary-text',
-    'secondary', 'secondary-foreground', 'neutral-solid', 'muted', 'muted-foreground',
-    'accent', 'accent-foreground', 'destructive', 'destructive-foreground',
-    'destructive-soft', 'destructive-text', 'border', 'input', 'knockout', 'ring', 'focus-contrast',
-    'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
-    'sidebar', 'sidebar-foreground', 'sidebar-primary', 'sidebar-primary-foreground',
-    'sidebar-accent', 'sidebar-accent-foreground', 'sidebar-border', 'sidebar-ring',
-    'success', 'success-foreground', 'success-soft', 'success-text',
-    'warning', 'warning-foreground', 'warning-soft', 'warning-text', 'link', 'radius',
-  ]
-  const declared = new Set([...css.matchAll(/^\s*--([\w-]+)\s*:/gm)].map((m) => m[1]))
-  const alive = ALIAS.filter((n) => declared.has(n) || declared.has(`color-${n}`))
-  assert.deepEqual(alive, [])
+test('alias 층이 없다 — :root와 .dark는 --ds-*만 선언한다 (ADR-0023 §3, #277)', () => {
+  // 1세대 alias(`--background`, `--primary` …)는 :root/.dark에 --ds-* 아닌 선언으로
+  // 살았다. 이름 목록을 얼리지 않고 모양으로 잰다 — 목록은 태그 v1-shadcn에 있다
+  for (const selector of [':root', '\\.dark']) {
+    const body = css.match(new RegExp(`(?:^|\\n)${selector}\\s*\\{([\\s\\S]*?)\\n\\}`))[1]
+    const foreign = [...body.matchAll(/^\s*(--[\w-]+)\s*:/gm)].map((m) => m[1])
+      .filter((n) => !n.startsWith('--ds-'))
+    assert.deepEqual(foreign, [], selector)
+  }
   assert.ok(!css.includes('shadcn'))
 })
 
