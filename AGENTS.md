@@ -30,7 +30,7 @@ Any claim about how many upstream surfaces we are missing is produced by a mecha
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-**2세대가 결정됐고, 아직 코드는 1세대다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2026-09-09 그릴링의 결정 전부를 담는다 — Base UI 기반으로 `packages/ui`를 새로 쓰고, 계약·매니페스트·Figma 파생 툴링을 삭제하며, Phase 1의 완료 조건은 리포 밖 소비처 invest diary가 `@massive/ui`로 돌아가는 것이다. Phase 1 스펙은 [#275](https://github.com/flameware/massive-design/issues/275)이고, 다음 행위는 그것을 `/to-tickets`로 수직 슬라이스 티켓으로 자르는 것이다. 그 전까지 1세대 코드에 이슈를 열지 않는다 — 소비 앱에서 난 결함만 예외다.
+**2세대가 결정됐고, 아직 코드는 1세대다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2026-09-09 그릴링의 결정 전부를 담는다 — Base UI 기반으로 `packages/ui`를 새로 쓰고, 계약·매니페스트·Figma 파생 툴링을 삭제하며, Phase 1의 완료 조건은 리포 밖 소비처 invest diary가 `@massive/ui`로 돌아가는 것이다. Phase 1 스펙은 [#275](https://github.com/flameware/massive-design/issues/275)이고, 그 sub-issue 19개(#277–#295)가 수직 슬라이스 티켓이다 — 막힘은 GitHub 네이티브 의존으로 걸려 있고, 프런티어는 막힘이 없는 티켓이다(시작점 [#277](https://github.com/flameware/massive-design/issues/277) 1세대 삭제). 그 밖의 이슈는 1세대 코드에 열지 않는다 — 소비 앱에서 난 결함만 예외다.
 
 **규칙 원장과 아래 표준 지시 중 계약·`parts`·`sync:checklist`·매니페스트를 말하는 것은 1세대의 것이다.** Phase 1이 그 툴링을 지우는 PR에서 함께 고친다. 그때까지는 읽되 새 코드에 적용하지 않는다.
 
