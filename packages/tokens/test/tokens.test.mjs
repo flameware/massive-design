@@ -9,7 +9,6 @@ const gen = read('primitive/color.gen.json')
 const literal = read('primitive/color.literal.json')
 const scale = read('primitive/scale.json')
 const semantic = read('semantic/color.json')
-const shadcn = read('alias/shadcn.json')
 
 /** 빌드가 보는 것과 같은 평면 세계 — primitive + semantic이 한 Map에 산다. */
 const tokens = new Map([
@@ -38,7 +37,7 @@ test('primitive는 참조를 갖지 않는다 — 리터럴만', () => {
   }
 })
 
-test('alias 그래프가 1단 깊이다', () => {
+test('참조 그래프가 1단 깊이다 — semantic → palette', () => {
   for (const path of semanticColors) {
     for (const mode of ['light', 'dark']) {
       assert.equal(depth(tokens, path, mode), 1, `${path} (${mode})`)
@@ -76,43 +75,13 @@ test('모드가 실제로 갈리는 지점은 semantic 하나뿐이다', () => {
 })
 
 test('알파 리터럴은 8자리 hex와 정확한 알파를 함께 갖는다', () => {
-  // 8비트 알파는 손실이 있다(0.1 → 1a → 0.10196). Figma·color-mix 경로는
+  // 8비트 알파는 손실이 있다(0.1 → 1a → 0.10196). color-mix 경로는
   // $extensions의 정확한 값을 쓰고, CSS 8자리 hex는 표시용이다.
   for (const [path, token] of flatten(literal)) {
     if (!path.startsWith('palette.alpha')) continue
     assert.match(token.$value, /^#[0-9a-f]{8}$/, path)
     assert.equal(typeof token.$extensions['design.massive.alpha'], 'number', path)
   }
-})
-
-test('alias 표의 모든 색 이름이 실재하는 토큰으로 해석된다', () => {
-  const keys = Object.keys(shadcn).filter((k) => !k.startsWith('$'))
-  assert.ok(keys.includes('radius'))
-  for (const [name, target] of Object.entries(shadcn)) {
-    if (name.startsWith('$') || name === 'radius') continue
-    if (typeof target === 'string') {
-      assert.ok(tokens.has(target), `--${name} → ${target}`)
-    } else {
-      // chart-1..5만 palette를 직접 가리킨다 — 모드별로 값이 갈리므로
-      // 방출기가 .dark에서 이 모드별 alias를 semantic 원본과 함께 재선언해야 한다.
-      for (const mode of ['light', 'dark']) assert.ok(tokens.has(target[mode]), `--${name}.${mode}`)
-    }
-  }
-})
-
-test('soft와 text alias는 기존 solid와 on-solid 의미를 바꾸지 않고 semantic에 연결된다', () => {
-  assert.equal(shadcn['primary-soft'], 'color.bg.accent.soft')
-  assert.equal(shadcn['primary-text'], 'color.fg.accent')
-  assert.equal(shadcn['destructive-soft'], 'color.bg.danger.soft')
-  assert.equal(shadcn['destructive-text'], 'color.fg.danger')
-  assert.equal(shadcn['success-soft'], 'color.bg.success.soft')
-  assert.equal(shadcn['success-text'], 'color.fg.success')
-  assert.equal(shadcn['warning-soft'], 'color.bg.warning.soft')
-  assert.equal(shadcn['warning-text'], 'color.fg.warning')
-  assert.equal(shadcn.warning, 'color.bg.warning.solid')
-  assert.equal(shadcn['warning-foreground'], 'color.fg.on-warning')
-  assert.equal(shadcn.primary, 'color.bg.accent.solid')
-  assert.equal(shadcn['primary-foreground'], 'color.fg.on-solid')
 })
 
 test('radius 7단이 base × 배수와 일치한다', () => {
@@ -134,8 +103,8 @@ test('type 사이즈 9개가 tier를 갖고, tier가 line-height·tracking과 �
   }
 })
 
-test('Figma용 line-height px는 사이즈 × 비율로 나온다 — 9개', () => {
-  // 코드는 무단위 비율, Figma는 px. 곱셈의 주체가 빌드라서 어긋날 수 없다.
+test('line-height px 확장은 사이즈 × 비율로 나온다 — 9개', () => {
+  // 코드는 무단위 비율, $extensions는 px. 곱셈의 주체가 빌드라서 어긋날 수 없다.
   const want = { xs: 19.2, sm: 22.4, base: 25.6, lg: 28.8, xl: 28, '2xl': 33.6, '3xl': 37.5, '4xl': 45, '5xl': 60 }
   for (const [name, node] of Object.entries(scale.type.size)) {
     const tier = node.$extensions['design.massive.typeTier']
@@ -144,7 +113,7 @@ test('Figma용 line-height px는 사이즈 × 비율로 나온다 — 9개', () 
   }
 })
 
-test('Figma space 프리셋 13개가 배수 × 4px다', () => {
+test('space 프리셋 13개가 배수 × 4px다', () => {
   const presets = Object.entries(scale.space).filter(([k]) => !k.startsWith('$') && k !== 'base')
   assert.equal(presets.length, 13)
   for (const [name, node] of presets) {
@@ -163,17 +132,7 @@ test('resolve가 순환 참조와 미아 참조를 조용히 통과시키지 않
 })
 
 /* 컨트롤 어포던스 — 채움 자체가 조작 대상인 자리(Scroll Area thumb, Switch off 트랙).
- * 앉는 면에 대해 비텍스트 3:1을 지켜야 하고 그래서 solid 계열 중립 배경을 집는데,
- * 그 semantic 토큰에 shadcn 이름이 없어 Tailwind 유틸리티로 닿지 못했다(#109). */
-test('neutral-solid alias가 중립 solid 배경을 가리킨다', () => {
-  assert.equal(shadcn['neutral-solid'], 'color.bg.neutral.solid')
-})
-
-test('neutral-solid가 정본 목록에 있어 C13이 :root 존재를 지킨다', async () => {
-  const { SHADCN_CANON } = await import('../scripts/lint.mjs')
-  assert.ok(SHADCN_CANON.includes('neutral-solid'))
-})
-
+ * 앉는 면에 대해 비텍스트 3:1을 지켜야 하고 그래서 solid 계열 중립 배경을 집는다(#109). */
 test('컨트롤 어포던스가 다섯 면 위에서 비텍스트 3:1을 넘는다 — 양 모드', async () => {
   const { report } = await import('../scripts/contrast.mjs')
   const rows = report().filter((r) => r.fg === 'bg.neutral.solid')

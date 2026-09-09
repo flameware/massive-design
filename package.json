@@ -5,10 +5,7 @@
   "type": "module",
   "scripts": {
     "check": "bun run --filter '*' check",
-    "test": "node --test scripts/*.test.mjs && bun run --filter '*' test",
-    "sync:checklist": "cd packages/ui && bun ../../scripts/sync-checklist.mjs",
-    "figma:digest": "node scripts/figma-baseline-digest.mjs",
-    "pointer-gate": "node scripts/pointer-target-gate.mjs"
+    "test": "bun run --filter '*' test"
   },
   "workspaces": [
     "packages/*",

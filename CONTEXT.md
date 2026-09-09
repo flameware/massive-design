@@ -26,10 +26,10 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 - **primitive** — 값을 직접 갖는 토큰. 컬러 램프 12단계와 비색상 스케일. 소비처에 노출되지 않는다(Tailwind `@theme`에 등록하지 않는다).
 - **semantic** — primitive를 참조하는, 용도로 이름 붙인 토큰. 현재 목록과 총계의 정본은 `packages/tokens/tokens/semantic/color.json`이며 `tokens:lint`가 상한을 감시한다. 라이트/다크 모드 전환은 **오직 이 계층에서만** 일어난다.
 - **component** — semantic만 참조하는 계층. **규칙만 존재하고 토큰은 0개다.**
-- **alias** *(1세대 용어 — ADR-0023이 이 층을 삭제한다)* — shadcn이 정한 이름을 우리 semantic에 이어 붙인 호환 레이어. 우리가 발명한 어휘가 아니므로 어휘 상한 계산에 넣지 않는다. 상한 밖인 근거는 정확히는 "**소비처가 이미 아는 이름, 그리고 그와 같은 모양으로 파생된 이름**"이다 — `success`·`link`처럼 정본에 없는 항목도 여기 산다. 컴포넌트 색은 원칙적으로 alias를 통해 소비한다. 단, `state.layer`는 완성된 색 유틸리티가 아니라 상태 합성 전용 입력이므로 `packages/ui/src/state.css`가 `--ds-state-layer`를 직접 읽는 **명시적 예외**다.
-- **계열** — 토큰 이름의 `--ds-<bg|fg|border>-` 앞자리. 색 **패밀리**(brand/neutral/…)와 다른 축이다 — 패밀리는 어느 램프에서 왔는지를, 계열은 어느 자리에 쓰이는지를 말한다. **값이 아니라 역할을 가른다** — 두 계열이 같은 primitive를 가리키는 것은 정상이며(`border.strong`과 `bg.neutral.solid`는 둘 다 neutral 9다), 그때도 소비는 값이 아니라 역할을 따른다. 이것이 매니페스트 lint 규칙 3의 전제다: 시각적으로 같아 보이는 것이 곧 옳은 소비가 되지 않는다.
-- **컨트롤 어포던스(control affordance)** — 채움 자체가 조작 가능한 대상을 나타내는 자리. Scroll Area의 thumb, Switch의 off 트랙이 여기다. 사용자가 잡는 것이므로 앉는 면에 대해 **비텍스트 대비 3:1**(WCAG 1.4.11)을 만족해야 하고, 그래서 solid 계열 중립 배경(`bg.neutral.solid`, alias `neutral-solid` — [ADR-0003](docs/adr/0003-neutral-solid-alias-name.md))을 집는다. `tokens:contrast`의 비텍스트 게이트가 이 쌍을 5면 × 2모드로 잰다.
-- **잔여 트랙(track remainder)** — 값이 아직 닿지 않은 바닥. Progress·Slider의 트랙이 여기다. 의미는 채워진 부분이 나르므로 대비 요구가 없고 바닥으로 남는다 — 컨트롤 어포던스와 요구가 정반대라 같은 토큰을 쓰지 않는다. 두 자리가 **한 이름**(`bg.neutral.soft`, alias `secondary`)을 집는다.
+- **alias** *(1세대 용어 — #277에서 삭제됐다)* — shadcn이 정한 이름을 우리 semantic에 이어 붙인 호환 레이어. 우리가 발명한 어휘가 아니므로 어휘 상한 계산에 넣지 않는다. 상한 밖인 근거는 정확히는 "**소비처가 이미 아는 이름, 그리고 그와 같은 모양으로 파생된 이름**"이다 — `success`·`link`처럼 정본에 없는 항목도 여기 산다. 1세대 컴포넌트는 색을 alias를 통해 소비했다. 2세대는 alias 없이 semantic 이름을 직접 소비한다(ADR-0023 §3, `@theme` 등록은 #280).
+- **계열** — 토큰 이름의 `--ds-<bg|fg|border>-` 앞자리. 색 **패밀리**(brand/neutral/…)와 다른 축이다 — 패밀리는 어느 램프에서 왔는지를, 계열은 어느 자리에 쓰이는지를 말한다. **값이 아니라 역할을 가른다** — 두 계열이 같은 primitive를 가리키는 것은 정상이며(`border.strong`과 `bg.neutral.solid`는 둘 다 neutral 9다), 그때도 소비는 값이 아니라 역할을 따른다. 시각적으로 같아 보이는 것이 곧 옳은 소비가 되지 않는다(1세대 매니페스트 lint 규칙 3이 이것을 전제로 했다).
+- **컨트롤 어포던스(control affordance)** — 채움 자체가 조작 가능한 대상을 나타내는 자리. Scroll Area의 thumb, Switch의 off 트랙이 여기다. 사용자가 잡는 것이므로 앉는 면에 대해 **비텍스트 대비 3:1**(WCAG 1.4.11)을 만족해야 하고, 그래서 solid 계열 중립 배경(`bg.neutral.solid`, 1세대 alias `neutral-solid` — [ADR-0003](docs/adr/0003-neutral-solid-alias-name.md))을 집는다. `tokens:contrast`의 비텍스트 게이트가 이 쌍을 5면 × 2모드로 잰다.
+- **잔여 트랙(track remainder)** — 값이 아직 닿지 않은 바닥. Progress·Slider의 트랙이 여기다. 의미는 채워진 부분이 나르므로 대비 요구가 없고 바닥으로 남는다 — 컨트롤 어포던스와 요구가 정반대라 같은 토큰을 쓰지 않는다. 두 자리가 **한 이름**(`bg.neutral.soft`, 1세대 alias `secondary`)을 집는다.
 
 ## 램프
 
@@ -44,7 +44,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 - **Figma 컴포넌트 자산** — 정적 화면 조립에 쓰이는 공개 재사용 자산. 여러 variant를 가진 component set뿐 아니라 variant가 하나인 단일 component도 포함하며, 상태 견본·데모 프레임과 구분한다.
 - **구성 상태(configuration state)** — 정적 화면을 조립할 때 선택해야 하는 의미 상태. `checked / unchecked / indeterminate`, 행의 `selected`, Select·메뉴의 `open / closed`가 여기에 속한다. 코드에서는 네이티브·Radix 상태이고 Figma에서는 component property 또는 별도의 공개 조립 표면으로 표현한다. hover·pressed·focus·disabled 같은 상호작용 상태와 구분하며, 새 토큰 계층을 만들지 않는다.
 - **그리는 자리(drawnBy)** — 한 구성 상태를 **무엇이 그리는가**를 계약이 함께 선언한 것. 세 갈래다: 우리 클래스가 그리고 조립이 셀의 `configurations`에 담으면 DOM 속성과 값 대응(`data-state`의 `on` ↔ `pressed`)이고, 그리지 않으면 이유 문자열이며 — 표면의 존재·부재, 내용, 또는 그리는 파트가 아직 계약에 없다는 사실 — **그리는데 파생 채널이 나르지 않기로 판정됐으면** `{ modifiers, carriedBy: "none" }`이다([ADR-0009](docs/adr/0009-drawn-but-not-carried.md)). 셋째만 주장이 검사된다: `carriedBy: "none"`은 정책표가 그 수식자를 `ignore:`로 판정했다는 뜻이고 게이트가 `policyFor`로 되묻는다 — 이유를 계약에 복사하지 않으므로 정책이 뒤집히면 게이트가 깨진다. **이름표는 계약이 진다**: DOM 속성 이름은 선언 이름과 거의 언제나 다르고([ADR-0008](docs/adr/0008-axis-and-value-name-spaces.md)이 선언 이름을 DOM에 맞추는 쪽을 막는다), 중앙 대응표를 두면 51개 컴포넌트의 DOM 사실이 계약 밖에 쌓여 새 컴포넌트의 누락을 아무 게이트도 못 본다. 게이트가 지키는 것은 **선언한 수식자가 실제로 우리 클래스에 붙어 있는가**까지이고 이유 문자열이 참인지는 사람이 진다([#148](https://github.com/flameware/massive-design/issues/148)).
-- **state layer** — 상태별 완성 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. `state.layer`는 semantic 계층에 있는 **상태 합성 전용 입력**이며 alias 소비 규칙의 유일한 예외다. Figma에는 `color-mix`가 없어 코드와 같은 oklab 합성 결과를 빌드가 미리 계산한 hex로 상태 견본에 넣는다. 이 hex는 파생값이지 새 토큰이 아니다.
+- **state layer** — 상태별 완성 색 토큰을 두는 대신, 기본 색 위에 반투명 층을 `color-mix`로 얹어 hover·pressed·disabled를 만드는 방식. `state.layer`는 semantic 계층에 있는 **상태 합성 전용 입력**이라 완성된 색 유틸리티로 쓰지 않는다 — `packages/ui/src/state.css`가 `--ds-state-layer`를 직접 읽는다. Figma에는 `color-mix`가 없어 코드와 같은 oklab 합성 결과를 빌드가 미리 계산한 hex로 상태 견본에 넣는다. 이 hex는 파생값이지 새 토큰이 아니다.
 - **상태 견본(state sample)** — 상태를 Figma에 보여주는 단위. **컴포넌트 세트의 축이 아니다** — 축으로 두면 조합 수에 곱해지고, 정적 시안을 조립하는 데는 쓰이지 않는다. 컴포넌트마다 한 장씩 매니페스트에서 생성되는 프레임이다.
 - **열림 계기(open cause)** — 표면을 여는 상호작용. press(클릭·탭), hover(포인터 머무름), context(우클릭·롱프레스)로 가른다. 구성 상태가 아니라 **동작**이므로 파생 채널이 나르지 않는다 — `cva` 축에도 `configurationStates`에도 두지 않으며, 코드에서는 기본값이 정해진 선택적 prop(`openOn`)으로만 존재하고, 계약에서는 `behaviors`가 **동작**으로 담는다 — 우리가 만든 계기든 upstream이 갖고 온 것이든(터치 롱프레스, hover 지연) 같은 자리에 앉는다. hover·pressed 같은 상호작용 상태가 "지금 어떤 상태인가"라면 열림 계기는 "무엇이 열었는가"이고, 둘을 같은 말로 부르면 상태 견본이 그려야 할 것과 그리지 말아야 할 것이 섞인다.
 
@@ -68,7 +68,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 ## 동작 *(1세대 용어)*
 
-- **동작(behavior)** — 파생 채널이 나르지 않고 **사람만 판정하는** 상호작용. dismiss 제스처·컨트롤 제스처·열림 계기·우발 변경 넷이 여기 속한다. 파생 채널이 나르는 것은 anatomy와 구성 상태뿐이라 동작은 매니페스트에도 상태 견본에도 자리가 없고, 생성된 Storybook 스토리는 `axes ∪ configurationStates`에서만 나오므로 axe도 동작을 한 번도 렌더하지 않는다 — **자동 검증이 0인 것이 이 낱말의 정의다.** 계약은 넷을 두 필드에 나눠 담는데 가르는 것은 **계약이 지는 무게**다: `gestures`는 dismiss 제스처만 담고 접근성 동등 경로를 **요건으로** 지며(표면이 사라지고 되돌릴 수단이 없다), `behaviors`는 나머지 종류를 담고 존재만 선언한다. 어느 쪽이든 확인은 사람이 하고 그 항목은 `bun run sync:checklist`가 찍는다([ADR-0010](docs/adr/0010-behaviors-are-declared-and-human-verified.md)).
+- **동작(behavior)** — 파생 채널이 나르지 않고 **사람만 판정하는** 상호작용. dismiss 제스처·컨트롤 제스처·열림 계기·우발 변경 넷이 여기 속한다. 파생 채널이 나르는 것은 anatomy와 구성 상태뿐이라 동작은 매니페스트에도 상태 견본에도 자리가 없고, 생성된 Storybook 스토리는 `axes ∪ configurationStates`에서만 나오므로 axe도 동작을 한 번도 렌더하지 않는다 — **자동 검증이 0인 것이 이 낱말의 정의다.** 계약은 넷을 두 필드에 나눠 담는데 가르는 것은 **계약이 지는 무게**다: `gestures`는 dismiss 제스처만 담고 접근성 동등 경로를 **요건으로** 지며(표면이 사라지고 되돌릴 수단이 없다), `behaviors`는 나머지 종류를 담고 존재만 선언한다. 어느 쪽이든 확인은 사람이 했고 그 항목은 1세대의 `sync:checklist`가 찍었다(#277에서 삭제, [ADR-0010](docs/adr/0010-behaviors-are-declared-and-human-verified.md)).
 - **dismiss 제스처(dismiss gesture)** — 포인터 이동만으로 표면을 닫는 상호작용. 표면이 사라지고 되돌릴 수단이 없으므로 **접근성 동등 경로가 필수 요건**이다. 계약이 지는 것은 존재·시각 피드백·동등 경로 셋이며, 방향이나 임계값 같은 물리 파라미터는 계약하지 않는다.
 - **컨트롤 제스처(control gesture)** — 드래그가 컨트롤의 기능 그 자체인 상호작용. Slider의 값 변경, Scroll Area의 thumb, Carousel의 슬라이드 이동이 여기다. 값만 바뀌고 표면은 남으므로 각 컴포넌트가 자기 축으로 소유하며, dismiss 제스처의 계약을 물려받지 않는다 — 그러나 **밖에 있다는 것이 어디에도 없다는 뜻은 아니라서** `behaviors`가 존재를 담는다. 둘을 같은 말로 부르면 이미 해결된 것과 안 된 것이 섞인다.
 - **우발 변경(implicit change)** — 사용자가 아무것도 활성화하지 않았는데 값이나 위치가 바뀌는 상호작용. 계기가 초점의 도착이거나(Tabs의 `activationMode="automatic"`, Radio Group의 화살표 체크, Carousel의 `watchFocus`), **닫힌** 컨트롤에 타이핑이거나(Select 트리거의 typeahead), 그냥 시간이다(Toast의 자동 닫힘). 앞의 두 종류와 갈리는 것은 **확인하는 방법**이다 — 끌어 보는 것도 계기를 주고 표면을 기다리는 것도 아니라 손이 하는 일이 없어서, 확인 절차가 스스로 그것을 하러 가지 않는다. 그래서 가장 늦게 발견된다([ADR-0015](docs/adr/0015-behaviors-boundary-is-the-cause.md)).
@@ -83,7 +83,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 
 **계약이 지는 하한은 WCAG 2.5.8 (AA) 24×24뿐이다.** 2.5.5 (AAA) 44×44는 소비처가 스스로 판단해 적용하는 **권고**이지 라이브러리가 지는 계약이 아니다 — spacing 예외(24px 지름 원이 이웃과 겹치지 않으면 통과)는 소비처의 레이아웃이 만드는 조건이라 라이브러리 혼자 주장할 수 없고, 44를 계약으로 걸면 발행된 43개 Figma 세트가 전부 재해석된다(ADR-0020 결정 1). 44가 필요한 소비처는 히트 영역을 스스로 더 넓히거나 이웃 간격을 벌린다.
 
-## 런타임
+## 런타임 *(1세대 용어 — Figma 보류, ADR-0023 §9)*
 
 Figma 파일을 고치는 주체가 둘이고, **로드할 수 있는 폰트가 서로 다르다.** 이 축이 없으면 폰트 규약을 적을 말이 없다.
 
@@ -96,7 +96,7 @@ Figma 파일을 고치는 주체가 둘이고, **로드할 수 있는 폰트가 
 
 - **디자인 의도(design intent)** — 컴포넌트가 사용자에게 보여야 하고 동작해야 하는 프로젝트 소유자가 승인한 목표. 현재 코드 렌더링과 다르면 구현 정본을 고치는 판정 기준이다.
 - **구현 정본(implementation source of truth)** — 디자인 의도를 구현하고 Storybook과 Figma 파생 채널로 변경을 전파하는 단일 출발점인 코드. 현재 렌더링을 무조건 올바른 디자인 의도로 간주한다는 뜻은 아니다.
-- **세대(generation)** — 한 컴포넌트의 Figma 대응 구조 해시(매니페스트 `hash`)와 그 구조가 참조하는 토큰 산출물 해시의 쌍. `packages/ui/dist/manifest/index.gen.json`이 현재 세대다.
+- **세대(generation)** — 한 컴포넌트의 Figma 대응 구조 해시(매니페스트 `hash`)와 그 구조가 참조하는 토큰 산출물 해시의 쌍. 1세대의 `packages/ui/dist/manifest/index.gen.json`이 세대였다(#277에서 삭제).
 - **Figma 스냅숏(Figma snapshot)** — 사용자가 명시적으로 요청할 때만, 현재 세대를 Figma 문서에 주입하고 발행하는 작업([ADR-0002 개정](docs/adr/0002-separate-repo-verification-from-figma-sync.md)). 마지막 스냅숏의 기록이 `verification/figma-baseline.json`이고, Figma가 코드보다 뒤처진 상태는 결함이 아니라 기본 상태다.
 
 ## 참조 화면 *(1세대 용어)*
@@ -116,7 +116,7 @@ Storybook이 내는 화면의 낱말을 적을 말. 두 페이지의 독자가 �
 - **primitive 기반(primitive base)** — 우리가 접근성 동작·키보드 계약·포커스 관리를 맡기는 서드파티 primitive 라이브러리. **하나여야 한다** — 둘이면 그 계약들이 컴포넌트마다 갈리고, 그 갈라짐은 판단을 거쳐 일어나지 않고 사고로 일어난다. 2세대는 Base UI(`@base-ui/react`)다([ADR-0023](docs/adr/0023-second-generation-base-ui.md)). 1세대는 `radix-ui`였다.
 - **바닥값(floor cost)** — 소비처가 `@massive/ui`에서 컴포넌트를 **하나도 쓰지 않을 때** 무는 바이트. 서드파티 의존성의 무게를 재는 단위이며, 라이브러리가 아니라 우리 패키지의 성질이다 — 같은 `recharts`가 쓰는 표면에 따라 8,371 B이기도 407,702 B이기도 해서 **라이브러리에 붙일 하나의 수는 존재하지 않는다.** 설치 수와도 거의 무관하다: 딸린 것이 0개인 의존성이 오염의 원인이고 37개인 의존성이 0바이트를 얹는다. 바닥값을 올리는 것은 의존성 선택이 아니라 **패키징**이라(`sideEffects` 미선언) 처방도 그쪽이다 — 걷어내기가 아니라 선언과 진입점. 소비처가 스스로 import해서 무는 것은 정의상 여기 들어오지 않는다([ADR-0017](docs/adr/0017-dependency-weight-is-a-floor-cost.md)).
 
-- **미계약 표면(uncontracted surface)** — upstream에는 있고 우리 계약에는 없는 표면. 두 등급이 있고 성격이 다르다: `limits`가 **닫는다고 적어 둔** 것은 판단을 거친 자리이고, `limits`가 **언급한 적조차 없는** 것은 고려된 적 없는 자리다. 후자가 한 겹 더 깊다 — 앞은 근거를 재검토하는 일이고 뒤는 **근거가 있었는지부터** 확인하는 일이다. 여는 근거는 두 관문으로 판정한다: 파생 채널이 구분하는가, 그리고 소비처가 스스로 하면 우리 스타일 결정을 복제하게 되는가. **열지 않기로 한 것도 `limits`에 남긴다** — 기록이 없으면 다음 재조회가 같은 자리를 다시 발견한다. 외부 소유 표면·상속 표면과 나란한 세 번째 공백이며, 그 둘과 달리 **언젠가 우리 것이 될 수 있다.**
+- **미계약 표면(uncontracted surface)** *(1세대 용어)* — upstream에는 있고 우리 계약에는 없는 표면. 두 등급이 있고 성격이 다르다: `limits`가 **닫는다고 적어 둔** 것은 판단을 거친 자리이고, `limits`가 **언급한 적조차 없는** 것은 고려된 적 없는 자리다. 후자가 한 겹 더 깊다 — 앞은 근거를 재검토하는 일이고 뒤는 **근거가 있었는지부터** 확인하는 일이다. 여는 근거는 두 관문으로 판정한다: 파생 채널이 구분하는가, 그리고 소비처가 스스로 하면 우리 스타일 결정을 복제하게 되는가. **열지 않기로 한 것도 `limits`에 남긴다** — 기록이 없으면 다음 재조회가 같은 자리를 다시 발견한다. 외부 소유 표면·상속 표면과 나란한 세 번째 공백이며, 그 둘과 달리 **언젠가 우리 것이 될 수 있다.**
 
 ## 호환성 *(1세대 용어)*
 

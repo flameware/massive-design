@@ -1,5 +1,7 @@
 # upstream 표면 공백 재측정 절차
 
+> **1세대 문서.** 이 절차가 부르는 도구(계약 파일·`parts-coverage`)는 #277에서 삭제됐다(태그 `v1-shadcn`, [ADR-0023](../adr/0023-second-generation-base-ui.md)). 기록으로만 남는다 — 실행하지 않는다.
+
 확정: 2026-09-02 · 근거 티켓 [#176](https://github.com/flameware/massive-design/issues/176) · 맵 [#165](https://github.com/flameware/massive-design/issues/165) · 정본 [`docs/research/surface-gap-recheck-2026-09.md`](https://github.com/flameware/massive-design/blob/research/surface-gap-recheck-2026-09/docs/research/surface-gap-recheck-2026-09.md) §3.4
 
 **"upstream에 있는데 우리 계약에 없는 표면"의 모집단을 만드는 절차다.** [#120](https://github.com/flameware/massive-design/issues/120)·[#162](https://github.com/flameware/massive-design/issues/162)류의 재조회가 시작하는 자리이고, 재조회 티켓 없이 혼자 돌 일은 없다.

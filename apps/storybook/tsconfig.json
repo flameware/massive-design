@@ -3,5 +3,6 @@
   "compilerOptions": {
     "paths": { "@/*": ["./../../packages/ui/src/*"] }
   },
-  "include": ["."]
+  "files": [],
+  "include": ["stories/**/*"]
 }

@@ -1,5 +1,7 @@
 # 리포 구조와 빌드 파이프라인
 
+> **일부 1세대 서술.** shadcn alias 층(`tokens/alias/shadcn.json`)과 Figma 산출물(`dist/figma/*`)은 #277에서 삭제됐다([ADR-0023](../adr/0023-second-generation-base-ui.md) §3·§9). 그것을 말하는 절은 역사이고, semantic 이름의 `@theme` 등록은 #280이 정한다.
+
 확정: 2026-08-19 · 근거 티켓 [#11](https://github.com/flameware/massive-design/issues/11) · 맵 [#1](https://github.com/flameware/massive-design/issues/1)
 
 입력: [#6](https://github.com/flameware/massive-design/issues/6) 생성기 파라미터 · [#7](https://github.com/flameware/massive-design/issues/7) semantic 어휘·컬렉션 구조 · [#8](https://github.com/flameware/massive-design/issues/8) 비색상 스케일 · [#5](https://github.com/flameware/massive-design/issues/5) Tailwind·shadcn · [#4](https://github.com/flameware/massive-design/issues/4) Figma API · [#13](https://github.com/flameware/massive-design/issues/13) 알파 · [#54](https://github.com/flameware/massive-design/issues/54) 두 겹 포커스 링

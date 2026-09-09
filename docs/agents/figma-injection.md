@@ -1,5 +1,7 @@
 # Figma 주입 절차
 
+> **1세대 문서.** 이 절차가 부르는 도구(`dist/figma/0*.js`·`var-map.gen.json`·Figma 주입)는 #277에서 삭제됐다(태그 `v1-shadcn`, [ADR-0023](../adr/0023-second-generation-base-ui.md)). 기록으로만 남는다 — 실행하지 않는다.
+
 확정: 2026-08-19 · 근거 티켓 [#10](https://github.com/flameware/massive-design/issues/10) · 맵 [#1](https://github.com/flameware/massive-design/issues/1)
 
 `dist/figma/0*.js`를 Figma에 싣는 절차. **`npm run figma:push`는 존재하지 않는다** — 주입 경로가 MCP `use_figma`이고 그건 에이전트가 호출한다(REST 쓰기는 Enterprise 전용). 그래서 이것은 스크립트가 아니라 절차다.

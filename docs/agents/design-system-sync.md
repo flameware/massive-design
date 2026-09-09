@@ -1,5 +1,7 @@
 # 디자인 시스템 갱신 규약
 
+> **1세대 문서.** 이 절차가 부르는 도구(`sync:checklist`·`bun run manifest`·`pointer-gate`·`figma:digest`·Figma 주입)는 #277에서 삭제됐다(태그 `v1-shadcn`, [ADR-0023](../adr/0023-second-generation-base-ui.md)). 기록으로만 남는다 — 실행하지 않는다.
+
 두 절이다. **§1 사람 동작 확인**은 계약이 선언한 접근성 동작을 사람이 판정하는 절차로, 코드 변경이 그 선언을 건드릴 때 PR 안에서 한다. **§2 Figma 스냅숏**은 소유자가 명시적으로 요청할 때만 현재 세대를 Figma에 주입·발행하는 절차다([ADR-0002 개정](../adr/0002-separate-repo-verification-from-figma-sync.md)). 코드 변경의 완료 조건은 `bun run check`·`bun run test`(CI)와 PR 리뷰이고, Figma가 뒤처진 상태는 결함이 아니다.
 
 ## 1. 사람 동작 확인

@@ -1,14 +1,11 @@
 /* @massive/ui의 스타일 진입점. 소비처는 이 파일 하나만 import 한다.
  *
  * 순서가 규약이다 — tailwind가 먼저, 우리 토큰이 나중(docs/tokens/build-pipeline.md).
- * shadcn의 globals.css는 쓰지 않는다: dist/tokens.css가 shadcn 정본 변수 34개를
- * 전부 raw로 내므로 통째로 대신한다. */
+ * dist/tokens.css가 semantic 변수와 base 규칙을 내므로 별도 globals.css는 없다. */
 @import "tailwindcss";
 @import "@massive/tokens/dist/tokens.css";
-/* state layer 유틸리티. 별도 파일인 것이 규약이다 — 매니페스트 생성기가
- * 이 파일만 단독으로 import해 컴파일한다. styles.css에는 @source "../src"가
- * 있어서, 생성기가 이 파일을 위해 styles.css를 끌어오면 자동 소스 스캔이
- * 출력을 오염시킨다(#22 프로브 ②③). */
+/* state layer 유틸리티. 사다리는 #280이 Base UI `data-*` 상태 셀렉터로 다시 쓴다
+ * (ADR-0023 §13). scripts/check.mjs가 scale.json과의 일치를 지킨다. */
 @import "./state.css";
 
 /* @massive/ui가 심링크로 얹히면 Tailwind의 자동 스캔이 여기까지 닿지 않는다.

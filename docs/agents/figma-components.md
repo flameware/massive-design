@@ -1,5 +1,7 @@
 # Figma 컴포넌트 규약과 주입 절차
 
+> **1세대 문서.** 이 절차가 부르는 도구(매니페스트·`dist/figma/*`·Figma 주입)는 #277에서 삭제됐다(태그 `v1-shadcn`, [ADR-0023](../adr/0023-second-generation-base-ui.md)). 기록으로만 남는다 — 실행하지 않는다.
+
 확정: 2026-08-20 · 근거 티켓 [#25](https://github.com/flameware/massive-design/issues/25) · 맵 [#14](https://github.com/flameware/massive-design/issues/14)
 
 `@massive/ui`의 React 컴포넌트를 Figma 컴포넌트 세트로 주입하고, 그 둘이 **같은 세대인지** 판정하는 규약. 대상 파일은 토큰과 같다 — `wxz7M6txDvlvH6Z95JzDHJ` ([Massive Design](https://www.figma.com/design/wxz7M6txDvlvH6Z95JzDHJ/Massive-Design)), 단 **Foundations와 별개 페이지**.
