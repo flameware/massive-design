@@ -1,5 +1,7 @@
 # 참조 화면의 낱말은 두 층이고, 스토리 제목은 라벨이 아니다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09). 1세대의 결정이며 2세대 코드를 구속하지 않는다.
+
 Storybook 화면의 문구가 영어 라벨과 한국어 서술로 섞여 있고, 한국어 화자가 읽었을 때 도움이 되지 않는다는 판정에서 출발했다. 손으로 적힌 영어 라벨은 두 파일에 있다 — `apps/storybook/stories/CatalogReference.tsx`(Executable reference · Generated contract · Anatomy · Axes · Configuration states · Required samples · Usage and provenance · Use · Invest Diary evidence · Boundary)와 `apps/storybook/stories/System.stories.tsx`(페이지 제목 셋, 소제목 여섯, 표 머리 넷, 스토리 `title` 둘).
 
 문제는 "영어냐 한국어냐"가 아니라 **그 영어가 두 종류라는 것**이었다.

@@ -2,6 +2,8 @@
 
 Standing instructions. Everything that happened lives behind a pointer, not here.
 
+이 프로젝트의 질문과 출력은 한국어를 기본으로 한다.
+
 ## Rules that bind later work
 
 The twenty rules the catalog maps left, grouped by subject: what earns its own component, what a contract carries and what a gate may claim, axis and value name spaces, contrast by role, the dependency base, and how a population is measured. **Read before opening a surface, adding an axis, registering `parts`, or changing a contract** — most of these exist because a generation did one of those without them. See [`docs/agents/rules.md`](docs/agents/rules.md).
@@ -28,9 +30,11 @@ Any claim about how many upstream surfaces we are missing is produced by a mecha
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-**No map is live.** The catalog (51 components), tokens and Storybook are complete; open issues are individual bugs and packaging, not maps. Before opening a new map, read [`docs/handoff/repo-review-2026-09.md`](docs/handoff/repo-review-2026-09.md) — it names what kind of issue earns a ticket here.
+**2세대가 결정됐고, 아직 코드는 1세대다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2026-09-09 그릴링의 결정 전부를 담는다 — Base UI 기반으로 `packages/ui`를 새로 쓰고, 계약·매니페스트·Figma 파생 툴링을 삭제하며, Phase 1의 완료 조건은 리포 밖 소비처 invest diary가 `@massive/ui`로 돌아가는 것이다. 다음 행위는 그 ADR의 Phase 1 표를 `/to-spec` → `/to-tickets`로 이슈화하는 것이다. 그 전까지 1세대 코드에 이슈를 열지 않는다 — 소비 앱에서 난 결함만 예외다.
 
-**Figma is an on-request snapshot** ([ADR-0002, amended](docs/adr/0002-separate-repo-verification-from-figma-sync.md)). The last snapshot ([#273](https://github.com/flameware/massive-design/issues/273)) holds all 51 component sets (`verification/figma-baseline.json`), published and current — but their *root cells* only. The `parts` that the #221 map populated on 24 of them are in the manifest and **not** in Figma. Figma falling behind is the normal state, not a defect. Take a new snapshot only when the owner asks, following `docs/agents/design-system-sync.md` §2.
+**규칙 원장과 아래 표준 지시 중 계약·`parts`·`sync:checklist`·매니페스트를 말하는 것은 1세대의 것이다.** Phase 1이 그 툴링을 지우는 PR에서 함께 고친다. 그때까지는 읽되 새 코드에 적용하지 않는다.
+
+**Figma는 보류다** (ADR-0023 §9). 마지막 스냅숏 [#273](https://github.com/flameware/massive-design/issues/273)의 `verification/figma-baseline.json`은 1세대의 기록으로만 남는다. 스냅숏 툴링이 삭제되므로 요청이 와도 만들 수 없다.
 
 Closed maps, with their records:
 

@@ -1,5 +1,7 @@
 # primitive 기반은 `radix-ui`에 머무른다 — 기반은 하나이고, 바꾸는 쪽이 입증한다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09). 1세대의 결정이며 2세대 코드를 구속하지 않는다.
+
 [#120](https://github.com/flameware/massive-design/issues/120)이 upstream shadcn/ui가 **Base UI를 1차 구현으로 제시한다**는 사실을 기록했다. 우리 51개 중 primitive에 기대는 24개는 전부 `radix-ui`다. [#150](https://github.com/flameware/massive-design/issues/150)이 두 라이브러리의 차이를 전수 조사하고 [#151](https://github.com/flameware/massive-design/issues/151)이 의존성 무게를 실측한 뒤, [#152](https://github.com/flameware/massive-design/issues/152)가 판정한다.
 
 **지금 깨진 것은 없다.** upstream은 세 갈래를 모두 문서화하고 우리 51개는 전부 통과하며, [#150](https://github.com/flameware/massive-design/issues/150) §7.1이 Radix 갈래의 **공개된 deprecation 시한이나 sunset 약속을 찾지 못했다**고 빈손으로 끝난 검색 여섯을 기록해 두었다. 이것은 불을 끄는 일이 아니라 앞으로의 호환성 논의가 설 전제를 고정하는 일이다.

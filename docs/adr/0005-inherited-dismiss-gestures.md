@@ -1,5 +1,7 @@
 # 상속 dismiss 제스처를 얕게 계약한다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09). 1세대의 결정이며 2세대 코드를 구속하지 않는다.
+
 Toast는 오른쪽으로 50px 끌면 닫힌다. 우리가 구현한 적 없고, 어느 문서에도 적힌 적 없으며, 그대로 발행돼 있었다. `radix-ui` Toast의 기본값(`swipeDirection: "right"`, `swipeThreshold: 50`)이 `ToastProvider = ToastPrimitive.Provider` 통과분으로 그냥 따라온 것이다([#110](https://github.com/flameware/massive-design/issues/110)).
 
 게다가 반쪽이었다. `data-[swipe=…]` 스타일이 리포 전체에 0건이라 **끄는 동안 아무 일도 일어나지 않다가 임계값에서 갑자기 사라졌다.** 터치가 이 시스템의 1급 대상이라는 [#97](https://github.com/flameware/massive-design/issues/97)의 전제에서 이건 인상이 아니라 결함이다.

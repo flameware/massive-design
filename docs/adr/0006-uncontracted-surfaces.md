@@ -1,5 +1,7 @@
 # 미계약 표면을 두 관문으로 가르고, 판정을 계약에 남긴다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09). 1세대의 결정이며 2세대 코드를 구속하지 않는다.
+
 `Card`는 `CardHeader`·`CardTitle`·`CardAction`·`CardDescription`·`CardContent`·`CardFooter` 여섯 파트를 공개하면서 `anatomy: []`로 **43세대를 통과했다.** 게이트의 part 검사가 **anatomy → parts 한 방향만** 봤고 Card에는 `parts`가 없었기 때문이다. [#122](https://github.com/flameware/massive-design/issues/122)가 이름 붙인 **"없는 것은 통과가 아니라 침묵이다"** 가 계약 자체에서 재현된 것이다([#121](https://github.com/flameware/massive-design/issues/121)).
 
 그리고 이건 하나가 아니었다. upstream 문서에는 있는데 우리 계약에는 없고, `limits`에 **닫는다고 적힌 적조차 없는** 표면이 14개 있었다 — `AvatarBadge`, `AlertAction`, `ItemMedia`의 `image`, `InputGroupAddon`의 `align`, `TabsList`의 밑줄 축…. `limits`에 없다는 것은 "닫기로 했다"가 아니라 **"고려된 적 없다"** 이고, 그건 판정을 재검토하는 일보다 한 겹 더 깊다.
