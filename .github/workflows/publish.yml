@@ -34,8 +34,9 @@ jobs:
           scope: "@flameware"
 
       - run: bun install --frozen-lockfile
-      # check와 같은 이유로 Chromium이 필요하다 — `test`가 스토리 테스트를 돈다 (#279)
-      - run: bunx playwright install --with-deps chromium
+      # check와 같은 이유로 Chromium이 필요하다 — `test`가 스토리 테스트를 돈다 (#279).
+      # 락파일이 고정한 playwright로 받는다 — bunx는 최신을 받아 리비전이 어긋난다
+      - run: bun run --filter @flameware/storybook playwright:install
       - run: bun run check
       - run: bun run test
 

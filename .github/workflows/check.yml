@@ -21,6 +21,11 @@ jobs:
       - run: bun install --frozen-lockfile
       # 스토리 테스트가 Chromium을 띄운다 (#279). playwright 패키지는 브라우저
       # 바이너리를 함께 받지 않으므로 여기서 한 번 내려받는다 — 러너에는 없다.
-      - run: bunx playwright install --with-deps chromium
+      #
+      # `bunx playwright`가 아니라 워크스페이스의 스크립트를 부르는 것이 중요하다.
+      # bunx는 npm에서 **최신** playwright를 받아 그 버전의 리비전을 내려받으므로,
+      # 락파일이 고정한 클라이언트가 찾는 리비전과 어긋나 "Executable doesn't exist"로
+      # 죽는다(실제로 v1243을 받고 v1234를 찾았다).
+      - run: bun run --filter @flameware/storybook playwright:install
       - run: bun run check
       - run: bun run test

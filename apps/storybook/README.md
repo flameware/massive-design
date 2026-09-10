@@ -3,10 +3,13 @@
 `@flameware/ui`의 문서이자 워크벤치, 그리고 **주 seam**이다. 컴포넌트를 여기 세우는 것이 곧 그것을 재는 것이다 (ADR-0023 §8·§12, [#279](https://github.com/flameware/massive-design/issues/279)).
 
 ```bash
-bun run --filter @flameware/storybook storybook        # 개발 서버 (6006)
-bun run --filter @flameware/storybook build-storybook  # 정적 빌드
-bun run --filter @flameware/storybook test             # 빌드 + 스토리 테스트
+bun run --filter @flameware/storybook storybook          # 개발 서버 (6006)
+bun run --filter @flameware/storybook build-storybook    # 정적 빌드
+bun run --filter @flameware/storybook playwright:install  # Chromium 한 번 (CI가 부르는 것)
+bun run --filter @flameware/storybook test               # 빌드 + 스토리 테스트
 ```
+
+`playwright:install`은 이 패키지의 playwright로 돌려야 한다 — `bunx playwright`는 npm에서 최신을 받아 락파일이 고정한 클라이언트가 찾는 브라우저 리비전과 어긋난다.
 
 ## 컴포넌트를 하나 더할 때
 
