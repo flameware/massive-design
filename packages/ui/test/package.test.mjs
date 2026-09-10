@@ -17,6 +17,7 @@ import { test } from "node:test"
 const root = fileURLToPath(new URL("..", import.meta.url))
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"))
 
+/** exports에 선언된 서브패스 중 코드가 나오는 것들. */
 const CODE_SUBPATHS = [
   ".",
   "./button",
@@ -27,6 +28,10 @@ const CODE_SUBPATHS = [
   "./form",
   "./card",
   "./alert",
+  "./menu",
+  "./avatar",
+  "./separator",
+  "./tooltip",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -39,13 +44,29 @@ const COMPONENT_SUBPATHS = [
   "./form",
   "./card",
   "./alert",
+  "./menu",
+  "./avatar",
+  "./separator",
+  "./tooltip",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
  * 한다. Card·Alert는 Base UI 뒤가 없는 자체 스타일 primitive라 이벤트 핸들러도
  * 상태도 없다(#283) — 서버 컴포넌트로 남고, `"use client"`를 붙이면 오히려
- * 소비처의 서버 렌더 경계를 불필요하게 앞당긴다. */
-const CLIENT_SUBPATHS = ["./button", "./icon", "./field", "./input", "./textarea", "./form"]
+ * 소비처의 서버 렌더 경계를 불필요하게 앞당긴다. Menu·Avatar·Separator·Tooltip은
+ * 넷 다 Base UI 뒤이므로(#285) 클라이언트 쪽에 선다. */
+const CLIENT_SUBPATHS = [
+  "./button",
+  "./icon",
+  "./field",
+  "./input",
+  "./textarea",
+  "./form",
+  "./menu",
+  "./avatar",
+  "./separator",
+  "./tooltip",
+]
 const SERVER_SUBPATHS = ["./card", "./alert"]
 
 // ── 서브패스 ────────────────────────────────────────────────────────────────

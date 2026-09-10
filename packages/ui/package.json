@@ -49,6 +49,22 @@
       "types": "./dist/alert/index.d.ts",
       "default": "./dist/alert/index.js"
     },
+    "./menu": {
+      "types": "./dist/menu/index.d.ts",
+      "default": "./dist/menu/index.js"
+    },
+    "./avatar": {
+      "types": "./dist/avatar/index.d.ts",
+      "default": "./dist/avatar/index.js"
+    },
+    "./separator": {
+      "types": "./dist/separator/index.d.ts",
+      "default": "./dist/separator/index.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip/index.d.ts",
+      "default": "./dist/tooltip/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },

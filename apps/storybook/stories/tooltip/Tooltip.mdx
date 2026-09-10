@@ -1,0 +1,43 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as TooltipStories from "./Tooltip.stories"
+
+<Meta of={TooltipStories} />
+
+<Title />
+
+<StatusBadge status={TooltipStories.default.parameters.ds.status} /> · since {TooltipStories.default.parameters.ds.since}
+
+호버하거나 포커스하면 뜨는 짧은 설명.
+
+## 언제 쓰는가
+
+- 아이콘 전용 버튼처럼 이름이 그림에만 있는 자리에서 그 뜻을 보태고 싶을 때. **`aria-label`을 대신하지 않는다** — 아이콘 버튼에는 여전히 `aria-label`이 있어야 한다(Button의 IconOnly 스토리 참고). Tooltip은 마우스·키보드 사용자에게 한 번 더 보여주는 것일 뿐이다.
+
+## 언제 쓰지 않는가
+
+- **꼭 읽어야 하는 정보일 때.** 호버·포커스가 없으면 안 보이므로, 터치 전용 기기에서는 아예 닿지 않는다. 중요한 설명은 본문이나 `aria-describedby`로 상시 노출한다.
+- **버튼 대신일 때.** 눌러야 열리는 정보는 Popover(Phase 2)다.
+
+## 여는 계기
+
+호버(기본 지연 600ms)와 포커스(지연 없음) 둘 다 기본으로 연다 — 트리거에 손으로 이벤트를 달지 않는다. Esc를 누르면 닫히고 포커스는 트리거에 남는다.
+
+<Canvas of={TooltipStories.Playground} />
+
+## 방향
+
+`side`가 트리거 기준 방향을 정한다. 공간이 없으면 Base UI가 자동으로 반대쪽으로 뒤집는다.
+
+<Canvas of={TooltipStories.Sides} />
+
+## 키보드
+
+<Canvas of={TooltipStories.Keyboard} />
+
+## Props
+
+<Story of={TooltipStories.Playground} />
+
+<Controls of={TooltipStories.Playground} />

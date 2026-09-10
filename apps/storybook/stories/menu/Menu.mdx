@@ -1,0 +1,50 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as MenuStories from "./Menu.stories"
+
+<Meta of={MenuStories} />
+
+<Title />
+
+<StatusBadge status={MenuStories.default.parameters.ds.status} /> · since {MenuStories.default.parameters.ds.since}
+
+트리거를 누르면 뜨는 명령 목록. 항목·구분선·체크 항목을 조립한다.
+
+## 언제 쓰는가
+
+- 자리 하나에 여러 동작을 묶어 둘 때 — 사용자 메뉴(프로필·설정·로그아웃), 행 액션.
+- 켜고 끄는 옵션이 여러 개 있어 목록 안에서 토글하고 싶을 때 — `Menu.CheckboxItem`.
+
+## 언제 쓰지 않는가
+
+- **동작이 하나뿐일 때.** 그냥 `Button`이다.
+- **항목이 페이지 이동일 때.** 링크 목록은 `nav` 또는 그냥 `<a>` 목록이지 메뉴가 아니다 — 메뉴는 "지금 이 자리에서 뭔가 실행한다"는 뜻이다.
+- **늘 보여야 할 때.** 접히지 않는 선택지는 `ToggleGroup`이나 탭이다.
+
+## 조립
+
+`Menu.Root`가 상태를 쥐고 `Menu.Trigger`가 연다. `Menu.Popup`이 `Portal`·`Positioner`를 안에서 함께 열어 소비처는 셋을 따로 조립하지 않는다.
+
+<Canvas of={MenuStories.Playground} />
+
+`Menu.Item`은 `variant="destructive"`를 받는다 — 로그아웃처럼 되돌리기 어려운 동작에 쓴다. 면은 상태 레이어 하나로만 칠한다(`--ds-state-base`, `packages/ui/src/state.css`) — `bg-*`를 따로 얹지 않는다.
+
+## 체크 항목
+
+`Menu.CheckboxItem`은 제어·비제어 둘 다로 동작한다 — `checked`를 주면 제어, `defaultChecked`만 주면 비제어다. 기본은 눌러도 메뉴가 닫히지 않는다(`closeOnClick` 기본값 `false`) — 여러 옵션을 연달아 켜고 끄는 자리이기 때문이다.
+
+<Canvas of={MenuStories.CheckboxUncontrolled} />
+<Canvas of={MenuStories.CheckboxControlled} />
+
+## 키보드
+
+트리거에서 Enter·Space·ArrowDown 중 무엇을 눌러도 열리고 첫 항목에 포커스가 간다. ArrowDown/ArrowUp이 항목 사이를 옮기고, Esc가 닫으며 포커스를 트리거로 되돌린다. 전부 Base UI가 진다 — 아래 스토리가 계약을 선언하고 `test/stories.test.mjs`가 매번 실제로 눌러 잰다.
+
+<Canvas of={MenuStories.Keyboard} />
+
+## Props
+
+<Story of={MenuStories.Playground} />
+
+<Controls of={MenuStories.Playground} />
