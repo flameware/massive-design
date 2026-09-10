@@ -135,6 +135,87 @@ Card와 마찬가지로 자체 스타일 primitive이고 서버 컴포넌트로 
 아이콘은 Alert이 스스로 만들지 않는다 — `@flameware/ui/icon`을 `Root`의 첫
 자식으로 둔다. 없어도 유효하다.
 
+## Menu
+
+```tsx
+import { Menu } from "@flameware/ui/menu"
+
+<Menu.Root>
+  <Menu.Trigger>사용자 메뉴</Menu.Trigger>
+  <Menu.Popup>
+    <Menu.Item>프로필</Menu.Item>
+    <Menu.Item>설정</Menu.Item>
+    <Menu.Separator />
+    <Menu.Item variant="destructive">로그아웃</Menu.Item>
+    <Menu.CheckboxItem checked={notify} onCheckedChange={setNotify}>
+      알림 표시
+    </Menu.CheckboxItem>
+  </Menu.Popup>
+</Menu.Root>
+```
+
+네임스페이스형이다(ADR-0023 §5) — `Root`·`Trigger`·`Popup`·`Item`·`CheckboxItem`·
+`Separator`를 하나의 이름 아래 둔다. `Popup`이 Base UI의 `Portal`·`Positioner`를
+안에서 함께 열어 소비처가 매번 세 겹을 조립하지 않는다. 화살표 이동·Enter
+선택·Esc 닫기는 전부 Base UI가 진다.
+
+`Menu.Item`만 자기 축(`variant: "default" | "destructive"`)을 갖는다 — root에는
+그런 축이 없어서 규칙이 허용하는 자리다(rules.md 축과 이름 공간). 면은 Button과
+같은 이유로 상태 바탕(`--ds-state-base`) 한 곳에서만 나온다.
+
+`Menu.CheckboxItem`은 `checked`/`onCheckedChange`(제어)와 `defaultChecked`(비제어)
+둘 다로 동작한다. 기본은 눌러도 메뉴가 닫히지 않는다(`closeOnClick` 기본값
+`false`) — 여러 옵션을 연달아 켜고 끄는 자리이기 때문이다.
+
+## Avatar
+
+```tsx
+import { Avatar } from "@flameware/ui/avatar"
+
+<Avatar.Root size="md">
+  <Avatar.Image src={user.photoUrl} alt={user.name} />
+  <Avatar.Fallback>김서</Avatar.Fallback>
+</Avatar.Root>
+```
+
+네임스페이스형 — `Root`·`Image`·`Fallback`. 이미지가 없거나 실패하면
+`Fallback`이 대신 그려진다(Base UI가 로딩 상태를 관리). 이니셜을 이름에서
+뽑는 규칙은 소비처마다 달라 DS가 계산하지 않는다 — `Fallback`의 children으로
+문자열을 그대로 준다. `size`는 `sm`(24px)·`md`(32px)·`lg`(40px)이고 `sm`은
+포인터 하한과 같은 값이다.
+
+## Separator
+
+```tsx
+import { Separator } from "@flameware/ui/separator"
+
+<Separator />
+<Separator orientation="vertical" />
+```
+
+파트가 없는 primitive라 Button과 같은 모양으로 나간다(네임스페이스가 아니다).
+`orientation`(`horizontal`·`vertical`) 하나뿐이다. 선은 `border-*`로 긋는다 —
+`border.default`는 border-color 이름공간에만 등록돼 있어서 `bg-border-default`
+같은 클래스는 `@theme`에 없는 유틸리티라 조용히 무효가 된다.
+
+## Tooltip
+
+```tsx
+import { Tooltip } from "@flameware/ui/tooltip"
+
+<Tooltip.Root>
+  <Tooltip.Trigger aria-label="저장">
+    <SaveIcon />
+  </Tooltip.Trigger>
+  <Tooltip.Popup>저장</Tooltip.Popup>
+</Tooltip.Root>
+```
+
+네임스페이스형 — `Root`·`Trigger`·`Popup`(`Popup`이 `Portal`·`Positioner`를
+안에서 함께 연다). 호버(기본 지연 600ms)와 포커스(지연 없음) 둘 다 기본으로
+연다. 아이콘 전용 트리거는 이름이 그림에만 있으므로 `aria-label`이 필수다 —
+Tooltip이 그것을 대신하지 않는다.
+
 ## 색 — semantic 유틸리티
 
 `bg-*`·`text-*`·`border-*`는 semantic 이름만 받는다. primitive 팔레트
