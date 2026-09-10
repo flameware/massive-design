@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+import { SpaceScale } from "./SpaceScale"
+
+<Meta title="Foundations/간격" />
+
+# 간격
+
+이름 붙은 단계는 없다. 코드는 `--spacing`(4px) 배수 하나가 전부 동적으로 만든다 — `p-3`이 곧 12px이고, 이 표 밖의 배수(shadcn이 쓰는 `gap-1.5` 같은)도 그대로 쓸 수 있다.
+
+```tsx
+<div className="flex gap-3 p-4">…</div>
+```
+
+아래 열세 개는 **Figma 간격 피커용 프리셋**이지 코드가 여기로 잘리는 것은 아니다.
+
+<SpaceScale />

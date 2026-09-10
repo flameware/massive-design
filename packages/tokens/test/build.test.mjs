@@ -78,12 +78,25 @@ test('@theme의 semantic 색은 역할별 이름 공간에 산다 — 이름이 
   assert.ok(!theme.includes('--ds-palette-'))
 })
 
-test('THEME_COLORS에 없는 이름은 유틸리티가 되지 않는다 — 열거는 명시다', () => {
+test('@theme의 색 이름은 semantic의 bg·fg·border 리프와 정확히 같다 — 훑기이지 임의 목록이 아니다 (#280)', () => {
   const theme = css.match(/@theme inline \{([\s\S]*?)\n\}/)[1]
-  // #278은 Button이 쓰는 것만 연다. success·warning·inverse는 그것을 쓰는 컴포넌트가
-  // 생길 때(#280 이후) 열린다 — 열려 있으면 "쓸 수 있는데 왜 안 쓰나"가 된다
+  const registered = [...theme.matchAll(/^\s*--(?:background|text|border)-color-([\w-]+):/gm)]
+    .map((m) => m[1])
+    .sort()
+
+  // semantic/color.json의 bg·fg·border 리프 전부가 register 대상이어야 한다.
+  // #278까지는 Button이 쓰는 8개만 열었다(success·warning·inverse·scrim은
+  // 일부러 뺐다) — #280부터는 Foundations 챕터가 전체 팔레트를 보여줘야 하므로
+  // 뺀 이름이 없어야 한다
+  const semanticNames = [...flatten(sources.semantic)]
+    .map(([path]) => path.replace(/^color\./, ''))
+    .filter((path) => /^(?:bg|fg|border)\./.test(path))
+    .map((path) => path.split('.').slice(1).join('-'))
+    .sort()
+
+  assert.deepEqual(registered, semanticNames)
   for (const name of ['success-solid', 'warning-solid', 'inverse', 'scrim']) {
-    assert.ok(!theme.includes(`-color-${name}:`), name)
+    assert.ok(registered.includes(name), name)
   }
 })
 

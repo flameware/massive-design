@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+import { RadiusScale } from "./RadiusScale"
+
+<Meta title="Foundations/라운드" />
+
+# 라운드
+
+shadcn CLI의 곱셈 7단이다. `--radius`(base, 10px)에 배수를 곱해 빌드 시점에 선계산한다 — calc로 남기지 않는 이유는 Figma Variable이 숫자만 받아서다: 계산 지점을 빌드로 당기면 코드와 Figma가 같은 값을 본다.
+
+```tsx
+<div className="rounded-lg">…</div>
+```
+
+<RadiusScale />

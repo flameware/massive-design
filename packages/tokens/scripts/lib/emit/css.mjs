@@ -19,28 +19,23 @@
  * 거친 닫힌 목록이고(scale-tokens.md §7), 그 판정은 토큰 파일이 아니라
  * 이 표에 산다. 훑기로 바꾸면 easing 2개처럼 "값이 같아서 안 내보내는" 것들이
  * 조용히 출력에 끼어든다.
+ *
+ * 색은 #278까지 같은 원칙으로 **Button이 쓰는 8개만** 명시 열거했다. #280부터는
+ * bg·fg·border 세 역할 아래의 semantic 색 **전부**를 연다 — 판정이 바뀐 것은
+ * "이 색을 쓰는 컴포넌트가 있는가"가 아니라 "소비처가 Foundations 챕터에서
+ * 이름을 찾아 유틸리티로 부를 수 있는가"이기 때문이다(ADR-0023 §7·스토리 6).
+ * 그래서 색만은 **훑기**로 바뀐다 — semantic/color.json의 bg·fg·border 아래
+ * 리프 전부가 THEME_COLORS다. 훑어도 안전한 이유는 semantic/color.json 자체가
+ * 이미 "이 색이 존재해야 하는가"라는 판정을 거친 닫힌 파일이기 때문이다
+ * (state.layer는 색 유틸리티가 아니라 state.css가 직접 읽는 합성 입력이라
+ * bg·fg·border 밖에 있고, 이 훑기가 건드리지 않는다).
  */
 
 import { flatten } from '../resolve.mjs'
 
 /** semantic 경로 → Tailwind 테마 이름 공간. 역할 세그먼트가 접두사가 되고
- *  나머지가 유틸리티 이름이 된다: `bg.accent.solid` → `bg-accent-solid`.
- *
- *  훑기가 아니라 열거인 이유는 비색상 표와 같다 — "무엇을 유틸리티로 내보내는가"는
- *  토큰 파일이 아니라 이 표가 쥐는 판정이고, 지금 그 판정을 거친 것은 Button이
- *  쓰는 8개뿐이다(#278). 열거를 늘리는 것이 #280의 일이다. */
+ *  나머지가 유틸리티 이름이 된다: `bg.accent.solid` → `bg-accent-solid`. */
 const ROLE_NAMESPACE = { bg: '--background-color', fg: '--text-color', border: '--border-color' }
-
-const THEME_COLORS = [
-  'bg.surface',        // outline 버튼의 면
-  'bg.neutral.soft',   // secondary 버튼의 면
-  'bg.accent.solid',   // 기본 버튼의 면
-  'bg.danger.solid',   // destructive 버튼의 면
-  'fg.default',
-  'fg.accent',
-  'fg.on-solid',       // solid 면 위의 글자
-  'border.default',
-]
 
 /** DTCG 경로 → CSS 변수명. `color.` 세그먼트는 탈락한다(semantic-tokens.md §1). */
 export const dsVar = (path) => `--ds-${path.replace(/^color\./, '').replace(/\./g, '-')}`
@@ -87,11 +82,12 @@ export function emitCss({ gen, literal, semantic, scale }) {
   out.push('}', '')
 
   out.push('@theme inline {')
-  out.push('  /* 색 — semantic 이름만. 역할이 이름 공간이다. 값은 semantic 변수를 가리키고')
-  out.push('   * 팔레트는 여기 절대 들어가지 않는다 (#7). 열거는 THEME_COLORS — 지금은 Button 몫뿐 (#278) */')
-  const semanticByPath = new Map(semanticEntries.map(([path]) => [path.replace(/^color\./, ''), true]))
+  out.push('  /* 색 — semantic 이름 전부. 역할이 이름 공간이다. 값은 semantic 변수를 가리키고')
+  out.push('   * 팔레트는 여기 절대 들어가지 않는다 (#7). bg·fg·border 세 역할 아래를 훑는다 (#280) */')
+  const THEME_COLORS = semanticEntries
+    .map(([path]) => path.replace(/^color\./, ''))
+    .filter((path) => path.split('.')[0] in ROLE_NAMESPACE)
   for (const path of THEME_COLORS) {
-    if (!semanticByPath.has(path)) throw new Error(`THEME_COLORS의 ${path}가 semantic에 없다`)
     const [role, ...rest] = path.split('.')
     out.push(line(`${ROLE_NAMESPACE[role]}-${rest.join('-')}`, `var(${dsVar(path)})`))
   }

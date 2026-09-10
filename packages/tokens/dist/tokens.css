@@ -207,16 +207,43 @@
 }
 
 @theme inline {
-  /* 색 — semantic 이름만. 역할이 이름 공간이다. 값은 semantic 변수를 가리키고
-   * 팔레트는 여기 절대 들어가지 않는다 (#7). 열거는 THEME_COLORS — 지금은 Button 몫뿐 (#278) */
+  /* 색 — semantic 이름 전부. 역할이 이름 공간이다. 값은 semantic 변수를 가리키고
+   * 팔레트는 여기 절대 들어가지 않는다 (#7). bg·fg·border 세 역할 아래를 훑는다 (#280) */
+  --background-color-canvas: var(--ds-bg-canvas);
   --background-color-surface: var(--ds-bg-surface);
+  --background-color-subtle: var(--ds-bg-subtle);
+  --background-color-inset: var(--ds-bg-inset);
+  --background-color-overlay: var(--ds-bg-overlay);
   --background-color-neutral-soft: var(--ds-bg-neutral-soft);
+  --background-color-neutral-solid: var(--ds-bg-neutral-solid);
+  --background-color-accent-soft: var(--ds-bg-accent-soft);
   --background-color-accent-solid: var(--ds-bg-accent-solid);
+  --background-color-danger-soft: var(--ds-bg-danger-soft);
   --background-color-danger-solid: var(--ds-bg-danger-solid);
+  --background-color-success-soft: var(--ds-bg-success-soft);
+  --background-color-success-solid: var(--ds-bg-success-solid);
+  --background-color-warning-soft: var(--ds-bg-warning-soft);
+  --background-color-warning-solid: var(--ds-bg-warning-solid);
+  --background-color-inverse: var(--ds-bg-inverse);
+  --background-color-scrim: var(--ds-bg-scrim);
   --text-color-default: var(--ds-fg-default);
-  --text-color-accent: var(--ds-fg-accent);
+  --text-color-muted: var(--ds-fg-muted);
   --text-color-on-solid: var(--ds-fg-on-solid);
+  --text-color-on-inverse: var(--ds-fg-on-inverse);
+  --text-color-on-warning: var(--ds-fg-on-warning);
+  --text-color-accent: var(--ds-fg-accent);
+  --text-color-danger: var(--ds-fg-danger);
+  --text-color-success: var(--ds-fg-success);
+  --text-color-warning: var(--ds-fg-warning);
+  --text-color-link: var(--ds-fg-link);
   --border-color-default: var(--ds-border-default);
+  --border-color-field: var(--ds-border-field);
+  --border-color-knockout: var(--ds-border-knockout);
+  --border-color-strong: var(--ds-border-strong);
+  --border-color-accent: var(--ds-border-accent);
+  --border-color-danger: var(--ds-border-danger);
+  --border-color-focus: var(--ds-border-focus);
+  --border-color-focus-contrast: var(--ds-border-focus-contrast);
 
   /* 타이포 — 사이즈 사다리는 Tailwind 기본과 같아 덮지 않는다 */
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;

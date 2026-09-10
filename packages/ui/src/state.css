@@ -8,8 +8,18 @@
  * --ds-state-base를 안 주면 transparent에 섞인다 — ghost처럼 배경이 없는
  * variant에서 반투명 층 그 자체가 되어 의도한 결과가 나온다.
  *
+ * **이 유틸리티가 요소의 background-color를 쓰는 유일한 선언이다**(#299).
+ * 예전에는 variant가 `bg-X`(면)와 `[--ds-state-base:var(--ds-bg-X)]`(상태
+ * 바탕)를 둘 다 냈고, 둘 다 같은 property·같은 specificity(0,1,0)라서 컴파일된
+ * 시트의 방출 순서가 이겼다 — `bg-X`가 `.state` 뒤에 나오면 상태 레이어의
+ * color-mix가 한 번도 적용되지 않았다. 지금 `buttonVariants`는 면을
+ * `--ds-state-base`로만 준다(button.tsx): `.state`가 alpha 0%일 때 이미
+ * `--ds-state-base`를 그대로 칠하므로 별도의 `bg-X`가 필요 없고, 그러면
+ * background-color를 쓰는 규칙이 정말로 하나뿐이라 방출 순서가 결과를
+ * 바꿀 수 없다.
+ *
  * disabled(0.5)는 여기 없다. 층이 아니라 요소 전체의 불투명도라서 컴포넌트가
- * `disabled:opacity-50`으로 직접 칠한다. */
+ * `data-disabled:opacity-50`으로 직접 칠한다. */
 @utility state {
   --ds-state-alpha: 0%;
   /* base를 앞에 두는 것이 규약이다. Tailwind는 color-mix를 지원하지 않는
@@ -30,8 +40,17 @@
     --ds-state-alpha: 12%;
   }
 
-  &:disabled:hover,
-  &:disabled:active {
+  /* Base UI Button은 hover/pressed에 대응하는 data-* 속성을 내지 않는다
+   * (`ButtonDataAttributes`는 `data-disabled` 하나뿐 — packages/ui/node_modules/
+   * @base-ui/react/button/ButtonDataAttributes.d.ts로 확인). 그래서 hover·active
+   * 사다리는 CSS 의사 클래스 그대로 두고(#299가 남긴 out-of-scope), 무력화하는
+   * 쪽만 data-*로 옮긴다: `disabled`는 네이티브 `disabled` 속성을, `loading`은
+   * `focusableWhenDisabled`라서 `aria-disabled`를 쓰는데, Base UI는 **둘 다에서**
+   * `data-disabled`를 낸다(button.tsx의 Button). `:disabled` 의사 클래스는
+   * aria-disabled만 있는 loading 상태를 못 읽으므로 `[data-disabled]`가
+   * 유일하게 두 경우를 다 잡는 셀렉터다. */
+  &[data-disabled]:hover,
+  &[data-disabled]:active {
     --ds-state-alpha: 0%;
   }
 }

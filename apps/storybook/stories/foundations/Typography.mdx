@@ -1,0 +1,32 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+import { TypeScale } from "./TypeScale"
+
+<Meta title="Foundations/타이포" />
+
+# 타이포
+
+크기 사다리는 Tailwind 정본 이름을 그대로 쓴다 — 신규 어휘는 0개다. 우리 일은 줄 높이·자간의 기본값을 한국어 본문에 맞게 튜닝하는 것뿐이다.
+
+```tsx
+<p className="text-sm">본문</p>
+<h1 className="text-3xl">제목</h1>
+```
+
+<TypeScale />
+
+## 왜 줄 높이가 세 단계뿐인가
+
+한국어는 라틴보다 글자 밀도가 높고 받침이 세로 공간을 더 쓴다. 본문(`xs`·`sm`·`base`·`lg`)은 1.6, 중간(`xl`·`2xl`)은 1.4, 제목(`3xl` 이상)은 1.25다 — 개별 사이즈마다 다른 값을 주지 않는 이유는 같은 문단 안에서 줄 높이가 튀지 않아야 하기 때문이다.
+
+## 왜 본문 자간이 0인가
+
+큰 글자만 자간을 좁힌다(`mid` −0.01em, `heading` −0.02em). 본문 자간을 음수로 주면 한글 낱글자가 뭉친다.
+
+## 폰트
+
+기본 서체는 Pretendard다 — `--font-sans`. 로컬 폰트가 없는 실행 환경(Figma 등)을 우회하려고 폰트 패밀리 이름만 별도 채널로 나가지만, 코드가 받는 것은 이 CSS 변수 하나다.
+
+```css
+font-family: var(--font-sans);
+```

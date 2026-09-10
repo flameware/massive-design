@@ -21,21 +21,29 @@ export const buttonVariants = cva(
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     // 포커스 링의 색은 tokens.css의 base 규칙이 이미 outline-color로 칠했다
     "outline-offset-2 focus-visible:outline-2",
-    // 상태 레이어. hover/pressed 색 토큰은 0개이고 층 하나가 사다리를 만든다
+    // 상태 레이어. hover/pressed 색 토큰은 0개이고 층 하나가 사다리를 만든다.
+    // `.state`가 background-color의 유일한 작성자다(state.css, #299) — variant는
+    // 면을 `bg-X` 유틸리티로 따로 칠하지 않는다. 무력화(0.5 불투명도·상태 층
+    // 끔)는 `data-disabled`로 건다 — Base UI는 네이티브 disabled와 loading
+    // (aria-disabled) 둘 다에서 이 속성을 낸다(button.tsx의 Button 참고),
+    // `:disabled` 의사 클래스는 loading을 못 읽는다
     "state transition-[background-color,color,box-shadow]",
-    "disabled:pointer-events-none disabled:opacity-50",
+    "data-disabled:pointer-events-none data-disabled:opacity-50",
   ],
   {
     variants: {
-      // 면 이름이 두 번 나온다 — `bg-X`와 상태 레이어의 바탕 `--ds-bg-X`. 헬퍼로
-      // 한 번만 적고 싶지만 그럴 수 없다: Tailwind는 소스를 **정적으로** 훑어
-      // 클래스를 찾으므로 `bg-${name}` 같은 조립은 아예 발견되지 않고, 그러면
-      // 소비 앱에서 CSS가 0바이트 나온다. 어긋남은 test/utilities.test.mjs가 문다
+      // 면은 `--ds-state-base` 한 곳에만 적는다 — `.state`가 alpha 0%일 때
+      // 이 값을 그대로 칠하므로 별도의 `bg-X` 유틸리티가 필요 없고(#299),
+      // background-color를 쓰는 선언이 하나뿐이라 Tailwind의 방출 순서가
+      // 더는 결과를 바꾸지 못한다. 이름은 여전히 리터럴이어야 한다: Tailwind는
+      // 소스를 **정적으로** 훑으므로 `--ds-bg-${name}` 같은 조립은 발견되지
+      // 않고, 그러면 소비 앱에서 CSS가 0바이트 나온다. 어긋남은
+      // test/button.test.mjs가 문다
       variant: {
-        default: "bg-accent-solid text-on-solid [--ds-state-base:var(--ds-bg-accent-solid)]",
-        destructive: "bg-danger-solid text-on-solid [--ds-state-base:var(--ds-bg-danger-solid)]",
-        outline: "border bg-surface text-default [--ds-state-base:var(--ds-bg-surface)]",
-        secondary: "bg-neutral-soft text-default [--ds-state-base:var(--ds-bg-neutral-soft)]",
+        default: "text-on-solid [--ds-state-base:var(--ds-bg-accent-solid)]",
+        destructive: "text-on-solid [--ds-state-base:var(--ds-bg-danger-solid)]",
+        outline: "border text-default [--ds-state-base:var(--ds-bg-surface)]",
+        secondary: "text-default [--ds-state-base:var(--ds-bg-neutral-soft)]",
         // 면을 주지 않는다 — 상태 레이어가 반투명 층 그 자체가 되는 것이
         // 의도다(state.css). --ds-state-base가 없으면 transparent에 섞인다
         ghost: "text-default",

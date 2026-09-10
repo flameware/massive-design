@@ -1,0 +1,28 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+<Meta title="Foundations/라이트·다크" />
+
+# 라이트 · 다크
+
+전환은 **클래스 하나**다 — `<html>`(또는 그 조상)에 `dark`를 걸거나 뗀다. 앱의 `next-themes`가 그대로 붙는다.
+
+```tsx
+// next-themes
+<ThemeProvider attribute="class">…</ThemeProvider>
+```
+
+토큰 CSS의 `@custom-variant dark`가 그 클래스를 읽는다.
+
+```css
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+`&:is(.dark *)`가 아니라 `&:where(.dark, .dark *)`인 이유는 전자가 **토글 자신**을 놓치기 때문이다 — `.dark` 클래스가 걸린 요소 자신도 다크 스타일을 받아야 하는데 `*` 하위 선택자만으로는 그 요소 자신을 못 잡는다.
+
+## 값은 semantic 계층에서만 갈린다
+
+palette(`--ds-palette-*`)는 라이트·다크 두 벌이 이미 존재하고, semantic(`--ds-bg-*` 등)이 그중 하나를 가리킨다. `.dark`가 다시 선언하는 것은 **semantic 전부**(36개) — 부분만 재선언하면 중첩 서브트리에서 일부가 라이트로 남는 결함이 났었다([#35](https://github.com/flameware/massive-design/issues/35)).
+
+## Storybook에서 확인하기
+
+이 문서 위쪽 툴바의 Theme 스위치로 바로 전환된다 — [Foundations/색](/?path=/docs/foundations-색--docs)의 스와치가 지금 켜진 모드의 실제 값을 그대로 그린다. 문서 껍데기(사이드바·헤더)는 라이트로 고정이다: 문서를 읽는 자리와 컴포넌트를 보는 자리가 다르기 때문이다.
