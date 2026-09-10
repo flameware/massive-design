@@ -1,0 +1,61 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ButtonStories from "./Button.stories"
+
+<Meta of={ButtonStories} />
+
+<Title />
+
+<StatusBadge status={ButtonStories.default.parameters.ds.status} /> · since {ButtonStories.default.parameters.ds.since}
+
+동작을 부르는 버튼. 누르면 무언가가 **일어난다**.
+
+## 언제 쓰는가
+
+- 누르면 상태가 바뀌거나 요청이 나가는 자리 — 저장·삭제·불러오기.
+- 폼의 제출. `type="submit"`은 그대로 통한다.
+- 자리 이동이지만 버튼처럼 보여야 하는 자리 — `render={<a href="…" />}`로 요소만 바꾼다. 보이는 것은 버튼, 읽히는 것은 링크다.
+
+## 언제 쓰지 않는가
+
+- **자리를 옮기기만 할 때.** 새 탭·뒤로 가기·주소 복사가 뜻이 있으면 그것은 링크다. 글줄 안에 섞이는 링크는 `variant="link"`가 아니라 그냥 `<a>`다 — `variant="link"`는 버튼 자리에 선 글줄이지 본문 속 링크가 아니다.
+- **켜고 끄는 자리.** 눌린 상태가 남으면 Toggle이다.
+- **여는 자리를 직접 만들 때.** 메뉴·다이얼로그의 트리거는 그 컴포넌트가 준다 — Button을 손으로 붙이면 `aria-expanded`·`aria-controls`가 빠진다.
+
+## 변형
+
+`variant`는 **면**을, `size`는 **높이와 여백**을 정한다. 둘은 곱해진다.
+
+<Canvas of={ButtonStories.Variants} />
+<Canvas of={ButtonStories.Sizes} />
+
+`variant="link"`만 높이를 글자에 맡긴다. 그래서 시각 치수가 24px 아래로 내려가고, 하한은 `hit-area`가 진다 — 보이는 크기는 그대로이고 누를 수 있는 영역만 넓어진다([ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)).
+
+## 상태
+
+`loading`은 포인터만 막지 않는다. **활성화 자체**를 막고 포커스는 남긴다 — 진행 중에 포커스가 튀면 스크린 리더가 자리를 잃기 때문이다. `disabled`는 네이티브 그대로라 포커스를 잃는다. 둘의 차이가 이것뿐이므로, "누르지 못하게 한다"가 아니라 "왜 누르지 못하는가"로 고른다: 기다리는 중이면 `loading`, 조건이 안 맞으면 `disabled`.
+
+<Canvas of={ButtonStories.States} />
+
+아이콘만 있는 버튼은 이름이 그림에만 있다. `aria-label`이 필수다.
+
+<Canvas of={ButtonStories.IconOnly} />
+
+## 링크로 렌더하기
+
+`nativeButton`을 소비처가 끄지 않아도 된다 — 넘어온 요소가 `button`이 아니면 Button이 스스로 끈다.
+
+<Canvas of={ButtonStories.AsLink} />
+
+## 키보드
+
+Tab으로 닿고, Enter와 Space로 활성화한다. `loading` 중에는 포커스는 받되 활성화하지 않는다. 아래 스토리가 그 계약을 선언하고, `test/stories.test.mjs`가 매번 그것을 실제로 눌러 잰다.
+
+<Canvas of={ButtonStories.Keyboard} />
+
+## Props
+
+<Story of={ButtonStories.Playground} />
+
+<Controls of={ButtonStories.Playground} />
