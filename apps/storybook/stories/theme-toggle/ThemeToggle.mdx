@@ -1,0 +1,62 @@
+import { Canvas, Controls, Meta, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ThemeToggleStories from "./ThemeToggle.stories"
+
+<Meta of={ThemeToggleStories} />
+
+<Title />
+
+<StatusBadge status={ThemeToggleStories.default.parameters.ds.status} /> · since {ThemeToggleStories.default.parameters.ds.since}
+
+라이트/다크를 바꾸는 버튼 하나. 헤더 한 자리에 놓는다.
+
+## 언제 쓰는가
+
+- 앱 헤더·설정 메뉴에서 라이트/다크를 바꾸는 유일한 자리.
+
+## 언제 쓰지 않는가
+
+- **테마가 셋 이상일 때(라이트·다크·시스템).** `ThemeToggle`은 두 값 사이만 오간다 — 셋 이상은 드롭다운(Menu, #285)으로 고른다.
+
+## `next-themes`와 이어붙이기
+
+`ThemeToggle`은 `next-themes`를 peer로 두지 않는다 — 상태를 스스로 갖지 않고 `theme`·`onThemeChange` 두 prop만 받는다. `next-themes`의 `useTheme()`이 반환하는 `theme`(또는 `resolvedTheme`)·`setTheme`을 그대로 꽂으면 된다:
+
+```tsx
+import { useTheme } from "next-themes"
+import { ThemeToggle } from "@flameware/ui/theme-toggle"
+
+function Header() {
+  const { resolvedTheme, setTheme } = useTheme()
+  return (
+    <ThemeToggle
+      theme={resolvedTheme === "dark" ? "dark" : "light"}
+      onThemeChange={setTheme}
+    />
+  )
+}
+```
+
+`dark` 클래스를 `<html>`에 앉히는 것은 `next-themes`(또는 그 자리에 선 소비처 코드)의 몫이다 — `ThemeToggle`은 클래스를 만지지 않는다. 라이트/다크 전환 자체가 `dark` 클래스 하나로 도는 것은 Foundations(#280)가 이미 세운 계약이다.
+
+<Canvas of={ThemeToggleStories.Playground} />
+
+## Toggle 프리미티브를 쓰지 않는 이유
+
+`Toggle`(#288)은 폼 값으로 쓰이는 눌린/안 눌린 상태를 진다. `ThemeToggle`은 그보다 좁다 — 라이트/다크 사이를 **바꿔 부르는** 동작이라 `Button`에 `aria-pressed`만 얹는다(WAI-ARIA 토글 버튼 패턴). 아이콘 버튼 하나를 위해 컴포넌트 경계를 넘어 의존을 지지 않는다([ADR-0017](https://github.com/flameware/massive-design/blob/main/docs/adr/0017-dependency-weight-is-a-floor-cost.md)).
+
+## 라이트 / 다크
+
+<Canvas of={ThemeToggleStories.Light} />
+<Canvas of={ThemeToggleStories.Dark} />
+
+## 키보드
+
+Tab으로 닿고 Enter·Space로 바꾼다 — `Button`의 계약을 그대로 물려받는다.
+
+<Canvas of={ThemeToggleStories.Keyboard} />
+
+## Props
+
+<Controls of={ThemeToggleStories.Light} />

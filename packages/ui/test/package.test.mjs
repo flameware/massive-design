@@ -41,6 +41,9 @@ const CODE_SUBPATHS = [
   "./text",
   "./skeleton",
   "./spinner",
+  "./tabs",
+  "./page-shell",
+  "./theme-toggle",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -66,6 +69,9 @@ const COMPONENT_SUBPATHS = [
   "./text",
   "./skeleton",
   "./spinner",
+  "./tabs",
+  "./page-shell",
+  "./theme-toggle",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
@@ -74,7 +80,10 @@ const COMPONENT_SUBPATHS = [
  * — 서버 컴포넌트로 남고, `"use client"`를 붙이면 오히려 소비처의 서버 렌더
  * 경계를 불필요하게 앞당긴다. Menu·Avatar·Separator·Tooltip은 넷 다 Base UI
  * 뒤이므로(#285) 클라이언트 쪽에 선다. Dialog·AlertDialog·Drawer(#284)도 셋
- * 다 Base UI 프리미티브를 직접 감싸므로(포커스·열림 상태) 클라이언트다. */
+ * 다 Base UI 프리미티브를 직접 감싸므로(포커스·열림 상태) 클라이언트다.
+ * Tabs·PageShell·ThemeToggle도 Base UI 뒤이거나(Tabs) 상태·이벤트 핸들러를
+ * 갖는다(PageShell의 탭 상태, ThemeToggle의 onClick) — 셋 다 클라이언트 쪽에
+ * 선다(#286). */
 const CLIENT_SUBPATHS = [
   "./button",
   "./icon",
@@ -89,6 +98,9 @@ const CLIENT_SUBPATHS = [
   "./dialog",
   "./alert-dialog",
   "./drawer",
+  "./tabs",
+  "./page-shell",
+  "./theme-toggle",
 ]
 const SERVER_SUBPATHS = [
   "./card",
