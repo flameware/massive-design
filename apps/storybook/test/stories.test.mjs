@@ -238,6 +238,16 @@ after(async () => {
 const storyUrl = (id) =>
   `http://127.0.0.1:${port}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story`
 
+/* 기본 뷰포트는 데스크톱(1280×900, 위 `page` 생성부)이다. Drawer(#284)처럼
+ * 모바일 폭에서만 뜻이 있는 스토리는 `tags: ["viewport:mobile"]`를 달아
+ * 375px(iPhone SE급)로 열게 한다 — CSF의 `tags`는 index.json에 그대로
+ * 실리므로(Storybook이 색인에서 보존하는 몇 안 되는 필드다) 스토리를 열기
+ * **전에** 알 수 있다. `parameters`는 실리지 않아서 이 용도로 못 쓴다
+ * (preview.tsx의 키보드 계약이 `dataset`을 거치는 이유와 같다 — 그쪽은 이미
+ * 연 문서 안에서 읽는 값이라 문제가 없다). */
+const MOBILE_VIEWPORT = { width: 375, height: 812 }
+const DEFAULT_VIEWPORT = { width: 1280, height: 900 }
+
 test("계기 검증 — 알려진 기하를 그대로 읽는다", async () => {
   const probe = await browser.newPage({ viewport: { width: 1200, height: 800 } })
   try {
@@ -265,6 +275,8 @@ test("스토리가 하나라도 있다", () => {
 for (const story of stories) {
   describe(story.id, () => {
     before(async () => {
+      const mobile = story.tags?.includes("viewport:mobile") ?? false
+      await page.setViewportSize(mobile ? MOBILE_VIEWPORT : DEFAULT_VIEWPORT)
       await page.goto(storyUrl(story.id), { waitUntil: "networkidle" })
     })
 
@@ -322,16 +334,19 @@ for (const story of stories) {
         if (contract.focus) await page.locator(contract.focus).focus()
         // 키 사이에 한 프레임을 준다 — 여는 동작은 플로팅 포지셔닝(rAF)을
         // 한 박자 기다린 뒤 반영되고, 다음 키가 그 전에 도착하면(예: 메뉴가
-        // 아직 열리기 전에 온 두 번째 ArrowDown) 계기가 있지도 않은 상태를
-        // 잰다. 간격 자체는 결과가 아니므로 계약에는 적지 않는다
+        // 아직 열리기 전에 온 두 번째 ArrowDown, #285) 계기가 있지도 않은
+        // 상태를 잰다. 오버레이가 열리며 초기 포커스를 옮기는 것도 같은
+        // 이유로 비동기다(Dialog·AlertDialog·Drawer, #284). 간격 자체는
+        // 결과가 아니므로 계약에는 적지 않는다
         for (const key of contract.press) {
           await page.keyboard.press(key)
           await page.waitForTimeout(50)
         }
 
-        /* Menu·Dialog류는 포커스 이동이 포지셔닝(플로팅 UI의 rAF)을 한 박자
-         * 기다린 뒤 일어난다 — 누른 직후 바로 읽으면 이 계기가 그 박자를
-         * 놓치고 간헐적으로 실패한다(#285에서 발견). `waitForFunction`으로
+        /* Menu·Dialog류는 포커스 이동이 포지셔닝(플로팅 UI의 rAF)이나 열림
+         * 트랜지션을 한 박자 기다린 뒤 일어난다 — 누른 직후 바로 읽으면 이
+         * 계기가 그 박자를 놓치고 간헐적으로 실패한다(#285의 Menu, #284의
+         * Dialog·AlertDialog·Drawer가 각각 발견). `waitForFunction`으로
          * 조건이 참이 될 때까지 짧게 기다렸다가 마지막 값으로 단언한다 —
          * 조건이 이미 참이면 사실상 즉시 통과하므로 계약이 빠른 컴포넌트는
          * 느려지지 않는다. */

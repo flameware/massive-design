@@ -1,0 +1,56 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as AlertDialogStories from "./AlertDialog.stories"
+
+<Meta of={AlertDialogStories} />
+
+<Title />
+
+<StatusBadge status={AlertDialogStories.default.parameters.ds.status} /> · since {AlertDialogStories.default.parameters.ds.since}
+
+되돌릴 수 없는 결정을 확인받는 모달. [Dialog](?path=/docs/overlays-dialog--docs)와 표면을 공유하지만, 바깥을 눌러도 닫히지 않는다 — 명시적 선택(취소/확인)만 닫는 통로다.
+
+## 언제 쓰는가
+
+- 삭제·탈퇴처럼 되돌릴 수 없는 동작의 확인 — 거래 삭제 확인이 첫 자리다.
+
+## 언제 쓰지 않는가
+
+- **집중이 필요한 일반 작업.** 폼·설정처럼 취소해도 손해가 없으면 [Dialog](?path=/docs/overlays-dialog--docs)다.
+- **"X로 닫기".** Alert 계열은 그 통로를 두지 않는다 — `AlertDialog.Close`는 스타일이 없고, 취소 버튼으로 합성하는 용도다.
+
+## 조립
+
+`Close`는 Dialog의 우상단 X 스타일을 쓰지 않는다 — 취소 버튼으로 합성한다. 확인 버튼은 `Close`가 아니라 실제 동작을 먼저 하고 직접 닫는 일반 `Button`이다.
+
+<Canvas of={AlertDialogStories.Playground} />
+
+```tsx
+<AlertDialog.Root open={open} onOpenChange={setOpen}>
+  <AlertDialog.Trigger render={<Button variant="destructive">거래 삭제</Button>} />
+  <AlertDialog.Portal>
+    <AlertDialog.Backdrop />
+    <AlertDialog.Viewport>
+      <AlertDialog.Popup>
+        <AlertDialog.Title>거래를 삭제할까요?</AlertDialog.Title>
+        <AlertDialog.Description>삭제한 거래는 되돌릴 수 없습니다.</AlertDialog.Description>
+        <AlertDialog.Close render={<Button variant="outline">취소</Button>} />
+        <Button variant="destructive" onClick={() => { deleteAndClose() }}>삭제</Button>
+      </AlertDialog.Popup>
+    </AlertDialog.Viewport>
+  </AlertDialog.Portal>
+</AlertDialog.Root>
+```
+
+## 키보드
+
+Dialog와 같은 계약이다 — 열리면 포커스가 안으로, Tab은 밖으로 새지 않고, Esc가 닫으며 포커스는 트리거로 돌아온다.
+
+<Canvas of={AlertDialogStories.Keyboard} />
+
+## Props
+
+<Story of={AlertDialogStories.Playground} />
+
+<Controls of={AlertDialogStories.Playground} />
