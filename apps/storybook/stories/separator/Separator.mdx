@@ -1,0 +1,37 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as SeparatorStories from "./Separator.stories"
+
+<Meta of={SeparatorStories} />
+
+<Title />
+
+<StatusBadge status={SeparatorStories.default.parameters.ds.status} /> · since {SeparatorStories.default.parameters.ds.since}
+
+내용을 가르는 줄.
+
+## 언제 쓰는가
+
+- 같은 표면 안에서 서로 다른 절을 시각적으로 나눌 때 — 메뉴의 항목 묶음 사이(`Menu.Separator`가 이것을 그대로 쓴다), 카드의 헤더와 본문 사이.
+
+## 언제 쓰지 않는가
+
+- **레이아웃 간격이 목적일 때.** 여백은 `gap`·`padding`으로 준다 — Separator는 선이 보여야 하는 자리에만 쓴다.
+
+## 방향
+
+기본은 수평이다. `orientation="vertical"`은 부모가 높이를 가진 flex 줄 안에서만 뜻이 있다 — 스스로 높이를 만들지 않는다.
+
+<Canvas of={SeparatorStories.Playground} />
+<Canvas of={SeparatorStories.Vertical} />
+
+## 의미
+
+기본은 장식이라 스크린 리더가 읽지 않는다. 구분 자체가 의미를 전해야 하는 자리(다른 절로 넘어간다는 것을 알려야 할 때)는 소비처가 실제 의미를 문서 구조(heading·section)로 남긴다 — Separator 혼자 그 역할을 지지 않는다.
+
+## Props
+
+<Story of={SeparatorStories.Playground} />
+
+<Controls of={SeparatorStories.Playground} />

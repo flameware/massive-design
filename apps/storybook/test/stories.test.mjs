@@ -320,16 +320,44 @@ for (const story of stories) {
         // 순서가 결과를 바꾸고, 그러면 계약이 계약이 아니라 시나리오가 된다
         await page.goto(storyUrl(story.id), { waitUntil: "networkidle" })
         if (contract.focus) await page.locator(contract.focus).focus()
-        for (const key of contract.press) await page.keyboard.press(key)
+        // 키 사이에 한 프레임을 준다 — 여는 동작은 플로팅 포지셔닝(rAF)을
+        // 한 박자 기다린 뒤 반영되고, 다음 키가 그 전에 도착하면(예: 메뉴가
+        // 아직 열리기 전에 온 두 번째 ArrowDown) 계기가 있지도 않은 상태를
+        // 잰다. 간격 자체는 결과가 아니므로 계약에는 적지 않는다
+        for (const key of contract.press) {
+          await page.keyboard.press(key)
+          await page.waitForTimeout(50)
+        }
 
+        /* Menu·Dialog류는 포커스 이동이 포지셔닝(플로팅 UI의 rAF)을 한 박자
+         * 기다린 뒤 일어난다 — 누른 직후 바로 읽으면 이 계기가 그 박자를
+         * 놓치고 간헐적으로 실패한다(#285에서 발견). `waitForFunction`으로
+         * 조건이 참이 될 때까지 짧게 기다렸다가 마지막 값으로 단언한다 —
+         * 조건이 이미 참이면 사실상 즉시 통과하므로 계약이 빠른 컴포넌트는
+         * 느려지지 않는다. */
         if (contract.expect.focused) {
-          const focused = await page.evaluate((selector) => {
+          const selector = contract.expect.focused
+          await page
+            .waitForFunction(
+              (sel) => document.activeElement !== null && document.activeElement.closest(sel) !== null,
+              selector,
+              { timeout: 2000 }
+            )
+            .catch(() => {})
+          const focused = await page.evaluate((sel) => {
             const active = document.activeElement
-            return active !== null && active.closest(selector) !== null
-          }, contract.expect.focused)
-          assert.ok(focused, `${contract.name}: 포커스가 ${contract.expect.focused}에 없다`)
+            return active !== null && active.closest(sel) !== null
+          }, selector)
+          assert.ok(focused, `${contract.name}: 포커스가 ${selector}에 없다`)
         }
         for (const [selector, expected] of Object.entries(contract.expect.text ?? {})) {
+          await page
+            .waitForFunction(
+              ({ sel, exp }) => document.querySelector(sel)?.textContent?.trim() === exp,
+              { sel: selector, exp: expected },
+              { timeout: 2000 }
+            )
+            .catch(() => {})
           const actual = await page.locator(selector).textContent()
           assert.equal(actual?.trim(), expected, `${contract.name}: ${selector}`)
         }
