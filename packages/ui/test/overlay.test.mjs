@@ -30,13 +30,19 @@ const compiler = await compile(readFileSync(entry, "utf8"), {
   },
 })
 
-/** `cn(...)` 호출 안의 문자열 리터럴에서 클래스 후보를 모은다. 코드 자체가
- * 정본이므로, 클래스를 고치면 이 목록도 다시 읽는다 — 손으로 옮겨 적지 않는다. */
+/** `cn(...)` 호출과 `closeButtonClassName`(close-icon.tsx — Dialog·Drawer가
+ * 공유하는 닫기 버튼 클래스, #284 리뷰로 뽑아냈다) 안의 문자열 리터럴에서
+ * 클래스 후보를 모은다. 코드 자체가 정본이므로, 클래스를 고치면 이 목록도
+ * 다시 읽는다 — 손으로 옮겨 적지 않는다. */
 function classesFromSource(relativePath) {
   const text = readFileSync(resolve(root, relativePath), "utf8")
   const candidates = new Set()
-  for (const call of text.matchAll(/cn\(([\s\S]*?)\)\s*\}/g)) {
-    for (const literal of call[1].matchAll(/"([^"]*)"/g)) {
+  const blocks = [
+    ...text.matchAll(/cn\(([\s\S]*?)\)\s*\}/g),
+    ...text.matchAll(/closeButtonClassName = \[([\s\S]*?)\]/g),
+  ]
+  for (const block of blocks) {
+    for (const literal of block[1].matchAll(/"([^"]*)"/g)) {
       for (const c of literal[1].split(/\s+/)) if (c) candidates.add(c)
     }
   }
@@ -45,6 +51,7 @@ function classesFromSource(relativePath) {
 
 const sources = [
   "src/dialog/shared.tsx",
+  "src/dialog/close-icon.tsx",
   "src/drawer/drawer.tsx",
 ]
 

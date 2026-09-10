@@ -4,6 +4,7 @@ import { Dialog as BaseDialog } from "@base-ui/react/dialog"
 import type * as React from "react"
 
 import { cn } from "../lib/utils.js"
+import { CloseIcon, closeButtonClassName } from "./close-icon.js"
 
 /* Dialog와 AlertDialog가 공유하는 표면. Base UI 자신이 이렇게 짠다 —
  * `@base-ui/react/alert-dialog`의 Backdrop·Popup·Title·Description·Viewport는
@@ -92,25 +93,8 @@ export function OverlayClose({
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseDialog.Close>) {
   return (
-    <BaseDialog.Close
-      aria-label={ariaLabel ?? "닫기"}
-      className={cn(
-        "hit-area absolute right-4 top-4 inline-flex size-6 items-center justify-center rounded-sm",
-        "text-muted opacity-70 outline-offset-2 transition-opacity hover:text-default hover:opacity-100",
-        "focus-visible:outline-2 data-disabled:pointer-events-none data-disabled:opacity-50",
-        className
-      )}
-      {...props}
-    >
+    <BaseDialog.Close aria-label={ariaLabel ?? "닫기"} className={cn(closeButtonClassName, className)} {...props}>
       {children ?? <CloseIcon />}
     </BaseDialog.Close>
-  )
-}
-
-function CloseIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="size-4">
-      <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
   )
 }

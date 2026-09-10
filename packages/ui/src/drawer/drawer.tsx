@@ -3,6 +3,7 @@
 import { Drawer as BaseDrawer } from "@base-ui/react/drawer"
 import type * as React from "react"
 
+import { CloseIcon, closeButtonClassName } from "../dialog/close-icon.js"
 import { cn } from "../lib/utils.js"
 
 /* Dialog의 데스크톱 대체가 아니라 모바일의 **바닥 시트**다(#284) — Base UI
@@ -114,25 +115,15 @@ function DrawerClose({
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseDrawer.Close>) {
   return (
+    // top-3 — Popup의 손잡이 바(mt-2 h-1.5)만큼 Dialog보다 한 칸 낮춘다.
+    // `cn`이 tailwind-merge라 뒤에 온 `top-3`가 closeButtonClassName의
+    // `top-4`를 정상적으로 덮는다
     <BaseDrawer.Close
       aria-label={ariaLabel ?? "닫기"}
-      className={cn(
-        "hit-area absolute right-4 top-3 inline-flex size-6 items-center justify-center rounded-sm",
-        "text-muted opacity-70 outline-offset-2 transition-opacity hover:text-default hover:opacity-100",
-        "focus-visible:outline-2 data-disabled:pointer-events-none data-disabled:opacity-50",
-        className
-      )}
+      className={cn(closeButtonClassName, "top-3", className)}
       {...props}
     >
       {children ?? <CloseIcon />}
     </BaseDrawer.Close>
-  )
-}
-
-function CloseIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="size-4">
-      <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
   )
 }
