@@ -1,0 +1,35 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as IconStories from "./Icon.stories"
+
+<Meta of={IconStories} />
+
+<Title />
+
+<StatusBadge status={IconStories.default.parameters.ds.status} /> · since {IconStories.default.parameters.ds.since}
+
+`lucide-react` 아이콘을 크기 토큰으로 감싼다. 이름은 언제나 Icon 밖에 있어야 하므로 Icon 자신은 `aria-hidden`이 기본이다.
+
+```tsx
+import { Icon } from "@flameware/ui/icon"
+import { Save } from "lucide-react"
+
+<Icon icon={Save} size="md" />
+```
+
+## 크기
+
+세 값뿐이고 각각 타이포 스케일에 짝지어져 있다 — `sm`은 `text-sm`(14px), `md`는 `text-base`(16px, Button이 자기 svg에 쓰는 기본값과 같다), `lg`는 `text-lg`(18px)다.
+
+<Canvas of={IconStories.Sizes} />
+
+## lucide-react는 peer다
+
+Icon을 쓰지 않는 소비처는 이 무게를 지지 않는다 — `package.json`의 `peerDependenciesMeta.lucide-react.optional`이 그 약속이다([ADR-0017](https://github.com/flameware/massive-design/blob/main/docs/adr/0017-dependency-weight-is-a-floor-cost.md)).
+
+## Props
+
+<Story of={IconStories.Playground} />
+
+<Controls of={IconStories.Playground} />
