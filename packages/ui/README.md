@@ -91,6 +91,50 @@ import { Save } from "lucide-react"
 쓰지 않는 소비처는 이 무게를 지지 않는다. Icon 자신은 `aria-hidden`이
 기본이다: 이름은 항상 Icon 밖(`aria-label`이나 곁의 텍스트)에 있어야 한다.
 
+## Card
+
+```tsx
+import { Card } from "@flameware/ui/card"
+
+<Card.Root>
+  <Card.Header>
+    <strong>포트폴리오 요약</strong>
+  </Card.Header>
+  <Card.Body>평가액 12,450,000원</Card.Body>
+  <Card.Footer>5분 전 갱신</Card.Footer>
+</Card.Root>
+```
+
+Base UI 뒤가 없는 자체 스타일 primitive다 — 상태도 이벤트 핸들러도 없어
+서버 컴포넌트로 남는다(`"use client"`가 없다). `Header`·`Body`·`Footer` 셋 다
+옵셔널이라 `Body` 하나만 있는 카드도 유효하다. 그림자 토큰(`shadow-xs`~
+`shadow-xl`)은 있지만 Root가 강제하지 않는다 — 필요하면 `className`으로 얹는다.
+
+## Alert
+
+```tsx
+import { Alert } from "@flameware/ui/alert"
+import { Icon } from "@flameware/ui/icon"
+import { CircleAlert } from "lucide-react"
+
+<Alert.Root tone="danger">
+  <Icon icon={CircleAlert} />
+  <Alert.Title>로그인하지 못했습니다</Alert.Title>
+  <Alert.Description>이메일 또는 비밀번호를 확인해 주세요.</Alert.Description>
+</Alert.Root>
+```
+
+Card와 마찬가지로 자체 스타일 primitive이고 서버 컴포넌트로 남는다. `tone`은
+`neutral`(기본)·`danger` 둘뿐이다(Phase 1). 색은 대비 게이트
+(`packages/tokens/scripts/contrast.mjs`)가 이미 검증한 조합만 쓴다 — `danger`는
+`fg.danger` on `bg.danger.soft`, `neutral`은 `fg.default`/`fg.muted` on
+`bg.neutral.soft`.
+
+`role`은 톤을 따라 갈린다 — `danger`는 `role="alert"`(assertive, 삽입 즉시
+읽는다), `neutral`은 `role="status"`(polite, 읽던 것을 끊지 않는다). 앞머리
+아이콘은 Alert이 스스로 만들지 않는다 — `@flameware/ui/icon`을 `Root`의 첫
+자식으로 둔다. 없어도 유효하다.
+
 ## 색 — semantic 유틸리티
 
 `bg-*`·`text-*`·`border-*`는 semantic 이름만 받는다. primitive 팔레트

@@ -17,11 +17,36 @@ import { test } from "node:test"
 const root = fileURLToPath(new URL("..", import.meta.url))
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"))
 
-/** exports에 선언된 서브패스 중 코드가 나오는 것들. */
-const CODE_SUBPATHS = [".", "./button", "./icon", "./field", "./input", "./textarea", "./form"]
+const CODE_SUBPATHS = [
+  ".",
+  "./button",
+  "./icon",
+  "./field",
+  "./input",
+  "./textarea",
+  "./form",
+  "./card",
+  "./alert",
+]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
-const COMPONENT_SUBPATHS = ["./button", "./icon", "./field", "./input", "./textarea", "./form"]
+const COMPONENT_SUBPATHS = [
+  "./button",
+  "./icon",
+  "./field",
+  "./input",
+  "./textarea",
+  "./form",
+  "./card",
+  "./alert",
+]
+
+/** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
+ * 한다. Card·Alert는 Base UI 뒤가 없는 자체 스타일 primitive라 이벤트 핸들러도
+ * 상태도 없다(#283) — 서버 컴포넌트로 남고, `"use client"`를 붙이면 오히려
+ * 소비처의 서버 렌더 경계를 불필요하게 앞당긴다. */
+const CLIENT_SUBPATHS = ["./button", "./icon", "./field", "./input", "./textarea", "./form"]
+const SERVER_SUBPATHS = ["./card", "./alert"]
 
 // ── 서브패스 ────────────────────────────────────────────────────────────────
 
@@ -53,17 +78,29 @@ test("컴포넌트는 저마다의 서브패스로만 들어온다 — 루트는
 
 // ── 경계와 부작용 ───────────────────────────────────────────────────────────
 
+function entryFiles(subpath) {
+  const entry = join(root, pkg.exports[subpath].default)
+  // 서브패스의 진입점이 재수출만 하면 지시어는 실제 구현 파일에 있어야 한다.
+  // 진입점부터 따라가 relative import 한 겹까지 본다
+  const text = readFileSync(entry, "utf8")
+  const reexports = [...text.matchAll(/from "(\.[^"]+)"/g)].map((m) => m[1])
+  return [text, ...reexports.map((r) => readFileSync(join(entry, "..", r), "utf8"))]
+}
+
 test("클라이언트 경계는 패키지가 박는다 — 소비처가 고민하지 않는다", () => {
-  for (const subpath of COMPONENT_SUBPATHS) {
-    const entry = join(root, pkg.exports[subpath].default)
-    // 서브패스의 진입점이 재수출만 하면 지시어는 실제 구현 파일에 있어야 한다.
-    // 진입점부터 따라가 relative import 한 겹까지 본다
-    const text = readFileSync(entry, "utf8")
-    const reexports = [...text.matchAll(/from "(\.[^"]+)"/g)].map((m) => m[1])
-    const files = [text, ...reexports.map((r) => readFileSync(join(entry, "..", r), "utf8"))]
+  for (const subpath of CLIENT_SUBPATHS) {
     assert.ok(
-      files.some((f) => /^["']use client["']/m.test(f)),
+      entryFiles(subpath).some((f) => /^["']use client["']/m.test(f)),
       `${subpath}에 "use client"가 없다`
+    )
+  }
+})
+
+test("자체 스타일 primitive는 서버 컴포넌트로 남는다 — \"use client\"를 박지 않는다", () => {
+  for (const subpath of SERVER_SUBPATHS) {
+    assert.ok(
+      entryFiles(subpath).every((f) => !/^["']use client["']/m.test(f)),
+      `${subpath}는 Base UI 뒤가 없는데도 "use client"가 있다 — 서버 경계를 앞당긴다`
     )
   }
 })
