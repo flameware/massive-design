@@ -45,7 +45,7 @@ export interface RampOverrides {
 }
 
 export interface RampInput {
-  /** 키 컬러, sRGB hex. */
+  /** 키 컬러 — 6자리 sRGB hex, 예: '#0f5fed'. CSS 색이름·3자리·알파 hex는 받지 않는다. */
   key: string
   params?: RampParams
   overrides?: RampOverrides

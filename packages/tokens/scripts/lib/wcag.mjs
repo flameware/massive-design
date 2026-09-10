@@ -6,14 +6,17 @@
  * 게이트가 아니라서 공개 API가 물 이유가 없다(바닥값, ADR-0017).
  */
 
-const srgb = (hex) => {
+// srgb·composite는 apca()(scripts/contrast.mjs)도 쓴다 — export해 그쪽이
+// import하게 한다. 두 벌로 두면 8자리 hex 알파 파싱이나 합성 반올림을 고칠 때
+// 한쪽만 고쳐 WCAG 게이트와 APCA 병기 값이 다른 색을 재는 결함이 난다.
+export const srgb = (hex) => {
   const h = hex.replace('#', '')
   const at = (i) => parseInt(h.slice(i, i + 2), 16)
   return { r: at(0), g: at(2), b: at(4), a: h.length === 8 ? at(6) / 255 : 1 }
 }
 
 /** 알파가 있는 색은 배경 위에 합성해야 대비값이 의미를 갖는다. */
-function composite(fg, bg) {
+export function composite(fg, bg) {
   if (fg.a === 1) return fg
   const mix = (c) => Math.round(fg[c] * fg.a + bg[c] * (1 - fg.a))
   return { r: mix('r'), g: mix('g'), b: mix('b'), a: 1 }

@@ -355,6 +355,9 @@ function lintRamp(ramp, family, params, name) {
  * 게이트가 아니라서 공개 API가 물 이유가 없다(바닥값, ADR-0017).
  */
 
+// srgb·composite는 apca()(scripts/contrast.mjs)도 쓴다 — export해 그쪽이
+// import하게 한다. 두 벌로 두면 8자리 hex 알파 파싱이나 합성 반올림을 고칠 때
+// 한쪽만 고쳐 WCAG 게이트와 APCA 병기 값이 다른 색을 재는 결함이 난다.
 const srgb = (hex) => {
   const h = hex.replace('#', '')
   const at = (i) => parseInt(h.slice(i, i + 2), 16)
@@ -455,8 +458,11 @@ export function createRamp(name, input) {
   if (typeof name !== 'string' || name === '') {
     throw new Error('createRamp: name(패밀리 이름)이 필요하다')
   }
-  if (!input || typeof input.key !== 'string') {
-    throw new Error('createRamp: input.key(hex 키 컬러)가 필요하다')
+  if (!input || typeof input.key !== 'string' || !/^#[0-9a-f]{6}$/i.test(input.key)) {
+    // 6자리 sRGB hex만 받는다 — RampStep.hex의 계약과 같다. culori에
+    // 곧장 넘기면 'red' 같은 CSS 색이름은 조용히 통과하고 '#zzzzzz'는
+    // culori 내부 TypeError로 죽는다 — 둘 다 이 계층에서 먼저 잡는다.
+    throw new Error(`createRamp: input.key는 6자리 hex('#rrggbb')여야 한다 — ${JSON.stringify(input?.key)}`)
   }
   const family = { key: input.key, overrides: input.overrides ?? {} }
   resolveOverrides(family, name)

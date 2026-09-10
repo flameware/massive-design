@@ -24,6 +24,15 @@ test('createRamp가 name·key를 요구한다', () => {
   assert.throws(() => ramp.createRamp('profit', undefined), /key/)
 })
 
+test('createRamp가 6자리 hex가 아닌 key를 거부한다 — CSS 색이름·3자리·알파 hex 포함', () => {
+  // culori에 곧장 넘기면 'red'는 조용히 통과하고 '#zzzzzz'는 culori 내부
+  // TypeError로 죽는다(코드 리뷰에서 잡힘) — 이 계층에서 먼저 거절해야
+  // 선언한 타입(RampInput.key: 6자리 sRGB hex)과 실제 동작이 같아진다.
+  for (const key of ['red', '#zzzzzz', '#fff', '#0f5fed80', '', undefined, null]) {
+    assert.throws(() => ramp.createRamp('x', { key }), /6자리 hex/, JSON.stringify(key))
+  }
+})
+
 test('createRamp가 DS 5패밀리와 같은 알고리즘을 쓴다 — 키 컬러가 step 9에 그대로 앉는다', () => {
   const result = ramp.createRamp('profit', { key: '#db2931' })
   assert.equal(result.light[8].hex, '#db2931')

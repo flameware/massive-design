@@ -17,6 +17,7 @@ import { flatten } from './lib/resolve.mjs'
 import { emitCss } from './lib/emit/css.mjs'
 import { emitTypes, emitValues } from './lib/emit/types.mjs'
 import { emitRampDts, emitRampJs, readRampSources } from './lib/emit/ramp.mjs'
+import { configPath } from './ramp.mjs'
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -40,7 +41,7 @@ export function buildAll(sources = loadSources(), root = ROOT) {
   out.set('tokens.js', emitValues(sources))
   out.set('tokens.d.ts', emitTypes(sources))
 
-  const rampConfig = JSON.parse(readFileSync(join(root, 'tokens/ramp.config.json'), 'utf8'))
+  const rampConfig = JSON.parse(readFileSync(configPath(root), 'utf8'))
   out.set('ramp.js', emitRampJs(readRampSources(root), rampConfig.defaults))
   out.set('ramp.d.ts', emitRampDts())
 

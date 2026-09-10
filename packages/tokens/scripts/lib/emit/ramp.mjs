@@ -33,15 +33,26 @@ export function emitRampJs({ oklch, rampCore, wcag }, rampDefaults) {
   const oklchBody = deExport(oklch)
   const rampCoreBody = deExport(rampCore).replace(IMPORT_FROM_OKLCH, '')
   const wcagBody = deExport(wcag)
+  const bundled = `${oklchBody}\n${rampCoreBody}\n${wcagBody}`
+
+  // 텍스트 이어붙이기라 깨지면 조용히 깨진다 — 여기서 두 가지를 확인한다:
+  // 내부 소스의 export가 전부 걷혔는가(공개 표면이 의도치 않게 넓어지지
+  // 않았는가), 상대 import가 남지 않았는가(그대로 두면 소비처에서
+  // module-not-found). 둘 다 깨지면 빌드가 먼저 죽는 편이 낫다 — 실패가
+  // 저 아래 test/package.test.mjs의 export-key 비교에서 나면 원인이 멀다.
+  if (/^export /m.test(bundled)) {
+    throw new Error('emitRampJs: 내부 소스에 export가 남았다 — deExport가 못 걸렀다.')
+  }
+  if (/from '\.\//.test(bundled)) {
+    throw new Error('emitRampJs: 내부 소스에 상대 import가 남았다 — 번들링이 실패했다.')
+  }
 
   return `// ⚙ 생성물 — scripts/lib/emit/ramp.mjs. 손대지 말 것.
 //
 // 소스: scripts/lib/oklch.mjs · scripts/lib/ramp-core.mjs · scripts/lib/wcag.mjs.
 // 공개 표면은 맨 끝의 createRamp · rampToCssVariables · contrastRatio 셋뿐이다.
 
-${oklchBody}
-${rampCoreBody}
-${wcagBody}
+${bundled}
 // ── 램프 알고리즘 기본값 — tokens/ramp.config.json의 defaults를 빌드 시점에 굳힌다 ──
 
 const RAMP_DEFAULTS = ${JSON.stringify(rampDefaults, null, 2)}
@@ -57,8 +68,11 @@ export function createRamp(name, input) {
   if (typeof name !== 'string' || name === '') {
     throw new Error('createRamp: name(패밀리 이름)이 필요하다')
   }
-  if (!input || typeof input.key !== 'string') {
-    throw new Error('createRamp: input.key(hex 키 컬러)가 필요하다')
+  if (!input || typeof input.key !== 'string' || !/^#[0-9a-f]{6}$/i.test(input.key)) {
+    // 6자리 sRGB hex만 받는다 — RampStep.hex의 계약과 같다. culori에
+    // 곧장 넘기면 'red' 같은 CSS 색이름은 조용히 통과하고 '#zzzzzz'는
+    // culori 내부 TypeError로 죽는다 — 둘 다 이 계층에서 먼저 잡는다.
+    throw new Error(\`createRamp: input.key는 6자리 hex('#rrggbb')여야 한다 — \${JSON.stringify(input?.key)}\`)
   }
   const family = { key: input.key, overrides: input.overrides ?? {} }
   resolveOverrides(family, name)
@@ -150,7 +164,7 @@ export interface RampOverrides {
 }
 
 export interface RampInput {
-  /** 키 컬러, sRGB hex. */
+  /** 키 컬러 — 6자리 sRGB hex, 예: '#0f5fed'. CSS 색이름·3자리·알파 hex는 받지 않는다. */
   key: string
   params?: RampParams
   overrides?: RampOverrides
