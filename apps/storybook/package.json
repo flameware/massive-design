@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@flameware/ui": "*"
+    "@flameware/tokens": "*",
+    "@flameware/ui": "*",
+    "lucide-react": "^1.44.0"
   },
   "engines": {
     "node": ">=22"
