@@ -1,12 +1,12 @@
-/* Card·Alert가 부르는 클래스가 **실제로 선언을 내는지** 잰다 — Button의
- * test/utilities.test.mjs와 같은 이유, 같은 계기다. Tailwind는 모르는 유틸리티를
- * 오류로 만들지 않고 조용히 아무것도 내지 않으므로, semantic 이름의 오타나
- * 미등록은 눈으로 안 보인다.
+/* Card·Alert·Badge·ListRow·Text·Skeleton·Spinner가 부르는 클래스가 **실제로
+ * 선언을 내는지** 잰다 — Button의 test/utilities.test.mjs와 같은 이유, 같은
+ * 계기다. Tailwind는 모르는 유틸리티를 오류로 만들지 않고 조용히 아무것도
+ * 내지 않으므로, semantic 이름의 오타나 미등록은 눈으로 안 보인다.
  *
  * Button의 파일을 건드리지 않고 따로 둔 이유: 그 파일은 #299 회귀 테스트(상태
- * 레이어 캐스케이드 참여자 수)까지 지고 있어 Button 전용으로 남기고, Card·
- * Alert처럼 상태 레이어가 없는(자체 스타일, 인터랙티브 아닌) 컴포넌트는 "클래스가
- * 방출되는가"만 재면 충분하다. */
+ * 레이어 캐스케이드 참여자 수)까지 지고 있어 Button 전용으로 남기고, 여기
+ * 나머지는 전부 상태 레이어가 없는(자체 스타일, 인터랙티브 아닌) 컴포넌트라
+ * "클래스가 방출되는가"만 재면 충분하다. */
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { dirname, resolve } from "node:path"
@@ -15,7 +15,12 @@ import { test } from "node:test"
 import { compile } from "tailwindcss"
 
 import { alertVariants } from "../dist/alert/index.js"
+import { badgeVariants } from "../dist/badge/index.js"
 import { cardVariants } from "../dist/card/index.js"
+import { listRowPartClassNames, listRowVariants } from "../dist/list-row/index.js"
+import { skeletonVariants } from "../dist/skeleton/index.js"
+import { spinnerVariants } from "../dist/spinner/index.js"
+import { textVariants } from "../dist/text/index.js"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
 const entry = resolve(root, "src/styles.css")
@@ -35,16 +40,38 @@ const compiler = await compile(readFileSync(entry, "utf8"), {
   loadModule: async () => { throw new Error("JS 설정은 쓰지 않는다") },
 })
 
+const partClasses = Object.values(listRowPartClassNames)
+
 const candidates = new Set()
 for (const classes of [
   cardVariants(),
   alertVariants({ tone: "neutral" }),
   alertVariants({ tone: "danger" }),
+  badgeVariants({ tone: "neutral" }),
+  badgeVariants({ tone: "accent" }),
+  badgeVariants({ tone: "danger" }),
+  badgeVariants({ tone: "success" }),
+  badgeVariants({ tone: "warning" }),
+  listRowVariants(),
+  ...partClasses,
+  skeletonVariants(),
+  spinnerVariants({ size: "sm" }),
+  spinnerVariants({ size: "md" }),
+  spinnerVariants({ size: "lg" }),
+  textVariants({ size: "xs" }),
+  textVariants({ size: "sm" }),
+  textVariants({ size: "base" }),
+  textVariants({ size: "lg" }),
+  textVariants({ size: "xl" }),
+  textVariants({ size: "2xl" }),
+  textVariants({ size: "3xl" }),
+  textVariants({ size: "4xl" }),
+  textVariants({ size: "5xl" }),
 ]) {
   for (const c of classes.split(/\s+/)) if (c) candidates.add(c)
 }
 
-test("Card·Alert가 부르는 클래스가 하나도 빠짐없이 선언을 낸다", () => {
+test("자체 스타일 primitive가 부르는 클래스가 하나도 빠짐없이 선언을 낸다", () => {
   assert.ok(candidates.size > 15, `클래스가 ${candidates.size}개뿐이다 — 축을 못 읽었다`)
 
   let before = compiler.build([]).length

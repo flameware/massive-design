@@ -1,0 +1,41 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as TextStories from "./Text.stories"
+
+<Meta of={TextStories} />
+
+<Title />
+
+<StatusBadge status={TextStories.default.parameters.ds.status} /> · since {TextStories.default.parameters.ds.since}
+
+본문과 제목을 그린다. `Text`는 태그를, `Heading`은 태그(`level`)와 크기(`size`)를 따로 받는다 — 둘 다 Base UI 뒤가 없는 자체 스타일 primitive다.
+
+## 언제 쓰는가
+
+- 임의 `text-*` 유틸리티를 컴포넌트 밖에서 직접 쓰는 대신, 타이포 스케일 이름을 `size`로 받아 앱에 크기가 흩어지지 않게 한다.
+- `Heading`은 문서 구조(제목 레벨)와 시각 크기가 다른 자리 — 카드 안의 단독 제목처럼 — 를 `level`과 `size`를 따로 줘서 표현한다.
+
+## 언제 쓰지 않는가
+
+- **`size` 밖의 크기가 필요할 때.** 아홉 이름이 전부다 — Foundations 타이포 챕터 밖의 크기가 필요하면 그 축이 부족한 것이지 `className`으로 우회하지 않는다.
+- **페이지의 유일한 h1일 때.** 페이지 제목은 Page shell(#286)이 진다 — 본문 안에서 `Heading`은 `level={2}`부터 시작한다.
+
+## 크기
+
+크기 이름은 Foundations 타이포 챕터의 이름과 같다 — 신규 어휘는 0개다.
+
+<Canvas of={TextStories.Sizes} />
+
+## Heading — 레벨과 크기
+
+`level`(1~6)이 렌더되는 태그를, `size`가 시각 크기를 정한다. `size`를 생략하면 `level`의 기본 크기를 쓴다.
+
+<Canvas of={TextStories.HeadingLevels} />
+<Canvas of={TextStories.HeadingSizeOverride} />
+
+## Props
+
+<Story of={TextStories.Playground} />
+
+<Controls of={TextStories.Playground} />

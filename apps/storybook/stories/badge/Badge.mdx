@@ -1,0 +1,33 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as BadgeStories from "./Badge.stories"
+
+<Meta of={BadgeStories} />
+
+<Title />
+
+<StatusBadge status={BadgeStories.default.parameters.ds.status} /> · since {BadgeStories.default.parameters.ds.since}
+
+짧은 분류나 상태를 보조하는 태그. Base UI 뒤가 없는 자체 스타일 primitive — 상태도 상호작용도 없는 서버 컴포넌트다.
+
+## 언제 쓰는가
+
+- 곁에 놓인 텍스트가 이미 뜻을 말하는 자리에서, 짧은 분류·상태를 보조한다 — 목록 행의 태그, 카드 모서리의 라벨.
+
+## 언제 쓰지 않는가
+
+- **Badge 혼자 정보의 유일한 출처일 때.** 아이콘만 있는 톤 표시처럼 이름을 나르지 않으면 스크린 리더가 뜻을 읽지 못한다 — 곁에 텍스트를 둔다.
+- **도메인 의미를 톤 이름으로 추가할 때.** `tone`은 다섯 뿐이고 매수·매도·손익 같은 의미는 소비처가 매핑한다([ADR-0023](https://github.com/flameware/massive-design/blob/main/docs/adr/0023-second-generation-base-ui.md) §10 — 손익 색은 DS가 아니라 앱이 정한다).
+
+## 톤
+
+다섯 톤 전부 대비 게이트가 이미 검증한 [전경, 배경] 조합만 쓴다(`packages/tokens/scripts/contrast.mjs`의 `TEXT_PAIRS`) — 검증 밖의 조합(예: 연한 회색 글자 위 유채 배경)은 만들지 않는다.
+
+<Canvas of={BadgeStories.Tones} />
+
+## Props
+
+<Story of={BadgeStories.Playground} />
+
+<Controls of={BadgeStories.Playground} />

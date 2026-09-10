@@ -6,6 +6,7 @@ import { isValidElement } from "react"
 import type * as React from "react"
 
 import { cn } from "../lib/utils.js"
+import { Spinner } from "../spinner/spinner.js"
 
 /* 축 이름은 1세대에서 승계한다 — 소비처(invest diary)의 21개 자리가 이미
  * `variant`·`size`를 이 값 이름으로 부르고 있고, 새 축의 기본값은 이미 발행된
@@ -116,20 +117,14 @@ export function Button({
       className={cn(buttonVariants({ variant, size, loading }), className)}
       {...props}
     >
-      {loading ? <Spinner /> : null}
+      {/* 이제 공유 Spinner다(#290) — `aria-hidden`인 이유는 상태를 이미
+       * `aria-busy`가 말하기 때문이다: 둘 다 말하면 스크린 리더가 두 번
+       * 읽는다. size를 주지 않으면 Spinner의 기본값(`md` = size-4)이 먹는다
+       * — buttonVariants가 이름 없는 svg 자식에 먹이는 기본 크기(`[&_svg:
+       * not([class*='size-'])]:size-4`)와 같은 값이라 아이콘 전용 버튼
+       * 옆에서도 시각적으로 어긋나지 않는다. */}
+      {loading ? <Spinner aria-hidden="true" /> : null}
       {children}
     </BaseButton>
-  )
-}
-
-/* 인라인이다 — Spinner 컴포넌트는 #290이고, 그때까지 Button 하나를 위해
- * 서브패스를 열지 않는다. `aria-hidden`인 이유는 상태를 이미 `aria-busy`가
- * 말하기 때문이다: 둘 다 말하면 스크린 리더가 두 번 읽는다. */
-function Spinner() {
-  return (
-    <svg aria-hidden="true" className="animate-spin" viewBox="0 0 16 16" fill="none">
-      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2" />
-      <path d="M14.5 8A6.5 6.5 0 0 0 8 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
   )
 }
