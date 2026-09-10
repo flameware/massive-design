@@ -1,0 +1,57 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as CheckboxStories from "./Checkbox.stories"
+
+<Meta of={CheckboxStories} />
+
+<Title />
+
+<StatusBadge status={CheckboxStories.default.parameters.ds.status} /> · since {CheckboxStories.default.parameters.ds.since}
+
+켜고 끄는 자리 하나. Base UI `Checkbox.Root` 위에 색과 치수만 입혔다.
+
+## 언제 쓰는가
+
+- 독립된 켜고 끄기 하나 — 약관 동의, 필터의 다중 선택 항목.
+- `indeterminate`로 "일부만 선택됨"을 보여줄 때 — 부모-자식 체크박스 트리의 부모 자리.
+
+## 언제 쓰지 않는가
+
+- **여러 항목 중 하나만 고르는 자리.** 그것은 라디오다(Phase 2).
+- **누르면 즉시 무언가 일어나는 자리.** 상태가 남지 않으면 Button이다.
+- **선택지가 두셋뿐인 세그먼트.** ToggleGroup이 더 가깝다.
+
+## 상태
+
+<Canvas of={CheckboxStories.States} />
+
+시각 상자는 16px다 — 포인터 하한 24px 아래로 내려가므로 `hit-area`가 진다. 보이는
+크기는 그대로이고 누를 수 있는 영역만 넓어진다([ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)).
+
+## 제어와 비제어
+
+`checked`/`onCheckedChange`로 제어, `defaultChecked`로 비제어 — 어느 쪽도 안
+주면 꺼진 채 비제어로 동작한다.
+
+<Canvas of={CheckboxStories.ControlledVsUncontrolled} />
+
+## Form 안에서
+
+`Field.Root` 안에 두고 `name`을 주면 Base UI가 스스로 Form의 제출 맵에 값을
+낸다 — 이 컴포넌트가 배선을 새로 놓지 않는다.
+
+<Canvas of={CheckboxStories.InForm} />
+
+## 키보드
+
+Tab으로 닿고 Space로 켜고 끈다. 아래 스토리가 그 계약을 선언하고
+`test/stories.test.mjs`가 매번 실제로 눌러 잰다.
+
+<Canvas of={CheckboxStories.Keyboard} />
+
+## Props
+
+<Story of={CheckboxStories.Playground} />
+
+<Controls of={CheckboxStories.Playground} />
