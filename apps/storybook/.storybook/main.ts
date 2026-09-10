@@ -10,8 +10,9 @@ function getAbsolutePath(value: string) {
 const uiSrc = fileURLToPath(new URL("../../../packages/ui/src", import.meta.url))
 
 const config: StorybookConfig = {
-  // 2세대 스토리는 #279부터 채운다 — 1세대 카탈로그는 #277에서 지웠다(태그 v1-shadcn).
-  stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)", "../stories/**/*.mdx"],
+  /* MDX가 앞이다 — 색인 순서가 사이드바 순서이고, 컴포넌트를 고르러 온 사람이
+   * 먼저 볼 것은 스토리 목록이 아니라 문서 페이지다(ADR-0023 §8). */
+  stories: ["../stories/**/*.mdx", "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [getAbsolutePath("@storybook/addon-a11y"), getAbsolutePath("@storybook/addon-docs")],
   framework: getAbsolutePath("@storybook/react-vite"),
   // @flameware/ui의 exports는 dist(빌드 산출물)를 가리킨다(#278). 워크벤치까지
