@@ -24,9 +24,10 @@ test('exports가 가리키는 파일이 전부 실재한다', () => {
 
 test('게시되는 것은 dist와 README뿐이다 — 스크립트와 원본 토큰은 소비처 몫이 아니다', () => {
   assert.deepEqual(pkg.files, ['dist', 'README.md'])
-  // 램프·대비 계산기는 dist를 만드는 도구다. dependencies로 두면 소비처가
-  // 아무것도 안 쓰고도 그 무게를 문다 — 바닥값은 패키징이 정한다(ADR-0017)
-  assert.equal(pkg.dependencies, undefined)
+  // culori는 dist/ramp.js가 런타임에 필요로 한다(#281) — `./ramp`를 import하지
+  // 않는 소비처는 번들에 물지 않는다(트리셰이킹), apca-w3는 병기용이라 여전히
+  // devDependency다 — 바닥값은 패키징이 정한다(ADR-0017)
+  assert.deepEqual(Object.keys(pkg.dependencies), ['culori'])
 })
 
 test('루트 서브패스는 타입과 런타임을 함께 낸다 — 선언만 있고 구현이 없지 않다', async () => {
@@ -37,4 +38,22 @@ test('루트 서브패스는 타입과 런타임을 함께 낸다 — 선언만 
   for (const name of declared) {
     assert.ok(mod[name] !== undefined, `${name}은 선언만 있고 구현이 없다`)
   }
+})
+
+test('./ramp 서브패스는 타입과 런타임을 함께 낸다 — 공개 표면 셋뿐이다(#281)', async () => {
+  assert.deepEqual(Object.keys(pkg.exports['./ramp']).sort(), ['default', 'types'])
+  const mod = await import(`${pkg.name}/ramp`)
+  assert.deepEqual(Object.keys(mod).sort(), ['contrastRatio', 'createRamp', 'rampToCssVariables'])
+
+  const dts = readFileSync(join(root, pkg.exports['./ramp'].types), 'utf8')
+  const declaredFns = [...dts.matchAll(/^export declare function (\w+)/gm)].map((m) => m[1])
+  for (const name of declaredFns) {
+    assert.equal(typeof mod[name], 'function', `${name}은 선언만 있고 구현이 없다`)
+  }
+})
+
+test('dist/ramp.js는 apca-w3를 물지 않는다 — 병기 대비는 소비처 바닥값이 아니다', async () => {
+  const js = readFileSync(join(root, 'dist/ramp.js'), 'utf8')
+  assert.ok(!/from ['"]apca-w3['"]/.test(js))
+  assert.match(js, /from 'culori'/)
 })
