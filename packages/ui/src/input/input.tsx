@@ -4,6 +4,7 @@ import { Input as BaseInput } from "@base-ui/react/input"
 import { cva } from "class-variance-authority"
 import type * as React from "react"
 
+import { fieldControlBase } from "../lib/field-control.js"
 import { cn } from "../lib/utils.js"
 
 /* Base UI의 `Input`은 `Field.Control`이 `<input>`을 그리는 것과 같다(공식
@@ -11,15 +12,13 @@ import { cn } from "../lib/utils.js"
  * 홀로 두어도 동작하고, `Field.Root` 안에 두면 라벨·설명·오류가 자동으로
  * 연결된다. `value`·`onValueChange`·`onBlur`·`ref`를 그대로 받으므로 React
  * Hook Form의 `Controller`가 넘기는 필드 props를 그대로 펼쳐 꽂을 수 있다 —
- * DS는 RHF를 의존하지 않고, 이 통로만 열어 둔다(ADR-0023 §11). */
+ * DS는 RHF를 의존하지 않고, 이 통로만 열어 둔다(ADR-0023 §11).
+ *
+ * 밑그림(테두리·배경·포커스 링·invalid·disabled)은 Textarea와 공유한다
+ * (lib/field-control.ts) — 여기 남는 것은 한 줄 입력만의 치수뿐이다. */
 export const inputVariants = cva([
-  "flex h-9 w-full min-w-0 rounded-md border border-field bg-inset px-3 text-sm text-default",
-  "placeholder:text-muted",
-  "outline-offset-2 focus-visible:outline-2",
-  "transition-[border-color,box-shadow]",
-  // Field.Root 안에서만 의미가 있다 — 밖에서는 이 data 속성이 없어 걸리지 않는다
-  "data-invalid:border-danger",
-  "data-disabled:pointer-events-none data-disabled:opacity-50",
+  "flex h-9 w-full min-w-0 rounded-md border px-3 text-sm",
+  ...fieldControlBase,
 ])
 
 export interface InputProps extends Omit<React.ComponentPropsWithoutRef<typeof BaseInput>, "className"> {

@@ -29,9 +29,9 @@ export const States: Story = {
   decorators: [],
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: "24rem" }}>
-      <Field.Root name="disabled-state">
+      <Field.Root name="disabled-state" disabled>
         <Field.Label>비활성</Field.Label>
-        <Textarea disabled placeholder="편집 불가" />
+        <Textarea placeholder="편집 불가" />
       </Field.Root>
       <Field.Root name="invalid-state" invalid touched>
         <Field.Label>오류</Field.Label>
