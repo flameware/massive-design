@@ -129,6 +129,10 @@
       "types": "./dist/toggle-group/index.d.ts",
       "default": "./dist/toggle-group/index.js"
     },
+    "./combobox": {
+      "types": "./dist/combobox/index.d.ts",
+      "default": "./dist/combobox/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
