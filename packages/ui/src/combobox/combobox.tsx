@@ -69,7 +69,7 @@ function ComboboxInput({ className, ...props }: ComboboxInputProps) {
   return <BaseCombobox.Input className={cn(comboboxInputVariants(), className)} {...props} />
 }
 
-const popupVariants = cva([
+export const comboboxPopupVariants = cva([
   "z-50 max-h-72 w-(--anchor-width) overflow-auto rounded-md border border-default bg-surface p-1 text-default shadow-md outline-none",
   "data-starting-style:opacity-0 data-ending-style:opacity-0 transition-opacity",
 ])
@@ -92,11 +92,13 @@ function ComboboxPopup({ className, side, align, sideOffset = 4, alignOffset, an
   return (
     <BaseCombobox.Portal>
       <BaseCombobox.Positioner side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset} anchor={anchor}>
-        <BaseCombobox.Popup className={cn(popupVariants(), className)} {...props} />
+        <BaseCombobox.Popup className={cn(comboboxPopupVariants(), className)} {...props} />
       </BaseCombobox.Positioner>
     </BaseCombobox.Portal>
   )
 }
+
+export const comboboxListVariants = cva("flex flex-col gap-0.5")
 
 export type ComboboxListProps = Omit<BaseComboboxListProps, "className"> & {
   className?: string
@@ -105,10 +107,10 @@ export type ComboboxListProps = Omit<BaseComboboxListProps, "className"> & {
 /** 항목들의 컨테이너. `children`이 함수면 항목마다 한 번 불린다 — Base UI가
  * 그 자리에서 가상화를 붙일 수 있게 열어 둔 통로라 DS는 그대로 통과시킨다. */
 function ComboboxList({ className, ...props }: ComboboxListProps) {
-  return <BaseCombobox.List className={cn("flex flex-col gap-0.5", className)} {...props} />
+  return <BaseCombobox.List className={cn(comboboxListVariants(), className)} {...props} />
 }
 
-const itemVariants = cva([
+export const comboboxItemVariants = cva([
   "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-default outline-none select-none",
   "hit-area",
   "data-highlighted:bg-neutral-soft",
@@ -128,8 +130,10 @@ export type ComboboxItemProps = Omit<BaseComboboxItemProps, "className"> & {
  * 고정으로 건다.
  */
 function ComboboxItem({ className, ...props }: ComboboxItemProps) {
-  return <BaseCombobox.Item className={cn(itemVariants(), className)} {...props} />
+  return <BaseCombobox.Item className={cn(comboboxItemVariants(), className)} {...props} />
 }
+
+export const comboboxEmptyVariants = cva("px-2 py-6 text-center text-sm text-muted")
 
 export type ComboboxEmptyProps = Omit<BaseComboboxEmptyProps, "className"> & {
   className?: string
@@ -140,8 +144,10 @@ export type ComboboxEmptyProps = Omit<BaseComboboxEmptyProps, "className"> & {
  * `Combobox.Status`로 표현한다 — 결과가 없는 것과 아직 모르는 것은 다른
  * 문구를 요구한다. */
 function ComboboxEmpty({ className, ...props }: ComboboxEmptyProps) {
-  return <BaseCombobox.Empty className={cn("px-2 py-6 text-center text-sm text-muted", className)} {...props} />
+  return <BaseCombobox.Empty className={cn(comboboxEmptyVariants(), className)} {...props} />
 }
+
+export const comboboxStatusVariants = cva("px-2 py-1.5 text-sm text-muted")
 
 export type ComboboxStatusProps = Omit<BaseComboboxStatusProps, "className"> & {
   className?: string
@@ -152,7 +158,7 @@ export type ComboboxStatusProps = Omit<BaseComboboxStatusProps, "className"> & {
  * 컴포넌트는 마운트 상태를 유지해야 한다는 Base UI 계약(주석 없이 걷어내면
  * 스크린 리더마다 알림이 끊긴다)을 그대로 지킨다. */
 function ComboboxStatus({ className, ...props }: ComboboxStatusProps) {
-  return <BaseCombobox.Status className={cn("px-2 py-1.5 text-sm text-muted", className)} {...props} />
+  return <BaseCombobox.Status className={cn(comboboxStatusVariants(), className)} {...props} />
 }
 
 export const Combobox = {

@@ -1,5 +1,11 @@
 export {
   Combobox,
+  comboboxInputVariants,
+  comboboxPopupVariants,
+  comboboxListVariants,
+  comboboxItemVariants,
+  comboboxEmptyVariants,
+  comboboxStatusVariants,
   type ComboboxRootProps,
   type ComboboxInputProps,
   type ComboboxPopupProps,

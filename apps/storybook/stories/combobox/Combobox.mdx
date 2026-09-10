@@ -51,6 +51,10 @@ import { Field } from "@flameware/ui/field"
 
 <Canvas of={ComboboxStories.Playground} />
 
+목록을 펼친 그림 — 선택된 항목은 `data-selected`로, 색은 하이라이트·선택 둘 다 Base UI의 `data-highlighted`·`data-selected`를 따라간다.
+
+<Canvas of={ComboboxStories.Expanded} />
+
 ## 필터
 
 기본 필터를 그대로 쓴다 — `Intl.Collator`(대소문자·발음 구별 없이 부분일치)가 `itemToStringLabel`이 가리키는 문자열에 대해 입력을 비교한다. 종목명·코드 둘 다로 찾게 하려면 그 함수가 둘을 합친 문자열을 돌려주면 된다. 다른 규칙이 필요하면 `filter` prop으로 바꿀 수 있다(Base UI 그대로).

@@ -32,7 +32,7 @@ const stockLabel = (item: StockItem) => `${item.name} ${item.symbol}`
 function StockItemRow({ item }: { item: StockItem }) {
   return (
     <>
-      {item.name} <span style={{ opacity: 0.6 }}>{item.symbol}</span>
+      {item.name} <span className="text-muted">{item.symbol}</span>
     </>
   )
 }
@@ -66,6 +66,33 @@ export const Playground: Story = {
         </Combobox.Popup>
       </Combobox.Root>
       <Field.Description>종목명 또는 코드로 찾을 수 있습니다</Field.Description>
+    </Field.Root>
+  ),
+}
+
+/* 팝업을 `open`으로 강제해 실제 항목이 그려진 그림을 문서에 고정한다 — 포인터
+ * 대상 히트 영역 테스트가 재는 것은 스토리가 보여 주기로 한 것뿐이므로
+ * (test/stories.test.mjs 상단 주석, ADR-0023 §12), Playground처럼 팝업이 닫힌
+ * 스토리만 있으면 `Combobox.Item`의 24px 하한은 한 번도 재지 않는다. 선택된
+ * 항목(`defaultValue`)을 하나 두어 `data-selected` 스타일도 같은 그림에서 보인다. */
+export const Expanded: Story = {
+  name: "펼친 목록",
+  render: () => (
+    <Field.Root name="symbol-expanded" style={{ maxWidth: "20rem" }}>
+      <Field.Label>종목 검색</Field.Label>
+      <Combobox.Root items={STOCKS} itemToStringLabel={stockLabel} open defaultValue={STOCKS[0]}>
+        <Combobox.Input placeholder="종목명 또는 코드" />
+        <Combobox.Popup>
+          <Combobox.Empty>검색 결과가 없습니다</Combobox.Empty>
+          <Combobox.List>
+            {(item: StockItem) => (
+              <Combobox.Item key={item.symbol} value={item}>
+                <StockItemRow item={item} />
+              </Combobox.Item>
+            )}
+          </Combobox.List>
+        </Combobox.Popup>
+      </Combobox.Root>
     </Field.Root>
   ),
 }
