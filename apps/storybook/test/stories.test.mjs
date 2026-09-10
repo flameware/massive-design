@@ -126,6 +126,20 @@ export function measureInPage({ floor, reach }) {
       rows.push(row)
       continue
     }
+    if (cs.clipPath === "inset(50%)") {
+      // Base UI가 스크린 리더 전용 도우미(AriaCombobox의 hidden autofill input,
+      // ComboboxInternalDismissButton 등)에 쓰는 표준 "visually hidden" 레시피다
+      // (`@base-ui/utils/visuallyHidden`) — 1px 상자를 clip-path로 완전히
+      // 가려 어떤 좌표를 찍어도 elementFromPoint가 이 요소를 돌려주지 않는다.
+      // `tabIndex`도 -1이거나 없어 Tab으로도 닿지 않는다: 포인터도 키보드도
+      // 아닌 보조기술 전용 통로라서 포인터 하한 밖이다(그려지지 않은 것과 같은
+      // 취급 — ADR-0020 결정 4 "외부 소유 표면에서 물러선다"와 같은 이유).
+      // Input이 Popup 밖에 있는 모든 Base UI Combobox가 이 레시피를 낸다(#289) —
+      // 컴포넌트별 예외가 아니라 계기가 일반적으로 인식해야 하는 패턴이다.
+      row.note.push("visually-hidden")
+      rows.push(row)
+      continue
+    }
 
     el.scrollIntoView({ block: "center", inline: "center" })
     const r = el.getBoundingClientRect()
@@ -193,7 +207,8 @@ export function measureInPage({ floor, reach }) {
 const isMeasured = (row) =>
   !row.note.includes("not-rendered") &&
   !row.note.includes("pointer-events:none") &&
-  !row.note.includes("aria-hidden")
+  !row.note.includes("aria-hidden") &&
+  !row.note.includes("visually-hidden")
 
 /* ---------- 계기 자체 검증 ---------- */
 const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
@@ -210,6 +225,7 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   #lshape::after{content:"";position:absolute;left:10px;top:10px;width:30px;height:30px}
   #hidden{display:none}
   #ariahidden{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
+  #sronly, #sronly-focusable{clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:1px;height:1px;margin:-1px;position:absolute}
 </style>
 <div class="row">
   <button id="plain" data-testid="plain"></button>
@@ -218,6 +234,8 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   <button id="lshape" data-testid="lshape"></button>
   <button id="hidden" data-testid="hidden"></button>
   <input id="ariahidden" data-testid="ariahidden" aria-hidden="true" />
+  <span id="sronly" data-testid="sronly" role="button" aria-label="Dismiss"></span>
+  <a id="sronly-focusable" data-testid="sronly-focusable" href="#main">Skip to content</a>
 </div>`
 
 /* 기대값 — 계기가 이것을 그대로 읽지 못하면 계기를 고친다, 읽은 값을 믿지 않는다 */
@@ -230,6 +248,15 @@ const SELF_TEST_EXPECT = {
   ariahidden: {
     note: "aria-hidden",
     why: "clip-path로 1px까지 줄인 aria-hidden 네이티브 입력 — Base UI Checkbox·Select가 폼 의미론을 위해 곁에 두는 것과 같은 모양(#288). 재지 않고 표시하는가",
+  },
+  sronly: {
+    note: "visually-hidden",
+    why: "clip-path:inset(50%)의 1px 상자, tabIndex<0 — Base UI의 sr-only 도우미를 재지 않고 표시하는가(#289)",
+  },
+  "sronly-focusable": {
+    note: "no-hit-point",
+    fitsFloor: false,
+    why: "같은 clip-path 레시피라도 tabIndex가 0 이상(원래 포커스 가능한 <a href>)이면 면제하지 않는다 — 포인터·키보드 둘 다 닿지 않는 것만 sr-only 도우미로 면제한다",
   },
 }
 

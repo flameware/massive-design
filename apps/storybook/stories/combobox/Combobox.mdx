@@ -1,0 +1,81 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ComboboxStories from "./Combobox.stories"
+
+<Meta of={ComboboxStories} />
+
+<Title />
+
+<StatusBadge status={ComboboxStories.default.parameters.ds.status} /> · since {ComboboxStories.default.parameters.ds.since}
+
+입력 필터와 비동기 항목 목록을 하나로 받는 콤보박스. Base UI `Combobox` 위에 얹는다 — 입력·필터·키보드 탐색·Field 연결은 Base UI가 다 지고, DS는 색과 간격, 그리고 Portal·Positioner·Popup 셋을 하나(`Combobox.Popup`)로 접는 것만 진다.
+
+## 언제 쓰는가
+
+- 목록이 커서 입력으로 좁혀야 고를 수 있는 자리 — 종목 검색(코드 또는 이름으로 찾는다).
+- 항목이 서버에서 비동기로 오는 자리 — `items`에 로딩 중엔 빈 배열, 응답이 오면 채운 배열을 그대로 넘긴다.
+
+## 언제 쓰지 않는가
+
+- **목록이 몇 개뿐이고 필터가 필요 없을 때.** 그것은 `Select`의 몫이다(#288).
+- **자유 텍스트만 받을 때.** 목록에서 고르는 것이 아니라면 `Input`이다.
+
+## 파트
+
+`Combobox.Root`·`Combobox.Input`·`Combobox.Popup`·`Combobox.List`·`Combobox.Item`·`Combobox.Empty`·`Combobox.Status` — 네임스페이스형 API다. `Popup`은 Base UI의 `Portal`+`Positioner`+`Popup` 셋을 접은 것이다: 위치 축(`side`·`align`·`sideOffset`·`alignOffset`·`anchor`)만 그대로 받고 나머지는 기본값에 맡긴다.
+
+```tsx
+import { Combobox } from "@flameware/ui/combobox"
+import { Field } from "@flameware/ui/field"
+
+<Field.Root name="symbol">
+  <Field.Label>종목 검색</Field.Label>
+  <Combobox.Root items={stocks} itemToStringLabel={(s) => `${s.name} ${s.symbol}`}>
+    <Combobox.Input placeholder="종목명 또는 코드" />
+    <Combobox.Popup>
+      <Combobox.Empty>검색 결과가 없습니다</Combobox.Empty>
+      <Combobox.List>
+        {(stock) => (
+          <Combobox.Item key={stock.symbol} value={stock}>
+            {stock.name} {stock.symbol}
+          </Combobox.Item>
+        )}
+      </Combobox.List>
+    </Combobox.Popup>
+  </Combobox.Root>
+</Field.Root>
+```
+
+`Field.Root` 안에 두면 라벨·설명·오류가 `Combobox.Input`에 자동으로 연결된다 — 배선은 `Input`과 같다(`field.tsx`).
+
+<Canvas of={ComboboxStories.Playground} />
+
+## 필터
+
+기본 필터를 그대로 쓴다 — `Intl.Collator`(대소문자·발음 구별 없이 부분일치)가 `itemToStringLabel`이 가리키는 문자열에 대해 입력을 비교한다. 종목명·코드 둘 다로 찾게 하려면 그 함수가 둘을 합친 문자열을 돌려주면 된다. 다른 규칙이 필요하면 `filter` prop으로 바꿀 수 있다(Base UI 그대로).
+
+## 비동기 항목과 빈 결과
+
+`items`는 컴포넌트가 아니라 소비처가 든다 — 로딩 중엔 빈 배열, 응답이 오면 채운 배열을 그대로 넘긴다. 로딩 문구는 `Combobox.Status`(변할 때마다 스크린 리더에 polite로 알린다)로, 결과가 정말 없을 때는 `Combobox.Empty`(items가 있고 필터 결과가 0일 때만 스스로 렌더한다)로 표현한다. 두 컴포넌트 다 마운트 상태를 유지해야 하는 Base UI 계약이 있어 children만 조건부로 바꾼다 — 컴포넌트 자체를 조건부 렌더하지 않는다.
+
+`Combobox.List`도 로딩 중에 걷어내지 않는다 — 입력의 `role="combobox"`가 낸 `aria-controls`가 그 listbox를 가리키므로, `items`가 비어 있어도 `<Combobox.List>{() => null}</Combobox.List>`처럼 마운트만 시켜 둔다.
+
+<Canvas of={ComboboxStories.Loading} />
+<Canvas of={ComboboxStories.EmptyResult} />
+
+아래는 실제 500ms 지연을 흉내 낸 흐름이다 — 로딩에서 결과로 바뀌는 것을 눈으로 볼 수 있다.
+
+<Canvas of={ComboboxStories.AsyncItems} />
+
+## 키보드
+
+타이핑이 목록을 필터하고, `ArrowDown`이 항목을 하이라이트하며, `Enter`가 선택한다. `Esc`는 팝업을 닫되 선택하지 않는다 — 아래 스토리가 그 계약을 선언하고 `test/stories.test.mjs`가 매번 실제로 눌러 잰다.
+
+<Canvas of={ComboboxStories.Keyboard} />
+
+## Props
+
+<Story of={ComboboxStories.Playground} />
+
+<Controls of={ComboboxStories.Playground} />
