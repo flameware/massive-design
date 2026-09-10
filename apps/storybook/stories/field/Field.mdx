@@ -1,0 +1,94 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as FieldStories from "./Field.stories"
+
+<Meta of={FieldStories} />
+
+<Title />
+
+<StatusBadge status={FieldStories.default.parameters.ds.status} /> · since {FieldStories.default.parameters.ds.since}
+
+라벨·설명·오류를 컨트롤에 aria로 자동 연결하는 그릇. 독립 `Label`은 없다 — `Field.Label`뿐이다.
+
+## 언제 쓰는가
+
+- `Input`·`Textarea` 등 어떤 폼 컨트롤이든 라벨을 달아야 하는 자리 전부.
+- 서버가 돌려준 필드별 오류를 보여줘야 하는 자리 — `invalid`를 넘기면 그 상태를 그대로 따른다.
+
+## 언제 쓰지 않는가
+
+- 라벨이 필요 없는 자리(아이콘 전용 버튼 등)에는 `aria-label`을 직접 단다 — Field는 폼 컨트롤 전용이다.
+- 여러 필드를 한 그룹으로 묶어야 할 때(체크박스 그룹의 공통 범례 등)는 Base UI `Fieldset`의 몫이다 — Phase 1에는 없다.
+
+## 조립
+
+```tsx
+import { Field } from "@flameware/ui/field"
+import { Input } from "@flameware/ui/input"
+
+<Field.Root name="email">
+  <Field.Label>이메일</Field.Label>
+  <Input type="email" placeholder="you@example.com" />
+  <Field.Description>가입에 사용한 이메일 주소</Field.Description>
+  <Field.Error />
+</Field.Root>
+```
+
+`Field.Root`가 컨텍스트를 열면 그 안의 `Field.Label`·`Field.Description`·`Field.Error`, 그리고 `Input`·`Textarea` 같은 컨트롤이 서로를 찾아 aria 속성을 스스로 건다 — DS는 색과 간격만 입힌다.
+
+<Canvas of={FieldStories.Playground} />
+
+## 오류
+
+`invalid`를 `Field.Root`에 직접 넘기면 제출·blur 없이도 그 상태가 외부(서버 응답, RHF 등)의 것으로 표시된다. `Field.Error`의 `match`를 `true`로 주면 네이티브 `ValidityState` 대신 그 값을 그대로 따른다 — `match`를 생략하면 네이티브 검증(`required` 등)이나 `Form`의 `errors`를 자동으로 읽는다(Form 문서 참고).
+
+<Canvas of={FieldStories.Invalid} />
+
+## 비활성
+
+`Field.Root`의 `disabled`가 `Control`의 `disabled`보다 우선한다.
+
+<Canvas of={FieldStories.Disabled} />
+
+## React Hook Form과 결합하기
+
+DS는 RHF를 의존하지 않는다(ADR-0023 §11) — 대신 컨트롤이 `value`·`onValueChange`·`onBlur`·`ref`를 그대로 받는다. RHF의 `Controller`가 넘기는 `field.value`·`field.onChange`·`field.onBlur`·`field.ref`를 그 이름 그대로(`onChange`→`onValueChange`) 펼치면 된다:
+
+```tsx
+import { Controller, useForm } from "react-hook-form"
+import { Field } from "@flameware/ui/field"
+import { Input } from "@flameware/ui/input"
+
+const { control } = useForm({ defaultValues: { email: "" } })
+
+<Controller
+  name="email"
+  control={control}
+  render={({ field: { name, ref, value, onBlur, onChange }, fieldState: { invalid, error } }) => (
+    <Field.Root name={name} invalid={invalid}>
+      <Field.Label>이메일</Field.Label>
+      <Input ref={ref} value={value} onBlur={onBlur} onValueChange={onChange} />
+      <Field.Error match={!!error}>{error?.message}</Field.Error>
+    </Field.Root>
+  )}
+/>
+```
+
+아래 스토리는 RHF 없이 같은 통로(제어 props + `ref`)를 손으로 흉내 낸다 — 이것이 통과하면 `Controller`가 같은 자리에 그대로 들어갈 수 있다는 뜻이다.
+
+<Canvas of={FieldStories.ControlledSeam} />
+
+## 키보드
+
+Tab이 컨트롤에 닿는다. `disabled`인 필드는 컨트롤이 네이티브 `disabled`를 받으므로 Tab이 건너뛴다.
+
+<Canvas of={FieldStories.Keyboard} />
+
+## Props
+
+`Field.Root`의 것만 적는다 — `Field.Label`·`Field.Description`·`Field.Error`는 각자의 자리에서 색·간격만 입힐 뿐 고유 prop이 없다(Base UI의 `render`·`className`은 셋 다 그대로 받는다).
+
+<Story of={FieldStories.Playground} />
+
+<Controls of={FieldStories.Playground} />

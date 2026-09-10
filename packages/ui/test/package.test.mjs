@@ -18,10 +18,10 @@ const root = fileURLToPath(new URL("..", import.meta.url))
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"))
 
 /** exports에 선언된 서브패스 중 코드가 나오는 것들. */
-const CODE_SUBPATHS = [".", "./button", "./icon"]
+const CODE_SUBPATHS = [".", "./button", "./icon", "./field", "./input", "./textarea", "./form"]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
-const COMPONENT_SUBPATHS = ["./button", "./icon"]
+const COMPONENT_SUBPATHS = ["./button", "./icon", "./field", "./input", "./textarea", "./form"]
 
 // ── 서브패스 ────────────────────────────────────────────────────────────────
 

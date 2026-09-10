@@ -1,0 +1,36 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as TextareaStories from "./Textarea.stories"
+
+<Meta of={TextareaStories} />
+
+<Title />
+
+<StatusBadge status={TextareaStories.default.parameters.ds.status} /> · since {TextareaStories.default.parameters.ds.since}
+
+여러 줄 텍스트 입력. `Field.Root` 안에 놓으면 `Input`과 똑같이 라벨·설명·오류가 aria로 자동 연결된다.
+
+## 언제 쓰는가
+
+- 메모·설명처럼 여러 줄이 필요한 자리.
+
+## 언제 쓰지 않는가
+
+- 한 줄이면 `Input`이다 — 높이·리사이즈만 다른 컴포넌트를 굳이 쓸 이유가 없다.
+
+## Base UI에 독립 Textarea가 없다
+
+Base UI는 `<input>`만 기본으로 그리는 `Field.Control`을 준다. `Textarea`는 그 위에 `render`로 `<textarea>`를 앉힌 것뿐이다 — `Button`이 `render`로 `<a>`를 받는 자리와 같다. `Field.Root` 컨텍스트 배선은 `Input`과 동일하다.
+
+<Canvas of={TextareaStories.Playground} />
+
+## 상태
+
+<Canvas of={TextareaStories.States} />
+
+## Props
+
+<Story of={TextareaStories.Playground} />
+
+<Controls of={TextareaStories.Playground} />
