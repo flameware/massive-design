@@ -126,16 +126,23 @@ export function measureInPage({ floor, reach }) {
       rows.push(row)
       continue
     }
-    if (cs.clipPath === "inset(50%)") {
+    if (cs.clipPath === "inset(50%)" && el.tabIndex < 0) {
       // Base UI가 스크린 리더 전용 도우미(AriaCombobox의 hidden autofill input,
       // ComboboxInternalDismissButton 등)에 쓰는 표준 "visually hidden" 레시피다
       // (`@base-ui/utils/visuallyHidden`) — 1px 상자를 clip-path로 완전히
       // 가려 어떤 좌표를 찍어도 elementFromPoint가 이 요소를 돌려주지 않는다.
-      // `tabIndex`도 -1이거나 없어 Tab으로도 닿지 않는다: 포인터도 키보드도
-      // 아닌 보조기술 전용 통로라서 포인터 하한 밖이다(그려지지 않은 것과 같은
-      // 취급 — ADR-0020 결정 4 "외부 소유 표면에서 물러선다"와 같은 이유).
-      // Input이 Popup 밖에 있는 모든 Base UI Combobox가 이 레시피를 낸다(#289) —
-      // 컴포넌트별 예외가 아니라 계기가 일반적으로 인식해야 하는 패턴이다.
+      // 포인터도 키보드도 아닌 보조기술 전용 통로라서 포인터 하한 밖이다
+      // (그려지지 않은 것과 같은 취급 — ADR-0020 결정 4 "외부 소유 표면에서
+      // 물러선다"와 같은 이유). Input이 Popup 밖에 있는 모든 Base UI
+      // Combobox가 이 레시피를 낸다(#289) — 컴포넌트별 예외가 아니라 계기가
+      // 일반적으로 인식해야 하는 패턴이다.
+      //
+      // `el.tabIndex < 0`을 같이 요구하는 이유: 같은 clip-path 레시피를
+      // "skip to content" 링크처럼 **키보드로는 닿아야 하는** 요소에도 쓸 수
+      // 있다(포커스를 받으면 CSS가 보이는 자리로 옮기는 패턴) — 그런 요소는
+      // `<a href>` 등 원래 포커스 가능해 `tabIndex`가 0 이상이다. 포인터도
+      // 키보드도 둘 다 닿지 않는 것만 면제해야 진짜 보조기술 전용 통로와
+      // 구분된다.
       row.note.push("visually-hidden")
       rows.push(row)
       continue

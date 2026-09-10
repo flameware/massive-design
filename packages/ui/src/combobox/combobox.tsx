@@ -40,9 +40,10 @@ import { cn } from "../lib/utils.js"
 
 export const comboboxInputVariants = cva(["flex h-9 w-full min-w-0 rounded-md border px-3 text-sm", ...fieldControlBase])
 
-export type ComboboxRootProps<Value, Multiple extends boolean | undefined = false, Item = Value> = Omit<
-  BaseComboboxRootProps<Value, Multiple, Item>,
-  never
+export type ComboboxRootProps<Value, Multiple extends boolean | undefined = false, Item = Value> = BaseComboboxRootProps<
+  Value,
+  Multiple,
+  Item
 >
 
 /**
