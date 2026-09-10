@@ -1,0 +1,62 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ToggleGroupStories from "./ToggleGroup.stories"
+
+<Meta of={ToggleGroupStories} />
+
+<Title />
+
+<StatusBadge status={ToggleGroupStories.default.parameters.ds.status} /> · since {ToggleGroupStories.default.parameters.ds.since}
+
+`Toggle` 여럿을 한 판으로 묶어 화살표로 옮겨 다니게 한다. 항목은 이 컴포넌트의
+파트가 아니라 그냥 `Toggle`이다 — Base UI 자신의 anatomy가 평평하다.
+
+## 언제 쓰는가
+
+- 서로 배타적인 선택지를 가로로 늘어놓는 자리 — 기간 필터(1주·1개월·1년),
+  보기 전환(목록·격자).
+- `multiple`을 주면 여러 개를 동시에 켤 수 있다 — 서식 토글바(굵게·기울임·밑줄) 같은 자리.
+
+## 언제 쓰지 않는가
+
+- **선택지가 많아 가로로 안 들어갈 때.** Select다.
+- **독립된 토글 하나.** 그룹으로 묶을 게 없으면 `Toggle` 혼자로 충분하다.
+
+## 히스토리 필터
+
+이 티켓이 앱에 놓는 자리다 — 히스토리 화면의 기간 필터가 이 모양으로 바뀐다.
+
+<Canvas of={ToggleGroupStories.Playground} />
+
+<Canvas of={ToggleGroupStories.Multiple} />
+
+## 제어와 비제어
+
+`value`/`onValueChange`로 제어, `defaultValue`로 비제어 — 선택된 값들의
+배열이다(`multiple`이 기본 false라 실제로는 원소가 0개 또는 1개다).
+
+<Canvas of={ToggleGroupStories.ControlledVsUncontrolled} />
+
+## Form 안에서
+
+Toggle과 같은 이유로 Base UI ToggleGroup도 스스로 폼에 등록하지 않는다 — 이
+컴포넌트가 `name`을 받으면 선택된 값을 숨은 입력 하나로 낸다.
+`multiple`일 때는 값을 쉼표로 이어 낸다(지금 확인된 필터는 단일 선택이라
+이 단순화로 충분하다, toggle-group.tsx).
+
+<Canvas of={ToggleGroupStories.InForm} />
+
+## 키보드
+
+Tab이 그룹에 한 번 닿고(첫 항목 — roving tabindex의 초기값이라 눌린 항목이
+아니다), 화살표가 항목 사이를 옮긴다. `Enter`·`Space`가 초점 항목을 누른다 —
+Base UI의 roving focus가 준다.
+
+<Canvas of={ToggleGroupStories.Keyboard} />
+
+## Props
+
+<Story of={ToggleGroupStories.Playground} />
+
+<Controls of={ToggleGroupStories.Playground} />

@@ -44,6 +44,10 @@ const CODE_SUBPATHS = [
   "./tabs",
   "./page-shell",
   "./theme-toggle",
+  "./checkbox",
+  "./select",
+  "./toggle",
+  "./toggle-group",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -72,6 +76,10 @@ const COMPONENT_SUBPATHS = [
   "./tabs",
   "./page-shell",
   "./theme-toggle",
+  "./checkbox",
+  "./select",
+  "./toggle",
+  "./toggle-group",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
@@ -83,7 +91,9 @@ const COMPONENT_SUBPATHS = [
  * 다 Base UI 프리미티브를 직접 감싸므로(포커스·열림 상태) 클라이언트다.
  * Tabs·PageShell·ThemeToggle도 Base UI 뒤이거나(Tabs) 상태·이벤트 핸들러를
  * 갖는다(PageShell의 탭 상태, ThemeToggle의 onClick) — 셋 다 클라이언트 쪽에
- * 선다(#286). */
+ * 선다(#286). Checkbox·Select·Toggle·ToggleGroup은 넷 다 제어/비제어 상태를
+ * 다루거나(Toggle·ToggleGroup은 `useControllableState`) Base UI의 상태 있는
+ * 컴포넌트를 감싸므로(#288) 클라이언트다. */
 const CLIENT_SUBPATHS = [
   "./button",
   "./icon",
@@ -101,6 +111,10 @@ const CLIENT_SUBPATHS = [
   "./tabs",
   "./page-shell",
   "./theme-toggle",
+  "./checkbox",
+  "./select",
+  "./toggle",
+  "./toggle-group",
 ]
 const SERVER_SUBPATHS = [
   "./card",

@@ -1,0 +1,53 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ToggleStories from "./Toggle.stories"
+
+<Meta of={ToggleStories} />
+
+<Title />
+
+<StatusBadge status={ToggleStories.default.parameters.ds.status} /> · since {ToggleStories.default.parameters.ds.since}
+
+눌린 상태가 남는 버튼.
+
+## 언제 쓰는가
+
+- 켜고 끄는 자리 하나 — 즐겨찾기, 굵게·기울임 같은 서식 토글, 사이드바 펼침.
+- 독립적인 하나의 토글. 여럿을 한 판으로 묶어 화살표로 옮겨 다니게 하려면 `ToggleGroup`이다.
+
+## 언제 쓰지 않는가
+
+- **누르면 즉시 무언가 일어나고 끝나는 자리.** 상태가 남지 않으면 Button이다.
+- **여럿 중 하나(또는 여럿)를 화살표로 옮겨 고르는 자리.** 그것은 ToggleGroup이다.
+
+## 상태
+
+<Canvas of={ToggleStories.States} />
+
+## 제어와 비제어
+
+`pressed`/`onPressedChange`로 제어, `defaultPressed`로 비제어.
+
+<Canvas of={ToggleStories.ControlledVsUncontrolled} />
+
+## Form 안에서
+
+Base UI Toggle은 스스로 폼에 값을 내지 않는다 — Checkbox·Select와 다르게 폼
+등록을 하지 않는다. 그래서 이 컴포넌트가 `name`을 받으면 지금 눌린 값을
+그대로 미러링하는 숨은 입력 하나를 곁에 세운다(`Field.Control`로, Base UI가
+공개한 확장점이다).
+
+<Canvas of={ToggleStories.InForm} />
+
+## 키보드
+
+Tab으로 닿고 Enter·Space로 누른다 — 누를 때마다 눌린 상태가 뒤집힌다.
+
+<Canvas of={ToggleStories.Keyboard} />
+
+## Props
+
+<Story of={ToggleStories.Playground} />
+
+<Controls of={ToggleStories.Playground} />

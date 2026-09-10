@@ -109,6 +109,17 @@ export function measureInPage({ floor, reach }) {
       rows.push(row)
       continue
     }
+    if (el.getAttribute("aria-hidden") === "true") {
+      // 접근성 트리 밖이면 포인터 대상도 아니다 — 예: Base UI Checkbox·Select가
+      // 네이티브 폼 의미론을 위해 곁에 두는, 시각적으로는 clip-path로 1px까지
+      // 줄인 숨은 `<input>`(type이 checkbox/text라 `input:not([type=hidden])`에
+      // 걸린다). 사람이 누르는 자리는 그 옆의 실제 커스텀 컨트롤이고, 그쪽이
+      // 이미 자기 몫의 hit-area로 재진다 — 이 구현 디테일까지 재면 있지도 않은
+      // 미달을 만든다(#288, Checkbox가 이 셋을 처음 population에 들였다)
+      row.note.push("aria-hidden")
+      rows.push(row)
+      continue
+    }
     if (cs.pointerEvents === "none") {
       // 누를 수 없는 것은 포인터 대상이 아니다 — 재지 않고 표시한다
       row.note.push("pointer-events:none")
@@ -177,9 +188,12 @@ export function measureInPage({ floor, reach }) {
   return rows
 }
 
-/* 재지 않는 행 — 그려지지 않았거나 누를 수 없는 것은 포인터 대상이 아니다 */
+/* 재지 않는 행 — 그려지지 않았거나 누를 수 없거나 접근성 트리 밖이면 포인터
+ * 대상이 아니다 */
 const isMeasured = (row) =>
-  !row.note.includes("not-rendered") && !row.note.includes("pointer-events:none")
+  !row.note.includes("not-rendered") &&
+  !row.note.includes("pointer-events:none") &&
+  !row.note.includes("aria-hidden")
 
 /* ---------- 계기 자체 검증 ---------- */
 const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
@@ -195,6 +209,7 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   #lshape{position:relative;width:20px;height:20px;background:#888}
   #lshape::after{content:"";position:absolute;left:10px;top:10px;width:30px;height:30px}
   #hidden{display:none}
+  #ariahidden{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
 </style>
 <div class="row">
   <button id="plain" data-testid="plain"></button>
@@ -202,6 +217,7 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   <div id="clipbox"><button id="clipped" data-testid="clipped"></button></div>
   <button id="lshape" data-testid="lshape"></button>
   <button id="hidden" data-testid="hidden"></button>
+  <input id="ariahidden" data-testid="ariahidden" aria-hidden="true" />
 </div>`
 
 /* 기대값 — 계기가 이것을 그대로 읽지 못하면 계기를 고친다, 읽은 값을 믿지 않는다 */
@@ -211,6 +227,10 @@ const SELF_TEST_EXPECT = {
   clipped: { hitW: 20, hitH: 20, fitsFloor: false, why: "같은 ::after가 overflow-hidden 20px 상자에 잘리는가" },
   lshape: { fitsFloor: true, note: "square-off-center", why: "오른쪽 아래로 뻗은 ::after — 중심을 벗어난 정사각형을 찾는가" },
   hidden: { note: "not-rendered", why: "display:none — 재지 않고 표시하는가" },
+  ariahidden: {
+    note: "aria-hidden",
+    why: "clip-path로 1px까지 줄인 aria-hidden 네이티브 입력 — Base UI Checkbox·Select가 폼 의미론을 위해 곁에 두는 것과 같은 모양(#288). 재지 않고 표시하는가",
+  },
 }
 
 /* ---------- 실행 ---------- */
@@ -336,8 +356,11 @@ for (const story of stories) {
         // 한 박자 기다린 뒤 반영되고, 다음 키가 그 전에 도착하면(예: 메뉴가
         // 아직 열리기 전에 온 두 번째 ArrowDown, #285) 계기가 있지도 않은
         // 상태를 잰다. 오버레이가 열리며 초기 포커스를 옮기는 것도 같은
-        // 이유로 비동기다(Dialog·AlertDialog·Drawer, #284). 간격 자체는
-        // 결과가 아니므로 계약에는 적지 않는다
+        // 이유로 비동기다(Dialog·AlertDialog·Drawer, #284). Select의
+        // typeahead도 같다 — Enter로 열고 곧장 타이핑 점프한 뒤 Enter로 고르는
+        // 계약이 이 간격 없이는 React 상태가 커밋되기 전에 다음 키가 그 상태를
+        // 읽는 경합으로 못 지나갔다(#288). 간격 자체는 결과가 아니므로 계약에는
+        // 적지 않는다
         for (const key of contract.press) {
           await page.keyboard.press(key)
           await page.waitForTimeout(50)
