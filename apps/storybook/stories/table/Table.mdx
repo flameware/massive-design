@@ -1,0 +1,48 @@
+import { Canvas, Meta, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as TableStories from "./Table.stories"
+
+<Meta of={TableStories} />
+
+<Title />
+
+<StatusBadge status={TableStories.default.parameters.ds.status} /> · since {TableStories.default.parameters.ds.since}
+
+열 의미가 있는 데이터를 비교하는 **데스크톱** 표. `Table.Root`·`Header`·`Body`·`Row`·`Head`·`Cell` 여섯 파트가 면·간격·테두리만 지고, 정렬·필터·페이지네이션·행 선택 같은 동작은 소비처(또는 TanStack Table)가 진다.
+
+## 언제 쓰는가
+
+- 행마다 같은 열을 채우는 데이터를 나란히 비교할 때 — 거래 이력, 보유 종목 목록.
+- TanStack Table의 헤더/행/셀 렌더 함수(`flexRender`) 위에 그대로 얹어, 정렬·필터·가상화 같은 동작을 DS 밖에서 붙일 때.
+
+## 언제 쓰지 않는가
+
+- **모바일 목록.** 주 텍스트·보조 텍스트·우측 값 한 줄이면 ListRow(#290)다 — Table은 열 헤더가 있는 데스크톱 비교용이다.
+- **행동을 부르는 자리.** 셀 안의 버튼·링크는 그대로 두되, 행 전체를 누르는 카드형 목록이 필요하면 Table이 아니라 ListRow나 손으로 짠 목록이다.
+
+## 파트
+
+`Table.Root`가 가로 스크롤 컨테이너를 두른다 — 열이 많은 표가 좁은 화면에서 잘리지 않고 옆으로 밀린다.
+
+<Canvas of={TableStories.Basic} />
+
+## TanStack Table 위에서
+
+DS는 `@tanstack/react-table`을 의존하지 않는다 — `@flameware/ui/table`의 `package.json`에도, `dist/table/index.js`에도 그 이름이 없다. 아래 스토리만 그것을 안다: `header.column.columnDef.header`·`cell.column.columnDef.cell`을 `flexRender`로 편 결과를 `Table.Head`·`Table.Cell`의 children으로 그대로 꽂는다.
+
+<Canvas of={TableStories.OnTanStackTable} />
+
+## 정렬 가능한 머리 셀
+
+정렬을 누르는 자리는 `<th>` 전체가 아니라 그 안의 `<button>`이다. 시각 크기는 텍스트 높이만큼 작아도 `hit-area` 유틸리티가 24×24 하한을 유사요소로 지고(ADR-0020), `state` 유틸리티가 hover·press 피드백을 준다 — 둘 다 Button이 쓰는 것과 같은 DS 유틸리티라 Table이 새 CSS를 더하지 않는다.
+
+<Canvas of={TableStories.Keyboard} />
+
+## 손익 색은 앱 소유다
+
+위 스토리는 손익에 부호만 적고 색을 칠하지 않는다. 상승·하락의 색(한국 관행 빨강/파랑)은 DS가 결정하지 않는다 — 소비처가 `@flameware/tokens`의 램프 생성기로 자기 키 컬러를 만들어 칠한다(ADR-0023 §10). `text-danger`·`text-success` 같은 semantic 색으로 손익을 칠하지 않는 것이 그래서 규칙이다: 그 이름들은 오류·성공을 말하지 손익을 말하지 않는다.
+
+## Props
+
+`Table.Root`는 `<table>`의 모든 속성을 그대로 받는다. `Table.Head`는 `scope` 같은 `<th>` 속성을, `Table.Row`는 `<tr>` 속성을 그대로 받는다 — DS가 새로 발명한 prop은 없다. 축(variant·size)이 없으므로 Controls로 흔들 것도 없다.
