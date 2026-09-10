@@ -1,0 +1,37 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as SkeletonStories from "./Skeleton.stories"
+
+<Meta of={SkeletonStories} />
+
+<Title />
+
+<StatusBadge status={SkeletonStories.default.parameters.ds.status} /> · since {SkeletonStories.default.parameters.ds.since}
+
+콘텐츠 구조를 예측할 수 있는 로딩 구간의 자리표시자. Base UI 뒤가 없는 자체 스타일 primitive다.
+
+## 언제 쓰는가
+
+- 최종 레이아웃을 미리 아는 로딩 구간 — 거래 카드·목록 행이 갱신되는 동안 레이아웃 이동을 줄인다.
+- 모양은 `className`이 전부 진다. `<Skeleton className="h-4 w-32" />`(줄), `<Skeleton className="size-10 rounded-full" />`(원) — Skeleton 자신은 모양을 하나도 정하지 않는다.
+
+## 언제 쓰지 않는가
+
+- **완료량을 알 수 없는 짧은 대기일 때.** 레이아웃이 없는 자리(버튼 안, 전체 화면 오버레이)는 Spinner다.
+- **실제 콘텐츠를 흉내 낸 접근성 이름을 줄 때.** `aria-label`은 "무엇이 불러와지는가"만 말한다 — 가짜 글자 수를 읽어 주지 않는다.
+
+## 사용
+
+<Canvas of={SkeletonStories.ListRowShape} />
+<Canvas of={SkeletonStories.CircleShape} />
+
+## 접근성
+
+`role="status"` + `aria-busy="true"`를 스스로 낸다 — 감싸는 영역이 로딩을 알리길 기다리지 않는다. 여러 개를 늘어놓았으면 대표 하나에만 `aria-label`을 의미 있게 주고 나머지는 기본값("불러오는 중")을 그대로 둔다.
+
+## Props
+
+<Story of={SkeletonStories.Playground} />
+
+<Controls of={SkeletonStories.Playground} />

@@ -1,0 +1,42 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ListRowStories from "./ListRow.stories"
+
+<Meta of={ListRowStories} />
+
+<Title />
+
+<StatusBadge status={ListRowStories.default.parameters.ds.status} /> · since {ListRowStories.default.parameters.ds.since}
+
+모바일 목록의 한 줄을 그린다 — 주 텍스트·보조 텍스트·우측 값. Base UI 뒤가 없는 자체 스타일 primitive다.
+
+## 언제 쓰는가
+
+- 보유 종목·거래 이력처럼, 폭이 좁은 화면에서 한 항목을 "이름 + 보조 정보 + 값" 한 줄로 보여줄 때.
+- `Group`(`Primary`+`Secondary`)·`Value` 중 필요한 파트만 골라 쓴다. 셋 다 옵셔널이다.
+
+## 언제 쓰지 않는가
+
+- **데스크톱 표 형태일 때.** 여러 열을 나란히 비교해야 하면 Table이다.
+- **행 전체가 눌려야 할 때.** ListRow 자신은 role이나 클릭 핸들러를 갖지 않는다 — 행을 누를 수 있게 하려면 `Button`을 `render`로 감싸거나 Root를 `<a>`로 바꿔 쓴다(Card의 같은 판단).
+
+## 파트
+
+`ListRow.Root`·`ListRow.Group`·`ListRow.Primary`·`ListRow.Secondary`·`ListRow.Value` — 네임스페이스형 API다. 흔한 조립은 `Root > (Group > Primary + Secondary?) + Value?`다.
+
+<Canvas of={ListRowStories.Playground} />
+
+<Canvas of={ListRowStories.List} />
+
+## 파트는 전부 옵셔널이다
+
+<Canvas of={ListRowStories.PartsOptional} />
+
+## Props
+
+`ListRow.Root`는 축을 갖지 않는다 — 나머지는 일반 `<div>` props다.
+
+<Story of={ListRowStories.Playground} />
+
+<Controls of={ListRowStories.Playground} />
