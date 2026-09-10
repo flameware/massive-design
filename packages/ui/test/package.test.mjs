@@ -36,6 +36,11 @@ const CODE_SUBPATHS = [
   "./alert-dialog",
   "./drawer",
   "./table",
+  "./badge",
+  "./list-row",
+  "./text",
+  "./skeleton",
+  "./spinner",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -56,15 +61,20 @@ const COMPONENT_SUBPATHS = [
   "./alert-dialog",
   "./drawer",
   "./table",
+  "./badge",
+  "./list-row",
+  "./text",
+  "./skeleton",
+  "./spinner",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
- * 한다. Card·Alert·Table은 Base UI 뒤가 없는 자체 스타일 primitive라 이벤트
- * 핸들러도 상태도 없다(#283, #291) — 서버 컴포넌트로 남고, `"use client"`를
- * 붙이면 오히려 소비처의 서버 렌더 경계를 불필요하게 앞당긴다.
- * Menu·Avatar·Separator·Tooltip은 넷 다 Base UI 뒤이므로(#285) 클라이언트 쪽에
- * 선다. Dialog·AlertDialog·Drawer(#284)도 셋 다 Base UI 프리미티브를 직접
- * 감싸므로(포커스·열림 상태) 클라이언트다. */
+ * 한다. Card·Alert·Table·Badge·ListRow·Text·Skeleton·Spinner는 Base UI 뒤가
+ * 없는 자체 스타일 primitive라 이벤트 핸들러도 상태도 없다(#283, #290, #291)
+ * — 서버 컴포넌트로 남고, `"use client"`를 붙이면 오히려 소비처의 서버 렌더
+ * 경계를 불필요하게 앞당긴다. Menu·Avatar·Separator·Tooltip은 넷 다 Base UI
+ * 뒤이므로(#285) 클라이언트 쪽에 선다. Dialog·AlertDialog·Drawer(#284)도 셋
+ * 다 Base UI 프리미티브를 직접 감싸므로(포커스·열림 상태) 클라이언트다. */
 const CLIENT_SUBPATHS = [
   "./button",
   "./icon",
@@ -80,7 +90,16 @@ const CLIENT_SUBPATHS = [
   "./alert-dialog",
   "./drawer",
 ]
-const SERVER_SUBPATHS = ["./card", "./alert", "./table"]
+const SERVER_SUBPATHS = [
+  "./card",
+  "./alert",
+  "./table",
+  "./badge",
+  "./list-row",
+  "./text",
+  "./skeleton",
+  "./spinner",
+]
 
 // ── 서브패스 ────────────────────────────────────────────────────────────────
 
