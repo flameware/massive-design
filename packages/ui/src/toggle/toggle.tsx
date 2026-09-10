@@ -85,13 +85,17 @@ export function Toggle<Value extends string = string>({
 
   if (!name) return toggle
 
-  // 폼에 내는 값은 "on"이 기본이다 — 꺼진 네이티브 체크박스가 아무 값도 내지
-  // 않는 것과 같은 모양이다(checkbox.tsx가 그대로 쓰는 Base UI의 uncheckedValue
-  // 규약). `value`를 Toggle 자신의 식별자로 이미 받았으면 그 값을 그대로 쓴다.
+  // 폼에 내는 값은 "on"이 기본이다. 꺼진 네이티브 체크박스가 아무 값도 내지
+  // 않는 것과 같은 모양을 내려면 값을 ""로 두는 것만으로는 부족하다 — 그러면
+  // 필드 자체는 여전히 등록돼 제출 맵에 빈 문자열이 잡힌다(checkbox.tsx가
+  // 기대는 Base UI Checkbox는 `uncheckedValue`가 없으면 꺼졌을 때 입력 자체를
+  // 렌더하지 않는다, node_modules/@base-ui/react/checkbox/root/CheckboxRoot.mjs).
+  // 그래서 미러 입력 자체를 눌렸을 때만 마운트한다. `value`를 Toggle 자신의
+  // 식별자로 이미 받았으면 그 값을 그대로 쓴다.
   return (
     <BaseField.Root name={name}>
       {toggle}
-      <BaseField.Control render={<input type="hidden" />} value={isPressed ? (value ?? "on") : ""} />
+      {isPressed ? <BaseField.Control render={<input type="hidden" />} value={value ?? "on"} /> : null}
     </BaseField.Root>
   )
 }

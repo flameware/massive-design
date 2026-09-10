@@ -78,7 +78,13 @@ export function ToggleGroup<Value extends string = string>({
 
   if (!name) return group
 
-  const formValue = multiple ? values.join(",") : (values[0] ?? "")
+  // 아무것도 안 눌렸으면 필드 자체를 마운트하지 않는다 — Toggle과 같은 이유로
+  // (toggle.tsx) 값을 ""로 두는 것만으로는 제출 맵에서 키가 안 빠진다
+  if (values.length === 0) {
+    return <BaseField.Root name={name}>{group}</BaseField.Root>
+  }
+
+  const formValue = multiple ? values.join(",") : values[0]
 
   return (
     <BaseField.Root name={name}>
