@@ -80,12 +80,14 @@ function SelectPositioner({ className, sideOffset = 4, ...props }: SelectPositio
   return <BaseSelect.Positioner className={cn(positionerVariants(), className)} sideOffset={sideOffset} {...props} />
 }
 
-/* 그림자는 강제하지 않는다(card.tsx, ADR-0023 §11 "그림자 토큰은 있되
- * 강제하지 않는다") — `border`와 `bg-overlay`만으로 면을 뗀다. 필요하면
- * 소비처가 className으로 shadow-*를 얹는다. */
+/* 뜬 면이라 그림자를 진다 — Card 같은 문서 흐름 안 표면은 그림자를 강제하지
+ * 않지만(card.tsx, ADR-0023 §11), Menu·Dialog·Drawer·Tooltip은 문서 흐름
+ * 밖에 떠서 다른 분리 단서가 없으므로 border 하나로는 부족하다(menu.tsx의
+ * `shadow-md`, dialog/shared.tsx·drawer.tsx의 `shadow-lg`). Select의 팝업도
+ * 같은 자리라 Menu와 같은 `shadow-md`를 쓴다. */
 const popupVariants = cva([
   "max-h-[min(24rem,var(--available-height))] min-w-[var(--anchor-width)] overflow-y-auto",
-  "rounded-md border bg-overlay py-1 outline-none",
+  "rounded-md border bg-overlay py-1 shadow-md outline-none",
   "origin-[var(--transform-origin)] transition-[transform,opacity]",
   "data-starting-style:scale-95 data-starting-style:opacity-0",
   "data-ending-style:scale-95 data-ending-style:opacity-0",
@@ -107,10 +109,15 @@ function SelectList({ className, ...props }: SelectListProps) {
   return <BaseSelect.List className={cn("flex flex-col", className)} {...props} />
 }
 
+/* `.state`가 `[data-highlighted]`를 이미 8%로 다룬다(state.css, #285) —
+ * Select item도 Menu item과 같은 자리라 base를 조건 없이 준다(menu.tsx의
+ * menuItemVariants와 같은 모양). 마우스 호버도 `highlightItemOnHover`
+ * 기본값 때문에 같은 `data-highlighted`로 들어와 화살표 이동과 한 셀렉터를
+ * 공유한다. */
 const itemVariants = cva([
   "relative flex cursor-default select-none items-center rounded-sm py-1.5 pr-3 pl-8 text-sm text-default outline-none",
-  "state",
-  "data-highlighted:[--ds-state-base:var(--ds-bg-neutral-soft)]",
+  "state transition-[background-color]",
+  "[--ds-state-base:var(--ds-bg-neutral-soft)]",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
 ])
 
