@@ -1,7 +1,8 @@
 /**
  * tokens/** → dist/**
  *
- * 출력물: `dist/tokens.css` · `dist/tokens.js` · `dist/tokens.d.ts`. `dist/**`는 커밋한다 —
+ * 출력물: `dist/tokens.css` · `dist/tokens.js` · `dist/tokens.d.ts` ·
+ * `dist/ramp.js` · `dist/ramp.d.ts`(#281, 공개 램프 API). `dist/**`는 커밋한다 —
  * 아직 npm 게시 전이라 **커밋이 곧 배포 채널**이다(build-pipeline.md §2).
  * 어긋남은 `tokens:verify`가 잡는다.
  *
@@ -15,6 +16,8 @@ import { fileURLToPath } from 'node:url'
 import { flatten } from './lib/resolve.mjs'
 import { emitCss } from './lib/emit/css.mjs'
 import { emitTypes, emitValues } from './lib/emit/types.mjs'
+import { emitRampDts, emitRampJs, readRampSources } from './lib/emit/ramp.mjs'
+import { configPath } from './ramp.mjs'
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -32,11 +35,16 @@ export function loadSources(root = ROOT) {
 }
 
 /** 상대 경로 → 내용. 파일로 쓰지 않는다 — verify가 같은 함수로 메모리 비교를 한다. */
-export function buildAll(sources = loadSources()) {
+export function buildAll(sources = loadSources(), root = ROOT) {
   const out = new Map()
   out.set('tokens.css', emitCss(sources))
   out.set('tokens.js', emitValues(sources))
   out.set('tokens.d.ts', emitTypes(sources))
+
+  const rampConfig = JSON.parse(readFileSync(configPath(root), 'utf8'))
+  out.set('ramp.js', emitRampJs(readRampSources(root), rampConfig.defaults))
+  out.set('ramp.d.ts', emitRampDts())
+
   return out
 }
 

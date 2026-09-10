@@ -17,6 +17,10 @@
       "types": "./dist/tokens.d.ts",
       "default": "./dist/tokens.js"
     },
+    "./ramp": {
+      "types": "./dist/ramp.d.ts",
+      "default": "./dist/ramp.js"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
@@ -38,9 +42,11 @@
     "check": "node scripts/lint.mjs && node scripts/contrast.mjs && node scripts/verify.mjs",
     "test": "node --test"
   },
-  "devDependencies": {
-    "apca-w3": "^0.1.9",
+  "dependencies": {
     "culori": "^4.0.1"
+  },
+  "devDependencies": {
+    "apca-w3": "^0.1.9"
   },
   "engines": {
     "node": ">=22"

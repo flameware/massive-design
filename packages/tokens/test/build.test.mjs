@@ -19,8 +19,11 @@ const errorsFor = (text) => {
 
 // ── 출력물 모양 ─────────────────────────────────────────────────────────────
 
-test('빌드는 세 파일만 낸다 — Figma 산출물은 #277에서 사라졌다', () => {
-  assert.deepEqual([...files.keys()], ['tokens.css', 'tokens.js', 'tokens.d.ts'])
+test('빌드는 다섯 파일만 낸다 — Figma 산출물은 #277에서 사라졌고, ramp.js·ramp.d.ts는 #281이 더했다', () => {
+  assert.deepEqual(
+    [...files.keys()],
+    ['tokens.css', 'tokens.js', 'tokens.d.ts', 'ramp.js', 'ramp.d.ts'],
+  )
 })
 
 test('tokens.d.ts가 선언한 값에는 tokens.js의 구현이 있다', () => {

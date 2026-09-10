@@ -13,6 +13,9 @@ import { fileURLToPath } from 'node:url'
 
 import { ROOT, loadSources } from './build.mjs'
 import { resolve } from './lib/resolve.mjs'
+import { composite, srgb, wcag } from './lib/wcag.mjs'
+
+export { wcag }
 
 const MODES = ['light', 'dark']
 
@@ -79,33 +82,8 @@ const NONTEXT_PAIRS = [
 
 // ── 계산 ────────────────────────────────────────────────────────────────────
 
-const srgb = (hex) => {
-  const h = hex.replace('#', '')
-  const at = (i) => parseInt(h.slice(i, i + 2), 16)
-  return { r: at(0), g: at(2), b: at(4), a: h.length === 8 ? at(6) / 255 : 1 }
-}
-
-/** 알파가 있는 색은 배경 위에 합성해야 대비값이 의미를 갖는다. */
-function composite(fg, bg) {
-  if (fg.a === 1) return fg
-  const mix = (c) => Math.round(fg[c] * fg.a + bg[c] * (1 - fg.a))
-  return { r: mix('r'), g: mix('g'), b: mix('b'), a: 1 }
-}
-
-const channel = (v) => {
-  const s = v / 255
-  return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4
-}
-
-const luminance = ({ r, g, b }) =>
-  0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
-
-export function wcag(fgHex, bgHex) {
-  const bg = srgb(bgHex)
-  const fg = composite(srgb(fgHex), bg)
-  const [hi, lo] = [luminance(fg), luminance(bg)].sort((a, b) => b - a)
-  return (hi + 0.05) / (lo + 0.05)
-}
+// srgb·composite·wcag()는 scripts/lib/wcag.mjs에서 온다 — #281의 공개 API
+// 번들과 공유한다. 두 벌을 두지 않는다(위 import).
 
 export function apca(fgHex, bgHex) {
   const bg = srgb(bgHex)

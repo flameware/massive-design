@@ -30,9 +30,11 @@
     "packages/tokens": {
       "name": "@flameware/tokens",
       "version": "0.1.0",
+      "dependencies": {
+        "culori": "^4.0.1",
+      },
       "devDependencies": {
         "apca-w3": "^0.1.9",
-        "culori": "^4.0.1",
       },
     },
     "packages/ui": {
