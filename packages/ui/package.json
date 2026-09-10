@@ -101,6 +101,18 @@
       "types": "./dist/spinner/index.d.ts",
       "default": "./dist/spinner/index.js"
     },
+    "./tabs": {
+      "types": "./dist/tabs/index.d.ts",
+      "default": "./dist/tabs/index.js"
+    },
+    "./page-shell": {
+      "types": "./dist/page-shell/index.d.ts",
+      "default": "./dist/page-shell/index.js"
+    },
+    "./theme-toggle": {
+      "types": "./dist/theme-toggle/index.d.ts",
+      "default": "./dist/theme-toggle/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },

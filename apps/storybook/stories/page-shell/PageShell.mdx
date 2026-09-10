@@ -1,0 +1,54 @@
+import { Canvas, Meta, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as PageShellStories from "./PageShell.stories"
+
+<Meta of={PageShellStories} />
+
+<Title />
+
+<StatusBadge status={PageShellStories.default.parameters.ds.status} /> · since {PageShellStories.default.parameters.ds.since}
+
+대시보드 셸 — 상단 헤더(좌우 슬롯) + 탭 내비 + 본문 폭. 앱이 셸을 다시 짜지 않아도 되게 한다.
+
+## 언제 쓰는가
+
+- 로그인 뒤 화면 전체를 감싸는 셸 하나 — 헤더에 로고·테마 토글·사용자 메뉴가 있고, 그 아래 탭으로 화면을 오가는 대시보드 구조.
+
+## 언제 쓰지 않는가
+
+- **탭 내비 자체가 필요 없을 때.** 헤더만 필요하면 `PageShell`을 통째로 쓰지 말고 헤더만 소비처에서 조립한다 — `nav`는 필수 prop이라 화면이 하나뿐인 곳에는 맞지 않는다.
+- **로그인 전 화면.** 셸은 인증 뒤의 대시보드용이다.
+
+## 탭 내비는 `Tabs`를 그대로 쓴다
+
+새로 그리지 않는다 — `nav.items`를 `Tabs.List`·`Tabs.Tab`으로 그대로 펼친다. 그래서 자동 활성화(화살표 이동 = 선택) 계약이 `Tabs`와 똑같이 적용된다. 라우트 링크가 필요하면 항목마다 `render`로 앵커(또는 Next `Link`)를 넘긴다:
+
+```tsx
+<PageShell
+  header={{ left: <Logo />, right: <ThemeToggle theme={theme} onThemeChange={setTheme} /> }}
+  nav={{
+    value: pathname,
+    onValueChange: () => {}, // 라우팅이 실제 전환을 맡으므로 비워 둔다
+    items: [
+      { value: "/portfolio", label: "포트폴리오", render: <Link href="/portfolio" /> },
+      { value: "/history", label: "히스토리", render: <Link href="/history" /> },
+    ],
+  }}
+>
+  {children}
+</PageShell>
+```
+
+<Canvas of={PageShellStories.Basic} />
+
+## 데스크톱 · 모바일
+
+헤더·탭·본문이 같은 최대 폭(`contentWidthClassName`, 기본 `max-w-6xl`) 안에서 정렬된다. 좁은 화면에서는 탭 목록이 가로 스크롤로 넘어가고 헤더 오른쪽 슬롯은 줄어들지 않는다.
+
+<Canvas of={PageShellStories.Desktop} />
+<Canvas of={PageShellStories.Mobile} />
+
+## Props
+
+`header.left`·`header.right`는 임의의 노드를 받는다. `nav`는 `Tabs.Root`처럼 제어 컴포넌트다 — `value`·`onValueChange`를 소비처가 쥔다(라우팅 상태와 맞물리는 자리이기 때문). `children`이 본문이다.
