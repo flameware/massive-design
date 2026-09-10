@@ -1,0 +1,44 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as AlertStories from "./Alert.stories"
+
+<Meta of={AlertStories} />
+
+<Title />
+
+<StatusBadge status={AlertStories.default.parameters.ds.status} /> · since {AlertStories.default.parameters.ds.since}
+
+화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 톤별로 전달한다. Base UI 뒤가 없는 자체 스타일 primitive — 상태도 상호작용도 없는 서버 컴포넌트다.
+
+## 언제 쓰는가
+
+- 폼 제출 실패, 세션 만료 경고처럼 화면에 **머무르는** 안내를 전달할 때.
+- 로그인·회원가입 폼의 오류 배너 — `tone="danger"`.
+
+## 언제 쓰지 않는가
+
+- **잠깐 보이고 사라지는 결과.** 그것은 Toast의 몫이다(Phase 2) — 안내를 `role=alert`로 쌓지 않는다.
+- **폼 필드 하나의 오류.** 필드 옆 오류 텍스트는 `Field`(#282)가 진다.
+
+## 톤
+
+`tone`은 `neutral`·`danger` 둘뿐이다(Phase 1 — `정보` 톤은 스펙이 미룬다). 색은 [대비 게이트](https://github.com/flameware/massive-design/blob/main/packages/tokens/scripts/contrast.mjs)가 이미 검증한 조합만 쓴다 — `danger`는 `fg.danger` on `bg.danger.soft`, `neutral`은 `fg.default`/`fg.muted` on `bg.neutral.soft`.
+
+<Canvas of={AlertStories.Tones} />
+
+## role은 톤을 따라 갈린다
+
+`danger`는 사용자가 놓치면 안 되는 오류라 `role="alert"`(assertive, 삽입 즉시 읽는다)이고, `neutral`은 급하지 않은 안내라 `role="status"`(polite, 읽던 것을 끊지 않는다)다. 둘 다 [WAI-ARIA 라이브 리전](https://www.w3.org/TR/wai-aria-1.2/#alert)의 뜻 그대로다.
+
+## 아이콘
+
+앞머리 아이콘은 Alert이 스스로 만들지 않는다 — `@flameware/ui/icon`으로 `Root`의 첫 자식에 놓는다. 아이콘 없이 텍스트만 있어도 유효하다.
+
+<Canvas of={AlertStories.WithoutIcon} />
+
+## Props
+
+<Story of={AlertStories.Playground} />
+
+<Controls of={AlertStories.Playground} />

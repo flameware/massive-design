@@ -1,0 +1,44 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as CardStories from "./Card.stories"
+
+<Meta of={CardStories} />
+
+<Title />
+
+<StatusBadge status={CardStories.default.parameters.ds.status} /> · since {CardStories.default.parameters.ds.since}
+
+관련 콘텐츠를 하나의 표면으로 묶는다. Base UI 뒤가 없는 자체 스타일 primitive — 상태도 상호작용도 없는 서버 컴포넌트다.
+
+## 언제 쓰는가
+
+- 관련된 정보를 하나의 표면으로 묶어 주변과 구분할 때 — 포트폴리오 요약, 목록의 한 항목.
+- `Header`·`Body`·`Footer` 중 필요한 파트만 골라 쓴다. 셋 다 옵셔널이라 `Body` 하나만으로도 유효하다.
+
+## 언제 쓰지 않는가
+
+- **누르는 표면일 때.** Card 자체는 클릭 핸들러나 role을 갖지 않는다 — 카드 전체가 링크나 버튼이어야 하면 `Button`을 `render`로 감싸거나 내부에 별도 트리거를 둔다.
+- **도메인 조립을 새로 만들 때.** `SummaryCard` 같은 이름의 컴포넌트를 새로 만들지 않는다 — 기존 파트로 조립한다.
+
+## 파트
+
+`Card.Root`·`Card.Header`·`Card.Body`·`Card.Footer` — 네임스페이스형 API다.
+
+<Canvas of={CardStories.Playground} />
+
+<Canvas of={CardStories.BodyOnly} />
+
+## 그림자
+
+그림자 토큰(`shadow-xs`~`shadow-xl`)은 있지만 Root가 강제하지 않는다 — 평평한 디자인이 기본이다. 필요하면 `className`으로 얹는다.
+
+<Canvas of={CardStories.FlatByDefault} />
+
+## Props
+
+`Card.Root`는 축을 갖지 않는다 — variant는 열지 않았다(간격은 소비처가 유틸리티로 정한다). 나머지는 일반 `<div>` props다.
+
+<Story of={CardStories.Playground} />
+
+<Controls of={CardStories.Playground} />
