@@ -27,7 +27,10 @@ function walk(dir) {
 const files = walk(src)
 
 // 1. primitive 누출
-const FAMILIES = ["brand", "neutral", "danger", "success"]
+// #280이 semantic 쪽 warning 계열(bg.warning.*·fg.warning)을 처음 @theme에
+// 열었다 — 그 전에는 warning primitive를 쓸 이유 자체가 없어 이 목록에
+// 없었어도 조용히 안전했다. 지금부터는 놓치면 진짜로 샌다
+const FAMILIES = ["brand", "neutral", "danger", "success", "warning"]
 const primitivePatterns = [
   { re: /--ds-palette-/g, why: "palette 변수를 직접 읽는다" },
   {

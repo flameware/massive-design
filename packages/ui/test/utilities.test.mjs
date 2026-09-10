@@ -84,11 +84,15 @@ test("유틸리티 규칙은 semantic 변수만 집는다 — 팔레트를 거�
   assert.ok(utilityBodies.some((b) => b.includes("var(--ds-bg-accent-solid)")))
 })
 
-test("@theme에 열린 색 이름 중 쓰이지 않는 것이 없다", () => {
-  // 반대 방향의 저울이다 — 위 테스트가 "부르는데 없는 것"을 잡는다면 이것은
-  // "열어 뒀는데 아무도 안 부르는 것"을 잡는다. 열려 있으면 "쓸 수 있는데 왜
-  // 안 쓰나"가 되고, 세면서 눈으로 관리하면 어긋난다(rules.md 방법론).
-  // 표를 늘리는 것은 그것을 쓰는 컴포넌트가 생길 때다 (#280)
+test("@theme에 열린 색 이름이 전부 실제로 CSS를 낸다", () => {
+  // #280 전에는 Button이 부르는 이름만 열려 있었고(8개), 이 테스트가 "열어
+  // 뒀는데 아무도 안 부르는 것"을 Button의 후보 집합으로 잡았다. #280은
+  // Foundations 챕터가 토큰 이름을 찾아 쓰는 자리이므로 표를 Button 소비
+  // 여부와 무관하게 **semantic에 있는 모든 색**으로 연다(css.mjs) — 그 색을
+  // 실제로 부르는 곳은 Foundations 스토리(apps/storybook)이지 Button이 아니다.
+  // 그래서 이 테스트는 "Button이 부르는가"가 아니라 "이름이 정말 CSS를
+  // 내는가"를 잰다 — 오타나 semantic 쪽 참조가 끊긴 이름을 잡는다. 진짜
+  // 소비는 apps/storybook의 스토리 테스트(#279 seam)가 렌더로 잰다
   const tokensCss = readFileSync(
     fileURLToPath(import.meta.resolve("@flameware/tokens/tokens.css")), "utf8"
   )
@@ -97,11 +101,77 @@ test("@theme에 열린 색 이름 중 쓰이지 않는 것이 없다", () => {
     .map((m) => m[1])
   assert.ok(registered.length > 0)
 
-  const used = compiler.build([...candidates])
-  const unused = registered.filter(
-    (name) => !new RegExp(`\\.(?:bg|text|border)-${name}(?![\\w-])`).test(used)
-  )
-  assert.deepEqual(unused, [], "이 이름들은 등록만 되고 아무도 부르지 않는다")
+  const prefix = { "--background-color-": "bg", "--text-color-": "text", "--border-color-": "border" }
+  const dead = []
+  for (const [varPrefix, utilityPrefix] of Object.entries(prefix)) {
+    for (const m of theme.matchAll(new RegExp(`^\\s*${varPrefix}([\\w-]+):`, "gm"))) {
+      const className = `${utilityPrefix}-${m[1]}`
+      const out = compiler.build([className])
+      if (!new RegExp(`\\.${className.replace(/[/\\]/g, "\\$&")}\\b`).test(out)) dead.push(className)
+    }
+  }
+  assert.deepEqual(dead, [], "이 이름들은 @theme에 등록됐지만 실제 유틸리티 클래스가 CSS를 내지 않는다")
+})
+
+/** `text`에서 `open`이 여는 구간을, 중첩 `{}`를 세어 그 짝이 닫히는 지점까지 자른다. */
+function balancedBlock(text, openIndex) {
+  let depth = 0
+  for (let i = openIndex; i < text.length; i++) {
+    if (text[i] === "{") depth++
+    else if (text[i] === "}") {
+      depth--
+      if (depth === 0) return text.slice(openIndex + 1, i)
+    }
+  }
+  throw new Error("짝이 맞지 않는 중괄호")
+}
+
+/** `@layer utilities { ... }`의 **최상위** 규칙들. `.state`처럼 안에 `&:hover`·
+ *  `@supports`를 중첩한 규칙은 그 전체가 하나의 최상위 규칙이다 — 중첩까지
+ *  들여다보면 한 규칙 안의 `&:hover`가 별개의 "작성자"로 잘못 세어진다. */
+function topLevelRules(utilitiesBlock) {
+  const rules = []
+  let i = 0
+  while (i < utilitiesBlock.length) {
+    const brace = utilitiesBlock.indexOf("{", i)
+    if (brace === -1) break
+    const selector = utilitiesBlock.slice(i, brace).trim()
+    const body = balancedBlock(utilitiesBlock, brace)
+    rules.push({ selector, body })
+    i = brace + body.length + 2 // +2 = 연 중괄호와 닫힌 중괄호
+  }
+  return rules
+}
+
+test("면을 가진 variant마다 background-color 작성자가 .state 하나뿐이다 (#299 회귀 테스트)", async () => {
+  // #299의 실패 모양: bg-X와 .state가 같은 property·같은 specificity(0,1,0)를
+  // 놓고 경쟁했고, 컴파일된 시트에서 나중에 나온 쪽(bg-X)이 이겨 상태 레이어의
+  // color-mix가 한 번도 적용되지 않았다. 클래스가 **방출되는지**만 재는 위
+  // 테스트로는 잡히지 않는다 — 셋 다 방출됐기 때문이다. 여기서는 **캐스케이드
+  // 참여자 수**를 잰다: 한 variant가 부르는 클래스들이 내는 utilities 규칙(최상위
+  // 하나) 중 background-color를 선언하는 것이 정확히 하나(.state)여야 한다.
+  //
+  // 위쪽 `compiler`는 파일 전체에서 **누적**된다(이전 테스트가 이미 전체 후보
+  // 집합을 먹였다) — 그래서 이 테스트는 격리된 새 컴파일러를 쓴다
+  for (const variant of ["default", "destructive", "outline", "secondary"]) {
+    const isolated = await compile(readFileSync(entry, "utf8"), {
+      base: dirname(entry),
+      loadStylesheet,
+      loadModule: async () => { throw new Error("JS 설정은 쓰지 않는다") },
+    })
+    const classes = buttonVariants({ variant }).split(/\s+/).filter(Boolean)
+    const css = isolated.build(classes)
+    const utilitiesStart = css.indexOf("@layer utilities {")
+    const utilitiesBody = balancedBlock(css, css.indexOf("{", utilitiesStart))
+    const writers = topLevelRules(utilitiesBody).filter((rule) =>
+      /background-color:/.test(rule.body)
+    )
+    assert.deepEqual(
+      writers.map((w) => w.selector),
+      [".state"],
+      `${variant}: background-color를 쓰는 유틸리티 규칙이 [${writers.map((w) => w.selector).join(", ")}]다 — .state 하나여야 한다`
+    )
+  }
 })
 
 test("hit-area가 24px 하한을 유사요소로 진다 — 시각 치수가 아니라 (ADR-0020)", () => {

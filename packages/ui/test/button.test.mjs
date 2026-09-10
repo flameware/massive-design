@@ -37,17 +37,19 @@ test("render로 링크를 받으면 button 속성이 따라붙지 않는다", ()
   assert.ok(!/type="button"/.test(html))
 })
 
-test("면을 칠하는 variant는 상태 레이어의 바탕을 같은 토큰으로 준다", () => {
-  // 둘은 손으로 두 번 적힌다(정적 추출 때문에 조립할 수 없다). 어긋나면
-  // 버튼은 멀쩡히 칠해지고 hover만 엉뚱한 색에서 섞인다 — 눈으로 못 잡는다
+test("면을 칠하는 variant는 상태 바탕(--ds-state-base)만으로 면을 준다 — bg-X는 없다", () => {
+  // #299: bg-X가 남아 있으면 .state와 같은 property·specificity를 놓고 방출
+  // 순서 경쟁이 재발한다. 면은 --ds-state-base 한 곳에서만 나야 한다
   for (const variant of ["default", "destructive", "outline", "secondary"]) {
     const classes = buttonVariants({ variant })
-    const surface = classes.match(/(?:^|\s)bg-([\w-]+)/)?.[1]
-    assert.ok(surface, `${variant}에 면 유틸리티가 없다`)
     assert.match(
       classes,
-      new RegExp(`\\[--ds-state-base:var\\(--ds-bg-${surface}\\)\\]`),
-      `${variant}: bg-${surface}인데 상태 바탕이 --ds-bg-${surface}가 아니다`
+      /\[--ds-state-base:var\(--ds-bg-[\w-]+\)\]/,
+      `${variant}에 --ds-state-base가 없다`
+    )
+    assert.ok(
+      !/(?:^|\s)bg-[\w-]+/.test(classes),
+      `${variant}가 여전히 bg-X 유틸리티를 낸다 — .state와 background-color를 놓고 경쟁한다(#299)`
     )
   }
 })
