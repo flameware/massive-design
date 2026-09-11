@@ -64,6 +64,23 @@ import { contrastRatio } from "@flameware/tokens/ramp"
 contrastRatio(profit.light[9].hex, "#ffffff") // step 10 텍스트 대 캔버스 — 4.5 이상이어야 한다
 ```
 
+## 차트 계열색
+
+차트는 DS가 갖지 않지만([ADR-0017](https://github.com/flameware/massive-design/blob/main/docs/adr/0017-dependency-weight-is-a-floor-cost.md) §2), **브랜드에서 계열 둘을 뽑는 단계 규칙과 대비 하한은 있다** — 계열 1은 brand 9(= `bg-accent-solid`), 계열 2는 라이트 brand 7 · 다크 brand 6이다.
+
+```css
+:root {
+  --chart-1: var(--ds-bg-accent-solid);
+  --chart-2: var(--ds-palette-brand-light-7);
+}
+
+.dark {
+  --chart-2: var(--ds-palette-brand-dark-6);
+}
+```
+
+하한(계열 ↔ 면 1.5:1 · 계열끼리 1.9:1)과 그 근거, 실측표, 자기 패밀리에서 뽑을 때의 확인 절차는 [`@flameware/tokens` README의 §차트 계열색](https://github.com/flameware/massive-design/blob/main/packages/tokens/README.md#차트-계열색--브랜드에서-둘을-뽑는다)에 있다 — 수가 한 곳에만 살도록 여기서 옮겨 적지 않는다([#334](https://github.com/flameware/massive-design/issues/334)).
+
 ## 알아둘 것
 
 - 파라미터(`params`)와 단계별 `overrides`로 곡선을 조정할 수 있다 — DS의 `tokens/ramp.config.json`과 같은 모양이다. `overrides`의 각 항목은 `_why`(근거)가 필수다.
