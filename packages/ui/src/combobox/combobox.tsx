@@ -148,21 +148,28 @@ function ComboboxItem({ className, ...props }: ComboboxItemProps) {
   return <BaseCombobox.Item className={cn(comboboxItemVariants(), className)} {...props} />
 }
 
-export const comboboxEmptyVariants = cva("px-2 py-6 text-center text-sm text-muted")
+/* `empty:py-0` — Base UI는 Empty·Status의 래퍼 `<div>`를 항상 마운트해 두고
+ * (aria-live 영역은 DOM에 남아 있어야 스크린 리더가 변화를 읽는다) children만
+ * 조건부로 낸다. 그래서 세로 여백을 무조건 주면 결과가 **있을 때** 목록 위에
+ * 48px짜리 빈 띠가 생긴다 — 소비처 두 곳(거래 종목 검색 #292, 노트 검색 #294)
+ * 모두에서 실측됐다. 마운트는 유지한 채(`display:none`은 Base UI 계약 위반)
+ * 자식이 없으면 여백만 접는다. Status도 같다. */
+export const comboboxEmptyVariants = cva("px-2 py-6 text-center text-sm text-muted empty:py-0")
 
 export type ComboboxEmptyProps = Omit<BaseComboboxEmptyProps, "className"> & {
   className?: string
 }
 
-/** 필터 결과가 0일 때만 스스로 렌더한다(`items`를 Root에 준 경우에 한해 —
- * Base UI의 계약). 로딩 중처럼 항목 유무를 아직 모르는 상태는 이것이 아니라
+/** 필터 결과가 0일 때만 children을 렌더한다(`items`를 Root에 준 경우에 한해 —
+ * Base UI의 계약). 래퍼는 늘 마운트돼 있으므로 여백은 `empty:`로 접는다(위
+ * comboboxEmptyVariants 참고). 로딩 중처럼 항목 유무를 아직 모르는 상태는 이것이 아니라
  * `Combobox.Status`로 표현한다 — 결과가 없는 것과 아직 모르는 것은 다른
  * 문구를 요구한다. */
 function ComboboxEmpty({ className, ...props }: ComboboxEmptyProps) {
   return <BaseCombobox.Empty className={cn(comboboxEmptyVariants(), className)} {...props} />
 }
 
-export const comboboxStatusVariants = cva("px-2 py-1.5 text-sm text-muted")
+export const comboboxStatusVariants = cva("px-2 py-1.5 text-sm text-muted empty:py-0")
 
 export type ComboboxStatusProps = Omit<BaseComboboxStatusProps, "className"> & {
   className?: string

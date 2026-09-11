@@ -61,7 +61,7 @@ import { Field } from "@flameware/ui/field"
 
 ## 비동기 항목과 빈 결과
 
-`items`는 컴포넌트가 아니라 소비처가 든다 — 로딩 중엔 빈 배열, 응답이 오면 채운 배열을 그대로 넘긴다. 로딩 문구는 `Combobox.Status`(변할 때마다 스크린 리더에 polite로 알린다)로, 결과가 정말 없을 때는 `Combobox.Empty`(items가 있고 필터 결과가 0일 때만 스스로 렌더한다)로 표현한다. 두 컴포넌트 다 마운트 상태를 유지해야 하는 Base UI 계약이 있어 children만 조건부로 바꾼다 — 컴포넌트 자체를 조건부 렌더하지 않는다.
+`items`는 컴포넌트가 아니라 소비처가 든다 — 로딩 중엔 빈 배열, 응답이 오면 채운 배열을 그대로 넘긴다. 로딩 문구는 `Combobox.Status`(변할 때마다 스크린 리더에 polite로 알린다)로, 결과가 정말 없을 때는 `Combobox.Empty`(items가 있고 필터 결과가 0일 때만 스스로 렌더한다)로 표현한다. 두 컴포넌트 다 마운트 상태를 유지해야 하는 Base UI 계약이 있어 children만 조건부로 바꾼다 — 컴포넌트 자체를 조건부 렌더하지 않는다. 그래서 래퍼는 결과가 있을 때도 DOM에 남는데, 그때 여백이 빈 띠로 보이지 않도록 DS가 `empty:py-0`으로 접는다(0.2.3).
 
 `Combobox.List`도 로딩 중에 걷어내지 않는다 — 입력의 `role="combobox"`가 낸 `aria-controls`가 그 listbox를 가리키므로, `items`가 비어 있어도 `<Combobox.List>{() => null}</Combobox.List>`처럼 마운트만 시켜 둔다.
 
