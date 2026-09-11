@@ -220,6 +220,91 @@ function AsyncFixture() {
   )
 }
 
+/* 후보 밖 값 — 종목 검색이 미상장 종목명을 그대로 받는 자리(이슈 #323). 앱은
+ * 지금 후보 배열 끝에 "manual" 판별자를 가진 가짜 항목을 끼워 넣고
+ * `onValueChange` 한 곳에서 두 종류를 가르는 우회를 쓰고 있다 — DS가 이름을
+ * 주면 그 우회가 사라진다. `Value`를 `StockItem | ManualEntry`로 열어
+ * 후보와 직접 입력을 같은 상태 하나로 받는다. */
+interface ManualEntry {
+  manual: true
+  name: string
+}
+
+function isManualEntry(value: StockItem | ManualEntry | null): value is ManualEntry {
+  return value !== null && "manual" in value
+}
+
+const freeformLabel = (value: StockItem | ManualEntry) => (isManualEntry(value) ? value.name : stockLabel(value))
+
+export const Freeform: Story = {
+  name: "후보 밖 값",
+  render: () => <FreeformFixture />,
+}
+
+function FreeformFixture() {
+  const [value, setValue] = useState<StockItem | ManualEntry | null>(null)
+  return (
+    <div style={{ maxWidth: "20rem" }}>
+      <Field.Root name="symbol-freeform">
+        <Field.Label>종목 검색</Field.Label>
+        <Combobox.Root<StockItem | ManualEntry>
+          items={STOCKS}
+          itemToStringLabel={freeformLabel}
+          value={value}
+          onValueChange={setValue}
+        >
+          <Combobox.Input
+            data-testid="combobox-freeform-input"
+            placeholder="종목명 또는 코드 (미상장 종목명도 가능)"
+            onFreeformSubmit={(name) => setValue({ manual: true, name })}
+          />
+          <Combobox.Popup>
+            <Combobox.Empty>후보에 없습니다 — Enter로 직접 입력한 이름을 쓸 수 있습니다</Combobox.Empty>
+            <Combobox.List>
+              {(item: StockItem) => (
+                <Combobox.Item key={item.symbol} value={item}>
+                  <StockItemRow item={item} />
+                </Combobox.Item>
+              )}
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Root>
+      </Field.Root>
+      <p data-testid="freeform-selected">
+        선택됨:{" "}
+        {value === null ? "없음" : isManualEntry(value) ? `직접 입력 · ${value.name}` : `${value.name} (${value.symbol})`}
+      </p>
+    </div>
+  )
+}
+
+const freeformKeyboard: KeyboardContract[] = [
+  {
+    name: "후보가 없을 때 Enter가 입력값을 제출한다",
+    focus: "[data-testid=combobox-freeform-input]",
+    press: ["Z", "Z", "Z", "Enter"],
+    expect: {
+      focused: "[data-testid=combobox-freeform-input]",
+      text: { "[data-testid=freeform-selected]": "선택됨: 직접 입력 · ZZZ" },
+    },
+  },
+  {
+    name: "후보가 있을 때는 평소대로 하이라이트한 항목을 Enter로 선택한다",
+    focus: "[data-testid=combobox-freeform-input]",
+    press: ["ArrowDown", "Enter"],
+    expect: {
+      focused: "[data-testid=combobox-freeform-input]",
+      text: { "[data-testid=freeform-selected]": "선택됨: 애플 (AAPL)" },
+    },
+  },
+]
+
+export const FreeformKeyboard: Story = {
+  name: "후보 밖 값 · 키보드 계약",
+  parameters: { keyboard: freeformKeyboard },
+  render: () => <FreeformFixture />,
+}
+
 /* 키보드 계약: 타이핑 필터, 화살표 이동, Enter 선택, Esc 닫힘(이슈 #289
  * acceptance criteria 그대로). 선택 결과는 화면에 적어 밖에서 보이게 한다 —
  * Button·Field의 관례와 같다. */
