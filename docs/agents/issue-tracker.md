@@ -17,6 +17,25 @@ Infer the repo from `git remote -v` — `gh` does this automatically when run in
 
 PRs are not a triage surface here — all one author. GitHub shares one number space across issues and PRs, so a bare `#42` may be either; resolve with `gh pr view 42` and fall back to `gh issue view 42`.
 
+### Waiting on a PR's checks
+
+Use `.claude/helpers/wait-pr-checks.sh <repo-dir> <pr-number> [max-seconds]`. It
+blocks until no check is in the `pending` bucket, then prints every check with
+its bucket, the PR's `mergeable`/`mergeStateStatus`, and a failing count. It
+gives up with `TIMEOUT` and a non-zero exit after `max-seconds` (default 1800)
+rather than hanging.
+
+**Do not poll `gh pr view --json statusCheckRollup` and filter on `.status`.**
+That array mixes GraphQL types: a `CheckRun` carries `.status`/`.conclusion`,
+but a `StatusContext` (what a Vercel deployment reports as) carries `.state` and
+leaves `.status` null. A loop written as
+`select(.status != "COMPLETED")` therefore never terminates — the deployment row
+looks pending forever while the checks have long since finished. `gh pr checks`
+flattens all three types into one `bucket` field (`pending`/`pass`/`fail`/
+`skipping`), which is why the helper uses it.
+
+macOS has no `timeout(1)`, so the helper counts its own deadline.
+
 ## When a skill says "publish to the issue tracker"
 
 Create a GitHub issue.
