@@ -52,6 +52,7 @@ const CODE_SUBPATHS = [
   "./progress",
   "./empty-state",
   "./number-field",
+  "./pagination",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -88,6 +89,7 @@ const COMPONENT_SUBPATHS = [
   "./progress",
   "./empty-state",
   "./number-field",
+  "./pagination",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
@@ -106,7 +108,8 @@ const COMPONENT_SUBPATHS = [
  * 클라이언트다. EmptyState(#326)는 Base UI 뒤가 없지만 `useId`로 Title·
  * Description을 Root의 aria-labelledby·aria-describedby에 배선하는 컨텍스트를
  * 쓰므로 클라이언트다. NumberField(#328)도 Base UI NumberField.Root를 감싸고
- * 증감 버튼의 상태를 다루므로 클라이언트다. */
+ * 증감 버튼의 상태를 다루므로 클라이언트다. Pagination(#329)도 Base UI 뒤가
+ * 없지만 이전/다음·페이지 번호 버튼에 `onClick`을 달므로 클라이언트다. */
 const CLIENT_SUBPATHS = [
   "./button",
   "./icon",
@@ -132,6 +135,7 @@ const CLIENT_SUBPATHS = [
   "./progress",
   "./empty-state",
   "./number-field",
+  "./pagination",
 ]
 const SERVER_SUBPATHS = [
   "./card",

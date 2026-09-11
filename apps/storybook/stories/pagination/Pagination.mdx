@@ -1,0 +1,74 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as PaginationStories from "./Pagination.stories"
+
+<Meta of={PaginationStories} />
+
+<Title />
+
+<StatusBadge status={PaginationStories.default.parameters.ds.status} /> · since {PaginationStories.default.parameters.ds.since}
+
+이전/다음·페이지 번호·현재 표시를 갖춘 페이지 이동. Base UI 뒤가 없는 자체 스타일 패턴이다 — 페이지 상태를 갖지 않고 `page`·`pageCount`·`onPageChange` 위에서만 그린다.
+
+## 언제 쓰는가
+
+- 거래 데이터 테이블처럼, 서버나 클라이언트 쪽에 이미 페이지 상태가 있고 그 위에 이동 버튼만 필요한 자리(#317 스토리 12).
+
+## 언제 쓰지 않는가
+
+- 무한 스크롤이나 "더 보기" 버튼 자리는 이 컴포넌트가 아니다 — Pagination은 이산적인 페이지 번호를 보여주는 것이 요점이다.
+
+## 조립
+
+`Pagination`은 파트로 나뉘지 않는 단일 컴포넌트다 — 페이지 번호·줄임표의 계산은 소비처가 조립할 자리가 아니라 컴포넌트 스스로 하는 일이다(EmptyState의 자유 조립과 다른 이유, pagination.tsx 참고). `page`는 1부터 시작한다.
+
+<Canvas of={PaginationStories.Playground} />
+
+## 경계
+
+앞뒤 경계에서 이전·다음 버튼이 `disabled`가 된다 — 경계를 넘어가는 요청을 아예 못 누르게 막는다.
+
+<Canvas of={PaginationStories.FirstPage} />
+<Canvas of={PaginationStories.LastPage} />
+
+## 페이지 수가 적을 때
+
+경계(`boundaryCount`)·형제(`siblingCount`)·현재 페이지가 겹치면 줄임표 없이 전부 보인다.
+
+<Canvas of={PaginationStories.FewPages} />
+<Canvas of={PaginationStories.SinglePage} />
+
+## TanStack Table 위에서
+
+DS 패키지는 TanStack을 의존하지 않는다(#329 "DS 패키지는 TanStack을 의존하지 않는다") — 소비처가 TanStack Table의 페이지 상태를 그대로 얹으면 된다. `table.getState().pagination.pageIndex`는 0부터 시작하므로 두 자리만 변환한다:
+
+```tsx
+import { Pagination } from "@flameware/ui/pagination"
+
+<Pagination
+  page={table.getState().pagination.pageIndex + 1}
+  pageCount={table.getPageCount()}
+  onPageChange={(page) => table.setPageIndex(page - 1)}
+/>
+```
+
+`onPageChange`가 직접 `table.nextPage()`/`previousPage()`를 부를 필요는 없다 — `setPageIndex`가 이미 그 둘을 포함한다.
+
+<Canvas of={PaginationStories.OnTanStackTable} />
+
+## 접근성
+
+`nav`가 접근성 이름을 진다(기본 "페이지 이동", `aria-label`로 덮어쓸 수 있다). 현재 페이지 버튼은 `aria-current="page"`를 진다. 줄임표는 `aria-hidden`인 장식 텍스트다 — 보조기술에 별도로 읽히지 않는다. 이전·다음·페이지 번호 버튼 모두 `Button`을 그대로 써 24×24 포인터 하한(ADR-0020)과 상태 레이어(state.css)를 다시 만들지 않는다.
+
+## 키보드
+
+모든 버튼이 `Button`이므로 키보드는 네이티브다 — Tab이 이전 → 페이지 번호 → 다음 순서로 닿고, Enter·Space가 초점이 놓인 버튼을 누른다(#317 Testing Decisions "Pagination(Tab 순회)").
+
+<Canvas of={PaginationStories.Keyboard} />
+
+## Props
+
+<Story of={PaginationStories.Playground} />
+
+<Controls of={PaginationStories.Playground} />
