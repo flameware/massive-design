@@ -20,9 +20,32 @@ import { cn } from "../lib/utils.js"
  * "분류"가 아니라 "밀도가 낮은 배지"가 필요할 때 쓰는 용도라 톤별 글자색이
  * 필요 없다. 소비처가 더 옅은 글자색을 원하면 지금까지처럼 `className`으로
  * 얹는다(`fg.default`는 이미 모든 표면 위에서 검증됐으므로 그 위에 얹는
- * `className`은 이 컴포넌트의 대비 계약을 깨지 않는다). */
+ * `className`은 이 컴포넌트의 대비 계약을 깨지 않는다).
+ *
+ * `whitespace-nowrap`은 축이 아니라 기본값이다(#322). Badge는 "짧은 분류·상태" 하나를
+ * 나르기로 선언한 컴포넌트라, 두 줄이 되는 것은 이 컴포넌트가 고른 모양이 아니라 정하지
+ * 않은 것이었다 — 좁은 셀에서 배지가 "매/수"로 갈린 것이 그 결손이다
+ * (flameware/investmentdiary#240). 소비처의 배지 21자리를 다시 세어 줄바꿈을 원하는
+ * 자리는 0이었고, 사용자 입력이 길이를 정하는 단 한 자리(노트 목록의 활성 필터)는
+ * 이미 손으로 `whitespace-nowrap`+`truncate`를 얹고 있었다. 그래서 `wrap` 축을 열지
+ * 않는다 — rules.md 축과 이름 공간: 차원을 더하는 데는 실측된 수요가 필요하고,
+ * 줄바꿈하는 배지의 수요는 0이다.
+ *
+ * `stable` 컴포넌트의 기본 렌더를 바꾸지만 **깨는 변경이 아니다** — props·타입·
+ * 서브패스·`badgeVariants` 시그니처가 그대로다(판정과 근거는 #322 코멘트, 요약은
+ * #317 Decisions-so-far).
+ *
+ * 되돌리는 비용은 클래스 하나다 — `cn`이 tailwind-merge이므로 `className`의
+ * `whitespace-normal`이 기본 `whitespace-nowrap`을 **지운다**(`!`도, 축도 필요 없다).
+ * 같은 이유로 `className="shrink"`는 기본 `shrink-0`을 지운다. 그래서 옵트인 축을 열지
+ * 않는 판정의 비용이 낮다: 줄바꿈이 필요한 자리가 나중에 생기면 그 자리가 한 클래스로
+ * 되돌린다. test/emission.test.mjs가 이 되돌리기를 지킨다 — `cn`이나 tailwind-merge
+ * 설정이 바뀌어 기본값이 남으면 그 테스트가 먼저 깨진다.
+ *
+ * 길이를 모르는 값을 담는 자리의 권고는 되돌리기가 아니라 말줄임이다: 배지에
+ * `max-w-full min-w-0`, 자식 텍스트에 `min-w-0 truncate`. */
 export const badgeVariants = cva(
-  "inline-flex w-fit shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-medium",
+  "inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium",
   {
     variants: {
       tone: {
