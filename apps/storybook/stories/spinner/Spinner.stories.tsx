@@ -10,7 +10,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Feedback/Spinner",
   component: Spinner,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { size: "md" },
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },

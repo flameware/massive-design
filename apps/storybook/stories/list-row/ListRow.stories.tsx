@@ -9,7 +9,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Data display/ListRow",
   component: ListRow.Root,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
 } satisfies Meta<typeof ListRow.Root> & ComponentMeta
 
 export default meta

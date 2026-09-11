@@ -11,7 +11,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Actions/Button",
   component: Button,
-  parameters: { ds: { status: "preview", since: "0.1.0" } },
+  parameters: { ds: { status: "stable", since: "0.1.0" } },
   args: { children: "저장", variant: "default", size: "md", loading: false, disabled: false },
   argTypes: {
     variant: {

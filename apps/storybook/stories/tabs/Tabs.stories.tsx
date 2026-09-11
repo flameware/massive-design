@@ -8,7 +8,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Navigation/Tabs",
   component: Tabs.Root,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
 } satisfies Meta<typeof Tabs.Root> & ComponentMeta
 
 export default meta

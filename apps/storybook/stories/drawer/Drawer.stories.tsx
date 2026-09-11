@@ -15,7 +15,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Overlays/Drawer",
   component: Drawer.Popup,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
 } satisfies Meta<typeof Drawer.Popup> & ComponentMeta
 
 export default meta

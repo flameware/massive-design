@@ -10,7 +10,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Feedback/Skeleton",
   component: Skeleton,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { className: "h-4 w-40" },
 } satisfies Meta<typeof Skeleton> & ComponentMeta
 

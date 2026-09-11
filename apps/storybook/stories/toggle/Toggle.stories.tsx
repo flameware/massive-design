@@ -10,7 +10,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Actions/Toggle",
   component: Toggle,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { children: "굵게", disabled: false },
   argTypes: {
     disabled: { control: "boolean" },

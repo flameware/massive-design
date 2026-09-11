@@ -11,7 +11,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Forms/Form",
   component: Form,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
 } satisfies Meta<typeof Form> & ComponentMeta
 
 export default meta

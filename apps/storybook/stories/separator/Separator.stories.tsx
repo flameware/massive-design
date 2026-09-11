@@ -6,7 +6,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Layout/Separator",
   component: Separator,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { orientation: "horizontal" },
   argTypes: {
     orientation: { control: "select", options: ["horizontal", "vertical"] },

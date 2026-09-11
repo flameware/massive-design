@@ -7,7 +7,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Forms/Textarea",
   component: Textarea,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { placeholder: "여러 줄로 적으세요", rows: 4 },
   decorators: [
     (Story) => (

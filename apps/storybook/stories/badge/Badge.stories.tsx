@@ -11,7 +11,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Data display/Badge",
   component: Badge,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { children: "완료", tone: "neutral" },
   argTypes: {
     tone: { control: "select", options: ["neutral", "accent", "danger", "success", "warning", "outline"] },
