@@ -31,9 +31,12 @@ bun add @flameware/tokens
 
 색 이름은 역할이 접두사다 — `bg.accent.solid`는 `bg-accent-solid`, `fg.default`는
 `text-default`, `border.default`는 `border-default`. `bg`·`fg`·`border` 아래
-semantic 색 36개 전부가 유틸리티로 열려 있다([#280](https://github.com/flameware/massive-design/issues/280) —
-그 전에는 Button이 쓰는 8개뿐이었다). 전체 이름과 지금 모드의 실제 값은
-Storybook의 **Foundations/색** 챕터에서 본다.
+semantic 색은 지금 35개이고, 그 35개가 빠짐없이 유틸리티로
+열려 있다([#280](https://github.com/flameware/massive-design/issues/280) — 그 전에는
+Button이 쓰는 8개뿐이었다). semantic 색 토큰 중 유틸리티가 없는 것은 `state.layer`
+하나뿐이다 — 색이 아니라 `@flameware/ui`의 `state.css`가 hover·pressed를 합성할 때
+읽는 입력이라 세 역할 밖에 살고, 그래서 `@theme`에 등록되지 않는다. 전체 이름과
+지금 모드의 실제 값은 Storybook의 **Foundations/색** 챕터에서 본다.
 
 팔레트(`--ds-palette-*`)는 devtools 추적용이다. 직접 집지 않는다 — 라이트/다크
 전환이 semantic 층에서만 일어나기 때문에, 팔레트를 집으면 모드가 죽는다.

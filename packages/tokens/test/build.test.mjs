@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 
 import { buildAll, loadSources } from '../scripts/build.mjs'
@@ -9,6 +10,12 @@ import { flatten } from '../scripts/lib/resolve.mjs'
 const sources = loadSources()
 const files = buildAll(sources)
 const css = files.get('tokens.css')
+
+/** @theme에 등록된 semantic 색 이름들 — 역할 접두사를 뗀 유틸리티 이름이다. */
+const registeredColorNames = () => {
+  const theme = css.match(/@theme inline \{([\s\S]*?)\n\}/)[1]
+  return [...theme.matchAll(/^\s*--(?:background|text|border)-color-([\w-]+):/gm)].map((m) => m[1])
+}
 
 /** 규칙군 C를 임의의 CSS에 걸어 본다 — lint가 실제로 무는지 확인하는 통로. */
 const errorsFor = (text) => {
@@ -82,10 +89,7 @@ test('@theme의 semantic 색은 역할별 이름 공간에 산다 — 이름이 
 })
 
 test('@theme의 색 이름은 semantic의 bg·fg·border 리프와 정확히 같다 — 훑기이지 임의 목록이 아니다 (#280)', () => {
-  const theme = css.match(/@theme inline \{([\s\S]*?)\n\}/)[1]
-  const registered = [...theme.matchAll(/^\s*--(?:background|text|border)-color-([\w-]+):/gm)]
-    .map((m) => m[1])
-    .sort()
+  const registered = registeredColorNames().sort()
 
   // semantic/color.json의 bg·fg·border 리프 전부가 register 대상이어야 한다.
   // #278까지는 Button이 쓰는 8개만 열었다(success·warning·inverse·scrim은
@@ -101,6 +105,21 @@ test('@theme의 색 이름은 semantic의 bg·fg·border 리프와 정확히 같
   for (const name of ['success-solid', 'warning-solid', 'inverse', 'scrim']) {
     assert.ok(registered.includes(name), name)
   }
+})
+
+test('README가 말하는 유틸 수가 @theme의 실제 등록 수와 같다 (#321)', () => {
+  // README는 한때 36개라고 적었지만 등록된 것은 35개였다 — semantic 색 토큰은 36개가
+  // 맞고, 그중 state.layer가 색 유틸이 아니어서 빠진다. 수를 손으로 적은 자리는 README
+  // 한 곳뿐이고, 그 한 곳이 출력물과 어긋나지 않게 여기서 묶는다
+  const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8')
+  const claim = `지금 ${registeredColorNames().length}개`
+  assert.ok(readme.includes(claim), `README가 "${claim}"라고 말하지 않는다`)
+
+  // 빠지는 하나가 정말 state.layer인가 — README가 이름으로 말하는 예외다
+  const unregistered = [...flatten(sources.semantic)]
+    .map(([path]) => path.replace(/^color\./, ''))
+    .filter((path) => !/^(?:bg|fg|border)\./.test(path))
+  assert.deepEqual(unregistered, ['state.layer'])
 })
 
 test('타이포는 사이즈를 덮지 않고 서브키만 낸다', () => {
