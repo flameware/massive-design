@@ -133,6 +133,10 @@
       "types": "./dist/combobox/index.d.ts",
       "default": "./dist/combobox/index.js"
     },
+    "./progress": {
+      "types": "./dist/progress/index.d.ts",
+      "default": "./dist/progress/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },

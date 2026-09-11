@@ -49,6 +49,7 @@ const CODE_SUBPATHS = [
   "./toggle",
   "./toggle-group",
   "./combobox",
+  "./progress",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -82,6 +83,7 @@ const COMPONENT_SUBPATHS = [
   "./toggle",
   "./toggle-group",
   "./combobox",
+  "./progress",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
@@ -96,7 +98,8 @@ const COMPONENT_SUBPATHS = [
  * 선다(#286). Checkbox·Select·Toggle·ToggleGroup은 넷 다 제어/비제어 상태를
  * 다루거나(Toggle·ToggleGroup은 `useControllableState`) Base UI의 상태 있는
  * 컴포넌트를 감싸므로(#288) 클라이언트다. Combobox(#289)도 Base UI Combobox를
- * 감싸므로 클라이언트다. */
+ * 감싸므로 클라이언트다. Progress(#325)도 Base UI Progress.Root를 감싸므로
+ * 클라이언트다. */
 const CLIENT_SUBPATHS = [
   "./button",
   "./icon",
@@ -119,6 +122,7 @@ const CLIENT_SUBPATHS = [
   "./toggle",
   "./toggle-group",
   "./combobox",
+  "./progress",
 ]
 const SERVER_SUBPATHS = [
   "./card",
