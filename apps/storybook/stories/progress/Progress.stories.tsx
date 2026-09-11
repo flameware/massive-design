@@ -11,7 +11,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Feedback/Progress",
   component: Progress.Root,
-  parameters: { ds: { status: "preview", since: "0.3.2" } },
+  parameters: { ds: { status: "stable", since: "0.3.2" } },
   args: { value: 40 },
 } satisfies Meta<typeof Progress.Root> & ComponentMeta
 

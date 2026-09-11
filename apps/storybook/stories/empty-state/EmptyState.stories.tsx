@@ -14,7 +14,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Patterns/EmptyState",
   component: EmptyState.Root,
-  parameters: { ds: { status: "preview", since: "0.3.2" } },
+  parameters: { ds: { status: "stable", since: "0.3.2" } },
 } satisfies Meta<typeof EmptyState.Root> & ComponentMeta
 
 export default meta
