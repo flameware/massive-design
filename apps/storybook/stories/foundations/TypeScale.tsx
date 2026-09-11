@@ -1,4 +1,5 @@
 import { typeSizes } from "./scale"
+import { Td, Th } from "./cell"
 
 const TIER_LINE_HEIGHT = { body: 1.6, mid: 1.4, heading: 1.25 }
 const TIER_TRACKING = { body: "0em", mid: "-0.01em", heading: "-0.02em" }
@@ -8,25 +9,23 @@ export function TypeScale() {
     <table>
       <thead>
         <tr>
-          <th style={{ textAlign: "left" }}>이름</th>
-          <th style={{ textAlign: "left" }}>크기</th>
-          <th style={{ textAlign: "left" }}>줄 높이</th>
-          <th style={{ textAlign: "left" }}>자간</th>
-          <th style={{ textAlign: "left" }}>견본</th>
+          <Th>이름</Th>
+          <Th>크기</Th>
+          <Th>줄 높이</Th>
+          <Th>자간</Th>
+          <Th>견본</Th>
         </tr>
       </thead>
       <tbody>
         {typeSizes.map((size) => (
           <tr key={size.name}>
-            <td style={{ padding: "6px 12px 6px 0" }}>
+            <Td padding="6px 12px 6px 0">
               <code>text-{size.name}</code>
-            </td>
-            <td style={{ padding: "6px 12px 6px 0" }}>
-              {size.px}px
-            </td>
-            <td style={{ padding: "6px 12px 6px 0" }}>{TIER_LINE_HEIGHT[size.tier]}</td>
-            <td style={{ padding: "6px 12px 6px 0" }}>{TIER_TRACKING[size.tier]}</td>
-            <td
+            </Td>
+            <Td padding="6px 12px 6px 0">{size.px}px</Td>
+            <Td padding="6px 12px 6px 0">{TIER_LINE_HEIGHT[size.tier]}</Td>
+            <Td padding="6px 12px 6px 0">{TIER_TRACKING[size.tier]}</Td>
+            <Td
               style={{
                 fontSize: size.px,
                 lineHeight: TIER_LINE_HEIGHT[size.tier],
@@ -35,7 +34,7 @@ export function TypeScale() {
               }}
             >
               massive-design 디자인 시스템
-            </td>
+            </Td>
           </tr>
         ))}
       </tbody>

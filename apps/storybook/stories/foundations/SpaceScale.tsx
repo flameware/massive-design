@@ -1,25 +1,26 @@
 import { spacePresets } from "./scale"
+import { Td, Th } from "./cell"
 
 export function SpaceScale() {
   return (
     <table>
       <thead>
         <tr>
-          <th style={{ textAlign: "left" }}>배수</th>
-          <th style={{ textAlign: "left" }}>값</th>
-          <th style={{ textAlign: "left" }}>견본</th>
+          <Th>배수</Th>
+          <Th>값</Th>
+          <Th>견본</Th>
         </tr>
       </thead>
       <tbody>
         {spacePresets.map((preset) => (
           <tr key={preset.name}>
-            <td style={{ padding: "6px 12px 6px 0" }}>
+            <Td padding="6px 12px 6px 0">
               <code>p-{preset.name} · gap-{preset.name} …</code>
-            </td>
-            <td style={{ padding: "6px 12px 6px 0" }}>{preset.value}</td>
-            <td style={{ padding: "6px 0" }}>
+            </Td>
+            <Td padding="6px 12px 6px 0">{preset.value}</Td>
+            <Td padding="6px 0">
               <div style={{ background: "var(--ds-bg-accent-solid)", width: preset.value, height: 12 }} />
-            </td>
+            </Td>
           </tr>
         ))}
       </tbody>
