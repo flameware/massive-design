@@ -1,0 +1,46 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ProgressStories from "./Progress.stories"
+
+<Meta of={ProgressStories} />
+
+<Title />
+
+<StatusBadge status={ProgressStories.default.parameters.ds.status} /> · since {ProgressStories.default.parameters.ds.since}
+
+값이 있는(결정적) 진행률을 `role="progressbar"`로 그린다. Base UI의 `Progress` 뒤에 있다 — `role`·`aria-valuenow`·`aria-valuemin`·`aria-valuemax`·`aria-valuetext`를 Root가 전부 스스로 낸다.
+
+## 언제 쓰는가
+
+- 얼마나 남았는지 **수치로 알 수 있는** 작업 — 시세 일괄 갱신, CSV 가져오기(#317 스토리 9).
+
+## 언제 쓰지 않는가
+
+- **얼마나 걸릴지 모르는 작업.** 값 없는(비결정적) 회전은 `Spinner`가 진다 — Progress는 값 있는 진행률만 다룬다.
+
+## 파트
+
+`Root`가 `value`(0–`max`, 기본 `max=100`)를 받아 상태를 계산하고, `Track`이 배경을, `Indicator`가 채워진 만큼을 그린다. `Label`·`Value`는 선택이다 — 진행률이 무엇의 진행인지가 화면 다른 곳에 이미 있다면 `aria-label`만 `Root`에 주고 생략해도 된다.
+
+<Canvas of={ProgressStories.Playground} />
+
+## 트랙과 필의 색
+
+`Track`은 `bg-neutral-soft`를 쓴다 — 대비 게이트가 이미 검증한 조합이다. 잔여 트랙은 대비를 지지 않는다(rules.md 토큰과 대비): 채워진 `Indicator`가 이미 뜻을 지므로 트랙 자체는 3:1 요구의 대상이 아니다. `Indicator`는 `bg-accent-solid`를 쓴다 — `Tabs`의 인디케이터와 같은 자리로, 정적 표식이라 상태 레이어(`--ds-state-base`)가 아니라 직접 칠한다.
+
+## 단계
+
+<Canvas of={ProgressStories.Stages} />
+
+100%에 닿으면 Base UI가 `data-complete`를 낸다.
+
+## Label·Value 없이
+
+<Canvas of={ProgressStories.TrackOnly} />
+
+## Props
+
+<Story of={ProgressStories.Playground} />
+
+<Controls of={ProgressStories.Playground} />

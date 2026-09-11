@@ -1,13 +1,14 @@
-/* Card·Alert·Badge·ListRow·Text·Skeleton·Spinner·Combobox가 부르는 클래스가
- * **실제로 선언을 내는지** 잰다 — Button의 test/utilities.test.mjs와 같은 이유,
- * 같은 계기다. Tailwind는 모르는 유틸리티를 오류로 만들지 않고 조용히 아무것도
- * 내지 않으므로, semantic 이름의 오타나 미등록은 눈으로 안 보인다.
+/* Card·Alert·Badge·ListRow·Text·Skeleton·Spinner·Combobox·Progress가 부르는
+ * 클래스가 **실제로 선언을 내는지** 잰다 — Button의 test/utilities.test.mjs와
+ * 같은 이유, 같은 계기다. Tailwind는 모르는 유틸리티를 오류로 만들지 않고
+ * 조용히 아무것도 내지 않으므로, semantic 이름의 오타나 미등록은 눈으로 안 보인다.
  *
  * Button의 파일을 건드리지 않고 따로 둔 이유: 그 파일은 #299 회귀 테스트(상태
  * 레이어 캐스케이드 참여자 수)까지 지고 있어 Button 전용으로 남기고, `.state`
  * 유틸리티를 쓰지 않는 나머지 컴포넌트(Card·Alert·Badge 등은 상태가 아예 없고,
- * Combobox는 Base UI의 `data-highlighted`·`data-selected`를 색으로만 받는다)는
- * "클래스가 방출되는가"만 재면 충분하다. */
+ * Combobox는 Base UI의 `data-highlighted`·`data-selected`를 색으로만 받고,
+ * Progress의 필은 정적 표식이라 tabs.tsx의 인디케이터처럼 `bg-accent-solid`를
+ * 직접 쓴다)는 "클래스가 방출되는가"만 재면 충분하다. */
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import { dirname, resolve } from "node:path"
@@ -28,6 +29,7 @@ import {
 } from "../dist/combobox/index.js"
 import { cn } from "../dist/lib/utils.js"
 import { listRowPartClassNames, listRowVariants } from "../dist/list-row/index.js"
+import { progressIndicatorVariants, progressTrackVariants } from "../dist/progress/index.js"
 import { skeletonVariants } from "../dist/skeleton/index.js"
 import { spinnerVariants } from "../dist/spinner/index.js"
 import { textVariants } from "../dist/text/index.js"
@@ -71,6 +73,8 @@ for (const classes of [
   badgeVariants({ tone: "warning" }),
   listRowVariants(),
   ...partClasses,
+  progressTrackVariants(),
+  progressIndicatorVariants(),
   skeletonVariants(),
   spinnerVariants({ size: "sm" }),
   spinnerVariants({ size: "md" }),
