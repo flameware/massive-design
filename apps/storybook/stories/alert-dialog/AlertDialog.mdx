@@ -11,6 +11,8 @@ import * as AlertDialogStories from "./AlertDialog.stories"
 
 되돌릴 수 없는 결정을 확인받는 모달. [Dialog](?path=/docs/overlays-dialog--docs)와 표면을 공유하지만, 바깥을 눌러도 닫히지 않는다 — 명시적 선택(취소/확인)만 닫는 통로다.
 
+제목·설명·확인/취소 버튼 둘만 있으면 되는 자리는 이 조립을 직접 하지 않아도 된다 — [ConfirmDialog](?path=/docs/patterns-confirmdialog--docs)가 같은 조립을 호출 한 번으로 대신한다. `AlertDialog`는 이 프리셋 뒤에서도 그대로 남아 있다 — 확인 버튼이 둘 이상이거나 본문이 `Description` 한 줄을 넘는 자리는 계속 이 파트 조립을 쓴다.
+
 ## 언제 쓰는가
 
 - 삭제·탈퇴처럼 되돌릴 수 없는 동작의 확인 — 거래 삭제 확인이 첫 자리다.

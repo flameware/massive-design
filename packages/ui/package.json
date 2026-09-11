@@ -149,6 +149,10 @@
       "types": "./dist/pagination/index.d.ts",
       "default": "./dist/pagination/index.js"
     },
+    "./confirm-dialog": {
+      "types": "./dist/confirm-dialog/index.d.ts",
+      "default": "./dist/confirm-dialog/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
