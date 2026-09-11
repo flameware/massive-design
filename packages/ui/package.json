@@ -141,6 +141,10 @@
       "types": "./dist/empty-state/index.d.ts",
       "default": "./dist/empty-state/index.js"
     },
+    "./number-field": {
+      "types": "./dist/number-field/index.d.ts",
+      "default": "./dist/number-field/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
