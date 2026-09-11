@@ -36,9 +36,9 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 **Phase 1이 닫혔다 (2026-09-11).** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2세대(Base UI)의 결정 전부를 담고, 완료 기록은 [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md)다. Phase 1 컴포넌트는 상태 표에서 전부 `stable`이다 — **깨는 변경은 major다.**
 
-**Phase 2가 닫혔다 (2026-09-11).** [#317](https://github.com/flameware/massive-design/issues/317)이 정본이고, 완료 기록은 [`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md)다. 자리가 0이어서 Phase 3로 내려간 후보: Popover·Toast·Radio·Switch·Accordion·Collapsible·Meter·ScrollArea·Stack/Grid·모션 토큰. 이슈를 여는 조건은 [`docs/agents/rules.md`](docs/agents/rules.md) 방법론 절의 셋 중 하나다 — 소비처가 쓰는 모양·소비 앱의 결함·패키징.
+**Phase 2가 아직 열려 있다 — [#317](https://github.com/flameware/massive-design/issues/317)이 정본이다.** 완료 조건은 둘이었다: 컴포넌트가 게시되는 것과, 앱의 손조립 자리가 사라지는 것. 첫째는 됐다(아래). 둘째는 절반뿐이다 — Empty state·Spinner·Separator는 착지했지만, Alert `tone="warning"`·Progress·NumberField·Pagination·ConfirmDialog 다섯은 패키지에 있는데도 앱이 여전히 손으로 그린다(경고 표식 4파일·삭제확인 4파일·진행 표시 2파일·페이지 이동 1파일·수량 입력 2파일 — 자리 그대로). 이 다섯의 착지가 맵을 닫는다. 진행 기록은 [`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md)이고, 재실측 표를 남은 착지의 출발점으로 쓴다. 자리가 0이어서 Phase 3로 내려간 후보: Popover·Toast·Radio·Switch·Accordion·Collapsible·Meter·ScrollArea·Stack/Grid·모션 토큰.
 
-**게시된 최신은 `0.3.3`이다** — `0.3.2`(누적분)와 `0.3.3`(EmptyState aria 수정)을 게시했다, 맵이 남긴 "범프는 #333이 한 번에" 규칙의 예외("앱을 막는 결함")를 두 번 썼다. 소비처 invest diary는 `@flameware/ui@0.3.3`·`@flameware/tokens@0.3.3`으로 돈다(`0.2.3`에서 갱신, investmentdiary#372·#373). Phase 2 컴포넌트는 상태 표에서 전부 `stable`이다 — 근거는 완료 기록에 있다.
+**게시된 최신은 `0.3.3`이다** — `0.3.2`(누적분)와 `0.3.3`(EmptyState aria 수정)을 게시했다, 맵이 남긴 "범프는 #333이 한 번에" 규칙의 예외("앱을 막는 결함")를 두 번 썼다. 소비처 invest diary는 `@flameware/ui@0.3.3`·`@flameware/tokens@0.3.3`으로 돈다(`0.2.3`에서 갱신, investmentdiary#372·#373). 상태 표에서 `stable`인 것은 착지한 Empty state뿐이다 — 나머지 넷은 `preview`로 남았고, 각자의 착지가 올린다.
 
 **지금 리포에 있는 것**: `@flameware/tokens`(램프 생성기·`lint`·`contrast`·`verify`, 그리고 소비처용 `./ramp` API), `@flameware/ui`의 서브패스 34개 — `cn`·`icon`·Button·Field/Input/Textarea/Form·Card/Alert·Dialog/AlertDialog/Drawer·Menu/Avatar/Separator/Tooltip·Tabs/PageShell/ThemeToggle·Checkbox/Select/Toggle/ToggleGroup·Badge/ListRow/Text/Heading/Skeleton/Spinner·Table·Combobox·Progress·EmptyState·NumberField·Pagination·ConfirmDialog — 와 `styles.css`·`state.css`·`hit-area.css`, 그리고 Foundations 6장·컴포넌트별 MDX·상태 표·DS 매니저 테마를 갖춘 Storybook과 그것을 여는 Playwright 스토리 테스트(axe·24px·키보드 계약·`viewport:mobile`). semantic 색은 `@theme`에 전부 자동 노출된다. 게시는 `v*` 태그로 `publish.yml`이 한다. 1세대 51개 컴포넌트·매니페스트·계약·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다.
 
@@ -58,7 +58,6 @@ Closed maps, with their records:
 | 파생 채널이 담지 못하는 계약 (#140) | [`docs/handoff/derived-channel-contract-map.md`](docs/handoff/derived-channel-contract-map.md) |
 | primitive·의존성 기반 확정 (#141) | [`docs/handoff/primitive-dependency-map.md`](docs/handoff/primitive-dependency-map.md) |
 | Phase 1 — 2세대 Base UI (#275) | [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md) |
-| Phase 2 — 2세대 Base UI (#317) | [`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md) |
 
 [`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff *into* the completed component map, not a completion record.
 

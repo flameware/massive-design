@@ -15,7 +15,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Forms/NumberField",
   component: NumberField.Root,
-  parameters: { ds: { status: "stable", since: "0.3.2" } },
+  parameters: { ds: { status: "preview", since: "0.3.2" } },
   decorators: [
     (Story) => (
       <Field.Root name="playground" style={{ maxWidth: "12rem" }}>

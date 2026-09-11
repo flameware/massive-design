@@ -20,7 +20,7 @@ const meta = {
   // `onConfirm`이 필수 prop이라 메타에 채워 두지 않으면 스토리마다 타입이
   // args를 요구한다(Pagination.stories.tsx와 같은 이유).
   args: { title: "제목", onConfirm: () => {} },
-  parameters: { ds: { status: "stable", since: "0.3.2" } },
+  parameters: { ds: { status: "preview", since: "0.3.2" } },
 } satisfies Meta<typeof ConfirmDialog> & ComponentMeta
 
 export default meta

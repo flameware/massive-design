@@ -16,7 +16,7 @@ const meta = {
   // 제어하지만, `page`·`pageCount`·`onPageChange`가 필수 prop이라 메타에
   // 채워 두지 않으면 스토리마다 타입이 args를 요구한다.
   args: { page: 1, pageCount: 1, onPageChange: () => {} },
-  parameters: { ds: { status: "stable", since: "0.3.2" } },
+  parameters: { ds: { status: "preview", since: "0.3.2" } },
 } satisfies Meta<typeof Pagination> & ComponentMeta
 
 export default meta

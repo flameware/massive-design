@@ -1,12 +1,14 @@
-# Phase 2 — 2세대 Base UI 맵 완료 기록
+# Phase 2 — 2세대 Base UI 맵 진행 기록
 
-맵 [#317](https://github.com/flameware/massive-design/issues/317) · 결정은 [ADR-0023](../adr/0023-second-generation-base-ui.md) · 규칙은 [`../agents/rules.md`](../agents/rules.md) · 선행 [`phase-1-base-ui-map.md`](phase-1-base-ui-map.md)
+맵 [#317](https://github.com/flameware/massive-design/issues/317)(**아직 열려 있다**) · 결정은 [ADR-0023](../adr/0023-second-generation-base-ui.md) · 규칙은 [`../agents/rules.md`](../agents/rules.md) · 선행 [`phase-1-base-ui-map.md`](phase-1-base-ui-map.md)
 
-## What the map reached
+**이 문서는 완료 기록이 아니다.** #333이 맵을 닫으려 했으나, 재실측이 완료 조건의 절반만 찼다는 것을 보였다 — 그래서 맵을 열어 둔 채로 이 문서를 쓴다. #317의 완료 조건은 "위 표의 손조립 자리가 앱에서 사라지고, 앱이 새 minor로 도는 것" 둘이다. 둘째는 됐다(`@flameware/ui@0.3.3`). 첫째는 여덟 자리 중 셋(빈 상태·회전 스피너·1px 구분선)만 사라졌다 — 나머지 다섯은 아래 표대로 그대로 있다. 이 문서는 그 다섯의 착지를 위한 **출발점 실측**이고, 착지가 끝나면 "완료 기록"으로 다시 쓴다.
 
-Phase 2의 완료 조건도 Phase 1과 같은 형태였다 — invest diary의 손조립 자리가 사라지고 앱이 `@flameware/ui`의 새 minor로 도는 것. 2026-09-11 기준: 앱은 `@flameware/ui@0.3.3`·`@flameware/tokens@0.3.3`으로 돈다(`0.2.3`에서 갱신). 컴포넌트 열 개(Menu.Group·Menu.GroupLabel, Alert `tone="warning"`, Progress, Empty state, NumberField, Pagination, ConfirmDialog)가 패키지에 들어갔고, 그중 Empty state와 (이미 있던) Spinner·Separator가 앱에 착지했다.
+## Where the map stands
 
-## #317 여덟 자리 재실측 (2026-09-11, `/Users/seongki/Documents/01_Projects/investmentdiary` `main`, `@flameware/ui@0.3.3` 기준)
+Phase 2의 완료 조건은 Phase 1과 같은 형태다 — invest diary의 손조립 자리가 사라지고 앱이 `@flameware/ui`의 새 minor로 도는 것. 2026-09-11 기준: 앱은 `@flameware/ui@0.3.3`·`@flameware/tokens@0.3.3`으로 돈다(`0.2.3`에서 갱신) — 게시 절반은 끝났다. 컴포넌트 열 개(Menu.Group·Menu.GroupLabel, Alert `tone="warning"`, Progress, Empty state, NumberField, Pagination, ConfirmDialog)가 패키지에 들어갔고, 그중 Empty state와 (이미 있던) Spinner·Separator만 앱에 착지했다. **Alert `tone="warning"`·Progress·NumberField·Pagination·ConfirmDialog 다섯은 소비처 없이 게시됐다** — 손조립 자리는 패키지 안에 대응 컴포넌트가 생긴 뒤에도 그대로 남을 수 있다는 것을 이 맵이 직접 보였다. 이 다섯의 착지가 남은 완료 조건이고, 사용자가 그 착지 티켓들을 #317 아래에 연다.
+
+## #317 여덟 자리 재실측 — 남은 착지의 출발점 (2026-09-11, `/Users/seongki/Documents/01_Projects/investmentdiary` `main`, `@flameware/ui@0.3.3` 기준)
 
 | 자리 | #317 원 실측 | 이번 재실측 | 비고 |
 | --- | --- | --- | --- |
@@ -23,22 +25,22 @@ Phase 2의 완료 조건도 Phase 1과 같은 형태였다 — invest diary의 �
 
 **투명성 메모 — 빈 상태 행.** #327의 원 정규식(`없습니다|없어요|비어 ?있`)을 오늘 그대로 돌리면 raw 출력은 0이 아니다(30줄). 그러나 읽어 보면 셋으로 갈린다: (1) `EmptyState.Title`이 이미 그 문구를 렌더하는 자리 — #327 이후 새로 붙은 화면(`stock-detail-view.tsx`·`holdings-treemap.tsx`·`portfolio-analytics.tsx`·`transaction-data-table`)이 같은 패턴으로 늘어난 것이지 손조립이 아니다. (2) "…삭제합니다. 되돌릴 수 없습니다" 류 — 이것은 삭제·되돌리기 확인 행이 세는 대상이지 빈 상태가 아니다. (3) `ErrorBoundary`의 "~불러올 수 없습니다" fallback — #327의 제외 목록이 의도한 "조회 실패 문구"이지만 정규식이 그 정확한 활용형을 걸러내지 못한다(원 스크립트의 알려진 한계). 손으로 걸러 낸 **진짜 손조립 빈 상태 자리는 0**이다 — #327이 잰 직후의 0과 같다. 표의 0은 이 판정이다.
 
-**여덟 자리 중 여섯이 0이 아니다.** Alert `tone="warning"`·Progress·NumberField·Pagination·ConfirmDialog 다섯은 패키지에 있지만 앱이 한 곳도 쓰지 않는다 — 이 티켓들은 컴포넌트를 만들고 게시하는 것까지가 범위였고(#317 story 8–13), 앱 착지는 각 티켓의 AC에 없었다. 경고 표식·삭제확인·진행 표시·페이지 이동·수량 입력 다섯 자리는 #317이 처음 잰 수와 그대로다. **이것은 새 결함이 아니라 원래 계획대로 남은 일이다** — 뒤 절 참고.
+**여덟 자리 중 여섯이 0이 아니다 — 이것이 맵을 닫지 못한 이유다.** Alert `tone="warning"`·Progress·NumberField·Pagination·ConfirmDialog 다섯은 패키지에 있지만 앱이 한 곳도 쓰지 않는다 — 이 티켓들은 컴포넌트를 만들고 게시하는 것까지가 범위였고(#317 story 8–13), 앱 착지는 각 티켓의 AC에 없었다. 경고 표식·삭제확인·진행 표시·페이지 이동·수량 입력 다섯 자리는 #317이 처음 잰 수와 그대로다. **이것은 새 결함이 아니라 처음부터 남겨 둔 일이지만, #317의 완료 조건은 이 자리들이 사라지는 것까지다** — 컴포넌트가 존재하는 것으로는 안 닫힌다.
 
 ## `stable` 판정과 근거
 
 AC는 "Phase 2 컴포넌트가 전부 `stable`"을 요구했고, 그 전제는 Phase 1의 사다리(story 16: `preview` → 앱 착지 → `stable`)였다. 그런데 위 표가 보이듯 **다섯 컴포넌트 중 앱에 착지한 것은 Empty state 하나뿐**이다 — Alert `tone="warning"`·Progress·NumberField·Pagination·ConfirmDialog는 한 번도 소비되지 않았다.
 
-**결정: 다섯 전부 `stable`로 올렸다** (`apps/storybook/stories/{pagination,progress,confirm-dialog,number-field,empty-state}/*.stories.tsx`, `since`는 실제 게시 버전 `0.3.2`로 이미 맞았으므로 그대로 두었다 — 다섯 다 `0.3.2` 누적분에 들어갔다). 근거를 양쪽 다 적는다:
+**결정: Empty state만 `stable`로 올렸다. 나머지 넷(Progress·NumberField·Pagination·ConfirmDialog)은 `preview`로 남긴다.** 초안에서는 다섯 전부를 "패키지 표면의 성숙도"라는 근거로 올렸으나, 최종 판단은 그 반대 근거를 택했다:
 
-- **판 쪽:** `stable`이 말하는 것은 *패키지 표면*의 성숙도다 — API가 얼면 깨는 변경이 major가 된다는 약속이지, "실제 화면에서 검증됐다"는 약속이 아니다. 다섯 전부 스토리·MDX·상태 표 선언이 있고, 키보드 계약(NumberField의 화살표·Home/End, Pagination의 Tab 순회, ConfirmDialog의 포커스 트랩·Esc)이 스토리에 박혀 CI가 매번 확인한다. Alert `tone="warning"`도 같은 논리로 앱 착지 없이 이미 `stable`인 Alert의 일부다 — 선례가 있다.
-- **반대 쪽:** 이 논리가 놓치는 정확한 종류의 결함이 이미 한 번 났다 — Empty state가 `preview`일 때는 DS 스토리 넷이 전부 제목·설명을 함께 렌더해 `aria-describedby`를 무조건 거는 버그를 CI가 못 잡았고, **앱 착지가 처음으로** 조건부 렌더 경로를 밟아 드러냈다(#349). 나머지 넷은 그 검증을 아직 받지 않았다 — `stable`로 올린다고 그 위험이 사라지는 것은 아니다.
+- **`stable`이 승격을 정당화하지 못한 이유:** `stable`이 말하는 것은 "여기서 깨는 변경은 major다"라는 약속이고, 그 약속을 걸 근거는 *증거*이지 CI 통과가 아니다. **증거는 이미 한 번 나왔다 — Empty state 자신에게서.** `preview`였던 동안 DS 스토리 넷이 전부 제목·설명을 함께 렌더해 `aria-describedby`를 무조건 거는 결함을 스토리 400여 개·axe·키보드 계약을 도는 CI가 전부 통과시켰다(#327/#349). 그 결함을 잡은 것은 CI가 아니라 **앱이 실제로 렌더한 것**이었다. Progress·NumberField·Pagination·ConfirmDialog는 지금 정확히 그 초록불 상태에 있다 — CI green, 소비 0. `stable`을 걸면 "이 넷은 그 검증을 통과했다"는 증거 없는 약속이 된다.
+- **Empty state가 `stable`을 받는 이유는 다르다 — 착지 자체가 증거다.** #327이 앱 8파일을 옮기며 바로 그 결함을 냈고 고쳤다(#349, `3d5043f`). 승격의 근거는 "CI가 통과했다"가 아니라 "실제 소비가 결함을 드러냈고 그 결함이 닫혔다"이다.
 
-그래서 이 기록은 승격을 조용히 하지 않는다: **다섯 컴포넌트가 실제로 소비되는 순간까지는 `stable` 딱지가 "패키지 표면이 얼었다"는 뜻이지 "앱에서 검증됐다"는 뜻이 아니다.** 그때 결함이 나면 #349와 같은 모양의 티켓이 되고, `rules.md`의 "소비 앱에서 결함이 난 뒤에만 게이트를 더한다"가 여전히 적용된다.
+이 기록은 조용히 승격하지 않는다: 나머지 넷은 각자의 착지 티켓이 같은 증거(실제 렌더)를 만든 뒤에 `stable`을 받는다. `since`는 `apps/storybook/stories/empty-state/EmptyState.stories.tsx` 하나만 `0.3.2`(실제 게시 버전과 일치)로 두고 `status: "stable"`을 얹었다. Progress·NumberField·Pagination·ConfirmDialog는 `status: "preview"`·`since: "0.3.2"` 그대로다.
 
-## 다섯 자리의 후속
+## 다섯 자리의 후속 — 맵을 닫는 남은 일
 
-Alert `tone="warning"`·Progress·NumberField·Pagination·ConfirmDialog의 앱 착지는 이 맵의 범위가 아니었다(story 14의 채택 티켓은 Spinner·Separator만 지목했다). 다섯 자리 손조립은 여전히 앱에 있다 — 이는 Phase 2가 남긴 **새 채택 작업**이고, 다음 맵이나 개별 이슈가 열 때 이 표를 실측의 출발점으로 쓰면 된다. 이 티켓 자체가 새 이슈를 열지는 않는다(#333 AC에 없다).
+Alert `tone="warning"`·Progress·NumberField·Pagination·ConfirmDialog의 앱 착지는 애초 개별 티켓(#324·#325·#328·#329·#330)의 범위가 아니었다(story 14의 채택 티켓은 Spinner·Separator만 지목했다). 그러나 #317 자신의 완료 조건이 이 다섯 자리를 요구하므로, 이것은 "새 채택 작업"이 아니라 **맵이 원래부터 지고 있던, 아직 안 갚은 몫**이다. #317 아래에 다섯 착지 티켓이 열린다 — 이 문서의 재실측 표가 그 출발점이다. 다섯 다 닫히고 재실측이 여덟 자리 전부 0을 보이면, 이 문서를 완료 기록으로 다시 쓰고 `AGENTS.md`에서 Phase 2를 닫힌 맵 표로 옮긴다.
 
 ## 게시 — 규칙과 그 예외 둘
 
@@ -86,4 +88,4 @@ ADR-0023 Phase 표의 후보 중 앱에 자리가 0인 것: **Popover·Toast·Ra
 - **옵셔널 파트가 n개면 스토리가 밟아야 할 조합도 n개다** — `rules.md` 방법론 절로 옮겼다.
 - **ConfirmDialog의 프리셋 경계**(행동 둘 이상·본문이 풍부·초기 초점이 다르면 `AlertDialog`로 내려간다)와 **게시되는 DOM에 테스트 훅을 넣지 않는다**는 `rules.md`의 계약/의존성 절 인접 위치로 옮겼다.
 - **축이 있는데 소비처가 우회하면 축이 부족한 신호다** — `rules.md` 축과 이름 공간 절로 옮겼다. [#351](https://github.com/flameware/massive-design/issues/351)이 그 첫 사례를 마저 정한다.
-- 다섯 자리(경고 표식·삭제확인·진행 표시·페이지 이동·수량 입력)의 앱 착지는 열려 있다 — 다음 맵이 이 기록의 재실측 표를 출발점으로 쓴다.
+- 다섯 자리(경고 표식·삭제확인·진행 표시·페이지 이동·수량 입력)의 앱 착지는 **이 맵 자신이 아직 지고 있다** — #317 아래 열리는 착지 티켓들이 이 기록의 재실측 표를 출발점으로 쓴다.
