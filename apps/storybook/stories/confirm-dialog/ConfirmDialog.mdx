@@ -1,0 +1,68 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as ConfirmDialogStories from "./ConfirmDialog.stories"
+
+<Meta of={ConfirmDialogStories} />
+
+<Title />
+
+<StatusBadge status={ConfirmDialogStories.default.parameters.ds.status} /> · since {ConfirmDialogStories.default.parameters.ds.since}
+
+되돌릴 수 없는 결정을 확인받는 호출 한 번 — 제목·설명·확인/취소 버튼·`tone="danger"`·로딩 상태를 한데 묶는다. [AlertDialog](?path=/docs/overlays-alertdialog--docs) 조립(`Root`·`Trigger`·`Portal`·`Backdrop`·`Viewport`·`Popup`·`Header`·`Title`·`Description`·`Footer`·`Close`)을 대신하는 **프리셋**이다.
+
+## AlertDialog와의 경계
+
+Phase 1은 "프리셋은 없다"였다 — 이 컴포넌트가 그 결정을 처음 뒤집는다([#317](https://github.com/flameware/massive-design/issues/317) Implementation Decisions). 뒤집은 근거는 좁다: 같은 84줄짜리 조립이 소비처 4파일에서 그대로 반복됐다는 것뿐이다.
+
+**프리셋은 파트 조립을 대체하되 파트를 숨기지 않는다.** `AlertDialog`는 그대로 남아 있다 — 제거되거나 가려진 파트가 없다. `ConfirmDialog`는 그 위에 얹은 함수 하나이고, 안에서 `AlertDialog`의 파트를 그대로 조립한다(confirm-dialog.tsx 참고) — 새 표면도, 새 Tailwind 클래스도 없다.
+
+- **`ConfirmDialog`를 쓰는 자리**: 제목·설명·확인/취소 버튼 둘만 있으면 되는 삭제·되돌리기 확인. 프리셋이 배선한 것(아래 "프리셋이 얹은 것")이면 충분한 자리.
+- **`AlertDialog`를 직접 쓰는 자리**: 확인 버튼이 둘 이상이거나, 본문에 폼·목록처럼 `Description` 한 줄을 넘는 내용이 들어가거나, 초기 초점이 확인이 아니라 취소여야 하는 자리(예: 실수로 누르기 쉬운 동작). 프리셋의 고정된 모양이 맞지 않으면 파트 조립으로 내려간다 — 파트는 사라지지 않았으므로 이 전환에 비용이 없다.
+- **두 번째 프리셋을 여는 조건**: 같은 조립이 3곳 이상에서 반복될 때만(#317).
+
+## 프리셋이 얹은 것
+
+`AlertDialog`의 표면·포커스 트랩·Esc 닫기는 그대로다. `ConfirmDialog`가 그 위에 배선하는 것은 셋뿐이다:
+
+1. **초기 초점이 확인 버튼으로 간다** — `AlertDialog`의 기본값(첫 탭 대상, 보통 취소)과 다르다. 삭제 확인은 보통 확인을 기대하는 자리이기 때문이다.
+2. **로딩 상태** — `onConfirm`이 Promise를 반환하면 그 동안 확인 버튼이 잠기고(`Button`의 `loading`) 스피너를 보인다. 취소는 잠기지 않는다 — Esc·취소 버튼 둘 다 그대로 닫는다. 해결되면 다이얼로그가 닫히고, 거부되면 열린 채로 남아 다시 시도할 수 있다.
+3. **`tone`** — 확인 버튼의 색. `danger`는 삭제처럼 되돌릴 수 없는 동작에 쓰고 `destructive` variant로 칠한다. 기본은 `neutral`.
+
+## 조립
+
+<Canvas of={ConfirmDialogStories.Playground} />
+
+```tsx
+import { Button } from "@flameware/ui/button"
+import { ConfirmDialog } from "@flameware/ui/confirm-dialog"
+
+<ConfirmDialog
+  trigger={<Button variant="destructive">거래 삭제</Button>}
+  title="거래를 삭제할까요?"
+  description="삭제한 거래는 되돌릴 수 없습니다."
+  tone="danger"
+  confirmLabel="삭제"
+  onConfirm={() => deleteTransaction()}
+/>
+```
+
+`trigger`를 생략하면 트리거를 그리지 않는다 — 트리거가 다이얼로그 밖(표의 행 메뉴 등)에 있는 자리는 `open`·`onOpenChange`로 소비처가 직접 연다.
+
+## 로딩 상태
+
+`onConfirm`이 Promise를 반환하면 확정될 때까지 확인 버튼이 잠긴다. 빠르게 두 번 눌러도 `onConfirm`은 한 번만 불린다 — `Button`의 `loading`이 포인터·키보드 활성화를 함께 막기 때문이다(button.tsx). 취소 버튼은 로딩 중에도 그대로 눌린다.
+
+<Canvas of={ConfirmDialogStories.Loading} />
+
+## 키보드
+
+`AlertDialog`와 같은 포커스 트랩·Esc 닫기를 그대로 물려받는다. 다른 점은 열릴 때의 초점뿐이다 — 취소가 아니라 확인으로 간다.
+
+<Canvas of={ConfirmDialogStories.Keyboard} />
+
+## Props
+
+<Story of={ConfirmDialogStories.Playground} />
+
+<Controls of={ConfirmDialogStories.Playground} />
