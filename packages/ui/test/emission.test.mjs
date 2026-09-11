@@ -26,6 +26,7 @@ import {
   comboboxPopupVariants,
   comboboxStatusVariants,
 } from "../dist/combobox/index.js"
+import { cn } from "../dist/lib/utils.js"
 import { listRowPartClassNames, listRowVariants } from "../dist/list-row/index.js"
 import { skeletonVariants } from "../dist/skeleton/index.js"
 import { spinnerVariants } from "../dist/spinner/index.js"
@@ -100,4 +101,23 @@ test("자체 스타일 primitive·Combobox가 부르는 클래스가 하나도 �
     before = after
   }
   assert.deepEqual(silent, [], "이 클래스들은 CSS를 내지 않는다 — 조용히 무효다")
+})
+
+/* Badge의 기본 `whitespace-nowrap`을 소비처가 어떻게 되돌리는지를 주석과 MDX가 권고로
+ * 적었다(#322) — `className="whitespace-normal"` 한 클래스다. 그것이 성립하는 이유는
+ * 캐스케이드가 아니라 `cn`이 tailwind-merge라는 것이다: 두 클래스가 한 요소에 공존하지
+ * 않고, 뒤에 온 쪽이 앞의 것을 **지운다**. 그래서 `cn`이나 tailwind-merge 설정이 바뀌면
+ * 문서의 권고가 조용히 틀린다 — 그 순간을 이 한 줄이 잡는다(rules.md 방법론: 에이전트의
+ * 실수가 되풀이되지 않게 하는 것은 규칙 한 문단이 아니라 테스트 한 줄이다. 이 권고는
+ * 실제로 한 번 틀리게 적혔다 — 방출 순서를 재고 캐스케이드로 읽었다). */
+test("문서가 권하는 되돌리기가 기본값을 지운다 — Badge의 nowrap·shrink-0", () => {
+  const reverted = cn(badgeVariants({ tone: "neutral" }), "whitespace-normal").split(/\s+/)
+  assert.ok(reverted.includes("whitespace-normal"), "소비처의 값이 사라졌다")
+  assert.ok(
+    !reverted.includes("whitespace-nowrap"),
+    "기본 nowrap이 남았다 — `whitespace-normal` 한 클래스로 되돌린다는 권고가 틀렸다"
+  )
+
+  const shrunk = cn(badgeVariants({ tone: "neutral" }), "shrink").split(/\s+/)
+  assert.ok(!shrunk.includes("shrink-0"), "기본 shrink-0이 남았다 — 문서를 고쳐야 한다")
 })
