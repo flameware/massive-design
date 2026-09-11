@@ -1,4 +1,5 @@
 import { Combobox } from "@flameware/ui/combobox"
+import { Dialog } from "@flameware/ui/dialog"
 import { Field } from "@flameware/ui/field"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { useEffect, useState } from "react"
@@ -137,6 +138,43 @@ export const EmptyResult: Story = {
         </Combobox.Popup>
       </Combobox.Root>
     </Field.Root>
+  ),
+}
+
+/* 소비처(invest diary)의 실제 자리 — 콤보박스는 거래 추가·수정 **다이얼로그
+ * 안**에 있다. 이 스토리가 없는 동안 `z-50`이 Popup(정적 요소라 z-index가 아무
+ * 것도 하지 않는다)에 붙어 있어 팝업이 Dialog.Viewport 뒤로 깔렸고, 항목을
+ * 누를 수 없었다. 히트 영역 테스트가 `document.elementFromPoint`로 재므로
+ * (test/stories.test.mjs) 가려진 항목은 hit 0으로 잡힌다 — 이 스토리가 그
+ * 회귀의 계기다. */
+export const InsideDialog: Story = {
+  name: "다이얼로그 안",
+  render: () => (
+    <Dialog.Root open modal={false}>
+      <Dialog.Portal>
+        <Dialog.Viewport>
+          <Dialog.Popup>
+            <Dialog.Title>거래 추가</Dialog.Title>
+            <Field.Root name="symbol-in-dialog" style={{ marginTop: "1rem" }}>
+              <Field.Label>종목 검색</Field.Label>
+              <Combobox.Root items={STOCKS} itemToStringLabel={stockLabel} open defaultValue={STOCKS[0]}>
+                <Combobox.Input placeholder="종목명 또는 코드" />
+                <Combobox.Popup>
+                  <Combobox.Empty>검색 결과가 없습니다</Combobox.Empty>
+                  <Combobox.List>
+                    {(item: StockItem) => (
+                      <Combobox.Item key={item.symbol} value={item}>
+                        <StockItemRow item={item} />
+                      </Combobox.Item>
+                    )}
+                  </Combobox.List>
+                </Combobox.Popup>
+              </Combobox.Root>
+            </Field.Root>
+          </Dialog.Popup>
+        </Dialog.Viewport>
+      </Dialog.Portal>
+    </Dialog.Root>
   ),
 }
 
