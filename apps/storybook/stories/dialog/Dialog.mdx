@@ -44,6 +44,10 @@ import * as DialogStories from "./Dialog.stories"
 </Dialog.Root>
 ```
 
+`Header`·`Footer`는 Base UI에 대응 파트가 없는 순수 레이아웃 그룹이다(#293) — `Title`(+`Description`) 다음 세로 간격과, 우측 정렬 버튼 줄(모바일에서는 `flex-col-reverse`로 주 동작이 위로 온다)을 대신 진다. 소비처가 반복해서 손으로 짜던 `mt-4 flex justify-end gap-2`가 이 자리다.
+
+<Canvas of={DialogStories.HeaderFooter} />
+
 ## 키보드
 
 열리면 포커스가 팝업 안으로 들어가고, Tab은 밖으로 새지 않으며(트랩), Esc가 닫고 포커스는 트리거로 돌아온다. 셋 다 Base UI의 기본값(`modal: true`)이고, 아래 스토리가 그 결과를 선언하며 `test/stories.test.mjs`가 매번 실제로 눌러 잰다.

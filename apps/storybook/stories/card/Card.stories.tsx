@@ -16,12 +16,14 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-/* Header·Body·Footer 셋을 모두 쓴 자리 — 문서의 기본 그림이다. */
+/* Header·Body·Footer 셋을 모두 쓴 자리 — 문서의 기본 그림이다. Header 안의
+ * 제목은 `strong`이 아니라 `Card.Title`이다(#293) — 소비처 세 곳에서 14번
+ * 반복된 조립을 프리셋으로 올린 것. */
 export const Playground: Story = {
   render: () => (
     <Card.Root style={{ maxWidth: "24rem" }}>
       <Card.Header>
-        <strong>포트폴리오 요약</strong>
+        <Card.Title>포트폴리오 요약</Card.Title>
         <span style={{ color: "var(--ds-fg-muted)", fontSize: "0.875rem" }}>이번 달 평가액과 수익률</span>
       </Card.Header>
       <Card.Body>
@@ -30,6 +32,23 @@ export const Playground: Story = {
       <Card.Footer>
         <span style={{ color: "var(--ds-fg-muted)", fontSize: "0.75rem" }}>5분 전 갱신</span>
       </Card.Footer>
+    </Card.Root>
+  ),
+}
+
+/* `level`(접근성 트리)과 `size`(시각)를 따로 준 자리 — 문서 구조상 h4가
+ * 맞지만 카드 제목이라 더 커야 하는 경우. */
+export const TitleLevel: Story = {
+  render: () => (
+    <Card.Root style={{ maxWidth: "24rem" }}>
+      <Card.Header>
+        <Card.Title level={4} size="xl">
+          커스텀 레벨·크기
+        </Card.Title>
+      </Card.Header>
+      <Card.Body>
+        <p style={{ margin: 0 }}>기본값은 h3·lg다.</p>
+      </Card.Body>
     </Card.Root>
   ),
 }

@@ -2,6 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import type * as React from "react"
 
 import { cn } from "../lib/utils.js"
+import { Heading, type HeadingProps } from "../text/text.js"
 
 /* Base UI 뒤에 없다 — Card는 자체 스타일 primitive다(스펙 #283). 서버 컴포넌트로
  * 남는다: 상태도 이벤트 핸들러도 없어 `"use client"`가 필요 없다. 이 경계는
@@ -48,6 +49,17 @@ function Footer({ className, ...props }: CardPartProps) {
   return <div className={cn(FOOTER, className)} {...props} />
 }
 
-/** `Card.Root`·`Card.Header`·`Card.Body`·`Card.Footer` — 네임스페이스형
- * API(ADR-0023 §5)다. 셋 다 옵셔널이라 Body 하나만 쓰는 카드도 유효하다. */
-export const Card = { Root, Header, Body, Footer }
+/** Header 안에 놓는 제목. 소비처 셋(auth·history·portfolio)에서 `Heading`을
+ * `Card.Header` 안에 직접 두는 조립이 14번 반복돼 프리셋으로 올린다
+ * (ADR-0023 §5 "반복이 확인된 뒤"). `Text`/`Heading`처럼 접근성 트리의 제목
+ * 레벨(`level`)과 시각 크기(`size`)를 함께 받되, 카드 제목이 흔히 놓이는
+ * 위계(h3)와 크기(`lg`)를 기본값으로 둔다 — shadcn `CardTitle`은 `<div>`였고
+ * 제목이 문서 구조에 들어가지 않았다. */
+function Title({ level = 3, size = "lg", className, ...props }: HeadingProps) {
+  return <Heading level={level} size={size} className={cn("leading-none", className)} {...props} />
+}
+
+/** `Card.Root`·`Card.Header`·`Card.Body`·`Card.Footer`·`Card.Title` —
+ * 네임스페이스형 API(ADR-0023 §5). Title을 뺀 넷은 옵셔널이라 Body 하나만
+ * 쓰는 카드도 유효하다. */
+export const Card = { Root, Header, Body, Footer, Title }

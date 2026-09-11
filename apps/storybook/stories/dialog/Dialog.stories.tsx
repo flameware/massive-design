@@ -116,6 +116,32 @@ export const Keyboard: Story = {
   ),
 }
 
+/* Header·Footer 프리셋 — 소비처(auth·history·portfolio) 6자리에서 반복된
+ * "Title 다음 세로 간격"과 "버튼 줄"을 대신 진다(#293). */
+export const HeaderFooter: Story = {
+  render: () => (
+    <Dialog.Root>
+      <Dialog.Trigger render={<Button variant="outline">데이터 관리</Button>} />
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Viewport>
+          <Dialog.Popup>
+            <Dialog.Close />
+            <Dialog.Header>
+              <Dialog.Title>데이터 관리</Dialog.Title>
+              <Dialog.Description>거래 내역을 내보내거나 가져옵니다.</Dialog.Description>
+            </Dialog.Header>
+            <Dialog.Footer>
+              <Dialog.Close render={<Button variant="outline">취소</Button>} />
+              <Button>내보내기</Button>
+            </Dialog.Footer>
+          </Dialog.Popup>
+        </Dialog.Viewport>
+      </Dialog.Portal>
+    </Dialog.Root>
+  ),
+}
+
 const inputStyle: React.CSSProperties = {
   height: "2.25rem",
   borderRadius: "0.375rem",
