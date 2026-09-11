@@ -302,6 +302,52 @@ const storyUrl = (id) =>
 const MOBILE_VIEWPORT = { width: 375, height: 812 }
 const DEFAULT_VIEWPORT = { width: 1280, height: 900 }
 
+/* `expect.focused` 선택자 대부분(예: `[data-testid=...]`)은 순수 CSS이고,
+ * `document.activeElement.closest(sel)`로 브라우저 안에서 직접 잰다 — 빠르고
+ * 지금까지 쓴 selector 전부와 그대로 맞는다. 그 경로는 손대지 않는다.
+ *
+ * ConfirmDialog(#330)의 확인·취소 버튼은 접근성 이름(role+name)으로만
+ * 잰다 — 컴포넌트 자신이 출판되는 DOM에 테스트 전용 속성을 심지 않기
+ * 위해서다(대비: AlertDialog·Dialog·Drawer의 `data-testid`는 스토리가 자기
+ * 트리거에 직접 다는 것이라 패키지에 실리지 않는다). `role=button[name=...]`은
+ * Playwright의 접근성 트리 기반 엔진이고, `document.querySelector`는 이
+ * 문법을 모른다 — 그래서 role=/text=/css=/xpath= 같은 엔진 접두어가 붙은
+ * 선택자만 Locator 경로로 보낸다. 접두어가 없는 기존 선택자는 전부 이전과
+ * 똑같은 코드를 그대로 탄다 — 동작이 하나도 바뀌지 않는다. */
+const LOCATOR_ENGINE = /^[a-z-]+=/
+
+async function isFocusedByLocator(locatorPage, selector) {
+  const locator = locatorPage.locator(selector)
+  if ((await locator.count()) === 0) return false
+  return await locator
+    .first()
+    .evaluate((el) => el === document.activeElement)
+    .catch(() => false)
+}
+
+async function waitUntilFocused(locatorPage, selector, timeout) {
+  if (LOCATOR_ENGINE.test(selector)) {
+    const deadline = Date.now() + timeout
+    let focused = await isFocusedByLocator(locatorPage, selector)
+    while (!focused && Date.now() < deadline) {
+      await locatorPage.waitForTimeout(50)
+      focused = await isFocusedByLocator(locatorPage, selector)
+    }
+    return focused
+  }
+  await locatorPage
+    .waitForFunction(
+      (sel) => document.activeElement !== null && document.activeElement.closest(sel) !== null,
+      selector,
+      { timeout }
+    )
+    .catch(() => {})
+  return locatorPage.evaluate((sel) => {
+    const active = document.activeElement
+    return active !== null && active.closest(sel) !== null
+  }, selector)
+}
+
 test("계기 검증 — 알려진 기하를 그대로 읽는다", async () => {
   const probe = await browser.newPage({ viewport: { width: 1200, height: 800 } })
   try {
@@ -409,17 +455,7 @@ for (const story of stories) {
          * 느려지지 않는다. */
         if (contract.expect.focused) {
           const selector = contract.expect.focused
-          await page
-            .waitForFunction(
-              (sel) => document.activeElement !== null && document.activeElement.closest(sel) !== null,
-              selector,
-              { timeout: 2000 }
-            )
-            .catch(() => {})
-          const focused = await page.evaluate((sel) => {
-            const active = document.activeElement
-            return active !== null && active.closest(sel) !== null
-          }, selector)
+          const focused = await waitUntilFocused(page, selector, 2000)
           assert.ok(focused, `${contract.name}: 포커스가 ${selector}에 없다`)
         }
         for (const [selector, expected] of Object.entries(contract.expect.text ?? {})) {

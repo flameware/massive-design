@@ -122,17 +122,8 @@ export function ConfirmDialog({
               {description ? <AlertDialog.Description>{description}</AlertDialog.Description> : null}
             </AlertDialog.Header>
             <AlertDialog.Footer>
-              <AlertDialog.Close
-                data-testid="confirm-dialog-cancel"
-                render={<Button variant="outline">{cancelLabel}</Button>}
-              />
-              <Button
-                id={confirmId}
-                data-testid="confirm-dialog-confirm"
-                variant={toneToVariant[tone]}
-                loading={pending}
-                onClick={handleConfirm}
-              >
+              <AlertDialog.Close render={<Button variant="outline">{cancelLabel}</Button>} />
+              <Button id={confirmId} variant={toneToVariant[tone]} loading={pending} onClick={handleConfirm}>
                 {confirmLabel}
               </Button>
             </AlertDialog.Footer>

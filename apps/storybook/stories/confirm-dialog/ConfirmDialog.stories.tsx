@@ -87,30 +87,38 @@ function LoadingFixture() {
  * 확인 버튼 초점(#317 Testing Decisions "ConfirmDialog(포커스 트랩·Esc·확인
  * 버튼 초점)", #330 AC). AlertDialog의 기본값(취소에 초점)과 다른 점이
  * 여기서 재는 것이다 — 삭제 확인은 보통 확인을 기대하는 자리이기 때문이다
- * (confirm-dialog.tsx 참고). */
+ * (confirm-dialog.tsx 참고).
+ *
+ * 선택자는 `role=button[name='...']`다 — `ConfirmDialog`가 출판하는 DOM에
+ * `data-testid`를 심지 않는다(컴포넌트 자신은 테스트 전용 속성이 없다).
+ * 세 버튼 다 이미 고유한 글자를 접근성 이름으로 갖고 있어(트리거 "거래
+ * 삭제", 확인 "삭제", 취소 "취소" — 셋이 서로 다르다) 사람이 화면에서
+ * 찾는 것과 같은 방식으로 고른다. `role=` 엔진은 Playwright가 접근성
+ * 트리를 그대로 읽는 것이라 DOM 속성에 기대지 않는다(stories.test.mjs의
+ * `waitUntilFocused` 참고). */
 const keyboard: KeyboardContract[] = [
   {
     name: "Tab이 트리거에 닿는다",
     press: ["Tab"],
-    expect: { focused: "[data-testid=confirm-dialog-trigger]" },
+    expect: { focused: "role=button[name='거래 삭제']" },
   },
   {
     name: "Enter가 열고 초점이 확인 버튼으로 간다 — 취소가 아니다",
-    focus: "[data-testid=confirm-dialog-trigger]",
+    focus: "role=button[name='거래 삭제']",
     press: ["Enter"],
-    expect: { focused: "[data-testid=confirm-dialog-confirm]" },
+    expect: { focused: "role=button[name='삭제']" },
   },
   {
     name: "Tab이 밖으로 새지 않는다 — 확인에서 한 번 더 누르면 취소로 돌아온다",
-    focus: "[data-testid=confirm-dialog-trigger]",
+    focus: "role=button[name='거래 삭제']",
     press: ["Enter", "Tab"],
-    expect: { focused: "[data-testid=confirm-dialog-cancel]" },
+    expect: { focused: "role=button[name='취소']" },
   },
   {
     name: "Esc가 닫고 초점이 트리거로 돌아온다",
-    focus: "[data-testid=confirm-dialog-trigger]",
+    focus: "role=button[name='거래 삭제']",
     press: ["Enter", "Escape"],
-    expect: { focused: "[data-testid=confirm-dialog-trigger]" },
+    expect: { focused: "role=button[name='거래 삭제']" },
   },
 ]
 
@@ -119,11 +127,7 @@ export const Keyboard: Story = {
   parameters: { keyboard },
   render: () => (
     <ConfirmDialog
-      trigger={
-        <Button data-testid="confirm-dialog-trigger" variant="destructive">
-          거래 삭제
-        </Button>
-      }
+      trigger={<Button variant="destructive">거래 삭제</Button>}
       title="거래를 삭제할까요?"
       description="삭제한 거래는 되돌릴 수 없습니다."
       tone="danger"
