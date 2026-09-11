@@ -25,10 +25,13 @@ import * as SkeletonStories from "./Skeleton.stories"
 
 <Canvas of={SkeletonStories.ListRowShape} />
 <Canvas of={SkeletonStories.CircleShape} />
+<Canvas of={SkeletonStories.AnnouncedByParent} />
 
 ## 접근성
 
-`role="status"` + `aria-busy="true"`를 스스로 낸다 — 감싸는 영역이 로딩을 알리길 기다리지 않는다. 여러 개를 늘어놓았으면 대표 하나에만 `aria-label`을 의미 있게 주고 나머지는 기본값("불러오는 중")을 그대로 둔다.
+기본은 `role="status"` + `aria-busy="true"`를 스스로 낸다 — 감싸는 영역이 로딩을 알리길 기다리지 않는다. 여러 개를 늘어놓았으면 대표 하나에만 `aria-label`을 의미 있게 주고 나머지는 기본값("불러오는 중")을 그대로 둔다.
+
+감싸는 영역이 **이미** 로딩을 알리는 자리(`role="status"`+`aria-busy`를 진 섹션)에서는 `announce={false}`로 그 선언을 끈다 — role·aria-busy·접근성 이름을 하나도 내지 않아 이름 없는 `div`로 남고, 스크린 리더가 같은 로딩을 두 번 읽지 않는다. Spinner가 `aria-hidden="true"`로 푸는 것과 같은 문제이고, 자리표시자는 보통 여러 개라 축으로 연다([#321](https://github.com/flameware/massive-design/issues/321)).
 
 ## Props
 
