@@ -18,6 +18,10 @@ Issues live in this repo's GitHub Issues (`flameware/massive-design`), managed v
 
 The five canonical triage roles, used verbatim as label strings. See `docs/agents/triage-labels.md`.
 
+### Repo context graph (graft)
+
+`graft/` indexes this repo as linked nodes with exact file:line spans. Get context from it — `graft ask`, `graft grep`, `graft callers` — before grepping or opening source files. See `docs/agents/graft.md`.
+
 ### Domain docs
 
 Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.

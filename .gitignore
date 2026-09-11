@@ -16,3 +16,10 @@ storybook-static
 .design-sync/.cache/
 .design-sync/node_modules
 .ds-sync/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+# Claude Code — personal, per-machine state (shared settings/hooks are committed).
+/.claude/settings.local.json
+/.claude/worktrees/
