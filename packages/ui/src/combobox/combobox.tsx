@@ -70,8 +70,15 @@ function ComboboxInput({ className, ...props }: ComboboxInputProps) {
   return <BaseCombobox.Input className={cn(comboboxInputVariants(), className)} {...props} />
 }
 
+/* `z-50`은 여기가 아니라 Positioner에 있다 — Popup은 `position: static`이라
+ * z-index가 아무것도 하지 않는다(정적 요소에는 적용되지 않는다). 층을 만드는
+ * 것은 Base UI가 `absolute`로 앉히는 Positioner 쪽이고, Menu·Select도 그쪽에
+ * 건다(menu.tsx의 Positioner `className="z-50"`, select.tsx의
+ * positionerVariants). 여기 있던 동안 Dialog·Drawer 안의 콤보박스 팝업이
+ * z-50 뷰포트 **뒤로** 깔려 항목을 누를 수 없었다 — 소비처가 고칠 수 없는
+ * 자리다(Popup의 className은 Positioner에 닿지 않는다). */
 export const comboboxPopupVariants = cva([
-  "z-50 max-h-72 w-(--anchor-width) overflow-auto rounded-md border border-default bg-surface p-1 text-default shadow-md outline-none",
+  "max-h-72 w-(--anchor-width) overflow-auto rounded-md border border-default bg-surface p-1 text-default shadow-md outline-none",
   "data-starting-style:opacity-0 data-ending-style:opacity-0 transition-opacity",
 ])
 
@@ -92,7 +99,14 @@ export type ComboboxPopupProps = Omit<BaseComboboxPopupProps, "className"> & {
 function ComboboxPopup({ className, side, align, sideOffset = 4, alignOffset, anchor, ...props }: ComboboxPopupProps) {
   return (
     <BaseCombobox.Portal>
-      <BaseCombobox.Positioner side={side} align={align} sideOffset={sideOffset} alignOffset={alignOffset} anchor={anchor}>
+      <BaseCombobox.Positioner
+        side={side}
+        align={align}
+        sideOffset={sideOffset}
+        alignOffset={alignOffset}
+        anchor={anchor}
+        className="z-50"
+      >
         <BaseCombobox.Popup className={cn(comboboxPopupVariants(), className)} {...props} />
       </BaseCombobox.Positioner>
     </BaseCombobox.Portal>
