@@ -33,15 +33,21 @@ import * as AlertDialogStories from "./AlertDialog.stories"
     <AlertDialog.Backdrop />
     <AlertDialog.Viewport>
       <AlertDialog.Popup>
-        <AlertDialog.Title>거래를 삭제할까요?</AlertDialog.Title>
-        <AlertDialog.Description>삭제한 거래는 되돌릴 수 없습니다.</AlertDialog.Description>
-        <AlertDialog.Close render={<Button variant="outline">취소</Button>} />
-        <Button variant="destructive" onClick={() => { deleteAndClose() }}>삭제</Button>
+        <AlertDialog.Header>
+          <AlertDialog.Title>거래를 삭제할까요?</AlertDialog.Title>
+          <AlertDialog.Description>삭제한 거래는 되돌릴 수 없습니다.</AlertDialog.Description>
+        </AlertDialog.Header>
+        <AlertDialog.Footer>
+          <AlertDialog.Close render={<Button variant="outline">취소</Button>} />
+          <Button variant="destructive" onClick={() => { deleteAndClose() }}>삭제</Button>
+        </AlertDialog.Footer>
       </AlertDialog.Popup>
     </AlertDialog.Viewport>
   </AlertDialog.Portal>
 </AlertDialog.Root>
 ```
+
+`Header`·`Footer`는 Dialog와 같은 자리에서 같은 이유로 쓴다(#293) — Base UI에 대응 파트가 없는 순수 레이아웃 그룹이고, `dialog/shared.tsx` 한 곳에서 Dialog와 함께 정의돼 둘 다 같은 모양을 낸다.
 
 ## 키보드
 

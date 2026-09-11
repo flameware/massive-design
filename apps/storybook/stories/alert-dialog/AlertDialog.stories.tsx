@@ -16,11 +16,12 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-/* 되돌릴 수 없는 결정을 확인받는 자리 — 거래 삭제 확인(#284, 히스토리 컷오버에서
- * 같은 셋을 쓴다). `Close`는 alert-dialog.tsx가 스타일을 주지 않으므로 취소
- * 버튼은 `render`로 Button을 합성한다. 확인 버튼은 `Close`가 아니다 — 실제
+/* 되돌릴 수 없는 결정을 확인받는 자리 — 거래 삭제 확인(#284, 히스토리·포트폴리오
+ * 컷오버에서 같은 셋을 쓴다). `Close`는 alert-dialog.tsx가 스타일을 주지 않으므로
+ * 취소 버튼은 `render`로 Button을 합성한다. 확인 버튼은 `Close`가 아니다 — 실제
  * 동작(여기서는 삭제 카운트)을 먼저 하고 **직접** 닫는다: 이것이 "명시적
- * 선택만 닫는다"는 Alert 계열의 약속이다. */
+ * 선택만 닫는다"는 Alert 계열의 약속이다. `Header`·`Footer`는 소비처가 반복해서
+ * 손으로 짜던 세로 간격·버튼 줄을 대신 진다(#293). */
 export const Playground: Story = {
   render: () => {
     function DeleteConfirm() {
@@ -33,11 +34,13 @@ export const Playground: Story = {
             <AlertDialog.Backdrop />
             <AlertDialog.Viewport>
               <AlertDialog.Popup>
-                <AlertDialog.Title>거래를 삭제할까요?</AlertDialog.Title>
-                <AlertDialog.Description>
-                  삭제한 거래는 되돌릴 수 없습니다. 삭제됨: {deleted}건
-                </AlertDialog.Description>
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", marginTop: "1.5rem" }}>
+                <AlertDialog.Header>
+                  <AlertDialog.Title>거래를 삭제할까요?</AlertDialog.Title>
+                  <AlertDialog.Description>
+                    삭제한 거래는 되돌릴 수 없습니다. 삭제됨: {deleted}건
+                  </AlertDialog.Description>
+                </AlertDialog.Header>
+                <AlertDialog.Footer>
                   <AlertDialog.Close render={<Button variant="outline">취소</Button>} />
                   <Button
                     variant="destructive"
@@ -48,7 +51,7 @@ export const Playground: Story = {
                   >
                     삭제
                   </Button>
-                </div>
+                </AlertDialog.Footer>
               </AlertDialog.Popup>
             </AlertDialog.Viewport>
           </AlertDialog.Portal>

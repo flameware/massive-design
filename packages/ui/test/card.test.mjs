@@ -8,8 +8,8 @@ import { test } from "node:test"
 
 import { Card, cardVariants } from "../dist/card/index.js"
 
-test("Card는 네임스페이스형이다 — Root·Header·Body·Footer 넷", () => {
-  assert.deepEqual(Object.keys(Card).sort(), ["Body", "Footer", "Header", "Root"])
+test("Card는 네임스페이스형이다 — Root·Header·Body·Footer·Title 다섯", () => {
+  assert.deepEqual(Object.keys(Card).sort(), ["Body", "Footer", "Header", "Root", "Title"])
 })
 
 test("그림자를 강제하지 않는다 — shadow 유틸리티를 스스로 내지 않는다", () => {

@@ -5,6 +5,8 @@ import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog"
 import {
   OverlayBackdrop,
   OverlayDescription,
+  OverlayFooter,
+  OverlayHeader,
   OverlayPopup,
   OverlayTitle,
   OverlayViewport,
@@ -14,7 +16,9 @@ import {
  * 되돌릴 수 없는 결정을 확인받는 모달. Dialog와 표면(배경·테두리·그림자)을
  * 공유한다 — Base UI 자신이 `AlertDialog.Backdrop`·`Popup`·`Title`·
  * `Description`·`Viewport`를 `Dialog`의 같은 이름 그대로 재수출하기 때문이다
- * (`dialog/shared.tsx` 참고). 진짜로 다른 것은 `Root`와 `Trigger`뿐이다:
+ * (`dialog/shared.tsx` 참고). `Header`·`Footer`는 Base UI에 대응 파트가 없는
+ * 순수 레이아웃 그룹이라 이 패키지가 직접 두 곳에 얹은 것이다(같은 파일).
+ * 진짜로 다른 것은 `Root`와 `Trigger`뿐이다:
  * `AlertDialogRoot`는 `modal`·`disablePointerDismissal`을 아예 받지 않는다 —
  * 언제나 모달이고 바깥을 눌러 닫히지 않는다. 명시적 선택(취소/확인)만 닫는
  * 통로다.
@@ -36,7 +40,9 @@ export const AlertDialog = {
   Backdrop: OverlayBackdrop,
   Viewport: OverlayViewport,
   Popup: OverlayPopup,
+  Header: OverlayHeader,
   Title: OverlayTitle,
   Description: OverlayDescription,
+  Footer: OverlayFooter,
   Close: BaseAlertDialog.Close,
 }

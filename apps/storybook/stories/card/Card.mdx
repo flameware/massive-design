@@ -23,11 +23,13 @@ import * as CardStories from "./Card.stories"
 
 ## 파트
 
-`Card.Root`·`Card.Header`·`Card.Body`·`Card.Footer` — 네임스페이스형 API다.
+`Card.Root`·`Card.Header`·`Card.Body`·`Card.Footer`·`Card.Title` — 네임스페이스형 API다. `Title`은 `Header` 안에서 쓴다 — 접근성 트리의 제목 레벨(`level`, 기본 3)과 시각 크기(`size`, 기본 `lg`)를 따로 받는다.
 
 <Canvas of={CardStories.Playground} />
 
 <Canvas of={CardStories.BodyOnly} />
+
+<Canvas of={CardStories.TitleLevel} />
 
 ## 그림자
 

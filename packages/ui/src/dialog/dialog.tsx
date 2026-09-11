@@ -6,6 +6,8 @@ import {
   OverlayBackdrop,
   OverlayClose,
   OverlayDescription,
+  OverlayFooter,
+  OverlayHeader,
   OverlayPopup,
   OverlayTitle,
   OverlayViewport,
@@ -39,7 +41,9 @@ export const Dialog = {
   Backdrop: OverlayBackdrop,
   Viewport: OverlayViewport,
   Popup: OverlayPopup,
+  Header: OverlayHeader,
   Title: OverlayTitle,
   Description: OverlayDescription,
+  Footer: OverlayFooter,
   Close: OverlayClose,
 }
