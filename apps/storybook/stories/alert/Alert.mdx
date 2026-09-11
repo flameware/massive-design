@@ -23,13 +23,13 @@ import * as AlertStories from "./Alert.stories"
 
 ## 톤
 
-`tone`은 `neutral`·`danger` 둘뿐이다(Phase 1 — `정보` 톤은 스펙이 미룬다). 색은 [대비 게이트](https://github.com/flameware/massive-design/blob/main/packages/tokens/scripts/contrast.mjs)가 이미 검증한 조합만 쓴다 — `danger`는 `fg.danger` on `bg.danger.soft`, `neutral`은 `fg.default`/`fg.muted` on `bg.neutral.soft`.
+`tone`은 `neutral`·`danger`·`warning` 셋이다(#324 — `info` 패밀리는 앱에 자리가 없어 만들지 않는다). 색은 [대비 게이트](https://github.com/flameware/massive-design/blob/main/packages/tokens/scripts/contrast.mjs)가 이미 검증한 조합만 쓴다 — `danger`는 `fg.danger` on `bg.danger.soft`, `warning`은 `fg.warning` on `bg.warning.soft`, `neutral`은 `fg.default`/`fg.muted` on `bg.neutral.soft`. warning의 토큰(`bg-warning-soft`·`text-warning`)은 이미 `@theme`에 있다 — #280이 열었다.
 
 <Canvas of={AlertStories.Tones} />
 
 ## role은 톤을 따라 갈린다
 
-`danger`는 사용자가 놓치면 안 되는 오류라 `role="alert"`(assertive, 삽입 즉시 읽는다)이고, `neutral`은 급하지 않은 안내라 `role="status"`(polite, 읽던 것을 끊지 않는다)다. 둘 다 [WAI-ARIA 라이브 리전](https://www.w3.org/TR/wai-aria-1.2/#alert)의 뜻 그대로다.
+`danger`는 사용자가 놓치면 안 되는 오류라 `role="alert"`(assertive, 삽입 즉시 읽는다)이고, `neutral`·`warning`은 급하지 않은 안내라 `role="status"`(polite, 읽던 것을 끊지 않는다)다. warning의 자리(시세 갱신 실패·환율 미상)는 지금 당장 조치가 필요한 오류가 아니라 사용자가 하던 일을 끊을 근거가 없다. 셋 다 [WAI-ARIA 라이브 리전](https://www.w3.org/TR/wai-aria-1.2/#alert)의 뜻 그대로다.
 
 ## 아이콘
 

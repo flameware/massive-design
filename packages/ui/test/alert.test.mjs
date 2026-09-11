@@ -14,9 +14,10 @@ test("Alert는 네임스페이스형이다 — Root·Title·Description 셋", ()
   assert.deepEqual(Object.keys(Alert).sort(), ["Description", "Root", "Title"])
 })
 
-test("danger는 role=alert(assertive), neutral은 role=status(polite)다", () => {
+test("danger는 role=alert(assertive), neutral·warning은 role=status(polite)다", () => {
   assert.match(renderToStaticMarkup(h(Alert.Root, { tone: "danger" })), /role="alert"/)
   assert.match(renderToStaticMarkup(h(Alert.Root, { tone: "neutral" })), /role="status"/)
+  assert.match(renderToStaticMarkup(h(Alert.Root, { tone: "warning" })), /role="status"/, "급하지 않은 주의는 놓치면 안 되는 오류가 아니다")
   assert.match(renderToStaticMarkup(h(Alert.Root, null)), /role="status"/, "기본 톤은 neutral이다")
 })
 
@@ -33,6 +34,16 @@ test("neutral 톤은 fg.default·bg.neutral.soft를 쓴다 — 대비 게이트�
   const classes = alertVariants({ tone: "neutral" })
   assert.match(classes, /(?:^|\s)text-default(?:\s|$)/)
   assert.match(classes, /(?:^|\s)bg-neutral-soft(?:\s|$)/)
+})
+
+test("warning 톤은 fg.warning·bg.warning.soft만 쓴다 — 대비 게이트가 검증한 조합", () => {
+  const classes = alertVariants({ tone: "warning" })
+  assert.match(classes, /(?:^|\s)text-warning(?:\s|$)/)
+  assert.match(classes, /(?:^|\s)bg-warning-soft(?:\s|$)/)
+  // border.warning 토큰이 없다 — neutral과 같은 border-default를 쓴다
+  assert.match(classes, /(?:^|\s)border-default(?:\s|$)/)
+  // fg.muted × bg.warning.soft는 contrast.mjs의 TEXT_PAIRS에 없다 — 만들지 않는다
+  assert.ok(!/text-muted/.test(classes))
 })
 
 test("아이콘은 격자 1열, 제목·설명은 2열이다 — 아이콘 유무와 무관하게 정렬이 유지된다", () => {

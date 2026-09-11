@@ -57,6 +57,7 @@ for (const classes of [
   cardVariants(),
   alertVariants({ tone: "neutral" }),
   alertVariants({ tone: "danger" }),
+  alertVariants({ tone: "warning" }),
   comboboxInputVariants(),
   comboboxPopupVariants(),
   comboboxListVariants(),

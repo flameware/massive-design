@@ -1,6 +1,6 @@
 import { Alert } from "@flameware/ui/alert"
 import { Icon } from "@flameware/ui/icon"
-import { CircleAlert, Info } from "lucide-react"
+import { CircleAlert, Info, TriangleAlert } from "lucide-react"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 
 import type { ComponentMeta } from "../meta"
@@ -14,7 +14,7 @@ const meta = {
   parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { tone: "neutral" },
   argTypes: {
-    tone: { control: "select", options: ["neutral", "danger"] },
+    tone: { control: "select", options: ["neutral", "danger", "warning"] },
   },
 } satisfies Meta<typeof Alert.Root> & ComponentMeta
 
@@ -22,19 +22,30 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
+const PLAYGROUND_ICON = { neutral: Info, danger: CircleAlert, warning: TriangleAlert } as const
+const PLAYGROUND_TITLE = {
+  neutral: "알아 두세요",
+  danger: "저장하지 못했습니다",
+  warning: "시세를 갱신하지 못했습니다",
+} as const
+const PLAYGROUND_DESCRIPTION = {
+  neutral: "세션이 30분 뒤 만료됩니다.",
+  danger: "다시 시도하거나 나중에 다시 시도해 주세요.",
+  warning: "마지막으로 받은 시세를 보여주고 있습니다.",
+} as const
+
 export const Playground: Story = {
   render: (args) => (
     <Alert.Root {...args} style={{ maxWidth: "28rem" }}>
-      <Icon icon={args.tone === "danger" ? CircleAlert : Info} />
-      <Alert.Title>{args.tone === "danger" ? "저장하지 못했습니다" : "알아 두세요"}</Alert.Title>
-      <Alert.Description>
-        {args.tone === "danger" ? "다시 시도하거나 나중에 다시 시도해 주세요." : "세션이 30분 뒤 만료됩니다."}
-      </Alert.Description>
+      <Icon icon={PLAYGROUND_ICON[args.tone ?? "neutral"]} />
+      <Alert.Title>{PLAYGROUND_TITLE[args.tone ?? "neutral"]}</Alert.Title>
+      <Alert.Description>{PLAYGROUND_DESCRIPTION[args.tone ?? "neutral"]}</Alert.Description>
     </Alert.Root>
   ),
 }
 
-/* 톤 둘을 나란히 — 색뿐 아니라 role도 갈린다(danger=alert, neutral=status). */
+/* 톤 셋을 나란히 — 색뿐 아니라 role도 갈린다(danger=alert, neutral·warning=status).
+ * warning의 자리는 시세 갱신 실패·환율 미상처럼 "틀리진 않았지만 주의"인 안내다(#324). */
 export const Tones: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", maxWidth: "28rem" }}>
@@ -42,6 +53,11 @@ export const Tones: Story = {
         <Icon icon={Info} />
         <Alert.Title>알아 두세요</Alert.Title>
         <Alert.Description>세션이 30분 뒤 만료됩니다.</Alert.Description>
+      </Alert.Root>
+      <Alert.Root tone="warning">
+        <Icon icon={TriangleAlert} />
+        <Alert.Title>시세를 갱신하지 못했습니다</Alert.Title>
+        <Alert.Description>마지막으로 받은 시세를 보여주고 있습니다.</Alert.Description>
       </Alert.Root>
       <Alert.Root tone="danger">
         <Icon icon={CircleAlert} />

@@ -7,12 +7,18 @@ import { cn } from "../lib/utils.js"
  * 컴포넌트로 남는다: 상태도 이벤트 핸들러도 없어 `"use client"`가 필요 없다.
  * test/package.test.mjs가 "./alert"를 SERVER_SUBPATHS로 재고 지킨다.
  *
- * 톤 축은 `neutral`·`danger` 둘뿐이다(Phase 1 — `정보` 톤은 스펙이 미룬다).
- * 색은 **대비 게이트가 이미 검증한 조합만** 쓴다(packages/tokens/scripts/contrast.mjs
- * TEXT_PAIRS): `fg.danger`는 `bg.danger.soft` 위에서만, `fg.default`·`fg.muted`는
- * `bg.neutral.soft` 위에서 검증됐다. danger 톤에서 제목·설명을 둘 다 `text-danger`
- * 하나로 통일하는 것은 미감이 아니라 이 목록이 `fg.muted`·`bg.danger.soft` 조합을
- * 검증하지 않기 때문이다 — 검증 밖의 색은 만들지 않는다. */
+ * 톤 축은 `neutral`·`danger`·`warning` 셋이다(#324 — `info` 패밀리는 앱에 자리가
+ * 없어 만들지 않는다). warning 패밀리 토큰(`bg.warning.soft`·`fg.warning`)은
+ * `@theme`에 이미 있다 — #280이 열었다. 이 티켓은 토큰이 아니라 이 축에 값 하나를
+ * 더한다. 색은 **대비 게이트가 이미 검증한 조합만** 쓴다(packages/tokens/scripts/contrast.mjs
+ * TEXT_PAIRS): `fg.danger`는 `bg.danger.soft` 위에서만, `fg.warning`은
+ * `bg.warning.soft` 위에서만, `fg.default`·`fg.muted`는 `bg.neutral.soft` 위에서
+ * 검증됐다. danger·warning 톤에서 제목·설명을 둘 다 자기 색 하나로 통일하는 것은
+ * 미감이 아니라 이 목록이 `fg.muted`·`bg.danger.soft`(또는 `bg.warning.soft`) 조합을
+ * 검증하지 않기 때문이다 — 검증 밖의 색은 만들지 않는다. warning은 `border.warning`
+ * 토큰이 없어(semantic/color.json에 danger만 있다) 테두리는 `border-default`를
+ * 쓴다 — neutral과 같은 자리다. Alert의 테두리는 대비 게이트의 NONTEXT_PAIRS
+ * 대상(인터랙티브 어포던스)이 아니라 이 선택이 게이트를 우회하는 것이 아니다. */
 export const alertVariants = cva(
   [
     // 격자 1열은 아이콘, 2열은 제목·설명이다. 아이콘 없이 써도 무너지지
@@ -27,6 +33,7 @@ export const alertVariants = cva(
       tone: {
         neutral: "border-default bg-neutral-soft text-default",
         danger: "border-danger bg-danger-soft text-danger",
+        warning: "border-default bg-warning-soft text-warning",
       },
     },
     defaultVariants: { tone: "neutral" },
@@ -41,10 +48,13 @@ export interface AlertRootProps
  * 지속적인 피드백이나 주의 사항을 의미별로 전달하는 배너.
  *
  * role은 톤을 따라 갈린다 — `danger`는 사용자가 놓치면 안 되는 오류라
- * `role="alert"`(assertive, 삽입 즉시 읽는다), `neutral`은 급하지 않은 안내라
- * `role="status"`(polite, 읽던 것을 끊지 않는다)다. 하나로 고정하지 않는 이유는
- * "role을 올바르게 갖는다"가 톤 전부에 같은 값을 박는 것이 아니라 각 톤의
- * 긴급도에 맞는 값을 고르는 일이기 때문이다.
+ * `role="alert"`(assertive, 삽입 즉시 읽는다), 그 밖의 톤은 급하지 않은 안내라
+ * `role="status"`(polite, 읽던 것을 끊지 않는다)다. `warning`도 `status`다(#324) —
+ * 시세 갱신 실패·환율 미상처럼 "틀리진 않았지만 주의"인 자리는 지금 당장 조치가
+ * 필요한 오류가 아니라 사용자가 이어 하던 일을 끊을 근거가 없다. 놓치면 안 되는
+ * 것과 급하지 않은 것을 가르는 축이 role이고, warning은 후자다. 하나로 고정하지
+ * 않는 이유는 "role을 올바르게 갖는다"가 톤 전부에 같은 값을 박는 것이 아니라 각
+ * 톤의 긴급도에 맞는 값을 고르는 일이기 때문이다.
  */
 function Root({ className, tone, ...props }: AlertRootProps) {
   return (
