@@ -1,11 +1,12 @@
-/* Card·Alert·Badge·ListRow·Text·Skeleton·Spinner가 부르는 클래스가 **실제로
- * 선언을 내는지** 잰다 — Button의 test/utilities.test.mjs와 같은 이유, 같은
- * 계기다. Tailwind는 모르는 유틸리티를 오류로 만들지 않고 조용히 아무것도
+/* Card·Alert·Badge·ListRow·Text·Skeleton·Spinner·Combobox가 부르는 클래스가
+ * **실제로 선언을 내는지** 잰다 — Button의 test/utilities.test.mjs와 같은 이유,
+ * 같은 계기다. Tailwind는 모르는 유틸리티를 오류로 만들지 않고 조용히 아무것도
  * 내지 않으므로, semantic 이름의 오타나 미등록은 눈으로 안 보인다.
  *
  * Button의 파일을 건드리지 않고 따로 둔 이유: 그 파일은 #299 회귀 테스트(상태
- * 레이어 캐스케이드 참여자 수)까지 지고 있어 Button 전용으로 남기고, 여기
- * 나머지는 전부 상태 레이어가 없는(자체 스타일, 인터랙티브 아닌) 컴포넌트라
+ * 레이어 캐스케이드 참여자 수)까지 지고 있어 Button 전용으로 남기고, `.state`
+ * 유틸리티를 쓰지 않는 나머지 컴포넌트(Card·Alert·Badge 등은 상태가 아예 없고,
+ * Combobox는 Base UI의 `data-highlighted`·`data-selected`를 색으로만 받는다)는
  * "클래스가 방출되는가"만 재면 충분하다. */
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
@@ -17,6 +18,14 @@ import { compile } from "tailwindcss"
 import { alertVariants } from "../dist/alert/index.js"
 import { badgeVariants } from "../dist/badge/index.js"
 import { cardVariants } from "../dist/card/index.js"
+import {
+  comboboxEmptyVariants,
+  comboboxInputVariants,
+  comboboxItemVariants,
+  comboboxListVariants,
+  comboboxPopupVariants,
+  comboboxStatusVariants,
+} from "../dist/combobox/index.js"
 import { listRowPartClassNames, listRowVariants } from "../dist/list-row/index.js"
 import { skeletonVariants } from "../dist/skeleton/index.js"
 import { spinnerVariants } from "../dist/spinner/index.js"
@@ -47,6 +56,12 @@ for (const classes of [
   cardVariants(),
   alertVariants({ tone: "neutral" }),
   alertVariants({ tone: "danger" }),
+  comboboxInputVariants(),
+  comboboxPopupVariants(),
+  comboboxListVariants(),
+  comboboxItemVariants(),
+  comboboxEmptyVariants(),
+  comboboxStatusVariants(),
   badgeVariants({ tone: "neutral" }),
   badgeVariants({ tone: "accent" }),
   badgeVariants({ tone: "danger" }),
@@ -71,7 +86,7 @@ for (const classes of [
   for (const c of classes.split(/\s+/)) if (c) candidates.add(c)
 }
 
-test("자체 스타일 primitive가 부르는 클래스가 하나도 빠짐없이 선언을 낸다", () => {
+test("자체 스타일 primitive·Combobox가 부르는 클래스가 하나도 빠짐없이 선언을 낸다", () => {
   assert.ok(candidates.size > 15, `클래스가 ${candidates.size}개뿐이다 — 축을 못 읽었다`)
 
   let before = compiler.build([]).length
