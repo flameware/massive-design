@@ -30,6 +30,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 - **계열** — 토큰 이름의 `--ds-<bg|fg|border>-` 앞자리. 색 **패밀리**(brand/neutral/…)와 다른 축이다 — 패밀리는 어느 램프에서 왔는지를, 계열은 어느 자리에 쓰이는지를 말한다. **값이 아니라 역할을 가른다** — 두 계열이 같은 primitive를 가리키는 것은 정상이며(`border.strong`과 `bg.neutral.solid`는 둘 다 neutral 9다), 그때도 소비는 값이 아니라 역할을 따른다. 시각적으로 같아 보이는 것이 곧 옳은 소비가 되지 않는다(1세대 매니페스트 lint 규칙 3이 이것을 전제로 했다).
 - **컨트롤 어포던스(control affordance)** — 채움 자체가 조작 가능한 대상을 나타내는 자리. Scroll Area의 thumb, Switch의 off 트랙이 여기다. 사용자가 잡는 것이므로 앉는 면에 대해 **비텍스트 대비 3:1**(WCAG 1.4.11)을 만족해야 하고, 그래서 solid 계열 중립 배경(`bg.neutral.solid`, 1세대 alias `neutral-solid` — [ADR-0003](docs/adr/0003-neutral-solid-alias-name.md))을 집는다. `tokens:contrast`의 비텍스트 게이트가 이 쌍을 5면 × 2모드로 잰다.
 - **잔여 트랙(track remainder)** — 값이 아직 닿지 않은 바닥. Progress·Slider의 트랙이 여기다. 의미는 채워진 부분이 나르므로 대비 요구가 없고 바닥으로 남는다 — 컨트롤 어포던스와 요구가 정반대라 같은 토큰을 쓰지 않는다. 두 자리가 **한 이름**(`bg.neutral.soft`, 1세대 alias `secondary`)을 집는다.
+- **차트 계열(chart series)** — 차트가 한 면 위에 함께 그리는 데이터 묶음 하나. **바로 위의 `계열`과 다른 축이다** — 그쪽은 토큰 이름의 앞자리이고, 이쪽은 차트가 나누는 몫이다. 잔여 트랙과 마찬가지로 **의미를 채움 자체가 나르므로** 컨트롤 어포던스가 아니고, WCAG 1.4.11의 3:1을 빚지지 않는다 — 대신 자기 하한을 따로 진다(면에 대해 1.5:1, 계열끼리 1.9:1). DS는 차트 토큰도 컴포넌트도 갖지 않고 **브랜드에서 계열 둘을 뽑는 규칙만** 준다([`packages/tokens/README.md` §차트 계열색](packages/tokens/README.md), [#334](https://github.com/flameware/massive-design/issues/334)).
 
 ## 램프
 
