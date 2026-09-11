@@ -1,6 +1,6 @@
 {
   "name": "@flameware/tokens",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "description": "massive-design 토큰 — OKLCH 램프에서 생성한 CSS 한 장과 semantic 토큰 타입",
   "repository": {

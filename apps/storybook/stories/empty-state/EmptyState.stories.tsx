@@ -79,3 +79,33 @@ export const TitleAndDescriptionOnly: Story = {
     </EmptyState.Root>
   ),
 }
+
+/* #327: Description 없이 Title만 — 소비처(투자 다이어리 거래 목록)가
+ * `onEdit`가 있을 때만 Description을 붙이는 실제 경로다. Root는 이 자리에서
+ * `aria-describedby`를 아예 걸지 않는다(매달린 IDREF 금지) — axe가 이를
+ * 잡아낸다. 이 스토리가 없어서 #327의 결함이 소비처에서 먼저 발견됐다. */
+export const TitleOnly: Story = {
+  render: () => (
+    <EmptyState.Root style={{ maxWidth: "24rem" }}>
+      <EmptyState.Icon>
+        <Icon icon={Inbox} />
+      </EmptyState.Icon>
+      <EmptyState.Title>아직 거래 내역이 없습니다</EmptyState.Title>
+    </EmptyState.Root>
+  ),
+}
+
+/* #327: Title 없이 Description만 — Root는 `aria-labelledby`도 같은 규칙으로
+ * 옵셔널이다. Title은 이 패턴이 존재하는 이유라 문서·관례상 거의 항상 쓰지만
+ * (컴포넌트 코멘트 참고), 타입이 막지 않으므로 이 조합도 매달린 IDREF 없이
+ * 유효해야 한다. */
+export const DescriptionOnly: Story = {
+  render: () => (
+    <EmptyState.Root style={{ maxWidth: "24rem" }}>
+      <EmptyState.Icon>
+        <Icon icon={Inbox} />
+      </EmptyState.Icon>
+      <EmptyState.Description>종목을 매수하면 여기에 거래 내역이 쌓입니다.</EmptyState.Description>
+    </EmptyState.Root>
+  ),
+}

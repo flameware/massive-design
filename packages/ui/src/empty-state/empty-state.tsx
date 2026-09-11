@@ -19,7 +19,25 @@ import { Heading, Text, type HeadingProps, type TextProps } from "../text/text.j
  * 모양이지만(field.tsx 참고), 뒤에 선 프리미티브가 없으므로 이 파일이 직접
  * `useId`로 배선한다. `role="group"`은 Landmark를 새로 열지 않으면서
  * (`role="region"`과 달리) 접근성 이름·설명 계산을 받는 최소 역할이다 —
- * "한 세트의 UI 객체"라는 정의가 빈 상태 블록과 맞는다. */
+ * "한 세트의 UI 객체"라는 정의가 빈 상태 블록과 맞는다.
+ *
+ * #327: Title·Description 둘 다 옵셔널 파트다(Title이 "실질적으로 항상 쓴다"는
+ * 문서화된 관례여도 타입은 막지 않는다) — 그런데 Root가 `aria-labelledby`·
+ * `aria-describedby`를 무조건 걸면, 파트가 빠졌을 때 아무 요소도 갖지 않는
+ * id를 가리키는 매달린 IDREF가 남고 axe(`aria-valid-attr-value`)가 이를 잡는다.
+ * 소비처(투자 다이어리 거래 목록)가 실제로 Description 없이 Root를 쓰는 경로가
+ * 있어 이 결함이 현실에서 터졌다.
+ *
+ * Field는 Base UI 프리미티브 컨텍스트가 렌더 이후 어떤 파트가 실제로 마운트됐는지
+ * 추적해 같은 문제를 푼다 — 이 패키지엔 그 프리미티브가 없다. effect로
+ * 마운트 여부를 감지해 상태를 갱신하는 방식은 이 패키지에 지역 상태·effect가
+ * 전혀 없다는 하우스 스타일을 깨는 것은 물론, 첫 페인트에는 무조건 켠 값으로
+ * 그렸다가 effect가 돈 뒤에야 고치는 렌더-순서 버그를 그대로 만든다(첫 axe
+ * 스냅숏이 이미 틀린 값을 본다). 대신 `props.children`은 Root 함수 본문이
+ * 실행되는 시점에 이미 완성된 React 엘리먼트 트리이므로, 같은 렌더 패스 안에서
+ * `React.Children`으로 그 트리를 훑어 `Title`·`Description`이 직계 자식으로
+ * 있는지 동기적으로 판정할 수 있다 — 훅도 effect도 추가하지 않는 가장 단순한
+ * 수단이고, 첫 페인트부터 정답을 그린다. */
 
 interface EmptyStateContextValue {
   titleId: string
@@ -40,9 +58,20 @@ export interface EmptyStateRootProps extends Omit<React.ComponentPropsWithoutRef
   className?: string
 }
 
-/** 빈 상태 블록 하나를 감싼다. 안의 `Title`·`Description`이 낸 id를
- * `aria-labelledby`·`aria-describedby`로 받아 스크린 리더가 한 덩어리로 읽는다. */
-function Root({ className, ...props }: EmptyStateRootProps) {
+/** `children` 중 직계 자식으로 `part`(`Title`이나 `Description`)가 있는지
+ * 동기적으로 판정한다 — Root 자신의 렌더 패스 안에서 끝나므로 effect나 추가
+ * 상태 없이 첫 페인트부터 정확하다(위 #327 코멘트 참고). */
+function hasPart(children: React.ReactNode, part: React.ElementType): boolean {
+  return React.Children.toArray(children).some(
+    (child) => React.isValidElement(child) && child.type === part,
+  )
+}
+
+/** 빈 상태 블록 하나를 감싼다. 안의 `Title`·`Description`이 낸 id를, 그 파트가
+ * 실제로 렌더될 때만 `aria-labelledby`·`aria-describedby`로 받아 스크린 리더가
+ * 한 덩어리로 읽는다 — 파트가 없으면 아무 요소도 갖지 않는 id를 가리키는 매달린
+ * IDREF를 남기지 않는다(#327). */
+function Root({ className, children, ...props }: EmptyStateRootProps) {
   const titleId = React.useId()
   const descriptionId = React.useId()
 
@@ -50,11 +79,13 @@ function Root({ className, ...props }: EmptyStateRootProps) {
     <EmptyStateContext.Provider value={{ titleId, descriptionId }}>
       <div
         role="group"
-        aria-labelledby={titleId}
-        aria-describedby={descriptionId}
+        aria-labelledby={hasPart(children, Title) ? titleId : undefined}
+        aria-describedby={hasPart(children, Description) ? descriptionId : undefined}
         className={cn(rootVariants(), className)}
         {...props}
-      />
+      >
+        {children}
+      </div>
     </EmptyStateContext.Provider>
   )
 }
