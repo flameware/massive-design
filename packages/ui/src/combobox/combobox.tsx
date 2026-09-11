@@ -62,12 +62,51 @@ function ComboboxRoot<Value, Multiple extends boolean | undefined = false, Item 
 
 export type ComboboxInputProps = Omit<BaseComboboxInputProps, "className"> & {
   className?: string
+  /**
+   * 후보가 없을 때(필터 결과 0개) Enter가 현재 입력 텍스트를 값으로 제출한다
+   * — 종목 검색이 미상장 종목명을 그대로 받는 자리(이슈 #323). 새 상태를
+   * 만들지 않는다: Base UI가 이미 내는 `data-list-empty`(아래에서 읽는 것과
+   * 같은 상태가 `Combobox.Empty`를 스스로 렌더하게 한다 — `useListEmpty`,
+   * `filteredItems.length === 0`)를 그대로 읽을 뿐이다. 지정하지 않으면
+   * (기본값) Enter는 Base UI 기본대로 팝업만 닫는다 — 게시된 인스턴스를
+   * 그대로 보존하는 값이라 이 축을 여는 것은 가산 변경이다(rules.md 축과
+   * 이름 공간).
+   */
+  onFreeformSubmit?: (inputValue: string) => void
 }
 
 /** 필터 텍스트를 받는 입력. 밑그림은 Input·Textarea와 같다(lib/field-control.ts) —
- * 여기서 갈리는 것은 콤보박스만의 치수(팝업이 붙는 높이) 없이 한 줄 입력 그대로다. */
-function ComboboxInput({ className, ...props }: ComboboxInputProps) {
-  return <BaseCombobox.Input className={cn(comboboxInputVariants(), className)} {...props} />
+ * 여기서 갈리는 것은 콤보박스만의 치수(팝업이 붙는 높이) 없이 한 줄 입력 그대로다.
+ *
+ * `onFreeformSubmit`이 있을 때만 Enter에 손을 댄다. Base UI 자신의 Enter
+ * 처리(하이라이트가 없으면 폼 제출을 막지 않도록 팝업만 닫는다, 하이라이트가
+ * 있으면 그 항목을 선택한다)는 그대로 두고, 그 뒤에 `data-list-empty`
+ * 하나만 더 본다 — 읽는 것은 이전 렌더가 이미 찍어 둔 속성이라 두 핸들러의
+ * 실행 순서는 결과에 영향을 주지 않는다. */
+function ComboboxInput({ className, onFreeformSubmit, onKeyDown, ...props }: ComboboxInputProps) {
+  return (
+    <BaseCombobox.Input
+      className={cn(comboboxInputVariants(), className)}
+      onKeyDown={
+        onFreeformSubmit
+          ? (event) => {
+              onKeyDown?.(event)
+              if (event.key !== "Enter" || event.nativeEvent.isComposing) {
+                return
+              }
+              if (!event.currentTarget.hasAttribute("data-list-empty")) {
+                return
+              }
+              const value = event.currentTarget.value.trim()
+              if (value) {
+                onFreeformSubmit(value)
+              }
+            }
+          : onKeyDown
+      }
+      {...props}
+    />
+  )
 }
 
 /* `z-50`은 여기가 아니라 Positioner에 있다 — Popup은 `position: static`이라
