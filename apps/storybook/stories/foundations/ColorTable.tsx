@@ -11,6 +11,7 @@
  * 표가 **보여주는 이름**은 소비처 앱(Tailwind가 실제로 스캔하는 곳)에서
  * 그대로 쓸 유틸리티 클래스 이름이다. */
 import { cssVar } from "@flameware/tokens"
+import { Td, Th } from "./cell"
 
 const ROLE = {
   bg: { utility: "bg", label: "배경 (bg-*)" },
@@ -84,25 +85,25 @@ function RoleSection({ role }: { role: Role }) {
       <table>
         <thead>
           <tr>
-            <th style={{ textAlign: "left" }}>견본</th>
-            <th style={{ textAlign: "left" }}>유틸리티</th>
-            <th style={{ textAlign: "left" }}>semantic 경로</th>
-            <th style={{ textAlign: "left" }}>CSS 변수</th>
+            <Th>견본</Th>
+            <Th>유틸리티</Th>
+            <Th>semantic 경로</Th>
+            <Th>CSS 변수</Th>
           </tr>
         </thead>
         <tbody>
           {rows(role).map((row) => (
             <tr key={row.path}>
-              <td style={{ padding: "4px 8px 4px 0" }}>
+              <Td padding="4px 8px 4px 0">
                 <Swatch varName={row.varName} role={role} />
-              </td>
-              <td style={{ padding: "4px 8px 4px 0" }}>
+              </Td>
+              <Td padding="4px 8px 4px 0">
                 <code>{row.className}</code>
-              </td>
-              <td style={{ padding: "4px 8px 4px 0" }}>{row.path}</td>
-              <td style={{ padding: "4px 8px 4px 0" }}>
+              </Td>
+              <Td padding="4px 8px 4px 0">{row.path}</Td>
+              <Td padding="4px 8px 4px 0">
                 <code>{row.varName}</code>
-              </td>
+              </Td>
             </tr>
           ))}
         </tbody>
