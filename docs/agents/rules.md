@@ -32,8 +32,9 @@
 
 ## 토큰과 대비
 
-출처: P2 [#118](https://github.com/flameware/massive-design/issues/118)
+출처: P2 [#118](https://github.com/flameware/massive-design/issues/118) · Phase 1 [#275](https://github.com/flameware/massive-design/issues/275) — [`../handoff/phase-1-base-ui-map.md`](../handoff/phase-1-base-ui-map.md)
 
+- **A component with a face paints `--ds-state-base` in one place, never `bg-*`** ([#280](https://github.com/flameware/massive-design/issues/280) + [#299](https://github.com/flameware/massive-design/issues/299), [`../handoff/phase-1-base-ui-map.md`](../handoff/phase-1-base-ui-map.md)). The state layer (`packages/ui/src/state.css`) is the **only writer of `background-color`**: it composes hover·pressed over `--ds-state-base` with `color-mix`, so a `bg-accent-solid` utility emitted at the same specificity later in the sheet wins and hover·pressed silently vanish — that was #299, met in the consuming app, not in any gate. Disabled is `[data-disabled]`. The `@flameware/ui` grep gate (ADR-0023 §12) keeps this.
 - **A contrast requirement follows the role, not the token family** ([#109](https://github.com/flameware/massive-design/issues/109)). WCAG 1.4.11 binds "UI components that indicate state", so a *fill* can be inside the non-text gate: a **control affordance** — Scroll Area's thumb, Switch's off track — is the thing you grab, so it owes 3:1 against the surface it sits on and takes `bg.neutral.solid` (alias `neutral-solid`, [ADR-0003](../adr/0003-neutral-solid-alias-name.md)). Its opposite, the **track remainder** (Progress, Slider), owes nothing, because the filled part carries the meaning. Both roles are defined in `CONTEXT.md`. Four places had agreed on neutral 3 by accident, reached through three different paths; two of them were invisible at 1.09:1 and 1.17:1 and passed three gates in silence. `CODE_VERIFIED` is not a disproof of a defect no gate is looking for.
 
 ## 포인터 기하

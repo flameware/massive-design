@@ -19,7 +19,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Data display/Table",
   component: Table.Root,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
 } satisfies Meta<typeof Table.Root> & ComponentMeta
 
 export default meta

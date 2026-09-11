@@ -15,7 +15,7 @@ const NAV_ITEMS = [
 const meta = {
   title: "Patterns/Page shell",
   component: PageShell,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   // 모든 스토리가 render로 자기 상태를 들기 때문에 여기서 쓰이지는 않지만,
   // PageShell의 필수 prop(nav·children)을 meta에서 채워야 CSF3 타입이
   // 각 스토리에 args를 다시 요구하지 않는다

@@ -7,7 +7,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Foundations/아이콘",
   component: Icon,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { icon: Save, size: "md" },
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },

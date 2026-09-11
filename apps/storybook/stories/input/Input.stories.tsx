@@ -7,7 +7,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Forms/Input",
   component: Input,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { type: "text", placeholder: "저장할 값" },
   argTypes: {
     type: { control: "select", options: ["text", "email", "password", "number", "tel", "url"] },

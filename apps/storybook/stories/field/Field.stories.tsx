@@ -14,7 +14,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Forms/Field",
   component: Field.Root,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { name: "email", disabled: false, invalid: false },
   argTypes: {
     disabled: { control: "boolean" },

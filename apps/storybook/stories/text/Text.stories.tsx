@@ -11,7 +11,7 @@ const SIZES = ["xs", "sm", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl"] as co
 const meta = {
   title: "Typography/Text",
   component: Text,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { children: "본문 텍스트", size: "sm" },
   argTypes: {
     size: { control: "select", options: SIZES },

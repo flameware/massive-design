@@ -8,7 +8,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Patterns/Theme toggle",
   component: ThemeToggle,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { theme: "light", onThemeChange: () => {} },
 } satisfies Meta<typeof ThemeToggle> & ComponentMeta
 

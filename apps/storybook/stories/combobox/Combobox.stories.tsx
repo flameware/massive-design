@@ -41,7 +41,7 @@ function StockItemRow({ item }: { item: StockItem }) {
 const meta = {
   title: "Forms/Combobox",
   component: Combobox.Root,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
 } satisfies Meta<typeof Combobox.Root> & ComponentMeta
 
 export default meta

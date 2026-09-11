@@ -12,7 +12,7 @@ const SAMPLE_IMAGE =
 const meta = {
   title: "Data display/Avatar",
   component: Avatar.Root,
-  parameters: { ds: { status: "preview", since: "0.2.0" } },
+  parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { size: "md" },
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
