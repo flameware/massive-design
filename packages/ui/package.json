@@ -145,6 +145,10 @@
       "types": "./dist/number-field/index.d.ts",
       "default": "./dist/number-field/index.js"
     },
+    "./pagination": {
+      "types": "./dist/pagination/index.d.ts",
+      "default": "./dist/pagination/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
