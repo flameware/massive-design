@@ -137,6 +137,10 @@
       "types": "./dist/progress/index.d.ts",
       "default": "./dist/progress/index.js"
     },
+    "./empty-state": {
+      "types": "./dist/empty-state/index.d.ts",
+      "default": "./dist/empty-state/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
