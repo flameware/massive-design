@@ -6,8 +6,8 @@ import type * as React from "react"
 
 import { cn } from "../lib/utils.js"
 
-/* 네임스페이스형(ADR-0023 §5) — Root·Trigger·Popup·Item·CheckboxItem·Separator를
- * 하나의 이름 아래 둔다. 화살표 이동·Enter 선택·Esc 닫기는 전부 Base UI
+/* 네임스페이스형(ADR-0023 §5) — Root·Trigger·Popup·Group·GroupLabel·Item·
+ * CheckboxItem·Separator를 하나의 이름 아래 둔다. 화살표 이동·Enter 선택·Esc 닫기는 전부 Base UI
  * `MenuRoot`/`MenuPositioner`가 지고, 여기는 스타일과 조립만 진다(ADR-0023 §2).
  *
  * `Popup`이 Portal·Positioner를 안에서 함께 연다 — 소비처가 매번 세 겹을
@@ -140,6 +140,58 @@ function CheckMark() {
   )
 }
 
+export interface MenuGroupProps
+  extends Omit<React.ComponentPropsWithoutRef<typeof BaseMenu.Group>, "className"> {
+  className?: string
+}
+
+/* 그룹은 면도 여백도 갖지 않는다 — 묶음을 **보이게** 하는 것은 이미 `Separator`의
+ * 몫이고, Group이 자기 패딩을 더하면 구분선이 나눈 간격과 두 번 겹친다. 여기서
+ * 나는 것은 의미뿐이다: `role="group"`과 자기 Label을 가리키는 `aria-labelledby`. */
+function Group({ className, ...props }: MenuGroupProps) {
+  return <BaseMenu.Group className={className} {...props} />
+}
+
+export interface MenuGroupLabelProps
+  extends Omit<React.ComponentPropsWithoutRef<typeof BaseMenu.GroupLabel>, "className"> {
+  className?: string
+}
+
+/* 그룹 제목 — 항목이 아니다 (#320).
+ *
+ * 가로 패딩은 `Menu.Item`과 같은 `px-2`다 — 제목과 항목의 글자가 한 세로줄에
+ * 선다. `Menu.CheckboxItem`은 그 안쪽에 `size-4` 인디케이터와 `gap-2`를 더
+ * 두므로 글자가 24px 더 들어간다: 제목이 맞추는 줄은 **`Item`의 줄**이고,
+ * 체크 항목이 섞인 묶음에서는 체크 항목 쪽이 들여쓰인 것으로 읽힌다(인디케이터
+ * 자리가 그 들여쓰기의 이유라 그대로 둔다 — 제목을 그쪽에 맞추면 이번에는
+ * 일반 항목과 어긋난다).
+ *
+ * 항목과 달리 `state` 층은 걸지 않는다: 상태 층이 있으면 hover에 면이 뜨고, 그
+ * 순간 이것은 다시 "누를 수 있는 것"으로 보인다 — 소비처가 손조립 `<div><p>`로
+ * 그렸을 때 난 결함이 정확히 그것이었다. 글자는 `text-muted`·`text-xs`로 한 단
+ * 내린다.
+ *
+ * 포커스·화살표 이동 대상이 아닌 것은 클래스가 아니라 Base UI가 진다 — Label은
+ * composite item으로 등록되지 않고 자신에게 `aria-hidden`을 건다(이름은 Group의
+ * `aria-labelledby`를 통해 한 번만 읽힌다). 그 계약을 Menu 스토리의 키보드 계약이
+ * 매번 눌러 잰다.
+ *
+ * **정본 이름은 `GroupLabel`이다** — 같은 Base UI 파트가 카탈로그 안에서 두
+ * 이름을 갖지 않기 위해서고(rules.md 축과 이름 공간), 그래서 `Select.GroupLabel`과
+ * 같은 철자다. `Menu.Label`은 그 위에 얹은 **짧은 별칭**이다(#320이 그 이름으로
+ * 열렸다): 같은 함수를 가리키므로 두 철자가 갈라질 일은 없지만, 카탈로그에
+ * 대칭이 없는 이름이라(`Select.Label`은 없다) 이 리포의 스토리·문서·README는
+ * 언제나 `GroupLabel`로 적는다 — 별칭이 있다는 사실을 보여주는 한 자리(Menu
+ * 스토리의 `그룹과 제목`)만 예외다. */
+function GroupLabel({ className, ...props }: MenuGroupLabelProps) {
+  return (
+    <BaseMenu.GroupLabel
+      className={cn("px-2 py-1.5 text-xs font-medium text-muted", className)}
+      {...props}
+    />
+  )
+}
+
 export interface MenuSeparatorProps
   extends Omit<React.ComponentPropsWithoutRef<typeof BaseMenu.Separator>, "className"> {
   className?: string
@@ -154,4 +206,15 @@ function Separator({ className, ...props }: MenuSeparatorProps) {
   )
 }
 
-export const Menu = { Root, Trigger, Popup, Item, CheckboxItem, Separator }
+export const Menu = {
+  Root,
+  Trigger,
+  Popup,
+  Group,
+  GroupLabel,
+  /** `GroupLabel`의 별칭 — 같은 컴포넌트다. */
+  Label: GroupLabel,
+  Item,
+  CheckboxItem,
+  Separator,
+}

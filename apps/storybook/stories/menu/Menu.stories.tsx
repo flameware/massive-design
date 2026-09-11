@@ -29,7 +29,12 @@ type Story = StoryObj<typeof meta>
  * 클리핑용, avatar.tsx)이 Trigger의 `hit-area` 유사요소까지 함께 잘라, 시각
  * 치수와 정확히 같은 경계에서 히트 영역 계기가 1px 오차로 하한 미달을 읽는다
  * (#285에서 발견). 트리거로 쓰는 Avatar는 애초에 24px보다 크게 두는 편이
- * 안전하다 — sm은 목록 안에서 장식으로만 쓴다(Avatar 스토리 참고). */
+ * 안전하다 — sm은 목록 안에서 장식으로만 쓴다(Avatar 스토리 참고).
+ *
+ * 맨 위 이메일 줄이 `Menu.GroupLabel`이다 (#320). 소비처(invest diary)의 헤더
+ * 사용자 메뉴가 이 줄을 `Menu.Item`처럼 생긴 손조립 `<div><p>`로 그리고 있었다 —
+ * 눌리지도 않는 것이 항목으로 보이고, 화살표로 옮겨 다닐 때만 아니라는 게
+ * 드러났다. Label은 포커스 대상이 아니고 자기를 감싼 `Menu.Group`의 이름이 된다. */
 export const Playground: Story = {
   render: () => (
     <Menu.Root>
@@ -44,8 +49,11 @@ export const Playground: Story = {
         }
       />
       <Menu.Popup>
-        <Menu.Item>프로필</Menu.Item>
-        <Menu.Item>설정</Menu.Item>
+        <Menu.Group>
+          <Menu.GroupLabel>seongki@example.com</Menu.GroupLabel>
+          <Menu.Item>프로필</Menu.Item>
+          <Menu.Item>설정</Menu.Item>
+        </Menu.Group>
         <Menu.Separator />
         <Menu.Item variant="destructive">로그아웃</Menu.Item>
       </Menu.Popup>
@@ -106,6 +114,40 @@ export const CheckboxControlled: Story = {
   },
 }
 
+/* 그룹과 제목 (#320) — `Menu.Group`이 관련 항목을 묶고 `Menu.GroupLabel`이 그
+ * 묶음의 이름이 된다. Base UI가 Label의 `id`를 Group의 `aria-labelledby`에 잇고
+ * Label 자신은 `aria-hidden`으로 접근성 트리에서 내린다 — 그래서 스크린 리더가
+ * "seongki@example.com 그룹, 프로필 메뉴 항목"처럼 한 번만 읽는다. Label을
+ * Group 밖에 두면 Base UI가 던진다(`MenuGroupContext` 없음): 제목은 언제나
+ * 무언가의 제목이고, 그 무언가가 Group이다.
+ *
+ * 두 번째 묶음이 `Menu.Label`을 쓴다 — `GroupLabel`의 짧은 별칭이고 같은
+ * 컴포넌트다. 이 리포에서 별칭을 적는 자리는 **여기 하나뿐**이다: 정본 철자가
+ * 하나여야 나중에 이 파트를 훑는 사람이 절반을 놓치지 않는다(menu.tsx 주석). */
+export const Groups: Story = {
+  name: "그룹과 제목",
+  render: () => (
+    <Menu.Root>
+      <Menu.Trigger data-testid="groups-trigger">사용자 메뉴</Menu.Trigger>
+      <Menu.Popup>
+        <Menu.Group>
+          <Menu.GroupLabel>seongki@example.com</Menu.GroupLabel>
+          <Menu.Item>프로필</Menu.Item>
+          <Menu.Item>설정</Menu.Item>
+        </Menu.Group>
+        <Menu.Separator />
+        <Menu.Group>
+          <Menu.Label>작업 공간</Menu.Label>
+          <Menu.Item>팀 초대</Menu.Item>
+          <Menu.Item>청구</Menu.Item>
+        </Menu.Group>
+        <Menu.Separator />
+        <Menu.Item variant="destructive">로그아웃</Menu.Item>
+      </Menu.Popup>
+    </Menu.Root>
+  ),
+}
+
 /* 키보드 계약을 재는 스토리 (#285 AC) — 트리거에서 Enter/Space/ArrowDown으로
  * 열고, ArrowDown/Up으로 항목 사이를 옮기고, Esc로 닫으면 포커스가 트리거로
  * 돌아온다. Base UI가 실제 DOM 포커스를 항목에 옮기므로(roving focus) 매 계약이
@@ -124,10 +166,22 @@ const keyboard: KeyboardContract[] = [
     expect: { focused: "[data-testid=kb-profile]" },
   },
   {
-    name: "ArrowDown이 트리거에서 메뉴를 연다",
+    /* #320의 계약이다 — 팝업이 열리고 포커스가 그룹 제목을 **건너** 첫 항목에
+     * 간다. 아래 픽스처의 첫 자식이 `Menu.GroupLabel`이므로, 제목이 항목으로
+     * 등록되는 순간 이 계약이 깨진다 */
+    name: "ArrowDown이 메뉴를 열고 그룹 제목을 건너 첫 항목에 포커스를 둔다",
     focus: "[data-testid=kb-trigger]",
     press: ["ArrowDown"],
     expect: { focused: "[data-testid=kb-profile]" },
+  },
+  {
+    /* 위 계약만으로는 "제목이 첫 걸음을 먹었지만 두 번째 걸음이 마침 첫 항목에
+     * 닿았다"와 구분되지 않는다. 걸음 수를 세어 끝까지 간다 — 제목 둘이 항목으로
+     * 등록되면 셋째 ArrowDown은 kb-logout이 아니라 kb-notify에 선다 */
+    name: "ArrowDown 셋이 그룹 제목 둘을 건너 마지막 항목에 닿는다",
+    focus: "[data-testid=kb-trigger]",
+    press: ["ArrowDown", "ArrowDown", "ArrowDown"],
+    expect: { focused: "[data-testid=kb-logout]" },
   },
   {
     name: "ArrowDown이 다음 항목으로 옮긴다",
@@ -167,18 +221,24 @@ function KeyboardFixture() {
     <Menu.Root>
       <Menu.Trigger data-testid="kb-trigger">사용자 메뉴</Menu.Trigger>
       <Menu.Popup>
-        <Menu.Item data-testid="kb-profile">프로필</Menu.Item>
-        <Menu.CheckboxItem
-          data-testid="kb-notify"
-          checked={notify}
-          onCheckedChange={setNotify}
-        >
-          알림 표시 <span data-testid="kb-notify-state">{notify ? "켜짐" : "꺼짐"}</span>
-        </Menu.CheckboxItem>
+        <Menu.Group>
+          <Menu.GroupLabel>seongki@example.com</Menu.GroupLabel>
+          <Menu.Item data-testid="kb-profile">프로필</Menu.Item>
+          <Menu.CheckboxItem
+            data-testid="kb-notify"
+            checked={notify}
+            onCheckedChange={setNotify}
+          >
+            알림 표시 <span data-testid="kb-notify-state">{notify ? "켜짐" : "꺼짐"}</span>
+          </Menu.CheckboxItem>
+        </Menu.Group>
         <Menu.Separator />
-        <Menu.Item variant="destructive" data-testid="kb-logout">
-          로그아웃
-        </Menu.Item>
+        <Menu.Group>
+          <Menu.GroupLabel>세션</Menu.GroupLabel>
+          <Menu.Item variant="destructive" data-testid="kb-logout">
+            로그아웃
+          </Menu.Item>
+        </Menu.Group>
       </Menu.Popup>
     </Menu.Root>
   )

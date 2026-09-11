@@ -143,8 +143,11 @@ import { Menu } from "@flameware/ui/menu"
 <Menu.Root>
   <Menu.Trigger>사용자 메뉴</Menu.Trigger>
   <Menu.Popup>
-    <Menu.Item>프로필</Menu.Item>
-    <Menu.Item>설정</Menu.Item>
+    <Menu.Group>
+      <Menu.GroupLabel>seongki@example.com</Menu.GroupLabel>
+      <Menu.Item>프로필</Menu.Item>
+      <Menu.Item>설정</Menu.Item>
+    </Menu.Group>
     <Menu.Separator />
     <Menu.Item variant="destructive">로그아웃</Menu.Item>
     <Menu.CheckboxItem checked={notify} onCheckedChange={setNotify}>
@@ -154,14 +157,24 @@ import { Menu } from "@flameware/ui/menu"
 </Menu.Root>
 ```
 
-네임스페이스형이다(ADR-0023 §5) — `Root`·`Trigger`·`Popup`·`Item`·`CheckboxItem`·
-`Separator`를 하나의 이름 아래 둔다. `Popup`이 Base UI의 `Portal`·`Positioner`를
-안에서 함께 열어 소비처가 매번 세 겹을 조립하지 않는다. 화살표 이동·Enter
-선택·Esc 닫기는 전부 Base UI가 진다.
+네임스페이스형이다(ADR-0023 §5) — `Root`·`Trigger`·`Popup`·`Group`·`GroupLabel`
+(별칭 `Label`)·`Item`·`CheckboxItem`·`Separator`를 하나의 이름 아래 둔다. `Popup`이 Base UI의
+`Portal`·`Positioner`를 안에서 함께 열어 소비처가 매번 세 겹을 조립하지 않는다.
+화살표 이동·Enter 선택·Esc 닫기는 전부 Base UI가 진다.
 
 `Menu.Item`만 자기 축(`variant: "default" | "destructive"`)을 갖는다 — root에는
 그런 축이 없어서 규칙이 허용하는 자리다(rules.md 축과 이름 공간). 면은 Button과
 같은 이유로 상태 바탕(`--ds-state-base`) 한 곳에서만 나온다.
+
+`Menu.GroupLabel`은 그룹의 제목이다 — 누를 수 없는 글(로그인한 계정 주소 같은
+것)을 `Menu.Item`으로 그리지 않기 위한 자리다. 포커스를 받지 않고 화살표 이동의
+걸음도 먹지 않으며, 자기 `id`가 감싼 `Menu.Group`의 `aria-labelledby`가 된다.
+**`Menu.Group` 밖에 두면 Base UI가 던진다** — 개발 빌드에서 바로 드러나는
+오류이고, 손조립 `<div><p>`를 팝업 바로 아래에서 그대로 갈아끼우면 그것을 만난다.
+제목을 옮길 때 감쌀 항목까지 함께 `Menu.Group`으로 묶어야 한다.
+
+`Menu.Label`은 같은 컴포넌트의 짧은 별칭이다. 정본 이름은 `Select.GroupLabel`과
+대칭인 `GroupLabel`이고, 새로 쓰는 코드는 그쪽을 쓰는 편이 낫다.
 
 `Menu.CheckboxItem`은 `checked`/`onCheckedChange`(제어)와 `defaultChecked`(비제어)
 둘 다로 동작한다. 기본은 눌러도 메뉴가 닫히지 않는다(`closeOnClick` 기본값
