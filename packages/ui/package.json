@@ -1,6 +1,6 @@
 {
   "name": "@flameware/ui",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "description": "massive-design 컴포넌트 — Base UI 위의 2세대 @flameware/ui",
   "repository": {
