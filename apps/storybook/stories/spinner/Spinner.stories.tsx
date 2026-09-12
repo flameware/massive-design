@@ -13,7 +13,7 @@ const meta = {
   parameters: { ds: { status: "stable", since: "0.2.0" } },
   args: { size: "md" },
   argTypes: {
-    size: { control: "select", options: ["sm", "md", "lg"] },
+    size: { control: "select", options: ["sm", "md", "lg", "xl"] },
   },
 } satisfies Meta<typeof Spinner> & ComponentMeta
 
@@ -29,6 +29,19 @@ export const Sizes: Story = {
       <Spinner size="sm" />
       <Spinner size="md" />
       <Spinner size="lg" />
+      <Spinner size="xl" />
+    </div>
+  ),
+}
+
+/* xl(32px)은 sm·md·lg와 자리가 다르다 — 글자 곁이 아니라 화면 한가운데
+ * 혼자 선다(전체 화면 대기, #351). */
+export const FullScreenWait: Story = {
+  name: "전체 화면 대기",
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", color: "var(--ds-fg-default)" }}>
+      <Spinner size="xl" aria-hidden="true" />
+      <span>불러오는 중…</span>
     </div>
   ),
 }
