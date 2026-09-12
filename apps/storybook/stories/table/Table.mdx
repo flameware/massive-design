@@ -29,9 +29,11 @@ import * as TableStories from "./Table.stories"
 
 ## 정렬 · 숫자 열
 
-`Table.Head`·`Table.Cell`은 `align` 축(`start`·`center`·`end`, 기본 `start`)을 갖는다 — 물리 방향(`left`/`right`)이 아니라 논리값이다. 정렬은 **열**의 성질이지만 이 표에는 열이라는 객체가 없어(`colgroup`을 열지 않았다) 축은 셀마다 서고, 열 전체를 맞추는 반복은 소비처(TanStack `columnDef`)가 진다 — `Table.Row`·`Table.Root`에는 두지 않는다.
+`Table.Head`·`Table.Cell`은 `textAlign` 축(`start`·`center`·`end`, 기본 `start`)을 갖는다 — 물리 방향(`left`/`right`)이 아니라 논리값이다. 정렬은 **열**의 성질이지만 이 표에는 열이라는 객체가 없어(`colgroup`을 열지 않았다) 축은 셀마다 서고, 열 전체를 맞추는 반복은 소비처(TanStack `columnDef`)가 진다 — `Table.Row`·`Table.Root`에는 두지 않는다.
 
-`Table.Cell`은 `numeric` 불리언도 갖는다 — 켜면 `tabular-nums`를 낸다. `ListRow.Value`가 이미 쓰는 것과 같은 규약이다: 같은 뜻(비교하는 수)이 컴포넌트마다 다른 서체를 얻지 않는다. `align`과는 독립된 축이라 숫자 열이 보통 `align="end"`와 `numeric`을 함께 받지만 강제되지 않는다.
+이름이 `align`이 아니라 `textAlign`인 이유: `align`은 이 카탈로그에서 이미 `Menu.Popup`·`Combobox`가 Base UI `Positioner`의 "떠 있는 표면이 트리거의 어느 모서리에 붙는가"라는 뜻으로 쓴다(ADR-0008이 정확히 이 충돌 때문에 `align`을 한 번 버린 전례가 있다). `#365` Implementation Decisions는 `align`을 적었지만 이 축은 카탈로그 전체에서 이미 다른 뜻인 이름을 쓸 수 없다는 규칙이 우선이라 `textAlign`으로 열었다 — 판정은 #365·#367 코멘트에 남겼다.
+
+`Table.Cell`은 `numeric` 불리언도 갖는다 — 켜면 `tabular-nums`를 낸다. `ListRow.Value`가 이미 쓰는 것과 같은 규약이다: 같은 뜻(비교하는 수)이 컴포넌트마다 다른 서체를 얻지 않는다. `textAlign`과는 독립된 축이라 숫자 열이 보통 `textAlign="end"`와 `numeric`을 함께 받지만 강제되지 않는다 — 예컨대 종목명은 `textAlign`만 받고 `numeric`은 받지 않는다.
 
 <Canvas of={TableStories.Alignments} />
 
@@ -53,4 +55,4 @@ DS는 `@tanstack/react-table`을 의존하지 않는다 — `@flameware/ui/table
 
 ## Props
 
-`Table.Root`는 `<table>`의 모든 속성을 그대로 받는다. `Table.Head`는 `scope` 같은 `<th>` 속성을, `Table.Row`는 `<tr>` 속성을 그대로 받는다. `Table.Head`·`Table.Cell`은 그 위에 `align`(`start`·`center`·`end`, 기본 `start`)을 더하고, `Table.Cell`은 `numeric`(불리언, 기본 `false`)도 더한다 — 네이티브 `<th>`·`<td>`의 폐기 예정 `align` 속성(`left`/`right`/`center`/`char`)과 이름이 겹쳐 `Omit`으로 지우고 DS의 `align`이 그 자리를 대신한다.
+`Table.Root`는 `<table>`의 모든 속성을 그대로 받는다. `Table.Head`는 `scope` 같은 `<th>` 속성을, `Table.Row`는 `<tr>` 속성을 그대로 받는다. `Table.Head`·`Table.Cell`은 그 위에 `textAlign`(`start`·`center`·`end`, 기본 `start`)을 더하고, `Table.Cell`은 `numeric`(불리언, 기본 `false`)도 더한다 — 네이티브 `<th>`·`<td>`의 폐기 예정 `align` 속성(`left`/`right`/`center`/`char`)은 `Omit`으로 지웠다.

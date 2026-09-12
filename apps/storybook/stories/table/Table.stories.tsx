@@ -46,6 +46,10 @@ const TRADES: Trade[] = [
   { id: "5", date: "2026-09-02", symbol: "삼성전자", quantity: 8, price: 73_600, gain: 19_600 },
 ]
 
+// 실제로 tabular-nums를 받아야 하는 열만 — 종목명(symbol)·날짜(date)는 숫자
+// 비교가 아니라 텍스트라 여기 들어가지 않는다.
+const NUMERIC_COLUMNS = new Set(["quantity", "price", "gain"])
+
 const won = new Intl.NumberFormat("ko-KR")
 const signed = (n: number) => `${n >= 0 ? "+" : ""}${won.format(n)}원`
 
@@ -59,13 +63,13 @@ export const Basic: Story = {
         <Table.Row>
           <Table.Head scope="col">날짜</Table.Head>
           <Table.Head scope="col">종목</Table.Head>
-          <Table.Head scope="col" align="end">
+          <Table.Head scope="col" textAlign="end">
             수량
           </Table.Head>
-          <Table.Head scope="col" align="end">
+          <Table.Head scope="col" textAlign="end">
             단가
           </Table.Head>
-          <Table.Head scope="col" align="end">
+          <Table.Head scope="col" textAlign="end">
             손익
           </Table.Head>
         </Table.Row>
@@ -75,9 +79,9 @@ export const Basic: Story = {
           <Table.Row key={t.id}>
             <Table.Cell>{t.date}</Table.Cell>
             <Table.Cell>{t.symbol}</Table.Cell>
-            <Table.Cell align="end" numeric>{won.format(t.quantity)}</Table.Cell>
-            <Table.Cell align="end" numeric>{won.format(t.price)}원</Table.Cell>
-            <Table.Cell align="end" numeric>{signed(t.gain)}</Table.Cell>
+            <Table.Cell textAlign="end" numeric>{won.format(t.quantity)}</Table.Cell>
+            <Table.Cell textAlign="end" numeric>{won.format(t.price)}원</Table.Cell>
+            <Table.Cell textAlign="end" numeric>{signed(t.gain)}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
@@ -104,27 +108,28 @@ function useTradesTable() {
   })
 }
 
-/* align 3값 + 숫자 열 스토리(#367) — `Table.Head`·`Table.Cell`의 `align`
- * (`start`·`center`·`end`)과 `numeric`(`tabular-nums`)을 손으로 채워 보인다.
- * 열 전체를 맞추는 반복(TanStack `columnDef`)은 소비처의 몫이라 여기서는
- * 셀마다 값을 직접 준다 — 위 `Basic`의 `className="text-right"`를 이 축으로
- * 바꾼 모양이 이 스토리다. */
+/* textAlign 3값 + 숫자 열 스토리(#367) — `Table.Head`·`Table.Cell`의
+ * `textAlign`(`start`·`center`·`end`)과 `numeric`(`tabular-nums`)을 손으로
+ * 채워 보인다. 열 전체를 맞추는 반복(TanStack `columnDef`)은 소비처의 몫이라
+ * 여기서는 셀마다 값을 직접 준다 — 위 `Basic`의 `className="text-right"`를
+ * 이 축으로 바꾼 모양이 이 스토리다. `numeric`은 실제 숫자 열(수량·단가)에만
+ * 준다 — 종목명은 `textAlign`만 받고 `numeric`은 받지 않는다(둘은 독립축). */
 export const Alignments: Story = {
   name: "정렬 · 숫자 열",
   render: () => (
     <Table.Root>
       <Table.Header>
         <Table.Row>
-          <Table.Head scope="col" align="start">
+          <Table.Head scope="col" textAlign="start">
             종목
           </Table.Head>
-          <Table.Head scope="col" align="center">
+          <Table.Head scope="col" textAlign="center">
             상태
           </Table.Head>
-          <Table.Head scope="col" align="end">
+          <Table.Head scope="col" textAlign="end">
             수량
           </Table.Head>
-          <Table.Head scope="col" align="end">
+          <Table.Head scope="col" textAlign="end">
             단가
           </Table.Head>
         </Table.Row>
@@ -132,12 +137,12 @@ export const Alignments: Story = {
       <Table.Body>
         {TRADES.slice(0, 3).map((t) => (
           <Table.Row key={t.id}>
-            <Table.Cell align="start">{t.symbol}</Table.Cell>
-            <Table.Cell align="center">체결</Table.Cell>
-            <Table.Cell align="end" numeric>
+            <Table.Cell textAlign="start">{t.symbol}</Table.Cell>
+            <Table.Cell textAlign="center">체결</Table.Cell>
+            <Table.Cell textAlign="end" numeric>
               {won.format(t.quantity)}
             </Table.Cell>
-            <Table.Cell align="end" numeric>
+            <Table.Cell textAlign="end" numeric>
               {won.format(t.price)}원
             </Table.Cell>
           </Table.Row>
@@ -176,8 +181,8 @@ function TanStackFixture() {
             {row.getVisibleCells().map((cell) => (
               <Table.Cell
                 key={cell.id}
-                align={cell.column.id === "date" ? "start" : "end"}
-                numeric={cell.column.id !== "date"}
+                textAlign={cell.column.id === "date" ? "start" : NUMERIC_COLUMNS.has(cell.column.id) ? "end" : "start"}
+                numeric={NUMERIC_COLUMNS.has(cell.column.id)}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </Table.Cell>
@@ -195,10 +200,11 @@ function TanStackFixture() {
  * 준다 — 둘 다 이미 있는 DS 유틸리티라 Table이 새 CSS를 더하지 않는다. */
 function SortableHead({ header, testId }: { header: Header<Trade, unknown>; testId?: string }) {
   const sorted = header.column.getIsSorted()
+  const numericColumn = NUMERIC_COLUMNS.has(header.column.id)
   return (
     <Table.Head
       scope="col"
-      align={header.column.id === "date" ? "start" : "end"}
+      textAlign={header.column.id === "date" ? "start" : numericColumn ? "end" : "start"}
       aria-sort={sorted === "asc" ? "ascending" : sorted === "desc" ? "descending" : "none"}
     >
       {header.isPlaceholder ? null : (
@@ -208,7 +214,7 @@ function SortableHead({ header, testId }: { header: Header<Trade, unknown>; test
           onClick={header.column.getToggleSortingHandler()}
           className={
             "hit-area state -mx-1 -my-1 inline-flex items-center gap-1 rounded-sm px-1 py-1" +
-            (header.column.id !== "date" ? " flex-row-reverse" : "")
+            (numericColumn ? " flex-row-reverse" : "")
           }
         >
           {flexRender(header.column.columnDef.header, header.getContext())}
@@ -292,8 +298,8 @@ function KeyboardFixture() {
               {row.getVisibleCells().map((cell) => (
                 <Table.Cell
                   key={cell.id}
-                  align={cell.column.id === "date" ? "start" : "end"}
-                  numeric={cell.column.id !== "date"}
+                  textAlign={cell.column.id === "date" ? "start" : NUMERIC_COLUMNS.has(cell.column.id) ? "end" : "start"}
+                  numeric={NUMERIC_COLUMNS.has(cell.column.id)}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Table.Cell>
