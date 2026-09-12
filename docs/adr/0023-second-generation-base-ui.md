@@ -70,8 +70,15 @@ shadcn식 레지스트리(소비처가 소스를 복사)는 배제한다 — 이
 | 축 | 판정 |
 | --- | --- |
 | 라이트/다크 · 아이콘 · 폼 검증(Field/Form) | Phase 1 |
-| 모션 토큰 · 반응형 레이아웃(Stack/Grid) | Phase 2 |
+| 모션 토큰 | Phase 2 |
+| 레이아웃 조립(Stack/Grid) | 소비처 몫으로 확정(#375, 2026-09-12) |
 | RTL · 밀도(compact/comfortable) | 영구 제외 |
+
+> **[#375](https://github.com/flameware/massive-design/issues/375)·[#376](https://github.com/flameware/massive-design/issues/376)이 개정했다.** 원문은 `모션 토큰 · 반응형 레이아웃(Stack/Grid)`를 한 행에 묶어 `Phase 2`로 미뤘다. Phase 3(#365)에서 레이아웃만 갈라 재실측했고, 그 결과로 행을 둘로 가른다 — 모션 토큰은 그대로 Phase 2에 남고(별도 후속 결정 대상, 이 갱신이 건드리지 않는다), 레이아웃 조립은 **소비처 몫**으로 확정한다.
+>
+> 간격 척도는 새로 정할 것이 없다 — Tailwind v4 `@theme`의 `--spacing`(`packages/tokens/tokens/primitive/scale.json`)이 Phase 1부터 이미 토큰이고, invest diary 실측(레이아웃 63·여백 45, 임의 간격 값 0건)이 그 규율이 이미 지켜지고 있음을 확인했다. `flex`/`grid`/`gap`으로 자식을 배치하는 조립 자체는 부모 컨테이너, 즉 소비처의 몫이다.
+>
+> **재판단 계기**: 같은 flex/grid+gap 조합이 같은 형태로 3자리 이상 반복되면서, 그중 한 자리라도 임의 간격 값(`gap-[…]`·`p-[…]`·`space-y-[…]` 등 대괄호 값)으로 `--spacing` 척도를 벗어나는 것이 확인되면 그때 Stack/Grid를 다시 연다 — 반복 자체가 아니라 반복 속에서 척도가 깨지는 것이 문이다.
 
 폼 라이브러리(React Hook Form, TanStack Form)는 DS에 넣지 않는다 — 앱마다 갈리고 `Field`의 `render`로 어느 쪽이든 붙는다. DS가 특정 폼 라이브러리를 물면 바닥값([ADR-0017](0017-dependency-weight-is-a-floor-cost.md))에 얹힌다.
 
