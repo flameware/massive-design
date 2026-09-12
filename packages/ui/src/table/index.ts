@@ -1,5 +1,7 @@
 export {
   Table,
+  tableCellVariants,
+  tableHeadVariants,
   type TableRootProps,
   type TableHeaderProps,
   type TableBodyProps,

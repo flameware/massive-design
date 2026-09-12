@@ -59,13 +59,13 @@ export const Basic: Story = {
         <Table.Row>
           <Table.Head scope="col">날짜</Table.Head>
           <Table.Head scope="col">종목</Table.Head>
-          <Table.Head scope="col" className="text-right">
+          <Table.Head scope="col" align="end">
             수량
           </Table.Head>
-          <Table.Head scope="col" className="text-right">
+          <Table.Head scope="col" align="end">
             단가
           </Table.Head>
-          <Table.Head scope="col" className="text-right">
+          <Table.Head scope="col" align="end">
             손익
           </Table.Head>
         </Table.Row>
@@ -75,9 +75,9 @@ export const Basic: Story = {
           <Table.Row key={t.id}>
             <Table.Cell>{t.date}</Table.Cell>
             <Table.Cell>{t.symbol}</Table.Cell>
-            <Table.Cell className="text-right">{won.format(t.quantity)}</Table.Cell>
-            <Table.Cell className="text-right">{won.format(t.price)}원</Table.Cell>
-            <Table.Cell className="text-right">{signed(t.gain)}</Table.Cell>
+            <Table.Cell align="end" numeric>{won.format(t.quantity)}</Table.Cell>
+            <Table.Cell align="end" numeric>{won.format(t.price)}원</Table.Cell>
+            <Table.Cell align="end" numeric>{signed(t.gain)}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
@@ -102,6 +102,49 @@ function useTradesTable() {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
+}
+
+/* align 3값 + 숫자 열 스토리(#367) — `Table.Head`·`Table.Cell`의 `align`
+ * (`start`·`center`·`end`)과 `numeric`(`tabular-nums`)을 손으로 채워 보인다.
+ * 열 전체를 맞추는 반복(TanStack `columnDef`)은 소비처의 몫이라 여기서는
+ * 셀마다 값을 직접 준다 — 위 `Basic`의 `className="text-right"`를 이 축으로
+ * 바꾼 모양이 이 스토리다. */
+export const Alignments: Story = {
+  name: "정렬 · 숫자 열",
+  render: () => (
+    <Table.Root>
+      <Table.Header>
+        <Table.Row>
+          <Table.Head scope="col" align="start">
+            종목
+          </Table.Head>
+          <Table.Head scope="col" align="center">
+            상태
+          </Table.Head>
+          <Table.Head scope="col" align="end">
+            수량
+          </Table.Head>
+          <Table.Head scope="col" align="end">
+            단가
+          </Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {TRADES.slice(0, 3).map((t) => (
+          <Table.Row key={t.id}>
+            <Table.Cell align="start">{t.symbol}</Table.Cell>
+            <Table.Cell align="center">체결</Table.Cell>
+            <Table.Cell align="end" numeric>
+              {won.format(t.quantity)}
+            </Table.Cell>
+            <Table.Cell align="end" numeric>
+              {won.format(t.price)}원
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table.Root>
+  ),
 }
 
 /* AC1의 스토리 — TanStack Table 위에 그대로 얹힌다. `@flameware/ui/table`이
@@ -131,7 +174,11 @@ function TanStackFixture() {
         {table.getRowModel().rows.map((row) => (
           <Table.Row key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <Table.Cell key={cell.id} className={cell.column.id === "date" ? undefined : "text-right"}>
+              <Table.Cell
+                key={cell.id}
+                align={cell.column.id === "date" ? "start" : "end"}
+                numeric={cell.column.id !== "date"}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </Table.Cell>
             ))}
@@ -151,7 +198,7 @@ function SortableHead({ header, testId }: { header: Header<Trade, unknown>; test
   return (
     <Table.Head
       scope="col"
-      className={header.column.id === "date" ? undefined : "text-right"}
+      align={header.column.id === "date" ? "start" : "end"}
       aria-sort={sorted === "asc" ? "ascending" : sorted === "desc" ? "descending" : "none"}
     >
       {header.isPlaceholder ? null : (
@@ -243,7 +290,11 @@ function KeyboardFixture() {
           {table.getRowModel().rows.map((row) => (
             <Table.Row key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <Table.Cell key={cell.id} className={cell.column.id === "date" ? undefined : "text-right"}>
+                <Table.Cell
+                  key={cell.id}
+                  align={cell.column.id === "date" ? "start" : "end"}
+                  numeric={cell.column.id !== "date"}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Table.Cell>
               ))}

@@ -27,6 +27,14 @@ import * as TableStories from "./Table.stories"
 
 <Canvas of={TableStories.Basic} />
 
+## 정렬 · 숫자 열
+
+`Table.Head`·`Table.Cell`은 `align` 축(`start`·`center`·`end`, 기본 `start`)을 갖는다 — 물리 방향(`left`/`right`)이 아니라 논리값이다. 정렬은 **열**의 성질이지만 이 표에는 열이라는 객체가 없어(`colgroup`을 열지 않았다) 축은 셀마다 서고, 열 전체를 맞추는 반복은 소비처(TanStack `columnDef`)가 진다 — `Table.Row`·`Table.Root`에는 두지 않는다.
+
+`Table.Cell`은 `numeric` 불리언도 갖는다 — 켜면 `tabular-nums`를 낸다. `ListRow.Value`가 이미 쓰는 것과 같은 규약이다: 같은 뜻(비교하는 수)이 컴포넌트마다 다른 서체를 얻지 않는다. `align`과는 독립된 축이라 숫자 열이 보통 `align="end"`와 `numeric`을 함께 받지만 강제되지 않는다.
+
+<Canvas of={TableStories.Alignments} />
+
 ## TanStack Table 위에서
 
 DS는 `@tanstack/react-table`을 의존하지 않는다 — `@flameware/ui/table`의 `package.json`에도, `dist/table/index.js`에도 그 이름이 없다. 아래 스토리만 그것을 안다: `header.column.columnDef.header`·`cell.column.columnDef.cell`을 `flexRender`로 편 결과를 `Table.Head`·`Table.Cell`의 children으로 그대로 꽂는다.
@@ -45,4 +53,4 @@ DS는 `@tanstack/react-table`을 의존하지 않는다 — `@flameware/ui/table
 
 ## Props
 
-`Table.Root`는 `<table>`의 모든 속성을 그대로 받는다. `Table.Head`는 `scope` 같은 `<th>` 속성을, `Table.Row`는 `<tr>` 속성을 그대로 받는다 — DS가 새로 발명한 prop은 없다. 축(variant·size)이 없으므로 Controls로 흔들 것도 없다.
+`Table.Root`는 `<table>`의 모든 속성을 그대로 받는다. `Table.Head`는 `scope` 같은 `<th>` 속성을, `Table.Row`는 `<tr>` 속성을 그대로 받는다. `Table.Head`·`Table.Cell`은 그 위에 `align`(`start`·`center`·`end`, 기본 `start`)을 더하고, `Table.Cell`은 `numeric`(불리언, 기본 `false`)도 더한다 — 네이티브 `<th>`·`<td>`의 폐기 예정 `align` 속성(`left`/`right`/`center`/`char`)과 이름이 겹쳐 `Omit`으로 지우고 DS의 `align`이 그 자리를 대신한다.
