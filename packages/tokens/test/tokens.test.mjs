@@ -16,10 +16,11 @@ const tokens = new Map([
 ])
 const semanticColors = [...flatten(semantic).keys()]
 
-test('semantic 색 토큰이 정확히 41개다', () => {
+test('semantic 색 토큰이 정확히 42개다', () => {
   // 35 → 36: #143의 border.knockout. 근거는 ADR-0007에 있다
   // 36 → 41: #337의 bg.<family>.muted 다섯 — 면으로 읽혀야 하는 채움 단계
-  assert.equal(semanticColors.length, 41)
+  // 41 → 42: #335의 border.subtle — border.default보다 한 겹 더 면에 가까운 구분선
+  assert.equal(semanticColors.length, 42)
 })
 
 test('semantic은 전부 {palette.*} 참조다 — 리터럴 금지', () => {
@@ -68,13 +69,15 @@ test('모드가 실제로 갈리는 지점은 semantic 하나뿐이다', () => {
   // 이 토큰의 정의다(뒤에 있는 면을 되그린다, #143).
   // bg.<family>.muted 다섯은 **의도된 비대칭**이다 — 라이트 7 · 다크 6이라야 양
   // 모드가 면 대비 1.35:1을 함께 넘는다. 한 단계로 맞추면 한쪽이 무너진다(#337).
+  // border.subtle도 border.default와 같은 축을 탄다 — 라이트는 neutral 4(불투명),
+  // 다크는 alpha.white.05(반투명)라 단계 이름이 다르다(#335).
   const step = (path, mode) => refPath(valueFor(tokens.get(path), mode)).split('.').at(-1)
   const crossed = semanticColors.filter((p) => step(p, 'light') !== step(p, 'dark'))
   assert.deepEqual(crossed.sort(), [
     'color.bg.accent.muted', 'color.bg.canvas', 'color.bg.danger.muted',
     'color.bg.neutral.muted', 'color.bg.overlay', 'color.bg.success.muted',
     'color.bg.surface', 'color.bg.warning.muted',
-    'color.border.default', 'color.border.field', 'color.border.knockout',
+    'color.border.default', 'color.border.field', 'color.border.knockout', 'color.border.subtle',
     'color.fg.warning', 'color.state.layer',
   ])
 })

@@ -361,6 +361,16 @@
           }
         }
       },
+      "subtle": {
+        "$type": "color",
+        "$value": "{palette.neutral.light.4}",
+        "$description": "border.default보다 한 겹 더 면에 가깝다 — 차트 격자·표의 행 구분선·비활성 구획선(#335). 라이트는 불투명(neutral 4), 다크는 반투명(alpha.white.05)이다 — border.default(라이트 불투명 · 다크 반투명)와 같은 축을 한 단계 더 옅게 탄다. 캔버스에 색을 파싱해 쓰는 소비처는 다크에서 알파를 버리지 말 것",
+        "$extensions": {
+          "org.primer.overrides": {
+            "dark": "{palette.alpha.white.05}"
+          }
+        }
+      },
       "field": {
         "$type": "color",
         "$value": "{palette.neutral.light.7}",

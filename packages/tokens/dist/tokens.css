@@ -126,6 +126,7 @@
   --ds-palette-base-black: #000000;
   --ds-palette-alpha-white-10: #ffffff1a;
   --ds-palette-alpha-white-15: #ffffff26;
+  --ds-palette-alpha-white-05: #ffffff0d;
   --ds-palette-alpha-black-50: #00000080;
 
   /* semantic — 라이트. 모드 전환은 이 계층에서만 일어난다 */
@@ -162,6 +163,7 @@
   --ds-fg-warning: var(--ds-palette-warning-light-11);
   --ds-fg-link: var(--ds-palette-brand-light-10);
   --ds-border-default: var(--ds-palette-neutral-light-6);
+  --ds-border-subtle: var(--ds-palette-neutral-light-4);
   --ds-border-field: var(--ds-palette-neutral-light-7);
   --ds-border-knockout: var(--ds-palette-neutral-light-2);
   --ds-border-strong: var(--ds-palette-neutral-light-9);
@@ -206,6 +208,7 @@
   --ds-fg-warning: var(--ds-palette-warning-dark-10);
   --ds-fg-link: var(--ds-palette-brand-dark-10);
   --ds-border-default: var(--ds-palette-alpha-white-10);
+  --ds-border-subtle: var(--ds-palette-alpha-white-05);
   --ds-border-field: var(--ds-palette-alpha-white-15);
   --ds-border-knockout: var(--ds-palette-neutral-dark-1);
   --ds-border-strong: var(--ds-palette-neutral-dark-9);
@@ -252,6 +255,7 @@
   --text-color-warning: var(--ds-fg-warning);
   --text-color-link: var(--ds-fg-link);
   --border-color-default: var(--ds-border-default);
+  --border-color-subtle: var(--ds-border-subtle);
   --border-color-field: var(--ds-border-field);
   --border-color-knockout: var(--ds-border-knockout);
   --border-color-strong: var(--ds-border-strong);

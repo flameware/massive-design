@@ -31,7 +31,7 @@ bun add @flameware/tokens
 
 색 이름은 역할이 접두사다 — `bg.accent.solid`는 `bg-accent-solid`, `fg.default`는
 `text-default`, `border.default`는 `border-default`. `bg`·`fg`·`border` 아래
-semantic 색은 지금 40개이고, 그 40개가 빠짐없이 유틸리티로
+semantic 색은 지금 41개이고, 그 41개가 빠짐없이 유틸리티로
 열려 있다([#280](https://github.com/flameware/massive-design/issues/280) — 그 전에는
 Button이 쓰는 8개뿐이었다). semantic 색 토큰 중 유틸리티가 없는 것은 `state.layer`
 하나뿐이다 — 색이 아니라 `@flameware/ui`의 `state.css`가 hover·pressed를 합성할 때
