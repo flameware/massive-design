@@ -25,6 +25,23 @@ const SOFTS = {
   accent: 'bg.accent.soft', danger: 'bg.danger.soft', success: 'bg.success.soft', warning: 'bg.warning.soft',
 }
 
+/** 면으로 읽혀야 하는 채움 — soft와 solid 사이 단계 (#336 → #337). */
+const MUTEDS = ['neutral', 'accent', 'danger', 'success', 'warning'].map((f) => `bg.${f}.muted`)
+
+/**
+ * `bg.<family>.muted`가 면 위에서 **칸으로 읽히기 위한 하한**. WCAG가 주는 수가
+ * 아니다 — 이 채움은 컨트롤 어포던스가 아니라서 1.4.11의 3:1을 빚지지 않지만,
+ * 그래도 보여야 한다(#336). 그래서 하한을 우리가 정하고, 근거는 측정이다:
+ * 소비처가 "칸이 안 보인다"고 판정한 값이 **1.22**였고 고친 뒤가 1.49였다(#337).
+ * 1.35는 그 사이에서 라이트 7 · 다크 6이 다섯 패밀리 전부 넘는 가장 높은 자리다
+ * (관측 최저 1.387 — 라이트 warning on `bg.subtle`).
+ *
+ * 차트 계열의 1.5:1(#334)보다 낮다. 같은 수가 아닌 이유는 자리가 달라서다 —
+ * 차트 계열은 면 위에 **혼자** 놓이고 서로와도 갈려야 하지만, 이 채움은 자기
+ * 트랙 위에 앉고 그 위에 글자가 온다. 위를 올리면 글자가 무너진다(아래 표).
+ */
+const FILL_GATE = 1.35
+
 /** [전경, 배경] — 텍스트. 4.5:1 게이트. */
 const TEXT_PAIRS = [
   ...SURFACES.map((bg) => ['fg.default', bg]),
@@ -41,6 +58,10 @@ const TEXT_PAIRS = [
   ...['neutral', 'accent', 'danger', 'success'].map((f) => ['fg.on-solid', `bg.${f}.solid`]),
   ['fg.on-warning', 'bg.warning.solid'],
   ['fg.on-inverse', 'bg.inverse'],
+  // muted 위 전경은 fg.default 하나로 고정한다 — 유채 fg는 이 단계 위에서
+  // 4.5:1을 못 넘는다(다크 step 6에서 2.9~3.5). #336이 "soft를 밝히면 글자가
+  // 무너진다"고 관측한 것이 이것이고, 그래서 단계와 전경을 **함께** 정했다.
+  ...MUTEDS.map((bg) => ['fg.default', bg]),
 ]
 
 /**
@@ -80,6 +101,17 @@ const NONTEXT_PAIRS = [
   ...SURFACES.map((bg) => ['bg.neutral.solid', bg]),
 ]
 
+/**
+ * [채움, 면] — 면으로 읽혀야 하는 채움. FILL_GATE 게이트.
+ *
+ * 여기가 #337이 연 자리다. 지금까지 이 게이트는 **채움 ↔ 면을 재지 않았다** —
+ * 텍스트 쌍은 면 위의 글자를, 비텍스트 쌍은 테두리와 어포던스를 봤고, 그래서
+ * `bg.accent.soft`가 `bg.subtle` 위에서 **1.00:1**인 것을 아무 게이트도 몰랐다.
+ * `*.soft`는 계속 1.00이다 — 그것이 의도임을 문서가 말하고(면 사다리와 채움
+ * 사다리가 step 3을 공유한다), 보여야 하는 채움은 `muted`가 받는다.
+ */
+const FILL_PAIRS = MUTEDS.flatMap((fill) => SURFACES.map((bg) => [fill, bg]))
+
 // ── 계산 ────────────────────────────────────────────────────────────────────
 
 // srgb·composite·wcag()는 scripts/lib/wcag.mjs에서 온다 — #281의 공개 API
@@ -101,6 +133,7 @@ export function report(root = ROOT) {
     const groups = [
       ['text', TEXT_PAIRS, 4.5, true],
       ['nontext', NONTEXT_PAIRS, 3, true],
+      ['fill', FILL_PAIRS, FILL_GATE, true],
     ]
     for (const [kind, pairs, gate, gated] of groups) {
       for (const [fg, bg] of pairs) {
@@ -126,7 +159,7 @@ function main() {
     )
   }
 
-  for (const kind of ['text', 'nontext']) {
+  for (const kind of ['text', 'nontext', 'fill']) {
     const of = rows.filter((r) => r.kind === kind)
     const min = of.reduce((a, b) => (a.cr < b.cr ? a : b))
     console.log(`\n${kind} ${of.length}조합 (${of[0].gated ? '게이트' : '표시만'} ${of[0].gate}:1) — ` +
