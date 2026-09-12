@@ -54,6 +54,7 @@ const CODE_SUBPATHS = [
   "./number-field",
   "./pagination",
   "./confirm-dialog",
+  "./toast",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -92,6 +93,7 @@ const COMPONENT_SUBPATHS = [
   "./number-field",
   "./pagination",
   "./confirm-dialog",
+  "./toast",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
@@ -113,7 +115,8 @@ const COMPONENT_SUBPATHS = [
  * 증감 버튼의 상태를 다루므로 클라이언트다. Pagination(#329)도 Base UI 뒤가
  * 없지만 이전/다음·페이지 번호 버튼에 `onClick`을 달므로 클라이언트다.
  * ConfirmDialog(#330)는 AlertDialog를 감싸는 프리셋이라 열림·로딩 상태를
- * 직접 다루므로 클라이언트다. */
+ * 직접 다루므로 클라이언트다. Toast(#371)도 Base UI Toast.Provider·
+ * useToastManager를 감싸 토스트 목록·타이머 상태를 다루므로 클라이언트다. */
 const CLIENT_SUBPATHS = [
   "./button",
   "./icon",
@@ -141,6 +144,7 @@ const CLIENT_SUBPATHS = [
   "./number-field",
   "./pagination",
   "./confirm-dialog",
+  "./toast",
 ]
 const SERVER_SUBPATHS = [
   "./card",

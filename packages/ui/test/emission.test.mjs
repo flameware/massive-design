@@ -34,6 +34,11 @@ import { skeletonVariants } from "../dist/skeleton/index.js"
 import { spinnerVariants } from "../dist/spinner/index.js"
 import { tableCellVariants, tableHeadVariants } from "../dist/table/index.js"
 import { headingWeightVariants, textVariants } from "../dist/text/index.js"
+import {
+  toastPartClassNames,
+  toastRootVariants,
+  toastViewportVariants,
+} from "../dist/toast/index.js"
 import { toggleVariants } from "../dist/toggle/index.js"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
@@ -114,6 +119,14 @@ for (const classes of [
   textVariants({ tone: "muted" }),
   headingWeightVariants({ weight: "semibold" }),
   headingWeightVariants({ weight: "bold" }),
+  // #371 — Toast의 tone 축(Badge·Alert와 같은 이름 공간)
+  toastRootVariants({ tone: "neutral" }),
+  toastRootVariants({ tone: "success" }),
+  toastRootVariants({ tone: "danger" }),
+  toastViewportVariants(),
+  // #371 — cva 축이 없는 리터럴 클래스(카드 안 파트들)도 같이 잰다
+  // (overlay.test.mjs가 Dialog·Drawer의 closeButtonClassName을 재는 것과 같은 이유)
+  ...Object.values(toastPartClassNames),
 ]) {
   for (const c of classes.split(/\s+/)) if (c) candidates.add(c)
 }

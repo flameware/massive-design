@@ -153,6 +153,10 @@
       "types": "./dist/confirm-dialog/index.d.ts",
       "default": "./dist/confirm-dialog/index.js"
     },
+    "./toast": {
+      "types": "./dist/toast/index.d.ts",
+      "default": "./dist/toast/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
