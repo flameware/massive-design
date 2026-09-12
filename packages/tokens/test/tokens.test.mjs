@@ -16,9 +16,10 @@ const tokens = new Map([
 ])
 const semanticColors = [...flatten(semantic).keys()]
 
-test('semantic 색 토큰이 정확히 36개다', () => {
+test('semantic 색 토큰이 정확히 41개다', () => {
   // 35 → 36: #143의 border.knockout. 근거는 ADR-0007에 있다
-  assert.equal(semanticColors.length, 36)
+  // 36 → 41: #337의 bg.<family>.muted 다섯 — 면으로 읽혀야 하는 채움 단계
+  assert.equal(semanticColors.length, 41)
 })
 
 test('semantic은 전부 {palette.*} 참조다 — 리터럴 금지', () => {
@@ -65,10 +66,14 @@ test('모드가 실제로 갈리는 지점은 semantic 하나뿐이다', () => {
   // 같은 단계 번호를 쓴다(같은 값이라는 뜻은 아니다).
   // border.knockout은 bg.canvas를 그대로 따라가므로 같이 교차한다 — 그것이
   // 이 토큰의 정의다(뒤에 있는 면을 되그린다, #143).
+  // bg.<family>.muted 다섯은 **의도된 비대칭**이다 — 라이트 7 · 다크 6이라야 양
+  // 모드가 면 대비 1.35:1을 함께 넘는다. 한 단계로 맞추면 한쪽이 무너진다(#337).
   const step = (path, mode) => refPath(valueFor(tokens.get(path), mode)).split('.').at(-1)
   const crossed = semanticColors.filter((p) => step(p, 'light') !== step(p, 'dark'))
   assert.deepEqual(crossed.sort(), [
-    'color.bg.canvas', 'color.bg.overlay', 'color.bg.surface',
+    'color.bg.accent.muted', 'color.bg.canvas', 'color.bg.danger.muted',
+    'color.bg.neutral.muted', 'color.bg.overlay', 'color.bg.success.muted',
+    'color.bg.surface', 'color.bg.warning.muted',
     'color.border.default', 'color.border.field', 'color.border.knockout',
     'color.fg.warning', 'color.state.layer',
   ])
@@ -133,6 +138,46 @@ test('resolve가 순환 참조와 미아 참조를 조용히 통과시키지 않
 
 /* 컨트롤 어포던스 — 채움 자체가 조작 대상인 자리(Scroll Area thumb, Switch off 트랙).
  * 앉는 면에 대해 비텍스트 3:1을 지켜야 하고 그래서 solid 계열 중립 배경을 집는다(#109). */
+test('면으로 읽혀야 하는 채움이 다섯 면 위에서 1.35:1을 넘는다 — 양 모드 (#337)', async () => {
+  const { report } = await import('../scripts/contrast.mjs')
+  const rows = report().filter((r) => r.kind === 'fill')
+  // 패밀리 5종 × 면 5종 × 2모드
+  assert.equal(rows.length, 50)
+  for (const r of rows) {
+    assert.equal(r.gate, 1.35, `${r.mode} ${r.fg} on ${r.bg}`)
+    assert.ok(r.gated && r.cr >= 1.35, `${r.mode} ${r.fg} on ${r.bg} — ${r.cr.toFixed(2)}`)
+  }
+})
+
+test('muted 위 전경은 fg.default 하나뿐이다 — 유채 fg는 오지 않는다 (#336)', async () => {
+  const { report, wcag } = await import('../scripts/contrast.mjs')
+  const muteds = report().filter((r) => r.kind === 'fill').map((r) => r.fg)
+  const onMuted = report().filter((r) => r.kind === 'text' && muteds.includes(r.bg))
+  assert.equal(onMuted.length, 10)                       // 5패밀리 × 2모드
+  for (const r of onMuted) assert.equal(r.fg, 'fg.default', `${r.mode} on ${r.bg}`)
+
+  // 유채 fg를 이 단계 위에 올리면 실제로 AA가 깨진다 — 계약이 취향이 아니라는 증거다
+  const hex = (name, mode) => resolve(tokens, `color.${name}`, mode).value
+  const broken = ['accent', 'danger', 'success'].map(
+    (f) => wcag(hex(`fg.${f}`, 'dark'), hex(`bg.${f}.muted`, 'dark')),
+  )
+  for (const cr of broken) assert.ok(cr < 4.5, `다크 유채 fg가 muted 위에서 ${cr.toFixed(2)}`)
+})
+
+test('같은 값을 갖는 semantic 이름은 전부 선언되어 있다 (#337)', async () => {
+  // lint B9가 게이트이고, 여기서는 **선언이 실제 상태와 붙어 있는지**를 잠근다.
+  // 이름이 값보다 많은 상태 자체는 금지가 아니다 — 조용한 것이 금지다.
+  const { lintSameValue } = await import('../scripts/lint.mjs')
+  const errors = []
+  lintSameValue(flatten(semantic), (e) => errors.push(e))
+  assert.deepEqual(errors, [])
+
+  const declared = (path) =>
+    tokens.get(path).$extensions?.['design.massive.sameValue'] ?? []
+  assert.deepEqual(declared('color.bg.inset').sort(), ['bg.neutral.soft', 'bg.overlay', 'bg.subtle'])
+  assert.deepEqual(declared('color.bg.neutral.muted'), [])   // muted는 아무와도 겹치지 않는다
+})
+
 test('컨트롤 어포던스가 다섯 면 위에서 비텍스트 3:1을 넘는다 — 양 모드', async () => {
   const { report } = await import('../scripts/contrast.mjs')
   const rows = report().filter((r) => r.fg === 'bg.neutral.solid')

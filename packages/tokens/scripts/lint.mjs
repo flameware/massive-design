@@ -93,8 +93,65 @@ export function lintLayers({ gen, literal, semantic }, err) {
   //    #143이 border.knockout을 더했다 — 겹친 요소를 가르려고 뒤 면을 되그리는
   //    테두리다. 값은 bg.canvas와 같지만 계열이 달라야 했다(1세대 매니페스트
   //    게이트가 border-color에 --ds-bg-*가 오는 것을 물었다). 근거는 ADR-0007.
-  if (semanticTokens.size !== 36) {
-    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 36이어야 한다`)
+  //    #337이 bg.<family>.muted 다섯을 더했다 — 면으로 읽혀야 하는 채움 단계.
+  if (semanticTokens.size !== 41) {
+    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 41이어야 한다`)
+  }
+
+  lintSameValue(semanticTokens, err)
+}
+
+/**
+ * 16. **이름이 값보다 많은 상태는 선언되어야 한다** ([#337](https://github.com/flameware/massive-design/issues/337)).
+ *
+ * 같은 **계열** 안에서 두 이름이 한 팔레트 단계를 가리키면, 소비처는 이름 수만큼
+ * 역할이 있다고 읽고 둘 사이를 오가는 변경을 무해한 리팩터로 착각한다 — 실제로
+ * 소비처가 `bg-inset` → `bg-subtle`을 "트랙을 한 단계 내렸다"고 믿었고, 그 변경은
+ * 아무것도 하지 않았다. 그래서 동일값 자체는 막지 않되 **선언을 강제한다**:
+ * `$extensions["design.massive.sameValue"]`가 같은 값을 갖는 형제 전부를 적어야 한다.
+ *
+ * **계열이 다르면 면제한다.** `bg.neutral.solid`와 `border.strong`이 둘 다 neutral
+ * 9인 것은 정상이고(CONTEXT.md 「계열」), 소비는 값이 아니라 역할을 따른다 —
+ * `border.knockout`이 값으로 `bg.canvas`와 같은 것도 ADR-0007이 의도한 바다.
+ * 착각이 생기는 자리는 **한 계열 안에서 서로 갈아 끼울 수 있어 보이는 이름들**이다.
+ *
+ * 선언은 **정확히 일치**해야 한다 — 빠지면 소비처가 속고, 남으면 이미 갈라진
+ * 값에 대한 낡은 경고가 남는다. 둘 다 이 규칙이 없애려는 것이다.
+ */
+export function lintSameValue(semanticTokens, err) {
+  const strip = (path) => path.replace(/^color\./, '')
+  const channel = (path) => strip(path).split('.')[0]
+
+  /** 실제로 관측된 동일값 형제 — 모드 합집합. */
+  const observed = new Map([...semanticTokens.keys()].map((p) => [p, new Set()]))
+  for (const mode of MODES) {
+    const byValue = new Map()
+    for (const [path, token] of semanticTokens) {
+      const value = valueFor(token, mode)
+      const key = `${channel(path)}::${isRef(value) ? refPath(value) : value}`
+      if (!byValue.has(key)) byValue.set(key, [])
+      byValue.get(key).push(path)
+    }
+    for (const group of byValue.values()) {
+      if (group.length < 2) continue
+      for (const path of group) {
+        for (const other of group) if (other !== path) observed.get(path).add(strip(other))
+      }
+    }
+  }
+
+  for (const [path, token] of semanticTokens) {
+    const declared = new Set(token.$extensions?.['design.massive.sameValue'] ?? [])
+    const actual = observed.get(path)
+    const missing = [...actual].filter((n) => !declared.has(n)).sort()
+    const stale = [...declared].filter((n) => !actual.has(n)).sort()
+    if (missing.length) {
+      err(`B16 ${path}: ${missing.join(' · ')}와 값이 같은데 design.massive.sameValue에 없다 — ` +
+        '이름이 값보다 많은 상태는 선언되어야 한다')
+    }
+    if (stale.length) {
+      err(`B16 ${path}: design.massive.sameValue의 ${stale.join(' · ')}는 더 이상 같은 값이 아니다 — 선언을 지울 것`)
+    }
   }
 }
 

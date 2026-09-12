@@ -301,6 +301,7 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 7. semantic 이름에 색상명 금지: `blue|red|green|gray|grey|yellow|brand`. (`accent`/`danger`/`success`는 의미어라 허용)
 8. semantic 색 토큰 수가 코드에 확정한 어휘 상한과 일치한다. 늘리려면 상한 변경의 근거를 함께 정한다(#7 회계 규칙)
 9. 모든 override에 `_why` 존재
+16. **같은 계열 안에서 값이 겹치는 semantic 이름은 `$extensions["design.massive.sameValue"]`로 선언한다 — 정확히 일치** ([#337](https://github.com/flameware/massive-design/issues/337)). 동일값 자체는 막지 않는다. 막는 것은 **조용한 동일값**이다: 이름이 둘이면 소비처는 역할이 둘이라고 읽고, 둘 사이를 오가는 변경을 무해한 리팩터로 착각한다. 계열이 다르면 면제한다(`bg.neutral.solid` ↔ `border.strong`은 정상이다 — CONTEXT.md 「계열」). 번호가 C 뒤로 간 것은 규칙 번호를 재사용하지 않기 때문이다
 
 **C. 출력물** (`dist/tokens.css`)
 10. `@theme` / `@theme inline` 블록 안에 `--ds-`로 시작하는 선언이 있으면 **에러** (#7)
@@ -326,8 +327,9 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 | 출력 | stdout 표 (`--report` 시 파일) |
 | 판정 | **WCAG 2 AA가 게이트, APCA는 병기**(#6 확정) |
 
-- 텍스트 74조합 ≥ **4.5** (현재 최저 4.80)
-- 비텍스트 40조합 ≥ **3:1** (현재 최저 3.08)
+- 텍스트 84조합 ≥ **4.5** (현재 최저 4.80)
+- 비텍스트 50조합 ≥ **3:1** (현재 최저 3.08)
+- **채움 50조합 ≥ 1.35:1** (현재 최저 1.39) — 아래 #337
 - 두 모드 전부. 실패 시 exit 1
 
 > **[#17](https://github.com/flameware/massive-design/issues/17) 구현, #82 확장**: 조합 목록은 `scripts/contrast.mjs`가 명시 열거한다. warning text/soft와 전용 solid foreground 쌍을 포함한 텍스트 74조합이 전부 통과하며, 최저값은 기존과 같은 4.80 — `fg.on-solid` on `bg.danger.solid`다.
@@ -335,6 +337,8 @@ export declare const palette: Record<PaletteToken, string>;           // hex. �
 > **[#33](https://github.com/flameware/massive-design/issues/33) 확대**: 위의 "비텍스트 6조합"은 **전부 `bg.canvas` 위**만 봤다. 나머지 면까지 재자 다크 `bg.subtle`·`bg.inset`·`bg.overlay`(전부 `#1e1e1e`) 위에서 인터랙티브 테두리 4종이 전부 3:1 아래였고, 그중 `bg.overlay`는 다이얼로그·팝오버가 실제로 쓰는 면이다. 게이트는 **4종 × 5면 × 2모드 = 40조합**이 됐고, `border.strong`·`accent`·`danger`·`focus`가 팔레트 8단 → 9단으로 올라가 전부 통과한다(최저 3.08). 자세한 것은 [`semantic-tokens.md` §8.1](semantic-tokens.md).
 >
 > ⚠️ **이 게이트가 재는 것은 토큰 원색이다.** `scripts/contrast.mjs`는 `packages/tokens` 안에 살아 `packages/ui`를 볼 수 없으므로, 컴포넌트가 토큰 색을 불투명도로 깎으면(shadcn 원본의 `ring-ring/50`) 화면에서 3:1이 깨져도 초록으로 통과한다. 규약이 대신 막는다 — **상태 테두리는 토큰을 불투명도 없이 칠한다**([`semantic-tokens.md` §8.2](semantic-tokens.md)).
+
+> **[#337](https://github.com/flameware/massive-design/issues/337) 세 번째 그룹 `fill`**: 이 게이트는 오래도록 **채움 ↔ 면을 재지 않았다.** 텍스트 쌍은 면 위의 글자를, 비텍스트 쌍은 테두리와 컨트롤 어포던스를 봤고, 그래서 `bg.accent.soft`가 `bg.subtle` 위에서 **1.00:1**인 것을 아무도 몰랐다 — 면 사다리와 채움 사다리가 팔레트 step 3을 공유하기 때문이다. `*.soft`는 계속 1.00이고 그것이 의도지만(조용한 틴트의 정의), **보여야 하는 채움**은 새 단계 `bg.<family>.muted`가 받고 이 그룹이 그것을 잰다 — 패밀리 5종 × 면 5종 × 2모드 = 50조합. 하한 1.35는 WCAG가 아니라 측정에서 온다(소비처가 "안 보인다"고 판정한 1.22와 고친 뒤 1.49 사이). 자세한 것은 [`semantic-tokens.md` §4.2](semantic-tokens.md).
 
 APCA로 게이트하지 않는 이유: APCA는 아직 WCAG 3 드래프트이고, 소비처의 접근성 요구가 실제로 걸리는 기준은 AA다. 병기는 나중에 게이트를 옮길 때의 기준선 데이터다.
 

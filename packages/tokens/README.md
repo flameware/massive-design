@@ -31,7 +31,7 @@ bun add @flameware/tokens
 
 색 이름은 역할이 접두사다 — `bg.accent.solid`는 `bg-accent-solid`, `fg.default`는
 `text-default`, `border.default`는 `border-default`. `bg`·`fg`·`border` 아래
-semantic 색은 지금 35개이고, 그 35개가 빠짐없이 유틸리티로
+semantic 색은 지금 40개이고, 그 40개가 빠짐없이 유틸리티로
 열려 있다([#280](https://github.com/flameware/massive-design/issues/280) — 그 전에는
 Button이 쓰는 8개뿐이었다). semantic 색 토큰 중 유틸리티가 없는 것은 `state.layer`
 하나뿐이다 — 색이 아니라 `@flameware/ui`의 `state.css`가 hover·pressed를 합성할 때
@@ -40,6 +40,48 @@ Button이 쓰는 8개뿐이었다). semantic 색 토큰 중 유틸리티가 없�
 
 팔레트(`--ds-palette-*`)는 devtools 추적용이다. 직접 집지 않는다 — 라이트/다크
 전환이 semantic 층에서만 일어나기 때문에, 팔레트를 집으면 모드가 죽는다.
+
+### 면 사다리와 채움 사다리 — 어느 이름이 어느 값인가
+
+두 사다리가 있고, **둘은 팔레트의 같은 칸에서 만난다.** 그 사실을 적어 두지
+않아서 소비처가 `bg-inset`을 `bg-subtle`로 바꾸고 "트랙을 한 단계 내렸다"고
+믿은 일이 있었다 — 그 변경은 아무것도 하지 않았다
+([#337](https://github.com/flameware/massive-design/issues/337)).
+
+**면 사다리** — 무언가가 그 위에 놓이는 자리.
+
+| 이름 | 역할 | light | dark |
+|---|---|---|---|
+| `bg-canvas` | 페이지 최하단 | neutral 2 | neutral 1 |
+| `bg-surface` | 올라온 면 — 카드·패널 | neutral 1 | neutral 2 |
+| `bg-subtle` | 2차 그룹핑 — 테이블 헤더, hover, Skeleton | neutral 3 | neutral 3 |
+| `bg-inset` | 파묻힌 면 — 코드블록, 입력·트랙 안쪽 | neutral 3 | neutral 3 |
+| `bg-overlay` | 떠 있는 면 — 다이얼로그·팝오버 | neutral 1 | neutral 3 |
+
+`bg-subtle`·`bg-inset`은 **의도된 별칭이다 — 두 이름, 한 값.** 다크에서는
+`bg-overlay`까지 같은 칸에 들어온다. DS는 subtle보다 더 파인 면을 제공하지
+않으므로, 셋 사이를 오가는 변경은 **화면을 바꾸지 않는다.** 이름이 남아 있는
+것은 소비처의 의도를 코드에 적어 두기 위해서다. 면을 더 가르고 싶으면 값이
+아니라 테두리·그림자·여백이 해야 한다.
+
+**채움 사다리** — 면 위에 얹히는 덩어리. 패밀리마다 세 칸이다.
+
+| 이름 | 역할 | light | dark | 그 위 전경 |
+|---|---|---|---|---|
+| `bg-<family>-soft` | 조용한 틴트 — 배너·뱃지 배경, 잔여 트랙 | step 3 | step 3 | `text-<family>` / `text-default` |
+| `bg-<family>-muted` | **면으로 읽혀야 하는 채움** — 미터의 칸 | step 7 | step 6 | `text-default` **고정** |
+| `bg-<family>-solid` | 강조 덩어리 — primary 버튼, destructive | step 9 | step 9 | `text-on-solid` |
+
+**`*-soft`는 조용한 면 위에서 보이지 않는다 — 1.00:1이다.** 채움 사다리의
+step 3과 면 사다리의 neutral 3이 같은 밝기 칸이기 때문이고, 이것은 결함이
+아니라 `soft`의 정의다(면과 구별되지 않을 만큼 조용한 틴트).
+
+칸이 **보여야** 하면 `muted`를 쓴다. 면에 대해 1.35:1 이상을 보장하고
+(`tokens:contrast`의 `fill` 게이트가 5면 × 2모드 = 50조합을 잰다), 그 위
+전경은 `text-default`로 **고정**이다 — 유채 전경은 이 단계 위에서 AA를 넘지
+못한다([#336](https://github.com/flameware/massive-design/issues/336)의 측정).
+단계가 모드간 비대칭인 것(라이트 7 · 다크 6)도 의도다. 한 단계로 맞추면 한쪽이
+하한 아래로 내려간다.
 
 ## 램프 생성기 — 자기 패밀리 만들기
 

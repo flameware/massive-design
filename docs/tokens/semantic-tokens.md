@@ -66,61 +66,66 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 
 `palette.<family>.<mode>.<step>`을 `<family> <step>`으로 줄여 적는다. 대비값은 WCAG 2.
 
-### bg (17)
+### bg (22)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
 | 1 | `bg.canvas` | 페이지 최하단 배경 | neutral 2 `#f8f8f8` | neutral 1 `#0c0c0c` |
 | 2 | `bg.surface` | 카드·패널 등 올라온 면 | neutral 1 `#fdfdfd` | neutral 2 `#151515` |
-| 3 | `bg.subtle` | 2차 그룹핑 (테이블 헤더, 사이드바 hover) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
-| 4 | `bg.inset` | 파묻힌 영역 (코드블록, 입력 내부) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
+| 3 | `bg.subtle` | 2차 그룹핑 (테이블 헤더, 사이드바 hover, Skeleton) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
+| 4 | `bg.inset` | 파묻힌 영역 (코드블록, 입력 내부) — **`bg.subtle`의 별칭** (§4.1) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
 | 5 | `bg.overlay` | 다이얼로그·팝오버 면 | neutral 1 `#fdfdfd` | neutral 3 `#1e1e1e` |
 | 6 | `bg.neutral.soft` | 중립 뱃지·태그 배경, secondary 버튼, 잔여 트랙 (§8.3) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
-| 7 | `bg.neutral.solid` | 컨트롤 어포던스 채움 (§8.3) | neutral 9 `#727272` | neutral 9 `#727272` |
-| 8 | `bg.accent.soft` | 연한 브랜드 배경 | brand 3 `#eaeef4` | brand 3 `#0d1d3b` [^gen] |
-| 9 | `bg.accent.solid` | 브랜드 채움 (primary) | brand 9 `#0f5fed` | brand 9 `#0f5fed` |
-| 10 | `bg.danger.soft` | 에러 배너 | danger 3 `#f4eceb` | danger 3 `#341210` |
-| 11 | `bg.danger.solid` | destructive 채움 | danger 9 `#db2931` | danger 9 `#db2931` |
-| 12 | `bg.success.soft` | 연한 성공 배경 | success 3 `#e0f4e3` | success 3 `#102314` |
-| 13 | `bg.success.solid` | 성공 채움 | success 9 `#20823e` | success 9 `#20823e` |
-| 14 | `bg.warning.soft` | 연한 경고 배경 | warning 3 `#f4eddf` | warning 3 `#241d0e` |
-| 15 | `bg.warning.solid` | 경고 채움 | warning 9 `#eab308` | warning 9 `#eab308` |
-| 16 | `bg.inverse` | 토스트·툴팁 반전 면 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
-| 17 | `bg.scrim` | 모달 뒷배경 딤 | `alpha.black.50` | `alpha.black.50` |
+| 7 | `bg.neutral.muted` | 면으로 읽혀야 하는 중립 채움 (§4.2) | neutral 7 `#b8b8b8` | neutral 6 `#414141` |
+| 8 | `bg.neutral.solid` | 컨트롤 어포던스 채움 (§8.3) | neutral 9 `#727272` | neutral 9 `#727272` |
+| 9 | `bg.accent.soft` | 연한 브랜드 배경 | brand 3 `#eaeef4` | brand 3 `#0d1d3b` [^gen] |
+| 10 | `bg.accent.muted` | 면으로 읽혀야 하는 브랜드 채움 (§4.2) | brand 7 `#97b8f2` | brand 6 `#073891` |
+| 11 | `bg.accent.solid` | 브랜드 채움 (primary) | brand 9 `#0f5fed` | brand 9 `#0f5fed` |
+| 12 | `bg.danger.soft` | 에러 배너 | danger 3 `#f4eceb` | danger 3 `#341210` |
+| 13 | `bg.danger.muted` | 면으로 읽혀야 하는 에러 채움 (§4.2) | danger 7 `#f3a29b` | danger 6 `#7b0e15` |
+| 14 | `bg.danger.solid` | destructive 채움 | danger 9 `#db2931` | danger 9 `#db2931` |
+| 15 | `bg.success.soft` | 연한 성공 배경 | success 3 `#e0f4e3` | success 3 `#102314` |
+| 16 | `bg.success.muted` | 면으로 읽혀야 하는 성공 채움 (§4.2) | success 7 `#7ccd8c` | success 6 `#0c4f22` |
+| 17 | `bg.success.solid` | 성공 채움 | success 9 `#20823e` | success 9 `#20823e` |
+| 18 | `bg.warning.soft` | 연한 경고 배경 | warning 3 `#f4eddf` | warning 3 `#241d0e` |
+| 19 | `bg.warning.muted` | 면으로 읽혀야 하는 경고 채움 (§4.2) | warning 7 `#f3c65e` | warning 6 `#523e09` |
+| 20 | `bg.warning.solid` | 경고 채움 | warning 9 `#eab308` | warning 9 `#eab308` |
+| 21 | `bg.inverse` | 토스트·툴팁 반전 면 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 22 | `bg.scrim` | 모달 뒷배경 딤 | `alpha.black.50` | `alpha.black.50` |
 
 ### fg (10)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 18 | `fg.default` | 본문 텍스트 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
-| 19 | `fg.muted` | 보조 텍스트·플레이스홀더 | neutral 10 `#616161` | neutral 10 `#8f8f8f` |
-| 20 | `fg.on-solid` | neutral/accent/danger/success solid 위 전경 | `base.white` | `base.white` |
-| 21 | `fg.on-inverse` | `bg.inverse` 위 전경 | neutral 1 `#fdfdfd` | neutral 1 `#0c0c0c` |
-| 22 | `fg.on-warning` | `bg.warning.solid` 위 전경 | `base.black` | `base.black` |
-| 23 | `fg.accent` | 브랜드 텍스트·아이콘 | brand 10 `#1553c6` | brand 10 `#5989e2` |
-| 24 | `fg.danger` | 에러 텍스트 | danger 10 `#b92429` | danger 10 `#e76760` |
-| 25 | `fg.success` | 성공 텍스트 | success 10 `#1c6f35` | success 10 `#569e65` |
-| 26 | `fg.warning` | 경고 텍스트 | warning 11 `#665019` | warning 10 `#edc467` |
-| 27 | `fg.link` | 링크 | brand 10 `#1553c6` | brand 10 `#5989e2` |
+| 23 | `fg.default` | 본문 텍스트 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 24 | `fg.muted` | 보조 텍스트·플레이스홀더 | neutral 10 `#616161` | neutral 10 `#8f8f8f` |
+| 25 | `fg.on-solid` | neutral/accent/danger/success solid 위 전경 | `base.white` | `base.white` |
+| 26 | `fg.on-inverse` | `bg.inverse` 위 전경 | neutral 1 `#fdfdfd` | neutral 1 `#0c0c0c` |
+| 27 | `fg.on-warning` | `bg.warning.solid` 위 전경 | `base.black` | `base.black` |
+| 28 | `fg.accent` | 브랜드 텍스트·아이콘 | brand 10 `#1553c6` | brand 10 `#5989e2` |
+| 29 | `fg.danger` | 에러 텍스트 | danger 10 `#b92429` | danger 10 `#e76760` |
+| 30 | `fg.success` | 성공 텍스트 | success 10 `#1c6f35` | success 10 `#569e65` |
+| 31 | `fg.warning` | 경고 텍스트 | warning 11 `#665019` | warning 10 `#edc467` |
+| 32 | `fg.link` | 링크 | brand 10 `#1553c6` | brand 10 `#5989e2` |
 
-### border (7)
+### border (8)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 28 | `border.default` | 구분선·컨테이너 테두리 | neutral 6 `#d2d2d2` | `alpha.white.10` |
-| 29 | `border.field` | 폼 필드 테두리 | neutral 7 `#b8b8b8` | `alpha.white.15` |
-| 30 | `border.strong` | 인터랙티브 요소의 강한 테두리 | neutral 8 `#8a8a8a` | neutral 8 `#656565` |
-| 31 | `border.accent` | 브랜드 테두리 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
-| 32 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
-| 33 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
-| 34 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
-| 35 | `border.knockout` | 겹친 요소를 가르려고 뒤 면을 되그리는 테두리 | neutral 2 `#f8f8f8` | neutral 1 `#111111` |
+| 33 | `border.default` | 구분선·컨테이너 테두리 | neutral 6 `#d2d2d2` | `alpha.white.10` |
+| 34 | `border.field` | 폼 필드 테두리 | neutral 7 `#b8b8b8` | `alpha.white.15` |
+| 35 | `border.strong` | 인터랙티브 요소의 강한 테두리 | neutral 8 `#8a8a8a` | neutral 8 `#656565` |
+| 36 | `border.accent` | 브랜드 테두리 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
+| 37 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
+| 38 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
+| 39 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 40 | `border.knockout` | 겹친 요소를 가르려고 뒤 면을 되그리는 테두리 | neutral 2 `#f8f8f8` | neutral 1 `#111111` |
 
 ### 상태 메커니즘 (1)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 36 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
+| 41 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
 
 현재 총계는 `dist/tokens.d.ts`의 `SemanticColorToken` union에서 확인한다. 개수는 `test/build.test.mjs`가 검증한다.
 
@@ -128,13 +133,54 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 
 [^gen]: 이 표의 hex는 [#6](https://github.com/flameware/massive-design/issues/6) 프로토타입이 낸 값이고, [#16](https://github.com/flameware/massive-design/issues/16)에서 램프 생성기를 culori로 다시 지으면서 **96색 중 이 한 칸만 `#0c1d3b` → `#0d1d3b`로 바뀌었다.** 프로토타입은 의존성 0을 목표로 Oklab 변환 행렬을 손으로 넣은 코드였고, 이 단계의 R 채널이 12.49/255 대 12.52/255라는 반올림 경계에 앉아 있었다. ΔE ≈ 0.0005로 눈에 보이지 않고 대비 판정에도 영향이 없다. **정본은 이제 `tokens/primitive/color.gen.json`이다.**
 
-### 값이 겹치는 토큰들 — 의도적이다
+### 4.1 값이 겹치는 토큰들 — 의도적이되, **선언되어야 한다** ([#337](https://github.com/flameware/massive-design/issues/337))
 
-`bg.subtle` / `bg.inset` / `bg.neutral.soft`가 neutral 3으로 같고, `fg.accent` / `fg.link`가 brand 10으로 같고, `border.accent` / `border.focus`가 brand 8로 같다.
+`bg.subtle` / `bg.inset` / `bg.neutral.soft`가 neutral 3으로 같고(다크에서는 `bg.overlay`까지 넷이다), `bg.surface` / `bg.overlay`가 라이트에서 neutral 1로 같고, `fg.accent` / `fg.link`가 brand 10으로 같고, `border.accent` / `border.focus`가 brand 8로 같다.
 
 **합치지 않는다.** 값이 같은 것과 의미가 같은 것은 다르다. 나중에 갈라야 할 때 semantic 이름을 바꾸는 건 소비처가 깨지는 변경이지만, 이미 이름이 나뉘어 있으면 값 한 줄만 고치면 된다.
 
-### 후보 목록에서 바뀐 것
+**그러나 조용히 두지도 않는다.** #337 이전에는 이 사실이 이 문서 한 곳에만 있었고 토큰에는 없었다. 그래서 소비처가 미터의 트랙을 `bg-inset`에서 `bg-subtle`로 "한 단계 내렸다"고 믿었다 — 세 면을 가른 것은 같이 올린 알파뿐이었고, 재기 전까지 아무도 몰랐다([investmentdiary#368](https://github.com/flameware/investmentdiary/pull/368)). **이름이 둘이면 소비처는 역할이 둘이라고 읽는다.** 값이 하나라는 사실이 이름 옆에 없으면, 둘 사이를 오가는 변경은 무해한 리팩터가 아니라 착각의 생산이 된다.
+
+그래서 규약이 아니라 **게이트가 지킨다**. 동일값 형제는 토큰 자신이 선언한다:
+
+```json
+"inset": {
+  "$value": "{palette.neutral.light.3}",
+  "$extensions": {
+    "design.massive.sameValue": ["bg.subtle", "bg.neutral.soft", "bg.overlay"]
+  }
+}
+```
+
+`tokens:lint`의 **B16**가 이것을 **정확히 일치**시킨다 — 빠지면 소비처가 속고, 남으면 이미 갈라진 값에 대한 낡은 경고가 남는다.
+
+**계열이 다르면 면제한다.** `bg.neutral.solid`와 `border.strong`이 둘 다 neutral 9인 것, `border.knockout`이 값으로 `bg.canvas`와 같은 것(ADR-0007)은 정상이고, 소비는 값이 아니라 역할을 따른다(CONTEXT.md 「계열」). 착각이 생기는 자리는 **한 계열 안에서 서로 갈아 끼울 수 있어 보이는 이름들**이다.
+
+#### 갈라 달라는 요구에 대한 답
+
+"`inset`이 `subtle`보다 한 단계 더 파여야 하지 않나"는 #337이 물은 것이고, 답은 **아니오**다. DS는 subtle보다 더 파인 면을 제공하지 않는다. 면을 더 가르고 싶으면 값이 아니라 **테두리·그림자·여백**이 한다 — 다크에서 이미 그렇게 하고 있고(§8.1이 재는 5면 중 셋이 `#1e1e1e`다), 라이트에서만 면 하나를 더 파면 두 모드의 사다리가 어긋난다.
+
+### 4.2 면으로 읽혀야 하는 채움 — `bg.<family>.muted` ([#336](https://github.com/flameware/massive-design/issues/336))
+
+면 사다리와 채움 사다리는 **팔레트의 같은 칸에서 만난다.** 모든 패밀리의 `*.soft`가 자기 램프의 step 3이고 면 사다리의 `subtle`·`inset`이 neutral 3이라서, 조용한 채움을 조용한 면 위에 올리면 **1.00:1**이다 — 라이트·다크 모두. 이것은 결함이 아니라 `soft`의 정의다(면과 구별되지 않을 만큼 조용한 틴트). 결함이었던 것은 **그 사실을 아무 게이트도 재지 않았다**는 점이다.
+
+`muted`가 그 자리를 받는다:
+
+| | light | dark | 면 대비 (최저) | 그 위 `fg.default` (최저) |
+|---|---|---|---|---|
+| `soft` | step 3 | step 3 | **1.00** | 10.85 |
+| `muted` | **step 7** | **step 6** | **1.39** | 6.29 |
+| `solid` | step 9 | step 9 | — (`fg.on-solid` 계약) | — |
+
+**세 가지가 이 단계의 계약이다.**
+
+1. **면에 대해 1.35:1 이상.** WCAG가 주는 수가 아니다 — 이 채움은 컨트롤 어포던스가 아니라서 1.4.11의 3:1을 빚지지 않지만(rules.md 「대비 요구는 토큰 계열이 아니라 역할을 따른다」), 그래도 보여야 한다. 하한의 근거는 측정이다: 소비처가 "칸이 안 보인다"고 판정한 값이 **1.22**, 고친 뒤가 1.49였다(#337). 1.35는 그 사이에서 라이트 7 · 다크 6이 다섯 패밀리 전부 넘는 가장 높은 자리다. 차트 계열의 1.5:1(#334)보다 낮은데, 차트 계열은 면 위에 혼자 놓이고 서로와도 갈려야 하지만 이 채움은 자기 트랙 위에 앉고 그 위에 글자가 오기 때문이다.
+2. **그 위 전경은 `fg.default` 고정.** 유채 `fg.<family>`는 이 단계 위에서 AA를 넘지 못한다 — 다크 step 6에서 2.9~3.5다. #336이 "면을 살리려 밝히면 글자가 무너진다"고 관측한 것이 이것이고, 그래서 단계와 전경을 **함께** 정했다. 유채 전경이 필요하면 `soft`를 쓴다(그 위에서 5.4~5.9다).
+3. **모드간 단계 비대칭은 의도다.** 라이트 7 · 다크 6. 한 단계로 맞추면 한쪽이 하한 아래로 내려간다(양 모드 5 → 라이트 1.21 · 양 모드 6 → 라이트 1.25). `fg.warning`이 라이트 11 · 다크 10인 것과 같은 부류다.
+
+게이트는 `tokens:contrast`의 세 번째 그룹 **`fill`** 이다 — 패밀리 5종 × 면 5종 × 2모드 = **50조합**. #337 이전에 이 게이트는 채움 ↔ 면을 아예 재지 않았고, 그래서 `bg.accent.soft` on `bg.subtle`의 1.00:1을 아무도 몰랐다.
+
+### 4.3 후보 목록에서 바뀐 것
 
 | 변경 | 이유 |
 |---|---|
@@ -146,6 +192,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | `bg.scrim` 추가 | #13. `bg.overlay`는 팝오버 **면**이라 별개다 |
 | `bg.inverse` · `fg.on-inverse` 추가 | shadcn `Tooltip`이 실제로 반전 배경을 쓴다. Primer·M3·Polaris 셋 다 보유 |
 | `border.field` 추가 | #13이 이름을 붙였으나 후보 목록에 없었다. 다크 알파 예외(`alpha.white.15`)를 걸 자리 |
+| `bg.<family>.muted` 5개 추가 | [#337](https://github.com/flameware/massive-design/issues/337). 면 사다리와 채움 사다리가 step 3을 공유해 조용한 채움이 조용한 면 위에서 사라졌다. 위 §4.2 |
 | `border.knockout` 추가 | [#143](https://github.com/flameware/massive-design/issues/143). 값은 `bg.canvas`와 같지만 **계열이 달라야 했다** — 매니페스트 게이트가 `border-color`에 `--ds-bg-*`가 오는 것을 문다. 근거와 고려한 대안은 [ADR-0007](../adr/0007-knockout-border.md) |
 | `fg.muted` 및 유채 텍스트 **11 → 10** | 아래 §5 |
 | `bg.canvas`/`bg.surface` 라이트에서 **단계 교차** | 아래 §6 |
