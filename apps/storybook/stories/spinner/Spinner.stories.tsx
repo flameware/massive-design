@@ -11,9 +11,10 @@ const meta = {
   title: "Feedback/Spinner",
   component: Spinner,
   parameters: { ds: { status: "stable", since: "0.2.0" } },
-  args: { size: "md" },
+  args: { size: "md", tone: "inherit" },
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg", "xl"] },
+    tone: { control: "select", options: ["inherit", "accent", "muted"] },
   },
 } satisfies Meta<typeof Spinner> & ComponentMeta
 
@@ -55,5 +56,30 @@ export const WithLabel: Story = {
       <Spinner aria-hidden="true" />
       불러오는 중…
     </span>
+  ),
+}
+
+/* #369 — `tone` 축. `inherit`(기본, #366 판정)는 색 클래스를 내지 않아 부모의
+ * `currentColor`를 그대로 물려받는다 — 여기서는 감싼 요소의 색이 갈려도
+ * Spinner가 따라가는 것을 보여주려고 회색·붉은색 부모 옆에 나란히 둔다.
+ * `accent`·`muted`는 소비처가 `text-accent`·`text-muted`로 손으로 얹던
+ * 자리를 대신한다. */
+export const Tones: Story = {
+  name: "톤",
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "var(--ds-fg-danger)" }}>
+        <Spinner aria-hidden="true" tone="inherit" />
+        inherit(부모색 상속)
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "var(--ds-fg-default)" }}>
+        <Spinner aria-hidden="true" tone="accent" />
+        accent
+      </span>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: "var(--ds-fg-default)" }}>
+        <Spinner aria-hidden="true" tone="muted" />
+        muted
+      </span>
+    </div>
   ),
 }

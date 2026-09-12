@@ -21,6 +21,16 @@ import * as ToggleStories from "./Toggle.stories"
 - **누르면 즉시 무언가 일어나고 끝나는 자리.** 상태가 남지 않으면 Button이다.
 - **여럿 중 하나(또는 여럿)를 화살표로 옮겨 고르는 자리.** 그것은 ToggleGroup이다.
 
+## 크기
+
+`sm`·`md`·`lg` — 값 이름은 `Button`의 `size`와 같다. `md`가 기본이고 지금까지 고정이던 모양(`h-8 px-2.5 text-sm`) 그대로다. `size`는 **이 컴포넌트의 축**이지 전역 밀도 모드가 아니다 — 화면 전체의 밀도를 한 번에 낮추는 자리는 영구적으로 이 시스템의 범위 밖이다(ADR-0023 §11).
+
+<Canvas of={ToggleStories.Sizes} />
+
+`sm`은 시각 높이가 24px 포인터 하한 밑이다 — 시각 치수는 그대로 두고 `hit-area`가 하한을 진다(ADR-0020). 다음 스토리가 그것을 실제로 재는 대상이다(스토리 테스트의 24×24 계기).
+
+<Canvas of={ToggleStories.Size24} />
+
 ## 상태
 
 <Canvas of={ToggleStories.States} />

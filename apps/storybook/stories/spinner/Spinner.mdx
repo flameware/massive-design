@@ -27,6 +27,12 @@ import * as SpinnerStories from "./Spinner.stories"
 
 <Canvas of={SpinnerStories.Sizes} />
 
+## 톤
+
+기본은 `inherit`다 — 색 클래스를 내지 않고 `stroke="currentColor"`로 부모의 글자색을 그대로 물려받는다. `accent`·`muted`는 소비처가 `text-accent`·`text-muted`로 손으로 얹던 자리를 대신한다. 값 이름은 `Badge`·`Text`·`Alert`의 `tone`과 같은 이름 공간이다.
+
+<Canvas of={SpinnerStories.Tones} />
+
 ## 전체 화면 대기
 
 레이아웃 전체가 아직 없는 자리(로그인 확인, 라우트 전환)에서 화면 가운데 혼자 놓일 때는 `size="xl"`을 쓴다. 곁의 글줄이 뜻을 말하므로 `aria-hidden="true"`를 넘긴다 — Button의 `loading`과 같은 규칙이다.

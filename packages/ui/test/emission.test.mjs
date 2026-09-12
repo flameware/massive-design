@@ -34,6 +34,7 @@ import { skeletonVariants } from "../dist/skeleton/index.js"
 import { spinnerVariants } from "../dist/spinner/index.js"
 import { tableCellVariants, tableHeadVariants } from "../dist/table/index.js"
 import { textVariants } from "../dist/text/index.js"
+import { toggleVariants } from "../dist/toggle/index.js"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
 const entry = resolve(root, "src/styles.css")
@@ -81,6 +82,14 @@ for (const classes of [
   spinnerVariants({ size: "md" }),
   spinnerVariants({ size: "lg" }),
   spinnerVariants({ size: "xl" }),
+  // #369 — Spinner의 tone 축. inherit는 색 클래스를 내지 않는 게 계약이라 여기
+  // 후보에서는 제외한다(빈 문자열은 어차피 CSS를 내지 않으니 잴 것이 없다)
+  spinnerVariants({ tone: "accent" }),
+  spinnerVariants({ tone: "muted" }),
+  // #369 — Toggle의 size 축
+  toggleVariants({ size: "sm" }),
+  toggleVariants({ size: "md" }),
+  toggleVariants({ size: "lg" }),
   tableHeadVariants({ textAlign: "start" }),
   tableHeadVariants({ textAlign: "center" }),
   tableHeadVariants({ textAlign: "end" }),
