@@ -1,3 +1,4 @@
+import { cva, type VariantProps } from "class-variance-authority"
 import type * as React from "react"
 
 import { cn } from "../lib/utils.js"
@@ -54,27 +55,81 @@ function TableRow({ className, ...props }: TableRowProps) {
   )
 }
 
+/* 정렬은 **열**의 성질이지만 이 표에는 열이라는 객체가 없다(`colgroup`을 열지
+ * 않았다, #367) — 그래서 축은 셀마다(`Table.Head`·`Table.Cell`) 서고, 열
+ * 전체를 맞추는 반복은 소비처(TanStack `columnDef`)가 진다. `Table.Row`·
+ * `Table.Root`에는 두지 않는다.
+ *
+ * 값은 물리 방향(`left`/`right`)이 아니라 논리(`start`/`center`/`end`)다 —
+ * RTL이 ADR-0023 §11의 영구 제외라도 축 이름이 방향을 박제하지 않기
+ * 위해서다. 기본은 `start` — 지금 `text-left`가 그리는 것과 같다(rules.md
+ * "새 축의 기본은 게시된 인스턴스를 보존하는 값").
+ *
+ * 이름은 `align`이 아니라 `textAlign`이다 — #365 Implementation Decisions는
+ * `align`을 적었지만, `align`은 이 카탈로그에서 **이미 다른 뜻**이다:
+ * `Menu.Popup`·`Combobox`의 `align`은 Base UI `Positioner`의 "떠 있는 표면이
+ * 트리거의 어느 모서리에 붙는가"를 그대로 전달한다(menu.tsx·combobox.tsx).
+ * ADR-0008이 정확히 이 충돌 때문에 `align`을 한 번 버린 전례이고
+ * (rules.md 축과 이름 공간: "축 이름은 카탈로그에서 이미 다른 뜻을 갖지
+ * 않는다"), 값 어휘(`start`/`center`/`end`)까지 같아 혼동이 더 크다. 그래서
+ * 이 축은 `textAlign`으로 연다 — 이 판정은 #365 코멘트에도 남긴다.
+ *
+ * `<th>`·`<td>`의 네이티브 `align` 속성(폐기 예정, `left`/`right`/`center`/
+ * `char`)도 물리 방향이라 각 Props가 `Omit<..., "align">`으로 지운다 —
+ * `textAlign`이 그 자리를 대신한다. */
+export const tableHeadVariants = cva(
+  "h-10 px-3 align-middle font-medium text-muted whitespace-nowrap",
+  {
+    variants: {
+      textAlign: {
+        start: "text-left",
+        center: "text-center",
+        end: "text-right",
+      },
+    },
+    defaultVariants: { textAlign: "start" },
+  }
+)
+
 /* 머리 셀. `scope`는 기본을 주지 않는다 — 합계 행처럼 `<tbody>` 안에서도
  * `<th scope="row">`가 쓰이고, 그 결정은 셀이 아니라 소비처가 표의 모양을 보고
  * 내린다(1세대 TableFooter가 남긴 판단, v1-shadcn). */
-export type TableHeadProps = React.ComponentPropsWithoutRef<"th">
+export interface TableHeadProps
+  extends Omit<React.ComponentPropsWithoutRef<"th">, "align">,
+    VariantProps<typeof tableHeadVariants> {}
 
-function TableHead({ className, ...props }: TableHeadProps) {
-  return (
-    <th
-      className={cn(
-        "h-10 px-3 text-left align-middle font-medium text-muted whitespace-nowrap",
-        className
-      )}
-      {...props}
-    />
-  )
+function TableHead({ className, textAlign, ...props }: TableHeadProps) {
+  return <th className={cn(tableHeadVariants({ textAlign }), className)} {...props} />
 }
 
-export type TableCellProps = React.ComponentPropsWithoutRef<"td">
+/* 숫자 열은 `tabular-nums`를 얻는다 — `ListRow.Value`가 이미 쓰는 것과 **같은
+ * 규약**이다(list-row.tsx의 `VALUE`). 같은 뜻(비교하는 수)이 컴포넌트마다
+ * 다른 서체를 얻지 않기 위해서다. `textAlign`과는 독립된 축이다 — 정렬은
+ * 열의 시각적 위치, `numeric`은 열의 서체 규약이라 서로 다른 것을 답한다
+ * (숫자 열이 보통 `textAlign="end"`와 `numeric`을 함께 받긴 하지만, 강제하지
+ * 않는다 — 예컨대 종목명은 `numeric` 없이 `textAlign`만 받을 수 있다).
+ * 기본은 `false` — `tabular-nums`를 내지 않는 지금 모양을 보존한다. */
+export const tableCellVariants = cva("p-3 align-middle", {
+  variants: {
+    textAlign: {
+      start: "text-left",
+      center: "text-center",
+      end: "text-right",
+    },
+    numeric: {
+      true: "tabular-nums",
+      false: "",
+    },
+  },
+  defaultVariants: { textAlign: "start", numeric: false },
+})
 
-function TableCell({ className, ...props }: TableCellProps) {
-  return <td className={cn("p-3 align-middle", className)} {...props} />
+export interface TableCellProps
+  extends Omit<React.ComponentPropsWithoutRef<"td">, "align">,
+    VariantProps<typeof tableCellVariants> {}
+
+function TableCell({ className, textAlign, numeric, ...props }: TableCellProps) {
+  return <td className={cn(tableCellVariants({ textAlign, numeric }), className)} {...props} />
 }
 
 export const Table = {

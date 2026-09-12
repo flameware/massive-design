@@ -32,6 +32,7 @@ import { listRowPartClassNames, listRowVariants } from "../dist/list-row/index.j
 import { progressIndicatorVariants, progressTrackVariants } from "../dist/progress/index.js"
 import { skeletonVariants } from "../dist/skeleton/index.js"
 import { spinnerVariants } from "../dist/spinner/index.js"
+import { tableCellVariants, tableHeadVariants } from "../dist/table/index.js"
 import { textVariants } from "../dist/text/index.js"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
@@ -80,6 +81,14 @@ for (const classes of [
   spinnerVariants({ size: "md" }),
   spinnerVariants({ size: "lg" }),
   spinnerVariants({ size: "xl" }),
+  tableHeadVariants({ textAlign: "start" }),
+  tableHeadVariants({ textAlign: "center" }),
+  tableHeadVariants({ textAlign: "end" }),
+  tableCellVariants({ textAlign: "start" }),
+  tableCellVariants({ textAlign: "center" }),
+  tableCellVariants({ textAlign: "end" }),
+  tableCellVariants({ numeric: true }),
+  tableCellVariants({ numeric: false }),
   textVariants({ size: "xs" }),
   textVariants({ size: "sm" }),
   textVariants({ size: "base" }),
