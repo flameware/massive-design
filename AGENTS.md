@@ -34,11 +34,11 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-**Phase 1·Phase 2가 모두 닫혔다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2세대(Base UI)의 결정 전부를 담는다. 완료 기록은 [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md)·[`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md)다. Phase 1·2 컴포넌트는 상태 표에서 전부 `stable`이다 — **깨는 변경은 major다.**
+**Phase 1·Phase 2·Phase 3가 모두 닫혔다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2세대(Base UI)의 결정 전부를 담는다. 완료 기록은 [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md)·[`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md)·[`docs/handoff/phase-3-base-ui-map.md`](docs/handoff/phase-3-base-ui-map.md)다. Phase 1·2 컴포넌트, Phase 3가 축을 더한 다섯(Table·Text/Heading·Badge·Spinner·Toggle), 그리고 Toast(#371, 앱 착지로 `stable` 승격)까지 상태 표에서 전부 `stable`이다 — **깨는 변경은 major다.**
 
-**게시된 최신은 `0.5.0`이다** — Toast(#371)가 새 서브패스 `./toast`를 열어 minor로 올랐다(#377, 선제 구축 넷 중 만들어진 것은 Toast 하나뿐 — Popover·Switch·Stack/Grid는 #372·#375·#376에서 자리 없음으로 판정). 소비처 invest diary는 `@flameware/ui@0.5.0`·`@flameware/tokens@0.5.0`으로 돈다. Phase 3의 나머지 진행은 #365를 본다. Phase 2가 새로 만든 다섯 컴포넌트(EmptyState·Progress·Pagination·NumberField·ConfirmDialog) 모두 상태 표에서 `stable`이다 — 다섯 다 앱에 착지한 증거가 있다.
+**게시된 최신은 `0.5.0`이다** — Toast가 새 서브패스 `./toast`를 열어 minor로 올랐다(#377). 소비처 invest diary는 `@flameware/ui@0.5.0`·`@flameware/tokens@0.5.0`으로 돈다.
 
-**지금 리포에 있는 것**: `@flameware/tokens`(램프 생성기·`lint`·`contrast`·`verify`, 그리고 소비처용 `./ramp` API), `@flameware/ui`의 서브패스 34개 — `cn`·`icon`·Button·Field/Input/Textarea/Form·Card/Alert·Dialog/AlertDialog/Drawer·Menu/Avatar/Separator/Tooltip·Tabs/PageShell/ThemeToggle·Checkbox/Select/Toggle/ToggleGroup·Badge/ListRow/Text/Heading/Skeleton/Spinner·Table·Combobox·Progress·EmptyState·NumberField·Pagination·ConfirmDialog — 와 `styles.css`·`state.css`·`hit-area.css`, 그리고 Foundations 6장·컴포넌트별 MDX·상태 표·DS 매니저 테마를 갖춘 Storybook과 그것을 여는 Playwright 스토리 테스트(axe·24px·키보드 계약·`viewport:mobile`). semantic 색은 `@theme`에 전부 자동 노출된다. 게시는 `v*` 태그로 `publish.yml`이 한다. 1세대 51개 컴포넌트·매니페스트·계약·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다.
+**지금 리포에 있는 것**: `@flameware/tokens`(램프 생성기·`lint`·`contrast`·`verify`, 그리고 소비처용 `./ramp` API), `@flameware/ui`의 서브패스 35개 — `cn`·`icon`·Button·Field/Input/Textarea/Form·Card/Alert·Dialog/AlertDialog/Drawer·Menu/Avatar/Separator/Tooltip·Tabs/PageShell/ThemeToggle·Checkbox/Select/Toggle/ToggleGroup·Badge/ListRow/Text/Heading/Skeleton/Spinner·Table·Combobox·Progress·EmptyState/NumberField/Pagination/ConfirmDialog·Toast — 와 `styles.css`·`state.css`·`hit-area.css`, 그리고 Foundations 6장·컴포넌트별 MDX·상태 표·DS 매니저 테마를 갖춘 Storybook과 그것을 여는 Playwright 스토리 테스트(axe·24px·키보드 계약·`viewport:mobile`). semantic 색은 `@theme`에 전부 자동 노출된다. 게시는 `v*` 태그로 `publish.yml`이 한다. 1세대 51개 컴포넌트·매니페스트·계약·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다.
 
 **패키지 스코프는 `@flameware`다**([ADR-0024](docs/adr/0024-package-scope-follows-the-registry-owner.md)) — GitHub Packages가 리포 소유자와 같은 스코프만 받는다. 1세대를 서술하는 문서의 `@massive/*`는 기록이므로 고치지 않는다.
 
@@ -57,6 +57,7 @@ Closed maps, with their records:
 | primitive·의존성 기반 확정 (#141) | [`docs/handoff/primitive-dependency-map.md`](docs/handoff/primitive-dependency-map.md) |
 | Phase 1 — 2세대 Base UI (#275) | [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md) |
 | Phase 2 — 2세대 Base UI, 앱 자리로 넓히기 (#317) | [`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md) |
+| Phase 3 — 2세대 Base UI, 소비처가 우회하는 축을 닫는다 (#365) | [`docs/handoff/phase-3-base-ui-map.md`](docs/handoff/phase-3-base-ui-map.md) |
 
 [`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff *into* the completed component map, not a completion record.
 
