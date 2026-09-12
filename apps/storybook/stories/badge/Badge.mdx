@@ -26,9 +26,15 @@ import * as BadgeStories from "./Badge.stories"
 
 <Canvas of={BadgeStories.Tones} />
 
-`outline`은 면이 없다 — 테두리와 `fg.default` 글자색만 두른 여섯 번째 톤이다. 분류가 아니라 밀도가 낮은 배지가 필요할 때 쓴다.
+`outline`은 면이 없다 — 테두리와 `fg.default` 글자색만 두른 톤이다. 분류가 아니라 밀도가 낮은 배지가 필요할 때 쓴다.
 
 <Canvas of={BadgeStories.Outline} />
+
+`muted`는 새 축이 아니라 이 축의 새 값이다([#368](https://github.com/flameware/massive-design/issues/368)) — 소비처 12자리가 손으로 `text-muted`를 얹어 만들던 "부모 색과 갈리지 않는 조용한 배지"를 대신한다. `fg.muted`는 유채 soft 면 위에서 대비 게이트를 넘지 못해(TEXT_PAIRS가 검증하지 않는 조합) 값을 그대로 옮길 수 없었다 — 값을 포기하는 대신 면을 골랐다: `bg.neutral.muted`(#337이 연 "면으로 읽혀야 하는 채움" 단계)와 `fg.default`의 조합은 FILL_GATE 1.35·TEXT_PAIRS 4.5 둘 다 이미 검증돼 있다. 그래서 `muted` 톤은 `bg-neutral-muted text-default`다 — 새 토큰이 필요 없었다.
+
+<Canvas of={BadgeStories.Muted} />
+
+`Text`·`Heading`도 같은 축 이름 `tone`을 쓰고 겹치는 값(`neutral`·`danger`·`muted`)의 이름이 같다([`Text` MDX](../text/Text.mdx)의 어휘 비교표 참고, [#368](https://github.com/flameware/massive-design/issues/368)).
 
 ## 줄바꿈하지 않는다
 

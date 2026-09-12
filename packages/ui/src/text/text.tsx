@@ -33,9 +33,33 @@ const sizeVariants = {
   "5xl": "text-5xl",
 } as const
 
+/* 톤 축은 `Badge`·`Alert`의 `tone` 어휘를 그대로 쓴다(#368) — 같은 축이
+ * 컴포넌트마다 다른 이름을 쓰면 소비처가 매번 새로 배워야 한다(#365 user
+ * story 8). 값은 두 컴포넌트가 실제로 갖고 있는 것 중 실측 수요가 있는
+ * 셋뿐이다: `neutral`(`text-default`, 12자리 수요)·`danger`(`text-danger`,
+ * 4자리)·`muted`(`text-muted`, 10자리) — `accent`·`success`·`warning`·
+ * `outline`은 Badge에만 있고 Text·Heading에서 실측 수요가 0이라 열지 않는다
+ * (rules.md 축과 이름 공간: 값을 여는 데도 실측 수요가 근거다).
+ *
+ * 기본값은 `inherit`— 클래스를 하나도 안 낸다 — 이다(#366이 표본 14개 전수
+ * 확인 뒤 확정: "Text가 임의 색 위에 얹히는 범용 primitive"라는 설계 원칙).
+ * `default`라는 네 번째 이름은 열지 않는다 — Badge·Alert 둘 다 이 자리를
+ * `neutral`이라 부르고, 이 축을 여는 이유 자체가 어휘를 하나로 모으는
+ * 것이라 새 동의어를 만들면 그 목적에 반한다. */
+const TONES = ["inherit", "neutral", "danger", "muted"] as const
+
+export type Tone = (typeof TONES)[number]
+
+const toneVariants = {
+  inherit: "",
+  neutral: "text-default",
+  danger: "text-danger",
+  muted: "text-muted",
+} as const
+
 export const textVariants = cva("", {
-  variants: { size: sizeVariants },
-  defaultVariants: { size: "sm" },
+  variants: { size: sizeVariants, tone: toneVariants },
+  defaultVariants: { size: "sm", tone: "inherit" },
 })
 
 type TextTag = "p" | "span" | "div" | "label"
@@ -52,9 +76,10 @@ export interface TextProps
   as?: TextTag
 }
 
-/** 본문 텍스트. 기본 크기는 `sm`(14px) — 본문 UI에서 가장 흔한 크기다. */
-export function Text({ as: Tag = "p", size, className, ...props }: TextProps) {
-  return <Tag className={cn(textVariants({ size }), className)} {...props} />
+/** 본문 텍스트. 기본 크기는 `sm`(14px) — 본문 UI에서 가장 흔한 크기다. 기본
+ * 톤은 `inherit` — 부모의 색을 그대로 물려받는다(#366). */
+export function Text({ as: Tag = "p", size, tone, className, ...props }: TextProps) {
+  return <Tag className={cn(textVariants({ size, tone }), className)} {...props} />
 }
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
@@ -72,9 +97,31 @@ const LEVEL_DEFAULT_SIZE: Record<HeadingLevel, TypeSize> = {
   6: "sm",
 }
 
+/* `weight`는 `Heading`에만 있다 — `Text`에는 실측 수요가 없다. 값은 지금까지
+ * 하드코딩돼 있던 `font-semibold`를 기본값으로 그대로 두고(#368: "새 축의
+ * 기본값은 게시된 인스턴스를 보존하는 값"), 실측 수요(3자리)가 있는
+ * `bold`(`font-bold`)를 연다. `Text`와 별도 cva로 둔 이유는 `TextProps`가
+ * `VariantProps<typeof textVariants>`를 그대로 상속하므로, `weight`를
+ * `textVariants`에 합치면 `Text`도 타입상 `weight`를 받아들이는데 실제로는
+ * 아무것도 하지 않는 조용한 무효 prop이 생기기 때문이다. */
+const WEIGHTS = ["semibold", "bold"] as const
+
+export type HeadingWeight = (typeof WEIGHTS)[number]
+
+const weightVariants = {
+  semibold: "font-semibold",
+  bold: "font-bold",
+} as const
+
+export const headingWeightVariants = cva("", {
+  variants: { weight: weightVariants },
+  defaultVariants: { weight: "semibold" },
+})
+
 export interface HeadingProps
   extends React.ComponentPropsWithoutRef<"h1">,
-    VariantProps<typeof textVariants> {
+    VariantProps<typeof textVariants>,
+    VariantProps<typeof headingWeightVariants> {
   /** 문서 구조상의 제목 레벨(h1~h6). 기본 2 — 페이지 제목(h1)은 Page shell이 진다 */
   level?: HeadingLevel
 }
@@ -82,11 +129,18 @@ export interface HeadingProps
 /**
  * 제목. `level`이 태그(h1~h6, 접근성 트리)를, `size`가 크기(시각)를 따로
  * 정한다 — 보통은 같이 움직이므로 `size`를 생략하면 `level`의 기본 크기를
- * 쓴다.
+ * 쓴다. 기본 톤은 `inherit`, 기본 굵기는 `semibold`(#368).
  */
-export function Heading({ level = 2, size, className, ...props }: HeadingProps) {
+export function Heading({ level = 2, size, tone, weight, className, ...props }: HeadingProps) {
   const Tag = `h${level}` as const
   return (
-    <Tag className={cn(textVariants({ size: size ?? LEVEL_DEFAULT_SIZE[level] }), "font-semibold", className)} {...props} />
+    <Tag
+      className={cn(
+        textVariants({ size: size ?? LEVEL_DEFAULT_SIZE[level], tone }),
+        headingWeightVariants({ weight }),
+        className
+      )}
+      {...props}
+    />
   )
 }

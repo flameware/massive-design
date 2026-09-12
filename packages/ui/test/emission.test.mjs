@@ -33,7 +33,7 @@ import { progressIndicatorVariants, progressTrackVariants } from "../dist/progre
 import { skeletonVariants } from "../dist/skeleton/index.js"
 import { spinnerVariants } from "../dist/spinner/index.js"
 import { tableCellVariants, tableHeadVariants } from "../dist/table/index.js"
-import { textVariants } from "../dist/text/index.js"
+import { headingWeightVariants, textVariants } from "../dist/text/index.js"
 import { toggleVariants } from "../dist/toggle/index.js"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
@@ -73,6 +73,7 @@ for (const classes of [
   badgeVariants({ tone: "danger" }),
   badgeVariants({ tone: "success" }),
   badgeVariants({ tone: "warning" }),
+  badgeVariants({ tone: "muted" }),
   listRowVariants(),
   ...partClasses,
   progressTrackVariants(),
@@ -107,6 +108,12 @@ for (const classes of [
   textVariants({ size: "3xl" }),
   textVariants({ size: "4xl" }),
   textVariants({ size: "5xl" }),
+  textVariants({ tone: "inherit" }),
+  textVariants({ tone: "neutral" }),
+  textVariants({ tone: "danger" }),
+  textVariants({ tone: "muted" }),
+  headingWeightVariants({ weight: "semibold" }),
+  headingWeightVariants({ weight: "bold" }),
 ]) {
   for (const c of classes.split(/\s+/)) if (c) candidates.add(c)
 }
