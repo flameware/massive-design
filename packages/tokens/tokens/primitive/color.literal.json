@@ -6,6 +6,12 @@
     },
     "alpha": {
       "white": {
+        "05": {
+          "$type": "color",
+          "$value": "#ffffff0d",
+          "$extensions": { "design.massive.alpha": 0.05 },
+          "$description": "다크 border.subtle(#335). border.default(10%)보다 옅은 알파 — 같은 사다리를 5%씩 잇는다"
+        },
         "10": {
           "$type": "color",
           "$value": "#ffffff1a",

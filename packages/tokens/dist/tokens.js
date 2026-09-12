@@ -35,6 +35,7 @@ export const cssVar = {
   "fg.warning": "--ds-fg-warning",
   "fg.link": "--ds-fg-link",
   "border.default": "--ds-border-default",
+  "border.subtle": "--ds-border-subtle",
   "border.field": "--ds-border-field",
   "border.knockout": "--ds-border-knockout",
   "border.strong": "--ds-border-strong",
@@ -171,5 +172,6 @@ export const palette = {
   "base.black": "#000000",
   "alpha.white.10": "#ffffff1a",
   "alpha.white.15": "#ffffff26",
+  "alpha.white.05": "#ffffff0d",
   "alpha.black.50": "#00000080",
 }

@@ -108,24 +108,36 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 31 | `fg.warning` | 경고 텍스트 | warning 11 `#665019` | warning 10 `#edc467` |
 | 32 | `fg.link` | 링크 | brand 10 `#1553c6` | brand 10 `#5989e2` |
 
-### border (8)
+### border (9)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
 | 33 | `border.default` | 구분선·컨테이너 테두리 | neutral 6 `#d2d2d2` | `alpha.white.10` |
-| 34 | `border.field` | 폼 필드 테두리 | neutral 7 `#b8b8b8` | `alpha.white.15` |
-| 35 | `border.strong` | 인터랙티브 요소의 강한 테두리 | neutral 8 `#8a8a8a` | neutral 8 `#656565` |
-| 36 | `border.accent` | 브랜드 테두리 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
-| 37 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
-| 38 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
-| 39 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
-| 40 | `border.knockout` | 겹친 요소를 가르려고 뒤 면을 되그리는 테두리 | neutral 2 `#f8f8f8` | neutral 1 `#111111` |
+| 34 | `border.subtle` | `border.default`보다 한 겹 더 면에 가깝다 — 차트 격자·표의 행 구분선·비활성 구획선(#335) | neutral 4 `#e1e1e1` | `alpha.white.05` |
+| 35 | `border.field` | 폼 필드 테두리 | neutral 7 `#b8b8b8` | `alpha.white.15` |
+| 36 | `border.strong` | 인터랙티브 요소의 강한 테두리 | neutral 8 `#8a8a8a` | neutral 8 `#656565` |
+| 37 | `border.accent` | 브랜드 테두리 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
+| 38 | `border.danger` | 에러 필드 테두리 | danger 8 `#f34c4b` | danger 8 `#c41a26` |
+| 39 | `border.focus` | 포커스 링 | brand 8 `#4581f1` | brand 8 `#0d55d4` |
+| 40 | `border.focus-contrast` | 포커스 링 안쪽 대비 경계 | neutral 12 `#333333` | neutral 12 `#e8e8e8` |
+| 41 | `border.knockout` | 겹친 요소를 가르려고 뒤 면을 되그리는 테두리 | neutral 2 `#f8f8f8` | neutral 1 `#111111` |
+
+#### 불투명/반투명 축 (#335)
+
+`border` 계열의 같은 이름이 테마마다 **불투명일 수도 반투명일 수도 있다** — 값의 종류가 아니라 축 하나로 적어 둔다:
+
+| 토큰 | light | dark |
+|---|---|---|
+| `border.default` | 불투명 — neutral 6 | 반투명 — `alpha.white.10` (10%) |
+| `border.subtle` | 불투명 — neutral 4 | 반투명 — `alpha.white.05` (5%) |
+
+라이트는 두 토큰 모두 불투명한 neutral 단계이고, 다크는 두 토큰 모두 흰 알파를 얹는 반투명이다 — `border.subtle`은 `border.default`와 같은 축 위에서 알파만 절반이다. 이 사실은 CSS 색으로만 남고 hex 리터럴에는 드러나지 않는다: 캔버스(`<canvas>`)에 그리려고 `getComputedStyle`로 색을 읽어 직접 파싱하는 소비처는 `rgba()`/8자리 hex의 **알파 채널을 버리면 안 된다** — 다크에서 알파를 버리면 격자가 100% 흰색이 되는 결함으로 나타난다(실제로 있었던 결함이지만 발견이 늦었던 이유가 이 축이 문서 어디에도 없었기 때문이다).
 
 ### 상태 메커니즘 (1)
 
 | # | 토큰 | 의미 | light | dark |
 |---|---|---|---|---|
-| 41 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
+| 42 | `color.state.layer` | 컴포넌트가 `color-mix`로 얹는 상태 레이어 | `base.black` | `base.white` |
 
 현재 총계는 `dist/tokens.d.ts`의 `SemanticColorToken` union에서 확인한다. 개수는 `test/build.test.mjs`가 검증한다.
 
@@ -194,6 +206,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | `border.field` 추가 | #13이 이름을 붙였으나 후보 목록에 없었다. 다크 알파 예외(`alpha.white.15`)를 걸 자리 |
 | `bg.<family>.muted` 5개 추가 | [#337](https://github.com/flameware/massive-design/issues/337). 면 사다리와 채움 사다리가 step 3을 공유해 조용한 채움이 조용한 면 위에서 사라졌다. 위 §4.2 |
 | `border.knockout` 추가 | [#143](https://github.com/flameware/massive-design/issues/143). 값은 `bg.canvas`와 같지만 **계열이 달라야 했다** — 매니페스트 게이트가 `border-color`에 `--ds-bg-*`가 오는 것을 문다. 근거와 고려한 대안은 [ADR-0007](../adr/0007-knockout-border.md) |
+| `border.subtle` 추가 | [#335](https://github.com/flameware/massive-design/issues/335). `border.default`보다 뒤에 있는 단계가 없어 소비처(invest diary)가 차트 격자에 `border.default`를 그대로 썼다 — 쓸 수 있는 이름이 그것뿐이었다. 라이트는 neutral 4(`#e1e1e1`), 다크는 `alpha.white.05` — 팔레트 사다리에서 `border.default`(라이트 neutral 6 · 다크 `alpha.white.10`)보다 한 계단 면에 가까운 자리를 그대로 썼다. 불투명/반투명 축은 위 border 표 다음 절에 있다 |
 | `fg.muted` 및 유채 텍스트 **11 → 10** | 아래 §5 |
 | `bg.canvas`/`bg.surface` 라이트에서 **단계 교차** | 아래 §6 |
 
@@ -356,6 +369,17 @@ shadcn 정본에 `success`가 없다. danger는 `--destructive`로 깨끗이 떨
 - `fg.on-solid`는 어두운 4패밀리 solid 위에서 4.80~5.41로 유지한다. warning 9는 밝아 흰 전경이 실패하므로 `fg.on-warning`의 검정을 쓴다.
 
 다크 보더는 알파 합성이라 대비값이 낮다(`border.default` 1.31 / `border.field` 1.56 on `bg.surface`). 이건 shadcn 정본과 같은 성질이고, 보더는 비텍스트 3:1 요건 대상이 아니다(요건은 "상태를 나타내는 UI 컴포넌트"에 걸린다). `border.knockout`은 한 겹 더 밖이다 — 뒤 면을 되그려 **지우는** 자리라 대비를 내는 것이 목적이 아니고, 값이 면색과 같아 자기가 놓이는 면과의 대비는 정의상 1:1이다.
+
+`border.subtle`([#335](https://github.com/flameware/massive-design/issues/335))도 같은 이유로 비텍스트 게이트 밖이다 — 격자·행 구분선·구획선은 장식적 구분선이고 "상태를 나타내는 UI 컴포넌트"가 아니다. 5면 × 2모드 실측(WCAG 2, `bg.surface`가 두 모드 모두 `border.default`가 가장 높게 나오는 면이다):
+
+| 면 | light `border.default` | light `border.subtle` | dark `border.default` | dark `border.subtle` |
+|---|---|---|---|---|
+| `bg.canvas` | 1.42 | **1.23** | 1.28 | **1.10** |
+| `bg.surface` | 1.49 | **1.29** | 1.33 | **1.13** |
+| `bg.subtle`/`bg.inset` | 1.30 | **1.13** | 1.36 | **1.15** |
+| `bg.overlay` | 1.49 | **1.29** | 1.36 | **1.15** |
+
+`border.subtle`은 두 모드 5면 전부에서 `border.default`보다 낮다 — 더 면에 가깝다. 값은 라이트 neutral 4(`#e1e1e1`), 다크 `alpha.white.05`다.
 
 ### 8.1 비텍스트 게이트는 5면 전부를 본다 ([#33](https://github.com/flameware/massive-design/issues/33))
 

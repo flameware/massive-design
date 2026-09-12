@@ -1,6 +1,6 @@
 // ⚙ 생성물 — scripts/build.mjs. 손대지 말 것.
 
-/** semantic 색 토큰 41개. 값은 모드 의존이라 타입으로 내보내지 않는다. */
+/** semantic 색 토큰 42개. 값은 모드 의존이라 타입으로 내보내지 않는다. */
 export type SemanticColorToken =
   | 'bg.canvas'
   | 'bg.surface'
@@ -35,6 +35,7 @@ export type SemanticColorToken =
   | 'fg.warning'
   | 'fg.link'
   | 'border.default'
+  | 'border.subtle'
   | 'border.field'
   | 'border.knockout'
   | 'border.strong'
@@ -44,7 +45,7 @@ export type SemanticColorToken =
   | 'border.focus-contrast'
   | 'state.layer'
 
-/** palette 125개 — 램프 96 + 리터럴 29. 모드가 이름에 있어 모호하지 않다. */
+/** palette 126개 — 램프 96 + 리터럴 30. 모드가 이름에 있어 모호하지 않다. */
 export type PaletteToken =
   | 'brand.light.1'
   | 'brand.light.2'
@@ -170,6 +171,7 @@ export type PaletteToken =
   | 'base.black'
   | 'alpha.white.10'
   | 'alpha.white.15'
+  | 'alpha.white.05'
   | 'alpha.black.50'
 
 /** 비색상 스케일 53개. */
@@ -263,6 +265,7 @@ export declare const cssVar: {
   'fg.warning': '--ds-fg-warning'
   'fg.link': '--ds-fg-link'
   'border.default': '--ds-border-default'
+  'border.subtle': '--ds-border-subtle'
   'border.field': '--ds-border-field'
   'border.knockout': '--ds-border-knockout'
   'border.strong': '--ds-border-strong'

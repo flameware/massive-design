@@ -94,8 +94,9 @@ export function lintLayers({ gen, literal, semantic }, err) {
   //    테두리다. 값은 bg.canvas와 같지만 계열이 달라야 했다(1세대 매니페스트
   //    게이트가 border-color에 --ds-bg-*가 오는 것을 물었다). 근거는 ADR-0007.
   //    #337이 bg.<family>.muted 다섯을 더했다 — 면으로 읽혀야 하는 채움 단계.
-  if (semanticTokens.size !== 41) {
-    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 41이어야 한다`)
+  //    #335가 border.subtle을 더했다 — border.default보다 한 겹 더 면에 가까운 구분선.
+  if (semanticTokens.size !== 42) {
+    err(`B8 semantic 색 토큰이 ${semanticTokens.size}개다 — 42여야 한다`)
   }
 
   lintSameValue(semanticTokens, err)
