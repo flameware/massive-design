@@ -37,6 +37,19 @@ export interface ConfirmDialogProps {
   cancelLabel?: string
   /** 확인 버튼의 색 — `danger`는 삭제처럼 되돌릴 수 없는 동작. 기본 `neutral`. */
   tone?: "neutral" | "danger"
+  /** 열릴 때 초점을 받는 버튼. 기본 `"confirm"` — #330이 뒤집은 이유(삭제
+   * 확인은 보통 확인을 기대하는 자리)가 여전히 유지값이다, 이 프리셋은
+   * stable이라 기본값을 바꾸는 것은 깨는 변경이다.
+   *
+   * `"cancel"`은 **되돌릴 수 없는 일괄 동작**에 쓴다 — Enter 한 번으로 여러
+   * 건이 한꺼번에 사라지는 자리(예: 표에서 여러 행을 고르고 지우는 자리).
+   * `tone="danger"`라고 자동으로 `"cancel"`이 되지는 않는다 — 단건 삭제도
+   * 대개 `tone="danger"`이고(#356 실측: massive-design을 쓰는 소비처
+   * 세 자리 중 둘이 단건 전용이다), 그 자리들은 확인 우선을 그대로
+   * 원한다. 위험은 `tone`이 아니라 **건수**가 결정하므로 자리가 직접
+   * 고른다(#356, #322 — 실측된 수요가 하나일 때는 축을 여는 선에서
+   * 멈춘다). */
+  initialFocus?: "confirm" | "cancel"
   /** 확인을 눌렀을 때 실행한다. Promise를 반환하면 그동안 로딩 상태가 되고
    * 확인 버튼이 잠긴다 — 취소는 잠기지 않는다(Esc·취소 버튼 둘 다 그대로
    * 닫는다). 해결되면 다이얼로그가 닫히고, 거부되면 열린 채로 남아 다시
@@ -54,7 +67,9 @@ const toneToVariant = {
  *
  * 열리면 초점이 곧바로 확인 버튼에 놓인다(취소가 아니다 — `AlertDialog`
  * 자신의 기본값과 다른 점이고, 이 프리셋이 존재하는 이유 중 하나다: 삭제
- * 확인은 보통 확인을 누르길 기대하는 자리다). 포커스 트랩·Esc 닫기는
+ * 확인은 보통 확인을 누르길 기대하는 자리다). `initialFocus="cancel"`을
+ * 주면 뒤집을 수 있다 — 되돌릴 수 없는 일괄 삭제처럼 Enter 한 번이 여러
+ * 건을 지우면 안 되는 자리를 위해서다(#356). 포커스 트랩·Esc 닫기는
  * `AlertDialog.Root`가 그대로 진다. 로딩 중에도 다이얼로그가 열린 채로
  * 남으므로 트랩이 풀리지 않는다.
  *
@@ -74,6 +89,7 @@ export function ConfirmDialog({
   confirmLabel = "확인",
   cancelLabel = "취소",
   tone = "neutral",
+  initialFocus = "confirm",
   onConfirm,
 }: ConfirmDialogProps) {
   const isControlled = open !== undefined
@@ -83,6 +99,7 @@ export function ConfirmDialog({
   const [pending, setPending] = React.useState(false)
   const pendingRef = React.useRef(false)
   const confirmId = React.useId()
+  const cancelId = React.useId()
 
   const setOpen = React.useCallback(
     (next: boolean) => {
@@ -116,13 +133,15 @@ export function ConfirmDialog({
       <AlertDialog.Portal>
         <AlertDialog.Backdrop />
         <AlertDialog.Viewport>
-          <AlertDialog.Popup initialFocus={() => document.getElementById(confirmId)}>
+          <AlertDialog.Popup
+            initialFocus={() => document.getElementById(initialFocus === "cancel" ? cancelId : confirmId)}
+          >
             <AlertDialog.Header>
               <AlertDialog.Title>{title}</AlertDialog.Title>
               {description ? <AlertDialog.Description>{description}</AlertDialog.Description> : null}
             </AlertDialog.Header>
             <AlertDialog.Footer>
-              <AlertDialog.Close render={<Button variant="outline">{cancelLabel}</Button>} />
+              <AlertDialog.Close render={<Button id={cancelId} variant="outline">{cancelLabel}</Button>} />
               <Button id={confirmId} variant={toneToVariant[tone]} loading={pending} onClick={handleConfirm}>
                 {confirmLabel}
               </Button>

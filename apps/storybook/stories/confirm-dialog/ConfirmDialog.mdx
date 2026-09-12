@@ -29,6 +29,26 @@ Phase 1은 "프리셋은 없다"였다 — 이 컴포넌트가 그 결정을 처
 2. **로딩 상태** — `onConfirm`이 Promise를 반환하면 그 동안 확인 버튼이 잠기고(`Button`의 `loading`) 스피너를 보인다. 취소는 잠기지 않는다 — Esc·취소 버튼 둘 다 그대로 닫는다. 해결되면 다이얼로그가 닫히고, 거부되면 열린 채로 남아 다시 시도할 수 있다.
 3. **`tone`** — 확인 버튼의 색. `danger`는 삭제처럼 되돌릴 수 없는 동작에 쓰고 `destructive` variant로 칠한다. 기본은 `neutral`.
 
+## 초기 초점
+
+기본은 확인 버튼이다(아래 "프리셋이 얹은 것" 1번). 되돌릴 수 없는 **일괄** 동작 — 표에서 여러 행을 고르고 한 번에 지우는 자리 — 에서는 `initialFocus="cancel"`을 준다. 무심한 Enter 하나가 고른 것 전부를 지우면 안 되기 때문이다([#356](https://github.com/flameware/massive-design/issues/356)):
+
+```tsx
+<ConfirmDialog
+  trigger={<Button variant="destructive">선택 삭제</Button>}
+  title={`선택한 ${count}건을 삭제할까요?`}
+  description={`선택한 거래 ${count}건을 삭제합니다. 이 작업은 되돌릴 수 없습니다.`}
+  tone="danger"
+  confirmLabel="삭제"
+  initialFocus="cancel"
+  onConfirm={() => deleteMany(ids)}
+/>
+```
+
+<Canvas of={ConfirmDialogStories.KeyboardCancelFocus} />
+
+`tone="danger"`가 자동으로 `initialFocus="cancel"`을 만들지는 않는다 — 단건 삭제도 대개 `tone="danger"`이고(#356 실측: 이 프리셋을 쓰는 소비처 세 자리 중 둘은 단건 전용), 그 자리들은 방금 사용자가 지목한 것 하나를 지우는 자리라 확인 우선이 맞다. 위험을 가르는 것은 색이 아니라 **건수**이므로, 그것을 아는 자리(호출부)가 값을 고른다.
+
 ## 조립
 
 <Canvas of={ConfirmDialogStories.Playground} />

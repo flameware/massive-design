@@ -136,3 +136,44 @@ export const Keyboard: Story = {
     />
   ),
 }
+
+/* initialFocus="cancel" — 되돌릴 수 없는 일괄 삭제 자리(#356). 표에서 여러
+ * 행을 고르고 지우는 자리는 Enter 한 번으로 여러 건이 사라지면 안 되므로
+ * 초점을 취소로 돌린다. 아래 키보드 계약이 Keyboard 스토리와 다른 자리는
+ * 정확히 하나 — Enter가 연 다음 초점이 "삭제"가 아니라 "취소"에 있다. */
+const keyboardCancelFocus: KeyboardContract[] = [
+  {
+    name: "Enter가 열고 초점이 취소 버튼으로 간다 — 확인이 아니다",
+    focus: "role=button[name='선택 삭제']",
+    press: ["Enter"],
+    expect: { focused: "role=button[name='취소']" },
+  },
+  {
+    name: "Tab이 밖으로 새지 않는다 — 취소에서 한 번 더 누르면 확인으로 간다",
+    focus: "role=button[name='선택 삭제']",
+    press: ["Enter", "Tab"],
+    expect: { focused: "role=button[name='삭제']" },
+  },
+  {
+    name: "Esc가 닫고 초점이 트리거로 돌아온다",
+    focus: "role=button[name='선택 삭제']",
+    press: ["Enter", "Escape"],
+    expect: { focused: "role=button[name='선택 삭제']" },
+  },
+]
+
+export const KeyboardCancelFocus: Story = {
+  name: "키보드 계약 — 일괄 삭제(initialFocus=cancel)",
+  parameters: { keyboard: keyboardCancelFocus },
+  render: () => (
+    <ConfirmDialog
+      trigger={<Button variant="destructive">선택 삭제</Button>}
+      title="선택한 3건을 삭제할까요?"
+      description="선택한 거래 3건을 삭제합니다. 이 작업은 되돌릴 수 없습니다."
+      tone="danger"
+      confirmLabel="삭제"
+      initialFocus="cancel"
+      onConfirm={() => {}}
+    />
+  ),
+}
