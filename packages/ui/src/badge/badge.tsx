@@ -7,12 +7,22 @@ import { cn } from "../lib/utils.js"
  * 남는다: 상태도 이벤트 핸들러도 없어 `"use client"`가 필요 없다.
  * test/package.test.mjs가 "./badge"를 SERVER_SUBPATHS로 재고 지킨다.
  *
- * 톤은 여섯이고, 색은 **대비 게이트가 이미 검증한 조합만** 쓴다
+ * 톤은 일곱이고, 색은 **대비 게이트가 이미 검증한 조합만** 쓴다
  * (packages/tokens/scripts/contrast.mjs TEXT_PAIRS) — `fg.default`는
  * `bg.neutral.soft` 위에서, `fg.{accent,danger,success,warning}`은 각자의
  * `bg.{family}.soft` 위에서 검증됐다. 검증 밖의 조합(예: `fg.muted` × 유채
  * soft)은 만들지 않는다. 도메인 값(매수·매도 등)을 톤 이름으로 추가하지
- * 않는다 — 소비처가 여섯 톤에 자기 의미를 매핑한다(rules.md 축과 이름 공간).
+ * 않는다 — 소비처가 일곱 톤에 자기 의미를 매핑한다(rules.md 축과 이름 공간).
+ *
+ * `muted`는 새 축이 아니라 이 축의 새 값이다(#368) — 실측이 요구한 12자리는
+ * 전부 `text-muted`(부모 색과 갈리지 않는 조용한 배지)를 손으로 얹고 있었다.
+ * `text-muted`를 다른 다섯 톤처럼 soft 면 위에 얹으면 대비 게이트가 깨진다
+ * — `fg.muted`는 `bg.<family>.soft` 조합에서 검증돼 있지 않다(TEXT_PAIRS는
+ * `fg.muted`를 SURFACES·`bg.neutral.soft` 위에서만 잰다). 값을 포기하는 대신
+ * **면을 고른다**(AC): `bg.neutral.muted`는 #337이 정확히 이 용도로 이미 연
+ * "면으로 읽혀야 하는 채움" 단계이고, `fg.default`와의 조합이 FILL_GATE
+ * 1.35와 TEXT_PAIRS 4.5 둘 다 이미 검증돼 있다(MUTEDS 목록). 그래서 `muted`
+ * 톤은 `bg-neutral-muted text-default`다 — 새 토큰이 필요 없었다.
  *
  * `outline`은 면을 채우지 않고 테두리만 두른다 — 소비처(auth·history·
  * portfolio) 9자리에서 반복된 자리다(ADR-0023 §5). 글자색은 `fg.default`
@@ -55,6 +65,7 @@ export const badgeVariants = cva(
         success: "bg-success-soft text-success",
         warning: "bg-warning-soft text-warning",
         outline: "border border-default text-default bg-transparent",
+        muted: "bg-neutral-muted text-default",
       },
     },
     defaultVariants: { tone: "neutral" },

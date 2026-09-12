@@ -34,6 +34,41 @@ import * as TextStories from "./Text.stories"
 <Canvas of={TextStories.HeadingLevels} />
 <Canvas of={TextStories.HeadingSizeOverride} />
 
+## 톤
+
+`Text`·`Heading`의 `tone`은 `Badge`·`Alert`가 이미 쓰는 `tone` 어휘와 같은 이름을 쓴다 — 같은 축이 컴포넌트마다 다른 어휘를 가지면 소비처가 매번 새로 배워야 한다([#365](https://github.com/flameware/massive-design/issues/365) user story 8, [#368](https://github.com/flameware/massive-design/issues/368)). 기본값은 `inherit` — 색 클래스를 하나도 내지 않고 부모의 색을 그대로 물려받는다([#366](https://github.com/flameware/massive-design/issues/366)이 게시 인스턴스 14개 전수 확인 뒤 확정: `Text`는 임의 색 위에 얹히는 범용 primitive다). 값 이름은 넷 중 실측 수요가 있는 셋뿐이다 — `accent`·`success`·`warning`·`outline`은 `Badge`에만 있고 여기 수요가 0이라 열지 않는다.
+
+| 값 | 클래스 | Text·Heading 수요 |
+| --- | --- | --- |
+| `inherit`(기본) | (없음) | — |
+| `neutral` | `text-default` | 12자리(Text 1·Heading 2 + 기본 텍스트 색) |
+| `danger` | `text-danger` | 4자리(Text 3·Heading 1) |
+| `muted` | `text-muted` | 10자리(Text만) |
+
+<Canvas of={TextStories.Tones} />
+<Canvas of={TextStories.HeadingTones} />
+
+### 세 컴포넌트·Alert의 `tone` 어휘
+
+값 이름은 겹치는 자리에서 전부 같다 — 컴포넌트마다 실측 수요가 있는 값만 연다(rules.md 축과 이름 공간: 값을 여는 데도 실측 수요가 근거다).
+
+| 값 | Text·Heading | Badge | Alert |
+| --- | --- | --- | --- |
+| `neutral` | ✓(`text-default`) | ✓(`bg-neutral-soft text-default`) | ✓(`bg-neutral-soft`) |
+| `danger` | ✓(`text-danger`) | ✓(`bg-danger-soft text-danger`) | ✓(`bg-danger-soft`) |
+| `warning` | — | ✓ | ✓ |
+| `accent` | — | ✓ | — |
+| `success` | — | ✓ | — |
+| `outline` | — | ✓(면 없음) | — |
+| `muted` | ✓(`text-muted`, Text만) | ✓(`bg-neutral-muted text-default`) | — |
+| `inherit` | ✓(기본, Text·Heading만) | — | — |
+
+## Heading — 굵기
+
+`weight`는 `Heading`에만 있다 — `Text`는 실측 수요가 없다. 기본은 지금까지 하드코딩돼 있던 `semibold`, 실측 수요(3자리)가 연 값은 `bold`다.
+
+<Canvas of={TextStories.HeadingWeights} />
+
 ## Props
 
 <Story of={TextStories.Playground} />

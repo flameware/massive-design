@@ -25,6 +25,8 @@ import * as AlertStories from "./Alert.stories"
 
 `tone`은 `neutral`·`danger`·`warning` 셋이다(#324 — `info` 패밀리는 앱에 자리가 없어 만들지 않는다). 색은 [대비 게이트](https://github.com/flameware/massive-design/blob/main/packages/tokens/scripts/contrast.mjs)가 이미 검증한 조합만 쓴다 — `danger`는 `fg.danger` on `bg.danger.soft`, `warning`은 `fg.warning` on `bg.warning.soft`, `neutral`은 `fg.default`/`fg.muted` on `bg.neutral.soft`. warning의 토큰(`bg-warning-soft`·`text-warning`)은 이미 `@theme`에 있다 — #280이 열었다.
 
+`Text`·`Heading`·`Badge`도 같은 축 이름 `tone`을 쓰고, 겹치는 값(`neutral`·`danger`)의 이름이 여기와 같다([`Text` MDX](../text/Text.mdx)의 어휘 비교표 참고, [#368](https://github.com/flameware/massive-design/issues/368)).
+
 <Canvas of={AlertStories.Tones} />
 
 ## role은 톤을 따라 갈린다
