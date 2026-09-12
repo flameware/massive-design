@@ -23,9 +23,15 @@ import * as SpinnerStories from "./Spinner.stories"
 
 ## 크기
 
-Icon과 같은 스케일이다 — 텍스트·아이콘 옆에 놓여도 어긋나지 않는다.
+`sm`·`md`·`lg`는 Icon과 같은 스케일이다 — 텍스트·아이콘 옆에 놓여도 어긋나지 않는다. `xl`(32px)은 다른 자리를 위한 것이다: 화면 한가운데 혼자 서는 전체 화면 대기.
 
 <Canvas of={SpinnerStories.Sizes} />
+
+## 전체 화면 대기
+
+레이아웃 전체가 아직 없는 자리(로그인 확인, 라우트 전환)에서 화면 가운데 혼자 놓일 때는 `size="xl"`을 쓴다. 곁의 글줄이 뜻을 말하므로 `aria-hidden="true"`를 넘긴다 — Button의 `loading`과 같은 규칙이다.
+
+<Canvas of={SpinnerStories.FullScreenWait} />
 
 ## 접근성
 

@@ -79,6 +79,7 @@ for (const classes of [
   spinnerVariants({ size: "sm" }),
   spinnerVariants({ size: "md" }),
   spinnerVariants({ size: "lg" }),
+  spinnerVariants({ size: "xl" }),
   textVariants({ size: "xs" }),
   textVariants({ size: "sm" }),
   textVariants({ size: "base" }),
