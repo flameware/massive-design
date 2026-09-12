@@ -17,7 +17,7 @@ import type { ComponentMeta } from "../meta"
 const meta = {
   title: "Feedback/Toast",
   component: Toast.Viewport,
-  parameters: { ds: { status: "preview", since: "0.5.0" } },
+  parameters: { ds: { status: "stable", since: "0.5.0" } },
 } satisfies Meta<typeof Toast.Viewport> & ComponentMeta
 
 export default meta
