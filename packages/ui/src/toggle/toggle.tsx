@@ -2,7 +2,7 @@
 
 import { Field as BaseField } from "@base-ui/react/field"
 import { Toggle as BaseToggle } from "@base-ui/react/toggle"
-import { cva } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority"
 import type * as React from "react"
 
 import { useControllableState } from "../lib/use-controllable-state.js"
@@ -23,24 +23,50 @@ import { cn } from "../lib/utils.js"
  * 적은 그 확장점을 그대로 쓴다. 값이 항상 필요해서(비제어일 때도 지금 눌린
  * 값을 읽어야 미러 입력을 채운다) `useControllableState`로 제어/비제어를
  * 한곳에서 겸한다 — 소비처가 보는 API는 그대로 두 갈래다. */
-export const toggleVariants = cva([
-  "inline-flex shrink-0 items-center justify-center gap-1.5",
-  "h-8 min-w-8 px-2.5 rounded-md text-sm font-medium",
-  "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-  "outline-offset-2 focus-visible:outline-2",
-  "state transition-[background-color,color,box-shadow]",
-  // 32px 높이라 24px 하한은 이미 넘지만, 아이콘 전용으로 더 좁게 쓰는 소비처가
-  // 있을 수 있어 Checkbox와 같은 이유로 hit-area를 같이 건다(#288, ADR-0020)
-  "hit-area",
-  // 꺼진 상태는 ghost와 같다 — --ds-state-base를 안 주면 상태 층이 transparent에
-  // 섞인다(state.css, Button의 ghost variant와 같은 이유)
-  "text-default",
-  "data-pressed:text-on-solid data-pressed:[--ds-state-base:var(--ds-bg-accent-solid)]",
-  "data-disabled:pointer-events-none data-disabled:opacity-50",
-])
+/* `size`는 #369가 연다 — 소비처(invest diary) 필터 칩 5자리가 `h-auto px-2
+ * py-1 text-xs`로 높이·여백·글자를 한꺼번에 되돌리던 자리다. 값 이름은
+ * `Button`의 `size`와 같은 이름 공간을 쓴다(`sm`·`md`·`lg` — 두 컨트롤이
+ * 나란히 설 때 같은 이름이 같은 뜻이어야 한다, #369). `md`의 기본값은
+ * 지금까지 고정이던 `h-8 min-w-8 px-2.5 text-sm`을 그대로 지킨다 — 새 축의
+ * 기본값은 게시된 인스턴스를 보존하는 값이라는 규칙이 이름 대칭보다
+ * 우선한다(rules.md 축과 이름 공간). 그 결과 `md`의 실제 높이(32px)는
+ * `Button`의 `md`(36px, h-9)가 아니라 `sm`(32px, h-8)과 같다 — 이 어긋남은
+ * 판정으로 남긴다(#369 코멘트). `lg`는 `Button lg`(h-10)와 높이를 맞춘다.
+ * `sm`은 필터 칩이 실제로 쓰던 모양(`h-auto px-2 py-1 text-xs`)을 그대로
+ * 옮긴다 — 시각 높이가 24px 문턱 아래로 내려가므로 아래 `hit-area`가 실제로
+ * 일을 한다(ADR-0020, Toggle/Spinner의 24px 스토리 선례를 따른다). */
+export const toggleVariants = cva(
+  [
+    "inline-flex shrink-0 items-center justify-center gap-1.5",
+    "rounded-md font-medium",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+    "outline-offset-2 focus-visible:outline-2",
+    "state transition-[background-color,color,box-shadow]",
+    // 32px 높이라 24px 하한은 이미 넘지만, 아이콘 전용으로 더 좁게 쓰는 소비처가
+    // 있을 수 있어 Checkbox와 같은 이유로 hit-area를 같이 건다(#288, ADR-0020).
+    // `size="sm"`은 시각 높이가 24px 밑이라 이 하한을 실제로 지는 쪽이다
+    "hit-area",
+    // 꺼진 상태는 ghost와 같다 — --ds-state-base를 안 주면 상태 층이 transparent에
+    // 섞인다(state.css, Button의 ghost variant와 같은 이유)
+    "text-default",
+    "data-pressed:text-on-solid data-pressed:[--ds-state-base:var(--ds-bg-accent-solid)]",
+    "data-disabled:pointer-events-none data-disabled:opacity-50",
+  ],
+  {
+    variants: {
+      size: {
+        sm: "h-auto min-w-0 px-2 py-1 text-xs",
+        md: "h-8 min-w-8 px-2.5 text-sm",
+        lg: "h-10 min-w-10 px-4 text-base",
+      },
+    },
+    defaultVariants: { size: "md" },
+  }
+)
 
 export interface ToggleProps<Value extends string = string>
-  extends Omit<React.ComponentPropsWithoutRef<typeof BaseToggle<Value>>, "className"> {
+  extends Omit<React.ComponentPropsWithoutRef<typeof BaseToggle<Value>>, "className">,
+    VariantProps<typeof toggleVariants> {
   className?: string
   /**
    * 폼 제출 이름. 주면 눌린 값을 숨은 입력 하나로 낸다 — 안 주면(그룹 밖
@@ -62,6 +88,7 @@ export function Toggle<Value extends string = string>({
   disabled,
   name,
   value,
+  size,
   ...props
 }: ToggleProps<Value>) {
   const [isPressed, setPressed] = useControllableState({
@@ -78,7 +105,7 @@ export function Toggle<Value extends string = string>({
       }}
       disabled={disabled}
       value={value}
-      className={cn(toggleVariants(), className)}
+      className={cn(toggleVariants({ size }), className)}
       {...props}
     />
   )
