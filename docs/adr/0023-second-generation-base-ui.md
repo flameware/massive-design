@@ -55,9 +55,13 @@ shadcn식 레지스트리(소비처가 소스를 복사)는 배제한다 — 이
 
 참고한 세 시스템이 모두 Storybook이고, 컴포넌트 페이지는 "한 줄 설명 + 짧은 best-practice + 변형 스토리 + 자동 props 표" 수준이다. 부족한 것으로 확인된 것은 사이드바 구조·매니저 외관·문서 페이지 내용 셋이고, 셋 다 Storybook 안에서 해결된다. "문서 사이트가 아니라 개발 도구로 읽힌다"는 정체성 문제가 남으면 Phase 2 말에 별도 사이트(Astro/Next)로 옮기고 Storybook은 워크벤치로 내린다. MDX로 쓴 문서는 옮겨도 그대로 산다.
 
+> **[#396](https://github.com/flameware/massive-design/issues/396)·[#404](https://github.com/flameware/massive-design/issues/404)가 2026-09-13 이 절의 트리거("두 번째 소비처가 생기면 재판단한다")를 당겼다.** 두 번째 소비처 숲마루(`flameware/apt-finder`)가 붙었다. 판정은 **재검토 후 보류** — 숲마루를 붙이는 사람이 소유자 한 명뿐이라 별도 문서 사이트는 과하고, 실제 결손은 소비처 온보딩 가이드([`docs/consumer-onboarding.md`](../consumer-onboarding.md), [#403](https://github.com/flameware/massive-design/issues/403)/PR [#414](https://github.com/flameware/massive-design/pull/414))가 메운다. **다음 재판단 계기**: 소유자가 아닌 사람이 세 번째 소비처를 온보딩하는 날. 원문은 고치지 않는다.
+
 ### 9. Figma는 **보류**다 — 모든 Phase가 끝난 뒤 진행 여부를 판단한다
 
 [ADR-0002 개정](0002-separate-repo-verification-from-figma-sync.md)의 "요청 시 스냅숏"에서 한 단계 더 내린다. 스냅숏을 만드는 툴링이 이 ADR로 삭제되므로 요청이 와도 지금 만들 수 없다. `verification/figma-baseline.json`은 1세대의 마지막 기록으로만 남는다.
+
+> **[#396](https://github.com/flameware/massive-design/issues/396)·[#404](https://github.com/flameware/massive-design/issues/404)가 2026-09-13 이 절의 트리거("두 번째 소비처가 생기면 재판단한다")를 당겼다.** 두 번째 소비처 숲마루가 붙었지만 판정은 **재검토 후 보류** — 스냅숏 툴링은 이미 삭제됐고, 디자인 산출물을 소비하는 자리(디자이너·비코드 소비자)는 숲마루에도 없다. **다음 재판단 계기**: 디자이너나 비코드 소비자가 실제로 DS 산출물을 필요로 하는 날. 원문은 고치지 않는다.
 
 ### 10. 소비처가 필요의 잣대다 — Phase 1의 완료 조건은 앱이 돌아가는 것이다
 

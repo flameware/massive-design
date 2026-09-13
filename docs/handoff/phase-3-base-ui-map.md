@@ -96,7 +96,9 @@ Popover·Switch·Stack/Grid는 애초에 컴포넌트가 서지 않아 `preview`
 
 ## 별도 문서 사이트 — 재판단, 세우지 않는다 (변경 없음)
 
-ADR-0023 §9의 답이 그대로 유지된다. 소비처는 여전히 invest diary 하나뿐이고, Phase 3 전체에서 앱을 만드는 사람이 아닌 독자가 새로 생긴 증거는 없다 — Storybook이 이미 Foundations·MDX·상태 표를 갖고 있다. **재판단 계기는 그대로다**: 둘째 소비처, 또는 앱 개발자가 아닌 독자.
+ADR-0023 §8의 답이 그대로 유지된다. 소비처는 여전히 invest diary 하나뿐이고, Phase 3 전체에서 앱을 만드는 사람이 아닌 독자가 새로 생긴 증거는 없다 — Storybook이 이미 Foundations·MDX·상태 표를 갖고 있다. **재판단 계기는 그대로다**: 둘째 소비처, 또는 앱 개발자가 아닌 독자.
+
+> **여기 적힌 재판단 계기는 [#396](https://github.com/flameware/massive-design/issues/396)·[#404](https://github.com/flameware/massive-design/issues/404)로 2026-09-13 당겨졌다** — 두 번째 소비처 숲마루. 판정은 재검토 후 보류이고, 근거와 다음 계기는 [ADR-0023](../adr/0023-second-generation-base-ui.md) §8 포인터에 있다. 이 기록은 손대지 않는다.
 
 ## 넘기는 것
 

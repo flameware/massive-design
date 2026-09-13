@@ -51,7 +51,9 @@ Phase 1의 사다리는 `preview` → 앱 착지 → `stable`(story 16)이었다
 
 ## 별도 문서 사이트 — 세우지 않는다 (변경 없음)
 
-ADR-0023 §9이 물은 질문의 답은 그대로다. 소비처가 invest diary 하나뿐이고 Storybook이 이미 Foundations·MDX·상태 표를 갖고 있어, 별도 사이트는 같은 내용의 두 번째 사본과 유지할 배포 경로만 늘린다. 재판단 계기: 두 번째 소비처, 또는 앱 개발자가 아닌 독자.
+ADR-0023 §8이 물은 질문의 답은 그대로다. 소비처가 invest diary 하나뿐이고 Storybook이 이미 Foundations·MDX·상태 표를 갖고 있어, 별도 사이트는 같은 내용의 두 번째 사본과 유지할 배포 경로만 늘린다. 재판단 계기: 두 번째 소비처, 또는 앱 개발자가 아닌 독자.
+
+> **여기 적힌 재판단 계기는 [#396](https://github.com/flameware/massive-design/issues/396)·[#404](https://github.com/flameware/massive-design/issues/404)로 2026-09-13 당겨졌다** — 두 번째 소비처 숲마루. 판정은 재검토 후 보류이고, 근거와 다음 계기는 [ADR-0023](../adr/0023-second-generation-base-ui.md) §8 포인터에 있다. 이 기록은 손대지 않는다.
 
 ## Decisions-so-far (#317에서 옮김, 순서대로)
 
