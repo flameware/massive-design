@@ -3,6 +3,10 @@
 massive-design의 2세대 컴포넌트. Base UI 위에 Tailwind v4 + cva로 얹는다
 ([ADR-0023](../../docs/adr/0023-second-generation-base-ui.md)).
 
+**처음 붙이는 소비처는 [소비처 온보딩 가이드](../../docs/consumer-onboarding.md)를
+먼저 읽는다** — 환경 변수·CSS 순서·다크 모드·브랜드 키·RSC 경계·Next 16·
+shadcn 대조표를 한 장에 담았다. 아래는 설치와 컴포넌트 API 레퍼런스다.
+
 ## 설치
 
 GitHub Packages에 있으므로 스코프의 레지스트리를 한 줄 적어야 한다.
@@ -92,12 +96,10 @@ import { Save } from "lucide-react"
 기본이다: 이름은 항상 Icon 밖(`aria-label`이나 곁의 텍스트)에 있어야 한다.
 
 Card·Alert와 마찬가지로 자체 스타일 primitive다 — 훅도 컨텍스트도 이벤트
-핸들러도 없어 서버 컴포넌트로 남는다(`"use client"`가 없다). `icon={Save}`처럼
-넘기는 lucide 아이콘 **함수 레퍼런스**가 Client Component로 건너가지 않으므로
-Server Component에서 `<Icon icon={CircleAlert} />`를 직접 써도 된다(#412) —
-Icon에 `"use client"`가 박혀 있던 이전 버전에서는 이 값이 Client Component로
-넘어가는 prop 취급을 받아 `next build`가 "Functions cannot be passed directly
-to Client Components"로 깨졌었다.
+핸들러도 없어 서버 컴포넌트로 남는다(`"use client"`가 없다,
+[#412](https://github.com/flameware/massive-design/issues/412)). Server
+Component에서 `<Icon icon={CircleAlert} />`를 직접 써도 된다 — 함정과
+근거는 [소비처 온보딩 가이드 §6](../../docs/consumer-onboarding.md#6-rsc-주의)에 있다.
 
 ## Card
 
