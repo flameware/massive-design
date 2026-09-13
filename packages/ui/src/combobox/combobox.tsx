@@ -117,7 +117,7 @@ function ComboboxInput({ className, onFreeformSubmit, onKeyDown, ...props }: Com
  * z-50 뷰포트 **뒤로** 깔려 항목을 누를 수 없었다 — 소비처가 고칠 수 없는
  * 자리다(Popup의 className은 Positioner에 닿지 않는다). */
 export const comboboxPopupVariants = cva([
-  "max-h-72 w-(--anchor-width) overflow-auto rounded-md border border-default bg-surface p-1 text-default shadow-md outline-none",
+  "max-h-72 w-(--anchor-width) overflow-auto rounded-md border border-default bg-overlay p-1 text-default shadow-md outline-none",
   "data-starting-style:opacity-0 data-ending-style:opacity-0 transition-opacity",
 ])
 
