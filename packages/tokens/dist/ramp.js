@@ -1115,7 +1115,11 @@ export function createBrandOverride(key) {
     throw new Error(`createBrandOverride: key를 색으로 해석할 수 없다 — ${JSON.stringify(key)}`)
   }
 
-  const family = { key: oklchToHex(oklchKey), overrides: {} }
+  // key를 그대로 넘긴다 — buildRamp가 toOklch(family.key)로 다시 파싱하므로
+  // 여기서 hex로 한 번 접으면(oklchToHex) 8비트/채널로 양자화된 값이 램프
+  // 알고리즘에 들어간다. 게이트 경계에 걸린 색일수록 그 반올림이 통과/실패를
+  // 뒤집을 수 있어(#398 코드 리뷰) 원본 문자열을 그대로 쓴다.
+  const family = { key, overrides: {} }
   const params = resolveParams(RAMP_DEFAULTS, { params: {} }, 'brand')
   const rampByMode = {}
   const issues = []
