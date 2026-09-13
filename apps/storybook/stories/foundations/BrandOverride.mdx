@@ -1,0 +1,73 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+{/* 독립 문서 페이지다 — 붙는 스토리가 없다. "새 패밀리를 만드는 법"은
+    옆의 Foundations/자기 패밀리 만들기가 다루고, 여기는 반대 방향 —
+    "DS의 brand 자체를 소비처 색으로 바꾸는 법"만 다룬다(#398). */}
+
+<Meta title="Foundations/브랜드 색 입히기" />
+
+# 브랜드 색 입히기
+
+두 번째 소비처 숲마루는 자기 브랜드(forest 녹색)로 DS를 쓰고 싶어했다. DS는
+`brand` 패밀리 하나를 갖고, 지금 기본값은 `#0f5fed`다. 소비처가 브랜드 키
+컬러 하나를 주면 그 팔레트만 덮어써서 `accent` 계열(버튼 primary, 링크,
+포커스 링, 강조 텍스트) 전부를 소비처 색으로 바꾼다.
+
+## 설치와 호출
+
+```sh
+bun add @flameware/tokens
+```
+
+```ts
+import { createBrandOverride } from "@flameware/tokens/ramp"
+
+const css = createBrandOverride("oklch(0.52 0.11 155)") // 숲마루 — forest
+```
+
+```css
+/* app/globals.css */
+@import "tailwindcss";
+@import "@flameware/tokens/tokens.css";
+@import "./brand.css"; /* createBrandOverride의 결과. tokens.css 뒤에 온다 */
+```
+
+결과는 `:root { --ds-palette-brand-light-1: …; … }` · `.dark { --ds-palette-brand-dark-1: …; … }`
+두 블록의 CSS 문자열이다 — `tokens.css`가 이미 선언한 같은 이름의 변수를
+나중 선언으로 덮는다.
+
+## 왜 키가 하나뿐인가
+
+키 컬러는 모드별이 아니라 **하나다.** DS의 5패밀리와 같은 규약이다 — 키
+컬러는 램프의 step 9에 그대로 앉고, step 9는 라이트/다크가 같은 값을 갖는
+유일한 단계다. 모드별로 다른 키를 받으면 "step 9 = 키"라는 램프 모델
+자체가 깨진다.
+
+## 대비 게이트 — 에러다, 경고가 아니다
+
+너무 밝은 키를 주면 흰 글자(`fg.on-solid`)가 그 위에서 안 읽힌다.
+`createBrandOverride`는 `tokens:contrast`가 DS 자신의 `accent` 조합에 거는
+것과 **같은 쌍·같은 공식**으로 새 팔레트를 다시 재고, 못 넘으면 던진다:
+
+```ts
+createBrandOverride("#eab308")
+// Error: createBrandOverride: 대비 게이트 실패 —
+//   light fg.on-solid ↔ bg.accent.solid: 1.92 < 4.5:1, …
+```
+
+키를 아예 주지 않으면(호출하지 않으면) 기존 소비처는 DS 기본 brand
+(`#0f5fed`) 그대로다 — invest diary는 영향이 없다.
+
+## 자기 패밀리 만들기와 다른 점
+
+옆 챕터 [Foundations/자기 패밀리 만들기](?path=/docs/foundations-자기-패밀리-만들기--docs)의
+`createRamp`는 DS가 갖지 않는 **새** 패밀리(손익 색 등)를 만들어 소비처
+이름 공간(`--{prefix}-{step}`)에 둔다. `createBrandOverride`는 반대다 — DS가
+**이미 갖는** `brand` 패밀리 자체를 소비처 색으로 바꿔 DS 이름 공간
+(`--ds-palette-brand-*`)에 그대로 쓴다. 그래서 대비 게이트도 다르다: 새
+패밀리는 소비처가 `contrastRatio`로 스스로 확인하지만, `brand`는 DS의
+접근성 계약을 대신 지고 있는 자리라 게이트가 통과를 강제한다.
+
+전체 API와 표(어느 쌍이 게이트에 걸리는지)는
+[`@flameware/tokens` README의 §브랜드 키 컬러로 DS 색을 입힌다](https://github.com/flameware/massive-design/blob/main/packages/tokens/README.md#브랜드-키-컬러로-ds-색을-입힌다)에
+있다 — 수가 한 곳에만 살도록 여기서 옮겨 적지 않는다.
