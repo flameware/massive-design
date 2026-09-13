@@ -165,6 +165,14 @@
       "types": "./dist/slider/index.d.ts",
       "default": "./dist/slider/index.js"
     },
+    "./radio": {
+      "types": "./dist/radio/index.d.ts",
+      "default": "./dist/radio/index.js"
+    },
+    "./radio-group": {
+      "types": "./dist/radio-group/index.d.ts",
+      "default": "./dist/radio-group/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
