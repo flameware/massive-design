@@ -109,6 +109,69 @@ contrastRatio(profit.light[9].hex, '#ffffff') // WCAG 2 대비비 — DS 게이�
 `./ramp`를 import하지 않는 소비처는 이 API가 쓰는 `culori`를 번들에 물지
 않는다 — 바닥값은 서브패스가 정한다([ADR-0017](https://github.com/flameware/massive-design/blob/main/docs/adr/0017-dependency-weight-is-a-floor-cost.md)).
 
+## 브랜드 키 컬러로 DS 색을 입힌다
+
+`createRamp`는 DS가 갖지 않는 **새 패밀리**를 만든다. 소비처가 원하는 것이
+반대일 때 — DS의 `brand`(= `accent`) 자체를 자기 색으로 바꾸고 싶을 때 —
+쓰는 것이 `createBrandOverride`다([#398](https://github.com/flameware/massive-design/issues/398)).
+semantic 토큰은 이미 팔레트 변수를 런타임에 참조하므로
+(`--ds-bg-accent-solid: var(--ds-palette-brand-light-9)`), 팔레트만 덮으면
+`accent` 계열 전부 — 버튼 primary, 링크, 포커스 링, 강조 텍스트 — 가
+따라온다.
+
+```ts
+import { createBrandOverride } from "@flameware/tokens/ramp"
+
+const css = createBrandOverride("oklch(0.52 0.11 155)") // 숲마루 — forest
+writeFileSync("app/brand.css", css)
+```
+
+```css
+/* app/globals.css */
+@import "tailwindcss";
+@import "@flameware/tokens/tokens.css";
+@import "./brand.css"; /* 반드시 이 뒤에 — 나중 선언이 이긴다 */
+```
+
+### 왜 키 하나인가
+
+키 컬러는 **모드별이 아니라 하나다.** DS의 5패밀리와 같은 규약이다 — 키
+컬러는 항상 step 9에 앉고, step 9는 라이트/다크가 **같은 값을 갖는 유일한
+단계다**(`CONTEXT.md` 키 컬러). 모드별로 다른 키를 받으면 "step 9 = 키"라는
+램프 모델 자체가 깨진다. 라이트/다크가 갈라지길 원하는 지점이 있다면 그것은
+키가 아니라 램프가 만들어 주는 나머지 11단이 이미 하는 일이다.
+
+### 대비 게이트
+
+`createBrandOverride`는 **에러를 던진다 — 경고가 아니다.** `tokens:contrast`가
+DS 자신의 `accent` 조합에 거는 것과 **같은 쌍·같은 판정 공식**
+(`scripts/contrast.mjs`의 `TEXT_PAIRS`·`NONTEXT_PAIRS`·`FILL_PAIRS`)을
+`accent` 팔레트를 새 키로 바꿔 다시 잰다 — accent solid ↔ `fg.on-solid`
+(텍스트 4.5:1), accent 전경(`border.accent`·`border.focus`) ↔ 5면(비텍스트
+3:1), `bg.accent.muted` ↔ 5면(fill 1.35:1), 유채 텍스트(`fg.accent`·
+`fg.link`) ↔ 면·soft(텍스트 4.5:1)까지 포함한다. 못 넘는 쌍이 있으면 어느
+쌍이 몇 대 몇으로 떨어졌는지 에러 메시지에 담는다.
+
+```ts
+try {
+  createBrandOverride("#eab308") // 너무 밝다 — 흰 글자와 4.5:1을 못 넘는다
+} catch (e) {
+  e.message // 'createBrandOverride: 대비 게이트 실패 — light fg.on-solid ↔ bg.accent.solid: 1.92 < 4.5:1, …'
+}
+```
+
+키를 아예 주지 않으면(`createBrandOverride`를 부르지 않으면) DS 기본
+brand(`#0f5fed`) 그대로다 — invest diary 등 기존 소비처는 아무 영향이 없다.
+
+### `createRamp`와 무엇이 다른가
+
+| | `createRamp` | `createBrandOverride` |
+| --- | --- | --- |
+| 대상 | 소비처가 소유하는 **새** 패밀리 | DS가 이미 갖는 **brand** 패밀리 |
+| 변수 이름 | `--{prefix}-{step}` (앱 소유) | `--ds-palette-brand-{mode}-{step}` (DS 이름 공간) |
+| 게이트 실패 시 | (없음 — 소비처가 `contrastRatio`로 스스로 확인) | 에러를 던진다 |
+| 입력 | 6자리 hex만 | culori가 읽는 CSS 색이면 됨(`oklch(...)` 포함) |
+
 ## 차트 계열색 — 브랜드에서 둘을 뽑는다
 
 차트 **본체**는 DS가 갖지 않는다([ADR-0017](https://github.com/flameware/massive-design/blob/main/docs/adr/0017-dependency-weight-is-a-floor-cost.md) §2 — 라이브러리도 컴포넌트도 소비처 것이다). 그러나 계열색을 **브랜드에서 뽑는 규칙**은 DS가 준다. 규칙이 없으면 소비처마다 `color-mix(… 42%, …)` 같은 눈대중이 한 벌씩 생기고, 소비처가 둘이 되는 순간 "우리 차트 파랑"이 두 색이 되기 때문이다([#334](https://github.com/flameware/massive-design/issues/334)).

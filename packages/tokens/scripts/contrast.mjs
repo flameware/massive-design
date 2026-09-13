@@ -19,8 +19,13 @@ export { wcag }
 
 const MODES = ['light', 'dark']
 
+/** 텍스트 게이트. #398이 brand 키 게이트에서 재사용한다 — 복사하지 않는다. */
+export const TEXT_GATE = 4.5
+/** 비텍스트 게이트. #398이 brand 키 게이트에서 재사용한다 — 복사하지 않는다. */
+export const NONTEXT_GATE = 3
+
 /** 면 — 텍스트가 놓일 수 있는 배경. */
-const SURFACES = ['bg.canvas', 'bg.surface', 'bg.subtle', 'bg.inset', 'bg.overlay']
+export const SURFACES = ['bg.canvas', 'bg.surface', 'bg.subtle', 'bg.inset', 'bg.overlay']
 const SOFTS = {
   accent: 'bg.accent.soft', danger: 'bg.danger.soft', success: 'bg.success.soft', warning: 'bg.warning.soft',
 }
@@ -40,10 +45,10 @@ const MUTEDS = ['neutral', 'accent', 'danger', 'success', 'warning'].map((f) => 
  * 차트 계열은 면 위에 **혼자** 놓이고 서로와도 갈려야 하지만, 이 채움은 자기
  * 트랙 위에 앉고 그 위에 글자가 온다. 위를 올리면 글자가 무너진다(아래 표).
  */
-const FILL_GATE = 1.35
+export const FILL_GATE = 1.35
 
 /** [전경, 배경] — 텍스트. 4.5:1 게이트. */
-const TEXT_PAIRS = [
+export const TEXT_PAIRS = [
   ...SURFACES.map((bg) => ['fg.default', bg]),
   ...SURFACES.map((bg) => ['fg.muted', bg]),
   ['fg.default', 'bg.neutral.soft'],
@@ -93,7 +98,7 @@ const TEXT_PAIRS = [
  * 그래서 규약이 대신 막는다: **상태 테두리는 토큰을 불투명도 없이 칠한다**
  * (semantic-tokens.md §8).
  */
-const NONTEXT_PAIRS = [
+export const NONTEXT_PAIRS = [
   ...['border.strong', 'border.accent', 'border.danger', 'border.focus']
     .flatMap((fg) => SURFACES.map((bg) => [fg, bg])),
   // 컨트롤 어포던스는 테두리가 아니라 **채움**이지만 요건이 같은 자리다 — 요건이
@@ -110,7 +115,7 @@ const NONTEXT_PAIRS = [
  * `*.soft`는 계속 1.00이다 — 그것이 의도임을 문서가 말하고(면 사다리와 채움
  * 사다리가 step 3을 공유한다), 보여야 하는 채움은 `muted`가 받는다.
  */
-const FILL_PAIRS = MUTEDS.flatMap((fill) => SURFACES.map((bg) => [fill, bg]))
+export const FILL_PAIRS = MUTEDS.flatMap((fill) => SURFACES.map((bg) => [fill, bg]))
 
 // ── 계산 ────────────────────────────────────────────────────────────────────
 
@@ -131,8 +136,8 @@ export function report(root = ROOT) {
   const rows = []
   for (const mode of MODES) {
     const groups = [
-      ['text', TEXT_PAIRS, 4.5, true],
-      ['nontext', NONTEXT_PAIRS, 3, true],
+      ['text', TEXT_PAIRS, TEXT_GATE, true],
+      ['nontext', NONTEXT_PAIRS, NONTEXT_GATE, true],
       ['fill', FILL_PAIRS, FILL_GATE, true],
     ]
     for (const [kind, pairs, gate, gated] of groups) {

@@ -81,3 +81,11 @@ export declare function rampToCssVariables(result: RampResult, options?: RampToC
 
 /** WCAG 2 상대 휘도 대비비. DS 대비 게이트와 같은 공식. */
 export declare function contrastRatio(fgHex: string, bgHex: string): number
+
+/**
+ * 소비처 brand 키 컬러 하나로 `--ds-palette-brand-{light,dark}-{1..12}`만
+ * 덮는 CSS를 만든다. key는 hex('#rrggbb')든 `oklch(...)`든 culori가 읽는
+ * CSS 색이면 된다. 대비 게이트(DS의 brand 조합과 같은 쌍·같은 공식)를 못
+ * 넘으면 에러를 던진다 — 어느 쌍이 몇 대 몇으로 떨어졌는지 메시지에 담아서.
+ */
+export declare function createBrandOverride(key: string): string

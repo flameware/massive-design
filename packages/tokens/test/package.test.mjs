@@ -40,10 +40,13 @@ test('루트 서브패스는 타입과 런타임을 함께 낸다 — 선언만 
   }
 })
 
-test('./ramp 서브패스는 타입과 런타임을 함께 낸다 — 공개 표면 셋뿐이다(#281)', async () => {
+test('./ramp 서브패스는 타입과 런타임을 함께 낸다 — 공개 표면 넷뿐이다(#281·#398)', async () => {
   assert.deepEqual(Object.keys(pkg.exports['./ramp']).sort(), ['default', 'types'])
   const mod = await import(`${pkg.name}/ramp`)
-  assert.deepEqual(Object.keys(mod).sort(), ['contrastRatio', 'createRamp', 'rampToCssVariables'])
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['contrastRatio', 'createBrandOverride', 'createRamp', 'rampToCssVariables'],
+  )
 
   const dts = readFileSync(join(root, pkg.exports['./ramp'].types), 'utf8')
   const declaredFns = [...dts.matchAll(/^export declare function (\w+)/gm)].map((m) => m[1])

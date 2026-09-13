@@ -14,6 +14,7 @@ import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { flatten } from './lib/resolve.mjs'
+import { computeBrandGateTable } from './lib/brand-gate.mjs'
 import { emitCss } from './lib/emit/css.mjs'
 import { emitTypes, emitValues } from './lib/emit/types.mjs'
 import { emitRampDts, emitRampJs, readRampSources } from './lib/emit/ramp.mjs'
@@ -42,7 +43,8 @@ export function buildAll(sources = loadSources(), root = ROOT) {
   out.set('tokens.d.ts', emitTypes(sources))
 
   const rampConfig = JSON.parse(readFileSync(configPath(root), 'utf8'))
-  out.set('ramp.js', emitRampJs(readRampSources(root), rampConfig.defaults))
+  const brandGateTable = computeBrandGateTable(sources.tokens)
+  out.set('ramp.js', emitRampJs(readRampSources(root), rampConfig.defaults, brandGateTable))
   out.set('ramp.d.ts', emitRampDts())
 
   return out

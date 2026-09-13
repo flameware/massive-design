@@ -447,6 +447,589 @@ const RAMP_DEFAULTS = {
   "minTailGapPerStep": 0.055
 }
 
+// ── brand 대비 게이트 표 — scripts/lib/brand-gate.mjs가 scripts/contrast.mjs의
+// TEXT_PAIRS·NONTEXT_PAIRS·FILL_PAIRS·게이트값을 그대로 읽어 빌드 시점에 접은
+// 것이다(#398). 각 행의 'brand' 쪽은 생성한 램프의 그 step으로, 'fixed' 쪽은
+// 이미 해석해 둔 hex로 잰다 — 브랜드 키와 무관한 값이라서다.
+const BRAND_GATE_TABLE = [
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.accent",
+    "b": "bg.canvas",
+    "sides": {
+      "light": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#f8f8f8"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#0c0c0c"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.accent",
+    "b": "bg.surface",
+    "sides": {
+      "light": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#151515"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.accent",
+    "b": "bg.subtle",
+    "sides": {
+      "light": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.accent",
+    "b": "bg.accent.soft",
+    "sides": {
+      "light": [
+        {
+          "brand": 10
+        },
+        {
+          "brand": 3
+        }
+      ],
+      "dark": [
+        {
+          "brand": 10
+        },
+        {
+          "brand": 3
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.link",
+    "b": "bg.canvas",
+    "sides": {
+      "light": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#f8f8f8"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#0c0c0c"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.link",
+    "b": "bg.surface",
+    "sides": {
+      "light": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#151515"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.link",
+    "b": "bg.subtle",
+    "sides": {
+      "light": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 10
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.on-solid",
+    "b": "bg.accent.solid",
+    "sides": {
+      "light": [
+        {
+          "fixed": "#ffffff"
+        },
+        {
+          "brand": 9
+        }
+      ],
+      "dark": [
+        {
+          "fixed": "#ffffff"
+        },
+        {
+          "brand": 9
+        }
+      ]
+    }
+  },
+  {
+    "kind": "text",
+    "gate": 4.5,
+    "a": "fg.default",
+    "b": "bg.accent.muted",
+    "sides": {
+      "light": [
+        {
+          "fixed": "#333333"
+        },
+        {
+          "brand": 7
+        }
+      ],
+      "dark": [
+        {
+          "fixed": "#e8e8e8"
+        },
+        {
+          "brand": 6
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.accent",
+    "b": "bg.canvas",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#f8f8f8"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#0c0c0c"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.accent",
+    "b": "bg.surface",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#151515"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.accent",
+    "b": "bg.subtle",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.accent",
+    "b": "bg.inset",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.accent",
+    "b": "bg.overlay",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.focus",
+    "b": "bg.canvas",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#f8f8f8"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#0c0c0c"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.focus",
+    "b": "bg.surface",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#151515"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.focus",
+    "b": "bg.subtle",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.focus",
+    "b": "bg.inset",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "nontext",
+    "gate": 3,
+    "a": "border.focus",
+    "b": "bg.overlay",
+    "sides": {
+      "light": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 9
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "fill",
+    "gate": 1.35,
+    "a": "bg.accent.muted",
+    "b": "bg.canvas",
+    "sides": {
+      "light": [
+        {
+          "brand": 7
+        },
+        {
+          "fixed": "#f8f8f8"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 6
+        },
+        {
+          "fixed": "#0c0c0c"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "fill",
+    "gate": 1.35,
+    "a": "bg.accent.muted",
+    "b": "bg.surface",
+    "sides": {
+      "light": [
+        {
+          "brand": 7
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 6
+        },
+        {
+          "fixed": "#151515"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "fill",
+    "gate": 1.35,
+    "a": "bg.accent.muted",
+    "b": "bg.subtle",
+    "sides": {
+      "light": [
+        {
+          "brand": 7
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 6
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "fill",
+    "gate": 1.35,
+    "a": "bg.accent.muted",
+    "b": "bg.inset",
+    "sides": {
+      "light": [
+        {
+          "brand": 7
+        },
+        {
+          "fixed": "#eeeeee"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 6
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "fill",
+    "gate": 1.35,
+    "a": "bg.accent.muted",
+    "b": "bg.overlay",
+    "sides": {
+      "light": [
+        {
+          "brand": 7
+        },
+        {
+          "fixed": "#fdfdfd"
+        }
+      ],
+      "dark": [
+        {
+          "brand": 6
+        },
+        {
+          "fixed": "#1e1e1e"
+        }
+      ]
+    }
+  }
+]
+
 // ── 공개 API (#281, ADR-0023 §10 — "손익 색은 앱 소유다") ───────────────────
 
 /**
@@ -503,3 +1086,74 @@ export function rampToCssVariables(result, options = {}) {
  * 통과하는지 소비처가 스스로 재는 자리다.
  */
 export const contrastRatio = wcag
+
+/**
+ * 소비처가 넘긴 brand 키 컬러 하나로 DS의 `brand` 팔레트만 덮는 CSS를 만든다
+ * (#398). 키는 hex('#rrggbb')·`oklch(...)` 등 culori가 읽는 CSS 색이면 된다 —
+ * DS 자신도 키 컬러를 OKLCH로 말한다(`CONTEXT.md` 키 컬러).
+ *
+ * 대비 게이트를 못 넘으면 **에러**를 던진다(경고가 아니다) — DS가 자신의
+ * brand(accent) 조합에 거는 것과 같은 쌍·같은 공식(scripts/contrast.mjs의
+ * TEXT_PAIRS·NONTEXT_PAIRS·FILL_PAIRS)을 BRAND_GATE_TABLE로 재현해서 잰다.
+ */
+export function createBrandOverride(key) {
+  if (typeof key !== 'string' || key === '') {
+    throw new Error('createBrandOverride: key(브랜드 키 컬러)가 필요하다')
+  }
+  let oklchKey
+  try {
+    oklchKey = toOklch(key)
+  } catch {
+    oklchKey = undefined
+  }
+  if (
+    !oklchKey ||
+    !Number.isFinite(oklchKey.l) ||
+    !Number.isFinite(oklchKey.c) ||
+    !Number.isFinite(oklchKey.h)
+  ) {
+    throw new Error(`createBrandOverride: key를 색으로 해석할 수 없다 — ${JSON.stringify(key)}`)
+  }
+
+  const family = { key: oklchToHex(oklchKey), overrides: {} }
+  const params = resolveParams(RAMP_DEFAULTS, { params: {} }, 'brand')
+  const rampByMode = {}
+  const issues = []
+  for (const mode of ['light', 'dark']) {
+    const label = `brand.${mode}`
+    const ramp = buildRamp(family, params, mode, label)
+    issues.push(...lintRamp(ramp, family, params, label))
+    rampByMode[mode] = ramp.map((s) => ({ step: s.step, hex: s.hex }))
+  }
+  if (issues.some((i) => i.level === 'error')) {
+    throw new Error(
+      `createBrandOverride: 램프 lint 실패 — ${issues.filter((i) => i.level === 'error').map((i) => i.msg).join('; ')}`,
+    )
+  }
+
+  const hexOf = (side, mode) => (side.brand != null ? rampByMode[mode][side.brand - 1].hex : side.fixed)
+  const failures = []
+  for (const row of BRAND_GATE_TABLE) {
+    for (const mode of ['light', 'dark']) {
+      const [sideA, sideB] = row.sides[mode]
+      const cr = wcag(hexOf(sideA, mode), hexOf(sideB, mode))
+      if (cr < row.gate) {
+        failures.push(`${mode} ${row.a} ↔ ${row.b}: ${cr.toFixed(2)} < ${row.gate}:1`)
+      }
+    }
+  }
+  if (failures.length) {
+    throw new Error(`createBrandOverride: 대비 게이트 실패 — ${failures.join(', ')}`)
+  }
+
+  const line = (mode, s) => `  --ds-palette-brand-${mode}-${s.step}: ${s.hex};`
+  return [
+    ':root {',
+    ...rampByMode.light.map((s) => line('light', s)),
+    '}',
+    '',
+    '.dark {',
+    ...rampByMode.dark.map((s) => line('dark', s)),
+    '}',
+  ].join('\n') + '\n'
+}

@@ -4,8 +4,12 @@
  * 세 소스 파일의 **텍스트를 그대로 옮겨 붙인다** — 알고리즘을 두 벌 유지하지
  * 않기 위해서다(rules.md 방법론 — 읽은 원본과 기록이 갈리지 않게). 내부 함수의
  * `export`는 여기서 걷어내고, 공개 표면은 이 파일이 맨 끝에 붙이는
- * `createRamp`·`rampToCssVariables`·`contrastRatio` 셋뿐이다(#281, ADR-0023 §6
- * meta 최소와 같은 절제).
+ * `createRamp`·`rampToCssVariables`·`contrastRatio`·`createBrandOverride`
+ * 넷뿐이다(#281·#398, ADR-0023 §6 meta 최소와 같은 절제).
+ *
+ * `createBrandOverride`는 `scripts/lib/brand-gate.mjs`가 빌드 시점에 만든
+ * "brand 게이트 표"를 리터럴로 받는다(`RAMP_DEFAULTS`와 같은 패턴) — 소비처
+ * 런타임이 semantic 토큰 원본이나 fs를 물지 않게 하기 위해서다.
  *
  * culori는 이 파일에서만 쓴다 — `./ramp` 서브패스를 import하지 않는 소비처는
  * culori를 번들에 물지 않는다(바닥값, ADR-0017). `dist/tokens.css`·`dist/tokens.js`는
@@ -29,7 +33,7 @@ export function readRampSources(root) {
   }
 }
 
-export function emitRampJs({ oklch, rampCore, wcag }, rampDefaults) {
+export function emitRampJs({ oklch, rampCore, wcag }, rampDefaults, brandGateTable) {
   const oklchBody = deExport(oklch)
   const rampCoreBody = deExport(rampCore).replace(IMPORT_FROM_OKLCH, '')
   const wcagBody = deExport(wcag)
@@ -56,6 +60,12 @@ ${bundled}
 // ── 램프 알고리즘 기본값 — tokens/ramp.config.json의 defaults를 빌드 시점에 굳힌다 ──
 
 const RAMP_DEFAULTS = ${JSON.stringify(rampDefaults, null, 2)}
+
+// ── brand 대비 게이트 표 — scripts/lib/brand-gate.mjs가 scripts/contrast.mjs의
+// TEXT_PAIRS·NONTEXT_PAIRS·FILL_PAIRS·게이트값을 그대로 읽어 빌드 시점에 접은
+// 것이다(#398). 각 행의 'brand' 쪽은 생성한 램프의 그 step으로, 'fixed' 쪽은
+// 이미 해석해 둔 hex로 잰다 — 브랜드 키와 무관한 값이라서다.
+const BRAND_GATE_TABLE = ${JSON.stringify(brandGateTable, null, 2)}
 
 // ── 공개 API (#281, ADR-0023 §10 — "손익 색은 앱 소유다") ───────────────────
 
@@ -113,6 +123,77 @@ export function rampToCssVariables(result, options = {}) {
  * 통과하는지 소비처가 스스로 재는 자리다.
  */
 export const contrastRatio = wcag
+
+/**
+ * 소비처가 넘긴 brand 키 컬러 하나로 DS의 \`brand\` 팔레트만 덮는 CSS를 만든다
+ * (#398). 키는 hex('#rrggbb')·\`oklch(...)\` 등 culori가 읽는 CSS 색이면 된다 —
+ * DS 자신도 키 컬러를 OKLCH로 말한다(\`CONTEXT.md\` 키 컬러).
+ *
+ * 대비 게이트를 못 넘으면 **에러**를 던진다(경고가 아니다) — DS가 자신의
+ * brand(accent) 조합에 거는 것과 같은 쌍·같은 공식(scripts/contrast.mjs의
+ * TEXT_PAIRS·NONTEXT_PAIRS·FILL_PAIRS)을 BRAND_GATE_TABLE로 재현해서 잰다.
+ */
+export function createBrandOverride(key) {
+  if (typeof key !== 'string' || key === '') {
+    throw new Error('createBrandOverride: key(브랜드 키 컬러)가 필요하다')
+  }
+  let oklchKey
+  try {
+    oklchKey = toOklch(key)
+  } catch {
+    oklchKey = undefined
+  }
+  if (
+    !oklchKey ||
+    !Number.isFinite(oklchKey.l) ||
+    !Number.isFinite(oklchKey.c) ||
+    !Number.isFinite(oklchKey.h)
+  ) {
+    throw new Error(\`createBrandOverride: key를 색으로 해석할 수 없다 — \${JSON.stringify(key)}\`)
+  }
+
+  const family = { key: oklchToHex(oklchKey), overrides: {} }
+  const params = resolveParams(RAMP_DEFAULTS, { params: {} }, 'brand')
+  const rampByMode = {}
+  const issues = []
+  for (const mode of ['light', 'dark']) {
+    const label = \`brand.\${mode}\`
+    const ramp = buildRamp(family, params, mode, label)
+    issues.push(...lintRamp(ramp, family, params, label))
+    rampByMode[mode] = ramp.map((s) => ({ step: s.step, hex: s.hex }))
+  }
+  if (issues.some((i) => i.level === 'error')) {
+    throw new Error(
+      \`createBrandOverride: 램프 lint 실패 — \${issues.filter((i) => i.level === 'error').map((i) => i.msg).join('; ')}\`,
+    )
+  }
+
+  const hexOf = (side, mode) => (side.brand != null ? rampByMode[mode][side.brand - 1].hex : side.fixed)
+  const failures = []
+  for (const row of BRAND_GATE_TABLE) {
+    for (const mode of ['light', 'dark']) {
+      const [sideA, sideB] = row.sides[mode]
+      const cr = wcag(hexOf(sideA, mode), hexOf(sideB, mode))
+      if (cr < row.gate) {
+        failures.push(\`\${mode} \${row.a} ↔ \${row.b}: \${cr.toFixed(2)} < \${row.gate}:1\`)
+      }
+    }
+  }
+  if (failures.length) {
+    throw new Error(\`createBrandOverride: 대비 게이트 실패 — \${failures.join(', ')}\`)
+  }
+
+  const line = (mode, s) => \`  --ds-palette-brand-\${mode}-\${s.step}: \${s.hex};\`
+  return [
+    ':root {',
+    ...rampByMode.light.map((s) => line('light', s)),
+    '}',
+    '',
+    '.dark {',
+    ...rampByMode.dark.map((s) => line('dark', s)),
+    '}',
+  ].join('\\n') + '\\n'
+}
 `
 }
 
@@ -200,5 +281,13 @@ export declare function rampToCssVariables(result: RampResult, options?: RampToC
 
 /** WCAG 2 상대 휘도 대비비. DS 대비 게이트와 같은 공식. */
 export declare function contrastRatio(fgHex: string, bgHex: string): number
+
+/**
+ * 소비처 brand 키 컬러 하나로 \`--ds-palette-brand-{light,dark}-{1..12}\`만
+ * 덮는 CSS를 만든다. key는 hex('#rrggbb')든 \`oklch(...)\`든 culori가 읽는
+ * CSS 색이면 된다. 대비 게이트(DS의 brand 조합과 같은 쌍·같은 공식)를 못
+ * 넘으면 에러를 던진다 — 어느 쌍이 몇 대 몇으로 떨어졌는지 메시지에 담아서.
+ */
+export declare function createBrandOverride(key: string): string
 `
 }

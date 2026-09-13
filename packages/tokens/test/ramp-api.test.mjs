@@ -93,6 +93,11 @@ test('contrastRatio가 DS 대비 게이트(scripts/contrast.mjs)와 같은 공�
   assert.equal(ramp.contrastRatio('#777777', '#777777').toFixed(0), '1')
 })
 
-test('공개 표면은 정확히 셋이다 — createRamp · rampToCssVariables · contrastRatio', () => {
-  assert.deepEqual(Object.keys(ramp).sort(), ['contrastRatio', 'createRamp', 'rampToCssVariables'])
+test('공개 표면은 정확히 넷이다 — createRamp · rampToCssVariables · contrastRatio · createBrandOverride', () => {
+  // #398이 createBrandOverride를 더했다 — brand 팔레트 덮어쓰기는 손익 색과
+  // 달리 DS 자신의 --ds-palette-brand-* 이름 공간에 쓰므로 별도 함수다.
+  assert.deepEqual(
+    Object.keys(ramp).sort(),
+    ['contrastRatio', 'createBrandOverride', 'createRamp', 'rampToCssVariables'],
+  )
 })
