@@ -59,6 +59,48 @@ export const Playground: Story = {
   render: (args) => <PeriodSelect disabled={args.disabled} />,
 }
 
+/* 팝업을 `open`으로 강제해 실제 항목이 그려진 그림을 문서에 고정한다 — Combobox의
+ * `펼친 목록`과 같은 이유(combobox/Combobox.stories.tsx). 재는 쪽은 둘 다 스토리가
+ * 보여 주기로 한 것만 본다: design-sync의 그림 대조도, 히트 영역 테스트
+ * (test/stories.test.mjs 상단 주석)도 닫힌 트리거만 있는 스토리로는 항목의
+ * 면·여백·선택 표시도 `Select.Item`의 24px 하한도 한 번도 본 적이 없었다
+ * (#386 — 그 자리에 #387의 결함이 숨어 있었다).
+ *
+ * `defaultValue`로 하나를 골라 두어 선택 표시(`data-selected` + ItemIndicator)가
+ * 그림에 있고, Base UI가 열릴 때 고른 항목을 하이라이트(`data-highlighted`)로도
+ * 잡으므로 선택과 하이라이트가 같은 그림에서 보인다 — 둘이 구별되는지가 대조의
+ * 핵심이다. 한계: 하이라이트**만** 있는 항목은 없다 — 다른 항목을 하이라이트할
+ * 수단은 포인터·키보드뿐이라 정적 렌더에 실을 수 없다. 그래서 이 그림이 잡는
+ * 것은 "선택 위에 얹힌 하이라이트가 선택 표시와 얼마나 갈리는가"(#387)다.
+ *
+ * `modal={false}`·`alignItemWithTrigger={false}`는 계기를 위한 것이다: 모달이면
+ * Base UI가 문서 전체를 덮는 내부 백드롭을 깔아 트리거가 `elementFromPoint`에
+ * 잡히지 않고, 항목 정렬이 켜져 있으면 팝업이 트리거 위에 겹쳐 같은 일이 난다.
+ * 그림에서 보이는 항목 자체는 둘 중 무엇에도 영향받지 않는다. */
+export const Expanded: Story = {
+  name: "펼친 목록",
+  render: () => (
+    <div style={{ maxWidth: "20rem", minHeight: "14rem" }}>
+      <Select.Root items={PERIOD_ITEMS} defaultValue="month" open modal={false}>
+        <Select.Trigger aria-label="기간">
+          <Select.Value placeholder="기간 선택" />
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Positioner alignItemWithTrigger={false}>
+            <Select.Popup>
+              <Select.List>
+                <Select.Item value="week">1주</Select.Item>
+                <Select.Item value="month">1개월</Select.Item>
+                <Select.Item value="year">1년</Select.Item>
+              </Select.List>
+            </Select.Popup>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select.Root>
+    </div>
+  ),
+}
+
 /* 항목·그룹·구분선 파트 — 티켓이 명시한 Select의 모양이다(#288 "항목·그룹·
  * 구분선 파트를 갖는다"). */
 export const GroupsAndSeparator: Story = {

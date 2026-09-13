@@ -383,15 +383,29 @@ for (const story of stories) {
     test("axe 위반 0", async () => {
       await page.addScriptTag({ content: axe.source })
       const result = await page.evaluate(() =>
-        globalThis.axe.run(document, {
-          /* 스토리는 페이지가 아니라 **한 조각**이다. 랜드마크·h1·region은 그
-           * 조각을 감싼 페이지의 몫이라 여기서 물으면 언제나 위반이 난다 */
-          rules: {
-            "landmark-one-main": { enabled: false },
-            "page-has-heading-one": { enabled: false },
-            region: { enabled: false },
+        globalThis.axe.run(
+          {
+            include: [document],
+            /* Base UI가 열린 팝업 앞뒤에 두는 포커스 가드(`<span tabindex="0"
+             * aria-hidden="true">`, @base-ui/utils FocusGuard)를 뺀다 — Tab 순서를
+             * 붙잡아 팝업 안팎으로 옮기는 장치라 **일부러** 포커스 가능하면서
+             * 접근성 트리 밖이고, axe의 `aria-hidden-focus`는 그 조합을 위반으로
+             * 읽는다(floating-ui가 문서화한 오탐). 팝업을 `open`으로 강제한 스토리
+             * (#386의 Select·Menu `펼친 …`)에서만 axe 실행 시점에 존재한다. 규칙을
+             * 끄는 대신 노드를 빼므로 다른 `aria-hidden` 포커스 결함은 그대로 잡힌다.
+             * 이중 배열은 axe의 프레임 컨텍스트 문법이다 — 오타가 아니다 */
+            exclude: [["[data-base-ui-focus-guard]"]],
           },
-        })
+          {
+            /* 스토리는 페이지가 아니라 **한 조각**이다. 랜드마크·h1·region은 그
+             * 조각을 감싼 페이지의 몫이라 여기서 물으면 언제나 위반이 난다 */
+            rules: {
+              "landmark-one-main": { enabled: false },
+              "page-has-heading-one": { enabled: false },
+              region: { enabled: false },
+            },
+          }
+        )
       )
       assert.deepEqual(
         result.violations.map((violation) => ({

@@ -61,6 +61,42 @@ export const Playground: Story = {
   ),
 }
 
+/* 팝업을 `open`으로 강제해 항목이 실제로 그려진 그림을 문서에 고정한다 — Select·
+ * Combobox의 `펼친 목록`과 같은 이유(#386): 닫힌 트리거만 렌더하는 스토리로는
+ * 항목의 면·여백·체크 표시가 어떤 대조에도 잡히지 않는다. `GroupLabel`·`Item`·
+ * `CheckboxItem`(켜진 것과 꺼진 것)·`Separator`·파괴적 항목이 한 팝업에 다 있다.
+ * 트리거는 Playground의 Avatar가 아니라 글자 버튼이다 — 이 그림의 대상은 팝업
+ * 안의 항목이고, 트리거 모양은 이미 Playground가 고정한다.
+ *
+ * `modal={false}`는 계기를 위한 것이다 — 모달이면 Base UI가 문서 전체를 덮는
+ * 내부 백드롭을 깔아 트리거가 `elementFromPoint`에 잡히지 않는다(Select의
+ * `펼친 목록`과 같은 판단). */
+export const Expanded: Story = {
+  name: "펼친 메뉴",
+  render: () => (
+    <div style={{ minHeight: "16rem" }}>
+      <Menu.Root open modal={false}>
+        <Menu.Trigger>보기 옵션</Menu.Trigger>
+        <Menu.Popup>
+          <Menu.Group>
+            <Menu.GroupLabel>seongki@example.com</Menu.GroupLabel>
+            <Menu.Item>프로필</Menu.Item>
+            <Menu.Item>설정</Menu.Item>
+          </Menu.Group>
+          <Menu.Separator />
+          <Menu.Group>
+            <Menu.GroupLabel>보기</Menu.GroupLabel>
+            <Menu.CheckboxItem defaultChecked>알림 표시</Menu.CheckboxItem>
+            <Menu.CheckboxItem>보관함 표시</Menu.CheckboxItem>
+          </Menu.Group>
+          <Menu.Separator />
+          <Menu.Item variant="destructive">로그아웃</Menu.Item>
+        </Menu.Popup>
+      </Menu.Root>
+    </div>
+  ),
+}
+
 /* 체크 항목 — 비제어. `defaultChecked`만 주면 Menu가 자기 상태를 스스로 든다.
  * 화면에 상태를 글자로 적어 밖에서 보이게 한다(스토리 테스트가 그것을 잰다). */
 export const CheckboxUncontrolled: Story = {
