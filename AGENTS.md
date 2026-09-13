@@ -34,11 +34,11 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-**열린 맵: [#396](https://github.com/flameware/massive-design/issues/396) 숲마루 온보딩** — 두 번째 소비처 숲마루(`flameware/apt-finder`)가 드러낸 결손을 닫는다: brand 키 컬러를 소비처가 정하는 API, [ADR-0026](docs/adr/0026-baseline-form-controls-need-no-consumer-evidence.md)이 연 기본 폼 컨트롤(Switch · Slider · Radio), 소비처 온보딩 가이드, 그리고 minor 게시. 숲마루 쪽 이행은 [flameware/apt-finder#32](https://github.com/flameware/apt-finder/issues/32)가 추적한다.
+**지금 열린 맵은 없다.** 다음 맵을 열 계기는 [ADR-0023](docs/adr/0023-second-generation-base-ui.md) §8·§9 포인터에 적힌 재판단 계기(문서 사이트·Figma) 또는 소비처 화면이 새로 드러내는 결손이다.
 
 **Phase 1·Phase 2·Phase 3가 모두 닫혔다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2세대(Base UI)의 결정 전부를 담는다. 완료 기록은 [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md)·[`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md)·[`docs/handoff/phase-3-base-ui-map.md`](docs/handoff/phase-3-base-ui-map.md)다. Phase 1·2 컴포넌트, Phase 3가 축을 더한 다섯(Table·Text/Heading·Badge·Spinner·Toggle), 그리고 Toast(#371, 앱 착지로 `stable` 승격)까지 상태 표에서 전부 `stable`이다 — **깨는 변경은 major다.**
 
-**게시된 최신은 `0.6.0`이다** — 숲마루(#396) 온보딩이 드러낸 결손을 닫는다: 소비처가 brand 키 컬러 하나로 자기 브랜드를 입히는 `@flameware/tokens/ramp`의 `createBrandOverride`(#398), ADR-0026이 연 기본 폼 컨트롤 Switch·Slider·Radio/RadioGroup(#399·#400·#401), 근거 없던 `"use client"`를 걷어 Icon을 서버 컴포넌트로 옮긴 것(#412), 소비처 온보딩 가이드(#403)까지 새 서브패스·새 API만 더하고 기존 계약은 그대로라 minor로 올랐다. brand 키를 주지 않으면 기존 brand(`#0f5fed`) 그대로라 기존 소비처 화면은 바뀌지 않는다. 그 앞 `0.5.2`는 Combobox 항목이 팝업 항목 중 유일하게 `.state` 층 밖에서 면을 직접 칠하던 것을 Select·Menu와 같은 모양으로 올렸다(#391, #393). 소비처 invest diary는 아직 `0.5.2`로 돌고, 올려도 화면이 바뀌지 않는다(`v0.5.2..v0.6.0`의 `dist/tokens.css` diff가 비어 있다). 숲마루는 `0.6.0`으로 붙는다([flameware/apt-finder#32](https://github.com/flameware/apt-finder/issues/32)).
+**게시된 최신은 `0.6.0`이다**(`publish.yml` [run 34787069584](https://github.com/flameware/massive-design/actions/runs/34787069584)) — 두 번째 소비처 숲마루(`flameware/apt-finder`) 온보딩이 드러낸 결손을 닫는다: 소비처가 brand 키 컬러 하나로 자기 브랜드를 입히는 `@flameware/tokens/ramp`의 `createBrandOverride`(#398), [ADR-0026](docs/adr/0026-baseline-form-controls-need-no-consumer-evidence.md)이 연 기본 폼 컨트롤 Switch·Slider·Radio/RadioGroup(#399·#400·#401), 근거 없던 `"use client"`를 걷어 Icon을 서버 컴포넌트로 옮긴 것(#412), 소비처 온보딩 가이드([`docs/consumer-onboarding.md`](docs/consumer-onboarding.md), #403)까지 새 서브패스·새 API만 더하고 기존 계약은 그대로라 minor로 올랐다. brand 키를 주지 않으면 기존 brand(`#0f5fed`) 그대로라 기존 소비처 화면은 바뀌지 않는다(`v0.5.2..v0.6.0`의 `dist/tokens.css` diff가 비어 있다). 그 앞 `0.5.2`는 Combobox 항목이 팝업 항목 중 유일하게 `.state` 층 밖에서 면을 직접 칠하던 것을 Select·Menu와 같은 모양으로 올렸다(#391, #393). 숲마루는 `0.6.0`으로 붙는다([flameware/apt-finder#32](https://github.com/flameware/apt-finder/issues/32)), invest diary는 아직 `0.5.2`다.
 
 **지금 리포에 있는 것**: `@flameware/tokens`(램프 생성기·`lint`·`contrast`·`verify`, 그리고 소비처용 `./ramp` API — brand 키 오버라이드 포함), `@flameware/ui`의 서브패스 39개 — `cn`·`icon`·Button·Field/Input/Textarea/Form·Card/Alert·Dialog/AlertDialog/Drawer·Menu/Avatar/Separator/Tooltip·Tabs/PageShell/ThemeToggle·Checkbox/Select/Toggle/ToggleGroup·Badge/ListRow/Text/Heading/Skeleton/Spinner·Table·Combobox·Progress·EmptyState/NumberField/Pagination/ConfirmDialog·Toast·Switch/Slider/Radio/RadioGroup — 와 `styles.css`·`state.css`·`hit-area.css`, 그리고 Foundations 6장·컴포넌트별 MDX·상태 표·DS 매니저 테마를 갖춘 Storybook과 그것을 여는 Playwright 스토리 테스트(axe·24px·키보드 계약·`viewport:mobile`). semantic 색은 `@theme`에 전부 자동 노출된다. 게시는 `v*` 태그로 `publish.yml`이 한다. 1세대 51개 컴포넌트·매니페스트·계약·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다.
 
@@ -60,6 +60,7 @@ Closed maps, with their records:
 | Phase 1 — 2세대 Base UI (#275) | [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md) |
 | Phase 2 — 2세대 Base UI, 앱 자리로 넓히기 (#317) | [`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md) |
 | Phase 3 — 2세대 Base UI, 소비처가 우회하는 축을 닫는다 (#365) | [`docs/handoff/phase-3-base-ui-map.md`](docs/handoff/phase-3-base-ui-map.md) |
+| 숲마루 온보딩 — 두 번째 소비처가 드러낸 결손을 닫는다 (#396) | [`docs/handoff/second-consumer-onboarding-map.md`](docs/handoff/second-consumer-onboarding-map.md) |
 
 [`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff *into* the completed component map, not a completion record.
 
