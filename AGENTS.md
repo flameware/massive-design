@@ -34,7 +34,7 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
-**지금 열린 맵은 없다.** 다음 맵을 열 계기는 아래 재판단 포인터들(문서 사이트·Figma) 또는 소비처 화면이 새로 드러내는 결손이다.
+**지금 열린 맵은 없다.** 다음 맵을 열 계기는 [ADR-0023](docs/adr/0023-second-generation-base-ui.md) §8·§9 포인터에 적힌 재판단 계기(문서 사이트·Figma) 또는 소비처 화면이 새로 드러내는 결손이다.
 
 **Phase 1·Phase 2·Phase 3가 모두 닫혔다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2세대(Base UI)의 결정 전부를 담는다. 완료 기록은 [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md)·[`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md)·[`docs/handoff/phase-3-base-ui-map.md`](docs/handoff/phase-3-base-ui-map.md)다. Phase 1·2 컴포넌트, Phase 3가 축을 더한 다섯(Table·Text/Heading·Badge·Spinner·Toggle), 그리고 Toast(#371, 앱 착지로 `stable` 승격)까지 상태 표에서 전부 `stable`이다 — **깨는 변경은 major다.**
 
