@@ -56,6 +56,7 @@ const CODE_SUBPATHS = [
   "./confirm-dialog",
   "./toast",
   "./switch",
+  "./slider",
 ]
 
 /** 컴포넌트 하나마다 서브패스 하나 — 이 목록이 늘어나는 것이 컴포넌트가 느는 것이다. */
@@ -96,6 +97,7 @@ const COMPONENT_SUBPATHS = [
   "./confirm-dialog",
   "./toast",
   "./switch",
+  "./slider",
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
@@ -120,7 +122,8 @@ const COMPONENT_SUBPATHS = [
  * 직접 다루므로 클라이언트다. Toast(#371)도 Base UI Toast.Provider·
  * useToastManager를 감싸 토스트 목록·타이머 상태를 다루므로 클라이언트다.
  * Switch(#399)도 Checkbox와 같은 이유로 Base UI의 제어/비제어 상태 있는
- * 컴포넌트를 감싸므로 클라이언트다. */
+ * 컴포넌트를 감싸므로 클라이언트다. Slider(#400)도 같은 이유로 Base UI
+ * Slider.Root의 제어/비제어 상태를 감싸므로 클라이언트다. */
 const CLIENT_SUBPATHS = [
   "./button",
   "./icon",
@@ -150,6 +153,7 @@ const CLIENT_SUBPATHS = [
   "./confirm-dialog",
   "./toast",
   "./switch",
+  "./slider",
 ]
 const SERVER_SUBPATHS = [
   "./card",

@@ -87,66 +87,20 @@ export function measureInPage({ floor, reach }) {
     return n
   }
 
-  const rows = []
-  for (const el of document.querySelectorAll(NATIVE)) {
-    const cs = getComputedStyle(el)
+  /** 한 요소의 라벨. 여러 자리에서 재쓴다(원래 요소·위임받은 부모 둘 다) */
+  const labelOf = (el) =>
+    el.getAttribute("data-testid") ??
+    el.getAttribute("aria-label") ??
+    `${el.tagName.toLowerCase()}:${(el.textContent ?? "").trim().slice(0, 20)}`
+
+  /* 기하만 재는 부분 — `el`이 실제 포인터 대상일 때(위임 대상 포함) 공통으로 쓴다.
+   * `label`을 따로 받는 이유는 위임 케이스(네이티브 range thumb)에서 원소는
+   * 부모지만 사람이 읽을 이름은 원래 input의 것을 쓰기 위해서다. */
+  const measureGeometry = (el, label, tag) => {
+    const row = { label, tag, hitW: null, hitH: null, fitsFloor: null, note: [] }
     const rect = el.getBoundingClientRect()
-    const row = {
-      label:
-        el.getAttribute("data-testid") ??
-        el.getAttribute("aria-label") ??
-        `${el.tagName.toLowerCase()}:${(el.textContent ?? "").trim().slice(0, 20)}`,
-      tag: el.tagName.toLowerCase(),
-      visualW: +rect.width.toFixed(1),
-      visualH: +rect.height.toFixed(1),
-      hitW: null,
-      hitH: null,
-      fitsFloor: null,
-      note: [],
-    }
-    if (cs.display === "none" || cs.visibility === "hidden" || (rect.width === 0 && rect.height === 0)) {
-      row.note.push("not-rendered")
-      rows.push(row)
-      continue
-    }
-    if (el.getAttribute("aria-hidden") === "true") {
-      // 접근성 트리 밖이면 포인터 대상도 아니다 — 예: Base UI Checkbox·Select가
-      // 네이티브 폼 의미론을 위해 곁에 두는, 시각적으로는 clip-path로 1px까지
-      // 줄인 숨은 `<input>`(type이 checkbox/text라 `input:not([type=hidden])`에
-      // 걸린다). 사람이 누르는 자리는 그 옆의 실제 커스텀 컨트롤이고, 그쪽이
-      // 이미 자기 몫의 hit-area로 재진다 — 이 구현 디테일까지 재면 있지도 않은
-      // 미달을 만든다(#288, Checkbox가 이 셋을 처음 population에 들였다)
-      row.note.push("aria-hidden")
-      rows.push(row)
-      continue
-    }
-    if (cs.pointerEvents === "none") {
-      // 누를 수 없는 것은 포인터 대상이 아니다 — 재지 않고 표시한다
-      row.note.push("pointer-events:none")
-      rows.push(row)
-      continue
-    }
-    if (cs.clipPath === "inset(50%)" && el.tabIndex < 0) {
-      // Base UI가 스크린 리더 전용 도우미(AriaCombobox의 hidden autofill input,
-      // ComboboxInternalDismissButton 등)에 쓰는 표준 "visually hidden" 레시피다
-      // (`@base-ui/utils/visuallyHidden`) — 1px 상자를 clip-path로 완전히
-      // 가려 어떤 좌표를 찍어도 elementFromPoint가 이 요소를 돌려주지 않는다.
-      // 포인터도 키보드도 아닌 보조기술 전용 통로라서 포인터 하한 밖이다
-      // (그려지지 않은 것과 같은 취급 — ADR-0020 결정 4 "외부 소유 표면에서
-      // 물러선다"와 같은 이유). Input이 Popup 밖에 있는 모든 Base UI
-      // Combobox가 이 레시피를 낸다(#289) — 컴포넌트별 예외가 아니라 계기가
-      // 일반적으로 인식해야 하는 패턴이다.
-      //
-      // `el.tabIndex < 0`을 같이 요구하는 이유: 같은 clip-path 레시피를
-      // "skip to content" 링크처럼 **키보드로는 닿아야 하는** 요소에도 쓸 수
-      // 있다(포커스를 받으면 CSS가 보이는 자리로 옮기는 패턴) — 그런 요소는
-      // `<a href>` 등 원래 포커스 가능해 `tabIndex`가 0 이상이다. 포인터도
-      // 키보드도 둘 다 닿지 않는 것만 면제해야 진짜 보조기술 전용 통로와
-      // 구분된다.
-      row.note.push("visually-hidden")
-      rows.push(row)
-      continue
-    }
+    row.visualW = +rect.width.toFixed(1)
+    row.visualH = +rect.height.toFixed(1)
 
     el.scrollIntoView({ block: "center", inline: "center" })
     const r = el.getBoundingClientRect()
@@ -168,8 +122,7 @@ export function measureInPage({ floor, reach }) {
         row.hitW = 0
         row.hitH = 0
         row.fitsFloor = false
-        rows.push(row)
-        continue
+        return row
       }
       row.note.push("center-miss")
       ;[ax, ay] = found
@@ -204,7 +157,90 @@ export function measureInPage({ floor, reach }) {
             break search
           }
     }
-    rows.push(row)
+    return row
+  }
+
+  /** 재지 않고 표시만 하는 행(early-exit) 하나를 만든다 — 기본 측정 경로는
+   * `measureGeometry`가 스스로 `rect`를 다시 재므로 이 자리에서는 만들지
+   * 않는다(중복 `getBoundingClientRect` 호출을 피한다). */
+  const skippedRow = (el, label, rect, note) => ({
+    label,
+    tag: el.tagName.toLowerCase(),
+    visualW: +rect.width.toFixed(1),
+    visualH: +rect.height.toFixed(1),
+    hitW: null,
+    hitH: null,
+    fitsFloor: null,
+    note: [note],
+  })
+
+  const rows = []
+  for (const el of document.querySelectorAll(NATIVE)) {
+    const cs = getComputedStyle(el)
+    const rect = el.getBoundingClientRect()
+    const label = labelOf(el)
+    if (cs.display === "none" || cs.visibility === "hidden" || (rect.width === 0 && rect.height === 0)) {
+      rows.push(skippedRow(el, label, rect, "not-rendered"))
+      continue
+    }
+    if (el.getAttribute("aria-hidden") === "true") {
+      // 접근성 트리 밖이면 포인터 대상도 아니다 — 예: Base UI Checkbox·Select가
+      // 네이티브 폼 의미론을 위해 곁에 두는, 시각적으로는 clip-path로 1px까지
+      // 줄인 숨은 `<input>`(type이 checkbox/text라 `input:not([type=hidden])`에
+      // 걸린다). 사람이 누르는 자리는 그 옆의 실제 커스텀 컨트롤이고, 그쪽이
+      // 이미 자기 몫의 hit-area로 재진다 — 이 구현 디테일까지 재면 있지도 않은
+      // 미달을 만든다(#288, Checkbox가 이 셋을 처음 population에 들였다)
+      rows.push(skippedRow(el, label, rect, "aria-hidden"))
+      continue
+    }
+    if (cs.pointerEvents === "none") {
+      // 누를 수 없는 것은 포인터 대상이 아니다 — 재지 않고 표시한다
+      rows.push(skippedRow(el, label, rect, "pointer-events:none"))
+      continue
+    }
+    if (
+      cs.clipPath === "inset(50%)" &&
+      el.tagName === "INPUT" &&
+      el.type === "range" &&
+      el.parentElement
+    ) {
+      // Base UI Slider의 thumb이 내는 네이티브 `<input type="range">`다
+      // (node_modules/@base-ui/react/slider/thumb/SliderThumb.mjs) — 값·
+      // 키보드·ARIA(암묵적 role=slider)는 이 input이 스스로 지지만, 클릭·
+      // 드래그는 이 input을 완전히 덮는 부모 thumb div가 받는다(clip-path가
+      // 이 input을 히트 테스트에서도 뺀다 — elementFromPoint가 항상 부모를
+      // 돌려준다). 그래서 포인터 대상은 input이 아니라 그 부모이고, 부모를
+      // 대신 잰다(부모의 `hit-area`가 24px를 벌어 주는 자리, slider.tsx).
+      // `el.tabIndex < 0` 조건(바로 위 분기, #289)이 여기 안 걸리는 이유는
+      // 이 input이 진짜로 Tab이 닿아야 하는 자리이기 때문이다 — "포인터도
+      // 키보드도 닿지 않아야 면제"라는 그 분기의 전제와 다른, input 자체가
+      // 아니라 **부모가 포인터를 받는** 별도 패턴이라 새 분기로 갈랐다.
+      rows.push(skippedRow(el, label, rect, "native-range-thumb"))
+      rows.push(measureGeometry(el.parentElement, label, el.parentElement.tagName.toLowerCase()))
+      continue
+    }
+    if (cs.clipPath === "inset(50%)" && el.tabIndex < 0) {
+      // Base UI가 스크린 리더 전용 도우미(AriaCombobox의 hidden autofill input,
+      // ComboboxInternalDismissButton 등)에 쓰는 표준 "visually hidden" 레시피다
+      // (`@base-ui/utils/visuallyHidden`) — 1px 상자를 clip-path로 완전히
+      // 가려 어떤 좌표를 찍어도 elementFromPoint가 이 요소를 돌려주지 않는다.
+      // 포인터도 키보드도 아닌 보조기술 전용 통로라서 포인터 하한 밖이다
+      // (그려지지 않은 것과 같은 취급 — ADR-0020 결정 4 "외부 소유 표면에서
+      // 물러선다"와 같은 이유). Input이 Popup 밖에 있는 모든 Base UI
+      // Combobox가 이 레시피를 낸다(#289) — 컴포넌트별 예외가 아니라 계기가
+      // 일반적으로 인식해야 하는 패턴이다.
+      //
+      // `el.tabIndex < 0`을 같이 요구하는 이유: 같은 clip-path 레시피를
+      // "skip to content" 링크처럼 **키보드로는 닿아야 하는** 요소에도 쓸 수
+      // 있다(포커스를 받으면 CSS가 보이는 자리로 옮기는 패턴) — 그런 요소는
+      // `<a href>` 등 원래 포커스 가능해 `tabIndex`가 0 이상이다. 포인터도
+      // 키보드도 둘 다 닿지 않는 것만 면제해야 진짜 보조기술 전용 통로와
+      // 구분된다.
+      rows.push(skippedRow(el, label, rect, "visually-hidden"))
+      continue
+    }
+
+    rows.push(measureGeometry(el, label, el.tagName.toLowerCase()))
   }
   return rows
 }
@@ -215,7 +251,8 @@ const isMeasured = (row) =>
   !row.note.includes("not-rendered") &&
   !row.note.includes("pointer-events:none") &&
   !row.note.includes("aria-hidden") &&
-  !row.note.includes("visually-hidden")
+  !row.note.includes("visually-hidden") &&
+  !row.note.includes("native-range-thumb")
 
 /* ---------- 계기 자체 검증 ---------- */
 const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
@@ -233,6 +270,9 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   #hidden{display:none}
   #ariahidden{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
   #sronly, #sronly-focusable{clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:1px;height:1px;margin:-1px;position:absolute}
+  #rangewrap{position:relative;width:16px;height:16px;background:#888}
+  #rangewrap::after{content:"";position:absolute;left:50%;top:50%;width:32px;height:32px;transform:translate(-50%,-50%)}
+  #rangeinput{clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:100%;height:100%;margin:0;position:absolute}
 </style>
 <div class="row">
   <button id="plain" data-testid="plain"></button>
@@ -243,6 +283,7 @@ const SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   <input id="ariahidden" data-testid="ariahidden" aria-hidden="true" />
   <span id="sronly" data-testid="sronly" role="button" aria-label="Dismiss"></span>
   <a id="sronly-focusable" data-testid="sronly-focusable" href="#main">Skip to content</a>
+  <div id="rangewrap"><input id="rangeinput" data-testid="rangeinput" type="range" /></div>
 </div>`
 
 /* 기대값 — 계기가 이것을 그대로 읽지 못하면 계기를 고친다, 읽은 값을 믿지 않는다 */
@@ -264,6 +305,10 @@ const SELF_TEST_EXPECT = {
     note: "no-hit-point",
     fitsFloor: false,
     why: "같은 clip-path 레시피라도 tabIndex가 0 이상(원래 포커스 가능한 <a href>)이면 면제하지 않는다 — 포인터·키보드 둘 다 닿지 않는 것만 sr-only 도우미로 면제한다",
+  },
+  rangeinput: {
+    note: "native-range-thumb",
+    why: "Base UI Slider가 내는 clip-path:inset(50%) type=range input 자신은 표시만 하고 재지 않는가(위임은 아래 별도 검증, #400)",
   },
 }
 
@@ -363,6 +408,14 @@ test("계기 검증 — 알려진 기하를 그대로 읽는다", async () => {
       if (expected.note)
         assert.ok(row.note.includes(expected.note), `${label}: note에 ${expected.note}가 없다 (${row.note.join(",")}) — ${expected.why}`)
     }
+
+    /* native-range-thumb 위임 — 같은 label로 행이 둘 나온다(위 rangeinput 항목은
+     * 첫째만 본다). 둘째가 부모(rangewrap, 32px ::after)를 잰 위임 행이다 —
+     * 위임이 실제로 부모의 기하를 읽는가를 여기서 검증한다(#400) */
+    const rangeRows = rows.filter((candidate) => candidate.label === "rangeinput")
+    assert.equal(rangeRows.length, 2, "rangeinput: 위임 행(부모 측정)이 하나 더 나와야 한다")
+    assert.equal(rangeRows[1].tag, "div", "위임 측정은 input이 아니라 부모(div)를 재야 한다")
+    assert.equal(rangeRows[1].fitsFloor, true, "부모(32px ::after)로 위임한 측정이 하한을 넘겨야 한다")
   } finally {
     await probe.close()
   }
