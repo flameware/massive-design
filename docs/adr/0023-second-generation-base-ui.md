@@ -110,6 +110,8 @@ shadcn식 레지스트리(소비처가 소스를 복사)는 배제한다 — 이
 
 **Phase 3 — 필요가 확인되면** — NavigationMenu · Menubar · ContextMenu · Toolbar · PreviewCard · OTPField · Slider · Breadcrumb · Sidebar · Command palette · DatePicker(서드파티) · Carousel · Resizable
 
+> **[ADR-0026](0026-baseline-form-controls-need-no-consumer-evidence.md)이 §10에 예외 하나를 냈다.** 네이티브 HTML 입력에 대응하는 폼 컨트롤(Switch · Slider · Radio)은 소비처 근거 없이 만든다. 위 표의 Phase 2 Radio·Switch와 Phase 3 Slider는 그 기준으로 다시 열린다. 원문은 고치지 않는다.
+
 **돌아오지 않는 것** — Chart(ADR-0017대로 소비처 몫) · Sheet(Drawer가 대체) · InputGroup · ButtonGroup · NativeSelect · Kbd · Item · Calendar(DatePicker에 흡수)
 
 ## 승계와 대체
