@@ -157,6 +157,10 @@
       "types": "./dist/toast/index.d.ts",
       "default": "./dist/toast/index.js"
     },
+    "./switch": {
+      "types": "./dist/switch/index.d.ts",
+      "default": "./dist/switch/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },
