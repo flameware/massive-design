@@ -1,0 +1,73 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as SwitchStories from "./Switch.stories"
+
+<Meta of={SwitchStories} />
+
+<Title />
+
+<StatusBadge status={SwitchStories.default.parameters.ds.status} /> · since {SwitchStories.default.parameters.ds.since}
+
+네이티브 `<input type="checkbox" role="switch">`에 대응하는, 즉시 반영되는 이진
+설정의 손잡이. Base UI `Switch.Root` 위에 색과 치수만 입혔다.
+
+[ADR-0026](https://github.com/flameware/massive-design/blob/main/docs/adr/0026-baseline-form-controls-need-no-consumer-evidence.md)의
+기본 폼 컨트롤이라 소비처 착지 자리 지명 없이 만들었다 — 이 컴포넌트를 여는
+근거는 소비처 실측이 아니라 "네이티브 HTML 입력에 대응하는 폼 컨트롤인가"라는
+소유자 판단이다.
+
+## 언제 쓰는가
+
+- **누르는 즉시 반영되는 이진 설정 하나.** 알림 켜기/끄기, 2단계 인증 켜기/끄기처럼
+  값이 바뀌는 순간 그 자체가 결과다 — 폼 제출을 기다리지 않는다.
+
+## 언제 쓰지 않는가
+
+- **폼 제출을 기다리는 이진값.** 값이 둘뿐이라도 "즉시 반영되는 설정"이 아니라
+  이름 있는 상호 배타적 선택지(거래 유형 매수/매도, 거래 시장 KR/US 같은)라면
+  `ToggleGroup`이 맞는 모양이다. [#374](https://github.com/flameware/massive-design/issues/374)가
+  invest diary를 실측해 그은 경계다 — 그 티켓 당시엔 이 경계 때문에 Switch 자체를
+  열지 않았지만(착지 자리가 없었다), 경계 판단 자체는 지금도 유효하다: 즉시
+  반영이 아니면 Switch가 아니다.
+- **여럿 중 하나만 고르는 자리.** 라디오다([Radio](https://github.com/flameware/massive-design/issues/401), Phase 2에서 자리 없어 보류됐던 판정을 ADR-0026이 뒤집었다).
+- **선택지가 셋 이상인 즉시 반영 설정.** ToggleGroup이다.
+
+## 대비
+
+꺼짐 트랙은 **컨트롤 어포던스**다(`CONTEXT.md`) — 잡는 대상 자체가 의미를
+나르므로 앉는 면에 대해 WCAG 1.4.11의 비텍스트 대비 3:1을 진다. 그래서
+`bg.neutral.solid`를 쓴다(Scroll Area의 thumb과 같은 자리). 켜짐 트랙은
+Checkbox의 체크·Toggle의 눌림과 같은 이유로 브랜드 솔리드(`bg.accent.solid`)다.
+
+<Canvas of={SwitchStories.States} />
+
+트랙 높이는 20px다 — 포인터 하한 24px 아래로 내려가므로 `hit-area`가 진다.
+보이는 크기는 그대로이고 누를 수 있는 영역만 넓어진다([ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)).
+
+## 제어와 비제어
+
+`checked`/`onCheckedChange`로 제어, `defaultChecked`로 비제어 — 어느 쪽도 안
+주면 꺼진 채 비제어로 동작한다.
+
+<Canvas of={SwitchStories.ControlledVsUncontrolled} />
+
+## Field·Form과 결합
+
+`Field.Root` 안에 두면 라벨·설명·오류가 그대로 배선된다 — Base UI가 스스로
+Form의 제출 맵에 값을 내므로 이 컴포넌트가 배선을 새로 놓지 않는다.
+
+<Canvas of={SwitchStories.WithFieldAndForm} />
+
+## 키보드
+
+Tab으로 닿고 Space로 켜고 끈다. 아래 스토리가 그 계약을 선언하고
+`test/stories.test.mjs`가 매번 실제로 눌러 잰다.
+
+<Canvas of={SwitchStories.Keyboard} />
+
+## Props
+
+<Story of={SwitchStories.Playground} />
+
+<Controls of={SwitchStories.Playground} />
