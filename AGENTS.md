@@ -34,6 +34,8 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 `gh issue list --label wayfinder:map --state open` is the authority; this block is a summary of it and may lag by a day.
 
+**열린 맵: [#396](https://github.com/flameware/massive-design/issues/396) 숲마루 온보딩** — 두 번째 소비처 숲마루(`flameware/apt-finder`)가 드러낸 결손을 닫는다: brand 키 컬러를 소비처가 정하는 API, [ADR-0026](docs/adr/0026-baseline-form-controls-need-no-consumer-evidence.md)이 연 기본 폼 컨트롤(Switch · Slider · Radio), 소비처 온보딩 가이드, 그리고 minor 게시. 숲마루 쪽 이행은 [flameware/apt-finder#32](https://github.com/flameware/apt-finder/issues/32)가 추적한다.
+
 **Phase 1·Phase 2·Phase 3가 모두 닫혔다.** [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2세대(Base UI)의 결정 전부를 담는다. 완료 기록은 [`docs/handoff/phase-1-base-ui-map.md`](docs/handoff/phase-1-base-ui-map.md)·[`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md)·[`docs/handoff/phase-3-base-ui-map.md`](docs/handoff/phase-3-base-ui-map.md)다. Phase 1·2 컴포넌트, Phase 3가 축을 더한 다섯(Table·Text/Heading·Badge·Spinner·Toggle), 그리고 Toast(#371, 앱 착지로 `stable` 승격)까지 상태 표에서 전부 `stable`이다 — **깨는 변경은 major다.**
 
 **게시된 최신은 `0.5.2`이다** — Combobox 항목이 팝업 항목 중 유일하게 `.state` 층 밖에서 면을 직접 칠하던 것을 Select·Menu와 같은 모양으로 올렸다(#391, #393). 하이라이트 8%·눌림 12% 사다리가 셋 다 같아진 것뿐이라 API는 그대로여서 patch로 올랐다. 그 앞 `0.5.1`은 Select·Menu 팝업 항목의 쉬는 상태가 회색이던 것을 고쳤다(#387, #390). 소비처 invest diary는 `@flameware/ui@0.5.2`·`@flameware/tokens@0.5.2`으로 돈다.
