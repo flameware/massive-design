@@ -164,10 +164,26 @@ function ComboboxList({ className, ...props }: ComboboxListProps) {
   return <BaseCombobox.List className={cn(comboboxListVariants(), className)} {...props} />
 }
 
+/* 항목의 면은 `.state` 층이 진다 — Select·Menu와 같은 모양이고 같은 이유다.
+ * 여기 `data-highlighted:bg-neutral-soft`가 직접 칠하던 동안에는 #387의 증상
+ * (쉬는 항목이 회색)은 없었지만, 팝업 항목 중 유일하게 상태 층 밖에 있어서
+ * 셋이 서로 다른 메커니즘이었다(#391). `bg-*`를 남겨 둔 채 `.state`를 더하면
+ * 같은 특정도의 나중 유틸리티가 color-mix를 이겨 #299가 그대로 재현된다.
+ *
+ * base는 **팝업 자신의 면색**(`--ds-bg-overlay`, 위 comboboxPopupVariants의
+ * `bg-overlay`와 같은 값)이다 — 쉬는 항목이 팝업과 같은 색이라 보이지 않고,
+ * 하이라이트 8%·눌림 12%가 불투명한 면 위에서 섞인다. 지우고 투명으로 두지
+ * 않는 이유는 select.tsx와 같다(투명 위 color-mix는 state.css가 경고한
+ * @supports 폴백에 걸린다). 이 교체로 눌림 단계가 생기고(직접 칠할 때는
+ * 하이라이트 한 단뿐이었다) 다크에서 단차가 Select·Menu와 같아진다.
+ *
+ * `data-selected`는 상태 층이 아니라 선택 표시라 글자로 남는다 — Combobox가
+ * 체크 표시 대신 굵기와 accent 색으로 선택을 말하는 것은 의도된 분기다(#387). */
 export const comboboxItemVariants = cva([
   "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-default outline-none select-none",
   "hit-area",
-  "data-highlighted:bg-neutral-soft",
+  "state transition-[background-color]",
+  "[--ds-state-base:var(--ds-bg-overlay)]",
   "data-selected:font-medium data-selected:text-accent",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
 ])
