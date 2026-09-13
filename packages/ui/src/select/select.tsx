@@ -87,7 +87,7 @@ function SelectPositioner({ className, sideOffset = 4, ...props }: SelectPositio
  * 같은 자리라 Menu와 같은 `shadow-md`를 쓴다. */
 const popupVariants = cva([
   "max-h-[min(24rem,var(--available-height))] min-w-[var(--anchor-width)] overflow-y-auto",
-  "rounded-md border bg-overlay py-1 shadow-md outline-none",
+  "rounded-md border bg-overlay p-1 shadow-md outline-none",
   "origin-[var(--transform-origin)] transition-[transform,opacity]",
   "data-starting-style:scale-95 data-starting-style:opacity-0",
   "data-ending-style:scale-95 data-ending-style:opacity-0",
@@ -113,11 +113,23 @@ function SelectList({ className, ...props }: SelectListProps) {
  * Select item도 Menu item과 같은 자리라 base를 조건 없이 준다(menu.tsx의
  * menuItemVariants와 같은 모양). 마우스 호버도 `highlightItemOnHover`
  * 기본값 때문에 같은 `data-highlighted`로 들어와 화살표 이동과 한 셀렉터를
- * 공유한다. */
+ * 공유한다.
+ *
+ * base는 **팝업 자신의 면색**(`--ds-bg-overlay`)이다 — 쉬는 항목이 팝업과
+ * 같은 색이라 보이지 않고, 8%가 불투명한 면 위에서 섞여 하이라이트만 뜬다.
+ * 여기 회색(`neutral-soft`)이 있던 동안에는 선택되지 않은 항목까지 전부
+ * 회색으로 깔려 선택과 하이라이트의 대비가 8%밖에 나지 않았다(#387).
+ * 지우고 투명으로 두지는 않는다 — base가 없으면 color-mix가 투명 위에서
+ * 일어나고 state.css가 경고한 @supports 폴백에 걸린다.
+ *
+ * 선택 표시는 오른쪽이다(`pr-8 pl-2` + ItemIndicator `right-2`) — 라벨이
+ * 팝업 왼쪽에 정렬되어 트리거의 값 텍스트와 세로로 맞는다. Menu의
+ * `CheckboxItem`은 흐름 안 왼쪽에 두는데(menu.tsx), 선택 표시와 체크박스
+ * 상태는 다른 물건이라 방향이 갈리는 게 맞다. */
 const itemVariants = cva([
-  "relative flex cursor-default select-none items-center rounded-sm py-1.5 pr-3 pl-8 text-sm text-default outline-none",
+  "relative flex cursor-default select-none items-center rounded-sm py-1.5 pr-8 pl-2 text-sm text-default outline-none",
   "state transition-[background-color]",
-  "[--ds-state-base:var(--ds-bg-neutral-soft)]",
+  "[--ds-state-base:var(--ds-bg-overlay)]",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
 ])
 
@@ -128,7 +140,7 @@ export type SelectItemProps = Omit<React.ComponentPropsWithoutRef<typeof BaseSel
 function SelectItem({ className, children, ...props }: SelectItemProps) {
   return (
     <BaseSelect.Item className={cn(itemVariants(), className)} {...props}>
-      <BaseSelect.ItemIndicator className="absolute left-2 inline-flex items-center">
+      <BaseSelect.ItemIndicator className="absolute right-2 inline-flex items-center">
         <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" className="size-3.5">
           <path d="M3.5 8.5l3 3 6-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>

@@ -80,8 +80,10 @@ function Input({ className, "aria-roledescription": roleDescription, ...props }:
 /* 증감 버튼 둘의 밑그림 — 36×36(`size-9`, Button의 `size="icon"`과 같은 치수,
  * button.tsx)이라 24px 포인터 하한을 시각 치수만으로 이미 넘는다(ADR-0020
  * 결정 1·2) — `hit-area` 유사요소를 더 얹지 않는다. `.state`가
- * background-color의 유일한 작성자다(state.css, #299) — SelectItem의
- * `data-highlighted`와 같은 8% 층을 누르는 동안·hover 때 쓴다. Base UI가
+ * background-color의 유일한 작성자다(state.css, #299) — 누르는 동안·hover 때
+ * 8% 층을 쓴다. base는 `neutral-soft`로 둔다: 증감 버튼은 흐름 안의 버튼이라
+ * 떠 있는 팝업의 항목(SelectItem·MenuItem이 #387에서 `bg-overlay`로 옮겼다)과
+ * 같은 자리가 아니고, 레퍼런스에도 대응이 없다. Base UI가
  * min/max에 닿거나 disabled/readOnly일 때 `disabled`를 버튼에 낸다 — 그 값은
  * `data-disabled`로 오므로 fieldControlBase가 이미 무력화를 진다. */
 const numberFieldStepperVariants = cva([

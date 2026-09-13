@@ -51,7 +51,7 @@ function Popup({ className, side, align, sideOffset = 4, children, ...props }: M
       <BaseMenu.Positioner side={side} align={align} sideOffset={sideOffset} className="z-50">
         <BaseMenu.Popup
           className={cn(
-            "min-w-40 rounded-md border border-default bg-surface p-1 text-sm text-default shadow-md",
+            "min-w-40 rounded-md border border-default bg-overlay p-1 text-sm text-default shadow-md",
             "origin-[var(--transform-origin)] transition-[transform,opacity]",
             "data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
             "data-[ending-style]:scale-95 data-[ending-style]:opacity-0",
@@ -69,13 +69,15 @@ function Popup({ className, side, align, sideOffset = 4, children, ...props }: M
 /* Item에서만 `variant`를 연다 — root(BaseMenu)에는 그런 축이 없어서 규칙이
  * 허용하는 자리다(rules.md 축과 이름 공간, 1세대 `DropdownMenuItem.variant`가
  * 선례). `default`는 면을 안 주고(고스트와 같은 이유 — 투명 위의 반투명 층),
- * `destructive`는 글자색만 danger로 올린다 — 상태 층은 색이 없는 채로 공유된다. */
+ * `destructive`는 글자색만 danger로 올린다 — 상태 층은 색이 없는 채로 공유된다.
+ * base는 팝업 자신의 면색(`--ds-bg-overlay`, 위 Popup과 같은 값)이라 쉬는
+ * 항목이 보이지 않는다 — SelectItem과 같은 이유이고 같은 시점에 고쳤다(#387). */
 export const menuItemVariants = cva(
   [
     "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5",
     "outline-none",
     "state transition-[background-color]",
-    "[--ds-state-base:var(--ds-bg-neutral-soft)]",
+    "[--ds-state-base:var(--ds-bg-overlay)]",
     "data-disabled:pointer-events-none data-disabled:opacity-50",
   ],
   {
