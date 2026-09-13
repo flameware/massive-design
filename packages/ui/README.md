@@ -91,6 +91,14 @@ import { Save } from "lucide-react"
 쓰지 않는 소비처는 이 무게를 지지 않는다. Icon 자신은 `aria-hidden`이
 기본이다: 이름은 항상 Icon 밖(`aria-label`이나 곁의 텍스트)에 있어야 한다.
 
+Card·Alert와 마찬가지로 자체 스타일 primitive다 — 훅도 컨텍스트도 이벤트
+핸들러도 없어 서버 컴포넌트로 남는다(`"use client"`가 없다). `icon={Save}`처럼
+넘기는 lucide 아이콘 **함수 레퍼런스**가 Client Component로 건너가지 않으므로
+Server Component에서 `<Icon icon={CircleAlert} />`를 직접 써도 된다(#412) —
+Icon에 `"use client"`가 박혀 있던 이전 버전에서는 이 값이 Client Component로
+넘어가는 prop 취급을 받아 `next build`가 "Functions cannot be passed directly
+to Client Components"로 깨졌었다.
+
 ## Card
 
 ```tsx

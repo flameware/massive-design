@@ -1,5 +1,3 @@
-"use client"
-
 import { cva, type VariantProps } from "class-variance-authority"
 import type { LucideIcon as LucideIconComponent } from "lucide-react"
 import type * as React from "react"

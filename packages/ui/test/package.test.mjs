@@ -105,12 +105,17 @@ const COMPONENT_SUBPATHS = [
 ]
 
 /** Base UI를 감싸거나 상태를 갖는 서브패스 — 클라이언트 경계가 패키지 안에 박혀야
- * 한다. Card·Alert·Table·Badge·ListRow·Text·Skeleton·Spinner는 Base UI 뒤가
- * 없는 자체 스타일 primitive라 이벤트 핸들러도 상태도 없다(#283, #290, #291)
- * — 서버 컴포넌트로 남고, `"use client"`를 붙이면 오히려 소비처의 서버 렌더
- * 경계를 불필요하게 앞당긴다. Menu·Avatar·Separator·Tooltip은 넷 다 Base UI
- * 뒤이므로(#285) 클라이언트 쪽에 선다. Dialog·AlertDialog·Drawer(#284)도 셋
- * 다 Base UI 프리미티브를 직접 감싸므로(포커스·열림 상태) 클라이언트다.
+ * 한다. Card·Alert·Table·Badge·ListRow·Text·Skeleton·Spinner·Icon은 Base UI
+ * 뒤가 없는 자체 스타일 primitive라 이벤트 핸들러도 상태도 없다(#283, #290,
+ * #291, #412) — 서버 컴포넌트로 남고, `"use client"`를 붙이면 오히려 소비처의
+ * 서버 렌더 경계를 불필요하게 앞당긴다. Icon은 `lucide-react` 아이콘 컴포넌트를
+ * 그대로 렌더하며 크기 클래스만 얹을 뿐 훅도 컨텍스트도 이벤트 핸들러도 없다
+ * — 처음부터 붙어 있던 `"use client"`는 근거 없이 박힌 것이었다(#412, README의
+ * Alert 예시처럼 Server Component에서 직접 쓰면 오히려 "Functions cannot be
+ * passed directly to Client Components"로 빌드가 깨졌다). Menu·Avatar·
+ * Separator·Tooltip은 넷 다 Base UI 뒤이므로(#285) 클라이언트 쪽에 선다.
+ * Dialog·AlertDialog·Drawer(#284)도 셋 다 Base UI 프리미티브를 직접
+ * 감싸므로(포커스·열림 상태) 클라이언트다.
  * Tabs·PageShell·ThemeToggle도 Base UI 뒤이거나(Tabs) 상태·이벤트 핸들러를
  * 갖는다(PageShell의 탭 상태, ThemeToggle의 onClick) — 셋 다 클라이언트 쪽에
  * 선다(#286). Checkbox·Select·Toggle·ToggleGroup은 넷 다 제어/비제어 상태를
@@ -131,7 +136,6 @@ const COMPONENT_SUBPATHS = [
  * (#401)도 Base UI `RadioGroup`의 제어/비제어 상태를 감싸므로 클라이언트다. */
 const CLIENT_SUBPATHS = [
   "./button",
-  "./icon",
   "./field",
   "./input",
   "./textarea",
@@ -171,6 +175,7 @@ const SERVER_SUBPATHS = [
   "./text",
   "./skeleton",
   "./spinner",
+  "./icon",
 ]
 
 // ── 서브패스 ────────────────────────────────────────────────────────────────
