@@ -49,6 +49,12 @@ export const toggleVariants = cva(
     // 꺼진 상태는 ghost와 같다 — --ds-state-base를 안 주면 상태 층이 transparent에
     // 섞인다(state.css, Button의 ghost variant와 같은 이유)
     "text-default",
+    // 켜짐은 브랜드 솔리드다 — 레퍼런스와 다르고, 그게 판단이다. 레퍼런스는
+    // `--accent`를 주지만 shadcn의 `--accent`는 브랜드가 아니라 hover용 연회색
+    // (DS의 `bg-subtle`)이다. 철자만 읽으면 오류로 보이고 실제로 #387의 전수
+    // 대조가 이 줄을 잡았다. 필터 토글의 켜짐은 8% 층보다 세게 보여야 해서
+    // (투자기록 앱 ToggleGroup 보유/청산 필터) DS는 브랜드 솔리드를 고른다.
+    // 되돌리기 전에 ADR-0025를 읽는다 (docs/adr/0025-reference-words-carry-meaning-not-spelling.md)
     "data-pressed:text-on-solid data-pressed:[--ds-state-base:var(--ds-bg-accent-solid)]",
     "data-disabled:pointer-events-none data-disabled:opacity-50",
   ],
