@@ -9,19 +9,21 @@ import * as FormStories from "./Form.stories"
 
 <StatusBadge status={FormStories.default.parameters.ds.status} /> · since {FormStories.default.parameters.ds.since}
 
-`Field`들을 묶는 `<form>`. 제출과 서버 오류 표시를 맡는다.
+여러 `Field`를 묶어 한 번에 제출하는 `<form>`이에요. 제출값을 모아 주고, 서버가
+돌려준 필드별 오류를 해당 필드 아래에 보여 줘요.
 
 ## 언제 쓰는가
 
-- 로그인·회원가입처럼 여러 `Field`를 모아 한 번에 제출하는 자리.
-- 서버가 필드별 오류를 돌려주고, 그것을 해당 필드 아래 보여줘야 하는 자리.
+- 로그인이나 회원가입처럼 여러 `Field`를 모아 한 번에 제출할 때.
+- 서버가 필드별 오류를 돌려주고, 그것을 해당 필드 아래에 보여 줘야 할 때.
 
 ## 언제 쓰지 않는가
 
-- 제출이 없는 필터·검색창처럼 "묶기"만 필요하면 `<div>`로 충분하다 — `Form`은 제출·검증 결선이 있다.
-- 폼 라이브러리(RHF·TanStack Form)의 결합은 `Field`의 몫이다(Field 문서 참고) — `Form`은 그 라이브러리를 모른다.
+- 제출이 없는 필터나 검색창처럼 묶기만 필요하다면 `<div>`로 충분해요.
+- 폼 라이브러리(React Hook Form, TanStack Form)와의 연결은 `Field`가
+  담당해요. `Form`은 그 라이브러리를 몰라요.
 
-## 조립
+## 사용법
 
 ```tsx
 import { Button } from "@flameware/ui/button"
@@ -39,25 +41,29 @@ import { Input } from "@flameware/ui/input"
 </Form>
 ```
 
-`onFormSubmit`은 필드 이름 → 값의 맵을 직접 받는다 — 네이티브 검증(각 컨트롤의 `required`·`pattern` 등)을 통과했을 때만 불린다. 네이티브 `<form>` 이벤트가 필요하면 `onSubmit`을 대신 쓴다.
+`onFormSubmit`은 필드 이름과 값을 짝지은 객체를 바로 받아요. 각 컨트롤의
+`required`나 `pattern` 같은 브라우저 검증을 통과했을 때만 불려요. 브라우저의
+원래 `<form>` 이벤트가 필요하면 `onSubmit`을 쓰세요.
 
 <Canvas of={FormStories.Playground} />
 
-## 서버 오류 표시
+### 서버 오류 보여 주기
 
-`errors`는 필드 이름 → 오류 문자열(들)의 맵이다. 같은 이름의 `Field.Root` 아래 `Field.Error`가 — `match`를 주지 않아도 — 그 문자열을 자동으로 보여준다. 필드 자체의 `required`·`pattern` 같은 네이티브 검증과는 다른 경로다: 서버만 알 수 있는 오류(이미 쓰는 이메일 등)를 위한 자리다.
+`errors`에는 필드 이름과 오류 문자열을 짝지은 객체를 넘겨요. 같은 이름의
+`Field.Root` 아래에 있는 `Field.Error`가 `match` 없이도 그 문자열을 자동으로
+보여 줘요. 이미 쓰고 있는 이메일처럼 서버만 알 수 있는 오류에 쓰세요.
 
 <Canvas of={FormStories.ServerErrors} />
 
-## 로그인·회원가입
+### 로그인과 회원가입 조립
 
-이 티켓이 앱에 놓는 자리를 Storybook 안에서 보여주는 조립이다. 앱 컷오버(invest diary의 로그인·회원가입 화면 교체)는 리포 밖의 몫이다.
+자주 쓰는 두 화면을 그대로 조립해 둔 예시예요.
 
 <Canvas of={FormStories.LoginForm} />
 <Canvas of={FormStories.SignupForm} />
 
 ## 키보드
 
-Tab이 이메일 → 비밀번호 → 제출 버튼 순서로 닿는다.
+Tab이 이메일, 비밀번호, 제출 버튼 순서로 닿아요.
 
 <Canvas of={FormStories.Keyboard} />
