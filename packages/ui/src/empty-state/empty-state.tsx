@@ -50,7 +50,7 @@ function useEmptyStateContext(part: string): EmptyStateContextValue {
   const ctx = React.useContext(EmptyStateContext)
   if (!ctx) {
     throw new Error(
-      `EmptyState.${part}는 EmptyState.Root 안에서만 쓸 수 있어요. EmptyState.${part}를 EmptyState.Root로 감싸 주세요.`,
+      `EmptyState.${part}는 EmptyState.Root 안에서만 쓸 수 있어요. EmptyState.Root로 감싸 주세요.`,
     )
   }
   return ctx

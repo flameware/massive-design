@@ -113,12 +113,12 @@ export function resolveOverrides(family, name) {
   const all = family.overrides ?? {}
   for (const mode of Object.keys(all)) {
     if (!MODES.includes(mode)) {
-      throw new Error(`${name}.overrides: 모드 이름은 'light'와 'dark'만 받아요. (받은 이름: '${mode}') 둘 중 하나로 고쳐 주세요.`)
+      throw new Error(`${name}.overrides: 모드 이름은 ${MODES.join('와 ')}만 받아요. (받은 이름: '${mode}') 이 중 하나로 고쳐 주세요.`)
     }
     for (const [step, ov] of Object.entries(all[mode])) {
       for (const k of Object.keys(ov)) {
         if (!OVERRIDE_KEYS.has(k)) {
-          throw new Error(`${name}.overrides.${mode}.${step}: 지원하지 않는 override 키예요. ('${k}') l, c, h, _why만 쓸 수 있어요.`)
+          throw new Error(`${name}.overrides.${mode}.${step}: 지원하지 않는 override 키예요. ('${k}') ${[...OVERRIDE_KEYS].join(', ')}만 쓸 수 있어요.`)
         }
       }
       if (!ov._why) {
@@ -140,7 +140,7 @@ export function buildRamp(family, params, mode, name = 'ramp') {
   const peak = Math.round((p.satPeakStep / 11) * (n - 1))
   const ease = EASINGS[p.lightnessEasing]
   if (!ease) {
-    throw new Error(`${name}: lightnessEasing 값을 알 수 없어요. (params.lightnessEasing: '${p.lightnessEasing}') 'smoothstep'이나 'linear' 중 하나로 넘겨 주세요.`)
+    throw new Error(`${name}: lightnessEasing 값을 알 수 없어요. (params.lightnessEasing: '${p.lightnessEasing}') ${Object.keys(EASINGS).join(', ')} 중 하나로 넘겨 주세요.`)
   }
 
   // 1a. L 곡선 — 키 컬러의 L을 peak 앵커로 심은 뒤 보간한다.
