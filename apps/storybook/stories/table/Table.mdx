@@ -9,50 +9,98 @@ import * as TableStories from "./Table.stories"
 
 <StatusBadge status={TableStories.default.parameters.ds.status} /> · since {TableStories.default.parameters.ds.since}
 
-열 의미가 있는 데이터를 비교하는 **데스크톱** 표. `Table.Root`·`Header`·`Body`·`Row`·`Head`·`Cell` 여섯 파트가 면·간격·테두리만 지고, 정렬·필터·페이지네이션·행 선택 같은 동작은 소비처(또는 TanStack Table)가 진다.
+열마다 뜻이 있는 데이터를 비교하는 데스크톱 표예요. DS는 면, 간격, 테두리만
+그려요. 정렬, 필터, 페이지 나누기, 행 선택은 앱이 붙여요.
 
 ## 언제 쓰는가
 
-- 행마다 같은 열을 채우는 데이터를 나란히 비교할 때 — 거래 이력, 보유 종목 목록.
-- TanStack Table의 헤더/행/셀 렌더 함수(`flexRender`) 위에 그대로 얹어, 정렬·필터·가상화 같은 동작을 DS 밖에서 붙일 때.
+- 행마다 같은 열을 채우는 데이터를 나란히 비교할 때. 거래 이력, 보유 종목
+  목록이 여기에 해당해요.
+- TanStack Table의 렌더 함수(`flexRender`) 위에 그대로 얹어 정렬, 필터,
+  가상화를 DS 밖에서 붙일 때.
 
 ## 언제 쓰지 않는가
 
-- **모바일 목록.** 주 텍스트·보조 텍스트·우측 값 한 줄이면 ListRow(#290)다 — Table은 열 헤더가 있는 데스크톱 비교용이다.
-- **행동을 부르는 자리.** 셀 안의 버튼·링크는 그대로 두되, 행 전체를 누르는 카드형 목록이 필요하면 Table이 아니라 ListRow나 손으로 짠 목록이다.
+- 모바일 목록에는
+  [ListRow](?path=/docs/data-display-listrow--docs)를 쓰세요. 주 텍스트, 보조
+  텍스트, 오른쪽 값 한 줄이면 충분한 경우예요.
+- 행 전체를 누르는 카드형 목록이 필요하면 `ListRow`나 직접 짠 목록을 쓰세요.
+  셀 안의 버튼이나 링크는 `Table` 안에 그대로 둬도 돼요.
 
-## 파트
+## 사용법
 
-`Table.Root`가 가로 스크롤 컨테이너를 두른다 — 열이 많은 표가 좁은 화면에서 잘리지 않고 옆으로 밀린다.
+`Table.Root`, `Header`, `Body`, `Row`, `Head`, `Cell` 여섯 파트를 조립해서 써요.
+`Table.Root`가 가로 스크롤 영역을 둘러 주기 때문에 열이 많은 표도 좁은 화면에서
+잘리지 않고 옆으로 밀려요.
 
 <Canvas of={TableStories.Basic} />
 
-## 정렬 · 숫자 열
+### 정렬과 숫자 열
 
-`Table.Head`·`Table.Cell`은 `textAlign` 축(`start`·`center`·`end`, 기본 `start`)을 갖는다 — 물리 방향(`left`/`right`)이 아니라 논리값이다. 정렬은 **열**의 성질이지만 이 표에는 열이라는 객체가 없어(`colgroup`을 열지 않았다) 축은 셀마다 서고, 열 전체를 맞추는 반복은 소비처(TanStack `columnDef`)가 진다 — `Table.Row`·`Table.Root`에는 두지 않는다.
+`Table.Head`와 `Table.Cell`은 `textAlign` 옵션(`start`, `center`, `end`, 기본
+`start`)을 받아요. `left`나 `right` 같은 물리 방향이 아니라 글 방향을 따르는
+논리값이에요.
 
-이름이 `align`이 아니라 `textAlign`인 이유: `align`은 이 카탈로그에서 이미 `Menu.Popup`·`Combobox`가 Base UI `Positioner`의 "떠 있는 표면이 트리거의 어느 모서리에 붙는가"라는 뜻으로 쓴다(ADR-0008이 정확히 이 충돌 때문에 `align`을 한 번 버린 전례가 있다). `#365` Implementation Decisions는 `align`을 적었지만 이 축은 카탈로그 전체에서 이미 다른 뜻인 이름을 쓸 수 없다는 규칙이 우선이라 `textAlign`으로 열었다 — 판정은 #365·#367 코멘트에 남겼다.
+`Table.Cell`은 `numeric` 불리언도 받아요. 켜면 숫자 폭이 일정한 서체
+(`tabular-nums`)로 그려서 자릿수를 비교하기 쉬워요. `ListRow.Value`가 쓰는 것과
+같은 규칙이에요.
 
-`Table.Cell`은 `numeric` 불리언도 갖는다 — 켜면 `tabular-nums`를 낸다. `ListRow.Value`가 이미 쓰는 것과 같은 규약이다: 같은 뜻(비교하는 수)이 컴포넌트마다 다른 서체를 얻지 않는다. `textAlign`과는 독립된 축이라 숫자 열이 보통 `textAlign="end"`와 `numeric`을 함께 받지만 강제되지 않는다 — 예컨대 종목명은 `textAlign`만 받고 `numeric`은 받지 않는다.
+두 옵션은 서로 독립이에요. 숫자 열은 보통 `textAlign="end"`와 `numeric`을 함께
+받지만, 종목명처럼 `textAlign`만 받는 열도 있어요.
 
 <Canvas of={TableStories.Alignments} />
 
-## TanStack Table 위에서
+정렬은 열의 성질이지만 이 표에는 열을 가리키는 객체가 없어서 옵션을 셀마다
+줘야 해요. 열 전체를 같은 값으로 맞추는 반복은 앱이(TanStack Table이라면
+`columnDef`가) 처리해요.
 
-DS는 `@tanstack/react-table`을 의존하지 않는다 — `@flameware/ui/table`의 `package.json`에도, `dist/table/index.js`에도 그 이름이 없다. 아래 스토리만 그것을 안다: `header.column.columnDef.header`·`cell.column.columnDef.cell`을 `flexRender`로 편 결과를 `Table.Head`·`Table.Cell`의 children으로 그대로 꽂는다.
+### TanStack Table 위에서
+
+DS는 `@tanstack/react-table`을 의존하지 않아요. `header.column.columnDef.header`와
+`cell.column.columnDef.cell`을 `flexRender`로 편 결과를 `Table.Head`와
+`Table.Cell`의 children으로 그대로 넘기면 돼요.
 
 <Canvas of={TableStories.OnTanStackTable} />
 
-## 정렬 가능한 머리 셀
+### 정렬 가능한 머리 셀
 
-정렬을 누르는 자리는 `<th>` 전체가 아니라 그 안의 `<button>`이다. 시각 크기는 텍스트 높이만큼 작아도 `hit-area` 유틸리티가 24×24 하한을 유사요소로 지고(ADR-0020), `state` 유틸리티가 hover·press 피드백을 준다 — 둘 다 Button이 쓰는 것과 같은 DS 유틸리티라 Table이 새 CSS를 더하지 않는다.
+정렬을 누르는 요소는 `<th>` 전체가 아니라 그 안의 `<button>`이에요. 이 버튼은
+`Table.Head`가 만들어 주지 않으니 직접 넣고, `className`에 `hit-area state`를
+함께 주세요. `hit-area`가 보이는 크기를 그대로 둔 채 누를 수 있는 영역만
+24×24로 넓히고, `state`가 hover와 press 피드백을 줘요. 둘 다 `Button`이 쓰는
+것과 같은 DS 유틸리티라 `Table`이 새 CSS를 더하지 않아요.
 
 <Canvas of={TableStories.Keyboard} />
 
-## 손익 색은 앱 소유다
+## 주의할 점
 
-위 스토리는 손익에 부호만 적고 색을 칠하지 않는다. 상승·하락의 색(한국 관행 빨강/파랑)은 DS가 결정하지 않는다 — 소비처가 `@flameware/tokens`의 램프 생성기로 자기 키 컬러를 만들어 칠한다(ADR-0023 §10). `text-danger`·`text-success` 같은 semantic 색으로 손익을 칠하지 않는 것이 그래서 규칙이다: 그 이름들은 오류·성공을 말하지 손익을 말하지 않는다.
+### 손익 색은 앱이 정해요
+
+위 스토리는 손익에 부호만 적고 색을 칠하지 않아요. 상승과 하락의 색은 나라와
+서비스마다 달라서 DS가 정하지 않아요. 앱이 `@flameware/tokens`의 램프
+생성기로 자기 색을 만들어 칠하세요.
+
+`text-danger`나 `text-success`로 손익을 칠하지 마세요. 그 이름들은 오류와
+성공을 뜻하지 손실과 이익을 뜻하지 않아요.
 
 ## Props
 
-`Table.Root`는 `<table>`의 모든 속성을 그대로 받는다. `Table.Head`는 `scope` 같은 `<th>` 속성을, `Table.Row`는 `<tr>` 속성을 그대로 받는다. `Table.Head`·`Table.Cell`은 그 위에 `textAlign`(`start`·`center`·`end`, 기본 `start`)을 더하고, `Table.Cell`은 `numeric`(불리언, 기본 `false`)도 더한다 — 네이티브 `<th>`·`<td>`의 폐기 예정 `align` 속성(`left`/`right`/`center`/`char`)은 `Omit`으로 지웠다.
+`Table.Root`는 `<table>`의 모든 속성을, `Table.Head`는 `scope` 같은 `<th>`
+속성을, `Table.Row`는 `<tr>` 속성을 그대로 받아요. 그 위에 `Table.Head`와
+`Table.Cell`이 `textAlign`(`start`, `center`, `end`, 기본 `start`)을,
+`Table.Cell`이 `numeric`(불리언, 기본 `false`)을 더해요.
+
+`<th>`와 `<td>`의 폐기 예정 속성 `align`은 받지 않아요. `textAlign`을 쓰세요.
+
+## 배경
+
+옵션 이름이 `align`이 아니라 `textAlign`인 이유는 이 카탈로그에서 `align`이
+이미 다른 뜻으로 쓰이기 때문이에요. `Menu.Popup`과 `Combobox`에서 `align`은
+떠 있는 영역이 트리거의 어느 모서리에 붙는지를 말해요. 같은 이름이 두 가지
+뜻을 갖지 않도록 `textAlign`으로 열었어요.
+
+누를 수 있는 영역만 넓히는 방식은
+[ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)에,
+손익 색을 DS가 정하지 않는 이유는
+[ADR-0023](https://github.com/flameware/massive-design/blob/main/docs/adr/0023-second-generation-base-ui.md) §10에
+있어요.
