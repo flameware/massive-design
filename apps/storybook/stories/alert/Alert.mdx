@@ -9,33 +9,38 @@ import * as AlertStories from "./Alert.stories"
 
 <StatusBadge status={AlertStories.default.parameters.ds.status} /> · since {AlertStories.default.parameters.ds.since}
 
-화면 안에서 사용자가 알아야 할 지속적인 피드백이나 주의 사항을 톤별로 전달한다. Base UI 뒤가 없는 자체 스타일 primitive — 상태도 상호작용도 없는 서버 컴포넌트다.
+화면에 계속 남아 있는 안내나 주의 사항을 보여 주는 배너예요. 폼 제출 실패,
+세션 만료 경고가 여기에 해당해요.
 
 ## 언제 쓰는가
 
-- 폼 제출 실패, 세션 만료 경고처럼 화면에 **머무르는** 안내를 전달할 때.
-- 로그인·회원가입 폼의 오류 배너 — `tone="danger"`.
+- 화면에 머무르는 안내를 보여 줄 때.
+- 로그인이나 회원가입 폼의 오류 배너. `tone="danger"`를 쓰세요.
 
 ## 언제 쓰지 않는가
 
-- **잠깐 보이고 사라지는 결과.** 그것은 Toast의 몫이다(Phase 2) — 안내를 `role=alert`로 쌓지 않는다.
-- **폼 필드 하나의 오류.** 필드 옆 오류 텍스트는 `Field`(#282)가 진다.
+- 잠깐 보이고 사라지는 결과는 [Toast](?path=/docs/feedback-toast--docs)를
+  쓰세요.
+- 폼 필드 하나의 오류는 [Field](?path=/docs/forms-field--docs)가 보여 주는 오류
+  텍스트를 쓰세요.
 
-## 톤
+## 사용법
 
-`tone`은 `neutral`·`danger`·`warning` 셋이다(#324 — `info` 패밀리는 앱에 자리가 없어 만들지 않는다). 색은 [대비 게이트](https://github.com/flameware/massive-design/blob/main/packages/tokens/scripts/contrast.mjs)가 이미 검증한 조합만 쓴다 — `danger`는 `fg.danger` on `bg.danger.soft`, `warning`은 `fg.warning` on `bg.warning.soft`, `neutral`은 `fg.default`/`fg.muted` on `bg.neutral.soft`. warning의 토큰(`bg-warning-soft`·`text-warning`)은 이미 `@theme`에 있다 — #280이 열었다.
-
-`Text`·`Heading`·`Badge`도 같은 축 이름 `tone`을 쓰고, 겹치는 값(`neutral`·`danger`)의 이름이 여기와 같다([`Text` MDX](../text/Text.mdx)의 어휘 비교표 참고, [#368](https://github.com/flameware/massive-design/issues/368)).
+`tone`이 색과 스크린 리더 동작을 함께 정해요. `neutral`, `danger`, `warning`
+셋 중에서 고르세요.
 
 <Canvas of={AlertStories.Tones} />
 
-## role은 톤을 따라 갈린다
+| `tone` | 언제 쓰나 | 스크린 리더 |
+| --- | --- | --- |
+| `neutral` | 급하지 않은 안내 | 읽던 것을 끊지 않고 이어서 읽어요 |
+| `warning` | 지금 조치하지 않아도 되는 경고 | 읽던 것을 끊지 않고 이어서 읽어요 |
+| `danger` | 놓치면 안 되는 오류 | 나타나는 즉시 읽어요 |
 
-`danger`는 사용자가 놓치면 안 되는 오류라 `role="alert"`(assertive, 삽입 즉시 읽는다)이고, `neutral`·`warning`은 급하지 않은 안내라 `role="status"`(polite, 읽던 것을 끊지 않는다)다. warning의 자리(시세 갱신 실패·환율 미상)는 지금 당장 조치가 필요한 오류가 아니라 사용자가 하던 일을 끊을 근거가 없다. 셋 다 [WAI-ARIA 라이브 리전](https://www.w3.org/TR/wai-aria-1.2/#alert)의 뜻 그대로다.
+### 앞머리 아이콘
 
-## 아이콘
-
-앞머리 아이콘은 Alert이 스스로 만들지 않는다 — `@flameware/ui/icon`으로 `Root`의 첫 자식에 놓는다. 아이콘 없이 텍스트만 있어도 유효하다.
+아이콘은 Alert이 스스로 만들지 않아요. `@flameware/ui/icon`에서 골라
+`Alert.Root`의 첫 자식으로 넣으세요. 아이콘 없이 글만 있어도 괜찮아요.
 
 <Canvas of={AlertStories.WithoutIcon} />
 
@@ -44,3 +49,15 @@ import * as AlertStories from "./Alert.stories"
 <Story of={AlertStories.Playground} />
 
 <Controls of={AlertStories.Playground} />
+
+## 배경
+
+Base UI에 대응하는 컴포넌트가 없어서 DS가 직접 만들었어요. 상태도 상호작용도
+없어서 서버 컴포넌트로 쓸 수 있어요.
+
+`danger`만 `role="alert"`이고 나머지 둘은 `role="status"`예요. 시세 갱신 실패
+같은 경고는 사용자가 하던 일을 끊을 만큼 급하지 않기 때문이에요.
+
+색은 대비 검사를 이미 통과한 조합만 써요. `tone` 값 이름은 `Text`, `Heading`,
+`Badge`와 같은 뜻으로 맞췄어요. 겹치는 값은
+[Text 페이지의 비교표](?path=/docs/typography-text--docs)에 있어요.

@@ -9,24 +9,24 @@ import * as ToastStories from "./Toast.stories"
 
 <StatusBadge status={ToastStories.default.parameters.ds.status} /> · since {ToastStories.default.parameters.ds.since}
 
-성공·실패를 알리는 짧은 알림. Base UI의 `Toast` 뒤에 있다 — `role`·라이브 영역·Esc 닫기·초점 관리를 전부 Base UI가 낸다.
+성공했는지 실패했는지를 잠깐 띄웠다 사라지는 알림으로 알려요. 저장이나 삭제를
+마친 뒤 확인을 남길 때 써요.
 
-## 왜 있는가 (#371)
+## 언제 쓰는가
 
-앱은 저장·삭제가 성공하면 다이얼로그가 조용히 닫힐 뿐이었다. 유일한 손조립은 `data-management-modal.tsx`의 `setClearStatus('모든 데이터가 삭제되었습니다.')` 하나이고, 그 밖의 저장·삭제 성공 경로(`edit-transaction-dialog.tsx`, `add-transaction-dialog.tsx`, `change-password-dialog.tsx`)는 아무 확인도 남기지 않는다. **자리는 실측 1이지만 결손은 화면 전체에 있다** — 착지는 [#377](https://github.com/flameware/massive-design/issues/377)이 이 넷을 한 번에 진다.
+- 저장, 삭제, 비밀번호 변경처럼 끝난 동작의 결과를 알릴 때.
 
-## Base UI가 맞는가
+## 언제 쓰지 않는가
 
-맞는다(#325의 Progress, #328의 NumberField가 한 것과 같은 확인). 앱이 필요한 것은 "성공했다"·"실패했다" 한 번 알리는 것뿐이고, `useToast().add({ title, tone })` 하나로 충분하다. Base UI가 스스로 내는 것:
+- 화면에 계속 남아 있어야 하는 안내는
+  [Alert](?path=/docs/feedback-alert--docs)를 쓰세요.
+- 사용자가 확인이나 취소를 골라야 하면
+  [AlertDialog](?path=/docs/overlays-alertdialog--docs)를 쓰세요.
 
-- **역할과 라이브 영역** — `Toast.Viewport`가 `role="region" aria-live="polite"`, 각 토스트가 `role="dialog"`(우선순위 `"high"`면 `"alertdialog"` + 별도 assertive 알림 노드).
-- **Esc 닫기** — 토스트 안에 초점이 있을 때 Escape를 누르면 스스로 닫힌다.
-- **알림이 포커스를 훔치지 않음** — 뜨는 순간 아무 데도 초점을 옮기지 않는다. Tab(또는 F6)으로 들어가야 옮겨가고, 나가거나 닫으면 직전 자리로 돌아온다.
-- **옵셔널 파트** — `title`·`description`이 없으면 `Toast.Title`·`Toast.Description`이 스스로 마운트하지 않는다(빈 태그도, 잘못된 `aria-describedby`도 없다).
+## 사용법
 
-DS가 얹은 것은 **톤·면·간격·위치**뿐이다(아래).
-
-## API
+앱 트리 위쪽에 `Toast.Provider`와 `Toast.Viewport`를 한 번 두고, 어디서든
+`useToast()`로 알림을 띄워요.
 
 ```tsx
 // 앱 트리 상단 한 번
@@ -40,37 +40,51 @@ const toast = useToast()
 toast.add({ title: "저장됐습니다", tone: "success" })
 ```
 
-`Toast.Provider`는 Base UI `Toast.Provider`를 그대로 재수출한다 — DS가 더한 것이 없다. `Toast.Viewport`는 닫힌 조립이다: 소비처가 낱개 파트(`Root`·`Title`·`Description`·`Close`·`Action`)를 직접 조립하지 않는다 — `useToastManager()`가 낸 목록을 읽어 톤에 맞춰 그리는 것까지 이 컴포넌트가 진다(ConfirmDialog와 같은 자리: 프리셋이 조립을 대신하되, Base UI의 낱개 파트로 돌아갈 길을 굳이 다시 열지 않는다 — 필요해지면 그 실측이 새 티켓을 연다). `useToast()`는 Base UI `useToastManager()`의 얇은 래퍼로, `add()`에서만 `type`을 `tone`으로 받는다 — `close`·`update`·`promise`는 이번 티켓이 실측한 자리(새 토스트를 띄우는 것)를 벗어나므로 Base UI의 원래 이름을 그대로 쓴다.
-
-## 제목만
+`Toast.Viewport`가 띄워진 알림 목록을 읽어 톤에 맞춰 그려요. `Root`,
+`Title`, `Description`, `Close`, `Action` 같은 낱개 파트를 직접 조립하지
+않아요.
 
 <Canvas of={ToastStories.Playground} />
 
-## 제목+설명
+### 설명 한 줄 더하기
+
+`description`을 함께 넘기면 제목 아래에 붙어요. 넘기지 않으면 아예 그려지지
+않아요.
 
 <Canvas of={ToastStories.WithDescription} />
 
-## 행동 있음
+### 버튼 달기
 
-`actionProps`는 Base UI가 토스트 객체에서 받는 필드다 — `Toast.Action`이 그대로 버튼에 편다.
+`actionProps`를 넘기면 알림 안에 버튼이 생겨요. 되돌리기처럼 바로 이어서 할
+동작에 쓰세요.
 
 <Canvas of={ToastStories.WithAction} />
 
-## 톤
+### 톤
 
-값 이름은 `Badge`·`Alert`와 같은 이름 공간이다(ADR-0008): `neutral`(기본)·`success`·`danger`. `warning`은 열지 않았다 — 이 티켓이 지명한 자리(저장·삭제 성공/실패, 비밀번호 변경 성공) 중 "주의"에 해당하는 자리가 없다(실측 수요 0).
+`neutral`(기본), `success`, `danger` 셋 중에서 고르세요. 값 이름은 `Badge`,
+`Alert`와 같은 뜻이에요.
 
 <Canvas of={ToastStories.Tones} />
 
-색은 대비 게이트가 이미 검증한 조합만 쓴다: `fg.default`는 `bg.neutral.soft`, `fg.{danger,success}`는 각자의 `bg.{family}.soft` 위(Badge와 같은 TEXT_PAIRS). `success`·`neutral` 둘 다 테두리 토큰이 없어(semantic/color.json에 `border.danger`만 있다) `border-default`를 쓴다 — Alert의 `warning` 톤과 같은 자리다.
+## 주의할 점
 
-## 위치와 쌓임
+### `add()`만 `tone`이라는 이름을 써요
 
-뷰포트는 화면 우하단에 고정한다(모바일은 좌우 여백만 두고 폭 전체). Base UI가 내놓는 `--toast-index`·`--toast-offset-y`·`--toast-height` CSS 변수는 포개진 카드가 뒤로 갈수록 작아지는 "미리보기 스택" 연출을 위한 것인데, 이 티켓의 착지 자리(성공/실패 안내 하나)에는 그 연출이 필요 없어 쓰지 않는다 — 평범한 세로 flex로 쌓는다.
+`useToast()`가 돌려주는 `close`, `update`, `promise`는 Base UI의 이름과 사용법을
+그대로 따라요. `add()`에서만 알림의 종류를 `type` 대신 `tone`으로 받아요. DS의
+다른 컴포넌트와 이름을 맞추기 위해서예요.
 
-## 키보드 계약
+### 겹쳐 쌓이는 연출은 없어요
 
-Esc 닫기 · 알림이 포커스를 훔치지 않음.
+알림이 여러 개 뜨면 세로로 나란히 쌓여요. 뒤로 갈수록 작아지는 카드 모양
+연출은 제공하지 않아요.
+
+## 키보드
+
+알림이 떠도 포커스를 빼앗지 않아요. Tab이나 F6으로 들어가야 포커스가 옮겨
+가고, 빠져나오거나 닫으면 직전 위치로 돌아와요. 알림 안에 포커스가 있을 때
+Esc를 누르면 닫혀요.
 
 <Canvas of={ToastStories.Keyboard} />
 
@@ -79,3 +93,15 @@ Esc 닫기 · 알림이 포커스를 훔치지 않음.
 <Story of={ToastStories.Playground} />
 
 <Controls of={ToastStories.Playground} />
+
+## 배경
+
+Base UI `Toast` 위에 톤, 면, 간격, 위치만 입혔어요. `role`, 보조기술이 읽는
+영역 선언, Esc 닫기, 포커스 관리는 Base UI가 처리해요. `Toast.Provider`는 Base
+UI의 것을 그대로 다시 내보내요.
+
+뷰포트는 화면 오른쪽 아래에 고정하고, 모바일에서는 좌우 여백만 두고 폭
+전체를 써요.
+
+색은 대비 검사를 이미 통과한 조합만 써요. `success`와 `neutral`은 전용 테두리
+색이 없어서 `border-default`를 쓰고, 이는 Alert의 `warning` 톤과 같아요.
