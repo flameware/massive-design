@@ -56,8 +56,8 @@ test('규약대로 뽑은 계열이 두 하한을 넘는다', () => {
 
 test('README의 실측표가 지금 값과 같다 — 문서가 낡으면 여기서 깨진다', () => {
   const rows = {
-    light: ['규약 · 라이트', '#97b8f2'],
-    dark: ['규약 · 다크', '#073891'],
+    light: ['규칙 · 라이트', '#97b8f2'],
+    dark: ['규칙 · 다크', '#073891'],
   }
   for (const mode of MODES) {
     const [label, hex] = rows[mode]
