@@ -9,28 +9,42 @@ import * as TooltipStories from "./Tooltip.stories"
 
 <StatusBadge status={TooltipStories.default.parameters.ds.status} /> · since {TooltipStories.default.parameters.ds.since}
 
-호버하거나 포커스하면 뜨는 짧은 설명.
+마우스를 올리거나 포커스가 가면 뜨는 짧은 설명이에요. 아이콘만 있는 버튼처럼
+이름이 그림에만 있는 곳에 뜻을 보탤 때 써요.
 
 ## 언제 쓰는가
 
-- 아이콘 전용 버튼처럼 이름이 그림에만 있는 자리에서 그 뜻을 보태고 싶을 때. **`aria-label`을 대신하지 않는다** — 아이콘 버튼에는 여전히 `aria-label`이 있어야 한다(Button의 IconOnly 스토리 참고). Tooltip은 마우스·키보드 사용자에게 한 번 더 보여주는 것일 뿐이다.
+- 아이콘 전용 버튼의 뜻을 마우스와 키보드 사용자에게 한 번 더 보여 줄 때.
 
 ## 언제 쓰지 않는가
 
-- **꼭 읽어야 하는 정보일 때.** 호버·포커스가 없으면 안 보이므로, 터치 전용 기기에서는 아예 닿지 않는다. 중요한 설명은 본문이나 `aria-describedby`로 상시 노출한다.
-- **버튼 대신일 때.** 눌러야 열리는 정보는 Popover(Phase 2)다.
+- 꼭 읽어야 하는 정보는 본문에 쓰거나 `aria-describedby`로 늘 보이게 하세요.
+  마우스를 올리거나 포커스가 가야만 보이기 때문에 터치 기기에서는 아예 닿지
+  않아요.
+- 눌러서 열고 닫는 정보에는 쓰지 마세요. Tooltip은 마우스를 올리거나 포커스가
+  갈 때만 열려요.
 
-## 여는 계기
+## 사용법
 
-호버(기본 지연 600ms)와 포커스(지연 없음) 둘 다 기본으로 연다 — 트리거에 손으로 이벤트를 달지 않는다. Esc를 누르면 닫히고 포커스는 트리거에 남는다.
+마우스를 올리면 600ms 뒤에, 포커스가 가면 곧바로 열려요. 트리거에 이벤트를
+직접 달지 않아도 돼요. Esc를 누르면 닫히고 포커스는 트리거에 남아요.
 
 <Canvas of={TooltipStories.Playground} />
 
-## 방향
+### 방향
 
-`side`가 트리거 기준 방향을 정한다. 공간이 없으면 Base UI가 자동으로 반대쪽으로 뒤집는다.
+`side`가 트리거를 기준으로 어느 쪽에 뜰지 정해요. 공간이 모자라면 Base UI가
+자동으로 반대쪽으로 뒤집어요.
 
 <Canvas of={TooltipStories.Sides} />
+
+## 주의할 점
+
+### `aria-label`을 대신하지 않아요
+
+아이콘 전용 버튼에는 Tooltip이 있어도 `aria-label`을 그대로 줘야 해요. Tooltip은
+보이는 설명을 더하는 것이고, 버튼의 이름은 `aria-label`이 담당해요.
+[Button](?path=/docs/actions-button--docs)의 IconOnly 스토리가 이 조합이에요.
 
 ## 키보드
 
@@ -41,3 +55,8 @@ import * as TooltipStories from "./Tooltip.stories"
 <Story of={TooltipStories.Playground} />
 
 <Controls of={TooltipStories.Playground} />
+
+## 배경
+
+Base UI `Tooltip` 위에 색과 치수만 입혔어요. 여는 계기, 지연, 위치 뒤집기,
+Esc 닫기는 Base UI가 처리해요.
