@@ -6,10 +6,19 @@ import { RadiusScale } from "./RadiusScale"
 
 # 라운드
 
-shadcn CLI의 곱셈 7단이다. `--radius`(base, 10px)에 배수를 곱해 빌드 시점에 선계산한다 — calc로 남기지 않는 이유는 Figma Variable이 숫자만 받아서다: 계산 지점을 빌드로 당기면 코드와 Figma가 같은 값을 본다.
+모서리를 둥글게 할 때는 `rounded-lg` 같은 클래스를 써요. 기준값
+`--radius`(10px)에 배수를 곱한 일곱 단계예요.
+
+## 사용법
 
 ```tsx
 <div className="rounded-lg">…</div>
 ```
 
 <RadiusScale />
+
+## 배경
+
+단계 구성은 shadcn CLI의 일곱 단을 그대로 썼어요. 값은 `calc`로 남기지 않고
+빌드할 때 미리 계산해서 넣어요. Figma Variable이 숫자만 받기 때문에, 계산을
+빌드로 당기면 코드와 Figma가 같은 값을 봐요.
