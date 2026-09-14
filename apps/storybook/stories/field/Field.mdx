@@ -9,19 +9,23 @@ import * as FieldStories from "./Field.stories"
 
 <StatusBadge status={FieldStories.default.parameters.ds.status} /> · since {FieldStories.default.parameters.ds.since}
 
-라벨·설명·오류를 컨트롤에 aria로 자동 연결하는 그릇. 독립 `Label`은 없다 — `Field.Label`뿐이다.
+라벨, 설명, 오류를 폼 컨트롤에 aria로 자동 연결해 주는 묶음이에요. 라벨은
+`Field.Label`로만 달아요. 독립된 `Label` 컴포넌트는 제공하지 않아요.
 
 ## 언제 쓰는가
 
-- `Input`·`Textarea` 등 어떤 폼 컨트롤이든 라벨을 달아야 하는 자리 전부.
-- 서버가 돌려준 필드별 오류를 보여줘야 하는 자리 — `invalid`를 넘기면 그 상태를 그대로 따른다.
+- `Input`, `Textarea` 같은 폼 컨트롤에 라벨을 달아야 하는 모든 곳.
+- 서버가 돌려준 필드별 오류를 보여 줘야 할 때. `invalid`를 넘기면 그 상태를
+  그대로 따라요.
 
 ## 언제 쓰지 않는가
 
-- 라벨이 필요 없는 자리(아이콘 전용 버튼 등)에는 `aria-label`을 직접 단다 — Field는 폼 컨트롤 전용이다.
-- 여러 필드를 한 그룹으로 묶어야 할 때(체크박스 그룹의 공통 범례 등)는 Base UI `Fieldset`의 몫이다 — Phase 1에는 없다.
+- 라벨이 필요 없는 아이콘 전용 버튼에는 `aria-label`을 직접 다세요. Field는
+  폼 컨트롤에만 써요.
+- 여러 필드를 한 그룹으로 묶어 공통 제목을 달아야 한다면 Base UI `Fieldset`을
+  쓰세요. DS는 아직 제공하지 않아요.
 
-## 조립
+## 사용법
 
 ```tsx
 import { Field } from "@flameware/ui/field"
@@ -35,25 +39,34 @@ import { Input } from "@flameware/ui/input"
 </Field.Root>
 ```
 
-`Field.Root`가 컨텍스트를 열면 그 안의 `Field.Label`·`Field.Description`·`Field.Error`, 그리고 `Input`·`Textarea` 같은 컨트롤이 서로를 찾아 aria 속성을 스스로 건다 — DS는 색과 간격만 입힌다.
+`Field.Root` 안에 두기만 하면 `Field.Label`, `Field.Description`,
+`Field.Error`와 컨트롤이 서로를 찾아 aria 속성을 스스로 걸어요. 직접 `id`를
+맞춰 줄 필요가 없어요.
 
 <Canvas of={FieldStories.Playground} />
 
-## 오류
+### 오류 보여 주기
 
-`invalid`를 `Field.Root`에 직접 넘기면 제출·blur 없이도 그 상태가 외부(서버 응답, RHF 등)의 것으로 표시된다. `Field.Error`의 `match`를 `true`로 주면 네이티브 `ValidityState` 대신 그 값을 그대로 따른다 — `match`를 생략하면 네이티브 검증(`required` 등)이나 `Form`의 `errors`를 자동으로 읽는다(Form 문서 참고).
+`Field.Root`에 `invalid`를 넘기면 제출이나 blur 없이도 오류 상태로 보여요.
+서버 응답이나 폼 라이브러리가 판단한 결과를 그대로 반영할 때 쓰세요.
+`Field.Error`의 `match`에 `true`를 주면 브라우저 검증 대신 그 값을 따라요.
+`match`를 생략하면 브라우저 검증(`required` 등)이나 `Form`의 `errors`를
+자동으로 읽어요.
 
 <Canvas of={FieldStories.Invalid} />
 
-## 비활성
+### 비활성
 
-`Field.Root`의 `disabled`가 `Control`의 `disabled`보다 우선한다.
+`Field.Root`의 `disabled`가 컨트롤에 직접 준 `disabled`보다 우선해요.
 
 <Canvas of={FieldStories.Disabled} />
 
-## React Hook Form과 결합하기
+### React Hook Form과 함께 쓰기
 
-DS는 RHF를 의존하지 않는다(ADR-0023 §11) — 대신 컨트롤이 `value`·`onValueChange`·`onBlur`·`ref`를 그대로 받는다. RHF의 `Controller`가 넘기는 `field.value`·`field.onChange`·`field.onBlur`·`field.ref`를 그 이름 그대로(`onChange`→`onValueChange`) 펼치면 된다:
+컨트롤이 `value`, `onValueChange`, `onBlur`, `ref`를 그대로 받아요. RHF
+`Controller`가 넘기는 `field.value`, `field.onChange`, `field.onBlur`,
+`field.ref`를 같은 이름의 prop에 그대로 펼치면 돼요. `onChange`만
+`onValueChange`로 이름이 달라요.
 
 ```tsx
 import { Controller, useForm } from "react-hook-form"
@@ -75,20 +88,30 @@ const { control } = useForm({ defaultValues: { email: "" } })
 />
 ```
 
-아래 스토리는 RHF 없이 같은 통로(제어 props + `ref`)를 손으로 흉내 낸다 — 이것이 통과하면 `Controller`가 같은 자리에 그대로 들어갈 수 있다는 뜻이다.
+아래 스토리는 RHF 없이 같은 통로를 손으로 흉내 낸 것이에요.
 
 <Canvas of={FieldStories.ControlledSeam} />
 
 ## 키보드
 
-Tab이 컨트롤에 닿는다. `disabled`인 필드는 컨트롤이 네이티브 `disabled`를 받으므로 Tab이 건너뛴다.
+Tab이 컨트롤에 닿아요. `disabled`인 필드는 컨트롤이 브라우저의 `disabled`를
+받으므로 Tab이 건너뛰어요.
 
 <Canvas of={FieldStories.Keyboard} />
 
 ## Props
 
-`Field.Root`의 것만 적는다 — `Field.Label`·`Field.Description`·`Field.Error`는 각자의 자리에서 색·간격만 입힐 뿐 고유 prop이 없다(Base UI의 `render`·`className`은 셋 다 그대로 받는다).
+`Field.Root`의 props만 적어요. `Field.Label`, `Field.Description`,
+`Field.Error`는 고유 prop이 없고 Base UI의 `render`와 `className`을 그대로
+받아요.
 
 <Story of={FieldStories.Playground} />
 
 <Controls of={FieldStories.Playground} />
+
+## 배경
+
+DS는 React Hook Form을 의존하지 않아요. 대신 컨트롤이 제어 props와 `ref`를
+그대로 받게 해서 어떤 폼 라이브러리든 붙일 수 있게 했어요. 근거는
+[ADR-0023](https://github.com/flameware/massive-design/blob/main/docs/adr/0023-second-generation-base-ui.md)에
+있어요.

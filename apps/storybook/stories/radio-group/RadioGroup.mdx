@@ -9,86 +9,63 @@ import * as RadioGroupStories from "./RadioGroup.stories"
 
 <StatusBadge status={RadioGroupStories.default.parameters.ds.status} /> · since {RadioGroupStories.default.parameters.ds.since}
 
-네이티브 `<input type="radio">`에 대응하는, 보이는 선택지 중 하나만 고르는 폼
-컨트롤. Base UI `RadioGroup`이 값을 쥐고, 항목은 옆 서브패스의
-[`Radio`](?path=/docs/forms-radio--docs)다.
-
-[ADR-0026](https://github.com/flameware/massive-design/blob/main/docs/adr/0026-baseline-form-controls-need-no-consumer-evidence.md)의
-기본 폼 컨트롤이라 소비처 착지 자리 지명 없이 만들었다 — 이 컴포넌트를 여는
-근거는 소비처 실측이 아니라 "네이티브 HTML 입력에 대응하는 폼 컨트롤인가"라는
-소유자 판단이다.
+늘 보이는 선택지 중 하나만 고르는 폼 컨트롤이에요. 브라우저의
+`<input type="radio">`에 해당해요. 항목은 옆 서브패스의
+[`Radio`](?path=/docs/forms-radio--docs)를 써요.
 
 ## 언제 쓰는가
 
-- **선택지가 늘 보여야 하고, 2~5개 정도로 적은 자리에서 하나만 고를 때.**
-  거래 유형(매수/매도), 배송 방법처럼 항목을 한눈에 비교하며 골라야 하는 폼.
+- 선택지가 2~5개 정도로 적고 늘 보여야 할 때. 거래 유형(매수/매도)이나 배송
+  방법처럼 한눈에 비교하며 고르는 폼이에요.
 
 ## 언제 쓰지 않는가
 
-- **선택지가 접혀 있어도 되거나 많을 때(대략 6개 이상).** 매번 전부 펼쳐 두면
-  화면을 너무 많이 차지한다 — `Select`가 맞는 모양이다(닫힌 채로 값 하나만
-  보여주고, 스크롤 가능한 팝업에서 고른다).
-- **폼 제출을 기다리지 않고 누르는 즉시 반영되는 이진값.** `Switch`다
-  ([Switch.mdx](?path=/docs/forms-switch--docs)).
-- **이름 있는 상호 배타적 선택지를 가로로 좁게 늘어놓을 때, 특히 필터처럼
-  누르는 즉시 화면이 바뀌는 자리.** `ToggleGroup`이 더 가깝다
-  ([ToggleGroup.mdx](?path=/docs/actions-togglegroup--docs)) — 폼 제출
-  값이 아니라 지금 보이는 목록 자체를 즉시 바꾸는 필터가 그 자리다.
+- 선택지가 대략 6개를 넘거나 접혀 있어도 될 때는 `Select`를 쓰세요. 전부 펼쳐
+  두면 화면을 너무 많이 차지해요.
+- 제출을 기다리지 않고 누르는 즉시 반영되는 켜고 끄기는
+  [`Switch`](?path=/docs/forms-switch--docs)예요.
+- 필터처럼 누르는 즉시 목록이 바뀌고, 선택지를 가로로 좁게 늘어놓는다면
+  [`ToggleGroup`](?path=/docs/actions-togglegroup--docs)이 더 가까워요.
 
-셋의 경계는 "선택지가 **항상 보여야 하는가**"와 "**몇 개**인가" 둘이다: 늘
-보이고 적으면 RadioGroup, 늘 보이고 적지만 폼 제출을 기다리지 않는 필터라면
-ToggleGroup, 접혀 있어도 되거나 많으면 Select.
+셋을 가르는 기준은 두 가지예요. 선택지가 항상 보여야 하는지, 그리고 몇 개인지.
+늘 보이고 적으면 RadioGroup, 늘 보이고 적지만 제출을 기다리지 않는 필터라면
+ToggleGroup, 접혀 있어도 되거나 많으면 Select예요.
 
-## Radio
+## 사용법
 
-`Radio`는 Checkbox와 같은 자리에 선다 — Base UI `Radio.Root`+`Radio.Indicator`를
-하나로 접은 평평한 단일 export다(radio.tsx). 혼자서는 뜻이 없고 `RadioGroup`
-안에서만 값을 갖는다.
+`RadioGroup`이 값을 관리하고, 그 안에 `Radio`를 선택지 수만큼 두세요.
 
 <Canvas of={RadioGroupStories.Playground} />
 
-## 상태
+### 상태
 
 <Canvas of={RadioGroupStories.States} />
 
-시각 상자는 16px다 — 포인터 하한 24px 아래로 내려가므로 `hit-area`가 진다.
-보이는 크기는 그대로이고 누를 수 있는 영역만 넓어진다([ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)).
+보이는 원은 16px예요. 누를 수 있는 영역은 24×24까지 자동으로 넓어지니 크기를
+따로 키우지 않아도 돼요.
 
-## 대비
+### 제어와 비제어
 
-선택 안 된 테두리는 Checkbox의 꺼짐 테두리와 같은 자리라 `border-field`다.
-선택된 테두리는 **컨트롤 어포던스**다(`CONTEXT.md`, ADR-0026) — 잡는 대상
-자체가 의미를 나르므로 앉는 면에 대해 WCAG 1.4.11의 비텍스트 대비 3:1을 지고,
-Checkbox의 체크·Switch의 켜짐 트랙과 같은 이유로 `bg.accent.solid`를 쓴다.
-안쪽 점(Indicator)은 그 솔리드 위에서 항상 읽혀야 해서 Checkbox의 체크
-글리프와 같은 이유로 `text-on-solid`를 `currentColor`로 재사용한다 — 새
-토큰을 열지 않는다.
-
-## 제어와 비제어
-
-`value`/`onValueChange`로 제어, `defaultValue`로 비제어 — 어느 쪽도 안 주면
-아무것도 선택되지 않은 채 비제어로 시작한다.
+`value`와 `onValueChange`를 주면 값을 앱이 관리해요. `defaultValue`만 주면
+컴포넌트가 스스로 관리해요. 둘 다 주지 않으면 아무것도 선택되지 않은 상태로
+시작해요.
 
 <Canvas of={RadioGroupStories.ControlledVsUncontrolled} />
 
-## Field·Form과 결합
+### Field·Form과 함께 쓰기
 
-`Field.Root` 하나가 그룹 전체를 감싼다 — `Field.Label`이 그룹의
-`aria-labelledby`로 배선되고(`role="radiogroup"`이 한 항목이 아니라 그룹
-전체를 가리키는 이름을 필요로 한다), `Field.Description`·`Field.Error`도
-같은 방식이다. 항목별 보이는 텍스트는 각 `Radio`를 감싸는 네이티브
-`<label>`이 진다. `RadioGroup`은 Base UI가 스스로 Form의 제출 맵에 값을
-내므로(radio-group.tsx 주석) 이 컴포넌트가 배선을 새로 놓지 않는다.
+`Field.Root` 하나가 그룹 전체를 감싸요. `Field.Label`이 그룹 전체의 이름이
+되고, `Field.Description`과 `Field.Error`도 같은 방식으로 연결돼요. 항목마다
+보이는 텍스트는 각 `Radio`를 감싸는 `<label>`이 담당해요. 제출할 때 값은
+자동으로 담기니 따로 연결할 것은 없어요.
 
 <Canvas of={RadioGroupStories.WithFieldAndForm} />
 
 ## 키보드
 
-Tab은 그룹에 한 번만 닿는다 — 선택된 항목이 있으면 그 항목에, 없으면
-roving tabindex의 초기값(첫 항목)에 닿는다. 화살표는 항목 사이를 옮기는
-**즉시 그 항목을 선택한다** — ToggleGroup과 달리 Enter·Space로 따로 누를
-필요가 없다(네이티브 라디오 그룹과 같은 동작). Tab을 한 번 더 누르면 그룹을
-떠나 다음 컨트롤로 넘어간다.
+Tab은 그룹에 한 번만 닿아요. 선택된 항목이 있으면 그 항목에, 없으면 첫
+항목에 닿아요. 화살표로 항목을 옮기면 그 즉시 선택돼요. Enter나 Space를 따로
+누르지 않아도 돼요. Tab을 한 번 더 누르면 그룹을 떠나 다음 컨트롤로 넘어가요.
 
 <Canvas of={RadioGroupStories.Keyboard} />
 
@@ -97,3 +74,15 @@ roving tabindex의 초기값(첫 항목)에 닿는다. 화살표는 항목 사�
 <Story of={RadioGroupStories.Playground} />
 
 <Controls of={RadioGroupStories.Playground} />
+
+## 배경
+
+Base UI `RadioGroup` 위에 색과 치수만 입혔어요. 선택된 테두리는 잡는 대상
+자체가 뜻을 전하므로 아래 배경과 3:1 이상 대비가 나도록
+`bg.accent.solid`를 써요. 안쪽 점은 그 위에서 항상 읽혀야 해서
+`text-on-solid`를 그대로 써요. 화면에 착지할 곳을 정하지 않고 이 컴포넌트를
+만든 근거는
+[ADR-0026](https://github.com/flameware/massive-design/blob/main/docs/adr/0026-baseline-form-controls-need-no-consumer-evidence.md)에
+있어요. 보이는 크기를 그대로 두고 누를 수 있는 영역만 넓히는 방식은
+[ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)에
+있어요.

@@ -9,23 +9,32 @@ import * as RadioStories from "./Radio.stories"
 
 <StatusBadge status={RadioStories.default.parameters.ds.status} /> · since {RadioStories.default.parameters.ds.since}
 
-라디오 그룹의 항목 하나. Base UI `Radio.Root`+`Radio.Indicator` 위에 색과
-치수만 입혔다 — Checkbox와 같은 자리에 선다(radio.tsx).
+라디오 그룹 안에 놓는 항목 하나예요. 감싸는
+[`RadioGroup`](?path=/docs/forms-radiogroup--docs)의 값과 자기 `value`가 같을
+때 선택된 것으로 보여요.
 
-혼자서는 뜻이 없다 — 선택 여부는 감싸는
-[`RadioGroup`](?path=/docs/forms-radiogroup--docs)의 값과 자기 `value`가
-같은가로 정해진다. 여러 항목을 묶는 방법, Field·Form 결합, 제어/비제어,
-키보드 계약, ToggleGroup·Select와의 경계는 전부 RadioGroup 문서에 있다.
+## 사용법
+
+혼자 쓰지 않고 항상 `RadioGroup` 안에 두세요. 여러 항목을 묶는 방법, Field와
+Form 연결, 제어와 비제어, 키보드 동작, `ToggleGroup`이나 `Select`와의 경계는
+모두 [RadioGroup 문서](?path=/docs/forms-radiogroup--docs)에 있어요.
 
 ## 상태
 
 <Canvas of={RadioStories.States} />
 
-시각 상자는 16px다 — 포인터 하한 24px 아래로 내려가므로 `hit-area`가 진다.
-보이는 크기는 그대로이고 누를 수 있는 영역만 넓어진다([ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)).
+보이는 원은 16px예요. 누를 수 있는 영역은 24×24까지 자동으로 넓어지니 크기를
+따로 키우지 않아도 돼요.
 
 ## Props
 
 <Story of={RadioStories.Playground} />
 
 <Controls of={RadioStories.Playground} />
+
+## 배경
+
+Base UI `Radio.Root`와 `Radio.Indicator`를 하나로 묶고 색과 치수만 입혔어요.
+보이는 크기를 그대로 두고 누를 수 있는 영역만 넓히는 방식은
+[ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)에
+있어요.
