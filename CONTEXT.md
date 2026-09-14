@@ -1,6 +1,8 @@
 # 용어
 
-massive-design의 어휘. 다른 말로 부르지 말 것.
+massive-design의 어휘. 코드·이슈·ADR·에이전트 지침에서는 다른 말로 부르지 말 것.
+
+앱 개발자가 읽는 글(Storybook 문서·패키지 README·온보딩 가이드·공개 API 에러 메시지)은 예외다. 그 글에서는 항목의 `_문서에서는_` 표현을 쓰고, 나머지 규칙은 [`docs/agents/writing-ko.md`](docs/agents/writing-ko.md)를 따른다.
 
 2세대([ADR-0023](docs/adr/0023-second-generation-base-ui.md))부터 쓰는 어휘가 먼저 오고, 1세대 어휘는 아래에 **1세대 용어**로 표시한 절에 남는다. 1세대 절의 낱말은 `docs/handoff/`와 옛 ADR을 읽을 때 쓰고, 새 코드·이슈·문서에는 쓰지 않는다.
 
@@ -38,8 +40,11 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 ## 램프
 
 - **램프(ramp)** — 한 패밀리의 12단계 색 배열. 패밀리·모드마다 한 벌(`brand/light`, `brand/dark`, …).
+  _문서에서는_: 처음 나올 때 "한 색에서 만든 12단계 배열(램프)"로 풀어 쓴다
 - **키 컬러(key color)** — 램프를 생성하는 입력 색. **step 9에 앉는다** — light/dark가 동일한 유일한 단계이기 때문.
+  _문서에서는_: 기준 색. brand 패밀리에서는 브랜드 색. "step 9에 앉는다"는 "9단계에 들어가요"로 쓴다
 - **패밀리(family)** — brand / neutral / danger / success. warning·info는 Phase 2에서 더한다. 손익 같은 도메인 색은 패밀리가 되지 않는다 — 소비처가 램프 생성기로 자기 것을 만든다. 예외는 brand다 — 소비처마다 브랜드가 다르므로 **brand의 키 컬러는 소비처가 정할 수 있다**(모드마다 하나가 아니라 한 키, 대비 게이트를 통과해야 한다).
+  _문서에서는_: 색 패밀리. "대비 게이트"는 "대비 검사"로 쓴다
 - **cusp** — 주어진 hue에서 sRGB 안에 담기는 chroma가 최대가 되는 밝기. 램프의 채도 상한을 정한다.
 - **override** — 생성된 램프를 손으로 덮는 것. ①패밀리 파라미터(구현됨) / ②단계별 L·C·H(자리만 있고 미검증).
 
@@ -60,6 +65,7 @@ massive-design의 어휘. 다른 말로 부르지 말 것.
 - **base 계층(base layer)** — `dist/tokens.css`가 내는 `@layer base`의 두 규칙(`*`·`body`). 변수가 아니라 **규칙**이라 "shadcn 34개를 전부 낸다"는 점검이 못 잡았고, 그게 [#36](https://github.com/flameware/massive-design/issues/36)의 결함이었다. 매니페스트에서는 **셀 밖의 `base` 블록**으로 나온다 — 클래스가 아니라 규칙에서 오므로 조합 안에 없고, 조립할 때 모든 조합에 **앞서** 적용된다.
 - **조합(combination)** — `variant × size`의 한 칸. 매니페스트의 기본 단위이자 Figma variant의 단위. 축별 값은 `tailwind-merge`가 정리하기 전의 값이라 최종 값과 다를 수 있으므로 어휘에 넣지 않는다.
 - **축(axis)** — 한 조합을 고르기 위해 선택해야 하는 차원. `cva`의 `variants` 한 항목이고, 매니페스트의 `axes`를 거쳐 Figma variant property가 된다. **이름 공간이 두 층이고 서로 비대칭이다**: **축 이름의 이름 공간은 카탈로그 전체**라 한 이름이 두 뜻을 갖지 않지만(`align`이 버려진 근거), **값 이름의 이름 공간은 축**이라 축이 다르면 값 이름은 다시 시작한다(`chart.indicator`의 `line`과 `tabs.indicator`의 `line`은 충돌이 아니다). 값 이름은 **축이 이름 붙인 것의 상태**를 말하며 클래스 방출 여부를 말하지 않는다 — `frame: none`은 틀이 없다는 뜻이지 클래스가 없다는 뜻이 아니다([ADR-0008](docs/adr/0008-axis-and-value-name-spaces.md)).
+  _문서에서는_: 옵션. 해당 prop 이름을 함께 적는다(예: `size` 옵션)
 - **파트(part)** — 합성 컴포넌트가 공개하는 이름 있는 하위 조립 단위. `TableHead`·`TableCell`처럼 `anatomy`에 등장하며, 매니페스트의 `parts`에서 각자의 축·기본값·조합별 스타일을 갖는다. CSS→Figma 번역의 노드 역할 `root`·`label`·`icon`과는 다른 층이다.
 - **구성 상태별 차이(cell configurations)** — 셀의 `properties`가 **쉬는 상태**를 그리고, 계약이 이름표를 준 수식자가 낸 값은 `configurations[구성 상태][값]`에 **차이**로 앉는다. 차이가 없는 값은 `properties`가 그대로 그린다는 뜻이다. 축이 아니므로 조합 수를 곱하지 않는다 — Figma 쪽에서 이 자리는 component property이고 상태 견본이 아니다. 차이가 자손 슬롯에 걸리면 그 안의 `slots.<역할>`에 앉는다 — 구성 상태가 바깥이고 슬롯이 안쪽인 이유는 **한 번의 property 전환이 여러 노드를 함께 바꾸기** 때문이다([ADR-0014](docs/adr/0014-modifier-chains-are-paths.md)).
 - **수식자 사슬(modifier chain)** — 한 클래스에 붙은 수식자 여럿(`data-[state=collapsed]:data-[side=left]`). 뜻은 항의 합이 아니라 **경로**다: 항은 그 자리의 **주어**에 걸리고, 주어를 옮기는 것은 슬롯 지목뿐이라 **순서가 뜻을 바꾸는 것은 오직 주어 이동을 통해서다**(`[&_svg]:disabled`는 svg가, `disabled:[&_svg]`는 이 요소가 disabled일 때다). 그래서 정책표는 항 하나의 뜻만 갖고 합성은 조립이 한다 — 표를 복합 키로 늘리면 조합만큼 커진다. 합성의 우선순위는 **떨어뜨리는 항 → 모르는 항 → 앉는 자리**이고, 모르는 항이 하나라도 있으면 전체가 `unresolved`다: 아는 쪽만 적용하면 반쪽만 그린 채 통과한다([ADR-0014](docs/adr/0014-modifier-chains-are-paths.md)).
@@ -117,6 +123,7 @@ Storybook이 내는 화면의 낱말을 적을 말. 두 페이지의 독자가 �
 ## 경계
 
 - **소비처(consumer)** — 이 디자인 시스템을 가져다 쓰는 앱. invest diary와 숲마루(apt-finder) 둘이고 모두 **리포 밖**이다. `packages/ui`는 소비처가 아니라 시스템의 일부다. 소비처는 **필요의 잣대**다 — 어떤 컴포넌트가 어느 Phase에 들어가는지를 소비처의 화면이 정한다. 한 소비처의 도메인에서만 뜻을 갖는 조립(지도 마커, 매물 카드, 스카이라인 차트)은 **소비처가 가진다** — 우리 컴포넌트를 조립해 소비처 안에 두고, 두 번째 소비처가 같은 것을 필요로 할 때만 올린다.
+  _문서에서는_: DS를 쓰는 앱. 문맥이 분명하면 앱. 실제 앱 이름은 본문에 쓰지 않는다
 - **기본 폼 컨트롤(baseline form control)** — 네이티브 HTML 입력에 대응하는 폼 컨트롤(Switch · Slider · Radio 등). **소비처 근거 없이 만든다** — 소비처가 필요의 잣대라는 원칙의 유일한 예외다. 드러내기(Accordion)·오버레이(Popover)·표시(Meter)는 여기 들지 않는다.
 - **primitive 기반(primitive base)** — 우리가 접근성 동작·키보드 계약·포커스 관리를 맡기는 서드파티 primitive 라이브러리. **하나여야 한다** — 둘이면 그 계약들이 컴포넌트마다 갈리고, 그 갈라짐은 판단을 거쳐 일어나지 않고 사고로 일어난다. 2세대는 Base UI(`@base-ui/react`)다([ADR-0023](docs/adr/0023-second-generation-base-ui.md)). 1세대는 `radix-ui`였다.
 - **바닥값(floor cost)** — 소비처가 `@flameware/ui`에서 컴포넌트를 **하나도 쓰지 않을 때** 무는 바이트. 서드파티 의존성의 무게를 재는 단위이며, 라이브러리가 아니라 우리 패키지의 성질이다 — 같은 `recharts`가 쓰는 표면에 따라 8,371 B이기도 407,702 B이기도 해서 **라이브러리에 붙일 하나의 수는 존재하지 않는다.** 설치 수와도 거의 무관하다: 딸린 것이 0개인 의존성이 오염의 원인이고 37개인 의존성이 0바이트를 얹는다. 바닥값을 올리는 것은 의존성 선택이 아니라 **패키징**이라(`sideEffects` 미선언) 처방도 그쪽이다 — 걷어내기가 아니라 선언과 진입점. 소비처가 스스로 import해서 무는 것은 정의상 여기 들어오지 않는다([ADR-0017](docs/adr/0017-dependency-weight-is-a-floor-cost.md)).
