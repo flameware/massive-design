@@ -68,11 +68,9 @@ Tab으로 닿고 Enter나 Space로 눌러요. 누를 때마다 눌린 상태가 
 ## 배경
 
 Base UI Toggle 위에 색과 치수만 입혔어요. Base UI Toggle은 Checkbox나 Select와
-달리 스스로 폼에 값을 내지 않아요. 그래서 `name`을 받으면 지금 눌린 값을
-그대로 따라가는 숨은 입력 하나를 곁에 세워요.
+달리 스스로 폼에 값을 내지 않아서, `name`을 받으면 지금 눌린 값을 그대로
+따라가는 숨은 입력 하나를 곁에 세워요.
 
 `size`는 이 컴포넌트의 옵션이에요. 화면 전체의 밀도를 한 번에 낮추는 기능은
 제공하지 않아요([ADR-0023](https://github.com/flameware/massive-design/blob/main/docs/adr/0023-second-generation-base-ui.md)
-§11). 보이는 크기를 그대로 두고 누를 수 있는 영역만 넓히는 방식은
-[ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)에
-있어요.
+§11).

@@ -43,12 +43,12 @@ import * as TextStories from "./Text.stories"
 `tone`이 글자 색을 정해요. 기본값은 `inherit`이라 색 클래스를 하나도 내지
 않고 부모의 색을 그대로 물려받아요.
 
-| 값 | 클래스 | 쓸 수 있는 곳 |
+| 값 | 클래스 | 언제 쓰나 |
 | --- | --- | --- |
-| `inherit`(기본) | (없음) | `Text`, `Heading` |
-| `neutral` | `text-default` | `Text`, `Heading` |
-| `danger` | `text-danger` | `Text`, `Heading` |
-| `muted` | `text-muted` | `Text` |
+| `inherit`(기본) | (없음) | 부모의 색을 그대로 물려받을 때 |
+| `neutral` | `text-default` | 기본 본문 색을 직접 지정할 때 |
+| `danger` | `text-danger` | 오류나 경고 문구일 때 |
+| `muted` | `text-muted` | 부가 설명처럼 덜 강조할 때 |
 
 <Canvas of={TextStories.Tones} />
 <Canvas of={TextStories.HeadingTones} />
@@ -66,8 +66,8 @@ import * as TextStories from "./Text.stories"
 | `accent` | 없음 | ✓ | 없음 |
 | `success` | 없음 | ✓ | 없음 |
 | `outline` | 없음 | ✓(면 없음) | 없음 |
-| `muted` | ✓(`text-muted`, Text만) | ✓(`bg-neutral-muted text-default`) | 없음 |
-| `inherit` | ✓(기본, Text·Heading만) | 없음 | 없음 |
+| `muted` | ✓(`text-muted`) | ✓(`bg-neutral-muted text-default`) | 없음 |
+| `inherit` | ✓(기본) | 없음 | 없음 |
 
 ## Heading의 굵기
 
