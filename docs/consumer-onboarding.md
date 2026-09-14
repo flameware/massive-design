@@ -188,8 +188,12 @@ writeFileSync("app/brand.css", css)
 어느 조합이 몇 대 몇으로 떨어졌는지 에러 메시지에 담아요.
 
 ```
-Error: createBrandOverride: 대비 게이트 실패 —
-  light fg.on-solid ↔ bg.accent.solid: 1.92 < 4.5:1, …
+Error: createBrandOverride: 브랜드 색의 대비가 기준에 못 미쳐서 글자와 테두리가 잘 보이지 않아요.
+  light fg.accent ↔ bg.canvas 대비 2.81, 기준 4.5
+  …
+  light fg.on-solid ↔ bg.accent.solid 대비 1.92, 기준 4.5
+  …
+브랜드 색을 조금 어둡게 조정한 뒤 다시 실행해 보세요.
 ```
 
 브랜드 색을 아예 넘기지 않으면 DS 기본 색이 그대로 쓰여서 기존 화면은 바뀌지 않아요.

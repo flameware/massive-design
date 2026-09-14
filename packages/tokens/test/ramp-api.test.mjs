@@ -19,9 +19,9 @@ const ramp = await import(new URL('../dist/ramp.js', import.meta.url))
 const CANVAS = { light: '#ffffff', dark: '#0a0a0a' }
 
 test('createRamp가 name·key를 요구한다', () => {
-  assert.throws(() => ramp.createRamp('', { key: '#0f5fed' }), /name/)
-  assert.throws(() => ramp.createRamp('profit', {}), /key/)
-  assert.throws(() => ramp.createRamp('profit', undefined), /key/)
+  assert.throws(() => ramp.createRamp('', { key: '#0f5fed' }), /createRamp: .*name/s)
+  assert.throws(() => ramp.createRamp('profit', {}), /createRamp: .*key/s)
+  assert.throws(() => ramp.createRamp('profit', undefined), /createRamp: .*key/s)
 })
 
 test('createRamp가 6자리 hex가 아닌 key를 거부한다 — CSS 색이름·3자리·알파 hex 포함', () => {
@@ -29,7 +29,7 @@ test('createRamp가 6자리 hex가 아닌 key를 거부한다 — CSS 색이름�
   // TypeError로 죽는다(코드 리뷰에서 잡힘) — 이 계층에서 먼저 거절해야
   // 선언한 타입(RampInput.key: 6자리 sRGB hex)과 실제 동작이 같아진다.
   for (const key of ['red', '#zzzzzz', '#fff', '#0f5fed80', '', undefined, null]) {
-    assert.throws(() => ramp.createRamp('x', { key }), /6자리 hex/, JSON.stringify(key))
+    assert.throws(() => ramp.createRamp('x', { key }), /createRamp: .*input\.key/s, JSON.stringify(key))
   }
 })
 

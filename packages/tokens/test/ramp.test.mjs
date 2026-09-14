@@ -92,7 +92,7 @@ test('lint가 키 앵커가 풀린 것을 잡는다', () => {
 test('미구현 파라미터 키는 조용히 무시되지 않고 에러다', () => {
   assert.throws(
     () => resolveParams(config.defaults, { key: '#eab308', params: { satPeek: 0.8 } }, 'warning'),
-    /미구현 파라미터 키 'satPeek'/,
+    /warning: .*params\.satPeek/s,
   )
 })
 

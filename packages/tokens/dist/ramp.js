@@ -35,7 +35,9 @@ function oklchToHex({ l, c, h }) {
 
 /** CSS `color-mix(in oklab, base (1-alpha), layer alpha)`와 같은 파생 hex. */
 function mixOklabHex(base, layer, alpha) {
-  if (!(alpha >= 0 && alpha <= 1)) throw new Error(`alpha 범위 오류: ${alpha}`)
+  if (!(alpha >= 0 && alpha <= 1)) {
+    throw new Error(`mixOklabHex: 투명도는 0과 1 사이만 받아요. (alpha: ${alpha}) 0 이상 1 이하 값으로 넘겨 주세요.`)
+  }
   return formatHex(interpolate([base, layer], 'oklab')(alpha))
 }
 
@@ -187,7 +189,7 @@ function interpolateAnchors(scaled, n, ease) {
 function resolveParams(defaults, family, name) {
   for (const k of Object.keys(family.params ?? {})) {
     if (!PARAM_KEYS.has(k)) {
-      throw new Error(`${name}: 미구현 파라미터 키 '${k}' — 오타이거나 아직 없는 기능이다`)
+      throw new Error(`${name}: 지원하지 않는 램프 옵션이에요. (params.${k}) 이름에 오타가 없는지 확인해 주세요.`)
     }
   }
   const p = { ...defaults, ...(family.params ?? {}) }
@@ -199,17 +201,20 @@ function resolveParams(defaults, family, name) {
 function resolveOverrides(family, name) {
   const all = family.overrides ?? {}
   for (const mode of Object.keys(all)) {
-    if (!MODES.includes(mode)) throw new Error(`${name}.overrides: 모드가 아니다 — '${mode}'`)
+    if (!MODES.includes(mode)) {
+      throw new Error(`${name}.overrides: 모드 이름은 ${MODES.join('와 ')}만 받아요. (받은 이름: '${mode}') 이 중 하나로 고쳐 주세요.`)
+    }
     for (const [step, ov] of Object.entries(all[mode])) {
       for (const k of Object.keys(ov)) {
         if (!OVERRIDE_KEYS.has(k)) {
-          throw new Error(`${name}.overrides.${mode}.${step}: 미구현 override 키 '${k}'`)
+          throw new Error(`${name}.overrides.${mode}.${step}: 지원하지 않는 override 키예요. ('${k}') ${[...OVERRIDE_KEYS].join(', ')}만 쓸 수 있어요.`)
         }
       }
       if (!ov._why) {
         throw new Error(
-          `${name}.overrides.${mode}.${step}: '_why'가 없다. ` +
-            '키 컬러를 바꿨을 때 이 override가 아직 유효한지 판단할 유일한 근거다',
+          `${name}.overrides.${mode}.${step}: 이 override에 '_why'가 없어요. ` +
+            '왜 이 단계를 손으로 고쳤는지 _why에 적어 주세요. ' +
+            '기준 색을 바꿨을 때 이 override가 아직 맞는지 판단할 근거예요.',
         )
       }
     }
@@ -223,7 +228,9 @@ function buildRamp(family, params, mode, name = 'ramp') {
   const key = toOklch(family.key)
   const peak = Math.round((p.satPeakStep / 11) * (n - 1))
   const ease = EASINGS[p.lightnessEasing]
-  if (!ease) throw new Error(`${name}: 미구현 lightnessEasing '${p.lightnessEasing}'`)
+  if (!ease) {
+    throw new Error(`${name}: lightnessEasing 값을 알 수 없어요. (params.lightnessEasing: '${p.lightnessEasing}') ${Object.keys(EASINGS).join(', ')} 중 하나로 넘겨 주세요.`)
+  }
 
   // 1a. L 곡선 — 키 컬러의 L을 peak 앵커로 심은 뒤 보간한다.
   //     "step 9는 light/dark 동일"이라는 결정이 여기서 지켜진다.
@@ -279,7 +286,9 @@ function buildRamp(family, params, mode, name = 'ramp') {
   const ov = family.overrides?.[mode] ?? {}
   for (const [step, v] of Object.entries(ov)) {
     const i = Number(step) - 1
-    if (!Number.isInteger(i) || i < 0 || i >= n) throw new Error(`${name}: override 단계 범위 밖 — ${step}`)
+    if (!Number.isInteger(i) || i < 0 || i >= n) {
+      throw new Error(`${name}: override 단계가 램프 범위 밖이에요. (단계 ${step}, 범위 1~${n}) 범위 안의 번호로 고쳐 주세요.`)
+    }
     if (v.l != null) L[i] = v.l
     if (v.c != null) C[i] = v.c
     if (v.h != null) H[i] = v.h
@@ -1033,19 +1042,31 @@ const BRAND_GATE_TABLE = [
 // ── 공개 API (#281, ADR-0023 §10 — "손익 색은 앱 소유다") ───────────────────
 
 /**
+ * 에러 메시지에 넣을 입력값 표기. JSON.stringify는 BigInt·순환 참조에서
+ * 스스로 던지므로(에러 안내가 TypeError로 바뀐다) 그때는 String으로 떨어진다.
+ */
+function showInput(v) {
+  try {
+    return JSON.stringify(v) ?? String(v)
+  } catch {
+    return String(v)
+  }
+}
+
+/**
  * 키 컬러 하나로 OKLCH 램프(라이트·다크, 기본 12단)를 만든다. DS의 5패밀리와
  * 같은 알고리즘·같은 기본 파라미터를 쓴다 — 같은 대비 경향을 물려받지만
  * 게이트를 대신 통과시켜 주지는 않는다. 확인은 contrastRatio로 스스로 한다.
  */
 export function createRamp(name, input) {
   if (typeof name !== 'string' || name === '') {
-    throw new Error('createRamp: name(패밀리 이름)이 필요하다')
+    throw new Error(`createRamp: 패밀리 이름이 없어서 램프를 만들 수 없어요. (name: ${showInput(name)}) 첫 번째 인자에 'profit' 같은 이름을 넘겨 주세요.`)
   }
   if (!input || typeof input.key !== 'string' || !/^#[0-9a-f]{6}$/i.test(input.key)) {
     // 6자리 sRGB hex만 받는다 — RampStep.hex의 계약과 같다. culori에
     // 곧장 넘기면 'red' 같은 CSS 색이름은 조용히 통과하고 '#zzzzzz'는
     // culori 내부 TypeError로 죽는다 — 둘 다 이 계층에서 먼저 잡는다.
-    throw new Error(`createRamp: input.key는 6자리 hex('#rrggbb')여야 한다 — ${JSON.stringify(input?.key)}`)
+    throw new Error(`createRamp: 기준 색은 6자리 hex만 받아서 이 값은 쓸 수 없어요. (input.key: ${showInput(input?.key)}) '#0f5fed'처럼 '#rrggbb' 형식으로 넘겨 주세요.`)
   }
   const family = { key: input.key, overrides: input.overrides ?? {} }
   resolveOverrides(family, name)
@@ -1098,7 +1119,7 @@ export const contrastRatio = wcag
  */
 export function createBrandOverride(key) {
   if (typeof key !== 'string' || key === '') {
-    throw new Error('createBrandOverride: key(브랜드 키 컬러)가 필요하다')
+    throw new Error(`createBrandOverride: 브랜드 색이 없어서 팔레트를 만들 수 없어요. (key: ${showInput(key)}) 첫 번째 인자에 '#0f5fed' 같은 CSS 색을 넘겨 주세요.`)
   }
   let oklchKey
   try {
@@ -1112,7 +1133,7 @@ export function createBrandOverride(key) {
     !Number.isFinite(oklchKey.c) ||
     !Number.isFinite(oklchKey.h)
   ) {
-    throw new Error(`createBrandOverride: key를 색으로 해석할 수 없다 — ${JSON.stringify(key)}`)
+    throw new Error(`createBrandOverride: 넘긴 브랜드 색을 색으로 읽을 수 없어요. (key: ${showInput(key)}) '#0f5fed'나 'oklch(0.54 0.23 261)'처럼 CSS가 아는 색으로 넘겨 주세요.`)
   }
 
   // key를 그대로 넘긴다 — buildRamp가 toOklch(family.key)로 다시 파싱하므로
@@ -1129,10 +1150,14 @@ export function createBrandOverride(key) {
     issues.push(...lintRamp(ramp, family, params, label))
     rampByMode[mode] = ramp.map((s) => ({ step: s.step, hex: s.hex }))
   }
-  if (issues.some((i) => i.level === 'error')) {
-    throw new Error(
-      `createBrandOverride: 램프 lint 실패 — ${issues.filter((i) => i.level === 'error').map((i) => i.msg).join('; ')}`,
-    )
+  const lintErrors = issues.filter((i) => i.level === 'error')
+  if (lintErrors.length) {
+    // 한 줄에 다 이으면 마지막 안내가 목록에 묻힌다 — 줄로 나눈다.
+    throw new Error([
+      'createBrandOverride: 브랜드 색으로 만든 12단계 색 배열이 검사를 통과하지 못했어요.',
+      ...lintErrors.map((i) => `  ${i.msg}`),
+      '브랜드 색의 밝기나 채도를 조금 조정한 뒤 다시 실행해 보세요.',
+    ].join('\n'))
   }
 
   const hexOf = (side, mode) => (side.brand != null ? rampByMode[mode][side.brand - 1].hex : side.fixed)
@@ -1142,12 +1167,18 @@ export function createBrandOverride(key) {
       const [sideA, sideB] = row.sides[mode]
       const cr = wcag(hexOf(sideA, mode), hexOf(sideB, mode))
       if (cr < row.gate) {
-        failures.push(`${mode} ${row.a} ↔ ${row.b}: ${cr.toFixed(2)} < ${row.gate}:1`)
+        failures.push(`${mode} ${row.a} ↔ ${row.b} 대비 ${cr.toFixed(2)}, 기준 ${row.gate}`)
       }
     }
   }
   if (failures.length) {
-    throw new Error(`createBrandOverride: 대비 게이트 실패 — ${failures.join(', ')}`)
+    // 기준에 못 미친 조합이 20개 가까이 나올 수 있다 — 한 줄에 이으면
+    // 마지막 안내가 목록에 묻히므로 줄로 나눈다.
+    throw new Error([
+      'createBrandOverride: 브랜드 색의 대비가 기준에 못 미쳐서 글자와 테두리가 잘 보이지 않아요.',
+      ...failures.map((f) => `  ${f}`),
+      '브랜드 색을 조금 어둡게 조정한 뒤 다시 실행해 보세요.',
+    ].join('\n'))
   }
 
   const line = (mode, s) => `  --ds-palette-brand-${mode}-${s.step}: ${s.hex};`

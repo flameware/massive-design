@@ -62,5 +62,5 @@ test('formatOklch는 문서 표기와 같은 형식이다', () => {
 test('상태 색은 CSS와 같은 oklab 공간에서 합성한다', () => {
   assert.equal(mixOklabHex('#ffffff', '#000000', 0.08), '#e4e4e4')
   assert.equal(mixOklabHex('#ffffff', '#000000', 0.12), '#d7d7d7')
-  assert.throws(() => mixOklabHex('#ffffff', '#000000', 1.01), /alpha 범위/)
+  assert.throws(() => mixOklabHex('#ffffff', '#000000', 1.01), /mixOklabHex: .*alpha: 1\.01/s)
 })
