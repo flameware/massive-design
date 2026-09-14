@@ -64,9 +64,11 @@ DS는 `@tanstack/react-table`을 의존하지 않아요. `header.column.columnDe
 
 ### 정렬 가능한 머리 셀
 
-정렬을 누르는 요소는 `<th>` 전체가 아니라 그 안의 `<button>`이에요. 보이는
-크기가 글자 높이만큼 작아도 누를 수 있는 영역은 24×24까지 자동으로 넓어지고,
-hover와 press 피드백도 `Button`과 같은 방식으로 나와요.
+정렬을 누르는 요소는 `<th>` 전체가 아니라 그 안의 `<button>`이에요. 이 버튼은
+`Table.Head`가 만들어 주지 않으니 직접 넣고, `className`에 `hit-area state`를
+함께 주세요. `hit-area`가 보이는 크기를 그대로 둔 채 누를 수 있는 영역만
+24×24로 넓히고, `state`가 hover와 press 피드백을 줘요. 둘 다 `Button`이 쓰는
+것과 같은 DS 유틸리티라 `Table`이 새 CSS를 더하지 않아요.
 
 <Canvas of={TableStories.Keyboard} />
 

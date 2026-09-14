@@ -22,12 +22,12 @@ import * as BadgeStories from "./Badge.stories"
 - `Badge`만으로 뜻을 전해야 할 때는 쓰지 마세요. 아이콘만 있는 표시처럼
   이름이 없으면 스크린 리더가 뜻을 읽지 못해요. 곁에 텍스트를 두세요.
 - 매수, 매도, 손익처럼 앱의 도메인 의미를 `tone` 이름으로 더하지 마세요.
-  `tone`은 다섯 가지뿐이고, 도메인 의미는 앱이 그중 하나로 연결해요.
+  `tone`이 받는 이름은 정해져 있고, 도메인 의미는 앱이 그중 하나로 연결해요.
 
 ## 톤
 
-`tone`이 면 색과 글자 색을 정해요. 다섯 톤 모두 대비 검사를 이미 통과한
-조합만 써요.
+`tone`이 면 색과 글자 색을 정해요. 면이 있는 다섯 톤은 모두 대비 검사를 이미
+통과한 조합만 써요.
 
 <Canvas of={BadgeStories.Tones} />
 
@@ -56,7 +56,8 @@ import * as BadgeStories from "./Badge.stories"
 <Canvas of={BadgeStories.NarrowCell} />
 
 줄바꿈이 필요하면 `className="whitespace-normal"` 하나면 돼요(`!`는 필요
-없어요). 같은 이유로 `className="shrink"`는 기본값 `shrink-0`을 지워요.
+없어요). `className`으로 준 클래스가 같은 갈래의 기본값을 지우기 때문이에요.
+같은 이유로 `className="shrink"`는 기본값 `shrink-0`을 지워요.
 
 길이를 모르는 값(사용자 입력 등)을 담을 때는 줄바꿈보다 말줄임을 권해요. 배지에
 `max-w-full min-w-0`, 자식 텍스트에 `min-w-0 truncate`를 주세요. 두 줄로 나뉜

@@ -35,13 +35,23 @@ import * as EmptyStateStories from "./EmptyState.stories"
 `Title`은 이 패턴이 있는 이유라서 거의 항상 써요. `Icon`, `Description`,
 `Action`은 화면에 따라 자연스럽게 빠져요.
 
+#### 행동 버튼 없이
+
 <Canvas of={EmptyStateStories.NoAction} />
+
+#### 아이콘 없이
 
 <Canvas of={EmptyStateStories.NoIcon} />
 
+#### 제목과 설명만
+
 <Canvas of={EmptyStateStories.TitleAndDescriptionOnly} />
 
+#### 제목만
+
 <Canvas of={EmptyStateStories.TitleOnly} />
+
+#### 설명만
 
 <Canvas of={EmptyStateStories.DescriptionOnly} />
 
@@ -65,7 +75,11 @@ import * as EmptyStateStories from "./EmptyState.stories"
 
 두 파트 중 실제로 넣은 것에만 속성이 붙어요. `Description` 없이 쓰면
 `aria-describedby`를 아예 내지 않고, `Title` 없이 쓰면 `aria-labelledby`를 내지
-않아요. 어느 조합으로 써도 존재하지 않는 id를 가리키는 일이 없어요.
+않아요. 그래서 어떤 조합으로 써도 존재하지 않는 id를 가리키지 않아요.
+
+`Root`는 직계 자식만 보고 이를 판정해요. `Title`을 `<div>`나 다른 컴포넌트로
+한 번 감싸면 제목이 그려져도 `aria-labelledby`가 붙지 않으니, 파트는 `Root`
+바로 아래에 두세요.
 
 ## Props
 
