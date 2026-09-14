@@ -147,6 +147,39 @@ test("자체 스타일 primitive·Combobox가 부르는 클래스가 하나도 �
   assert.deepEqual(silent, [], "이 클래스들은 CSS를 내지 않는다 — 조용히 무효다")
 })
 
+/* 토스트 닫기(X)의 오프셋 `right-3 top-3`은 **카드 모서리** 기준이다(#419) — 위치
+ * 기준(`relative`)이 `p-4` 안쪽 콘텐츠 래퍼에 있으면 X가 모서리에서 28px(16+12)로
+ * 밀려 제목 줄 아래·카드 아래 모서리에 걸친다. 그리고 X에는 `hit-area`도 걸려 있어
+ * 그 유틸리티의 `position: relative`와 `absolute`가 한 요소에서 겨룬다 — 둘은
+ * 명시도가 같으므로 방출 순서가 승부를 가른다. 순서가 뒤집히면 X가 흐름 안으로
+ * 떨어진다. */
+test("토스트 닫기 버튼은 카드 루트 기준으로 absolute 배치된다 (#419)", () => {
+  for (const tone of ["neutral", "success", "danger"]) {
+    assert.ok(
+      toastRootVariants({ tone }).split(/\s+/).includes("relative"),
+      `${tone}: 카드 루트에 relative가 없다 — X의 위치 기준이 카드가 아니다`
+    )
+  }
+  assert.ok(
+    !toastPartClassNames.CONTENT.split(/\s+/).includes("relative"),
+    "콘텐츠 래퍼에 relative가 있다 — X가 p-4 안쪽 기준으로 밀린다"
+  )
+  const close = toastPartClassNames.CLOSE.split(/\s+/)
+  assert.ok(
+    close.includes("absolute") && close.includes("hit-area"),
+    "CLOSE에 absolute·hit-area 중 하나가 없다 — 아래 방출 순서 단언의 전제가 깨졌다"
+  )
+
+  const css = compiler.build(["hit-area", "absolute"])
+  const hitArea = css.indexOf(".hit-area {")
+  const absolute = css.indexOf(".absolute {")
+  assert.ok(hitArea >= 0 && absolute >= 0, "두 규칙 중 하나가 방출되지 않았다")
+  assert.ok(
+    absolute > hitArea,
+    "`.absolute`가 `.hit-area`보다 먼저 방출된다 — hit-area의 position: relative가 이긴다"
+  )
+})
+
 /* Badge의 기본 `whitespace-nowrap`을 소비처가 어떻게 되돌리는지를 주석과 MDX가 권고로
  * 적었다(#322) — `className="whitespace-normal"` 한 클래스다. 그것이 성립하는 이유는
  * 캐스케이드가 아니라 `cn`이 tailwind-merge라는 것이다: 두 클래스가 한 요소에 공존하지
