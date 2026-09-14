@@ -9,39 +9,48 @@ import * as PaginationStories from "./Pagination.stories"
 
 <StatusBadge status={PaginationStories.default.parameters.ds.status} /> · since {PaginationStories.default.parameters.ds.since}
 
-이전/다음·페이지 번호·현재 표시를 갖춘 페이지 이동. Base UI 뒤가 없는 자체 스타일 패턴이다 — 페이지 상태를 갖지 않고 `page`·`pageCount`·`onPageChange` 위에서만 그린다.
+이전과 다음 버튼, 페이지 번호, 현재 페이지 표시를 갖춘 페이지 이동 막대예요.
+페이지 상태는 앱이 관리하고, 이 컴포넌트는 그 값을 받아서 그리기만 해요.
 
 ## 언제 쓰는가
 
-- 거래 데이터 테이블처럼, 서버나 클라이언트 쪽에 이미 페이지 상태가 있고 그 위에 이동 버튼만 필요한 자리(#317 스토리 12).
+- 서버나 화면 쪽에 이미 페이지 상태가 있고, 그 위에 이동 버튼만 필요할 때.
+  데이터 테이블 아래가 대표적이에요.
 
 ## 언제 쓰지 않는가
 
-- 무한 스크롤이나 "더 보기" 버튼 자리는 이 컴포넌트가 아니다 — Pagination은 이산적인 페이지 번호를 보여주는 것이 요점이다.
+- 무한 스크롤이나 "더 보기" 버튼에는 쓰지 마세요. `Pagination`은 페이지
+  번호를 하나씩 보여주는 것이 목적이에요.
 
-## 조립
+## 사용법
 
-`Pagination`은 파트로 나뉘지 않는 단일 컴포넌트다 — 페이지 번호·줄임표의 계산은 소비처가 조립할 자리가 아니라 컴포넌트 스스로 하는 일이다(EmptyState의 자유 조립과 다른 이유, pagination.tsx 참고). `page`는 1부터 시작한다.
+`page`, `pageCount`, `onPageChange` 세 가지를 주면 돼요. `page`는 1부터
+시작해요. 페이지 번호와 줄임표를 어떻게 배치할지는 컴포넌트가 스스로
+계산하므로 직접 조립할 것이 없어요.
 
 <Canvas of={PaginationStories.Playground} />
 
-## 경계
+## 첫 페이지와 마지막 페이지
 
-앞뒤 경계에서 이전·다음 버튼이 `disabled`가 된다 — 경계를 넘어가는 요청을 아예 못 누르게 막는다.
+첫 페이지에서는 이전 버튼이, 마지막 페이지에서는 다음 버튼이 `disabled`가
+돼요. 범위를 벗어나는 요청은 아예 눌리지 않아요.
 
 <Canvas of={PaginationStories.FirstPage} />
 <Canvas of={PaginationStories.LastPage} />
 
 ## 페이지 수가 적을 때
 
-경계(`boundaryCount`)·형제(`siblingCount`)·현재 페이지가 겹치면 줄임표 없이 전부 보인다.
+양끝에 항상 보일 개수(`boundaryCount`)와 현재 페이지 좌우에 보일
+개수(`siblingCount`)가 서로 겹치면 줄임표 없이 전부 보여요.
 
 <Canvas of={PaginationStories.FewPages} />
 <Canvas of={PaginationStories.SinglePage} />
 
 ## TanStack Table 위에서
 
-DS 패키지는 TanStack을 의존하지 않는다(#329 "DS 패키지는 TanStack을 의존하지 않는다") — 소비처가 TanStack Table의 페이지 상태를 그대로 얹으면 된다. `table.getState().pagination.pageIndex`는 0부터 시작하므로 두 자리만 변환한다:
+DS는 TanStack에 의존하지 않아요. TanStack Table의 페이지 상태를 그대로 넘기면
+돼요. `table.getState().pagination.pageIndex`는 0부터 시작하므로 두 곳에서만
+숫자를 바꿔 주세요.
 
 ```tsx
 import { Pagination } from "@flameware/ui/pagination"
@@ -53,17 +62,21 @@ import { Pagination } from "@flameware/ui/pagination"
 />
 ```
 
-`onPageChange`가 직접 `table.nextPage()`/`previousPage()`를 부를 필요는 없다 — `setPageIndex`가 이미 그 둘을 포함한다.
+`onPageChange`에서 `table.nextPage()`나 `table.previousPage()`를 따로 부를
+필요는 없어요. `setPageIndex`가 그 둘을 모두 해요.
 
 <Canvas of={PaginationStories.OnTanStackTable} />
 
 ## 접근성
 
-`nav`가 접근성 이름을 진다(기본 "페이지 이동", `aria-label`로 덮어쓸 수 있다). 현재 페이지 버튼은 `aria-current="page"`를 진다. 줄임표는 `aria-hidden`인 장식 텍스트다 — 보조기술에 별도로 읽히지 않는다. 이전·다음·페이지 번호 버튼 모두 `Button`을 그대로 써 24×24 포인터 하한(ADR-0020)과 상태 레이어(state.css)를 다시 만들지 않는다.
+바깥 `nav`가 접근성 이름을 갖고, 기본값은 "페이지 이동"이에요. `aria-label`로
+바꿀 수 있어요. 현재 페이지 버튼에는 `aria-current="page"`가 붙어요. 줄임표는
+`aria-hidden`이라 스크린 리더가 읽지 않아요.
 
 ## 키보드
 
-모든 버튼이 `Button`이므로 키보드는 네이티브다 — Tab이 이전 → 페이지 번호 → 다음 순서로 닿고, Enter·Space가 초점이 놓인 버튼을 누른다(#317 Testing Decisions "Pagination(Tab 순회)").
+버튼이 모두 `Button`이라 키보드 동작은 네이티브 그대로예요. Tab이 이전 →
+페이지 번호 → 다음 순서로 닿고, Enter나 Space가 포커스가 놓인 버튼을 눌러요.
 
 <Canvas of={PaginationStories.Keyboard} />
 
@@ -72,3 +85,11 @@ import { Pagination } from "@flameware/ui/pagination"
 <Story of={PaginationStories.Playground} />
 
 <Controls of={PaginationStories.Playground} />
+
+## 배경
+
+Base UI에 대응하는 컴포넌트가 없어서 DS가 직접 만든 컴포넌트예요. 이전, 다음,
+페이지 번호 버튼이 모두 `Button`이라 24×24 최소 크기와 상태 표현을 다시
+만들지 않아요. 최소 크기 규칙은
+[ADR-0020](https://github.com/flameware/massive-design/blob/main/docs/adr/0020-pointer-target-size-is-borne-by-the-hit-area.md)에
+있어요.

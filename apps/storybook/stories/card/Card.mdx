@@ -9,21 +9,28 @@ import * as CardStories from "./Card.stories"
 
 <StatusBadge status={CardStories.default.parameters.ds.status} /> · since {CardStories.default.parameters.ds.since}
 
-관련 콘텐츠를 하나의 표면으로 묶는다. Base UI 뒤가 없는 자체 스타일 primitive — 상태도 상호작용도 없는 서버 컴포넌트다.
+관련된 내용을 하나의 카드로 묶어 주변과 구분해요. 상태도 상호작용도 없어서
+그리기만 하는 컴포넌트예요.
 
 ## 언제 쓰는가
 
-- 관련된 정보를 하나의 표면으로 묶어 주변과 구분할 때 — 포트폴리오 요약, 목록의 한 항목.
-- `Header`·`Body`·`Footer` 중 필요한 파트만 골라 쓴다. 셋 다 옵셔널이라 `Body` 하나만으로도 유효하다.
+- 관련된 정보를 한 덩어리로 묶어 주변과 구분할 때. 요약 카드, 목록의 한
+  항목이 여기에 해당해요.
+- `Header`, `Body`, `Footer` 중 필요한 것만 골라 쓸 때. 셋 다 선택이라
+  `Body` 하나만으로도 돼요.
 
 ## 언제 쓰지 않는가
 
-- **누르는 표면일 때.** Card 자체는 클릭 핸들러나 role을 갖지 않는다 — 카드 전체가 링크나 버튼이어야 하면 `Button`을 `render`로 감싸거나 내부에 별도 트리거를 둔다.
-- **도메인 조립을 새로 만들 때.** `SummaryCard` 같은 이름의 컴포넌트를 새로 만들지 않는다 — 기존 파트로 조립한다.
+- 카드 전체가 눌리는 버튼이나 링크여야 한다면 `Card`만으로는 부족해요.
+  `Button`을 `render`로 감싸거나 카드 안에 따로 버튼을 두세요. `Card` 자체는
+  클릭 핸들러도 role도 갖지 않아요.
+- `SummaryCard` 같은 새 컴포넌트를 만들지 마세요. 아래 부분들로 조립하세요.
 
-## 파트
+## 사용법
 
-`Card.Root`·`Card.Header`·`Card.Body`·`Card.Footer`·`Card.Title` — 네임스페이스형 API다. `Title`은 `Header` 안에서 쓴다 — 접근성 트리의 제목 레벨(`level`, 기본 3)과 시각 크기(`size`, 기본 `lg`)를 따로 받는다.
+`Card.Root`, `Card.Header`, `Card.Body`, `Card.Footer`, `Card.Title`로
+조립해요. `Title`은 `Header` 안에서 써요. 문서 구조의 제목 레벨(`level`, 기본
+3)과 보이는 크기(`size`, 기본 `lg`)를 따로 받아요.
 
 <Canvas of={CardStories.Playground} />
 
@@ -33,14 +40,21 @@ import * as CardStories from "./Card.stories"
 
 ## 그림자
 
-그림자 토큰(`shadow-xs`~`shadow-xl`)은 있지만 Root가 강제하지 않는다 — 평평한 디자인이 기본이다. 필요하면 `className`으로 얹는다.
+기본은 그림자가 없는 평평한 모양이에요. 그림자가 필요하면 그림자
+토큰(`shadow-xs`부터 `shadow-xl`까지)을 `className`으로 얹으세요.
 
 <Canvas of={CardStories.FlatByDefault} />
 
 ## Props
 
-`Card.Root`는 축을 갖지 않는다 — variant는 열지 않았다(간격은 소비처가 유틸리티로 정한다). 나머지는 일반 `<div>` props다.
+`Card.Root`는 따로 옵션을 받지 않아요. 색이나 간격이 다른 변형은 제공하지
+않으니 `className`으로 정하세요. 나머지는 일반 `<div>` props예요.
 
 <Story of={CardStories.Playground} />
 
 <Controls of={CardStories.Playground} />
+
+## 배경
+
+Base UI에 대응하는 컴포넌트가 없어서 DS가 직접 만든 컴포넌트예요. 상태와
+상호작용이 없어서 서버 컴포넌트로 동작해요.
