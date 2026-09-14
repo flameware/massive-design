@@ -2,6 +2,7 @@ import { dirname } from "path"
 import { fileURLToPath } from "url"
 import type { StorybookConfig } from "@storybook/react-vite"
 import tailwindcss from "@tailwindcss/vite"
+import remarkGfm from "remark-gfm"
 
 function getAbsolutePath(value: string) {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
@@ -15,7 +16,15 @@ const config: StorybookConfig = {
   stories: ["../stories/**/*.mdx", "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   // "storybook/viewport"는 별도 패키지가 아니라 storybook 본체의 서브패스라
   // getAbsolutePath로 풀 package.json이 없다 — 문자열 그대로 둔다.
-  addons: [getAbsolutePath("@storybook/addon-a11y"), getAbsolutePath("@storybook/addon-docs"), "storybook/viewport"],
+  addons: [
+    getAbsolutePath("@storybook/addon-a11y"),
+    {
+      name: getAbsolutePath("@storybook/addon-docs"),
+      // MDX는 기본으로 GFM 표를 읽지 못해 `| a | b |`가 한 문단으로 흘러내린다.
+      options: { mdxPluginOptions: { mdxCompileOptions: { remarkPlugins: [remarkGfm] } } },
+    },
+    "storybook/viewport",
+  ],
   framework: getAbsolutePath("@storybook/react-vite"),
   // @flameware/ui의 exports는 dist(빌드 산출물)를 가리킨다(#278). 워크벤치까지
   // 그것을 보면 ui 소스를 고칠 때마다 빌드를 돌려야 HMR이 붙으므로, 여기서만
