@@ -9,63 +9,74 @@ import * as EmptyStateStories from "./EmptyState.stories"
 
 <StatusBadge status={EmptyStateStories.default.parameters.ds.status} /> · since {EmptyStateStories.default.parameters.ds.since}
 
-"…없습니다" 자리를 한 모양으로 묶는다. Base UI 뒤가 없는 자체 스타일 패턴이다 — 아이콘·제목·설명·행동 버튼 넷을 하나의 이름 아래 둔다.
+"…없습니다" 화면을 한 모양으로 그려요. 아이콘, 제목, 설명, 행동 버튼 네 가지를
+하나로 묶어요.
 
 ## 언제 쓰는가
 
-- 목록·표가 비어 사용자에게 "왜 비었는지"와 "다음에 뭘 할 수 있는지"를 같이 보여줄 때 — 거래 내역, 검색 결과.
+- 목록이나 표가 비었을 때 왜 비었는지와 다음에 무엇을 할 수 있는지를 함께
+  보여 줄 때. 거래 내역이나 검색 결과가 여기에 해당해요.
 
 ## 언제 쓰지 않는가
 
-- **로딩 중일 때.** 아직 데이터를 기다리는 자리는 `Skeleton`이 진다 — EmptyState는 요청이 끝났고 결과가 0건임을 확인한 뒤에만 놓는다.
-- **오류일 때.** 요청이 실패한 자리는 `Alert`가 진다 — 빈 것과 실패한 것은 다른 사실이다.
+- 아직 데이터를 기다리는 중이면
+  [Skeleton](?path=/docs/feedback-skeleton--docs)을 쓰세요. `EmptyState`는
+  요청이 끝났고 결과가 0건인 것을 확인한 뒤에 놓아요.
+- 요청이 실패했으면 [Alert](?path=/docs/feedback-alert--docs)를 쓰세요. 비어
+  있는 것과 실패한 것은 다른 사실이에요.
 
-## 파트
+## 사용법
 
-`EmptyState.Root`·`Icon`·`Title`·`Description`·`Action` 넷 다 타입상 옵셔널이다 — 네임스페이스형 API다. **`Title`은 이 패턴이 존재하는 이유이므로 관례상 거의 항상 쓴다**(빈 것을 알리는 문장 없이 아이콘·행동 버튼만 있는 블록은 의미가 없다); `Icon`·`Action`·`Description`은 자리에 따라 자연스럽게 빠진다.
+`EmptyState.Root`, `Icon`, `Title`, `Description`, `Action`을 조립해서 써요.
+`Root`를 뺀 네 파트는 모두 생략할 수 있어요.
 
 <Canvas of={EmptyStateStories.Playground} />
 
-## 제목·설명이 한 덩어리로 읽힌다 — 있을 때만
-
-`Root`가 `Title`·`Description`이 낸 id를 `aria-labelledby`·`aria-describedby`로 받아 스크린 리더가 블록에 들어오면 제목과 설명을 이어서 읽는다. `role="group"`을 쓴다: 접근성 이름·설명 계산은 받되 `role="region"`처럼 페이지 랜드마크를 새로 열지 않는다.
-
-**`Root`는 그 파트가 실제로 자식으로 렌더될 때만 해당 aria 속성을 건다.** `Description` 없이 `Root`를 쓰면 `aria-describedby`를 아예 내지 않고, `Title` 없이 쓰면 `aria-labelledby`를 내지 않는다 — 아무 요소도 갖지 않는 id를 가리키는 매달린 IDREF를 axe(`aria-valid-attr-value`)가 잡기 때문이다(#327). `Root`는 `children`을 같은 렌더 패스 안에서 동기적으로 훑어 이를 판정하므로, 첫 페인트부터 정확하다 — effect로 뒤늦게 고치는 재렌더가 없다.
-
-## 행동 버튼 없이
+`Title`은 이 패턴이 있는 이유라서 거의 항상 써요. `Icon`, `Description`,
+`Action`은 화면에 따라 자연스럽게 빠져요.
 
 <Canvas of={EmptyStateStories.NoAction} />
 
-## 아이콘 없이
-
 <Canvas of={EmptyStateStories.NoIcon} />
-
-## 제목·설명만
 
 <Canvas of={EmptyStateStories.TitleAndDescriptionOnly} />
 
-## 제목만 — 설명 없이
-
-소비처(투자 다이어리 거래 목록)가 `onEdit` prop이 있을 때만 `Description`을 붙이는 것처럼, 설명이 자연스럽게 빠지는 자리가 있다. 이때 `Root`는 `aria-describedby`를 걸지 않는다.
-
 <Canvas of={EmptyStateStories.TitleOnly} />
-
-## 설명만 — 제목 없이
-
-`Title`은 관례상 거의 항상 쓰지만, 타입이 강제하지는 않는다. 이 조합에서도 `Root`는 매달린 IDREF 없이 유효하다 — `aria-labelledby`를 걸지 않는다.
 
 <Canvas of={EmptyStateStories.DescriptionOnly} />
 
-## 아이콘
+### 아이콘
 
-`EmptyState.Icon`은 자리·색만 진다 — 이름은 언제나 밖에 있다(`Icon`이 기본으로 `aria-hidden`을 건다, icon.tsx 참고). `<Icon icon={Inbox} />` 하나만 넘기면 40px 크기로 그린다.
+`EmptyState.Icon`은 위치와 색만 정해요. `<Icon icon={Inbox} />` 하나만 넘기면
+40px 크기로 그려요. 아이콘에는 이름이 없으니 뜻은 언제나 제목이나 설명에
+두세요.
 
-## 행동 버튼
+### 행동 버튼
 
-`EmptyState.Action`은 위쪽 간격만 준다 — `Button`을 직접 import해 기본 variant를 먹이지 않는다(Card.Footer와 같은 이유, rules.md 의존성과 base). 24×24 포인터 하한은 `Button`이 이미 진다.
+`EmptyState.Action`은 위쪽 간격만 줘요. 안에 넣을 `Button`은 직접 골라서
+넘기세요. 누를 수 있는 영역의 최소 크기는 `Button`이 이미 지켜요.
+
+## 주의할 점
+
+### 스크린 리더는 제목과 설명을 이어서 읽어요
+
+`Root`가 `Title`과 `Description`의 id를 `aria-labelledby`, `aria-describedby`로
+받아요. 그래서 스크린 리더로 이 블록에 들어오면 제목과 설명이 이어서 읽혀요.
+
+두 파트 중 실제로 넣은 것에만 속성이 붙어요. `Description` 없이 쓰면
+`aria-describedby`를 아예 내지 않고, `Title` 없이 쓰면 `aria-labelledby`를 내지
+않아요. 어느 조합으로 써도 존재하지 않는 id를 가리키는 일이 없어요.
 
 ## Props
 
 <Story of={EmptyStateStories.Playground} />
 
 <Controls of={EmptyStateStories.Playground} />
+
+## 배경
+
+Base UI에 대응하는 컴포넌트가 없어서 DS가 직접 만든 패턴이에요. `Root`는
+`role="group"`을 써서 이름과 설명 계산만 받고, 페이지 랜드마크를 새로 열지
+않아요. 넣지 않은 파트의 id를 가리키지 않으려고 `Root`가 `children`을 같은 렌더
+안에서 훑어 판정하기 때문에 첫 화면부터 정확해요. `Action`이 `Button`을 직접
+불러오지 않는 이유는 `Card.Footer`와 같아요.

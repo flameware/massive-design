@@ -9,34 +9,46 @@ import * as ListRowStories from "./ListRow.stories"
 
 <StatusBadge status={ListRowStories.default.parameters.ds.status} /> · since {ListRowStories.default.parameters.ds.since}
 
-모바일 목록의 한 줄을 그린다 — 주 텍스트·보조 텍스트·우측 값. Base UI 뒤가 없는 자체 스타일 primitive다.
+모바일 목록의 한 줄을 그려요. 주 텍스트, 보조 텍스트, 오른쪽 값 세 부분으로
+이루어져요.
 
 ## 언제 쓰는가
 
-- 보유 종목·거래 이력처럼, 폭이 좁은 화면에서 한 항목을 "이름 + 보조 정보 + 값" 한 줄로 보여줄 때.
-- `Group`(`Primary`+`Secondary`)·`Value` 중 필요한 파트만 골라 쓴다. 셋 다 옵셔널이다.
+- 폭이 좁은 화면에서 한 항목을 "이름 + 보조 정보 + 값" 한 줄로 보여 줄 때.
+  보유 종목이나 거래 이력 목록이 여기에 해당해요.
 
 ## 언제 쓰지 않는가
 
-- **데스크톱 표 형태일 때.** 여러 열을 나란히 비교해야 하면 Table이다.
-- **행 전체가 눌려야 할 때.** ListRow 자신은 role이나 클릭 핸들러를 갖지 않는다 — 행을 누를 수 있게 하려면 `Button`을 `render`로 감싸거나 Root를 `<a>`로 바꿔 쓴다(Card의 같은 판단).
+- 여러 열을 나란히 비교해야 하면 [Table](?path=/docs/data-display-table--docs)을
+  쓰세요.
+- 행 전체를 누를 수 있어야 할 때는 그대로 쓰지 마세요. `ListRow`는 클릭
+  핸들러도 role도 갖지 않아요. `Button`을 `render`로 감싸거나 `Root`를
+  `<a>`로 바꿔 쓰세요.
 
-## 파트
+## 사용법
 
-`ListRow.Root`·`ListRow.Group`·`ListRow.Primary`·`ListRow.Secondary`·`ListRow.Value` — 네임스페이스형 API다. 흔한 조립은 `Root > (Group > Primary + Secondary?) + Value?`다.
+`ListRow.Root`, `Group`, `Primary`, `Secondary`, `Value` 다섯 파트를 조립해서
+써요. 흔한 조합은 `Root > (Group > Primary + Secondary) + Value`예요.
 
 <Canvas of={ListRowStories.Playground} />
 
 <Canvas of={ListRowStories.List} />
 
-## 파트는 전부 옵셔널이다
+파트는 모두 생략할 수 있어요. 보조 텍스트나 값이 없는 항목은 해당 파트를 빼고
+쓰면 돼요.
 
 <Canvas of={ListRowStories.PartsOptional} />
 
 ## Props
 
-`ListRow.Root`는 축을 갖지 않는다 — 나머지는 일반 `<div>` props다.
+`ListRow.Root`는 별도의 옵션이 없어요. 모든 파트가 일반 `<div>` 속성을 그대로
+받아요.
 
 <Story of={ListRowStories.Playground} />
 
 <Controls of={ListRowStories.Playground} />
+
+## 배경
+
+Base UI에 대응하는 컴포넌트가 없어서 DS가 직접 만든 컴포넌트예요. 행을 누를 수
+있게 만드는 일을 앱에 맡기는 것은 `Card`와 같은 판단이에요.
