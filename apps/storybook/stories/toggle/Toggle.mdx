@@ -9,25 +9,30 @@ import * as ToggleStories from "./Toggle.stories"
 
 <StatusBadge status={ToggleStories.default.parameters.ds.status} /> · since {ToggleStories.default.parameters.ds.since}
 
-눌린 상태가 남는 버튼.
+누른 상태가 남는 버튼이에요. 즐겨찾기, 굵게나 기울임 같은 서식 버튼, 사이드바
+펼치기에 써요.
 
 ## 언제 쓰는가
 
-- 켜고 끄는 자리 하나 — 즐겨찾기, 굵게·기울임 같은 서식 토글, 사이드바 펼침.
-- 독립적인 하나의 토글. 여럿을 한 판으로 묶어 화살표로 옮겨 다니게 하려면 `ToggleGroup`이다.
+- 켜고 끄기 하나. 즐겨찾기, 서식 버튼, 사이드바 펼치기가 여기에 해당해요.
+- 혼자 쓰이는 토글 하나. 여럿을 한 판으로 묶고 화살표로 옮겨 다니게 하려면
+  `ToggleGroup`을 쓰세요.
 
 ## 언제 쓰지 않는가
 
-- **누르면 즉시 무언가 일어나고 끝나는 자리.** 상태가 남지 않으면 Button이다.
-- **여럿 중 하나(또는 여럿)를 화살표로 옮겨 고르는 자리.** 그것은 ToggleGroup이다.
+- 누르면 바로 무언가 일어나고 상태가 남지 않는다면 `Button`이에요.
+- 여럿 중 하나 또는 여럿을 화살표로 옮겨 고른다면 `ToggleGroup`이에요.
 
 ## 크기
 
-`sm`·`md`·`lg` — 값 이름은 `Button`의 `size`와 같다. `md`가 기본이고 지금까지 고정이던 모양(`h-8 px-2.5 text-sm`) 그대로다. `size`는 **이 컴포넌트의 축**이지 전역 밀도 모드가 아니다 — 화면 전체의 밀도를 한 번에 낮추는 자리는 영구적으로 이 시스템의 범위 밖이다(ADR-0023 §11).
+`size` 옵션은 `sm`, `md`, `lg` 세 가지예요. 값 이름은 `Button`의 `size`와
+같고, 기본은 `md`예요.
 
 <Canvas of={ToggleStories.Sizes} />
 
-`sm`은 시각 높이가 24px 포인터 하한 밑이다 — 시각 치수는 그대로 두고 `hit-area`가 하한을 진다(ADR-0020). 다음 스토리가 그것을 실제로 재는 대상이다(스토리 테스트의 24×24 계기).
+`sm`은 보이는 높이가 24px보다 작지만, 누를 수 있는 영역은 24×24까지 자동으로
+넓어지니 크기를 따로 키우지 않아도 돼요. 아래 스토리가 그 크기를 실제로 재는
+대상이에요.
 
 <Canvas of={ToggleStories.Size24} />
 
@@ -37,22 +42,20 @@ import * as ToggleStories from "./Toggle.stories"
 
 ## 제어와 비제어
 
-`pressed`/`onPressedChange`로 제어, `defaultPressed`로 비제어.
+`pressed`와 `onPressedChange`를 주면 값을 앱이 관리해요. `defaultPressed`만
+주면 컴포넌트가 스스로 관리해요.
 
 <Canvas of={ToggleStories.ControlledVsUncontrolled} />
 
 ## Form 안에서
 
-Base UI Toggle은 스스로 폼에 값을 내지 않는다 — Checkbox·Select와 다르게 폼
-등록을 하지 않는다. 그래서 이 컴포넌트가 `name`을 받으면 지금 눌린 값을
-그대로 미러링하는 숨은 입력 하나를 곁에 세운다(`Field.Control`로, Base UI가
-공개한 확장점이다).
+`name`을 주면 지금 눌린 값이 제출할 때 함께 담겨요. 따로 연결할 것은 없어요.
 
 <Canvas of={ToggleStories.InForm} />
 
 ## 키보드
 
-Tab으로 닿고 Enter·Space로 누른다 — 누를 때마다 눌린 상태가 뒤집힌다.
+Tab으로 닿고 Enter나 Space로 눌러요. 누를 때마다 눌린 상태가 뒤집혀요.
 
 <Canvas of={ToggleStories.Keyboard} />
 
@@ -61,3 +64,13 @@ Tab으로 닿고 Enter·Space로 누른다 — 누를 때마다 눌린 상태가
 <Story of={ToggleStories.Playground} />
 
 <Controls of={ToggleStories.Playground} />
+
+## 배경
+
+Base UI Toggle 위에 색과 치수만 입혔어요. Base UI Toggle은 Checkbox나 Select와
+달리 스스로 폼에 값을 내지 않아서, `name`을 받으면 지금 눌린 값을 그대로
+따라가는 숨은 입력 하나를 곁에 세워요.
+
+`size`는 이 컴포넌트의 옵션이에요. 화면 전체의 밀도를 한 번에 낮추는 기능은
+제공하지 않아요([ADR-0023](https://github.com/flameware/massive-design/blob/main/docs/adr/0023-second-generation-base-ui.md)
+§11).

@@ -9,23 +9,24 @@ import * as ToggleGroupStories from "./ToggleGroup.stories"
 
 <StatusBadge status={ToggleGroupStories.default.parameters.ds.status} /> · since {ToggleGroupStories.default.parameters.ds.since}
 
-`Toggle` 여럿을 한 판으로 묶어 화살표로 옮겨 다니게 한다. 항목은 이 컴포넌트의
-파트가 아니라 그냥 `Toggle`이다 — Base UI 자신의 anatomy가 평평하다.
+`Toggle` 여럿을 한 판으로 묶어 화살표로 옮겨 다니게 해요. 기간 필터나 보기
+전환처럼 선택지를 가로로 늘어놓을 때 써요.
 
 ## 언제 쓰는가
 
-- 서로 배타적인 선택지를 가로로 늘어놓는 자리 — 기간 필터(1주·1개월·1년),
-  보기 전환(목록·격자).
-- `multiple`을 주면 여러 개를 동시에 켤 수 있다 — 서식 토글바(굵게·기울임·밑줄) 같은 자리.
+- 서로 배타적인 선택지를 가로로 늘어놓을 때. 기간 필터(1주, 1개월, 1년),
+  보기 전환(목록, 격자)이 여기에 해당해요.
+- 여러 개를 동시에 켜야 할 때. `multiple`을 주면 서식 버튼 모음(굵게,
+  기울임, 밑줄)처럼 쓸 수 있어요.
 
 ## 언제 쓰지 않는가
 
-- **선택지가 많아 가로로 안 들어갈 때.** Select다.
-- **독립된 토글 하나.** 그룹으로 묶을 게 없으면 `Toggle` 혼자로 충분하다.
+- 선택지가 많아 가로로 들어가지 않으면 `Select`를 쓰세요.
+- 묶을 것이 없는 토글 하나라면 `Toggle` 혼자로 충분해요.
 
-## 히스토리 필터
+## 사용법
 
-이 티켓이 앱에 놓는 자리다 — 히스토리 화면의 기간 필터가 이 모양으로 바뀐다.
+항목은 그냥 `Toggle`이에요. 그룹 전용 항목 컴포넌트를 따로 쓰지 않아요.
 
 <Canvas of={ToggleGroupStories.Playground} />
 
@@ -33,25 +34,24 @@ import * as ToggleGroupStories from "./ToggleGroup.stories"
 
 ## 제어와 비제어
 
-`value`/`onValueChange`로 제어, `defaultValue`로 비제어 — 선택된 값들의
-배열이다(`multiple`이 기본 false라 실제로는 원소가 0개 또는 1개다).
+`value`와 `onValueChange`를 주면 값을 앱이 관리해요. `defaultValue`만 주면
+컴포넌트가 스스로 관리해요. 값은 선택된 항목들의 배열이에요. `multiple`이
+기본으로 꺼져 있어서 평소에는 원소가 0개나 1개예요.
 
 <Canvas of={ToggleGroupStories.ControlledVsUncontrolled} />
 
 ## Form 안에서
 
-Toggle과 같은 이유로 Base UI ToggleGroup도 스스로 폼에 등록하지 않는다 — 이
-컴포넌트가 `name`을 받으면 선택된 값을 숨은 입력 하나로 낸다.
-`multiple`일 때는 값을 쉼표로 이어 낸다(지금 확인된 필터는 단일 선택이라
-이 단순화로 충분하다, toggle-group.tsx).
+`name`을 주면 선택된 값이 제출할 때 함께 담겨요. `multiple`일 때는 값을
+쉼표로 이어서 내요.
 
 <Canvas of={ToggleGroupStories.InForm} />
 
 ## 키보드
 
-Tab이 그룹에 한 번 닿고(첫 항목 — roving tabindex의 초기값이라 눌린 항목이
-아니다), 화살표가 항목 사이를 옮긴다. `Enter`·`Space`가 초점 항목을 누른다 —
-Base UI의 roving focus가 준다.
+Tab은 그룹에 한 번만 닿고, 그다음부터는 화살표로 항목 사이를 옮겨요. Tab이
+처음 닿는 곳은 눌린 항목이 아니라 첫 항목이에요. Enter나 Space가 포커스가
+놓인 항목을 눌러요.
 
 <Canvas of={ToggleGroupStories.Keyboard} />
 
@@ -60,3 +60,11 @@ Base UI의 roving focus가 준다.
 <Story of={ToggleGroupStories.Playground} />
 
 <Controls of={ToggleGroupStories.Playground} />
+
+## 배경
+
+Base UI ToggleGroup 위에 색과 치수만 입혔어요. 항목을 그룹 전용 컴포넌트로
+나누지 않은 이유는 Base UI의 구조가 그렇게 평평하기 때문이에요.
+
+Base UI ToggleGroup은 Toggle과 마찬가지로 스스로 폼에 값을 내지 않아서,
+`name`을 받으면 선택된 값을 숨은 입력 하나로 내요.
