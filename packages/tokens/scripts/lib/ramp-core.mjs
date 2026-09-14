@@ -100,7 +100,7 @@ function interpolateAnchors(scaled, n, ease) {
 export function resolveParams(defaults, family, name) {
   for (const k of Object.keys(family.params ?? {})) {
     if (!PARAM_KEYS.has(k)) {
-      throw new Error(`${name}: 미구현 파라미터 키 '${k}' — 오타이거나 아직 없는 기능이다`)
+      throw new Error(`${name}: 지원하지 않는 램프 옵션이에요. (params.${k}) 이름에 오타가 없는지 확인해 주세요.`)
     }
   }
   const p = { ...defaults, ...(family.params ?? {}) }
@@ -112,17 +112,20 @@ export function resolveParams(defaults, family, name) {
 export function resolveOverrides(family, name) {
   const all = family.overrides ?? {}
   for (const mode of Object.keys(all)) {
-    if (!MODES.includes(mode)) throw new Error(`${name}.overrides: 모드가 아니다 — '${mode}'`)
+    if (!MODES.includes(mode)) {
+      throw new Error(`${name}.overrides: 모드 이름은 'light'와 'dark'만 받아요. (받은 이름: '${mode}') 둘 중 하나로 고쳐 주세요.`)
+    }
     for (const [step, ov] of Object.entries(all[mode])) {
       for (const k of Object.keys(ov)) {
         if (!OVERRIDE_KEYS.has(k)) {
-          throw new Error(`${name}.overrides.${mode}.${step}: 미구현 override 키 '${k}'`)
+          throw new Error(`${name}.overrides.${mode}.${step}: 지원하지 않는 override 키예요. ('${k}') l, c, h, _why만 쓸 수 있어요.`)
         }
       }
       if (!ov._why) {
         throw new Error(
-          `${name}.overrides.${mode}.${step}: '_why'가 없다. ` +
-            '키 컬러를 바꿨을 때 이 override가 아직 유효한지 판단할 유일한 근거다',
+          `${name}.overrides.${mode}.${step}: 이 override에 '_why'가 없어요. ` +
+            '왜 이 단계를 손으로 고쳤는지 _why에 적어 주세요. ' +
+            '기준 색을 바꿨을 때 이 override가 아직 맞는지 판단할 근거예요.',
         )
       }
     }
@@ -136,7 +139,9 @@ export function buildRamp(family, params, mode, name = 'ramp') {
   const key = toOklch(family.key)
   const peak = Math.round((p.satPeakStep / 11) * (n - 1))
   const ease = EASINGS[p.lightnessEasing]
-  if (!ease) throw new Error(`${name}: 미구현 lightnessEasing '${p.lightnessEasing}'`)
+  if (!ease) {
+    throw new Error(`${name}: lightnessEasing 값을 알 수 없어요. (params.lightnessEasing: '${p.lightnessEasing}') 'smoothstep'이나 'linear' 중 하나로 넘겨 주세요.`)
+  }
 
   // 1a. L 곡선 — 키 컬러의 L을 peak 앵커로 심은 뒤 보간한다.
   //     "step 9는 light/dark 동일"이라는 결정이 여기서 지켜진다.
@@ -192,7 +197,9 @@ export function buildRamp(family, params, mode, name = 'ramp') {
   const ov = family.overrides?.[mode] ?? {}
   for (const [step, v] of Object.entries(ov)) {
     const i = Number(step) - 1
-    if (!Number.isInteger(i) || i < 0 || i >= n) throw new Error(`${name}: override 단계 범위 밖 — ${step}`)
+    if (!Number.isInteger(i) || i < 0 || i >= n) {
+      throw new Error(`${name}: override 단계가 램프 범위 밖이에요. (단계 ${step}, 범위 1~${n}) 범위 안의 번호로 고쳐 주세요.`)
+    }
     if (v.l != null) L[i] = v.l
     if (v.c != null) C[i] = v.c
     if (v.h != null) H[i] = v.h

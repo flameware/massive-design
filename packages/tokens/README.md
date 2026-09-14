@@ -154,7 +154,9 @@ writeFileSync("app/brand.css", css)
 try {
   createBrandOverride("#eab308") // 너무 밝아서 흰 글자와 4.5:1을 못 넘어요
 } catch (e) {
-  e.message // 'createBrandOverride: 대비 게이트 실패 — light fg.on-solid ↔ bg.accent.solid: 1.92 < 4.5:1, …'
+  // createBrandOverride: 브랜드 색의 대비가 기준에 못 미쳐서 글자와 테두리가 잘 보이지 않아요.
+  // (light fg.on-solid ↔ bg.accent.solid 대비 1.92, 기준 4.5, …)
+  console.error(e.message)
 }
 ```
 

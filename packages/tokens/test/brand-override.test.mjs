@@ -45,16 +45,17 @@ test('DS 기본 키의 결과가 dist/tokens.css의 brand 팔레트와 같다', 
 })
 
 test('밝은 키(#eab308)는 대비 게이트를 못 넘어 에러를 던진다', () => {
+  // 문장이 아니라 함수 이름을 잰다 — 문구를 다듬어도 깨지지 않게(#433).
   assert.throws(
     () => ramp.createBrandOverride('#eab308'),
-    /대비 게이트 실패/,
+    /createBrandOverride: .*대비/,
   )
 })
 
 test('에러 메시지가 어느 쌍이 몇 대 몇으로 떨어졌는지 담는다', () => {
   assert.throws(
     () => ramp.createBrandOverride('#eab308'),
-    /fg\.on-solid ↔ bg\.accent\.solid: [\d.]+ < 4\.5:1/,
+    /light fg\.on-solid ↔ bg\.accent\.solid 대비 [\d.]+, 기준 4\.5/,
   )
 })
 

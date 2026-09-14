@@ -76,13 +76,13 @@ const BRAND_GATE_TABLE = ${JSON.stringify(brandGateTable, null, 2)}
  */
 export function createRamp(name, input) {
   if (typeof name !== 'string' || name === '') {
-    throw new Error('createRamp: name(패밀리 이름)이 필요하다')
+    throw new Error(\`createRamp: 패밀리 이름이 없어서 램프를 만들 수 없어요. (name: \${JSON.stringify(name)}) 첫 번째 인자에 'profit' 같은 이름을 넘겨 주세요.\`)
   }
   if (!input || typeof input.key !== 'string' || !/^#[0-9a-f]{6}$/i.test(input.key)) {
     // 6자리 sRGB hex만 받는다 — RampStep.hex의 계약과 같다. culori에
     // 곧장 넘기면 'red' 같은 CSS 색이름은 조용히 통과하고 '#zzzzzz'는
     // culori 내부 TypeError로 죽는다 — 둘 다 이 계층에서 먼저 잡는다.
-    throw new Error(\`createRamp: input.key는 6자리 hex('#rrggbb')여야 한다 — \${JSON.stringify(input?.key)}\`)
+    throw new Error(\`createRamp: 기준 색은 6자리 hex만 받아서 이 값은 쓸 수 없어요. (input.key: \${JSON.stringify(input?.key)}) '#0f5fed'처럼 '#rrggbb' 형식으로 넘겨 주세요.\`)
   }
   const family = { key: input.key, overrides: input.overrides ?? {} }
   resolveOverrides(family, name)
@@ -135,7 +135,7 @@ export const contrastRatio = wcag
  */
 export function createBrandOverride(key) {
   if (typeof key !== 'string' || key === '') {
-    throw new Error('createBrandOverride: key(브랜드 키 컬러)가 필요하다')
+    throw new Error(\`createBrandOverride: 브랜드 색이 없어서 팔레트를 만들 수 없어요. (key: \${JSON.stringify(key)}) 첫 번째 인자에 '#0f5fed' 같은 CSS 색을 넘겨 주세요.\`)
   }
   let oklchKey
   try {
@@ -149,7 +149,7 @@ export function createBrandOverride(key) {
     !Number.isFinite(oklchKey.c) ||
     !Number.isFinite(oklchKey.h)
   ) {
-    throw new Error(\`createBrandOverride: key를 색으로 해석할 수 없다 — \${JSON.stringify(key)}\`)
+    throw new Error(\`createBrandOverride: 넘긴 브랜드 색을 색으로 읽을 수 없어요. (key: \${JSON.stringify(key)}) '#0f5fed'나 'oklch(0.54 0.23 261)'처럼 CSS가 아는 색으로 넘겨 주세요.\`)
   }
 
   // key를 그대로 넘긴다 — buildRamp가 toOklch(family.key)로 다시 파싱하므로
@@ -168,7 +168,7 @@ export function createBrandOverride(key) {
   }
   if (issues.some((i) => i.level === 'error')) {
     throw new Error(
-      \`createBrandOverride: 램프 lint 실패 — \${issues.filter((i) => i.level === 'error').map((i) => i.msg).join('; ')}\`,
+      \`createBrandOverride: 브랜드 색으로 만든 12단계 색 배열이 검사를 통과하지 못했어요. (\${issues.filter((i) => i.level === 'error').map((i) => i.msg).join('; ')}) 브랜드 색의 밝기나 채도를 조금 조정한 뒤 다시 실행해 보세요.\`,
     )
   }
 
@@ -179,12 +179,12 @@ export function createBrandOverride(key) {
       const [sideA, sideB] = row.sides[mode]
       const cr = wcag(hexOf(sideA, mode), hexOf(sideB, mode))
       if (cr < row.gate) {
-        failures.push(\`\${mode} \${row.a} ↔ \${row.b}: \${cr.toFixed(2)} < \${row.gate}:1\`)
+        failures.push(\`\${mode} \${row.a} ↔ \${row.b} 대비 \${cr.toFixed(2)}, 기준 \${row.gate}\`)
       }
     }
   }
   if (failures.length) {
-    throw new Error(\`createBrandOverride: 대비 게이트 실패 — \${failures.join(', ')}\`)
+    throw new Error(\`createBrandOverride: 브랜드 색의 대비가 기준에 못 미쳐서 글자와 테두리가 잘 보이지 않아요. (\${failures.join(', ')}) 브랜드 색을 조금 어둡게 조정한 뒤 다시 실행해 보세요.\`)
   }
 
   const line = (mode, s) => \`  --ds-palette-brand-\${mode}-\${s.step}: \${s.hex};\`

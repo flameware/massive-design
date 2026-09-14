@@ -30,7 +30,9 @@ export function oklchToHex({ l, c, h }) {
 
 /** CSS `color-mix(in oklab, base (1-alpha), layer alpha)`와 같은 파생 hex. */
 export function mixOklabHex(base, layer, alpha) {
-  if (!(alpha >= 0 && alpha <= 1)) throw new Error(`alpha 범위 오류: ${alpha}`)
+  if (!(alpha >= 0 && alpha <= 1)) {
+    throw new Error(`mixOklabHex: 투명도는 0과 1 사이만 받아요. (alpha: ${alpha}) 0 이상 1 이하 값으로 넘겨 주세요.`)
+  }
   return formatHex(interpolate([base, layer], 'oklab')(alpha))
 }
 
