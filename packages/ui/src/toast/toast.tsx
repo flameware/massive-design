@@ -75,7 +75,7 @@ export type ToastTone = "neutral" | "success" | "danger"
 
 export const toastRootVariants = cva(
   [
-    "pointer-events-auto flex w-full flex-col gap-1 rounded-lg border p-4 text-sm shadow-lg",
+    "pointer-events-auto relative flex w-full flex-col gap-1 rounded-lg border p-4 text-sm shadow-lg",
     "transition-[opacity,transform] duration-200 ease-out",
     "data-[starting-style]:translate-y-2 data-[starting-style]:opacity-0",
     "data-[ending-style]:opacity-0",
@@ -110,8 +110,15 @@ export const Provider: React.FC<ToastProviderProps> = BaseToast.Provider
  * 자리인데, 토스트는 그보다 작은 카드(`p-4`)라 오프셋·크기가 다르다 —
  * 형태(아이콘)는 같고 자리(위치·치수)만 다른 경우다. 이 리터럴은
  * emission.test.mjs가 방출을 잰다(export가 그 이유다, 다른 cva 변형과
- * 같은 대우). */
-const CONTENT = "relative flex flex-col gap-1 pe-6"
+ * 같은 대우).
+ *
+ * `right-3 top-3`은 **카드 모서리** 기준이다 — 그래서 위치 기준(`relative`)은
+ * 콘텐츠 래퍼가 아니라 `toastRootVariants`에 있다(#419: 래퍼에 두면 `p-4`만큼
+ * 더 밀려 X가 제목 줄 아래·카드 아래 모서리에 걸쳤다). 오프셋은 테두리 안쪽(패딩 박스)
+ * 기준이라 X(20px)는 카드 바깥 모서리에서 13px(테두리 1px + 12px)에 오고, 세로
+ * 중심이 한 줄 제목의 중심과 1px 안에서 맞는다. `CONTENT`의 `pe-6`은 루트 `p-4`와
+ * 합쳐 오른쪽 40px를 비워 X 자리(12–32px)를 덮는다. */
+const CONTENT = "flex flex-col gap-1 pe-6"
 const TITLE = "font-medium leading-none"
 const DESCRIPTION = "text-sm"
 const CLOSE =
@@ -140,7 +147,7 @@ export const toastPartClassNames = { CONTENT, TITLE, DESCRIPTION, CLOSE, ACTION 
  * `closeButtonClassName`은 전체 화면 오버레이 모서리(`absolute right-4
  * top-4 size-6`, `p-6` 안쪽)를 위한 자리인데, 토스트는 그보다 작은 카드
  * (`p-4`)라 오프셋·크기가 다르다 — 형태(아이콘)는 같고 자리만 다른
- * 경우다. */
+ * 경우다. 두 경우 모두 오프셋은 표면(카드·팝업) 모서리 기준이다. */
 function ToastCard({ toast }: { toast: BaseToast.Root.ToastObject }) {
   const tone = (toast.type as ToastTone | undefined) ?? "neutral"
   return (
