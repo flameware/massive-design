@@ -2,7 +2,7 @@
 
 맵 [#445](https://github.com/flameware/massive-design/issues/445) · 글쓰기 규칙은 [`../agents/writing-ko.md`](../agents/writing-ko.md) · 규칙 원장은 [`../agents/rules.md`](../agents/rules.md) · 선행 [`korean-writing-map.md`](korean-writing-map.md)
 
-## Destination (#445에서 그대로 옮김)
+## Destination (#445 요약)
 
 공개 레포인데 루트 README가 없다. 레포를 처음 찾은 방문자에게 이 DS가 무엇이고 어디서 보는지 알려주는 README를 둔 상태. 아래 Decisions는 grilling 세션에서 확정했다.
 
@@ -30,7 +30,7 @@
 | [#447](https://github.com/flameware/massive-design/issues/447) 초기 요청 메모 이동 | [#450](https://github.com/flameware/massive-design/pull/450) | `642cb8a` | 루트의 `initial-prompt-scribble.md`를 `git mv`로 [`initial-prompt-scribble.md`](initial-prompt-scribble.md)(이 디렉터리)로 옮겼다. 내용은 기록이라 한 글자도 고치지 않았고 이력은 그대로 따라왔다 | 이 파일을 가리키던 곳은 [`repo-review-2026-09.md`](repo-review-2026-09.md) 한 자리뿐이라 같은 디렉터리 안의 상대 링크로 고쳤다 |
 | [#448](https://github.com/flameware/massive-design/issues/448) 레포 설명·토픽·Homepage | (코드 변경 없음, `gh repo edit`) | — | 설명 "한국어 앱을 위한 React 디자인 시스템 — 토큰·컴포넌트·Storybook", Homepage는 README와 같은 Storybook 주소, 토픽 7개(`design-system`·`react`·`base-ui`·`tailwindcss`·`storybook`·`design-tokens`·`oklch`) | 외부에 곧바로 보이는 변경이라 실행 전에 메인테이너가 문구를 확인했다. 레포 카드의 소개와 README 첫 화면이 이제 같은 말을 한다 |
 
-## 어긋난 것
+## 규칙과 어긋난 것
 
 - **영어 한 줄 요약의 대시는 예외로 남았다.** 글쓰기 규칙의 금지 패턴 넷 중 하나가 본문 대시(" — ")인데, #445가 영어 한 줄을 "A Korean-first React design system — tokens, components, Storybook."으로 문구까지 확정해 두었다. 규칙을 어기는 대신 [`../agents/writing-ko.md`](../agents/writing-ko.md) §대상의 루트 README 줄에 이 예외를 적었다 — 금지 표현 `grep`이 잡는 1건은 이 줄이다.
 - **Text와 Heading은 서브패스 하나를 같이 쓴다.** 컴포넌트 표는 이름을 세지만 서브패스는 39개라 수가 어긋나 보인다. 표 아래 한 문장으로 밝혔다.
