@@ -14,15 +14,15 @@ GitHub Packages에 있어서 `.npmrc`에 레지스트리를 한 줄 적어야 �
 ```
 # .npmrc
 @flameware:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+//npm.pkg.github.com/:_authToken=${FLAMEWARE_PACKAGES_TOKEN}
 ```
 
 ```sh
 bun add @flameware/ui @flameware/tokens
 ```
 
-`GITHUB_TOKEN`은 `read:packages` 권한을 가진 개인 토큰이에요. Vercel 같은 빌드
-환경에서도 같은 이름의 환경 변수로 넣어요.
+`FLAMEWARE_PACKAGES_TOKEN`은 `read:packages` 권한을 가진 개인 토큰이에요. Vercel 같은
+빌드 환경에서도 같은 이름의 환경 변수로 넣어요.
 
 ## 쓰기
 

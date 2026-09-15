@@ -14,7 +14,7 @@ GitHub Packages에 있어서 `.npmrc`에 레지스트리를 한 줄 적어야 �
 ```
 # .npmrc
 @flameware:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+//npm.pkg.github.com/:_authToken=${FLAMEWARE_PACKAGES_TOKEN}
 ```
 
 ```sh

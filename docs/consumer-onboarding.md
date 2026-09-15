@@ -12,17 +12,20 @@ GitHub Packages에 있어서 `.npmrc`에 레지스트리를 한 줄 적어야 `b
 ```
 # .npmrc
 @flameware:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+//npm.pkg.github.com/:_authToken=${FLAMEWARE_PACKAGES_TOKEN}
 ```
 
 ```sh
 bun add @flameware/ui @flameware/tokens
 ```
 
-`GITHUB_TOKEN`은 `read:packages` 권한을 가진 개인 액세스 토큰이에요. 로컬에서는 셸
-환경 변수로, Vercel 같은 빌드 환경에서는 같은 이름의 프로젝트 환경 변수로 넣어요.
-이름이 다르면 `.npmrc`의 `${GITHUB_TOKEN}` 치환이 비어서 레지스트리 인증이 아무
-메시지 없이 실패해요.
+`FLAMEWARE_PACKAGES_TOKEN`은 `read:packages` 권한을 가진 개인 액세스 토큰이에요.
+로컬에서는 셸 환경 변수로, Vercel 같은 빌드 환경에서는 같은 이름의 프로젝트 환경
+변수로 넣어요. 이름이 다르면 `.npmrc`의 `${FLAMEWARE_PACKAGES_TOKEN}` 치환이 비어서
+레지스트리 인증이 아무 메시지 없이 실패해요.
+
+이 토큰을 `GITHUB_TOKEN`이라는 이름으로 두지 마세요. `gh` CLI가 그 환경 변수를 로그인
+정보보다 먼저 써서, 이슈 생성 같은 쓰기 작업이 권한 부족으로 실패해요.
 
 ## 2. CSS
 
