@@ -4,10 +4,52 @@
 # `test`는 두 패키지의 node --test에 Storybook 스토리 테스트를 더한다 (#279).
 name: check
 
+# `paths-ignore`에 올릴 자격은 "어떤 검사도 읽지 않는 파일"뿐이다 (#453). 문서라고
+# 다 되는 것이 아니라서 목록이 `docs/**`가 아니라 하위 디렉터리 열거다:
+#
+# - `docs/tokens/**`와 루트 `CONTEXT.md`는 **뺐다**. `packages/tokens/test/
+#   documentation.test.mjs`가 `CONTEXT.md`·`semantic-tokens.md`·`scale-tokens.md`를
+#   직접 읽어 토큰 계약 서술을 검사하므로, 이 셋은 고치면 `test`가 깨질 수 있다.
+# - `packages/**`·`apps/**`도 문서를 품고 있지만 통째로 뺐다. tokens 테스트가
+#   `packages/tokens/README.md`를 읽고(`build.test.mjs`·`chart-series.test.mjs`),
+#   `package.test.mjs`는 그 README가 게시 tarball의 `files`에 있는지 본다. Storybook은
+#   `apps/storybook/stories/**/*.mdx`를 빌드에 넣는다.
+# - 루트 `*.md`를 통으로 쓰지 않고 세 파일을 적은 것도 `CONTEXT.md`를 빼기 위해서다.
+# - `graft/**`는 gitignore된 재생성 캐시라 지금은 변경 목록에 뜨지도 않는다. 캐시를
+#   커밋하게 되는 날에도 읽는 검사가 없다는 뜻으로 남겨 둔다.
+#
+# 디렉터리를 열거하는 쪽이 안전한 방향으로 틀린다 — `docs/` 아래 새 디렉터리는
+# 목록에 없으니 검사가 그냥 돈다.
+#
+# `main`에 브랜치 보호 규칙이 없어 건너뛴 워크플로가 머지를 막지 않는다. 보호 규칙을
+# 켜는 날에는 이 방식을 버리고 같은 이름으로 항상 성공하는 더미 잡을 두어야 한다 —
+# 건너뛴 required check는 영영 pending으로 남기 때문이다.
+#
+# GitHub Actions 워크플로는 YAML 앵커를 받지 않으므로 목록을 두 번 적는다.
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "docs/adr/**"
+      - "docs/agents/**"
+      - "docs/handoff/**"
+      - "docs/research/**"
+      - "docs/*.md"
+      - "graft/**"
+      - "README.md"
+      - "AGENTS.md"
+      - "CLAUDE.md"
   pull_request:
+    paths-ignore:
+      - "docs/adr/**"
+      - "docs/agents/**"
+      - "docs/handoff/**"
+      - "docs/research/**"
+      - "docs/*.md"
+      - "graft/**"
+      - "README.md"
+      - "AGENTS.md"
+      - "CLAUDE.md"
 
 jobs:
   check:
