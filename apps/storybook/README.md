@@ -46,6 +46,10 @@ bun run --filter @flameware/storybook test               # 빌드 + 스토리 �
    형식은 `stories/meta.ts`의 `KeyboardContract`이고, 실행하는 것은
    `test/stories.test.mjs`예요. 항목을 더하면 테스트가 그것을 그대로 눌러 봐요.
 
+4. 루트 [`README.md`](../../README.md)의 컴포넌트 표에 같은 묶음으로 이름을 더해요.
+   이 표는 `@flameware/ui`가 내보내는 컴포넌트를 빠짐없이 담는 곳이라, 손으로 고치지
+   않으면 새 컴포넌트가 빠져요.
+
 ## 스토리 테스트가 재는 것
 
 `test/stories.test.mjs`가 정적 빌드를 띄우고 모든 스토리를 Chromium으로 열어 셋을
