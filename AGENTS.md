@@ -2,7 +2,7 @@
 
 Standing instructions. Everything that happened lives behind a pointer, not here.
 
-이 프로젝트의 질문과 출력은 한국어를 기본으로 한다. 앱 개발자가 읽는 한국어 글(Storybook 문서·패키지 README·온보딩 가이드·공개 API 에러 메시지)을 쓰거나 고칠 때는 먼저 [`docs/agents/writing-ko.md`](docs/agents/writing-ko.md)를 읽는다.
+이 프로젝트의 질문과 출력은 한국어를 기본으로 한다. 앱 개발자와 방문자가 읽는 한국어 글(Storybook 문서·루트 README·패키지 README·온보딩 가이드·공개 API 에러 메시지)을 쓰거나 고칠 때는 먼저 [`docs/agents/writing-ko.md`](docs/agents/writing-ko.md)를 읽는다.
 
 ## Rules that bind later work
 

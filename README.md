@@ -27,7 +27,7 @@ A Korean-first React design system — tokens, components, Storybook.
 
 ## 컴포넌트
 
-`@flameware/ui`가 내보내는 컴포넌트예요. 분류는 Storybook 사이드바와 같아요.
+`@flameware/ui`가 내보내는 컴포넌트를 역할별로 묶었어요.
 
 | 분류 | 컴포넌트 |
 | --- | --- |
@@ -42,8 +42,9 @@ A Korean-first React design system — tokens, components, Storybook.
 | 타이포그래피 | Text, Heading |
 | 패턴 | PageShell, ThemeToggle, EmptyState, ConfirmDialog |
 
-컴포넌트가 아닌 것으로는 클래스 이름을 합치는 `cn` 함수가 패키지 루트에 있어요.
-각 컴포넌트의 옵션과 예시는 [`@flameware/ui` README](packages/ui/README.md)와
+Text와 Heading은 서브패스 하나를 같이 써요. 컴포넌트가 아닌 것으로는 클래스 이름을
+합치는 `cn` 함수가 패키지 루트에 있어요. 각 컴포넌트의 옵션과 예시는
+[`@flameware/ui` README](packages/ui/README.md)와
 [Storybook](https://flameware.github.io/massive-design/)에 있어요.
 
 ## 써 보기
