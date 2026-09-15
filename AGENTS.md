@@ -46,7 +46,7 @@ Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agen
 
 **Figma는 보류다** (ADR-0023 §9). 마지막 스냅숏 [#273](https://github.com/flameware/massive-design/issues/273)의 `verification/figma-baseline.json`은 1세대의 기록으로만 남는다. 스냅숏 툴링이 삭제됐으므로 요청이 와도 만들 수 없다.
 
-Closed maps, with their records:
+Closed maps, with their records ([`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff *into* the completed component map, not a completion record):
 
 | Map | Record |
 | --- | --- |
@@ -61,8 +61,7 @@ Closed maps, with their records:
 | Phase 2 — 2세대 Base UI, 앱 자리로 넓히기 (#317) | [`docs/handoff/phase-2-base-ui-map.md`](docs/handoff/phase-2-base-ui-map.md) |
 | Phase 3 — 2세대 Base UI, 소비처가 우회하는 축을 닫는다 (#365) | [`docs/handoff/phase-3-base-ui-map.md`](docs/handoff/phase-3-base-ui-map.md) |
 | 숲마루 온보딩 — 두 번째 소비처가 드러낸 결손을 닫는다 (#396) | [`docs/handoff/second-consumer-onboarding-map.md`](docs/handoff/second-consumer-onboarding-map.md) |
-
-[`docs/handoff/component-map.md`](docs/handoff/component-map.md) is the historical handoff *into* the completed component map, not a completion record.
+| 사용자에게 보이는 한국어 문서를 다시 쓰고 글쓰기 규칙을 둔다 (#425) | [`docs/handoff/korean-writing-map.md`](docs/handoff/korean-writing-map.md) |
 
 ## Definition of done
 
