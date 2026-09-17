@@ -91,7 +91,7 @@ Popover·Switch·Stack/Grid는 애초에 컴포넌트가 서지 않아 `preview`
 
 - **`align` → `textAlign`**(#367) — 카탈로그에서 `align`이 이미 Base UI Positioner의 배치 방향을 뜻해 ADR-0008 위반. 값·기본값·범위는 스펙 그대로.
 - **`default` → `neutral`**(#368) — Badge·Alert가 이미 이 자리를 `neutral`이라 부른다. 같은 축이 컴포넌트마다 다른 어휘를 가지면 안 된다는 티켓의 목적 자체가 `default`라는 동의어를 막는다.
-- **Badge `muted`의 면**(#368) — `bg-neutral-soft` 위 `text-muted`가 아니라 `bg-neutral-muted`(#337이 이미 열어 둔 토큰) + `fg.default`. 실측 12자리 전부가 `tone="outline"` + `text-muted`(테두리, 투명 배경) 모양이었고, 스펙이 가정한 "soft 면 위 muted 글자"와 실제 앱의 모양이 달랐다 — 축이 열린 목적(조용한 채움)과 더 맞는 면으로 갔다.
+- **Badge `muted`의 면**(#368) — `bg-neutral-soft` 위 `text-muted`가 아니라 `bg-neutral-muted`(#337이 이미 열어 둔 토큰) + `fg.default`. 실측 12자리 전부가 `tone="outline"` + `text-muted`(테두리, 투명 배경) 모양이었고, 스펙이 가정한 "soft 면 위 muted 글자"와 실제 앱의 모양이 달랐다 — 축이 열린 목적(조용한 채움)과 더 맞는 면으로 갔다. **이 판정은 #434가 뒤집었다** — `bg.neutral.muted`는 FILL_GATE가 "보이도록" 지키는 단계라 `muted`가 `neutral`보다 진한 배지로 그려졌고, 지금 Badge `muted`는 스펙이 처음 가정한 `bg-neutral-soft` 위 `text-muted`다.
 - **Toggle `md` 32px**(#369) — 이름은 `Button`과 같은 공간(`sm`·`md`·`lg`)이지만 치수는 `Button.md`(36px)가 아니라 `Button.sm`과 같은 높이(32px, `h-8`)로 갔다 — 게시 인스턴스 보존(rules.md 승계 규칙)이 이름 대칭보다 우선했다.
 
 ## 별도 문서 사이트 — 재판단, 세우지 않는다 (변경 없음)

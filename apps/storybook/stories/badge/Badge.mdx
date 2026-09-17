@@ -26,8 +26,10 @@ import * as BadgeStories from "./Badge.stories"
 
 ## 톤
 
-`tone`이 면 색과 글자 색을 정해요. 면이 있는 다섯 톤은 모두 대비 검사를 이미
-통과한 조합만 써요.
+`tone`은 일곱 개 값을 받고, 값마다 면 색과 글자 색이 정해져 있어요. 어느
+값이든 대비 검사를 이미 통과한 조합만 써요.
+
+분류나 상태를 색으로 갈라 보일 때는 아래 다섯 개를 써요.
 
 <Canvas of={BadgeStories.Tones} />
 
@@ -36,8 +38,8 @@ import * as BadgeStories from "./Badge.stories"
 
 <Canvas of={BadgeStories.Outline} />
 
-`muted`는 부모 색과 크게 갈리지 않는 조용한 배지예요. 면은
-`bg.neutral.muted`, 글자는 `fg.default`를 써요.
+`muted`는 부모 색과 크게 갈리지 않는 조용한 배지예요. 면은 `neutral`과 같은
+`bg.neutral.soft`를 쓰고, 글자만 옅은 `fg.muted`로 낮춰요.
 
 <Canvas of={BadgeStories.Muted} />
 
@@ -76,8 +78,8 @@ import * as BadgeStories from "./Badge.stories"
 
 Base UI에 대응하는 컴포넌트가 없어서 DS가 직접 만든 컴포넌트예요.
 
-`muted` 톤이 옅은 유채 면 대신 회색 면을 쓰는 이유는 흐린 글자색(`fg.muted`)이
-유채 면 위에서 대비 기준을 넘지 못하기 때문이에요. `className`으로 기본값을
+`muted` 톤을 회색 면에서만 쓸 수 있는 이유는 흐린 글자색(`fg.muted`)이 옅은
+유채색 면 위에서 대비 기준을 넘지 못하기 때문이에요. `className`으로 기본값을
 지울 수 있는 것은 `Badge`가 클래스 병합에 tailwind-merge를 쓰기 때문이에요.
 손익 색을 DS가 정하지 않는 이유는
 [ADR-0023](https://github.com/flameware/massive-design/blob/main/docs/adr/0023-second-generation-base-ui.md) §10에
