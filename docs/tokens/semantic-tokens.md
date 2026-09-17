@@ -73,7 +73,7 @@ DTCG에서는 다크 값을 Primer 형식으로 토큰 옆에 인라인한다:
 | 1 | `bg.canvas` | 페이지 최하단 배경 | neutral 2 `#f8f8f8` | neutral 1 `#0c0c0c` |
 | 2 | `bg.surface` | 카드·패널 등 올라온 면 | neutral 1 `#fdfdfd` | neutral 2 `#151515` |
 | 3 | `bg.subtle` | 2차 그룹핑 (테이블 헤더, 사이드바 hover, Skeleton) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
-| 4 | `bg.inset` | 파묻힌 영역 (코드블록, 입력 내부) — **`bg.subtle`의 별칭** (§4.1) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
+| 4 | `bg.inset` | 파묻힌 영역 (코드블록, Checkbox·Radio 칸, 무력화된 입력 — 쉬는 입력은 [#463](https://github.com/flameware/massive-design/issues/463)에서 `bg.surface`로 옮겼다) — **`bg.subtle`의 별칭** (§4.1) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
 | 5 | `bg.overlay` | 다이얼로그·팝오버 면 | neutral 1 `#fdfdfd` | neutral 3 `#1e1e1e` |
 | 6 | `bg.neutral.soft` | 중립 뱃지·태그 배경, secondary 버튼, 잔여 트랙 (§8.3) | neutral 3 `#eeeeee` | neutral 3 `#1e1e1e` |
 | 7 | `bg.neutral.muted` | 면으로 읽혀야 하는 중립 채움 (§4.2) | neutral 7 `#b8b8b8` | neutral 6 `#414141` |

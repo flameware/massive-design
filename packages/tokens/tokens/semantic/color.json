@@ -43,7 +43,7 @@
       "inset": {
         "$type": "color",
         "$value": "{palette.neutral.light.3}",
-        "$description": "파묻힌 영역 — 코드블록, 입력 내부, ToggleGroup·Checkbox 트랙. **bg.subtle과 같은 값이다**(#337). DS는 subtle보다 한 단계 더 파인 면을 제공하지 않는다 — 이름이 둘인 것은 소비처의 의도를 기록하기 위해서지 다른 색을 얻기 위해서가 아니다",
+        "$description": "파묻힌 영역 — 코드블록, Checkbox·Radio의 unchecked 칸, 그리고 **무력화된 입력의 면**. 쉬는 입력과 ToggleGroup 트랙은 #463에서 bg.surface로 옮겼다: 입력은 파묻힌 면이 아니라 면 위에 놓인 테두리 박스이고, 회색 면은 쉬는 컨트롤을 무력화처럼 보이게 했다. 이름이 진 것은 의미가 아니라 기하이므로 '아직 안 켠 칸'과 '쓸 수 없는 입력'이 한 토큰을 함께 쓴다. **bg.subtle과 같은 값이다**(#337). DS는 subtle보다 한 단계 더 파인 면을 제공하지 않는다 — 이름이 둘인 것은 소비처의 의도를 기록하기 위해서지 다른 색을 얻기 위해서가 아니다",
         "$extensions": {
           "org.primer.overrides": {
             "dark": "{palette.neutral.dark.3}"
