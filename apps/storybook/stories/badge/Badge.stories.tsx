@@ -4,13 +4,13 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import type { ComponentMeta } from "../meta"
 
 /* Badge는 Base UI 뒤가 없는 자체 스타일 primitive다(#290) — 눌리는 것이 없어
- * 키보드 계약 스토리는 두지 않는다. 면이 있는 다섯 톤(neutral·accent·danger·
- * success·warning)은 전부 대비 게이트가 검증한 조합만 쓴다
- * (packages/tokens/scripts/contrast.mjs TEXT_PAIRS) — 아래 Tones 스토리가 그
- * 다섯을 나란히 보여준다. `outline`은 면이 없어(#293) 그 게이트 밖이고
- * `fg.default` 하나만 쓴다. `muted`는 소비처 12자리가 손으로 얹던 조용한
- * 배지다(#368) — `bg.neutral.muted`(#337) × `fg.default`는 FILL_GATE 1.35와
- * TEXT_PAIRS 4.5 둘 다 이미 검증돼 있다. */
+ * 키보드 계약 스토리는 두지 않는다. 톤은 일곱이고 전부 대비 게이트가 검증한
+ * 조합만 쓴다(packages/tokens/scripts/contrast.mjs TEXT_PAIRS). 분류를 색으로
+ * 가르는 다섯(neutral·accent·danger·success·warning)은 아래 Tones 스토리가
+ * 나란히 보여준다. `outline`은 면이 없어(#293) 그 게이트 밖이고 `fg.default`
+ * 하나만 쓴다. `muted`는 소비처 12자리가 손으로 얹던 조용한 배지다(#368) —
+ * `bg.neutral.soft` × `fg.muted`는 TEXT_PAIRS에 열거된 쌍이고 실측 5.34:1
+ * (라이트)·5.15:1(다크)로 TEXT_GATE 4.5를 넘는다(#434). */
 const meta = {
   title: "Data display/Badge",
   component: Badge,
@@ -44,7 +44,8 @@ const TRADES: Trade[] = [
 
 export const Playground: Story = {}
 
-/* 다섯 톤을 나란히 — 전부 대비 게이트가 검증한 [전경, 배경] 조합이다. */
+/* 분류를 색으로 가르는 다섯 톤을 나란히 — 전부 대비 게이트가 검증한
+ * [전경, 배경] 조합이다. */
 export const Tones: Story = {
   render: () => (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
@@ -63,7 +64,8 @@ export const Outline: Story = {
 }
 
 /* 조용한 값 — 분류가 아니라 "부모 색과 갈리지 않는 배지"가 필요한 자리(#368).
- * 실측 12자리가 손으로 `text-muted`를 얹던 것을 대신한다. */
+ * 실측 12자리가 `bg.neutral.soft` 위에 손으로 `text-muted`를 얹던 것을
+ * 대신한다. 면은 `neutral`과 같고 글자만 옅다(#434). */
 export const Muted: Story = {
   args: { tone: "muted", children: "보류" },
 }

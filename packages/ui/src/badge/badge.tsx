@@ -16,17 +16,19 @@ import { cn } from "../lib/utils.js"
  *
  * `muted`는 새 축이 아니라 이 축의 새 값이다(#368) — 실측이 요구한 12자리는
  * 전부 `text-muted`(부모 색과 갈리지 않는 조용한 배지)를 손으로 얹고 있었다.
- * `text-muted`를 다른 다섯 톤처럼 soft 면 위에 얹으면 대비 게이트가 깨진다
- * — `fg.muted`는 `bg.<family>.soft` 조합에서 검증돼 있지 않다(TEXT_PAIRS는
- * `fg.muted`를 SURFACES·`bg.neutral.soft` 위에서만 잰다). 값을 포기하는 대신
- * **면을 고른다**(AC): `bg.neutral.muted`는 #337이 정확히 이 용도로 이미 연
- * "면으로 읽혀야 하는 채움" 단계이고, `fg.default`와의 조합이 FILL_GATE
- * 1.35와 TEXT_PAIRS 4.5 둘 다 이미 검증돼 있다(MUTEDS 목록). 그래서 `muted`
- * 톤은 `bg-neutral-muted text-default`다 — 새 토큰이 필요 없었다.
+ * 그래서 이 톤은 그 12자리가 손으로 만들던 조합을 그대로 낸다: `neutral`과 같은
+ * 조용한 면(`bg.neutral.soft`, `bg.canvas` 위 면 대비 1.09) 위에 옅은 글자
+ * (`fg.muted`)다. 면을 `neutral`보다 진한 단계로 올리면 가장 조용해야 할 톤이
+ * 가장 무거워져 이름이 약속한 방향과 어긋난다(#434).
+ *
+ * 위의 "검증 밖" 단서는 **유채** soft에만 걸린다 — 중립은 다르다:
+ * `['fg.muted', 'bg.neutral.soft']`는 TEXT_PAIRS에 명시적으로 열거된 쌍이고
+ * 실측 5.34:1(라이트)·5.15:1(다크)로 TEXT_GATE 4.5를 넘는다. 새 토큰도 게이트
+ * 표 수정도 필요 없다.
  *
  * `outline`은 면을 채우지 않고 테두리만 두른다 — 소비처(auth·history·
  * portfolio) 9자리에서 반복된 자리다(ADR-0023 §5). 글자색은 `fg.default`
- * 하나뿐이다: 새 색 조합을 여는 대신, 면이 있는 다섯 톤과 달리 이 톤은
+ * 하나뿐이다: 새 색 조합을 여는 대신, 면을 채우는 여섯 톤과 달리 이 톤은
  * "분류"가 아니라 "밀도가 낮은 배지"가 필요할 때 쓰는 용도라 톤별 글자색이
  * 필요 없다. 소비처가 더 옅은 글자색을 원하면 지금까지처럼 `className`으로
  * 얹는다(`fg.default`는 이미 모든 표면 위에서 검증됐으므로 그 위에 얹는
@@ -65,7 +67,7 @@ export const badgeVariants = cva(
         success: "bg-success-soft text-success",
         warning: "bg-warning-soft text-warning",
         outline: "border border-default text-default bg-transparent",
-        muted: "bg-neutral-muted text-default",
+        muted: "bg-neutral-soft text-muted",
       },
     },
     defaultVariants: { tone: "neutral" },
