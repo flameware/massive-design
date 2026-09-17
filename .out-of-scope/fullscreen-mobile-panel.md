@@ -17,6 +17,12 @@
   ([apt-finder#15](https://github.com/flameware/apt-finder/issues/15)), 그건
   그 앱의 사정이지 DS가 축을 여는 근거가 아니다.
 
+  **그 뒤 숲마루가 이 우회를 스스로 철회했다**([apt-finder#61](https://github.com/flameware/apt-finder/issues/61)):
+  단지 상세를 폭 분기 없는 **중앙 모달 하나**로 수렴시키면서 `useIsMobile` 분기와
+  Drawer 재도색이 통째로 사라졌다. 아래에 실린 우회 코드는 이제 그 레포에 없다 —
+  기록으로만 읽는다. 판정은 그대로 서고, 근거는 더 강해졌다: 전체 화면 오버레이를
+  그리던 유일한 자리가 **오버레이를 포기하는 쪽**으로 갔다.
+
 한 곳이 우회한다는 사실만으로 축을 열지 않는 것은 이 리포가 이미 정한 방식이다:
 
 - **축을 여는 것과 우회를 발견하는 것은 다른 티켓이다**
@@ -42,7 +48,12 @@
 
 위 우회 중 **딱 하나**, 손잡이를 지우는 `[&>div:first-child]:hidden`은 클래스가 아니라
 `Drawer.Popup`의 자식 순서에 기댄다. 그것은 축이 없어서 생긴 부채가 아니라 **DS가
-장식 마크업을 끌 방법을 주지 않아서** 생긴 부채이고, 이 판정과 무관하게 [#455](https://github.com/flameware/massive-design/issues/455)가 따로 다룬다.
+장식 마크업을 끌 방법을 주지 않아서** 생긴 부채이고, 이 판정과 무관하게 [#455](https://github.com/flameware/massive-design/issues/455)가 따로 다뤘다.
+
+**#455도 범위 밖으로 닫혔다** — 판정과 재판단 계기는
+[`drawer-handle-axis.md`](drawer-handle-axis.md)에 있다. 위와 같은 이유(소비처가
+Drawer를 걷어내 우회가 0곳이 됐다)로 닫혔지만 **개념이 다르므로 문서도 다르다**:
+이쪽은 전체 화면 전환 표면이고, 저쪽은 장식 마크업을 끄는 축이다.
 
 ## 다시 판단할 계기
 

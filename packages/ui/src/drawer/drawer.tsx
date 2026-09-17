@@ -8,7 +8,7 @@ import { cn } from "../lib/utils.js"
 
 /* Dialog의 데스크톱 대체가 아니라 모바일의 **바닥 시트**다(#284) — Base UI
  * v1.8이 `@base-ui/react/drawer`로 별도 프리미티브를 준다: Dialog의 파츠를
- * 재수출하는 AlertDialog와 달리, Drawer는 자기 파츠(Popup·Content·Handle…)를
+ * 재수출하는 AlertDialog와 달리, Drawer는 자기 파츠(Popup·Content·Viewport…)를
  * 따로 갖고 스와이프 닫기·스냅 포인트를 스스로 다룬다 — 그래서 dialog/shared.tsx를
  * 끌어오지 않고 여기서 다시 칠한다. `swipeDirection` 기본값이 `'down'`이라
  * 바닥에서 내려서 닫는 동작이 기본으로 켜진다.
@@ -87,7 +87,18 @@ function DrawerPopup({
       {...props}
     >
       {/* 잡는 손잡이 — 장식이다. 실제 스와이프 닫기는 Root의 swipeDirection이
-       * Popup 전체에 이미 걸어 둔다 */}
+       * Popup 전체에 이미 걸어 둔다.
+       *
+       * **Base UI에는 잡는 손잡이 파츠가 없다** — 이건 DS가 직접 그린 div다
+       * (파츠 목록: backdrop·close·content·description·indent·indent-background·
+       * popup·portal·provider·root·swipe-area·title·trigger·viewport·
+       * virtual-keyboard-provider). Base UI의 `handle`은 명령형 제어 핸들
+       * (`Drawer.createHandle()`)이라 이름도 비어 있지 않다 — 손잡이를 끄는 축을
+       * 열려면 `handle`이 아닌 이름을 골라야 한다(ADR-0008 규칙 1).
+       *
+       * 그 축은 **열지 않기로 판정했다**(#455) — 손잡이를 끄려는 소비처가 0곳이다.
+       * 판정과 재판단 계기는 `.out-of-scope/drawer-handle-axis.md`. 이 div의
+       * **자리를 옮기거나 앞에 다른 요소를 끼우기 전에** 그 문서를 읽는다. */}
       <div aria-hidden="true" className="mx-auto mt-2 h-1.5 w-10 shrink-0 rounded-full bg-neutral-solid/40" />
       {children}
     </BaseDrawer.Popup>
