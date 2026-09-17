@@ -27,7 +27,12 @@ import { cn } from "../lib/utils.js"
  * 소비처가 그 문자열을 나눠 쓰거나, 이 컴포넌트가 그때 다시 설계된다 —
  * 지금은 확인되지 않은 요구를 앞서 풀지 않는다(rules.md 방법론). */
 export const toggleGroupVariants = cva([
-  "inline-flex items-center gap-1 rounded-md border bg-inset p-1",
+  // 루트 트랙도 입력 계열과 같은 흰 면이다(#463). 묶음을 나르고 있던 것은
+  // 면이 아니라 이미 테두리였다 — 맨 `border`(base 규칙의 `border.default`)가
+  // 캔버스 위 1.42:1인데 면색은 1.09:1이었다. 테두리는 승격하지 않는다: Card
+  // 같은 다른 묶음 컨테이너와 갈라지지 않기 위해서다. 꺼진 항목은 투명이고
+  // 켜진 항목은 브랜드 솔리드라(toggle.tsx) 선택 표시는 그대로 성립한다.
+  "inline-flex items-center gap-1 rounded-md border bg-surface p-1",
   "data-[orientation=vertical]:flex-col",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
 ])

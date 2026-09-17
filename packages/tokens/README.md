@@ -60,7 +60,7 @@ semantic 색 중 유틸리티가 없는 것은 `state.layer` 하나예요. 이 �
 | `bg-canvas` | 페이지 바닥 | neutral 2 | neutral 1 |
 | `bg-surface` | 올라온 면, 카드와 패널 | neutral 1 | neutral 2 |
 | `bg-subtle` | 2차 그룹핑, 테이블 헤더와 hover와 Skeleton | neutral 3 | neutral 3 |
-| `bg-inset` | 파묻힌 면, 코드 블록과 입력 안쪽 | neutral 3 | neutral 3 |
+| `bg-inset` | 파묻힌 면, 코드 블록과 무력화된 입력과 체크박스 칸 | neutral 3 | neutral 3 |
 | `bg-overlay` | 떠 있는 면, 다이얼로그와 팝오버 | neutral 1 | neutral 3 |
 
 `bg-subtle`과 `bg-inset`은 같은 값을 가리키는 두 이름이에요. 다크 모드에서는
@@ -68,6 +68,10 @@ semantic 색 중 유틸리티가 없는 것은 `state.layer` 하나예요. 이 �
 않아서, 이 셋 사이를 오가는 변경은 화면을 바꾸지 않아요. 이름을 나눠 둔 것은 앱이
 어떤 의도였는지 코드에 적어 두기 위해서예요. 배경을 더 나누고 싶으면 색이 아니라
 테두리와 그림자와 여백으로 나눠요.
+
+쉬고 있는 입력의 면은 `bg-inset`이 아니라 `bg-surface`예요. 입력은 파묻힌 면이
+아니라 면 위에 놓인 테두리 박스이고, 층은 `border-field`가 져요. 회색 면은
+쓸 수 없는 입력에만 남겨 두세요.
 
 ### 채움색 고르기
 
