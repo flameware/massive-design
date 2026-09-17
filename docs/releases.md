@@ -6,6 +6,8 @@
 
 ## 0.6.4
 
+`publish.yml` [run 35211472740](https://github.com/flameware/massive-design/actions/runs/35211472740)
+
 소비처 화면의 입력 대부분이 `bg.inset`(중립 램프 step 3 `#eeeeee`)을 쉬는 면으로 써서 쓸 수 있는 컨트롤이 무력화처럼 보이던 것을, 입력 계열의 쉬는 면을 `bg.surface`로 옮기고 회색은 무력화된 입력에만 남기는 것으로 고쳤다(#463). `fieldControlBase` 한 곳이 입력 다섯(Input·Textarea·Select 트리거·Combobox 입력·NumberField 그룹)을 덮고, ToggleGroup 루트와 NumberField의 ± 버튼이 같은 판정을 받았다 — 묶음과 층을 나르고 있던 것은 면이 아니라 이미 테두리였다(`border.field`가 회색 면 위 1.71:1에서 흰 면 위 1.95:1로 세진다). 토큰 값·semantic 매핑·램프·대비 게이트 표가 하나도 바뀌지 않고 props·타입·서브패스도 그대로라 patch다. 면↔면은 어떤 게이트도 재지 않으므로(`contrast.mjs`가 명시적으로 제외한다) `packages/ui/test/field-surface.test.mjs`가 이 결정을 문자열로 고정한다.
 
 ## 0.6.3
