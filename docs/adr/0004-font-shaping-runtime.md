@@ -1,5 +1,7 @@
 # 한글 셰이핑을 셰이핑 런타임의 사람 단계에 맡긴다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09, 표기는 2026-09-18). 1세대의 결정이며 2세대 코드를 구속하지 않는다. Figma 툴링이 삭제돼 이 런타임 분리도 함께 사라졌다(ADR-0023 §9).
+
 `use_figma`로 새로 저작한 텍스트는 `fontFamily`를 `type/family/sans`에 바인딩하는 순간 한글이 렌더되지 않는다([#115](https://github.com/flameware/massive-design/issues/115)). 라틴과 기호는 대체 폰트가 덮고 한글만 빠진다. 원인은 바인딩이 아니라 **바인딩 값이 그 런타임에서 로드 불가**라는 사실이다 — 로드 가능한 패밀리를 바인딩한 노드는 잠기지도 셰이핑을 잃지도 않는다(`docs/research/figma-component-api.md` §8-5).
 
 [#9](https://github.com/flameware/massive-design/issues/9)는 여전히 옳다. 틀린 것은 거기서 따라 나온다고 믿었던 결론 — "변수 바인딩이 유일한 경로이고 그것으로 충분하다" — 이고, 그 문장이 `figma-components.md` §7과 `figma-injection.md` §2.4·§2.5에 규약으로 적혀 있었다.

@@ -1,5 +1,7 @@
 # `anatomy`는 **소비처가 조립하는 것**을 이름한다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09, 표기는 2026-09-18). 1세대의 결정이며 2세대 코드를 구속하지 않는다. `anatomy`는 1세대 계약의 필드였고, 계약은 meta로 대체됐다(ADR-0023 §6).
+
 [ADR-0006](0006-uncontracted-surfaces.md)이 미계약 표면을 두 관문으로 가르고 *"대문자로 시작하는 공개 export는 anatomy에 이름이 있어야 한다"*는 게이트를 세웠다. 그런데 그 ADR은 anatomy의 **존재**를 지킬 뿐 anatomy가 **무엇을 이름하는가**는 정한 적이 없다. [#172](https://github.com/flameware/massive-design/issues/172)가 그 공백이 실제로 무엇을 낳았는지 찾았다.
 
 **Portal 일곱이 절반만 공개돼 있었다.** `Dialog`·`Sheet`·`AlertDialog`는 `DialogPortal` 꼴의 래퍼를 만들어 공개하고 anatomy에 올렸고, `DropdownMenu`·`Menubar`·`Popover`·`Select`는 `Content` 안에서 `XPrimitive.Portal`을 인라인으로 감싸고 아무것도 공개하지 않는다. **어느 계약도 왜 그런지 적지 않았다**([#162](https://github.com/flameware/massive-design/issues/162) §5.2 ②-13).

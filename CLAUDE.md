@@ -13,7 +13,7 @@ Standing instructions. `AGENTS.md` is a symlink to this file. Everything that ha
 - **Issue tracker** — GitHub Issues (`flameware/massive-design`) via `gh`. See [`docs/agents/issue-tracker.md`](docs/agents/issue-tracker.md).
 - **Triage labels** — five canonical roles, used verbatim. See [`docs/agents/triage-labels.md`](docs/agents/triage-labels.md).
 - **Repo context graph (graft)** — get context from `graft ask`·`graft grep`·`graft callers` before grepping or opening source. See [`docs/agents/graft.md`](docs/agents/graft.md).
-- **Domain docs** — single-context: `CONTEXT.md` and `docs/adr/`. See [`docs/agents/domain.md`](docs/agents/domain.md).
+- **Domain docs** — single-context: `CONTEXT.md` and `docs/adr/` (start from the index [`docs/adr/README.md`](docs/adr/README.md); ADRs are an immutable log). See [`docs/agents/domain.md`](docs/agents/domain.md).
 - **First-generation runbooks** under `docs/agents/` carry a banner and describe tools that no longer exist — read them as history, never as instructions. List in [`docs/agents/repo-state.md`](docs/agents/repo-state.md#1세대-런북).
 
 ## Where the work stands

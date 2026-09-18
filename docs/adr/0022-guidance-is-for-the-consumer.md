@@ -1,5 +1,7 @@
 # 참조 화면의 세 문장은 소비처의 것이고, 판정 기록은 계약 밖에 산다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09, 표기는 2026-09-18). 1세대의 결정이며 2세대 코드를 구속하지 않는다. `reference.guidance`는 1세대 계약의 필드였고, 계약은 meta로 대체됐다(ADR-0023 §6).
+
 계약의 `reference.guidance`는 `use`·`evidence`·`limits` 셋이고 참조 화면이 그대로 낸다. 51개를 재니 셋이 같은 종류의 글이 아니었다.
 
 | 필드 | 총량 | 중앙 | 최대 | 이슈 번호 포함 |
