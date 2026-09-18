@@ -6,7 +6,7 @@
 
 ## 0.7.0
 
-게시 전 — `publish.yml` run 링크는 태그를 민 뒤 더한다.
+`publish.yml` [run 35311451938](https://github.com/flameware/massive-design/actions/runs/35311451938)
 
 **소비처 화면의 높이가 움직인다.** 올리기 전에 Toggle·ToggleGroup이 있는 화면을 확인한다:
 
