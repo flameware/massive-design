@@ -4,6 +4,23 @@
 
 최신 버전만 [`AGENTS.md`](../AGENTS.md)에 한 줄로 남는다. 새 게시는 이 문서 맨 위에 절을 하나 더한다 — 게시 범프 커밋이 그 일을 같이 한다.
 
+## 0.7.0
+
+게시 전 — `publish.yml` run 링크는 태그를 민 뒤 더한다.
+
+**소비처 화면의 높이가 움직인다.** 올리기 전에 Toggle·ToggleGroup이 있는 화면을 확인한다:
+
+| 무엇 | 전 | 후 |
+| --- | --- | --- |
+| ToggleGroup 겉 (기본 `md`) | 42 | 36 |
+| ToggleGroup 겉 `sm` · `lg` (새 값) | — | 32 · 40 |
+| ToggleGroup 안 항목 (md) | 32 | 30 |
+| 낱개 Toggle `md` (기본) | 32 | 36 |
+| 낱개 Toggle `sm` (필터 칩) | ≈24 | 32 |
+| 낱개 Toggle `lg` | 40 | 40 |
+
+한 줄에 서는 컨트롤이 같은 `size` 이름에서 같은 겉 높이(sm 32 · md 36 · lg 40)를 지는 **컨트롤 높이** 척도를 세웠다(#466, [ADR-0027](adr/0027-control-height-is-shared-and-a-group-bears-it-on-its-outside.md)). 필터 줄에서 ToggleGroup(42)이 Select 트리거(36) 옆에 어긋나 서던 것이 계기다. ToggleGroup에 `size` 축(`sm`·`md`·`lg`, 기본 `md`)이 새로 열리고 안의 Toggle은 그룹의 크기를 따른다(항목 자신의 `size`는 무시된다). 낱개 Toggle은 #369가 `md`를 32로 보존했던 판정을 뒤집어 Button과 같은 높이가 됐다. 새 공개 API(`ToggleGroup`의 `size`)를 더하고 기존 props·타입은 그대로 컴파일되므로 minor다 — 등급의 잣대는 API 형태이지 화면이 움직이는 크기가 아니다. Button과 필드 컨트롤(Input·Select·Combobox·NumberField)은 이미 척도였으므로 바뀌지 않는다.
+
 ## 0.6.4
 
 `publish.yml` [run 35211472740](https://github.com/flameware/massive-design/actions/runs/35211472740)
