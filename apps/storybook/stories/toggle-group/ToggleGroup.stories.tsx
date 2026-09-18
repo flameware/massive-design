@@ -5,7 +5,7 @@ import { Input } from "@flameware/ui/input"
 import { NumberField } from "@flameware/ui/number-field"
 import { Select } from "@flameware/ui/select"
 import { Toggle } from "@flameware/ui/toggle"
-import { ToggleGroup } from "@flameware/ui/toggle-group"
+import { ToggleGroup, type ToggleGroupProps } from "@flameware/ui/toggle-group"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { SlidersHorizontal } from "lucide-react"
 import { type CSSProperties, useState } from "react"
@@ -65,12 +65,18 @@ export const Multiple: Story = {
 const ROW: CSSProperties = { display: "flex", alignItems: "center", gap: "0.5rem" }
 const FIELD_WIDTH: CSSProperties = { width: "9rem" }
 
-function HoldingFilter({ size }: { size?: "sm" | "md" | "lg" }) {
+type ControlSize = NonNullable<ToggleGroupProps["size"]>
+
+/* `itemSize`는 그룹 안 Toggle 하나에 일부러 다른 `size`를 준다 — 그래도 판의 겉
+ * 높이가 그룹의 `size`를 따르는지를 sm 줄이 잰다(그룹이 context로 이긴다) */
+function HoldingFilter({ size, itemSize }: { size?: ControlSize; itemSize?: ControlSize }) {
   return (
     <ToggleGroup size={size} defaultValue={["all"]} aria-label={`보유 필터 ${size ?? "기본"}`}>
       <Toggle value="all">전체</Toggle>
       <Toggle value="holding">보유</Toggle>
-      <Toggle value="sold">매도 완료</Toggle>
+      <Toggle value="sold" size={itemSize}>
+        매도 완료
+      </Toggle>
     </ToggleGroup>
   )
 }
@@ -86,7 +92,7 @@ export const ControlHeight: Story = {
         <Toggle size="sm" aria-label="토글 sm">
           토글
         </Toggle>
-        <HoldingFilter size="sm" />
+        <HoldingFilter size="sm" itemSize="lg" />
       </div>
       <div data-testid="row-md" data-control-height="md" style={ROW}>
         <Button variant="outline">버튼</Button>
