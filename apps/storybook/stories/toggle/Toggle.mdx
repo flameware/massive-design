@@ -25,16 +25,18 @@ import * as ToggleStories from "./Toggle.stories"
 
 ## 크기
 
-`size` 옵션은 `sm`, `md`, `lg` 세 가지예요. 값 이름은 `Button`의 `size`와
-같고, 기본은 `md`예요.
+`size` 옵션은 `sm`, `md`, `lg` 세 가지이고 기본은 `md`예요. 높이는 차례로
+32px, 36px, 40px이에요.
 
 <Canvas of={ToggleStories.Sizes} />
 
-`sm`은 보이는 높이가 24px보다 작지만, 누를 수 있는 영역은 24×24까지 자동으로
-넓어지니 크기를 따로 키우지 않아도 돼요. 아래 스토리가 그 크기를 실제로 재는
-대상이에요.
+값 이름과 높이가 `Button`의 `size`와 같아서, 같은 `size`를 준 `Button`과 한 줄에
+두면 높이가 맞아요. `md`는 `Input`, `Select` 같은 입력 컨트롤의 높이(36px)와도
+같아요. 여러 컨트롤을 한 줄에 둔 예시는 `ToggleGroup` 문서의 크기 절에 있어요.
 
-<Canvas of={ToggleStories.Size24} />
+`ToggleGroup` 안에 넣으면 `Toggle`에 준 `size`는 쓰이지 않고, 그룹의 `size`를
+따라요. 그룹 안에서는 테두리와 안쪽 여백만큼 작아져서, 그룹 바깥의 높이가 위
+값과 같아져요.
 
 ## 상태
 
@@ -70,6 +72,10 @@ Tab으로 닿고 Enter나 Space로 눌러요. 누를 때마다 눌린 상태가 
 Base UI Toggle 위에 색과 치수만 입혔어요. Base UI Toggle은 Checkbox나 Select와
 달리 스스로 폼에 값을 내지 않아서, `name`을 받으면 지금 눌린 값을 그대로
 따라가는 숨은 입력 하나를 곁에 세워요.
+
+`md`의 높이는 0.7.0에서 32px에서 36px로, `sm`은 약 24px에서 32px로 바뀌었어요.
+같은 이름의 컨트롤이 한 줄에서 같은 높이를 갖게 하려는 변경이에요
+([ADR-0027](https://github.com/flameware/massive-design/blob/main/docs/adr/0027-control-height-is-shared-and-a-group-bears-it-on-its-outside.md)).
 
 `size`는 이 컴포넌트의 옵션이에요. 화면 전체의 밀도를 한 번에 낮추는 기능은
 제공하지 않아요([ADR-0023](https://github.com/flameware/massive-design/blob/main/docs/adr/0023-second-generation-base-ui.md)

@@ -38,11 +38,15 @@ export const States: Story = {
   ),
 }
 
-/* #369 — `size` 축. 값 이름은 `Button`의 것과 같다(`sm`·`md`·`lg`). `md`는
- * 지금까지 고정이던 모양 그대로다(게시 인스턴스 보존, toggle.tsx). `sm`은
- * 소비처(invest diary) 필터 칩이 손으로 얹던 `h-auto px-2 py-1 text-xs`를
- * 대신한다 — 시각 높이가 24px 밑이므로 hit-area가 실제로 24×24 하한을
- * 진다(다음 Size24 스토리가 그것을 재게 한다). */
+/* #369 — `size` 축. 값 이름은 `Button`의 것과 같고(`sm`·`md`·`lg`), #466부터
+ * 높이도 같다 — sm 32 · md 36 · lg 40(CONTEXT.md §컨트롤 높이). 같은 이름의
+ * Button·ToggleGroup·필드 컨트롤과 한 줄에 선 모습은 ToggleGroup의 "컨트롤
+ * 높이" 스토리가 보이고 스토리 테스트가 잰다.
+ *
+ * #369의 `Size24` 스토리(시각 높이가 24px 밑인 `sm`의 hit-area를 재던 것)는
+ * 지웠다 — `sm`이 32px가 되어 그 전제가 사라졌다. 가장 작은 Toggle은 이제
+ * 그룹 안 `sm`(26px)이고, 그것도 "컨트롤 높이" 스토리가 히트 영역 측정의
+ * 모집단에 든다. */
 export const Sizes: Story = {
   name: "크기",
   render: () => (
@@ -57,21 +61,6 @@ export const Sizes: Story = {
         크게
       </Toggle>
     </div>
-  ),
-}
-
-/* `size="sm"`이 24×24 하한을 실제로 넘는지는 판단이 아니라 계기가 잰다
- * (stories.test.mjs — Playwright가 이 스토리를 열어 `elementFromPoint`로
- * hit-area의 실효 히트 영역을 잰다). 시각 치수(`h-auto px-2 py-1 text-xs`,
- * 24px 밑)는 그대로 두고 `hit-area`가 하한을 지는 것을 보이는 것이 이
- * 스토리의 유일한 목적이다 — 선택이 아니라 필수(ADR-0020, Button/Spinner의
- * 24px 스토리 선례). */
-export const Size24: Story = {
-  name: "size=sm — 24×24 하한",
-  render: () => (
-    <Toggle aria-label="필터 칩" size="sm">
-      2026
-    </Toggle>
   ),
 }
 

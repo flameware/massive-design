@@ -32,6 +32,21 @@ import * as ToggleGroupStories from "./ToggleGroup.stories"
 
 <Canvas of={ToggleGroupStories.Multiple} />
 
+## 크기
+
+`size` 옵션은 `sm`, `md`, `lg` 세 가지이고 기본은 `md`예요. 그룹 바깥 테두리까지
+잰 높이가 차례로 32px, 36px, 40px이에요. 같은 `size`를 준 `Button`, `Toggle`과
+한 줄에 두면 높이가 맞아요. 기본값(`md`)은 `Input`, `Select`, `Combobox`,
+`NumberField`의 높이(36px)와 같아서, 검색창이나 정렬 선택 옆에 따로 조정하지
+않고 둘 수 있어요.
+
+<Canvas of={ToggleGroupStories.ControlHeight} />
+
+`size`는 그룹에 한 번만 주세요. 안의 `Toggle`은 모두 그룹의 크기를 따르고, 각
+`Toggle`에 준 `size`는 쓰이지 않아요. 그룹 안 `Toggle`은 그룹 밖에 혼자 둔 같은
+크기의 `Toggle`보다 조금 작아요(`md`에서 30px). 그룹의 테두리와 안쪽 여백을 더한
+바깥 높이가 다른 컨트롤과 같아지도록 줄인 값이에요.
+
 ## 제어와 비제어
 
 `value`와 `onValueChange`를 주면 값을 앱이 관리해요. `defaultValue`만 주면
@@ -68,3 +83,8 @@ Base UI ToggleGroup 위에 색과 치수만 입혔어요. 항목을 그룹 전�
 
 Base UI ToggleGroup은 Toggle과 마찬가지로 스스로 폼에 값을 내지 않아서,
 `name`을 받으면 선택된 값을 숨은 입력 하나로 내요.
+
+`size` 옵션은 0.7.0에서 생겼어요. 그 전에는 그룹 바깥 높이가 약 42px이라
+입력 컨트롤(36px) 옆에 두면 높이가 어긋났어요. 크기를 정하는 방식은
+[ADR-0027](https://github.com/flameware/massive-design/blob/main/docs/adr/0027-control-height-is-shared-and-a-group-bears-it-on-its-outside.md)에
+있어요.

@@ -40,6 +40,9 @@ import {
   toastViewportVariants,
 } from "../dist/toast/index.js"
 import { toggleVariants } from "../dist/toggle/index.js"
+// 그룹 안 항목 크기는 공개 API가 아니라 서브패스 index에 없다 — 파일을 직접 읽는다
+import { toggleInGroupVariants } from "../dist/toggle/toggle.js"
+import { toggleGroupVariants } from "../dist/toggle-group/index.js"
 
 const root = fileURLToPath(new URL("..", import.meta.url))
 const entry = resolve(root, "src/styles.css")
@@ -92,10 +95,16 @@ for (const classes of [
   // 후보에서는 제외한다(빈 문자열은 어차피 CSS를 내지 않으니 잴 것이 없다)
   spinnerVariants({ tone: "accent" }),
   spinnerVariants({ tone: "muted" }),
-  // #369 — Toggle의 size 축
+  // #369 — Toggle의 size 축(#466이 척도 32·36·40에 맞췄다)
   toggleVariants({ size: "sm" }),
   toggleVariants({ size: "md" }),
   toggleVariants({ size: "lg" }),
+  // #466 — ToggleGroup의 size 축. 판은 높이를 적지 않고 안의 항목이 그룹 안
+  // 크기(h-6.5·h-7.5·h-8.5 — 기본 배수 밖의 반 칸)를 진다
+  toggleInGroupVariants({ size: "sm" }),
+  toggleInGroupVariants({ size: "md" }),
+  toggleInGroupVariants({ size: "lg" }),
+  toggleGroupVariants(),
   tableHeadVariants({ textAlign: "start" }),
   tableHeadVariants({ textAlign: "center" }),
   tableHeadVariants({ textAlign: "end" }),

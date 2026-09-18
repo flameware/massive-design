@@ -15,6 +15,7 @@ ADR은 **불변 로그**다. 한번 쓴 ADR은 지우거나 합치지 않고, �
 | [0024](0024-package-scope-follows-the-registry-owner.md) | 패키지 스코프 | 스코프는 레지스트리 소유자를 따라 `@flameware/*`다. | |
 | [0025](0025-reference-words-carry-meaning-not-spelling.md) | 레퍼런스 번역 | 레퍼런스(shadcn)의 토큰 이름은 철자가 아니라 뜻으로 옮긴다. shadcn `accent` ≠ DS accent. | |
 | [0026](0026-baseline-form-controls-need-no-consumer-evidence.md) | 기본 폼 컨트롤 | 네이티브 HTML 입력에 대응하는 폼 컨트롤은 소비처 근거 없이 만든다. ADR-0023 §10의 유일한 예외. | |
+| [0027](0027-control-height-is-shared-and-a-group-bears-it-on-its-outside.md) | 컨트롤 높이 | 한 줄에 서는 컨트롤은 같은 `size`에서 같은 겉 높이(32·36·40)를 지고, 묶음은 판의 겉이 진다. #369의 Toggle md 32 판정을 뒤집는다. | |
 
 ## 대체된 결정
 

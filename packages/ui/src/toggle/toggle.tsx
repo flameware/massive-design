@@ -5,6 +5,7 @@ import { Toggle as BaseToggle } from "@base-ui/react/toggle"
 import { cva, type VariantProps } from "class-variance-authority"
 import type * as React from "react"
 
+import { useToggleGroupSize } from "../lib/toggle-group-size.js"
 import { useControllableState } from "../lib/use-controllable-state.js"
 import { cn } from "../lib/utils.js"
 
@@ -23,18 +24,17 @@ import { cn } from "../lib/utils.js"
  * 적은 그 확장점을 그대로 쓴다. 값이 항상 필요해서(비제어일 때도 지금 눌린
  * 값을 읽어야 미러 입력을 채운다) `useControllableState`로 제어/비제어를
  * 한곳에서 겸한다 — 소비처가 보는 API는 그대로 두 갈래다. */
-/* `size`는 #369가 연다 — 소비처(invest diary) 필터 칩 5자리가 `h-auto px-2
- * py-1 text-xs`로 높이·여백·글자를 한꺼번에 되돌리던 자리다. 값 이름은
- * `Button`의 `size`와 같은 이름 공간을 쓴다(`sm`·`md`·`lg` — 두 컨트롤이
- * 나란히 설 때 같은 이름이 같은 뜻이어야 한다, #369). `md`의 기본값은
- * 지금까지 고정이던 `h-8 min-w-8 px-2.5 text-sm`을 그대로 지킨다 — 새 축의
- * 기본값은 게시된 인스턴스를 보존하는 값이라는 규칙이 이름 대칭보다
- * 우선한다(rules.md 축과 이름 공간). 그 결과 `md`의 실제 높이(32px)는
- * `Button`의 `md`(36px, h-9)가 아니라 `sm`(32px, h-8)과 같다 — 이 어긋남은
- * 판정으로 남긴다(#369 코멘트). `lg`는 `Button lg`(h-10)와 높이를 맞춘다.
- * `sm`은 필터 칩이 실제로 쓰던 모양(`h-auto px-2 py-1 text-xs`)을 그대로
- * 옮긴다 — 시각 높이가 24px 문턱 아래로 내려가므로 아래 `hit-area`가 실제로
- * 일을 한다(ADR-0020, Toggle/Spinner의 24px 스토리 선례를 따른다). */
+/* `size`는 #369가 열고 #466이 척도에 맞췄다. 값 이름은 `Button`의 `size`와
+ * 같은 이름 공간이고(`sm`·`md`·`lg`), 같은 이름이면 같은 겉 높이다 — sm 32 ·
+ * md 36 · lg 40(CONTEXT.md §컨트롤 높이, ADR-0027). #369는 `md`를 게시 당시의
+ * 32px로 보존하고 Button `md`(36)와의 어긋남을 판정으로 남겼는데, #466이 그
+ * 판정을 뒤집었다: 필터 줄에서 ToggleGroup이 Select 옆에 42 대 36으로 섰고,
+ * 용어를 세우자마자 예외를 두면 용어가 지켜지지 않는다. `sm`의 `text-xs`는 필터
+ * 칩 모양(#369)에서 온 것이라 남기되 높이는 척도를 따른다.
+ *
+ * ToggleGroup 안에서는 이 `size`를 쓰지 않는다 — 그룹이 context로 내린 크기의
+ * **그룹 안** 값(`toggleInGroupVariants`)을 쓴다. 그래서 그룹 안 Toggle과 낱개
+ * Toggle은 같은 이름이라도 높이가 다르고, 그것이 의도다(ADR-0027). */
 export const toggleVariants = cva(
   [
     "inline-flex shrink-0 items-center justify-center gap-1.5",
@@ -42,9 +42,9 @@ export const toggleVariants = cva(
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     "outline-offset-2 focus-visible:outline-2",
     "state transition-[background-color,color,box-shadow]",
-    // 32px 높이라 24px 하한은 이미 넘지만, 아이콘 전용으로 더 좁게 쓰는 소비처가
-    // 있을 수 있어 Checkbox와 같은 이유로 hit-area를 같이 건다(#288, ADR-0020).
-    // `size="sm"`은 시각 높이가 24px 밑이라 이 하한을 실제로 지는 쪽이다
+    // 가장 작은 높이(그룹 안 sm 26px)도 24px 하한을 넘지만, 아이콘 전용으로 더
+    // 좁게 쓰는 소비처가 있을 수 있어 Checkbox와 같은 이유로 hit-area를 같이
+    // 건다(#288, ADR-0020)
     "hit-area",
     // 꺼진 상태는 ghost와 같다 — --ds-state-base를 안 주면 상태 층이 transparent에
     // 섞인다(state.css, Button의 ghost variant와 같은 이유)
@@ -61,14 +61,29 @@ export const toggleVariants = cva(
   {
     variants: {
       size: {
-        sm: "h-auto min-w-0 px-2 py-1 text-xs",
-        md: "h-8 min-w-8 px-2.5 text-sm",
+        sm: "h-8 min-w-8 px-2 text-xs",
+        md: "h-9 min-w-9 px-2.5 text-sm",
         lg: "h-10 min-w-10 px-4 text-base",
       },
     },
     defaultVariants: { size: "md" },
   }
 )
+
+/* 그룹 안 항목의 크기. 겉 높이 − 판 여백 2·2 − 테두리 1·1(toggle-group.tsx의
+ * `p-0.5 border`) = sm 26 · md 30 · lg 34 — 판의 겉이 척도 값이 된다. 여백·글자·
+ * `min-w`도 이 높이에 맞춘다. 공개 API가 아니다: 소비처는 ToggleGroup의 `size`
+ * 하나로 이것을 고른다. */
+export const toggleInGroupVariants = cva("", {
+  variants: {
+    size: {
+      sm: "h-6.5 min-w-6.5 px-2 text-xs",
+      md: "h-7.5 min-w-7.5 px-2.5 text-sm",
+      lg: "h-8.5 min-w-8.5 px-3 text-base",
+    },
+  },
+  defaultVariants: { size: "md" },
+})
 
 export interface ToggleProps<Value extends string = string>
   extends Omit<React.ComponentPropsWithoutRef<typeof BaseToggle<Value>>, "className">,
@@ -97,6 +112,9 @@ export function Toggle<Value extends string = string>({
   size,
   ...props
 }: ToggleProps<Value>) {
+  // 그룹 안이면 그룹의 크기가 이긴다 — 항목마다 다른 `size`를 줘도 판의 겉
+  // 높이가 깨지지 않는다(#466)
+  const groupSize = useToggleGroupSize()
   const [isPressed, setPressed] = useControllableState({
     prop: pressed,
     defaultProp: defaultPressed ?? false,
@@ -111,7 +129,11 @@ export function Toggle<Value extends string = string>({
       }}
       disabled={disabled}
       value={value}
-      className={cn(toggleVariants({ size }), className)}
+      className={cn(
+        toggleVariants({ size: groupSize ? null : size }),
+        groupSize && toggleInGroupVariants({ size: groupSize }),
+        className
+      )}
       {...props}
     />
   )
