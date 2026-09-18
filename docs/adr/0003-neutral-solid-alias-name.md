@@ -1,5 +1,7 @@
 # 중립 solid 배경의 별칭을 `secondary-solid`가 아니라 `neutral-solid`로 연다
 
+> 상태: **superseded by [ADR-0023](0023-second-generation-base-ui.md)** (2026-09-09, 표기는 2026-09-18). 1세대의 결정이며 2세대 코드를 구속하지 않는다. alias 층은 태그 `v1-shadcn`에만 있다. 컨트롤 어포던스가 `bg.neutral.solid`를 집는다는 판단은 살아 있고, 그것은 [`rules.md`](../agents/rules.md)의 토큰과 대비 절이 진다.
+
 `--ds-bg-neutral-solid`에 shadcn 이름 별칭이 없어 컨트롤 어포던스(Scroll Area thumb, Switch off 트랙)가 Tailwind 유틸리티로 solid 중립 배경에 닿지 못했다([#109](https://github.com/flameware/massive-design/issues/109)). 별칭 계층의 접미사 관습을 따르면 `secondary-solid`가 자연스럽지만, neutral만 `secondary`가 soft 자리를 이미 먹은 비대칭이라 그 이름은 "soft인 것의 solid"라는 뒤집힌 뜻이 된다. 별칭은 되돌리기 어려운 공개 표면이므로, 관습보다 뜻을 택해 우리 semantic 이름과 1:1인 `neutral-solid`를 연다.
 
 ## 고려한 대안
