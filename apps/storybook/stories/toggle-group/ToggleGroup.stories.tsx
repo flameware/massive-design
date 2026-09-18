@@ -1,9 +1,14 @@
 import { Button } from "@flameware/ui/button"
+import { Combobox } from "@flameware/ui/combobox"
 import { Form } from "@flameware/ui/form"
+import { Input } from "@flameware/ui/input"
+import { NumberField } from "@flameware/ui/number-field"
+import { Select } from "@flameware/ui/select"
 import { Toggle } from "@flameware/ui/toggle"
 import { ToggleGroup } from "@flameware/ui/toggle-group"
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { useState } from "react"
+import { SlidersHorizontal } from "lucide-react"
+import { type CSSProperties, useState } from "react"
 
 import type { KeyboardContract } from "../keyboard"
 import type { ComponentMeta } from "../meta"
@@ -15,9 +20,10 @@ const meta = {
   title: "Actions/ToggleGroup",
   component: ToggleGroup,
   parameters: { ds: { status: "stable", since: "0.2.0" } },
-  args: { orientation: "horizontal", disabled: false },
+  args: { orientation: "horizontal", disabled: false, size: "md" },
   argTypes: {
     orientation: { control: "select", options: ["horizontal", "vertical"] },
+    size: { control: "select", options: ["sm", "md", "lg"] },
     disabled: { control: "boolean" },
   },
 } satisfies Meta<typeof ToggleGroup> & ComponentMeta
@@ -44,6 +50,97 @@ export const Multiple: Story = {
       <Toggle value="italic">I</Toggle>
       <Toggle value="underline">U</Toggle>
     </ToggleGroup>
+  ),
+}
+
+/* #466 — 컨트롤 높이. 같은 `size` 이름을 준 컨트롤을 한 줄에 두면 겉 높이가
+ * 같다(sm 32 · md 36 · lg 40, CONTEXT.md §컨트롤 높이). ToggleGroup은 **판의
+ * 겉**이 그 높이를 지고 안의 Toggle은 판의 여백·테두리만큼 작다 — 그래서 그룹
+ * 안 Toggle과 낱개 Toggle의 높이는 다르다. 필드 컨트롤(Input·Select·Combobox·
+ * NumberField)에는 `size` 축이 없고 md 36 하나다.
+ *
+ * 줄마다 단 `data-control-height`가 선언이다 — 스토리 테스트가 그 줄의 컨트롤
+ * 높이를 렌더링된 치수로 재어 척도 값과 대조한다(stories.test.mjs). md 줄의
+ * ToggleGroup은 일부러 `size`를 주지 않는다: 기본값만으로 필드와 맞아야 한다. */
+const ROW: CSSProperties = { display: "flex", alignItems: "center", gap: "0.5rem" }
+const FIELD_WIDTH: CSSProperties = { width: "9rem" }
+
+function HoldingFilter({ size }: { size?: "sm" | "md" | "lg" }) {
+  return (
+    <ToggleGroup size={size} defaultValue={["all"]} aria-label={`보유 필터 ${size ?? "기본"}`}>
+      <Toggle value="all">전체</Toggle>
+      <Toggle value="holding">보유</Toggle>
+      <Toggle value="sold">매도 완료</Toggle>
+    </ToggleGroup>
+  )
+}
+
+export const ControlHeight: Story = {
+  name: "컨트롤 높이",
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <div data-testid="row-sm" data-control-height="sm" style={ROW}>
+        <Button size="sm" variant="outline">
+          버튼
+        </Button>
+        <Toggle size="sm" aria-label="토글 sm">
+          토글
+        </Toggle>
+        <HoldingFilter size="sm" />
+      </div>
+      <div data-testid="row-md" data-control-height="md" style={ROW}>
+        <Button variant="outline">버튼</Button>
+        <Button size="icon" variant="outline" aria-label="필터">
+          <SlidersHorizontal />
+        </Button>
+        <Toggle aria-label="토글 md">토글</Toggle>
+        <HoldingFilter />
+        <Input aria-label="검색" placeholder="종목 검색" style={FIELD_WIDTH} />
+        <Select.Root items={{ recent: "최근 순", name: "이름 순" }} defaultValue="recent">
+          <Select.Trigger aria-label="정렬" style={FIELD_WIDTH}>
+            <Select.Value />
+          </Select.Trigger>
+          <Select.Portal>
+            <Select.Positioner>
+              <Select.Popup>
+                <Select.List>
+                  <Select.Item value="recent">최근 순</Select.Item>
+                  <Select.Item value="name">이름 순</Select.Item>
+                </Select.List>
+              </Select.Popup>
+            </Select.Positioner>
+          </Select.Portal>
+        </Select.Root>
+        <Combobox.Root items={["애플", "테슬라"]}>
+          <Combobox.Input aria-label="종목" placeholder="종목" style={FIELD_WIDTH} />
+          <Combobox.Popup>
+            <Combobox.List>
+              {(item: string) => (
+                <Combobox.Item key={item} value={item}>
+                  {item}
+                </Combobox.Item>
+              )}
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Root>
+        <NumberField.Root defaultValue={1} min={0} style={FIELD_WIDTH}>
+          <NumberField.Group>
+            <NumberField.Decrement />
+            <NumberField.Input aria-label="수량" />
+            <NumberField.Increment />
+          </NumberField.Group>
+        </NumberField.Root>
+      </div>
+      <div data-testid="row-lg" data-control-height="lg" style={ROW}>
+        <Button size="lg" variant="outline">
+          버튼
+        </Button>
+        <Toggle size="lg" aria-label="토글 lg">
+          토글
+        </Toggle>
+        <HoldingFilter size="lg" />
+      </div>
+    </div>
   ),
 }
 

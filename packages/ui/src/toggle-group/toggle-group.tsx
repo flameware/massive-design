@@ -5,6 +5,7 @@ import { ToggleGroup as BaseToggleGroup } from "@base-ui/react/toggle-group"
 import { cva } from "class-variance-authority"
 import type * as React from "react"
 
+import { type ControlSize, ToggleGroupSizeContext } from "../lib/toggle-group-size.js"
 import { useControllableState } from "../lib/use-controllable-state.js"
 import { cn } from "../lib/utils.js"
 
@@ -32,7 +33,14 @@ export const toggleGroupVariants = cva([
   // 캔버스 위 1.42:1인데 면색은 1.09:1이었다. 테두리는 승격하지 않는다: Card
   // 같은 다른 묶음 컨테이너와 갈라지지 않기 위해서다. 꺼진 항목은 투명이고
   // 켜진 항목은 브랜드 솔리드라(toggle.tsx) 선택 표시는 그대로 성립한다.
-  "inline-flex items-center gap-1 rounded-md border bg-surface p-1",
+  //
+  // 판은 자기 높이를 적지 않는다 — 겉 높이는 항목 높이 + 여백 2·2 + 테두리 1·1로
+  // 나오고, 항목 높이를 `size`가 context로 정한다(toggle.tsx의
+  // `toggleInGroupVariants`). 그래서 겉이 컨트롤 높이 척도 값이 된다(#466, sm 32 ·
+  // md 36 · lg 40). 높이를 판에 박지 않는 이유는 세로 방향이다 — 세로 판의 높이는
+  // 항목 수가 정한다. 여백이 `p-1`이 아니라 `p-0.5`인 이유: 겉 36 안에서 `p-1`이면
+  // 항목이 28px로 줄어 켜진 브랜드 솔리드가 판 안에서 답답하다.
+  "inline-flex items-center gap-1 rounded-md border bg-surface p-0.5",
   "data-[orientation=vertical]:flex-col",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
 ])
@@ -40,6 +48,12 @@ export const toggleGroupVariants = cva([
 export interface ToggleGroupProps<Value extends string = string>
   extends Omit<React.ComponentPropsWithoutRef<typeof BaseToggleGroup<Value>>, "className"> {
   className?: string
+  /**
+   * 판의 겉 높이 — `Button`·`Toggle`·필드 컨트롤과 같은 척도다(sm 32 · md 36 ·
+   * lg 40). 안의 Toggle은 모두 이 크기를 따르고 자기 `size`는 무시한다.
+   * @default "md"
+   */
+  size?: ControlSize
   /**
    * 폼 제출 이름. 주면 선택된 값을 숨은 입력 하나로 낸다 — `multiple`이면
    * 값들을 쉼표로 이어 낸다(위 설명 참고).
@@ -60,6 +74,7 @@ export function ToggleGroup<Value extends string = string>({
   disabled,
   multiple,
   name,
+  size = "md",
   ...props
 }: ToggleGroupProps<Value>) {
   const [values, setValues] = useControllableState<readonly Value[]>({
@@ -68,17 +83,19 @@ export function ToggleGroup<Value extends string = string>({
   })
 
   const group = (
-    <BaseToggleGroup<Value>
-      value={values}
-      onValueChange={(next, eventDetails) => {
-        setValues(next)
-        onValueChange?.(next, eventDetails)
-      }}
-      disabled={disabled}
-      multiple={multiple}
-      className={cn(toggleGroupVariants(), className)}
-      {...props}
-    />
+    <ToggleGroupSizeContext.Provider value={size}>
+      <BaseToggleGroup<Value>
+        value={values}
+        onValueChange={(next, eventDetails) => {
+          setValues(next)
+          onValueChange?.(next, eventDetails)
+        }}
+        disabled={disabled}
+        multiple={multiple}
+        className={cn(toggleGroupVariants(), className)}
+        {...props}
+      />
+    </ToggleGroupSizeContext.Provider>
   )
 
   if (!name) return group

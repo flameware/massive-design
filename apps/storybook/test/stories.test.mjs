@@ -1,8 +1,9 @@
-/* 주 seam — 모든 스토리를 Playwright로 열어 셋을 잰다 (#279, ADR-0023 §12·스토리 22).
+/* 주 seam — 모든 스토리를 Playwright로 열어 넷을 잰다 (#279, ADR-0023 §12·스토리 22).
  *
  *   1. axe 접근성 위반 0
  *   2. 모든 포인터 대상의 히트 영역 ≥ 24×24 (WCAG 2.5.8 AA, ADR-0020)
- *   3. 스토리가 선언한 키보드 계약
+ *   3. 스토리가 선언한 컨트롤 높이 계약 (#466, ADR-0027)
+ *   4. 스토리가 선언한 키보드 계약
  *
  * 1세대는 이것이 세 도구였다 — `scripts/a11y.mjs`, `pointer-targets.mjs`(계기)와
  * 루트 `pointer-target-gate.mjs`(매니페스트의 축을 곱해 셀을 만들고 커밋된
@@ -245,6 +246,85 @@ export function measureInPage({ floor, reach }) {
   return rows
 }
 
+/* ---------- 컨트롤 높이 계기 (#466) ----------
+ * 한 줄에 서는 컨트롤은 같은 `size` 이름에서 같은 겉 높이를 진다(CONTEXT.md
+ * §컨트롤 높이). 스토리가 줄 요소에 `data-control-height="<size>"`를 달아 "이
+ * 줄의 컨트롤은 그 척도 값이다"를 **선언**하고, 계기는 그 줄의 흐름 안 자식마다
+ * 렌더링된 `getBoundingClientRect().height`를 읽는다. 클래스 문자열을 읽지
+ * 않는 이유가 #466 자체다 — ToggleGroup은 `h-8` 항목에 판 여백과 테두리가
+ * 얹혀 42px이었고, 클래스로는 그것이 보이지 않는다.
+ *
+ * 흐름 밖 자식(`position: absolute|fixed`, `display: none`)은 줄에 서지 않으므로
+ * 재지 않는다 — Base UI Select·Combobox가 폼 의미론을 위해 곁에 두는 숨은
+ * input이 그 자리다. 줄의 `align-items`도 함께 읽는다: 기본값(stretch)이면 짧은
+ * 컨트롤이 가장 긴 것에 맞춰 늘어나 어긋남을 가린다. */
+export function measureControlRows() {
+  const labelOf = (el) =>
+    el.getAttribute("data-testid") ??
+    el.getAttribute("aria-label") ??
+    `${el.tagName.toLowerCase()}:${(el.textContent ?? "").trim().slice(0, 20)}`
+  return [...document.querySelectorAll("[data-control-height]")].map((row) => ({
+    row: row.getAttribute("data-testid") ?? row.getAttribute("data-control-height"),
+    size: row.getAttribute("data-control-height"),
+    alignItems: getComputedStyle(row).alignItems,
+    controls: [...row.children]
+      .filter((el) => {
+        const cs = getComputedStyle(el)
+        return cs.display !== "none" && cs.position !== "absolute" && cs.position !== "fixed"
+      })
+      .map((el) => ({ label: labelOf(el), height: +el.getBoundingClientRect().height.toFixed(2) })),
+  }))
+}
+
+/* 척도 — CONTEXT.md §컨트롤 높이, ADR-0027 */
+const CONTROL_HEIGHT = { sm: 32, md: 36, lg: 40 }
+/* 줄이 자식을 늘리지 않는 정렬. `normal`은 flex에서 stretch로 동작한다 */
+const NON_STRETCHING = new Set(["center", "flex-start", "start", "flex-end", "end", "baseline"])
+
+/** 선언된 줄마다 어긋난 것만 모은다 — 빈 배열이 통과다 */
+function controlHeightFaults(rows) {
+  const faults = []
+  for (const row of rows) {
+    const expected = CONTROL_HEIGHT[row.size]
+    if (expected === undefined) {
+      faults.push({ row: row.row, fault: `척도에 없는 size "${row.size}"` })
+      continue
+    }
+    if (!NON_STRETCHING.has(row.alignItems))
+      faults.push({ row: row.row, fault: `align-items: ${row.alignItems} — 자식을 늘려 어긋남을 가린다` })
+    if (row.controls.length === 0) faults.push({ row: row.row, fault: "잴 컨트롤이 없다" })
+    for (const control of row.controls)
+      if (control.height !== expected)
+        faults.push({ row: row.row, fault: `${control.label}: ${control.height}px ≠ ${row.size} ${expected}px` })
+  }
+  return faults
+}
+
+const CONTROL_SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
+  body{margin:0;padding:40px;font:14px sans-serif}
+  [data-control-height]{display:flex;gap:8px;margin-bottom:16px}
+  .center{align-items:center}
+  .content-box{box-sizing:content-box;height:30px;padding:2px;border:1px solid #000;width:40px}
+  .border-box{box-sizing:border-box;height:36px;border:1px solid #000;width:40px}
+  .tall{box-sizing:border-box;height:42px;width:40px;background:#888}
+  .short{padding-top:30px;width:40px;background:#888}
+  .out{position:absolute;width:1px;height:1px}
+</style>
+<div data-testid="even" data-control-height="md" class="center">
+  <div class="content-box" data-testid="content-box"></div>
+  <div class="border-box" data-testid="border-box"></div>
+  <input class="out" data-testid="out" aria-hidden="true" />
+  <div style="display:none" data-testid="none"></div>
+</div>
+<div data-testid="uneven" data-control-height="md" class="center">
+  <div class="border-box" data-testid="ok"></div>
+  <div class="tall" data-testid="tall"></div>
+</div>
+<div data-testid="stretched" data-control-height="md">
+  <div class="short" data-testid="short"></div>
+  <div class="border-box" data-testid="sets-height"></div>
+</div>`
+
 /* 재지 않는 행 — 그려지지 않았거나 누를 수 없거나 접근성 트리 밖이면 포인터
  * 대상이 아니다 */
 const isMeasured = (row) =>
@@ -421,6 +501,40 @@ test("계기 검증 — 알려진 기하를 그대로 읽는다", async () => {
   }
 })
 
+test("계기 검증 — 컨트롤 높이를 렌더링된 치수로 읽는다 (#466)", async () => {
+  const probe = await browser.newPage({ viewport: { width: 1200, height: 800 } })
+  try {
+    await probe.setContent(CONTROL_SELF_TEST_HTML)
+    const rows = await probe.evaluate(measureControlRows)
+    const byRow = Object.fromEntries(rows.map((row) => [row.row, row]))
+
+    // content-box 30 + 여백 2·2 + 테두리 1·1 = 36 — 클래스가 아니라 겉을 읽는가.
+    // 흐름 밖(absolute)·display:none 자식은 줄에 서지 않으므로 빠지는가
+    assert.deepEqual(
+      byRow.even.controls,
+      [
+        { label: "content-box", height: 36 },
+        { label: "border-box", height: 36 },
+      ],
+      "겉 높이를 읽고 흐름 밖 자식을 빼야 한다"
+    )
+    assert.deepEqual(controlHeightFaults([byRow.even]), [], "36·36인 md 줄은 통과해야 한다")
+
+    // 42px 상자를 42로 읽고 어긋남으로 낸다 — #466의 모양 그대로
+    assert.deepEqual(controlHeightFaults([byRow.uneven]), [{ row: "uneven", fault: "tall: 42px ≠ md 36px" }])
+
+    // 기본 정렬(stretch)이면 30px 상자가 36으로 늘어나 높이만으로는 통과한다 —
+    // 정렬을 따로 물어야 가려진 어긋남이 드러난다
+    assert.equal(byRow.stretched.controls[0].height, 36, "stretch가 짧은 상자를 늘린다는 전제")
+    assert.deepEqual(
+      controlHeightFaults([byRow.stretched]).map((fault) => fault.fault.split(" — ")[0]),
+      ["align-items: normal"]
+    )
+  } finally {
+    await probe.close()
+  }
+})
+
 test("스토리가 하나라도 있다", () => {
   assert.ok(stories.length > 0, "storybook-static/index.json에 스토리가 없다 — build-storybook이 먼저다")
 })
@@ -483,6 +597,21 @@ for (const story of stories) {
         })),
         [],
         `히트 영역이 ${FLOOR}px 하한에 못 미친다 — 시각 치수를 키우지 말고 hit-area를 걸어라 (ADR-0020)`
+      )
+    })
+
+    test("컨트롤 높이 계약", async (t) => {
+      const rows = await page.evaluate(measureControlRows)
+      if (rows.length === 0) {
+        // 줄을 선언하지 않은 스토리는 잴 것이 없다. 한 줄에 서는 컨트롤을 보이는
+        // 스토리가 줄 요소에 data-control-height를 달면 여기서 자동으로 돈다
+        t.skip("선언된 컨트롤 줄이 없다")
+        return
+      }
+      assert.deepEqual(
+        controlHeightFaults(rows),
+        [],
+        "한 줄의 컨트롤이 척도(sm 32 · md 36 · lg 40)와 다르다 — CONTEXT.md §컨트롤 높이"
       )
     })
 
