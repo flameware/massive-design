@@ -9,6 +9,8 @@
 @import "./state.css";
 /* 포인터 하한 24px의 재사용 클래스. 하한 자체는 #279의 스토리 테스트가 잰다 */
 @import "./hit-area.css";
+/* Card 여백 변수(`--ds-card-padding`)의 기본값과 목록 카드 모양 (#469) */
+@import "./card/card.css";
 
 /* @flameware/ui가 심링크로 얹히면 Tailwind의 자동 스캔이 여기까지 닿지 않는다.
  * bun이 루트 호이스팅 대신 의존 패키지 밑에 심링크를 놓기 때문(#15). */

@@ -1,9 +1,10 @@
-/* 주 seam — 모든 스토리를 Playwright로 열어 넷을 잰다 (#279, ADR-0023 §12·스토리 22).
+/* 주 seam — 모든 스토리를 Playwright로 열어 다섯을 잰다 (#279, ADR-0023 §12·스토리 22).
  *
  *   1. axe 접근성 위반 0
  *   2. 모든 포인터 대상의 히트 영역 ≥ 24×24 (WCAG 2.5.8 AA, ADR-0020)
  *   3. 스토리가 선언한 컨트롤 높이 계약 (#466, ADR-0027)
- *   4. 스토리가 선언한 키보드 계약
+ *   4. 스토리가 선언한 여백 계약 (#469)
+ *   5. 스토리가 선언한 키보드 계약
  *
  * 1세대는 이것이 세 도구였다 — `scripts/a11y.mjs`, `pointer-targets.mjs`(계기)와
  * 루트 `pointer-target-gate.mjs`(매니페스트의 축을 곱해 셀을 만들고 커밋된
@@ -325,6 +326,72 @@ const CONTROL_SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   <div class="border-box" data-testid="sets-height"></div>
 </div>`
 
+/* ---------- 여백 계기 (#469) ----------
+ * 카드 여백은 화면 폭에 따라 16·24로 바뀌고, 목록 카드는 행의 첫 글자가 Header
+ * 글자와 같은 세로선에 서야 한다. 스토리가 상자에 `data-inset="<px>"`를 달아
+ * "이 상자 안의 글자는 안쪽 가장자리에서 그만큼 들어가 선다"를 **선언**하고,
+ * 안의 `data-inset-text` 요소마다 첫 글자의 렌더링된 x를 읽는다. 클래스를 읽지
+ * 않는 이유는 컨트롤 높이와 같다 — Root에 `p-4`를 더한 앱의 카드는 파트의
+ * `px-6`과 겹쳐 40px이었고, 클래스로는 그것이 보이지 않는다.
+ *
+ * 글자의 x는 요소 상자가 아니라 첫 텍스트 노드의 Range로 잰다 — 행 전체가
+ * 가장자리까지 붙고 안쪽 여백으로 글자를 들이는 목록 카드에서는 요소 상자의
+ * 왼쪽이 늘 0이라, 상자를 재면 어긋남이 보이지 않는다. */
+export function measureInsets() {
+  const firstGlyphLeft = (el) => {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+      acceptNode: (node) => (node.textContent.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP),
+    })
+    const node = walker.nextNode()
+    if (!node) return null
+    const range = document.createRange()
+    range.selectNodeContents(node)
+    return range.getClientRects()[0]?.left ?? null
+  }
+  return [...document.querySelectorAll("[data-inset]")].map((box) => {
+    const edge = box.getBoundingClientRect().left + parseFloat(getComputedStyle(box).borderLeftWidth)
+    return {
+      box: box.getAttribute("data-testid") ?? box.getAttribute("data-inset"),
+      inset: Number(box.getAttribute("data-inset")),
+      texts: [...box.querySelectorAll("[data-inset-text]")].map((el) => {
+        const left = firstGlyphLeft(el)
+        return {
+          label: el.getAttribute("data-testid") ?? (el.textContent ?? "").trim().slice(0, 20),
+          offset: left === null ? null : +(left - edge).toFixed(2),
+        }
+      }),
+    }
+  })
+}
+
+/** 선언된 상자마다 어긋난 글자만 모은다 — 빈 배열이 통과다 */
+function insetFaults(boxes) {
+  const faults = []
+  for (const box of boxes) {
+    if (box.texts.length === 0) faults.push({ box: box.box, fault: "잴 글자가 없다" })
+    for (const text of box.texts)
+      if (text.offset === null) faults.push({ box: box.box, fault: `${text.label}: 글자가 없다` })
+      else if (Math.abs(text.offset - box.inset) > 0.5)
+        faults.push({ box: box.box, fault: `${text.label}: ${text.offset}px ≠ ${box.inset}px` })
+  }
+  return faults
+}
+
+const INSET_SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
+  body{margin:0;padding:40px;font:14px sans-serif}
+  [data-inset]{width:200px;border:1px solid #000;margin-bottom:16px}
+  .pad{padding:0 16px}
+  .row{padding:0 16px}
+  .extra{padding-left:8px}
+</style>
+<div data-testid="padded" data-inset="16" class="pad"><p data-inset-text data-testid="title">제목</p></div>
+<div data-testid="flush" data-inset="16">
+  <div data-inset-text data-testid="row" class="row"><span>  </span><span>행</span></div>
+</div>
+<div data-testid="doubled" data-inset="16" class="pad">
+  <div data-inset-text data-testid="nested" class="extra">겹친 여백</div>
+</div>`
+
 /* 재지 않는 행 — 그려지지 않았거나 누를 수 없거나 접근성 트리 밖이면 포인터
  * 대상이 아니다 */
 const isMeasured = (row) =>
@@ -535,6 +602,24 @@ test("계기 검증 — 컨트롤 높이를 렌더링된 치수로 읽는다 (#4
   }
 })
 
+test("계기 검증 — 글자의 들여쓰기를 렌더링된 위치로 읽는다 (#469)", async () => {
+  const probe = await browser.newPage({ viewport: { width: 1200, height: 800 } })
+  try {
+    await probe.setContent(INSET_SELF_TEST_HTML)
+    const boxes = Object.fromEntries((await probe.evaluate(measureInsets)).map((box) => [box.box, box]))
+
+    // 상자의 안쪽 여백으로 들인 글자 — 테두리 1px은 가장자리에 넣고 뺀다
+    assert.deepEqual(insetFaults([boxes.padded]), [], "상자 여백 16이면 16으로 읽어야 한다")
+    // 행이 가장자리까지 붙고 행 자신의 여백이 글자를 들인다 — 요소 상자가 아니라
+    // 글자를 읽는가. 공백뿐인 텍스트 노드는 건너뛰는가
+    assert.deepEqual(insetFaults([boxes.flush]), [], "행 여백 16이면 16으로 읽어야 한다")
+    // 여백이 겹치면 겹친 만큼 읽는다 — Root p-4 + 파트 px-6이 40이던 모양
+    assert.deepEqual(insetFaults([boxes.doubled]), [{ box: "doubled", fault: "nested: 24px ≠ 16px" }])
+  } finally {
+    await probe.close()
+  }
+})
+
 test("스토리가 하나라도 있다", () => {
   assert.ok(stories.length > 0, "storybook-static/index.json에 스토리가 없다 — build-storybook이 먼저다")
 })
@@ -613,6 +698,17 @@ for (const story of stories) {
         [],
         "한 줄의 컨트롤이 척도(sm 32 · md 36 · lg 40)와 다르다 — CONTEXT.md §컨트롤 높이"
       )
+    })
+
+    test("여백 계약", async (t) => {
+      const boxes = await page.evaluate(measureInsets)
+      if (boxes.length === 0) {
+        // 상자를 선언하지 않은 스토리는 잴 것이 없다. 여백을 보이는 스토리가
+        // 상자에 data-inset을 달면 여기서 자동으로 돈다
+        t.skip("선언된 여백 상자가 없다")
+        return
+      }
+      assert.deepEqual(insetFaults(boxes), [], "글자가 선언한 여백에 서지 않는다 — 카드 여백은 --ds-card-padding 하나에서 나온다")
     })
 
     test("키보드 계약", async (t) => {
