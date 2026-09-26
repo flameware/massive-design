@@ -121,6 +121,50 @@ Base UI를 쓰지 않는 자체 스타일 컴포넌트예요. 상태도 이벤�
 선택이라 `Body` 하나만 있는 카드도 유효해요. 그림자 토큰(`shadow-xs`부터
 `shadow-xl`까지)은 있지만 `Root`가 강제하지 않아요. 필요하면 `className`으로 얹어요.
 
+| 옵션 | 값 | 기본 |
+| --- | --- | --- |
+| `variant` | `default` · `list` | `default` |
+
+### 여백은 `--ds-card-padding` 하나로 바꿔요
+
+카드 안쪽 여백은 화면 폭이 `sm`(640px)보다 좁으면 16px, 그 이상이면 24px이에요.
+`Header`, `Body`, `Footer`의 좌우 여백과 `Root`의 위아래 여백이 모두 CSS 변수
+`--ds-card-padding`에서 나와요. 여백을 바꾸려면 `Root`에서 이 변수만 바꿔요.
+
+```tsx
+<Card.Root className="[--ds-card-padding:--spacing(3)]">…</Card.Root>
+```
+
+기본값은 Tailwind의 `components` 층에 있어서, `className`으로 준 값이 화면 폭과
+관계없이 이겨요. 부분마다 `px-*`를 덮어쓰지 않아도 돼요. `Root`에 `p-*`를 더하면
+부분의 여백 위에 겹쳐지니 쓰지 마세요.
+
+### 목록 카드
+
+`variant="list"`는 제목 아래 행 목록이 카드 가장자리까지 붙는 모양이에요. 행은
+`Card.Rows` 안에 둬요.
+
+```tsx
+import { Card } from "@flameware/ui/card"
+import { ListRow } from "@flameware/ui/list-row"
+
+<Card.Root variant="list">
+  <Card.Header>
+    <Card.Title>보유 종목</Card.Title>
+  </Card.Header>
+  <Card.Rows>
+    <ListRow.Root>…</ListRow.Root>
+    <ListRow.Root>…</ListRow.Root>
+  </Card.Rows>
+</Card.Root>
+```
+
+`Root`는 위아래 여백과 부분 사이 간격이 없어지고, `Header`는 위아래 12px과 아래쪽
+구분선을 가져요. `Card.Rows`는 행마다 좌우에 카드 여백을 줘서 행의 첫 글자가 제목
+글자와 같은 세로선에 서요. 행(`ListRow`) 자체의 치수는 바뀌지 않아요. 행이 아닌
+내용(빈 상태, 경고)은 `Card.Body`에 두면 네 방향 모두 카드 여백을 가져요. 행 사이
+구분선은 그리지 않으니 필요하면 행에 테두리를 주세요.
+
 ## Alert
 
 ```tsx

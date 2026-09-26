@@ -1,0 +1,33 @@
+/* Card의 여백 기본값과 목록 카드 모양(#469). card.tsx가 아니라 여기 있는 이유는
+ * 층이다 — `@layer components`는 utilities보다 아래라, 앱이 className으로 준
+ * 유틸리티가 폭과 관계없이 이긴다:
+ *
+ *   - Root의 `[--ds-card-padding:--spacing(3)]` → 카드 전체 여백이 바뀐다.
+ *     기본값을 `sm:[--ds-card-padding:…]` 유틸리티로 두면 sm 이상에서 그 변형이
+ *     나중에 방출돼 앱의 값을 조용히 이긴다
+ *   - 목록 카드 Header의 `py-*`, Rows 안 행의 `px-*` → 파트·행마다 되돌린다
+ *
+ * 파트는 Root의 variant를 context가 아니라 부모 선택자로 안다 — Card는 서버
+ * 컴포넌트로 남는다. `>`로 직계만 겨눠 카드 안에 놓인 다른 카드에 새지 않는다. */
+@layer components {
+  [data-slot="card"] {
+    --ds-card-padding: --spacing(4);
+
+    @variant sm {
+      --ds-card-padding: --spacing(6);
+    }
+  }
+
+  [data-slot="card"][data-variant="list"] > [data-slot="card-header"] {
+    padding-block: --spacing(3);
+    border-bottom: 1px solid var(--ds-border-subtle);
+  }
+
+  [data-slot="card"][data-variant="list"] > [data-slot="card-body"] {
+    padding-block: var(--ds-card-padding);
+  }
+
+  [data-slot="card-rows"] > * {
+    padding-inline: var(--ds-card-padding);
+  }
+}
