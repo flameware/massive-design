@@ -17,6 +17,8 @@ name: check
 # - 루트 `*.md`를 통으로 쓰지 않고 세 파일을 적은 것도 `CONTEXT.md`를 빼기 위해서다.
 # - `graft/**`는 gitignore된 재생성 캐시라 지금은 변경 목록에 뜨지도 않는다. 캐시를
 #   커밋하게 되는 날에도 읽는 검사가 없다는 뜻으로 남겨 둔다.
+# - `.out-of-scope/**`는 범위 밖 판정 기록이다. 코드 주석 두 곳(`drawer.tsx`·`state.css`)이
+#   이름으로 가리킬 뿐 읽는 검사는 없다 (#469).
 #
 # 디렉터리를 열거하는 쪽이 안전한 방향으로 틀린다 — `docs/` 아래 새 디렉터리는
 # 목록에 없으니 검사가 그냥 돈다.
@@ -36,6 +38,7 @@ on:
       - "docs/research/**"
       - "docs/*.md"
       - "graft/**"
+      - ".out-of-scope/**"
       - "README.md"
       - "AGENTS.md"
       - "CLAUDE.md"
@@ -47,6 +50,7 @@ on:
       - "docs/research/**"
       - "docs/*.md"
       - "graft/**"
+      - ".out-of-scope/**"
       - "README.md"
       - "AGENTS.md"
       - "CLAUDE.md"
