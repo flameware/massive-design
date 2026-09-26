@@ -74,7 +74,8 @@ function Body({ className, ...props }: CardPartProps) {
 
 /** 동작이 놓이는 자리 — 대개 Button. Button을 여기서 import해 기본 variant를
  * 먹이지 않는다: 그 결정은 소비처의 몫이고, 먹이면 Button의 상태 사다리가
- * 이 자리에서만 갈린다(rules.md 의존성과 base, Button의 같은 판단 참고). */
+ * 이 자리에서만 갈린다(rules.md 의존성과 base, Button의 같은 판단 참고). 목록
+ * 카드에서는 card.css가 Header와 대칭으로 위아래 12px과 위쪽 구분선을 준다(#476). */
 function Footer({ className, ...props }: CardPartProps) {
   return <div data-slot="card-footer" className={cn(FOOTER, className)} {...props} />
 }
