@@ -6,6 +6,8 @@
 
 ## 0.8.0
 
+`publish.yml` [run 36251012122](https://github.com/flameware/massive-design/actions/runs/36251012122)
+
 **좁은 화면에서 소비처의 카드 여백이 24 → 16px로 줄어든다.** 올리기 전에 Card가 있는 화면을 폭 640px 미만에서 확인한다:
 
 | 무엇 | 전 | 후 |
