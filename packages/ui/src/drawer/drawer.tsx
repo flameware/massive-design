@@ -78,7 +78,7 @@ function DrawerPopup({
       // 줘 첫 탭 대상으로 통일한다 — 소비처가 다른 값을 넘기면 그대로 이긴다.
       initialFocus={initialFocus}
       className={cn(
-        "relative flex max-h-[85vh] w-full flex-col rounded-t-xl border bg-overlay shadow-lg outline-none",
+        "relative flex max-h-[85vh] w-full flex-col rounded-t-lg border bg-overlay shadow-lg outline-none",
         "pb-[max(1rem,env(safe-area-inset-bottom))]",
         "transition-transform duration-200",
         "data-[starting-style]:translate-y-full data-[ending-style]:translate-y-full",

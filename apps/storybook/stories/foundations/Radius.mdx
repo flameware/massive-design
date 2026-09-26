@@ -17,8 +17,29 @@ import { RadiusScale } from "./RadiusScale"
 
 <RadiusScale />
 
+## 컴포넌트가 쓰는 단계
+
+DS 컴포넌트는 모양에 따라 네 단계만 써요. 앱에서 비슷한 모양을 직접 만들 때도
+같은 단계를 고르면 DS 컴포넌트와 나란히 놓였을 때 어긋나지 않아요.
+
+| 모양 | 클래스 | 컴포넌트 |
+| --- | --- | --- |
+| 내용을 담는 영역 | `rounded-lg` (10px) | `Card`, `Dialog`, `Drawer`, `Alert`, `Toast` |
+| 컨트롤과 목록 팝업 | `rounded-md` (8px) | `Button`, `Input`, `Select`, `Menu`, `ToggleGroup` |
+| 목록 안 항목과 작은 요소 | `rounded-sm` (6px) | `Menu`·`Select`의 항목, `Checkbox`, `Tooltip` |
+| 알약과 원 | `rounded-full` | `Badge`, `Switch`, `Avatar`, `Slider` 손잡이 |
+
+안에 든 것일수록 한 단계씩 작아져요. 영역 안에 컨트롤이 들어가고, 목록 팝업 안에
+항목이 들어가기 때문이에요. 바깥 모서리가 안쪽보다 작으면 안쪽 모서리가 더
+둥글어 보여서 어색해요.
+
+`Drawer`는 화면 아래에 붙어서 위쪽 두 모서리만 둥글어요(`rounded-t-lg`).
+
 ## 배경
 
 단계 구성은 shadcn CLI의 일곱 단을 그대로 썼어요. 값은 `calc`로 남기지 않고
 빌드할 때 미리 계산해서 넣어요. Figma Variable이 숫자만 받기 때문에, 계산을
 빌드로 당기면 코드와 Figma가 같은 값을 봐요.
+
+`Card`와 `Drawer`는 shadcn의 값을 따라 `rounded-xl`(14px)을 쓰다가 0.7.1에서
+다른 영역과 같은 `rounded-lg`로 맞췄어요.

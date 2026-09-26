@@ -12,7 +12,7 @@ import { Heading, type HeadingProps } from "../text/text.js"
  * 스토리 12). `border`와 `bg-surface`만으로 면을 뗀다 — shadow-* 유틸리티는
  * 여기서 내지 않고, 필요하면 소비처가 className으로 얹는다. */
 export const cardVariants = cva(
-  "flex flex-col gap-6 rounded-xl border border-default bg-surface py-6 text-default",
+  "flex flex-col gap-6 rounded-lg border border-default bg-surface py-6 text-default",
   { variants: {}, defaultVariants: {} }
 )
 
