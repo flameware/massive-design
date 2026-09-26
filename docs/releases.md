@@ -6,7 +6,7 @@
 
 ## 0.8.1
 
-게시 전 — `publish.yml` run 링크는 태그를 민 뒤 더한다.
+`publish.yml` [run 36252569783](https://github.com/flameware/massive-design/actions/runs/36252569783)
 
 목록 카드(`Card.Root variant="list"`)의 `Card.Footer`가 Header와 대칭으로 위아래 12px과 위쪽 `border-subtle` 구분선을 갖는다(#476). 0.8.0에서는 Root가 위아래 여백을 내려놓은 목록 카드에서 Footer에 위아래 여백이 없어 카드 아래 가장자리와 윗 파트에 붙었다. 규칙은 다른 목록 카드 규칙과 같은 `card.css`의 `@layer components`에 있어 Footer에 준 `py-*`가 이긴다. 기본 카드의 Footer와 props·타입·서브패스는 그대로라 patch다. 목록 카드 Footer에 아래 여백을 직접 줬던 곳은 걷어낸다.
 
