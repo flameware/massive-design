@@ -4,6 +4,17 @@
 
 최신 버전만 [`AGENTS.md`](../AGENTS.md)에 한 줄로 남는다. 새 게시는 이 문서 맨 위에 절을 하나 더한다 — 게시 범프 커밋이 그 일을 같이 한다.
 
+## 0.7.1
+
+**소비처 화면에서 Card와 Drawer의 모서리가 덜 둥글어진다.** 올리기 전에 두 컴포넌트가 있는 화면을 확인한다:
+
+| 무엇 | 전 | 후 |
+| --- | --- | --- |
+| `Card.Root` | `rounded-xl` 14px | `rounded-lg` 10px |
+| `Drawer.Popup` (위쪽 모서리) | `rounded-t-xl` 14px | `rounded-t-lg` 10px |
+
+면의 radius가 둘로 갈라져 있던 것(Card·Drawer `xl`, Dialog·Alert·Toast `lg`)을 `lg` 하나로 맞췄다(#471). 두 `xl`은 shadcn의 값을 철자대로 옮겨 온 것이었고, 그 짝을 설명하는 기준이 없었다. 기준은 면 `lg` · 컨트롤과 목록 팝업 `md` · 항목 `sm` · 알약 `full`이며, Storybook `Foundations/라운드`의 "컴포넌트가 쓰는 단계"와 `rules.md` 토큰 절에 적었다. 토큰 값(`radius.*`)과 props·타입·서브패스가 그대로라 patch다. 0.6.4와 같은 잣대로, 화면이 움직이는 것은 등급을 올리지 않는다. 모서리를 되돌리려면 `className="rounded-xl"`을 넘기면 된다(`cn`이 tailwind-merge라 뒤의 값이 이긴다).
+
 ## 0.7.0
 
 `publish.yml` [run 35311451938](https://github.com/flameware/massive-design/actions/runs/35311451938)
