@@ -19,6 +19,14 @@ name: check
 #   커밋하게 되는 날에도 읽는 검사가 없다는 뜻으로 남겨 둔다.
 # - `.out-of-scope/**`는 범위 밖 판정 기록이다. 코드 주석 두 곳(`drawer.tsx`·`state.css`)이
 #   이름으로 가리킬 뿐 읽는 검사는 없다 (#469).
+# - 에이전트 도구 설정(`.claude/**`·`.mcp.json`·`opencode.json`), 이슈 템플릿
+#   (`.github/ISSUE_TEMPLATE/**`), 디자인 싱크 노트(`.design-sync/**`), 램프 생성기
+#   프로토타입(`prototypes/**`), 1세대 Figma 기준선 기록(`verification/**`, ADR-0023 §9)은
+#   어떤 검사도 읽거나 실행하지 않는다. 코드에 이름이 나오는 곳은 주석뿐이다
+#   (`oklch.mjs`의 `prototypes`, `Select.stories.tsx`의 design-sync) (#473).
+# - `scripts/`는 통째로 빼지 않고 Phase 3 실측 스크립트 패턴(`phase3-*.sh`)만 적었다.
+#   CI가 실행하는 스크립트가 나중에 이 폴더에 들어오면 그 변경은 검사를 받아야 한다.
+#   `.github/workflows/**`를 빼지 않은 것도 같은 이유다 (#473).
 #
 # 디렉터리를 열거하는 쪽이 안전한 방향으로 틀린다 — `docs/` 아래 새 디렉터리는
 # 목록에 없으니 검사가 그냥 돈다.
@@ -39,6 +47,14 @@ on:
       - "docs/*.md"
       - "graft/**"
       - ".out-of-scope/**"
+      - ".claude/**"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".design-sync/**"
+      - "prototypes/**"
+      - "verification/**"
+      - "scripts/phase3-*.sh"
+      - ".mcp.json"
+      - "opencode.json"
       - "README.md"
       - "AGENTS.md"
       - "CLAUDE.md"
@@ -51,6 +67,14 @@ on:
       - "docs/*.md"
       - "graft/**"
       - ".out-of-scope/**"
+      - ".claude/**"
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".design-sync/**"
+      - "prototypes/**"
+      - "verification/**"
+      - "scripts/phase3-*.sh"
+      - ".mcp.json"
+      - "opencode.json"
       - "README.md"
       - "AGENTS.md"
       - "CLAUDE.md"
