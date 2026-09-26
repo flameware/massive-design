@@ -19,6 +19,8 @@ import { compile } from "tailwindcss"
 import { alertVariants } from "../dist/alert/index.js"
 import { badgeVariants } from "../dist/badge/index.js"
 import { cardVariants } from "../dist/card/index.js"
+// 파트 클래스는 공개 API가 아니라 서브패스 index에 없다 — 파일을 직접 읽는다
+import { cardPartClassNames } from "../dist/card/card.js"
 import {
   comboboxEmptyVariants,
   comboboxInputVariants,
@@ -67,6 +69,9 @@ const partClasses = Object.values(listRowPartClassNames)
 const candidates = new Set()
 for (const classes of [
   cardVariants(),
+  // #469 — 목록 카드 variant와 여백 변수를 쓰는 파트 클래스
+  cardVariants({ variant: "list" }),
+  ...Object.values(cardPartClassNames),
   alertVariants({ tone: "neutral" }),
   alertVariants({ tone: "danger" }),
   alertVariants({ tone: "warning" }),

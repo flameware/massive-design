@@ -126,17 +126,3 @@ test("목록 카드의 Header·Body·Rows 규칙이 components 층에 있다", (
   const rows = rule('[data-slot="card-rows"] > *')
   assert.match(rows, /padding-inline:\s*var\(--ds-card-padding\)/)
 })
-
-test("카드가 부르는 클래스가 하나도 빠짐없이 선언을 낸다", () => {
-  const candidates = new Set()
-  for (const classes of [cardVariants(), cardVariants({ variant: "list" }), ...Object.values(cardPartClassNames)])
-    for (const c of classes.split(/\s+/)) if (c) candidates.add(c)
-  let before = compiler.build([]).length
-  const silent = []
-  for (const candidate of candidates) {
-    const after = compiler.build([candidate]).length
-    if (after === before) silent.push(candidate)
-    before = after
-  }
-  assert.deepEqual(silent, [], "이 클래스들은 CSS를 내지 않는다 — 조용히 무효다")
-})

@@ -117,9 +117,6 @@ import * as CardStories from "./Card.stories"
 ## 배경
 
 Base UI에 대응하는 컴포넌트가 없어서 DS가 직접 만든 컴포넌트예요. 상태와
-상호작용이 없어서 서버 컴포넌트로 동작해요. 그래서 부분들은 `variant`를 React
-컨텍스트가 아니라 `Root`의 `data-variant` 속성으로 알아요.
-
-여백 기본값과 목록 카드 규칙은 Tailwind의 `components` 층에 있어요. `className`으로
-준 유틸리티가 늘 이기는 이유예요. 화면 폭에 따라 바뀌는 여백은 앱이 고르는 밀도
-옵션이 아니에요. 모든 카드에 같은 규칙이 적용돼요.
+상호작용이 없어서 서버 컴포넌트로 동작하고, 부분들은 `Root`의 `data-variant`
+속성으로 모양을 정해요. 여백 기본값과 목록 카드 규칙은 Tailwind의 `components`
+층에 있어서 `className`으로 준 유틸리티가 늘 이겨요.

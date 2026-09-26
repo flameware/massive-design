@@ -169,3 +169,40 @@ export const FlatByDefault: Story = {
     </div>
   ),
 }
+
+/* 목록 카드에서 부분을 모두 쓴 경우 — Rows 아래에 Body(행이 아닌 안내)와
+ * Footer가 이어진다. Footer는 기본 카드와 같은 모양이라, Root가 위아래 여백을
+ * 내려놓은 목록 카드에서는 아래 여백을 앱이 준다 — 목록 카드의 Footer 모양은
+ * #469의 범위 밖이다. */
+export const ListCardAllParts: Story = {
+  render: () => (
+    <Card.Root variant="list" data-inset={24} style={{ maxWidth: "24rem" }}>
+      <Card.Header>
+        <Card.Title data-inset-text>보유 종목</Card.Title>
+      </Card.Header>
+      <Card.Rows>
+        {HOLDINGS.slice(0, 2).map((row, i) => (
+          <ListRow.Root
+            key={row.name}
+            style={i === 0 ? undefined : { borderTop: "1px solid var(--ds-border-subtle)" }}
+          >
+            <ListRow.Group>
+              <ListRow.Primary data-inset-text>{row.name}</ListRow.Primary>
+            </ListRow.Group>
+            <ListRow.Value>{row.value}</ListRow.Value>
+          </ListRow.Root>
+        ))}
+      </Card.Rows>
+      <Card.Body>
+        <p data-inset-text style={{ margin: 0, color: "var(--ds-fg-muted)", fontSize: "0.875rem" }}>
+          평가액은 전일 종가 기준이에요.
+        </p>
+      </Card.Body>
+      <Card.Footer style={{ paddingBottom: "var(--ds-card-padding)" }}>
+        <span data-inset-text style={{ color: "var(--ds-fg-muted)", fontSize: "0.75rem" }}>
+          5분 전 갱신
+        </span>
+      </Card.Footer>
+    </Card.Root>
+  ),
+}
