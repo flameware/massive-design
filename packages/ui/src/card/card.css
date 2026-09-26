@@ -23,6 +23,13 @@
     border-bottom: 1px solid var(--ds-border-subtle);
   }
 
+  /* Header와 대칭이다(#476) — Root가 위아래 여백을 내려놓았으므로 Footer가
+   * 12px과 위쪽 구분선으로 행 목록을 아래에서 닫는다 */
+  [data-slot="card"][data-variant="list"] > [data-slot="card-footer"] {
+    padding-block: --spacing(3);
+    border-top: 1px solid var(--ds-border-subtle);
+  }
+
   [data-slot="card"][data-variant="list"] > [data-slot="card-body"] {
     padding-block: var(--ds-card-padding);
   }

@@ -110,7 +110,7 @@ test("variant 기본값은 default이고 list는 Root의 위아래 여백과 간
   assert.ok(!list.includes("gap-6") && !list.includes("py-(--ds-card-padding)"), "cn이 기본 여백을 걷어내지 못했다")
 })
 
-test("목록 카드의 Header·Body·Rows 규칙이 components 층에 있다", () => {
+test("목록 카드의 Header·Footer·Body·Rows 규칙이 components 층에 있다", () => {
   const css = compiler.build([])
   const layer = css.slice(css.indexOf("@layer components"))
   const rule = (selector) => {
@@ -121,6 +121,10 @@ test("목록 카드의 Header·Body·Rows 규칙이 components 층에 있다", (
   const header = rule('[data-slot="card"][data-variant="list"] > [data-slot="card-header"]')
   assert.match(header, new RegExp(String.raw`padding-block:\s*${spacing(3)}`))
   assert.match(header, /border-bottom:\s*1px solid var\(--ds-border-subtle\)/)
+  // #476 — Footer는 Header와 대칭이다: 위아래 12px, 위쪽 구분선
+  const footer = rule('[data-slot="card"][data-variant="list"] > [data-slot="card-footer"]')
+  assert.match(footer, new RegExp(String.raw`padding-block:\s*${spacing(3)}`))
+  assert.match(footer, /border-top:\s*1px solid var\(--ds-border-subtle\)/)
   const body = rule('[data-slot="card"][data-variant="list"] > [data-slot="card-body"]')
   assert.match(body, /padding-block:\s*var\(--ds-card-padding\)/)
   const rows = rule('[data-slot="card-rows"] > *')

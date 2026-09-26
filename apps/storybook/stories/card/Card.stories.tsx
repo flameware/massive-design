@@ -171,9 +171,8 @@ export const FlatByDefault: Story = {
 }
 
 /* 목록 카드에서 부분을 모두 쓴 경우 — Rows 아래에 Body(행이 아닌 안내)와
- * Footer가 이어진다. Footer는 기본 카드와 같은 모양이라, Root가 위아래 여백을
- * 내려놓은 목록 카드에서는 아래 여백을 앱이 준다 — 목록 카드의 Footer 모양은
- * #469의 범위 밖이고 #476이 정한다. */
+ * Footer가 이어진다. Footer는 Header와 대칭으로 위아래 12px과 위쪽 구분선을
+ * 가진다(#476). */
 export const ListCardAllParts: Story = {
   render: () => (
     <Card.Root variant="list" data-inset={24} style={{ maxWidth: "24rem" }}>
@@ -198,7 +197,7 @@ export const ListCardAllParts: Story = {
           평가액은 전일 종가 기준이에요.
         </p>
       </Card.Body>
-      <Card.Footer style={{ paddingBottom: "var(--ds-card-padding)" }}>
+      <Card.Footer>
         <span data-inset-text style={{ color: "var(--ds-fg-muted)", fontSize: "0.75rem" }}>
           5분 전 갱신
         </span>
