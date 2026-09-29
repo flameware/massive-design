@@ -89,6 +89,13 @@ jobs:
         with:
           node-version: 22   # 설치는 bun, 빌드 런타임은 node (ADR-0001)
       - run: bun install --frozen-lockfile
+      # 브라우저 바이너리는 락파일이 고정한 playwright 버전에만 달려 있으므로 락파일
+      # 해시로 캐시한다. `--with-deps`의 시스템 패키지는 캐시되지 않아 설치는 그대로
+      # 돌지만, 바이너리가 이미 있으면 내려받지 않는다 (#481).
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('bun.lock') }}
       # 스토리 테스트가 Chromium을 띄운다 (#279). playwright 패키지는 브라우저
       # 바이너리를 함께 받지 않으므로 여기서 한 번 내려받는다 — 러너에는 없다.
       #
