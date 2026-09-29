@@ -6,7 +6,7 @@
 
 ## 0.8.2
 
-게시 전 — `publish.yml` run 링크는 태그를 민 뒤 더한다.
+`publish.yml` [run 36550824795](https://github.com/flameware/massive-design/actions/runs/36550824795)
 
 `ToggleGroup` 안의 `Toggle` radius가 `rounded-md`(8px)에서 `rounded-sm`(6px)으로 내려간다(#479). 판도 `rounded-md`라 테두리 1 + 여백 2px 안쪽의 같은 반경이 모서리에서만 틈을 벌렸다 — "담는 것이 한 단계 크다"(#471)를 ToggleGroup만 어기고 있었다. 동심 기준은 8 − 3 = 5px이고 네 단계 안에서 가장 가까운 값이 `sm`이다. 판의 radius·여백·높이, 그룹 밖 `Toggle`, props·타입·서브패스는 그대로라 patch다.
 

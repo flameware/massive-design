@@ -21,7 +21,7 @@ Standing instructions. `AGENTS.md` is a symlink to this file. Everything that ha
 `gh issue list --label wayfinder:map --state open` is the authority; this block summarises it and may lag by a day. Detail: [`docs/agents/repo-state.md`](docs/agents/repo-state.md).
 
 - **지금 열린 맵은 없다.** Phase 1·2·3가 모두 닫혔고 [ADR-0023](docs/adr/0023-second-generation-base-ui.md)이 2세대(Base UI)의 결정 전부를 담는다. 컴포넌트는 전부 `stable`이다 — **깨는 변경은 major다.**
-- **게시된 최신은 `0.8.1`이다** — #476, 목록 카드(`variant="list"`)의 Footer를 Header와 대칭(위아래 12px · 위쪽 구분선)으로 닫았다. 그 앞의 0.8.0(#469, `--ds-card-padding`·목록 카드)과 이전 버전들은 [`docs/releases.md`](docs/releases.md).
+- **게시된 최신은 `0.8.2`이다** — #479, ToggleGroup 안의 Toggle radius를 판(`md`)보다 한 단계 작은 `sm`으로 내렸다. 그 앞의 0.8.1(#476, 목록 카드 Footer)과 이전 버전들은 [`docs/releases.md`](docs/releases.md).
 - **패키지 스코프는 `@flameware`다**([ADR-0024](docs/adr/0024-package-scope-follows-the-registry-owner.md)). 1세대 문서의 `@massive/*`는 기록이므로 고치지 않는다.
 - **Figma는 보류다** (ADR-0023 §9). 스냅숏 툴링이 삭제돼 요청이 와도 만들 수 없다.
 - 1세대 코드·Figma 툴링·shadcn alias 층은 태그 `v1-shadcn`에만 있다.
