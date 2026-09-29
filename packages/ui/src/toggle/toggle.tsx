@@ -73,8 +73,14 @@ export const toggleVariants = cva(
 /* 그룹 안 항목의 크기. 겉 높이 − 판 여백 2·2 − 테두리 1·1(toggle-group.tsx의
  * `p-0.5 border`) = sm 26 · md 30 · lg 34 — 판의 겉이 척도 값이 된다. 여백·글자·
  * `min-w`도 이 높이에 맞춘다. 공개 API가 아니다: 소비처는 ToggleGroup의 `size`
- * 하나로 이것을 고른다. */
-export const toggleInGroupVariants = cva("", {
+ * 하나로 이것을 고른다.
+ *
+ * radius는 판(`rounded-md`, 8px)보다 한 단계 작은 `rounded-sm`(6px)이다 — 담는
+ * 것이 담기는 것보다 한 단계 크다(rules.md 토큰과 대비, #471 · #479). 판과 같은 8px을
+ * 3px(테두리 1 + 여백 2) 안쪽에 두면 안쪽 모서리가 더 둥글어 모서리에서만 틈이
+ * 벌어진다. 두 모서리가 같은 중심을 가지려면 8 − 3 = 5px이고, 네 단계 안에서
+ * 가장 가까운 값이 `sm`이다. 그룹 밖 낱개 Toggle은 컨트롤이라 `rounded-md` 그대로다. */
+export const toggleInGroupVariants = cva("rounded-sm", {
   variants: {
     size: {
       sm: "h-6.5 min-w-6.5 px-2 text-xs",

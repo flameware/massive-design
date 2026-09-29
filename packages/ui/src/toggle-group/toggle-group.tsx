@@ -40,6 +40,9 @@ export const toggleGroupVariants = cva([
   // md 36 · lg 40). 높이를 판에 박지 않는 이유는 세로 방향이다 — 세로 판의 높이는
   // 항목 수가 정한다. 여백이 `p-1`이 아니라 `p-0.5`인 이유: 겉 36 안에서 `p-1`이면
   // 항목이 28px로 줄어 켜진 브랜드 솔리드가 판 안에서 답답하다.
+  //
+  // 판은 컨트롤이라 `rounded-md`이고, 안의 항목은 한 단계 작은 `rounded-sm`이다
+  // (toggle.tsx의 `toggleInGroupVariants`, #471의 "담는 것이 한 단계 크다").
   "inline-flex items-center gap-1 rounded-md border bg-surface p-0.5",
   "data-[orientation=vertical]:flex-col",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
