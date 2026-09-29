@@ -26,11 +26,11 @@ DS 컴포넌트는 모양에 따라 네 단계만 써요. 앱에서 비슷한 �
 | --- | --- | --- |
 | 내용을 담는 영역 | `rounded-lg` (10px) | `Card`, `Dialog`, `Drawer`, `Alert`, `Toast` |
 | 컨트롤과 목록 팝업 | `rounded-md` (8px) | `Button`, `Input`, `Select`, `Menu`, `ToggleGroup` |
-| 목록 안 항목과 작은 요소 | `rounded-sm` (6px) | `Menu`·`Select`의 항목, `Checkbox`, `Tooltip` |
+| 목록 안 항목과 작은 요소 | `rounded-sm` (6px) | `Menu`·`Select`의 항목, `ToggleGroup` 안의 `Toggle`, `Checkbox`, `Tooltip` |
 | 알약과 원 | `rounded-full` | `Badge`, `Switch`, `Avatar`, `Slider` 손잡이 |
 
 안에 든 것일수록 한 단계씩 작아져요. 영역 안에 컨트롤이 들어가고, 목록 팝업 안에
-항목이 들어가기 때문이에요. 바깥 모서리가 안쪽보다 작으면 안쪽 모서리가 더
+항목이 들어가고, `ToggleGroup` 판 안에 `Toggle`이 들어가기 때문이에요. 바깥 모서리가 안쪽보다 작으면 안쪽 모서리가 더
 둥글어 보여서 어색해요.
 
 `Drawer`는 화면 아래에 붙어서 위쪽 두 모서리만 둥글어요(`rounded-t-lg`).
@@ -43,3 +43,7 @@ DS 컴포넌트는 모양에 따라 네 단계만 써요. 앱에서 비슷한 �
 
 `Card`와 `Drawer`는 shadcn의 값을 따라 `rounded-xl`(14px)을 쓰다가 0.7.1에서
 다른 영역과 같은 `rounded-lg`로 맞췄어요.
+
+`ToggleGroup` 안의 `Toggle`은 판과 같은 `rounded-md`를 쓰다가 0.8.2에서
+`rounded-sm`으로 내렸어요. 판과 같은 값이면 안쪽 모서리가 더 둥글어서 모서리에서만
+틈이 벌어져 보였어요.
