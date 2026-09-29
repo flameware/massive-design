@@ -3,8 +3,11 @@
 # 태그(`v*`)이거나 손으로 부를 때만 돈다 — main에 붙는 모든 커밋이 게시가 되면
 # 소비처가 어느 커밋을 받았는지 말할 수 없다.
 #
-# 게시 전에 check와 test를 다시 돈다. PR에서 이미 돌았지만, 태그가 가리키는
-# 커밋이 PR이 검사한 커밋과 같다는 보장은 태그에 없다.
+# 게시하는 입력은 검사를 통과한 입력이어야 한다. 태그가 가리키는 커밋이 PR이
+# 검사한 커밋과 같다는 보장은 태그에 없으므로, 커밋이 아니라 tree로 맞춰 본다
+# (#481): 같은 tree가 `check` 워크플로를 통과했으면 다시 돌지 않고, 도는 중이면
+# 기다리고, 없으면 여기서 check와 test를 직접 돈다. 판정은
+# `scripts/verified-tree.sh`가 쥔다.
 name: publish
 
 on:
@@ -20,6 +23,7 @@ on:
 permissions:
   contents: read
   packages: write
+  actions: read   # 같은 tree의 check run을 찾는다
 
 jobs:
   publish:
@@ -34,11 +38,27 @@ jobs:
           scope: "@flameware"
 
       - run: bun install --frozen-lockfile
+
+      # 검사를 건너뛰어도 게시물은 같다 — tokens의 dist는 커밋돼 있고
+      # ui의 dist는 `prepack`이 만든다.
+      - id: verified
+        run: scripts/verified-tree.sh "$GITHUB_SHA"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       # check와 같은 이유로 Chromium이 필요하다 — `test`가 스토리 테스트를 돈다 (#279).
       # 락파일이 고정한 playwright로 받는다 — bunx는 최신을 받아 리비전이 어긋난다
-      - run: bun run --filter @flameware/storybook playwright:install
-      - run: bun run check
-      - run: bun run test
+      - if: steps.verified.outputs.verified != 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+      - if: steps.verified.outputs.verified != 'true'
+        run: bun run --filter @flameware/storybook playwright:install
+      - if: steps.verified.outputs.verified != 'true'
+        run: bun run check
+      - if: steps.verified.outputs.verified != 'true'
+        run: bun run test
 
       # npm으로 올린다 — bun publish는 GitHub Packages의 인증 헤더를 다르게 쓴다.
       # 순서가 있다: ui가 tokens를 ^0.1.0으로 물고 있으므로 tokens가 먼저다.
