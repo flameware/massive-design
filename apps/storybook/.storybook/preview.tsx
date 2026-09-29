@@ -86,6 +86,19 @@ const preview: Preview = {
         }
       }, [keyboard])
 
+      /* 렌더가 끝났다는 신호도 같은 자리로 건넨다 (#482). 부모의 effect는 같은
+       * 커밋에서 자식 effect가 모두 돈 뒤에 돌므로, 이 값이 서면 스토리 트리가
+       * 마운트를 마친 것이다. 스토리 테스트는 `networkidle`(요청이 멈춘 뒤 500ms)
+       * 대신 이 값을 기다린다. */
+      const id = context.id
+      React.useEffect(() => {
+        const root = document.documentElement
+        root.dataset.dsRendered = id
+        return () => {
+          delete root.dataset.dsRendered
+        }
+      }, [id])
+
       return (
         <div style={{ padding: "1rem", minHeight: "100vh" }}>
           <Story />
