@@ -468,8 +468,8 @@ const browser = await chromium.launch({ headless: true })
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
 
 /* 테스트는 네트워크를 타지 않는다. `preview-head.html`이 Pretendard를 CDN에서
- * 받는데, `networkidle`로 기다리는 이 계기에서 그 요청 하나가 느리면 스토리마다
- * 그만큼 늘어지고 오프라인에서는 매달린다. 문서를 보는 사람에게 필요한 폰트이지
+ * 받는데, 그 요청 하나가 느리면 `document.fonts.ready`를 기다리는 이 계기가
+ * 스토리마다 그만큼 늘어지고 오프라인에서는 매달린다. 문서를 보는 사람에게 필요한 폰트이지
  * 재는 데 필요한 폰트가 아니므로 여기서만 끊는다 — 재는 것은 기하와 접근성이고,
  * 둘 다 폰트 스택의 다음 서체로 그려도 같은 값이 나온다. */
 await page.route("**://*/**", (route) =>
@@ -483,6 +483,32 @@ after(async () => {
 
 const storyUrl = (id) =>
   `http://127.0.0.1:${port}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story`
+
+/* 스토리를 열고 잴 수 있을 때까지 기다린다 (#482). 예전에는 `networkidle`을
+ * 기다렸는데, 외부 요청을 모두 끊은 정적 빌드에서 그것은 "요청이 멈춘 뒤
+ * 500ms"라는 고정 대기일 뿐이라 스토리마다 0.5초 이상을 버렸다. 대신 뜻이 있는
+ * 조건 셋을 차례로 기다린다:
+ *
+ * 1. decorator가 문서 루트에 이 스토리의 id를 적는다 — 스토리 트리가 마운트를
+ *    마쳤다(`preview.tsx`).
+ * 2. 폰트가 준비되고, 끝이 있는 애니메이션·트랜지션이 모두 끝난다 — 여는
+ *    트랜지션 도중의 불투명도로 대비를 재지 않게. 무한 반복(스피너 등)은 끝을
+ *    기다리지 않는다.
+ * 3. 두 프레임을 넘긴다 — 플로팅 포지셔닝이 rAF에서 자리를 잡는다. */
+async function openStory(id) {
+  await page.goto(storyUrl(id))
+  await page.waitForFunction((expected) => document.documentElement.dataset.dsRendered === expected, id)
+  await page.evaluate(async () => {
+    await document.fonts.ready
+    await Promise.all(
+      document
+        .getAnimations()
+        .filter((animation) => animation.effect?.getComputedTiming().endTime !== Infinity)
+        .map((animation) => animation.finished.catch(() => {}))
+    )
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+  })
+}
 
 /* 기본 뷰포트는 데스크톱(1280×900, 위 `page` 생성부)이다. Drawer(#284)처럼
  * 모바일 폭에서만 뜻이 있는 스토리는 `tags: ["viewport:mobile"]`를 달아
@@ -629,7 +655,7 @@ for (const story of stories) {
     before(async () => {
       const mobile = story.tags?.includes("viewport:mobile") ?? false
       await page.setViewportSize(mobile ? MOBILE_VIEWPORT : DEFAULT_VIEWPORT)
-      await page.goto(storyUrl(story.id), { waitUntil: "networkidle" })
+      await openStory(story.id)
     })
 
     test("axe 위반 0", async () => {
@@ -722,7 +748,7 @@ for (const story of stories) {
       for (const contract of JSON.parse(declared)) {
         // 계약마다 새로 연다 — 앞 계약이 남긴 상태(누른 횟수·포커스)를 물려받으면
         // 순서가 결과를 바꾸고, 그러면 계약이 계약이 아니라 시나리오가 된다
-        await page.goto(storyUrl(story.id), { waitUntil: "networkidle" })
+        await openStory(story.id)
         if (contract.focus) await page.locator(contract.focus).focus()
         // 키 사이에 한 프레임을 준다 — 여는 동작은 플로팅 포지셔닝(rAF)을
         // 한 박자 기다린 뒤 반영되고, 다음 키가 그 전에 도착하면(예: 메뉴가
