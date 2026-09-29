@@ -481,8 +481,13 @@ after(async () => {
   server.close()
 })
 
+/* `a11y.manual`을 켜 a11y 애드온의 자동 검사를 끈다. 애드온은 렌더 뒤
+ * `afterEach`에서 자기 axe를 돌리는데, axe-core는 `var axe = axe || {}`로 이미
+ * 있는 전역을 다시 쓰므로 아래 `axe 위반 0`이 주입하는 axe와 같은 인스턴스다.
+ * 둘이 겹치면 "Axe is already running"으로 죽는다 — `networkidle`의 500ms가
+ * 이 경합을 가리고 있었다(#482). 문서를 보는 사람의 a11y 패널은 그대로다. */
 const storyUrl = (id) =>
-  `http://127.0.0.1:${port}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story`
+  `http://127.0.0.1:${port}/iframe.html?id=${encodeURIComponent(id)}&viewMode=story&globals=a11y.manual:!true`
 
 /* 스토리를 열고 잴 수 있을 때까지 기다린다 (#482). 예전에는 `networkidle`을
  * 기다렸는데, 외부 요청을 모두 끊은 정적 빌드에서 그것은 "요청이 멈춘 뒤
