@@ -1,0 +1,14 @@
+/* Collapsible Trigger의 홀로 선 모양(#486). collapsible.tsx의 유틸리티가 아니라
+ * 여기 있는 이유는 층이다 — 목록 카드 안에서는 card.css가 같은 components 층에서
+ * 더 구체적인 선택자로 여백과 radius를 바꾸고, 앱이 className으로 준 유틸리티는
+ * 어느 쪽이든 이긴다. 유틸리티로 두면 card.css 규칙이 조용히 진다.
+ *
+ * 여백은 고스트 버튼처럼 호버 면이 글자에 붙지 않을 만큼만 준다. radius는
+ * 컨트롤의 `md`다(rules.md 토큰과 대비 — radius는 모양이 정한다). */
+@layer components {
+  [data-slot="collapsible-trigger"] {
+    padding-block: --spacing(1.5);
+    padding-inline: --spacing(2);
+    border-radius: var(--radius-md);
+  }
+}
