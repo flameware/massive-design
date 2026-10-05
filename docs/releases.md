@@ -6,6 +6,8 @@
 
 ## 0.9.0
 
+`publish.yml` [run 37333107388](https://github.com/flameware/massive-design/actions/runs/37333107388)
+
 새 컴포넌트 하나와 새 파트 하나를 더한다. 기존 props·타입은 그대로 컴파일되므로 minor다.
 
 - **`Collapsible`**(#486, `@flameware/ui/collapsible`, `preview`) — `Root`·`Trigger`·`Panel`로 쓰는 접힌 그룹. `open`·`defaultOpen`·`onOpenChange`로 제어형과 비제어형을 모두 쓰고, `onOpenChange`는 사용자가 `Trigger`를 눌렀을 때만 불린다(앱이 `open`을 바꾼 것으로는 불리지 않는다). `Trigger`는 chevron을 직접 그리고 펼치면 90° 돈다. 목록 카드(`Card.Root variant="list"`)의 직계 자식이면 `card.css`의 부모 선택자 규칙이 위 구분선을 긋고 `Trigger`를 `Card.Header`(list)와 같은 위아래 12px · 좌우 `--ds-card-padding`으로 폭 전체에 편다. 펼칠 행은 `Panel` 안의 `Card.Rows`에 둔다. 높이 전환은 150ms이고 `prefers-reduced-motion`이면 전환 없이 바뀐다.
