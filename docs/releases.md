@@ -4,6 +4,15 @@
 
 최신 버전만 [`AGENTS.md`](../AGENTS.md)에 한 줄로 남는다. 새 게시는 이 문서 맨 위에 절을 하나 더한다 — 게시 범프 커밋이 그 일을 같이 한다.
 
+## 0.9.0
+
+새 컴포넌트 하나와 새 파트 하나를 더한다. 기존 props·타입은 그대로 컴파일되므로 minor다.
+
+- **`Collapsible`**(#486, `@flameware/ui/collapsible`, `preview`) — `Root`·`Trigger`·`Panel`로 쓰는 접힌 그룹. `open`·`defaultOpen`·`onOpenChange`로 제어형과 비제어형을 모두 쓰고, `onOpenChange`는 사용자가 `Trigger`를 눌렀을 때만 불린다(앱이 `open`을 바꾼 것으로는 불리지 않는다). `Trigger`는 chevron을 직접 그리고 펼치면 90° 돈다. 목록 카드(`Card.Root variant="list"`)의 직계 자식이면 `card.css`의 부모 선택자 규칙이 위 구분선을 긋고 `Trigger`를 `Card.Header`(list)와 같은 위아래 12px · 좌우 `--ds-card-padding`으로 폭 전체에 편다. 펼칠 행은 `Panel` 안의 `Card.Rows`에 둔다. 높이 전환은 150ms이고 `prefers-reduced-motion`이면 전환 없이 바뀐다.
+- **`Combobox.InputGroup`**(#487) — 입력 칸 안에 세그먼트 같은 컨트롤을 함께 둘 때 `Combobox.Input`과 그 컨트롤을 감싼다. 그룹이 테두리·면·포커스 링·invalid·disabled를 그리고(`fieldControlBase`와 같은 출처), 바로 안의 `Combobox.Input`은 테두리 없는 칸이 되며, 후보 목록은 `anchor` 없이 그룹 폭에 붙는다. 그룹 바로 안의 `ToggleGroup`은 판 테두리·면 없이 칸 안쪽 높이를 채운다 — `size`를 맞출 필요가 없다. 범용 InputGroup이 아니라 Base UI Combobox anatomy의 파트이므로 ADR-0023의 "돌아오지 않는 것"과 부딪치지 않는다. 앱이 바깥 상자에 밑그림을 옮기고 `anchor`를 돌려 조립했던 곳은 이 파트로 바꾼다.
+
+같은 작업으로 ToggleGroup 판의 테두리·면과 안 항목의 높이가 cva 유틸리티에서 `toggle-group.css`의 `@layer components`(`data-slot="toggle-group"`·`data-size`, `--ds-toggle-item-height`)로 옮겨졌다. 렌더 결과는 같지만 `toggleGroupVariants()`가 내는 문자열에서 `border bg-surface`가, `toggleInGroupVariants()`의 크기별 문자열에서 `h-*`·`min-w-*`가 빠졌다. 그 문자열을 ToggleGroup 밖 요소에 빌려 쓰던 곳은 확인한다. `@flameware/ui/styles.css`를 가져오지 않으면 판의 테두리·면이 그려지지 않는다.
+
 ## 0.8.2
 
 `publish.yml` [run 36550824795](https://github.com/flameware/massive-design/actions/runs/36550824795)
