@@ -28,17 +28,17 @@ const TRIGGER = cn(
  * `in-data-*`는 조상 선택자지만 chevron의 조상 중 그 속성을 내는 것은 자기
  * Trigger뿐이다 — 중첩된 Collapsible의 Panel은 바깥 Trigger의 형제라 새지 않는다. */
 const ICON = cn(
-  "size-4 shrink-0 transition-transform ease-out",
+  "size-4 shrink-0 transition-transform duration-150 ease-out",
   "in-data-panel-open:rotate-90 motion-reduce:transition-none"
 )
 
 /* 높이 전환은 Base UI가 재 주는 `--collapsible-panel-height`를 쓴다. 열린 뒤에는
  * Base UI가 그 값을 `auto`로 돌려 놓아 안의 내용이 바뀌어도 잘리지 않는다.
- * 시간은 기본 전환 시간(150ms, scale.json의 duration.fast), 이징은 승인된
- * ease-out이다. reduced-motion이면 전환 없이 바로 열리고 닫힌다. */
+ * 시간은 scale.json의 duration.fast(150ms)를 `duration-150`으로 적고, 이징은
+ * 승인된 ease-out이다(Tabs 인디케이터와 같은 방식). reduced-motion이면 전환 없이 바로 열리고 닫힌다. */
 const PANEL = cn(
   "h-(--collapsible-panel-height) overflow-hidden",
-  "transition-[height] ease-out motion-reduce:transition-none",
+  "transition-[height] duration-150 ease-out motion-reduce:transition-none",
   "data-starting-style:h-0 data-ending-style:h-0"
 )
 

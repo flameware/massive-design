@@ -70,6 +70,15 @@ test("Trigger가 chevron을 직접 그리고 그 뒤에 라벨을 둔다 — che
   assert.match(html, /<button[^>]*><svg[^>]*aria-hidden="true"[^>]*>.*<\/svg>노트 없는 종목 20<\/button>/)
 })
 
+test("Trigger의 aria-expanded가 열림 상태를 따르고 aria-controls가 Panel의 id를 가리킨다", () => {
+  const open = render({ defaultOpen: true })
+  const controls = open.match(/<button[^>]*aria-controls="([^"]+)"/)?.[1]
+  assert.ok(controls, "Trigger에 aria-controls가 없다")
+  assert.match(open, new RegExp(`<div[^>]*id="${controls}"[^>]*data-slot="collapsible-panel"`))
+  assert.match(open, /<button[^>]*aria-expanded="true"/)
+  assert.match(render(), /<button[^>]*aria-expanded="false"/)
+})
+
 test("닫혀 있으면 Panel이 렌더되지 않는다 — 안의 요소가 탭 순서에 없다", () => {
   assert.doesNotMatch(render(), /펼친 내용/)
   assert.match(render({ defaultOpen: true }), /펼친 내용/)
@@ -144,6 +153,7 @@ test("목록 카드 안 Trigger는 Card.Header(list)와 같은 치수다 — 위
   assert.match(trigger, new RegExp(String.raw`padding-block:\s*${spacing(3)}`))
   assert.match(trigger, /padding-inline:\s*var\(--ds-card-padding\)/)
   assert.match(trigger, /width:\s*100%/)
+  assert.match(trigger, /--ds-state-base:\s*var\(--ds-bg-surface\)/, "카드 면 위 항목의 상태 바탕은 카드 면색이다")
 })
 
 test("목록 카드 안 Panel의 Card.Rows는 위 구분선으로 머리와 나뉜다", () => {

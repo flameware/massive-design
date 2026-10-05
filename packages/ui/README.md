@@ -177,7 +177,7 @@ import { Collapsible } from "@flameware/ui/collapsible"
 </Collapsible.Root>
 ```
 
-머리를 누르면 내용이 펼쳐지고 접혀요. `Trigger`가 화살표 아이콘을 직접 그리고
+제목 줄(`Trigger`)을 누르면 내용이 펼쳐지고 접혀요. `Trigger`가 화살표 아이콘을 직접 그리고
 children을 라벨로 둬요. 펼치면 화살표가 90° 돌아요. `aria-expanded`와
 `aria-controls`는 컴포넌트가 붙이고, 접힌 `Panel` 안에는 Tab이 닿지 않아요.
 

@@ -180,6 +180,9 @@ const WITH_NOTES = [
 ]
 const WITHOUT_NOTES = ["NAVER", "현대차", "LG에너지솔루션"]
 
+/* 행 사이 구분선은 앱이 그린다(Card.Rows는 그리지 않는다) */
+const divider = (i: number) => (i === 0 ? undefined : { borderTop: "1px solid var(--ds-border-subtle)" })
+
 const notesCard = (inset: number, defaultOpen: boolean) => (
   <Card.Root variant="list" data-inset={inset} style={{ maxWidth: "24rem" }}>
     <Card.Header data-same-box="head">
@@ -189,7 +192,7 @@ const notesCard = (inset: number, defaultOpen: boolean) => (
     </Card.Header>
     <Card.Rows>
       {WITH_NOTES.map((row, i) => (
-        <ListRow.Root key={row.name} style={i === 0 ? undefined : { borderTop: "1px solid var(--ds-border-subtle)" }}>
+        <ListRow.Root key={row.name} style={divider(i)}>
           <ListRow.Group>
             <ListRow.Primary data-inset-text>{row.name}</ListRow.Primary>
             <ListRow.Secondary>{row.meta}</ListRow.Secondary>
@@ -202,7 +205,7 @@ const notesCard = (inset: number, defaultOpen: boolean) => (
       <Collapsible.Panel>
         <Card.Rows>
           {WITHOUT_NOTES.map((name, i) => (
-            <ListRow.Root key={name} style={i === 0 ? undefined : { borderTop: "1px solid var(--ds-border-subtle)" }}>
+            <ListRow.Root key={name} style={divider(i)}>
               <ListRow.Group>
                 <ListRow.Primary data-inset-text>{name}</ListRow.Primary>
               </ListRow.Group>

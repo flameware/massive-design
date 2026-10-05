@@ -9,7 +9,7 @@ import * as CollapsibleStories from "./Collapsible.stories"
 
 <StatusBadge status={CollapsibleStories.default.parameters.ds.status} /> · since {CollapsibleStories.default.parameters.ds.since}
 
-머리를 누르면 아래 내용이 펼쳐지고 다시 누르면 접혀요. 목록 카드 아래에 덜
+제목 줄(`Trigger`)을 누르면 아래 내용이 펼쳐지고 다시 누르면 접혀요. 목록 카드 아래에 덜
 중요한 행을 접어 두거나, 자주 보지 않는 설명을 숨겨 둘 때 써요.
 
 ## 언제 쓰는가
@@ -76,7 +76,7 @@ import { Collapsible } from "@flameware/ui/collapsible"
 | --- | --- |
 | `Root` | 위쪽에 구분선이 있어요. 바로 앞이 `Card.Header`면 그 아래쪽 구분선과 겹치지 않게 빠져요 |
 | `Trigger` | `Card.Header`와 같은 위아래 12px, 좌우 카드 여백이고 카드 폭을 다 채워요 |
-| `Panel` 안 `Card.Rows` | 위쪽 구분선으로 머리와 나뉘어요. 행의 좌우 여백은 다른 `Card.Rows`와 같아요 |
+| `Panel` 안 `Card.Rows` | 위쪽 구분선으로 제목 줄과 나뉘어요. 행의 좌우 여백은 다른 `Card.Rows`와 같아요 |
 
 <Canvas of={CollapsibleStories.InListCardOpen} />
 
