@@ -24,6 +24,7 @@
 import assert from "node:assert/strict"
 import { createServer } from "node:http"
 import { readFile } from "node:fs/promises"
+import { availableParallelism } from "node:os"
 import path from "node:path"
 import { after, before, describe, test } from "node:test"
 import axe from "axe-core"
@@ -532,16 +533,33 @@ const stories = Object.values(index.entries).filter((entry) => entry.type === "s
 
 const { server, port } = await serve(output)
 const browser = await chromium.launch({ headless: true })
-const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
+
+/* 스토리를 조각 N개로 나눠 동시에 돈다 (#491). 조각마다 자기 `BrowserContext`를
+ * 갖는다 — 저장소가 갈라진 context는 렌더러 프로세스와 포커스를 따로 가지므로,
+ * 키보드 계약이 누른 키와 `document.activeElement`가 다른 조각의 페이지와 섞이지
+ * 않는다 — 조각 16개로 과적재해 돌려도 키보드 계약 28개의 판정이 직렬과 같았다.
+ * 정적 서버는 하나를 같이 쓴다.
+ *
+ * N은 코어 수(`os.availableParallelism()`)이고 `STORY_TEST_SHARDS`로 덮는다.
+ * `STORY_TEST_SHARDS=1`이면 예전처럼 페이지 하나로 직렬로 돈다 — 판정이 갈리면
+ * 이것과 견줘 경합을 찾는다. 스토리는 차례대로 돌려 나눈다(i번째 → i mod N) —
+ * 같은 컴포넌트의 스토리가 이웃해 있어 덩어리로 자르면 무거운 조각이 생긴다. */
+const SHARDS = Math.max(1, Math.min(Number.parseInt(process.env.STORY_TEST_SHARDS ?? "", 10) || availableParallelism(), stories.length))
+const shards = Array.from({ length: SHARDS }, (_, shard) => stories.filter((_, i) => i % SHARDS === shard))
 
 /* 테스트는 네트워크를 타지 않는다. `preview-head.html`이 Pretendard를 CDN에서
  * 받는데, 그 요청 하나가 느리면 `document.fonts.ready`를 기다리는 이 계기가
  * 스토리마다 그만큼 늘어지고 오프라인에서는 매달린다. 문서를 보는 사람에게 필요한 폰트이지
  * 재는 데 필요한 폰트가 아니므로 여기서만 끊는다 — 재는 것은 기하와 접근성이고,
- * 둘 다 폰트 스택의 다음 서체로 그려도 같은 값이 나온다. */
-await page.route("**://*/**", (route) =>
-  route.request().url().startsWith(`http://127.0.0.1:${port}/`) ? route.continue() : route.abort()
-)
+ * 둘 다 폰트 스택의 다음 서체로 그려도 같은 값이 나온다. route를 context에 걸므로
+ * 그 조각의 모든 페이지에 걸린다. */
+async function openShardPage() {
+  const context = await browser.newContext({ viewport: DEFAULT_VIEWPORT })
+  await context.route("**://*/**", (route) =>
+    route.request().url().startsWith(`http://127.0.0.1:${port}/`) ? route.continue() : route.abort()
+  )
+  return context.newPage()
+}
 
 after(async () => {
   await browser.close()
@@ -567,7 +585,7 @@ const storyUrl = (id) =>
  *    트랜지션 도중의 불투명도로 대비를 재지 않게. 무한 반복(스피너 등)은 끝을
  *    기다리지 않는다.
  * 3. 두 프레임을 넘긴다 — 플로팅 포지셔닝이 rAF에서 자리를 잡는다. */
-async function openStory(id) {
+async function openStory(page, id) {
   await page.goto(storyUrl(id))
   await page.waitForFunction((expected) => document.documentElement.dataset.dsRendered === expected, id)
   await page.evaluate(async () => {
@@ -582,7 +600,7 @@ async function openStory(id) {
   })
 }
 
-/* 기본 뷰포트는 데스크톱(1280×900, 위 `page` 생성부)이다. Drawer(#284)처럼
+/* 기본 뷰포트는 데스크톱(1280×900, 위 `openShardPage`가 context에 건다)이다. Drawer(#284)처럼
  * 모바일 폭에서만 뜻이 있는 스토리는 `tags: ["viewport:mobile"]`를 달아
  * 375px(iPhone SE급)로 열게 한다 — CSF의 `tags`는 index.json에 그대로
  * 실리므로(Storybook이 색인에서 보존하는 몇 안 되는 필드다) 스토리를 열기
@@ -742,12 +760,30 @@ test("스토리가 하나라도 있다", () => {
   assert.ok(stories.length > 0, "storybook-static/index.json에 스토리가 없다 — build-storybook이 먼저다")
 })
 
-for (const story of stories) {
+/* 조각끼리는 동시에, 조각 안에서는 차례로 돈다. node:test의 `concurrency`는 정하지
+ * 않으면 부모의 값을 물려받으므로 조각 쪽에 1을 따로 적어야 한다 — 빠뜨리면 한 조각의
+ * 스토리들이 페이지 하나를 두고 서로 `goto`한다 */
+describe("스토리 조각", { concurrency: SHARDS }, () => {
+  for (const [shard, chunk] of shards.entries()) {
+    describe(`조각 ${shard + 1}/${SHARDS}`, { concurrency: 1 }, () => {
+      let page
+      before(async () => {
+        page = await openShardPage()
+      })
+      after(() => page?.context().close())
+      for (const story of chunk) describeStory(story, () => page)
+    })
+  }
+})
+
+function describeStory(story, shardPage) {
   describe(story.id, () => {
+    let page
     before(async () => {
+      page = shardPage()
       const mobile = story.tags?.includes("viewport:mobile") ?? false
       await page.setViewportSize(mobile ? MOBILE_VIEWPORT : DEFAULT_VIEWPORT)
-      await openStory(story.id)
+      await openStory(page, story.id)
     })
 
     test("axe 위반 0", async () => {
@@ -851,7 +887,7 @@ for (const story of stories) {
       for (const contract of JSON.parse(declared)) {
         // 계약마다 새로 연다 — 앞 계약이 남긴 상태(누른 횟수·포커스)를 물려받으면
         // 순서가 결과를 바꾸고, 그러면 계약이 계약이 아니라 시나리오가 된다
-        await openStory(story.id)
+        await openStory(page, story.id)
         if (contract.focus) await page.locator(contract.focus).focus()
         // 키 사이에 한 프레임을 준다 — 여는 동작은 플로팅 포지셔닝(rAF)을
         // 한 박자 기다린 뒤 반영되고, 다음 키가 그 전에 도착하면(예: 메뉴가
