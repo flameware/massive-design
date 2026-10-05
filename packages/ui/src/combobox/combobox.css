@@ -1,0 +1,24 @@
+/* Combobox.InputGroup 안에 바로 둔 ToggleGroup의 치수(#487). 칸이 테두리와 면을
+ * 이미 그렸으므로 판은 테두리·면을 내려놓고, 판(여백 2·2 + 항목 30)이 칸의 안쪽
+ * 높이 34(겉 36 − 테두리 2)를 채운다. 항목 높이를 여기서 정하므로 앱이 ToggleGroup에
+ * `size`를 맞추지 않아도 되고, 줘도 칸 높이는 그대로다(`size`는 글자·좌우 여백만
+ * 바꾼다).
+ *
+ * card.css처럼 부모 선택자 규칙이다(rules.md 축과 이름 공간, #469): `data-slot`으로
+ * 파트를 겨누고 `>`로 직계만 본다 — 칸 밖의 판, 칸 안의 다른 `role="group"`에는
+ * 닿지 않는다. 판의 테두리·면·항목 높이가 toggle-group.css의 같은 층에 있으므로
+ * 명시도로 이기고, 앱의 className(utilities)은 지금처럼 이것을 이긴다. ToggleGroup에는
+ * prop도 context도 더하지 않는다. */
+@layer components {
+  [data-slot="combobox-input-group"] > [data-slot="toggle-group"] {
+    flex-shrink: 0;
+    border-width: 0;
+    background-color: transparent;
+  }
+
+  /* `[data-size]`까지 겨눠 toggle-group.css의 크기 규칙보다 명시도가 높다.
+   * 값은 그 파일의 md 항목 높이와 같다 — 칸 높이가 md 36 하나이기 때문이다 */
+  [data-slot="combobox-input-group"] > [data-slot="toggle-group"][data-size] {
+    --ds-toggle-item-height: --spacing(7.5);
+  }
+}

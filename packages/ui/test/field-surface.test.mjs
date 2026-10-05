@@ -63,13 +63,19 @@ test("입력 다섯은 공유 밑그림을 계속 펼친다 — 펼침이 끊기
 })
 
 test("ToggleGroup 루트도 흰 면이다 — 묶음은 테두리가 나른다", () => {
-  const classes = toggleGroupVariants()
-  assert.match(classes, bare("bg-surface"))
-  assert.ok(!bare("bg-inset").test(classes), "루트 트랙이 아직 bg-inset이다")
+  // 판의 테두리·면은 cva가 아니라 toggle-group.css의 `@layer components`에 있다
+  // (#487 — Combobox.InputGroup 안의 판을 부모 선택자 규칙이 같은 층에서 덮는다)
+  const css = readFileSync(new URL("../src/toggle-group/toggle-group.css", import.meta.url), "utf8")
+  const panel = /\[data-slot="toggle-group"\]\s*\{([^}]*)\}/.exec(css)?.[1] ?? ""
+  assert.match(panel, /background-color:\s*var\(--ds-bg-surface\)/)
+  assert.ok(!/--ds-bg-inset/.test(panel), "루트 트랙이 아직 bg-inset이다")
   // 테두리는 승격하지 않는다(#463) — Card 같은 다른 묶음 컨테이너와 갈라지지
-  // 않기 위해서다. 맨 `border`는 base 규칙의 border.default를 받는다
-  assert.match(classes, bare("border"))
-  assert.ok(!bare("border-field").test(classes))
+  // 않기 위해서다. 색을 적지 않은 테두리는 base 규칙의 border.default를 받는다
+  assert.match(panel, /border-width:\s*1px/)
+  assert.ok(!/border-color/.test(panel), "판 테두리가 기본색(border.default) 밖으로 나갔다")
+  // cva에는 면·테두리가 다시 들어오지 않는다 — 들어오면 utilities가 부모 선택자 규칙을 이긴다
+  const classes = toggleGroupVariants()
+  assert.ok(!bare("bg-surface").test(classes) && !bare("border").test(classes))
 })
 
 test("NumberField의 ± 버튼도 같은 면 위에 앉는다 — 한 컨트롤 안에서 면색이 갈리지 않는다", () => {

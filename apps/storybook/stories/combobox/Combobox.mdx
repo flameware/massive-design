@@ -105,7 +105,60 @@ Combobox는 입력한 텍스트를 그대로 넘길 뿐이라, 그 값이 무엇
 
 <Canvas of={ComboboxStories.Freeform} />
 
+### 입력 칸 안에 컨트롤 두기
+
+검색 대상을 고르는 세그먼트처럼 입력 칸 안에 컨트롤을 함께 두려면
+`Combobox.InputGroup`으로 `Combobox.Input`과 그 컨트롤을 감싸세요. 테두리,
+배경, 포커스 링은 그룹이 그리고, 안의 입력은 테두리 없이 남은 폭을 채워요.
+후보 목록은 `anchor`를 주지 않아도 그룹 폭에 맞춰 열려요.
+
+```tsx
+<Combobox.Root items={items}>
+  <Combobox.InputGroup>
+    <ToggleGroup
+      aria-label="시장"
+      value={[market]}
+      onValueChange={(next) => next[0] && setMarket(next[0])}
+    >
+      <Toggle value="kr">한국</Toggle>
+      <Toggle value="us">미국</Toggle>
+    </ToggleGroup>
+    <Combobox.Input placeholder="종목명 또는 코드" />
+  </Combobox.InputGroup>
+  <Combobox.Popup>…</Combobox.Popup>
+</Combobox.Root>
+```
+
+<Canvas of={ComboboxStories.InputGroupSegment} />
+
+그룹 안의 `ToggleGroup`은 자기 테두리와 배경 없이 칸 안을 채워요. 항목 높이도
+그룹이 정해서 `size`를 주지 않아도 되고, 주더라도 칸의 높이는 다른 입력과 같은
+36px 그대로예요.
+
+<Canvas of={ComboboxStories.InputGroupControlHeight} />
+
+`Field.Root`의 `invalid`와 `disabled`는 그룹 전체에 보여요. 오류일 때는 그룹
+테두리가 빨갛게 바뀌고, 비활성일 때는 그룹 전체가 흐려져요. 그룹 안의
+`ToggleGroup`은 흐려진 칸 안에서도 키보드로 닿을 수 있으니 `disabled`를 함께
+주세요.
+
+<Canvas of={ComboboxStories.InputGroupStates} />
+
 ## 주의할 점
+
+### 입력과 `ToggleGroup`은 `Combobox.InputGroup`에 바로 넣으세요
+
+그룹은 바로 안에 있는 입력의 포커스를 보고 링을 그리고, 바로 안에 있는
+`ToggleGroup`의 치수를 정해요. 다른 요소로 한 번 더 감싸면 포커스 링이 그룹에
+나타나지 않고 `ToggleGroup`은 칸 밖에서와 같은 모양으로 그려져요. `name`을 준
+`ToggleGroup`도 감싸는 요소가 하나 생기므로, 그룹 안에서는 `value`와
+`onValueChange`로 값을 관리하세요.
+
+### 목록이 열린 동안 그룹 안 컨트롤은 화면 읽기 프로그램에서 숨어요
+
+후보 목록이 열려 있으면 입력과 목록 밖의 요소가 화면 읽기 프로그램에서
+가려져요. Base UI Combobox의 기본 동작이에요. Shift+Tab으로 그룹 안 컨트롤로
+돌아가면 목록이 닫히면서 다시 읽혀요.
 
 ### `Empty`와 `Status`는 조건부로 렌더하지 마세요
 
@@ -136,3 +189,6 @@ Combobox는 입력한 텍스트를 그대로 넘길 뿐이라, 그 값이 무엇
 Base UI `Combobox` 위에 얹었어요. 입력, 필터, 키보드 탐색, Field 연결은 Base
 UI가 처리하고, DS는 색과 간격을 입히고 Base UI의 `Portal`, `Positioner`,
 `Popup` 셋을 `Combobox.Popup` 하나로 접었어요.
+
+`Combobox.InputGroup`은 Base UI Combobox의 `InputGroup` 파트를 감싼 것이에요.
+`Input`이나 `Select`에 붙이는 범용 입력 그룹은 제공하지 않아요.

@@ -1,6 +1,9 @@
 import { Combobox } from "@flameware/ui/combobox"
 import { Dialog } from "@flameware/ui/dialog"
 import { Field } from "@flameware/ui/field"
+import { Input } from "@flameware/ui/input"
+import { Toggle } from "@flameware/ui/toggle"
+import { ToggleGroup } from "@flameware/ui/toggle-group"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { useEffect, useState } from "react"
 
@@ -375,6 +378,187 @@ function KeyboardFixture() {
         </Combobox.Root>
       </Field.Root>
       <p data-testid="selected">선택됨: {value ? `${value.name} (${value.symbol})` : "없음"}</p>
+    </div>
+  )
+}
+
+/* ---------- 칸 안 세그먼트 (#487) ----------
+ * 관심종목 검색 칸 안의 한국/미국 세그먼트. `Combobox.InputGroup`이 필드 밑그림을
+ * 지고, 그룹 바로 안의 `Combobox.Input`은 맨 칸이 되며, 후보 목록은 `anchor` 없이
+ * 그룹 폭에 붙는다. 칸 안 ToggleGroup에는 `size`를 주지 않는다 — 판 테두리·면과
+ * 항목 높이는 칸이 정한다(combobox.css).
+ *
+ * 렌더링된 치수(테두리 하나·판이 안쪽 높이를 채움·목록 폭 = 그룹 폭·링이 그룹에·
+ * invalid·disabled)는 test/combobox-input-group.test.mjs가 이 스토리들을 열어 잰다.
+ * 스토리 id를 바꾸면 그 파일도 같이 고친다.
+ *
+ * 목록을 `open`으로 고정한 스토리는 두지 않는다. 목록이 열린 동안 Base UI는
+ * 입력과 목록 밖의 모든 것에 `aria-hidden`을 거는데(floating-ui
+ * FloatingFocusManager), 칸 안 세그먼트도 그 밖이라 axe가 `aria-hidden-focus`로
+ * 문다. Shift+Tab으로 세그먼트에 가면 목록이 먼저 닫혀 속성이 풀리므로 열린 순간의
+ * 스냅숏에만 있는 상태다 — 위 테스트가 이 전제를 단언한다. */
+type Market = "kr" | "us"
+
+const MARKET_STOCKS: Record<Market, StockItem[]> = {
+  kr: [
+    { symbol: "005930", name: "삼성전자" },
+    { symbol: "000660", name: "SK하이닉스" },
+    { symbol: "035420", name: "NAVER" },
+  ],
+  us: STOCKS,
+}
+
+function MarketSegment({
+  market,
+  onMarketChange,
+  disabled,
+  size,
+}: {
+  market: Market
+  onMarketChange: (next: Market) => void
+  disabled?: boolean
+  size?: "sm" | "md" | "lg"
+}) {
+  return (
+    <ToggleGroup<Market>
+      aria-label="시장"
+      size={size}
+      value={[market]}
+      onValueChange={(next) => {
+        // 단일 선택 세그먼트는 비워지지 않는다 — 눌린 항목을 다시 눌러도 그대로 둔다
+        if (next[0]) onMarketChange(next[0])
+      }}
+      disabled={disabled}
+    >
+      <Toggle value="kr">한국</Toggle>
+      <Toggle value="us">미국</Toggle>
+    </ToggleGroup>
+  )
+}
+
+interface MarketSearchProps {
+  name: string
+  invalid?: boolean
+  disabled?: boolean
+  inputTestId?: string
+  onSelect?: (item: StockItem | null) => void
+}
+
+function MarketSearch({ name, invalid, disabled, inputTestId, onSelect }: MarketSearchProps) {
+  const [market, setMarket] = useState<Market>("kr")
+  return (
+    <Field.Root name={name} invalid={invalid} touched={invalid} disabled={disabled} style={{ maxWidth: "24rem" }}>
+      <Field.Label>종목 검색</Field.Label>
+      <Combobox.Root
+        items={MARKET_STOCKS[market]}
+        itemToStringLabel={stockLabel}
+        onValueChange={(next: StockItem | null) => onSelect?.(next)}
+      >
+        <Combobox.InputGroup data-testid={`${name}-group`}>
+          <MarketSegment market={market} onMarketChange={setMarket} disabled={disabled} />
+          <Combobox.Input data-testid={inputTestId} placeholder="종목명 또는 코드" />
+        </Combobox.InputGroup>
+        <Combobox.Popup data-testid={`${name}-popup`}>
+          <Combobox.Empty>검색 결과가 없습니다</Combobox.Empty>
+          <Combobox.List>
+            {(item: StockItem) => (
+              <Combobox.Item key={item.symbol} value={item}>
+                <StockItemRow item={item} />
+              </Combobox.Item>
+            )}
+          </Combobox.List>
+        </Combobox.Popup>
+      </Combobox.Root>
+      {invalid ? <Field.Error match>목록에서 종목을 골라 주세요</Field.Error> : null}
+    </Field.Root>
+  )
+}
+
+export const InputGroupSegment: Story = {
+  name: "칸 안 세그먼트",
+  render: () => <MarketSearch name="market-search" />,
+}
+
+/* invalid면 그룹 테두리가 danger로, disabled면 무력화 면·불투명도가 그룹 전체에
+ * 걸린다. 칸 안 ToggleGroup은 흐려진 칸 안에서도 키보드로 닿으므로 `disabled`를
+ * 함께 준다 */
+export const InputGroupStates: Story = {
+  name: "칸 안 세그먼트 · 상태",
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <MarketSearch name="market-invalid" invalid />
+      <MarketSearch name="market-disabled" disabled />
+    </div>
+  ),
+}
+
+/* 칸 겉 높이는 필드 컨트롤과 같은 md 36이다(ADR-0027). 칸 안 ToggleGroup에 일부러
+ * `size="lg"`를 줘도 칸이 항목 높이를 정해 겉 높이가 늘지 않는지를 이 줄이 잰다
+ * (stories.test.mjs의 컨트롤 높이 계약) */
+export const InputGroupControlHeight: Story = {
+  name: "칸 안 세그먼트 · 컨트롤 높이",
+  render: () => (
+    <div data-testid="row-input-group" data-control-height="md" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+      <Combobox.Root items={STOCKS} itemToStringLabel={stockLabel}>
+        <Combobox.InputGroup data-testid="height-group" style={{ width: "20rem" }}>
+          <MarketSegment market="kr" onMarketChange={() => {}} size="lg" />
+          <Combobox.Input aria-label="종목" placeholder="종목명 또는 코드" />
+        </Combobox.InputGroup>
+        <Combobox.Popup>
+          <Combobox.List>
+            {(item: StockItem) => (
+              <Combobox.Item key={item.symbol} value={item}>
+                <StockItemRow item={item} />
+              </Combobox.Item>
+            )}
+          </Combobox.List>
+        </Combobox.Popup>
+      </Combobox.Root>
+      <Input aria-label="메모" placeholder="같은 줄의 입력" style={{ width: "10rem" }} />
+    </div>
+  ),
+}
+
+/* 칸 안 세그먼트가 있어도 Tab 순서는 세그먼트 → 입력이고, 입력에서 화살표·Enter·
+ * Esc는 지금처럼 Combobox가 처리한다 */
+const inputGroupKeyboard: KeyboardContract[] = [
+  {
+    name: "Tab이 세그먼트를 지나 입력에 닿는다",
+    press: ["Tab", "Tab"],
+    expect: { focused: "[data-testid=input-group-input]" },
+  },
+  {
+    name: "입력에서 ArrowDown이 첫 후보를 하이라이트하고 Enter가 고른다",
+    focus: "[data-testid=input-group-input]",
+    press: ["ArrowDown", "Enter"],
+    expect: {
+      focused: "[data-testid=input-group-input]",
+      text: { "[data-testid=input-group-selected]": "선택됨: 삼성전자 (005930)" },
+    },
+  },
+  {
+    name: "Esc는 후보 목록을 닫고 고르지 않는다",
+    focus: "[data-testid=input-group-input]",
+    press: ["N", "A", "V", "Escape"],
+    expect: {
+      focused: "[data-testid=input-group-input]",
+      text: { "[data-testid=input-group-selected]": "선택됨: 없음" },
+    },
+  },
+]
+
+export const InputGroupKeyboard: Story = {
+  name: "칸 안 세그먼트 · 키보드 계약",
+  parameters: { keyboard: inputGroupKeyboard },
+  render: () => <InputGroupKeyboardFixture />,
+}
+
+function InputGroupKeyboardFixture() {
+  const [value, setValue] = useState<StockItem | null>(null)
+  return (
+    <div>
+      <MarketSearch name="market-keyboard" inputTestId="input-group-input" onSelect={setValue} />
+      <p data-testid="input-group-selected">선택됨: {value ? `${value.name} (${value.symbol})` : "없음"}</p>
     </div>
   )
 }
