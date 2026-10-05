@@ -38,7 +38,7 @@ A Korean-first React design system — tokens, components, Storybook.
 | 오버레이 | Dialog, AlertDialog, Drawer, Menu, Tooltip |
 | 피드백 | Alert, Toast, Progress, Spinner, Skeleton |
 | 데이터 표시 | Table, Badge, Avatar, ListRow |
-| 레이아웃 | Card, Separator |
+| 레이아웃 | Card, Collapsible, Separator |
 | 타이포그래피 | Text, Heading |
 | 패턴 | PageShell, ThemeToggle, EmptyState, ConfirmDialog |
 

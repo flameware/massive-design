@@ -166,6 +166,29 @@ import { ListRow } from "@flameware/ui/list-row"
 내용(빈 상태, 경고)은 `Card.Body`에 두면 네 방향 모두 카드 여백을 가져요. 행 사이
 구분선은 그리지 않으니 필요하면 행에 테두리를 주세요.
 
+## Collapsible
+
+```tsx
+import { Collapsible } from "@flameware/ui/collapsible"
+
+<Collapsible.Root>
+  <Collapsible.Trigger>노트 없는 종목 20</Collapsible.Trigger>
+  <Collapsible.Panel>…</Collapsible.Panel>
+</Collapsible.Root>
+```
+
+머리를 누르면 내용이 펼쳐지고 접혀요. `Trigger`가 화살표 아이콘을 직접 그리고
+children을 라벨로 둬요. 펼치면 화살표가 90° 돌아요. `aria-expanded`와
+`aria-controls`는 컴포넌트가 붙이고, 접힌 `Panel` 안에는 Tab이 닿지 않아요.
+
+`open`과 `onOpenChange`를 주면 앱이 열림 상태를 관리하고, `defaultOpen`만 주면
+컴포넌트가 관리해요. `onOpenChange`는 사용자가 `Trigger`를 눌렀을 때만 불려요.
+앱이 `open`을 바꾼 것만으로는 불리지 않아요.
+
+목록 카드(`Card.Root variant="list"`)의 `Card.Rows` 다음에 두면 접힌 그룹이
+돼요. 위쪽에 구분선이 생기고, `Trigger`가 `Card.Header`와 같은 위아래 12px과
+좌우 카드 여백으로 카드 폭을 채워요. 펼칠 행은 `Panel` 안의 `Card.Rows`에 두세요.
+
 ## Alert
 
 ```tsx

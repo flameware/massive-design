@@ -1,0 +1,140 @@
+import { Canvas, Controls, Meta, Story, Title } from "@storybook/addon-docs/blocks"
+
+import { StatusBadge } from "../StatusBadge"
+import * as CollapsibleStories from "./Collapsible.stories"
+
+<Meta of={CollapsibleStories} />
+
+<Title />
+
+<StatusBadge status={CollapsibleStories.default.parameters.ds.status} /> · since {CollapsibleStories.default.parameters.ds.since}
+
+머리를 누르면 아래 내용이 펼쳐지고 다시 누르면 접혀요. 목록 카드 아래에 덜
+중요한 행을 접어 두거나, 자주 보지 않는 설명을 숨겨 둘 때 써요.
+
+## 언제 쓰는가
+
+- 목록의 일부 행을 기본으로 접어 둘 때. 노트가 있는 종목을 먼저 보이고, 노트가
+  없는 종목은 "노트 없는 종목 20" 같은 그룹으로 카드 아래에 접어 두는 경우예요.
+- 자주 보지 않는 설명이나 고급 설정을 한 번 더 눌러야 보이게 할 때.
+
+## 언제 쓰지 않는가
+
+- 여러 그룹 중 하나만 펼쳐져야 한다면 이 컴포넌트로는 부족해요. 여러 개를
+  두면 각각 따로 열고 닫혀요.
+- 화면 위에 떠서 다른 내용을 가려야 한다면 `Dialog`나 `Menu`를 쓰세요.
+  Collapsible은 문서 흐름 안에서 아래 내용을 밀어내며 펼쳐져요.
+
+## 사용법
+
+`Collapsible.Root`, `Collapsible.Trigger`, `Collapsible.Panel`로 조립해요.
+`Trigger`는 앞에 화살표 아이콘을 직접 그리고, 그 뒤에 children을 라벨로 둬요.
+펼치면 화살표가 아래를 향하도록 90° 돌아요.
+
+```tsx
+import { Collapsible } from "@flameware/ui/collapsible"
+
+<Collapsible.Root>
+  <Collapsible.Trigger>수수료 계산 방법</Collapsible.Trigger>
+  <Collapsible.Panel>…</Collapsible.Panel>
+</Collapsible.Root>
+```
+
+<Canvas of={CollapsibleStories.Playground} />
+
+`defaultOpen`을 주면 펼친 채 시작해요.
+
+<Canvas of={CollapsibleStories.DefaultOpen} />
+
+`disabled`를 주면 눌러도 열리지 않아요.
+
+<Canvas of={CollapsibleStories.Disabled} />
+
+## 목록 카드 안에서
+
+`Card.Root variant="list"`의 `Card.Rows` 다음에 두면 접힌 그룹이 돼요.
+펼칠 행은 `Collapsible.Panel` 안의 `Card.Rows`에 두세요.
+
+```tsx
+<Card.Root variant="list">
+  <Card.Header>…</Card.Header>
+  <Card.Rows>{/* 노트가 있는 종목 */}</Card.Rows>
+  <Collapsible.Root>
+    <Collapsible.Trigger>노트 없는 종목 20</Collapsible.Trigger>
+    <Collapsible.Panel>
+      <Card.Rows>{/* 노트가 없는 종목 */}</Card.Rows>
+    </Collapsible.Panel>
+  </Collapsible.Root>
+</Card.Root>
+```
+
+<Canvas of={CollapsibleStories.InListCard} />
+
+목록 카드 안에서는 모양이 이렇게 달라져요. 따로 옵션을 주지 않아도 돼요.
+
+| 부분 | 모양 |
+| --- | --- |
+| `Root` | 위쪽에 구분선이 있어요. 바로 앞이 `Card.Header`면 그 아래쪽 구분선과 겹치지 않게 빠져요 |
+| `Trigger` | `Card.Header`와 같은 위아래 12px, 좌우 카드 여백이고 카드 폭을 다 채워요 |
+| `Panel` 안 `Card.Rows` | 위쪽 구분선으로 머리와 나뉘어요. 행의 좌우 여백은 다른 `Card.Rows`와 같아요 |
+
+<Canvas of={CollapsibleStories.InListCardOpen} />
+
+카드 밖에 둔 Collapsible에는 이 모양이 적용되지 않아요. 카드 여백
+`--ds-card-padding`을 바꾸면 `Trigger`의 좌우 여백도 함께 바뀌어요.
+
+## 제어와 비제어
+
+`open`과 `onOpenChange`를 주면 열림 상태를 앱이 관리해요. `defaultOpen`만 주면
+컴포넌트가 스스로 관리해요.
+
+`onOpenChange`는 사용자가 `Trigger`를 눌렀을 때만 불려요. 검색어를 입력해서
+앱이 `open`을 `true`로 바꾼 경우에는 불리지 않아요. 사용자가 직접 연 것만
+저장하고 싶을 때 `onOpenChange`에서 저장하면 돼요.
+
+```tsx
+const [open, setOpen] = useState(false)
+
+useEffect(() => {
+  if (query) setOpen(true) // onOpenChange는 불리지 않아요
+}, [query])
+
+<Collapsible.Root open={open} onOpenChange={setOpen}>…</Collapsible.Root>
+```
+
+<Canvas of={CollapsibleStories.Controlled} />
+
+## 키보드
+
+`Trigger`는 버튼이라 Tab이 닿고, Enter나 Space로 열고 닫아요. 접혀 있는 동안
+`Panel` 안의 요소에는 Tab이 닿지 않아요. 펼치면 `Trigger` 다음 Tab이 `Panel`
+안으로 들어가요. `aria-expanded`와 `aria-controls`는 컴포넌트가 붙여요.
+
+<Canvas of={CollapsibleStories.TabOrder} />
+
+## 애니메이션
+
+펼치고 접을 때 높이가 150ms 동안 바뀌어요. 운영체제에서 움직임 줄이기를 켠
+사용자에게는 애니메이션 없이 바로 펼쳐지고 접혀요.
+
+## Props
+
+| 부분 | 옵션 | 값 | 기본 |
+| --- | --- | --- | --- |
+| `Root` | `open` | `boolean` | 없음 |
+| `Root` | `defaultOpen` | `boolean` | `false` |
+| `Root` | `onOpenChange` | `(open: boolean) => void` | 없음 |
+| `Root` | `disabled` | `boolean` | `false` |
+
+화살표 아이콘을 바꾸거나 숨기는 옵션은 제공하지 않아요.
+
+<Story of={CollapsibleStories.Playground} />
+
+<Controls of={CollapsibleStories.Playground} />
+
+## 배경
+
+Base UI `Collapsible` 위에 모양만 입혔어요. 열림 상태와 키보드, 접근성 속성은
+Base UI가 처리해요. 목록 카드 안의 모양은 `Card`의 스타일 규칙이 정해요. 이
+방식이면 `Card`는 서버 컴포넌트로 남고, Collapsible을 카드 밖에 둘 때는 아무것도
+바뀌지 않아요.

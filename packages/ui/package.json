@@ -173,6 +173,10 @@
       "types": "./dist/radio-group/index.d.ts",
       "default": "./dist/radio-group/index.js"
     },
+    "./collapsible": {
+      "types": "./dist/collapsible/index.d.ts",
+      "default": "./dist/collapsible/index.js"
+    },
     "./styles.css": "./src/styles.css",
     "./package.json": "./package.json"
   },

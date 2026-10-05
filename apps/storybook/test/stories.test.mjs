@@ -1,10 +1,11 @@
-/* 주 seam — 모든 스토리를 Playwright로 열어 다섯을 잰다 (#279, ADR-0023 §12·스토리 22).
+/* 주 seam — 모든 스토리를 Playwright로 열어 여섯을 잰다 (#279, ADR-0023 §12·스토리 22).
  *
  *   1. axe 접근성 위반 0
  *   2. 모든 포인터 대상의 히트 영역 ≥ 24×24 (WCAG 2.5.8 AA, ADR-0020)
  *   3. 스토리가 선언한 컨트롤 높이 계약 (#466, ADR-0027)
  *   4. 스토리가 선언한 여백 계약 (#469)
- *   5. 스토리가 선언한 키보드 계약
+ *   5. 스토리가 선언한 같은 치수 계약 (#486)
+ *   6. 스토리가 선언한 키보드 계약
  *
  * 1세대는 이것이 세 도구였다 — `scripts/a11y.mjs`, `pointer-targets.mjs`(계기)와
  * 루트 `pointer-target-gate.mjs`(매니페스트의 축을 곱해 셀을 만들고 커밋된
@@ -392,6 +393,72 @@ const INSET_SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
   <div data-inset-text data-testid="nested" class="extra">겹친 여백</div>
 </div>`
 
+/* ---------- 같은 치수 계기 (#486) ----------
+ * 서로 다른 컴포넌트가 같은 치수를 져야 하는 경우가 있다 — 목록 카드 안
+ * Collapsible의 Trigger는 `Card.Header`(list)와 같은 머리다. 스토리가 두 요소에
+ * 같은 `data-same-box="<묶음>"`을 달아 "이 둘은 같은 머리다"를 **선언**하고, 계기는
+ * 묶음마다 렌더링된 높이·폭과 첫 자식 요소가 요소 왼쪽 가장자리에서 들어간
+ * 거리(안쪽 여백)를 읽는다. 클래스를 읽지 않는 이유는 여백 계기와 같다 —
+ * 같은 `padding-block`이어도 줄 높이가 다르면 높이가 갈린다.
+ *
+ * 테두리는 빼고 패딩 상자를 잰다. 목록 카드의 구분선은 Header에서는 아래
+ * 테두리이고 Collapsible에서는 Root의 위 테두리라, 같은 머리라도 테두리를 넣어
+ * 재면 1px 갈린다. 구분선은 머리의 치수가 아니라 둘 사이를 나누는 선이다. */
+export function measureSameBoxes() {
+  const groups = {}
+  for (const el of document.querySelectorAll("[data-same-box]")) {
+    const rect = el.getBoundingClientRect()
+    const cs = getComputedStyle(el)
+    const [top, right, bottom, left] = ["Top", "Right", "Bottom", "Left"].map((side) =>
+      parseFloat(cs[`border${side}Width`])
+    )
+    const first = el.firstElementChild?.getBoundingClientRect()
+    ;(groups[el.getAttribute("data-same-box")] ??= []).push({
+      label: el.getAttribute("data-testid") ?? el.getAttribute("data-slot") ?? el.tagName.toLowerCase(),
+      height: +(rect.height - top - bottom).toFixed(2),
+      width: +(rect.width - left - right).toFixed(2),
+      inset: first === undefined ? null : +(first.left - rect.left - left).toFixed(2),
+    })
+  }
+  return Object.entries(groups).map(([group, boxes]) => ({ group, boxes }))
+}
+
+/** 묶음마다 첫 요소와 어긋난 것만 모은다 — 빈 배열이 통과다 */
+function sameBoxFaults(groups) {
+  const faults = []
+  for (const { group, boxes } of groups) {
+    if (boxes.length < 2) {
+      faults.push({ group, fault: "견줄 요소가 둘 이상이어야 한다" })
+      continue
+    }
+    const [base, ...rest] = boxes
+    for (const box of rest)
+      for (const key of ["height", "width", "inset"])
+        if (box[key] === null || base[key] === null || Math.abs(box[key] - base[key]) > 0.5)
+          faults.push({ group, fault: `${box.label}.${key}: ${box[key]}px ≠ ${base.label}.${key}: ${base[key]}px` })
+  }
+  return faults
+}
+
+const SAME_BOX_SELF_TEST_HTML = `<!doctype html><meta charset="utf-8"><style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:40px;font:14px/20px sans-serif}
+  [data-same-box]{width:200px;margin-bottom:16px}
+  .head{display:block;padding:12px 24px}
+  .divided{border-bottom:1px solid #000}
+  .button{display:flex;gap:8px;align-items:center;width:100%;padding:12px 24px;border:0;font:inherit}
+  .icon{width:16px;height:16px;flex:none}
+  .wide{padding:12px 16px}
+  .tall{padding:16px 24px}
+</style>
+<div data-same-box="even" data-testid="header" class="head divided" style="width:202px;border-left:1px solid #000;border-right:1px solid #000"><span>머리</span></div>
+<div style="width:200px"><button data-same-box="even" data-testid="trigger" class="button"><svg class="icon"></svg>라벨</button></div>
+<div data-same-box="narrow" data-testid="header" class="head"><span>머리</span></div>
+<div data-same-box="narrow" data-testid="wide" class="head wide"><span>머리</span></div>
+<div data-same-box="short" data-testid="header" class="head"><span>머리</span></div>
+<div data-same-box="short" data-testid="tall" class="head tall"><span>머리</span></div>
+<div data-same-box="alone" data-testid="header" class="head"><span>머리</span></div>`
+
 /* 재지 않는 행 — 그려지지 않았거나 누를 수 없거나 접근성 트리 밖이면 포인터
  * 대상이 아니다 */
 const isMeasured = (row) =>
@@ -651,6 +718,26 @@ test("계기 검증 — 글자의 들여쓰기를 렌더링된 위치로 읽는�
   }
 })
 
+test("계기 검증 — 다른 요소의 치수를 렌더링된 값으로 견준다 (#486)", async () => {
+  const probe = await browser.newPage({ viewport: { width: 1200, height: 800 } })
+  try {
+    await probe.setContent(SAME_BOX_SELF_TEST_HTML)
+    const groups = Object.fromEntries((await probe.evaluate(measureSameBoxes)).map((g) => [g.group, g]))
+
+    // 글자 머리(div)와 chevron이 앞선 버튼 — 요소가 달라도 치수가 같으면 통과한다.
+    // 머리의 구분선(아래 테두리)과 좌우 테두리는 빼고 잰다
+    assert.deepEqual(sameBoxFaults([groups.even]), [], "같은 여백·줄 높이의 두 머리는 통과해야 한다")
+    // 좌우 여백이 16이면 첫 자식이 들어간 거리로 드러난다
+    assert.deepEqual(sameBoxFaults([groups.narrow]), [{ group: "narrow", fault: "wide.inset: 16px ≠ header.inset: 24px" }])
+    // 위아래 여백이 16이면 높이로 드러난다
+    assert.deepEqual(sameBoxFaults([groups.short]), [{ group: "short", fault: "tall.height: 52px ≠ header.height: 44px" }])
+    // 홀로 선 선언은 견줄 것이 없으므로 실패다 — 오타 난 묶음 이름이 조용히 통과하지 않게
+    assert.deepEqual(sameBoxFaults([groups.alone]), [{ group: "alone", fault: "견줄 요소가 둘 이상이어야 한다" }])
+  } finally {
+    await probe.close()
+  }
+})
+
 test("스토리가 하나라도 있다", () => {
   assert.ok(stories.length > 0, "storybook-static/index.json에 스토리가 없다 — build-storybook이 먼저다")
 })
@@ -740,6 +827,17 @@ for (const story of stories) {
         return
       }
       assert.deepEqual(insetFaults(boxes), [], "글자가 선언한 여백에 서지 않는다 — 카드 여백은 --ds-card-padding 하나에서 나온다")
+    })
+
+    test("같은 치수 계약", async (t) => {
+      const groups = await page.evaluate(measureSameBoxes)
+      if (groups.length === 0) {
+        // 묶음을 선언하지 않은 스토리는 잴 것이 없다. 두 요소에 같은
+        // data-same-box를 달면 여기서 자동으로 돈다
+        t.skip("선언된 같은 치수 묶음이 없다")
+        return
+      }
+      assert.deepEqual(sameBoxFaults(groups), [], "같은 머리로 선언한 요소의 치수가 다르다")
     })
 
     test("키보드 계약", async (t) => {
