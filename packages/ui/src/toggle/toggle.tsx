@@ -79,13 +79,18 @@ export const toggleVariants = cva(
  * 것이 담기는 것보다 한 단계 크다(rules.md 토큰과 대비, #471 · #479). 판과 같은 8px을
  * 3px(테두리 1 + 여백 2) 안쪽에 두면 안쪽 모서리가 더 둥글어 모서리에서만 틈이
  * 벌어진다. 두 모서리가 같은 중심을 가지려면 8 − 3 = 5px이고, 네 단계 안에서
- * 가장 가까운 값이 `sm`이다. 그룹 밖 낱개 Toggle은 컨트롤이라 `rounded-md` 그대로다. */
-export const toggleInGroupVariants = cva("rounded-sm", {
+ * 가장 가까운 값이 `sm`이다. 그룹 밖 낱개 Toggle은 컨트롤이라 `rounded-md` 그대로다.
+ *
+ * 높이·최소 폭(sm 26 · md 30 · lg 34)은 판이 `--ds-toggle-item-height`로 내린다
+ * (toggle-group.css의 `[data-size]` 규칙, #487). 클래스로 박지 않는 이유는 층이다 —
+ * Combobox.InputGroup 안의 판(combobox.css)이 `@layer components`에서 그 변수를
+ * 덮어 칸 안쪽 높이에 맞춘다. 앱의 className은 지금처럼 이긴다 */
+export const toggleInGroupVariants = cva("rounded-sm h-(--ds-toggle-item-height) min-w-(--ds-toggle-item-height)", {
   variants: {
     size: {
-      sm: "h-6.5 min-w-6.5 px-2 text-xs",
-      md: "h-7.5 min-w-7.5 px-2.5 text-sm",
-      lg: "h-8.5 min-w-8.5 px-3 text-base",
+      sm: "px-2 text-xs",
+      md: "px-2.5 text-sm",
+      lg: "px-3 text-base",
     },
   },
   defaultVariants: { size: "md" },

@@ -3,6 +3,7 @@
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox"
 import type {
   ComboboxEmptyProps as BaseComboboxEmptyProps,
+  ComboboxInputGroupProps as BaseComboboxInputGroupProps,
   ComboboxInputProps as BaseComboboxInputProps,
   ComboboxItemProps as BaseComboboxItemProps,
   ComboboxListProps as BaseComboboxListProps,
@@ -12,6 +13,7 @@ import type {
   ComboboxStatusProps as BaseComboboxStatusProps,
 } from "@base-ui/react/combobox"
 import { cva } from "class-variance-authority"
+import { createContext, useContext } from "react"
 import type * as React from "react"
 
 import { fieldControlBase } from "../lib/field-control.js"
@@ -39,6 +41,42 @@ import { cn } from "../lib/utils.js"
  * 합친 문자열을 준다(스토리의 `stockItems` 참고). */
 
 export const comboboxInputVariants = cva(["flex h-9 w-full min-w-0 rounded-md border px-3 text-sm", ...fieldControlBase])
+
+/* 입력 칸 안에 세그먼트·아이콘 같은 컨트롤을 함께 두는 그룹(#487). Base UI
+ * Combobox anatomy의 `InputGroup` 파트를 그대로 감싼 것이고, ADR-0023이 "돌아오지
+ * 않는 것"으로 걷은 범용 InputGroup(1세대 shadcn 표면)이 돌아온 것이 아니다.
+ *
+ * 밑그림은 fieldControlBase를 **그룹이** 그대로 편다. Base UI가 Field 상태를
+ * 그룹에도 `data-invalid`·`data-disabled`로 얹으므로(ComboboxInputGroup.mjs의
+ * fieldValidityMapping) invalid·disabled 줄이 글자 그대로 동작한다. 그룹은 포커스를
+ * 받지 않으므로 `focus-visible:outline-2`는 아무것도 하지 않고, 대신 직계 입력이
+ * `:focus-visible`일 때 그룹 바깥에 링을 그린다 — 더하는 것은 그 한 줄뿐이다.
+ *
+ * 겉 높이는 컨트롤 높이 md 36이고 `size` 축은 없다(ADR-0027 결정 4). 후보 목록은
+ * `anchor` 없이 그룹 폭에 붙는다 — Base UI Positioner의 기본 앵커가 InputGroup이다
+ * (ComboboxPositioner.mjs `inputGroupElement ?? inputElement`).
+ *
+ * 그룹 안 ToggleGroup의 치수는 combobox.css의 부모 선택자 규칙이 정한다. 그룹 안
+ * Combobox.Input은 같은 방식으로 덮지 않고 아래 context로 고른다 — 입력 밑그림
+ * (fieldControlBase)은 utilities이고 Input·Textarea·Select와 공유하므로 판처럼
+ * components 층으로 옮길 수 없다. 두 파트가 한 파일이라 공개 API는 늘지 않는다. */
+export const comboboxInputGroupVariants = cva([
+  "flex h-9 w-full min-w-0 items-center overflow-hidden rounded-md border",
+  ...fieldControlBase,
+  "has-[>input:focus-visible]:outline-2",
+])
+
+/* 그룹 안 입력의 맨 칸 — 테두리·면·자기 링을 그룹에 넘기고 남은 폭을 채운다.
+ * 글자색은 그룹의 `text-default`(fieldControlBase)를 물려받는다. placeholder 색은
+ * 상속되지 않아 입력이 계속 진다 */
+const comboboxInputInGroupVariants = cva(
+  "h-full min-w-0 flex-1 border-0 bg-transparent px-3 text-sm outline-none placeholder:text-muted"
+)
+
+/* Input이 그룹 바로 안에 있는지를 같은 모듈 안에서만 내린다. CSS 부모 선택자로
+ * 덮지 않는 이유: Input의 밑그림은 utilities 층이라 `@layer components` 규칙이
+ * 이기지 못한다. 두 파트가 한 파일이라 공개 API가 늘지 않는다 */
+const InputInGroupContext = createContext(false)
 
 export type ComboboxRootProps<Value, Multiple extends boolean | undefined = false, Item = Value> = BaseComboboxRootProps<
   Value,
@@ -84,9 +122,10 @@ export type ComboboxInputProps = Omit<BaseComboboxInputProps, "className"> & {
  * 하나만 더 본다 — 읽는 것은 이전 렌더가 이미 찍어 둔 속성이라 두 핸들러의
  * 실행 순서는 결과에 영향을 주지 않는다. */
 function ComboboxInput({ className, onFreeformSubmit, onKeyDown, ...props }: ComboboxInputProps) {
+  const inGroup = useContext(InputInGroupContext)
   return (
     <BaseCombobox.Input
-      className={cn(comboboxInputVariants(), className)}
+      className={cn(inGroup ? comboboxInputInGroupVariants() : comboboxInputVariants(), className)}
       onKeyDown={
         onFreeformSubmit
           ? (event) => {
@@ -106,6 +145,30 @@ function ComboboxInput({ className, onFreeformSubmit, onKeyDown, ...props }: Com
       }
       {...props}
     />
+  )
+}
+
+export type ComboboxInputGroupProps = Omit<BaseComboboxInputGroupProps, "className"> & {
+  className?: string
+}
+
+/**
+ * 입력과 그 옆 컨트롤(세그먼트·아이콘)을 한 칸으로 묶는다. `Combobox.Input`은
+ * 그룹의 **직계 자식**으로 둔다 — 포커스 링을 그 입력에서 읽는다. 바로 안에 둔
+ * `ToggleGroup`은 판 테두리·면 없이 칸의 안쪽 높이를 채운다(combobox.css).
+ *
+ * `data-slot="combobox-input-group"`은 그 부모 선택자 규칙의 걸쇠다(rules.md
+ * 축과 이름 공간 #469의 `data-slot` 규약).
+ */
+function ComboboxInputGroup({ className, children, ...props }: ComboboxInputGroupProps) {
+  return (
+    <BaseCombobox.InputGroup
+      data-slot="combobox-input-group"
+      className={cn(comboboxInputGroupVariants(), className)}
+      {...props}
+    >
+      <InputInGroupContext.Provider value={true}>{children}</InputInGroupContext.Provider>
+    </BaseCombobox.InputGroup>
   )
 }
 
@@ -240,6 +303,7 @@ function ComboboxStatus({ className, ...props }: ComboboxStatusProps) {
 
 export const Combobox = {
   Root: ComboboxRoot,
+  InputGroup: ComboboxInputGroup,
   Input: ComboboxInput,
   Popup: ComboboxPopup,
   List: ComboboxList,

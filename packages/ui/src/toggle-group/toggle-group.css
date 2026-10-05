@@ -1,0 +1,27 @@
+/* ToggleGroup 판의 테두리·면과 안 항목의 높이(#487). toggle-group.tsx의 cva가
+ * 아니라 여기 있는 이유는 층이다 — `@layer components`는 utilities보다 아래라,
+ * 부모 선택자 규칙(combobox.css의 Combobox.InputGroup 안 판)이 같은 층에서
+ * 명시도로 이기고, 앱이 className으로 준 유틸리티는 지금처럼 둘 다를 이긴다.
+ * card.css와 같은 방식이다(rules.md 축과 이름 공간, #469).
+ *
+ * 판의 겉 = 항목 + 여백 2·2(`p-0.5`) + 테두리 1·1 = 척도 값(sm 32 · md 36 · lg 40,
+ * ADR-0027). 그래서 항목은 sm 26 · md 30 · lg 34다. 항목(toggle.tsx의
+ * `toggleInGroupVariants`)은 이 변수로 높이와 최소 폭을 읽는다. */
+@layer components {
+  [data-slot="toggle-group"] {
+    border-width: 1px;
+    background-color: var(--ds-bg-surface);
+  }
+
+  [data-slot="toggle-group"][data-size="sm"] {
+    --ds-toggle-item-height: --spacing(6.5);
+  }
+
+  [data-slot="toggle-group"][data-size="md"] {
+    --ds-toggle-item-height: --spacing(7.5);
+  }
+
+  [data-slot="toggle-group"][data-size="lg"] {
+    --ds-toggle-item-height: --spacing(8.5);
+  }
+}

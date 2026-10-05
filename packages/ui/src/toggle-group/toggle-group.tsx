@@ -43,7 +43,12 @@ export const toggleGroupVariants = cva([
   //
   // 판은 컨트롤이라 `rounded-md`이고, 안의 항목은 한 단계 작은 `rounded-sm`이다
   // (toggle.tsx의 `toggleInGroupVariants`, #471의 "담는 것이 한 단계 크다").
-  "inline-flex items-center gap-1 rounded-md border bg-surface p-0.5",
+  //
+  // 판의 테두리·면(`border-width`·`bg.surface`)과 항목 높이는 cva가 아니라
+  // toggle-group.css의 `@layer components`가 진다(#487) — 부모 선택자 규칙
+  // (Combobox.InputGroup 안의 판, combobox.css)이 같은 층에서 명시도로 이기고,
+  // 앱의 className(utilities)은 지금처럼 둘 다를 이긴다.
+  "inline-flex items-center gap-1 rounded-md p-0.5",
   "data-[orientation=vertical]:flex-col",
   "data-disabled:pointer-events-none data-disabled:opacity-50",
 ])
@@ -88,6 +93,8 @@ export function ToggleGroup<Value extends string = string>({
   const group = (
     <ToggleGroupSizeContext.Provider value={size}>
       <BaseToggleGroup<Value>
+        data-slot="toggle-group"
+        data-size={size}
         value={values}
         onValueChange={(next, eventDetails) => {
           setValues(next)
