@@ -1,0 +1,3 @@
+/* UI SDK가 페이지에 얹는 최소 CSS의 층. Tailwind보다 먼저 선언해야 우리 스타일이
+ * 언제나 이긴다(@ui-sdk/react docs/styling-and-animation.md "The ui-sdk Layer"). */
+@layer ui-sdk;
