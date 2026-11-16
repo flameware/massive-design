@@ -1,0 +1,12 @@
+{
+  "name": "ui-sdk-spike",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "#496 — primitive 기반을 UI SDK로 바꿀 수 있는지 재는 스파이크. 게시하지 않는다.",
+  "dependencies": {
+    "@ui-sdk/core": "0.1.0-beta.5",
+    "@ui-sdk/react": "0.1.0-beta.5",
+    "react-hook-form": "7.92.0"
+  }
+}

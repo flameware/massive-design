@@ -24,6 +24,8 @@ ADR-0016은 "바꾸는 쪽이 입증한다"였고 그 시험은 1세대의 24개
 - radix 유지보수 우려는 이유로 적지 않는다 — ADR-0016 §7.1이 근거를 찾지 못했다고 기록했다.
 - "기반은 하나"라는 ADR-0016 §3의 규칙은 **승계**한다. 기반이 바뀌었을 뿐 규칙은 같다.
 
+> **[#496](https://github.com/flameware/massive-design/issues/496)이 2026-11-16 이 절을 재검토했다.** UI SDK(`@ui-sdk/react` 0.1.0-beta.5)로 기반을 전부 바꿀 수 있는지 `prototypes/ui-sdk-spike/`에서 쟀다. 판정은 **Base UI 유지**다. Form + Field, Dialog + Drawer, behavior를 조립한 자체 primitive(ListRow 선택 목록)는 기존 스토리 테스트를 고치지 않고 통과했지만 Combobox가 넘지 못했다 — 포크 없이는 고칠 수 없는 동작 차이가 있다: Esc·Tab이 타이핑한 글자를 지워 직접 입력 제출 흐름이 끊기고, 초기 검색어가 필터를 걸지 않고, 다이얼로그와 같은 커밋에 연 팝업이 그 밑에 깔린다. **다음 재판단 계기**는 둘이다: UI SDK가 베타를 해제하는 날, 그리고 이 Combobox 탈락 원인이 UI SDK 릴리스에서 해결된 것이 확인되는 날. 그때는 같은 하니스(`./setup.sh` 뒤 `./run.sh all`)로 다시 잰다. 교체한다면 공개 API가 UI SDK의 평면형 파트 이름을 따르기로 #496에서 정했으므로 §5도 함께 대체된다. 원문은 고치지 않는다.
+
 ### 3. 스타일링은 Tailwind v4 + cva를 유지한다
 
 토큰 파이프라인이 Tailwind `@theme` 등록 위에 서 있고 Base UI 문서가 Tailwind를 1급으로 다룬다. `alias/shadcn.json` 층은 **삭제**한다 — 존재 이유가 "shadcn 코드를 그대로 붙여넣기"였고 이번 세대는 그것을 하지 않는다. 컴포넌트는 semantic 이름을 직접 소비한다.
